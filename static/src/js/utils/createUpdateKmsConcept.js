@@ -11,7 +11,7 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  * @throws {Error} - If there's an HTTP error or any other error during the process
  */
 export const createUpdateKmsConcept = async ({
-  rdfXml, userNote, version, scheme, token
+  rdfXml, version, token
 }) => {
   const { kmsHost } = getApplicationConfig()
   // In case of published version, use 'published' instead of the version label
@@ -21,15 +21,10 @@ export const createUpdateKmsConcept = async ({
   }
 
   versionParam = encodeURIComponent(versionParam)
-  const schemeParam = encodeURIComponent(scheme.name)
 
   try {
     // Construct the endpoint URL
-    let endpoint = `${kmsHost}/concept?version=${versionParam}&scheme=${schemeParam}`
-    if (userNote) {
-      const encodedUserNote = encodeURIComponent(userNote)
-      endpoint = `${endpoint}&userNote=${encodedUserNote}`
-    }
+    const endpoint = `${kmsHost}/concept?version=${versionParam}`
 
     const response = await fetch(endpoint, {
       method: 'PUT',

@@ -5,7 +5,7 @@ import { XMLBuilder } from 'fast-xml-parser'
  * @param {Object} formData - The form data to be converted
  * @returns {string} The RDF XML string
  */
-export const convertFormDataToRdf = (formData, scheme) => {
+export const convertFormDataToRdf = (formData, userNote, scheme) => {
   // Initialize XML builder with specific options
   const builder = new XMLBuilder({
     ignoreAttributes: false,
@@ -38,6 +38,13 @@ export const convertFormDataToRdf = (formData, scheme) => {
     return []
   }
 
+  const createNewChangeNote = () => {
+    const userId = 'tbd'
+    const currentDate = new Date().toISOString().split('T')[0]
+
+    return `Date=${currentDate}\nUser Id=${userId}\nUser Note=${userNote}`
+  }
+
   // Construct the RDF object structure
   const rdfObj = {
     'rdf:RDF': {
@@ -67,7 +74,15 @@ export const convertFormDataToRdf = (formData, scheme) => {
         'skos:narrower': ensureArray(formData.NarrowerKeywords).map((nk) => ({
           '@_rdf:resource': nk.NarrowerUUID
         })),
-        'skos:changeNote': formData.ChangeLogs ? formData.ChangeLogs.split('\n\n').map((note) => ({ '#text': note })) : undefined,
+        'skos:changeNote': [
+          ...(formData.ChangeLogs
+            ? formData.ChangeLogs.split('\n\n').map((note) => ({ '#text': note }))
+            : []),
+          {
+            '#text': createNewChangeNote(),
+            '@_rdf:parseType': 'Literal'
+          }
+        ],
         'skos:definition': {
           '#text': formData.Definition,
           '@_xml:lang': 'en'
