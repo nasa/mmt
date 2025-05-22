@@ -120,8 +120,8 @@ describe('convertFormDataToRdf', () => {
 
     test('should escape special characters in XML', () => {
       const result = convertFormDataToRdf(specialCharFormData, userNote, scheme)
-      expect(result).toContain('<skos:prefLabel xml:lang="en">Label with &amp;amp; and &amp;lt;</skos:prefLabel>')
-      expect(result).toContain('<skos:definition xml:lang="en">Definition with &amp;gt; and &amp;amp;</skos:definition>')
+      expect(result).toContain('<skos:prefLabel xml:lang="en">Label with &amp; and &lt;</skos:prefLabel>')
+      expect(result).toContain('<skos:definition xml:lang="en">Definition with &gt; and &amp;</skos:definition>')
     })
   })
 
