@@ -7,7 +7,6 @@ const temporalExtentsUiSchema = {
   'ui:layout_grid': {
     'ui:row': [
       {
-        'ui:group': 'Temporal Extents',
         'ui:col': {
           md: 12,
           children: [
