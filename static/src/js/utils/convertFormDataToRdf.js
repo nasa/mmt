@@ -12,15 +12,7 @@ export const convertFormDataToRdf = (formData, userNote, scheme) => {
     ignoreAttributes: false,
     format: true,
     suppressEmptyNode: true,
-    attributeNamePrefix: '@_',
-    tagValueProcessor: (tagName, tagValue) => {
-      // Escape special characters in string values
-      if (typeof tagValue === 'string') {
-        return tagValue.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      }
-
-      return tagValue
-    }
+    attributeNamePrefix: '@_'
   })
   /**
    * Ensures that the input is an array

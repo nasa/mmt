@@ -125,6 +125,37 @@ describe('convertFormDataToRdf', () => {
     })
   })
 
+  describe('When given form data with non-string values', () => {
+    const nonStringValueData = {
+      KeywordUUID: 'non-string-uuid',
+      PreferredLabel: 'Non-String Value',
+      Definition: 42,
+      BooleanValue: true,
+      NullValue: null
+    }
+
+    test('should handle non-string values correctly', () => {
+      const result = convertFormDataToRdf(nonStringValueData, userNote, scheme)
+
+      // Check that the XML is still valid
+      expect(result).toContain('<?xml version="1.0" encoding="UTF-8"?>')
+      expect(result).toContain('<rdf:RDF')
+      expect(result).toContain('<skos:Concept')
+
+      // Check that string values are processed normally
+      expect(result).toContain('<skos:prefLabel xml:lang="en">Non-String Value</skos:prefLabel>')
+      expect(result).toContain('<skos:definition xml:lang="en">42</skos:definition>')
+
+      // Check that the KeywordUUID is correctly included
+      expect(result).toContain('rdf:about="non-string-uuid"')
+
+      // Check that the change note is included
+      expect(result).toContain('<skos:changeNote rdf:parseType="Literal">')
+      expect(result).toContain('User Id=test-user-id')
+      expect(result).toContain('User Note=aNote')
+    })
+  })
+
   describe('When given form data with multiple related keywords of different types', () => {
     const multipleRelatedKeywordsData = {
       KeywordUUID: 'multi-related-uuid',

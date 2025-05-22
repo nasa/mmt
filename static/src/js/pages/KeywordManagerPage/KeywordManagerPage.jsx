@@ -323,7 +323,7 @@ const KeywordManagerPage = () => {
       <ErrorBoundary>
         <div className="keyword-manager-page__selector-container">
           <label
-            htmlFor="version-selector"
+            htmlFor="version-selector-label"
             className="keyword-manager-page__selector-label"
           >
             Version:
