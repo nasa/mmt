@@ -17,9 +17,9 @@ import { convertFormDataToRdf } from '@/js/utils/convertFormDataToRdf'
 import KeywordForm from '../KeywordForm'
 
 const mockInitialData = {
+  Definition: 'This is a test keyword',
   KeywordUUID: 'fc0c7954-fdd2-4a16-905e-d3688dfc9be1',
-  PreferredLabel: 'Test Keyword',
-  Definition: 'This is a test keyword'
+  PreferredLabel: 'Test Keyword'
 }
 
 vi.mock('@/js/hooks/useAuthContext', () => ({
@@ -187,6 +187,7 @@ describe('when the form is submitted', () => {
       initialData={mockInitialData}
       scheme={scheme}
       version={version}
+      onSave={() => {}}
     />)
 
     // Click the form's Save button
