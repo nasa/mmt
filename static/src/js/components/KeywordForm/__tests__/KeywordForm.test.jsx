@@ -17,9 +17,9 @@ import { convertFormDataToRdf } from '@/js/utils/convertFormDataToRdf'
 import KeywordForm from '../KeywordForm'
 
 const mockInitialData = {
+  Definition: 'This is a test keyword',
   KeywordUUID: 'fc0c7954-fdd2-4a16-905e-d3688dfc9be1',
-  PreferredLabel: 'Test Keyword',
-  Definition: 'This is a test keyword'
+  PreferredLabel: 'Test Keyword'
 }
 
 vi.mock('@/js/hooks/useAuthContext', () => ({
@@ -185,6 +185,7 @@ describe('when the form is submitted', () => {
       initialData={mockInitialData}
       scheme={scheme}
       version={version}
+      onSave={() => {}}
     />)
 
     // Click the form's Save button
@@ -195,18 +196,20 @@ describe('when the form is submitted', () => {
     await user.click(modalSaveButton)
 
     await waitFor(() => {
-      expect(convertFormDataToRdf).toHaveBeenCalledWith(mockInitialData)
+      expect(convertFormDataToRdf).toHaveBeenCalledWith(mockInitialData, scheme)
     })
 
-    expect(createUpdateKmsConcept).toHaveBeenCalledWith({
-      rdfXml: {
-        ...mockInitialData,
-        rdf: true
-      }, // Mocked result of convertFormDataToRdf
-      userNote: '',
-      version,
-      scheme,
-      token: mockToken
+    await waitFor(() => {
+      expect(createUpdateKmsConcept).toHaveBeenCalledWith({
+        rdfXml: {
+          ...mockInitialData,
+          rdf: true // This is the mocked result of convertFormDataToRdf
+        },
+        userNote: '',
+        version,
+        scheme,
+        token: mockToken
+      })
     })
   })
 
