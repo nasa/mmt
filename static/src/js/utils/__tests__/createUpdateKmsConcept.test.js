@@ -47,7 +47,7 @@ describe('createUpdateKmsConcept', () => {
       await createUpdateKmsConcept(params)
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://kms.example.com/concept?version=1.0&scheme=default-scheme&userNote=test%20user%20note',
+        'http://kms.example.com/concept?version=1.0',
         expect.objectContaining({
           headers: {
             Authorization: defaultToken
@@ -73,7 +73,7 @@ describe('createUpdateKmsConcept', () => {
       await createUpdateKmsConcept(params)
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://kms.example.com/concept?version=1.0&scheme=test%20%26%20scheme&userNote=test%20%26%20user%20note',
+        'http://kms.example.com/concept?version=1.0',
         expect.anything()
       )
     })
@@ -95,7 +95,7 @@ describe('createUpdateKmsConcept', () => {
       await createUpdateKmsConcept(params)
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://kms.example.com/concept?version=1.0&scheme=default-scheme',
+        'http://kms.example.com/concept?version=1.0',
         expect.anything()
       )
     })
@@ -119,7 +119,7 @@ describe('createUpdateKmsConcept', () => {
       await createUpdateKmsConcept(params)
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://kms.example.com/concept?version=1.0&scheme=default-scheme&userNote=user%20note',
+        'http://kms.example.com/concept?version=1.0',
         expect.objectContaining({
           method: 'PUT',
           body: params.rdfXml,
@@ -147,7 +147,7 @@ describe('createUpdateKmsConcept', () => {
       await createUpdateKmsConcept(params)
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://kms.example.com/concept?version=published&scheme=default-scheme&userNote=user%20note',
+        'http://kms.example.com/concept?version=published',
         expect.anything()
       )
     })

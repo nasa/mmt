@@ -232,7 +232,7 @@ export const KeywordTree = ({
         message={
           (
             <Form.Group>
-              <Form.Label htmlFor="newChildKeyword">Narrower Keyword:</Form.Label>
+              <Form.Label htmlFor="newNarrowerKeyword">Narrower Keyword:</Form.Label>
               <Form.Control
                 id="newNarrowerKeyword"
                 type="text"

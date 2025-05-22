@@ -27,8 +27,10 @@ vi.mock('@/js/hooks/useAuthContext', () => ({
 }))
 
 vi.mock('@/js/utils/convertFormDataToRdf', () => ({
-  convertFormDataToRdf: vi.fn((data) => ({
+  convertFormDataToRdf: vi.fn((data, userNote, scheme) => ({
     ...data,
+    userNote,
+    scheme,
     rdf: true
   }))
 }))
@@ -196,20 +198,20 @@ describe('when the form is submitted', () => {
     await user.click(modalSaveButton)
 
     await waitFor(() => {
-      expect(convertFormDataToRdf).toHaveBeenCalledWith(mockInitialData, scheme)
+      expect(convertFormDataToRdf).toHaveBeenCalledWith(mockInitialData, '', scheme)
     })
 
-    await waitFor(() => {
-      expect(createUpdateKmsConcept).toHaveBeenCalledWith({
-        rdfXml: {
-          ...mockInitialData,
-          rdf: true // This is the mocked result of convertFormDataToRdf
-        },
-        userNote: '',
-        version,
-        scheme,
-        token: mockToken
-      })
+    const expectedRdfXml = {
+      ...mockInitialData,
+      userNote: '',
+      scheme,
+      rdf: true
+    }
+
+    expect(createUpdateKmsConcept).toHaveBeenCalledWith({
+      rdfXml: expectedRdfXml,
+      version,
+      token: mockToken
     })
   })
 

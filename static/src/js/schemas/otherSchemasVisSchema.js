@@ -1,4 +1,3 @@
-/* eslint-disable no-template-curly-in-string */
 const otherSchemasVisSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'UMM-Vis',
@@ -1950,6 +1949,7 @@ const otherSchemasVisSchema = {
                 SubtitleAlt: {
                   $comment: 'LayerMetadata v1.0-0, kept for review and renamed as SubtitleAlt. /Subtitle should be preferred.',
                   deprecated: true,
+                  // eslint-disable-next-line no-template-curly-in-string
                   description: "The layer subtitle. Usually '${SatelliteName} / ${InstrumentName}'",
                   $ref: '#/definitions/TitleType'
                 },

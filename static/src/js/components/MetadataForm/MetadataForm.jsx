@@ -45,6 +45,7 @@ import getFormSchema from '@/js/utils/getFormSchema'
 import getNextFormName from '@/js/utils/getNextFormName'
 import getUiSchema from '@/js/utils/getUiSchema'
 import getUmmSchema from '@/js/utils/getUmmSchema'
+import getUmmVersion from '@/js/utils/getUmmVersion'
 import removeEmpty from '@/js/utils/removeEmpty'
 import toKebabCase from '@/js/utils/toKebabCase'
 
@@ -203,8 +204,7 @@ const MetadataForm = () => {
         metadata: removeEmpty(ummMetadata),
         nativeId,
         providerId: fetchedMetadataProviderId || providerId,
-        // TODO pull this version number from a config
-        ummVersion: '1.0.0'
+        ummVersion: getUmmVersion(derivedConceptType)
       },
       onCompleted: (mutationData) => {
         const { ingestDraft } = mutationData

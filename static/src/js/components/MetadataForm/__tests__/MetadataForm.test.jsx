@@ -23,6 +23,7 @@ import * as router from 'react-router'
 import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
 
 import errorLogger from '@/js/utils/errorLogger'
+import getUmmVersion from '@/js/utils/getUmmVersion'
 
 import relatedUrlsUiSchema from '@/js/schemas/uiSchemas/tools/relatedUrls'
 import toolInformationUiSchema from '@/js/schemas/uiSchemas/tools/toolInformation'
@@ -54,6 +55,30 @@ import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
 import { PUBLISH_DRAFT } from '@/js/operations/mutations/publishDraft'
 
 import MetadataForm from '../MetadataForm'
+
+vi.mock('@/js/hooks/usePublishMutation', () => ({
+  default: vi.fn(() => {
+    const [publishDraft, setPublishDraft] = React.useState(null)
+    const [error] = React.useState(null)
+
+    const publishMutation = vi.fn(() => new Promise((resolve) => {
+      setTimeout(() => {
+        setPublishDraft({
+          conceptId: 'T1000000-MMT',
+          revisionId: '1'
+        })
+
+        resolve()
+      }, 100)
+    }))
+
+    return {
+      publishMutation,
+      publishDraft,
+      error
+    }
+  })
+}))
 
 vi.mock('@rjsf/core', () => ({
   default: vi.fn(({
@@ -580,7 +605,7 @@ describe('MetadataForm', () => {
                 },
                 nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
                 providerId: 'MMT_2',
-                ummVersion: '1.0.0'
+                ummVersion: getUmmVersion('Tool')
               }
             },
             result: {
@@ -629,7 +654,7 @@ describe('MetadataForm', () => {
                 },
                 nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
                 providerId: 'MMT_2',
-                ummVersion: '1.0.0'
+                ummVersion: getUmmVersion('Tool')
               }
             },
             result: {
@@ -675,7 +700,7 @@ describe('MetadataForm', () => {
                 },
                 nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
                 providerId: 'MMT_2',
-                ummVersion: '1.0.0'
+                ummVersion: getUmmVersion('Tool')
               }
             },
             result: {
@@ -800,7 +825,7 @@ describe('MetadataForm', () => {
                 metadata: ummMetadata,
                 nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
                 providerId: 'MMT_2',
-                ummVersion: '1.0.0'
+                ummVersion: getUmmVersion('Tool')
               }
             },
             result: {
@@ -817,7 +842,7 @@ describe('MetadataForm', () => {
               variables: {
                 draftConceptId: 'TD1000000-MMT',
                 nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
-                ummVersion: '1.2.0'
+                ummVersion: getUmmVersion('Tool')
               }
             },
             result: {
@@ -838,8 +863,12 @@ describe('MetadataForm', () => {
         const button = screen.getByRole('button', { name: 'Save & Publish' })
         await user.click(button)
 
-        expect(navigateSpy).toHaveBeenCalledTimes(2)
-        expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT')
+        await waitFor(() => {
+          expect(navigateSpy).toHaveBeenCalledTimes(2)
+        }, { timeout: 5000 })
+
+        expect(navigateSpy).toHaveBeenNthCalledWith(1, '/drafts/tools/TD1000000-MMT/tool-information?revisionId=1', expect.anything())
+        expect(navigateSpy).toHaveBeenNthCalledWith(2, '/tools/T1000000-MMT')
       })
     })
 
@@ -864,7 +893,7 @@ describe('MetadataForm', () => {
                 },
                 nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
                 providerId: 'MMT_2',
-                ummVersion: '1.0.0'
+                ummVersion: getUmmVersion('Tool')
               }
             },
             error: new Error('An error occured')
@@ -882,6 +911,10 @@ describe('MetadataForm', () => {
     })
 
     describe('when saving a new draft', () => {
+      afterEach(() => {
+        vi.restoreAllMocks()
+      })
+
       test('navigates to the current form and calls scrolls to the top', async () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
@@ -928,7 +961,7 @@ describe('MetadataForm', () => {
                 },
                 nativeId: 'MMT_mock-uuid',
                 providerId: 'MMT_1',
-                ummVersion: '1.0.0'
+                ummVersion: getUmmVersion('Collection')
               }
             },
             result: {
