@@ -18,6 +18,8 @@ import { createUpdateKmsConcept } from '@/js/utils/createUpdateKmsConcept'
 import useAuthContext from '@/js/hooks/useAuthContext'
 import KmsConceptSelectionWidget from '../KmsConceptSelectionWidget/KmsConceptSelectionWidget'
 
+import './KeywordForm.scss'
+
 const KeywordForm = ({
   initialData,
   onFormDataChange,
@@ -99,7 +101,7 @@ const KeywordForm = ({
         onSubmit={handleSubmit}
         validator={validator}
       >
-        <div className="d-flex justify-content-end mt-4">
+        <div className="d-flex justify-content-end mt-4 keyword-form__save-button">
           <button type="submit" className="btn btn-primary">
             Save
           </button>
