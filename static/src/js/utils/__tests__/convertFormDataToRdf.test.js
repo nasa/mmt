@@ -8,6 +8,12 @@ import { convertFormDataToRdf } from '../convertFormDataToRdf'
 const scheme = { name: 'aName' }
 const userNote = 'aNote'
 
+vi.mock('@/js/hooks/useAuthContext', () => ({
+  default: vi.fn(() => ({
+    user: { uid: 'test-user-id' }
+  }))
+}))
+
 describe('convertFormDataToRdf', () => {
   describe('When given valid form data', () => {
     const validFormData = {

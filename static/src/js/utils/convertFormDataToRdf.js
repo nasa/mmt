@@ -1,4 +1,5 @@
 import { XMLBuilder } from 'fast-xml-parser'
+import useAuthContext from '@/js/hooks/useAuthContext'
 
 /**
  * Converts form data to RDF XML format
@@ -39,10 +40,11 @@ export const convertFormDataToRdf = (formData, userNote, scheme) => {
   }
 
   const createNewChangeNote = () => {
-    const userId = 'tbd'
+    const { user } = useAuthContext()
+    const { uid } = user || {}
     const currentDate = new Date().toISOString().split('T')[0]
 
-    return `Date=${currentDate}\nUser Id=${userId}\nUser Note=${userNote}`
+    return `Date=${currentDate}\nUser Id=${uid}\nUser Note=${userNote}`
   }
 
   // Construct the RDF object structure
