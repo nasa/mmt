@@ -8,13 +8,15 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  * @returns {Object} A new node with added ID.
  */
 const addIdsToNodes = (node) => {
-  if (!node) return null
+  if (!node || (!node.key && !node.title)) return null
   const newNode = {
     ...node,
     id: node.key || node.title
   }
-  if (node.children) {
-    newNode.children = node.children.map(addIdsToNodes)
+  if (Array.isArray(node.children)) {
+    newNode.children = node.children
+      .map(addIdsToNodes)
+      .filter(Boolean) // Remove null children
   }
 
   return newNode
@@ -66,12 +68,20 @@ const getKmsKeywordTree = async (version, scheme, searchPattern) => {
 
     const json = await response.json()
 
-    // Add ids to all nodes in the tree
-    const childrenArray = castArray(json.tree.treeData[0].children)
-    const firstChild = childrenArray[0]
-    const treeWithIds = addIdsToNodes(firstChild)
+    // Ensure treeData is always an array
+    const treeDataArray = castArray(json.tree.treeData)
 
-    return treeWithIds
+    // Process each root node in treeData
+    const treesWithIds = treeDataArray
+      .map((rootNode) => {
+        // If rootNode has children, process them; otherwise, process rootNode itself
+        const nodeToProcess = rootNode.children ? rootNode : rootNode
+
+        return addIdsToNodes(nodeToProcess)
+      })
+      .filter(Boolean) // Remove null results
+
+    return treesWithIds.length > 0 ? treesWithIds[0].children || [] : []
   } catch (error) {
     console.error('Error fetching KMS keyword tree:', error)
     throw error

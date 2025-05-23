@@ -80,31 +80,33 @@ describe('getKmsKeywordTree', () => {
         { method: 'GET' }
       )
 
-      expect(result).toEqual({
-        id: '118d366b-c4c7-432c-bd96-4cee2263a541',
-        key: '118d366b-c4c7-432c-bd96-4cee2263a541',
-        title: 'IDN Nodes',
-        children: [
-          {
-            id: '913d42e2-1641-4f5e-8273-379ddd3812d5',
-            key: '913d42e2-1641-4f5e-8273-379ddd3812d5',
-            title: 'ACADIS',
-            children: []
-          },
-          {
-            id: '13381733-968f-4fd6-b70c-aac6a77b2657',
-            key: '13381733-968f-4fd6-b70c-aac6a77b2657',
-            title: 'ACE/CRC',
-            children: []
-          },
-          {
-            id: '47308f11-79b0-46c2-b0c9-06d0b15ae845',
-            key: '47308f11-79b0-46c2-b0c9-06d0b15ae845',
-            title: 'AMD',
-            children: []
-          }
-        ]
-      })
+      expect(result).toEqual([
+        {
+          id: '118d366b-c4c7-432c-bd96-4cee2263a541',
+          key: '118d366b-c4c7-432c-bd96-4cee2263a541',
+          title: 'IDN Nodes',
+          children: [
+            {
+              id: '913d42e2-1641-4f5e-8273-379ddd3812d5',
+              key: '913d42e2-1641-4f5e-8273-379ddd3812d5',
+              title: 'ACADIS',
+              children: []
+            },
+            {
+              id: '13381733-968f-4fd6-b70c-aac6a77b2657',
+              key: '13381733-968f-4fd6-b70c-aac6a77b2657',
+              title: 'ACE/CRC',
+              children: []
+            },
+            {
+              id: '47308f11-79b0-46c2-b0c9-06d0b15ae845',
+              key: '47308f11-79b0-46c2-b0c9-06d0b15ae845',
+              title: 'AMD',
+              children: []
+            }
+          ]
+        }
+      ])
     })
 
     test('should use "published" as version for published version type', async () => {
@@ -168,14 +170,16 @@ describe('getKmsKeywordTree', () => {
 
       const result = await getKmsKeywordTree({ version: '21.0' }, { name: 'idnnode' })
 
-      expect(result).toEqual({})
+      expect(result).toEqual([])
     })
 
     test('should handle tree with no children', async () => {
       const mockResponse = {
         tree: {
+          key: 'tree-key',
           treeData: [
             {
+              key: 'treedata-key',
               children: [
                 {
                   key: 'root-key',
@@ -194,18 +198,20 @@ describe('getKmsKeywordTree', () => {
 
       const result = await getKmsKeywordTree({ version: '21.0' }, { name: 'idnnode' })
 
-      expect(result).toEqual({
+      expect(result).toEqual([{
         id: 'root-key',
         key: 'root-key',
         title: 'Root'
-      })
+      }])
     })
 
     test('should handle nodes with no key', async () => {
       const mockResponse = {
         tree: {
+          key: 'tree-key',
           treeData: [
             {
+              key: 'treedata-key',
               children: [
                 {
                   title: 'Root',
@@ -226,7 +232,7 @@ describe('getKmsKeywordTree', () => {
 
       const result = await getKmsKeywordTree({ version: '21.0' }, { name: 'idnnode' })
 
-      expect(result).toEqual({
+      expect(result).toEqual([{
         id: 'Root',
         title: 'Root',
         children: [
@@ -235,7 +241,7 @@ describe('getKmsKeywordTree', () => {
             title: 'Child'
           }
         ]
-      })
+      }])
     })
   })
 
@@ -278,8 +284,10 @@ describe('getKmsKeywordTree', () => {
     test('should handle deeply nested tree structures', async () => {
       const mockResponse = {
         tree: {
+          key: 'tree-key',
           treeData: [
             {
+              key: 'treedata-key',
               children: [
                 {
                   key: 'root',
@@ -316,7 +324,7 @@ describe('getKmsKeywordTree', () => {
 
       const result = await getKmsKeywordTree({ version: '21.0' }, { name: 'idnnode' })
 
-      expect(result).toEqual({
+      expect(result).toEqual([{
         id: 'root',
         key: 'root',
         title: 'Root',
@@ -341,7 +349,7 @@ describe('getKmsKeywordTree', () => {
             children: []
           }
         ]
-      })
+      }])
     })
   })
 

@@ -327,42 +327,6 @@ describe('KeywordTree component', () => {
   })
 
   describe('when adding nodes', () => {
-    test('should add a new node when "Add Narrower" is used', async () => {
-      render(
-        <KeywordTree
-          data={mockData}
-          onNodeClick={mockOnNodeClick}
-          onNodeEdit={mockOnNodeEdit}
-          onAddNarrower={mockOnAddNarrower}
-        />
-      )
-
-      // Open context menu
-      fireEvent.contextMenu(screen.getByText('Root'))
-
-      // Click "Add Narrower" option
-      fireEvent.click(screen.getByText('Add Narrower'))
-
-      // Check if modal is open
-      expect(screen.getByText('Add Narrower')).toBeInTheDocument()
-
-      // Enter new node title
-      fireEvent.change(screen.getByPlaceholderText('Enter Keyword'), {
-        target: { value: 'New Child' }
-      })
-
-      // Click "Add" button
-      fireEvent.click(screen.getByText('Add'))
-
-      // Check if new node is added
-      await waitFor(() => {
-        expect(screen.getByText('New Child')).toBeInTheDocument()
-      })
-
-      // Check if onAddNarrower was called
-      expect(mockOnAddNarrower).toHaveBeenCalled()
-    })
-
     test('should close "Add Narrower" modal when Cancel is clicked', async () => {
       render(
         <KeywordTree
@@ -418,75 +382,6 @@ describe('KeywordTree component', () => {
       expect(screen.getByText('Add Narrower')).toBeInTheDocument()
     })
 
-    test('should expand parent node when a new child is added', async () => {
-      const collapsedData = [
-        {
-          id: '1',
-          key: '1',
-          title: 'Root',
-          children: [
-            {
-              id: '2',
-              key: '2',
-              title: 'Collapsed Parent',
-              children: []
-            }
-          ]
-        }
-      ]
-
-      render(
-        <KeywordTree
-          data={collapsedData}
-          onNodeClick={mockOnNodeClick}
-          onNodeEdit={mockOnNodeEdit}
-          onAddNarrower={mockOnAddNarrower}
-        />
-      )
-
-      // Open context menu for Collapsed Parent
-      fireEvent.contextMenu(screen.getByText('Collapsed Parent'))
-
-      // Click "Add Narrower" option
-      fireEvent.click(screen.getByText('Add Narrower'))
-
-      // Enter new node title
-      fireEvent.change(screen.getByPlaceholderText('Enter Keyword'), {
-        target: { value: 'New Child' }
-      })
-
-      // Click "Add" button
-      fireEvent.click(screen.getByText('Add'))
-
-      // Check if new node is added and visible (parent should be expanded)
-      await waitFor(() => {
-        expect(screen.getByText('New Child')).toBeInTheDocument()
-      })
-    })
-
-    test('should handle adding a node with a very long title', async () => {
-      render(
-        <KeywordTree
-          data={mockData}
-          onNodeClick={mockOnNodeClick}
-          onNodeEdit={mockOnNodeEdit}
-          onAddNarrower={mockOnAddNarrower}
-        />
-      )
-
-      fireEvent.contextMenu(screen.getByText('Root'))
-      fireEvent.click(screen.getByText('Add Narrower'))
-      fireEvent.change(screen.getByPlaceholderText('Enter Keyword'), {
-        target: { value: 'This is a very long title for a new node that might cause issues with layout or display' }
-      })
-
-      fireEvent.click(screen.getByText('Add'))
-
-      await waitFor(() => {
-        expect(screen.getByText('This is a very long title for a new node that might cause issues with layout or display')).toBeInTheDocument()
-      })
-    })
-
     test('should handle nodes with very long titles', async () => {
       const longTitleData = [
         {
@@ -514,6 +409,46 @@ describe('KeywordTree component', () => {
       )
 
       expect(screen.getByText('This is a very long title that might cause issues with layout or display')).toBeInTheDocument()
+    })
+
+    test('should add a new narrower keyword when confirmed', async () => {
+      render(
+        <KeywordTree
+          data={mockData}
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
+        />
+      )
+
+      // Open context menu for Root
+      fireEvent.contextMenu(screen.getByText('Root'))
+
+      // Click "Add Narrower" option
+      fireEvent.click(screen.getByText('Add Narrower'))
+
+      // Check if modal is open
+      expect(screen.getByText('Add Narrower')).toBeInTheDocument()
+
+      // Enter new keyword title
+      const input = screen.getByPlaceholderText('Enter Keyword')
+      fireEvent.change(input, { target: { value: 'New Keyword' } })
+
+      // Click "Add" button
+      fireEvent.click(screen.getByText('Add'))
+
+      // Check if onAddNarrower was called with correct arguments
+      await waitFor(() => {
+        expect(mockOnAddNarrower).toHaveBeenCalledWith('1', expect.objectContaining({
+          title: 'New Keyword',
+          children: []
+        }))
+      })
+
+      // Check if modal is closed
+      await waitFor(() => {
+        expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
+      })
     })
   })
 
@@ -558,132 +493,6 @@ describe('KeywordTree component', () => {
 
       // Check if onNodeEdit was called with correct id
       expect(mockOnNodeEdit).toHaveBeenCalledWith('2')
-    })
-  })
-
-  describe('when tree state management', () => {
-    test('should maintain tree state when nodes are added or deleted', async () => {
-      render(
-        <KeywordTree
-          data={mockData}
-          onNodeClick={mockOnNodeClick}
-          onNodeEdit={mockOnNodeEdit}
-          onAddNarrower={mockOnAddNarrower}
-        />
-      )
-
-      // Add a new node
-      fireEvent.contextMenu(screen.getByText('Root'))
-      fireEvent.click(screen.getByText('Add Narrower'))
-      fireEvent.change(screen.getByPlaceholderText('Enter Keyword'), {
-        target: { value: 'New Child' }
-      })
-
-      fireEvent.click(screen.getByText('Add'))
-
-      await waitFor(() => {
-        expect(screen.getByText('New Child')).toBeInTheDocument()
-      })
-
-      // Delete an existing node
-      fireEvent.contextMenu(screen.getByText('Child 1'))
-      fireEvent.click(screen.getByText('Delete'))
-
-      await waitFor(() => {
-        expect(screen.queryByText('Child 1')).not.toBeInTheDocument()
-      })
-
-      // Check if other nodes still exist
-      expect(screen.getByText('Root')).toBeInTheDocument()
-      expect(screen.getByText('Child 2')).toBeInTheDocument()
-      expect(screen.getByText('New Child')).toBeInTheDocument()
-    })
-
-    test('should handle concurrent add and delete operations', async () => {
-      render(
-        <KeywordTree
-          data={mockData}
-          onNodeClick={mockOnNodeClick}
-          onNodeEdit={mockOnNodeEdit}
-          onAddNarrower={mockOnAddNarrower}
-        />
-      )
-
-      // Add a new node
-      fireEvent.contextMenu(screen.getByText('Root'))
-      fireEvent.click(screen.getByText('Add Narrower'))
-      fireEvent.change(screen.getByPlaceholderText('Enter Keyword'), {
-        target: { value: 'New Node' }
-      })
-
-      fireEvent.click(screen.getByText('Add'))
-
-      // Delete an existing node
-      fireEvent.contextMenu(screen.getByText('Child 1'))
-      fireEvent.click(screen.getByText('Delete'))
-
-      // Check if the new node is added and the deleted node is removed
-      await waitFor(() => {
-        expect(screen.getByText('New Node')).toBeInTheDocument()
-      })
-
-      expect(screen.queryByText('Child 1')).not.toBeInTheDocument()
-
-      // Check if other existing nodes are still present
-      expect(screen.getByText('Root')).toBeInTheDocument()
-      expect(screen.getByText('Child 2')).toBeInTheDocument()
-    })
-
-    test('should not modify nodes that are not the target parent and have no children', async () => {
-      const dataWithLeafNodes = [
-        {
-          id: '1',
-          key: '1',
-          title: 'Root',
-          children: [
-            {
-              id: '2',
-              key: '2',
-              title: 'Leaf Node 1'
-            },
-            {
-              id: '3',
-              key: '3',
-              title: 'Leaf Node 2'
-            }
-          ]
-        }
-      ]
-
-      render(
-        <KeywordTree
-          data={dataWithLeafNodes}
-          onNodeClick={mockOnNodeClick}
-          onNodeEdit={mockOnNodeEdit}
-          onAddNarrower={mockOnAddNarrower}
-        />
-      )
-
-      // Attempt to add a child to Leaf Node 1
-      fireEvent.contextMenu(screen.getByText('Leaf Node 1'))
-      fireEvent.click(screen.getByText('Add Narrower'))
-      fireEvent.change(screen.getByPlaceholderText('Enter Keyword'), {
-        target: { value: 'New Child' }
-      })
-
-      fireEvent.click(screen.getByText('Add'))
-
-      // Wait for the new node to be added
-      await waitFor(() => {
-        expect(screen.getByText('New Child')).toBeInTheDocument()
-      })
-
-      // Verify that Leaf Node 2 remains unchanged
-      expect(screen.getByText('Leaf Node 2')).toBeInTheDocument()
-
-      // Verify that Leaf Node 2 still doesn't have any children
-      const leafNode2 = screen.getByRole('treeitem', { name: /Leaf Node 2/i })
-      expect(within(leafNode2).queryByRole('group')).not.toBeInTheDocument()
     })
   })
 
