@@ -182,12 +182,16 @@ describe('when the form is submitted', () => {
     const scheme = { name: 'sciencekeywords' }
     const version = { version: 'draft' }
     const mockToken = 'mock-token'
+    const mockUid = 'test-user-id'
+    const mockOnSave = vi.fn()
 
     render(<KeywordForm
       initialData={mockInitialData}
       scheme={scheme}
       version={version}
-      onSave={() => {}}
+      onSave={mockOnSave}
+      token={mockToken}
+      uid={mockUid}
     />)
 
     // Click the form's Save button
@@ -198,7 +202,7 @@ describe('when the form is submitted', () => {
     await user.click(modalSaveButton)
 
     await waitFor(() => {
-      expect(convertFormDataToRdf).toHaveBeenCalledWith(mockInitialData, '', scheme)
+      expect(convertFormDataToRdf).toHaveBeenCalledWith(mockInitialData, '', scheme, mockUid)
     })
 
     const expectedRdfXml = {

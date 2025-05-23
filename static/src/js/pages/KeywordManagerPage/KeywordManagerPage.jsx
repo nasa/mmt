@@ -62,7 +62,8 @@ const KeywordManagerPage = () => {
   const [showKeywordForm, setShowKeywordForm] = useState(false)
   const [showPublishingModal, setShowPublishingModal] = useState(false)
   const [versionSelectorKey, setVersionSelectorKey] = useState(0)
-  const { tokenValue } = useAuthContext()
+  const { tokenValue, user } = useAuthContext()
+  const { uid } = user || {}
 
   const handleKeywordSave = useCallback((savedKeywordId) => {
     setReloadTree((prev) => !prev)
@@ -256,6 +257,8 @@ const KeywordManagerPage = () => {
           version={selectedVersion}
           scheme={selectedScheme}
           onSave={handleKeywordSave}
+          token={tokenValue}
+          uid={uid}
         />
       )
     }

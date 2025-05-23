@@ -15,7 +15,6 @@ import keywordSchema from '@/js/schemas/umm/keywordSchema'
 
 import { convertFormDataToRdf } from '@/js/utils/convertFormDataToRdf'
 import { createUpdateKmsConcept } from '@/js/utils/createUpdateKmsConcept'
-import useAuthContext from '@/js/hooks/useAuthContext'
 import KmsConceptSelectionWidget from '../KmsConceptSelectionWidget/KmsConceptSelectionWidget'
 
 import './KeywordForm.scss'
@@ -25,14 +24,15 @@ const KeywordForm = ({
   onFormDataChange,
   scheme,
   version,
-  onSave
+  onSave,
+  token,
+  uid
 }) => {
   const [formData, setFormData] = useState(initialData)
   const [showModal, setShowModal] = useState(false)
   const [userNote, setUserNote] = useState('')
   const [isSaving, setIsSaving] = useState(false)
   const [savingError, setSavingError] = useState(null)
-  const { token } = useAuthContext()
 
   useEffect(() => {
     setFormData(initialData)
@@ -64,7 +64,7 @@ const KeywordForm = ({
     setIsSaving(true)
     setSavingError(null)
     try {
-      const rdfXml = convertFormDataToRdf(formData, userNote, scheme)
+      const rdfXml = convertFormDataToRdf(formData, userNote, scheme, uid)
       await createUpdateKmsConcept({
         rdfXml,
         version,
@@ -160,7 +160,9 @@ const KeywordForm = ({
 
 KeywordForm.defaultProps = {
   initialData: {},
-  onFormDataChange: () => {}
+  onFormDataChange: () => {},
+  token: null,
+  uid: null
 }
 
 KeywordForm.propTypes = {
@@ -197,7 +199,9 @@ KeywordForm.propTypes = {
     version: PropTypes.string,
     version_type: PropTypes.string
   }).isRequired,
-  onSave: PropTypes.func.isRequired
+  onSave: PropTypes.func.isRequired,
+  token: PropTypes.string,
+  uid: PropTypes.string
 }
 
 export default KeywordForm

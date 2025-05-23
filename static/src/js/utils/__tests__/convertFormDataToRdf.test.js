@@ -7,12 +7,7 @@ import { convertFormDataToRdf } from '../convertFormDataToRdf'
 
 const scheme = { name: 'aName' }
 const userNote = 'aNote'
-
-vi.mock('@/js/hooks/useAuthContext', () => ({
-  default: vi.fn(() => ({
-    user: { uid: 'test-user-id' }
-  }))
-}))
+const uid = 'test-user-id'
 
 describe('convertFormDataToRdf', () => {
   describe('When given valid form data', () => {
@@ -45,7 +40,7 @@ describe('convertFormDataToRdf', () => {
     }
 
     test('should return a valid RDF XML string', () => {
-      const result = convertFormDataToRdf(validFormData, userNote, scheme)
+      const result = convertFormDataToRdf(validFormData, userNote, scheme, uid)
       expect(result).toContain('<?xml version="1.0" encoding="UTF-8"?>')
       expect(result).toContain('<rdf:RDF')
       expect(result).toContain('<skos:Concept')
@@ -54,7 +49,7 @@ describe('convertFormDataToRdf', () => {
     })
 
     test('should include all provided form data in the XML', () => {
-      const result = convertFormDataToRdf(validFormData, userNote, scheme)
+      const result = convertFormDataToRdf(validFormData, userNote, scheme, uid)
       expect(result).toContain('<skos:prefLabel xml:lang="en">Test Label</skos:prefLabel>')
       expect(result).toContain('<skos:definition xml:lang="en">Test Definition</skos:definition>')
       expect(result).toContain('<skos:broader rdf:resource="broader-uuid"/>')
@@ -77,7 +72,7 @@ describe('convertFormDataToRdf', () => {
     }
 
     test('should include scheme information when scheme is provided', () => {
-      const result = convertFormDataToRdf(formDataWithScheme, userNote, scheme)
+      const result = convertFormDataToRdf(formDataWithScheme, userNote, scheme, uid)
       expect(result).toContain('<skos:inScheme rdf:resource="https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/aName"/>')
     })
   })
@@ -90,7 +85,7 @@ describe('convertFormDataToRdf', () => {
     }
 
     test('should return a valid RDF XML string with only required fields', () => {
-      const result = convertFormDataToRdf(minimalFormData, userNote, scheme)
+      const result = convertFormDataToRdf(minimalFormData, userNote, scheme, uid)
       expect(result).toContain('<?xml version="1.0" encoding="UTF-8"?>')
       expect(result).toContain('<rdf:RDF')
       expect(result).toContain('<skos:Concept')
@@ -100,7 +95,7 @@ describe('convertFormDataToRdf', () => {
     })
 
     test('should not include optional fields when they are not provided', () => {
-      const result = convertFormDataToRdf(minimalFormData, userNote, scheme)
+      const result = convertFormDataToRdf(minimalFormData, userNote, scheme, uid)
       expect(result).not.toContain('<skos:broader')
       expect(result).not.toContain('<skos:narrower')
       expect(result).not.toContain('<gcmd:altLabel')
@@ -119,7 +114,7 @@ describe('convertFormDataToRdf', () => {
     }
 
     test('should escape special characters in XML', () => {
-      const result = convertFormDataToRdf(specialCharFormData, userNote, scheme)
+      const result = convertFormDataToRdf(specialCharFormData, userNote, scheme, uid)
       expect(result).toContain('<skos:prefLabel xml:lang="en">Label with &amp; and &lt;</skos:prefLabel>')
       expect(result).toContain('<skos:definition xml:lang="en">Definition with &gt; and &amp;</skos:definition>')
     })
@@ -135,23 +130,16 @@ describe('convertFormDataToRdf', () => {
     }
 
     test('should handle non-string values correctly', () => {
-      const result = convertFormDataToRdf(nonStringValueData, userNote, scheme)
+      const result = convertFormDataToRdf(nonStringValueData, userNote, scheme, uid)
 
-      // Check that the XML is still valid
       expect(result).toContain('<?xml version="1.0" encoding="UTF-8"?>')
       expect(result).toContain('<rdf:RDF')
       expect(result).toContain('<skos:Concept')
-
-      // Check that string values are processed normally
       expect(result).toContain('<skos:prefLabel xml:lang="en">Non-String Value</skos:prefLabel>')
       expect(result).toContain('<skos:definition xml:lang="en">42</skos:definition>')
-
-      // Check that the KeywordUUID is correctly included
       expect(result).toContain('rdf:about="non-string-uuid"')
-
-      // Check that the change note is included
       expect(result).toContain('<skos:changeNote rdf:parseType="Literal">')
-      expect(result).toContain('User Id=test-user-id')
+      expect(result).toContain(`User Id=${uid}`)
       expect(result).toContain('User Note=aNote')
     })
   })
@@ -190,7 +178,7 @@ describe('convertFormDataToRdf', () => {
     }
 
     test('should correctly group related keywords by relationship type', () => {
-      const result = convertFormDataToRdf(multipleRelatedKeywordsData, userNote, scheme)
+      const result = convertFormDataToRdf(multipleRelatedKeywordsData, userNote, scheme, uid)
       expect(result).toContain('<skos:related rdf:resource="related-uuid-1"/>')
       expect(result).toContain('<skos:related rdf:resource="related-uuid-2"/>')
       expect(result).toContain('<gcmd:hasInstrument rdf:resource="instrument-uuid-1"/>')
@@ -213,7 +201,7 @@ describe('convertFormDataToRdf', () => {
     }
 
     test('should not include empty array fields in the XML', () => {
-      const result = convertFormDataToRdf(emptyArraysFormData, userNote, scheme)
+      const result = convertFormDataToRdf(emptyArraysFormData, userNote, scheme, uid)
       expect(result).not.toContain('<skos:broader')
       expect(result).not.toContain('<skos:narrower')
       expect(result).not.toContain('<gcmd:altLabel')
@@ -234,7 +222,7 @@ describe('convertFormDataToRdf', () => {
     }
 
     test('should correctly split and include multiple change notes', () => {
-      const result = convertFormDataToRdf(multipleChangeLogsData, userNote, scheme)
+      const result = convertFormDataToRdf(multipleChangeLogsData, userNote, scheme, uid)
       expect(result).toContain('<skos:changeNote>Change 1</skos:changeNote>')
       expect(result).toContain('<skos:changeNote>Change 2</skos:changeNote>')
       expect(result).toContain('<skos:changeNote>Change 3</skos:changeNote>')
@@ -263,7 +251,7 @@ describe('convertFormDataToRdf', () => {
     }
 
     test('should correctly handle single items as arrays', () => {
-      const result = convertFormDataToRdf(singleItemArraysData, userNote, scheme)
+      const result = convertFormDataToRdf(singleItemArraysData, userNote, scheme, uid)
       expect(result).toContain('<skos:broader rdf:resource="single-broader-uuid"/>')
       expect(result).toContain('<skos:narrower rdf:resource="single-narrower-uuid"/>')
       expect(result).toContain('<gcmd:altLabel gcmd:text="Single Alt" xml:lang="en" gcmd:category="Acronym"/>')
@@ -277,19 +265,133 @@ describe('convertFormDataToRdf', () => {
       const invalidFormData = {
         KeywordUUID: 'invalid-uuid'
       }
-      expect(() => convertFormDataToRdf(invalidFormData, userNote, scheme)).not.toThrow()
+      expect(() => convertFormDataToRdf(invalidFormData, userNote, scheme, uid)).not.toThrow()
     })
 
     test('should return a string even with invalid data', () => {
       const invalidFormData = {
         KeywordUUID: 'invalid-uuid'
       }
-      const result = convertFormDataToRdf(invalidFormData, userNote, scheme)
+      const result = convertFormDataToRdf(invalidFormData, userNote, scheme, uid)
       expect(typeof result).toBe('string')
       expect(result).toContain('<?xml version="1.0" encoding="UTF-8"?>')
       expect(result).toContain('<rdf:RDF')
       expect(result).toContain('<skos:Concept')
       expect(result).toContain('rdf:about="invalid-uuid"')
+    })
+  })
+
+  describe('When given the uid parameter', () => {
+    const basicFormData = {
+      KeywordUUID: 'test-uuid',
+      PreferredLabel: 'Test Label',
+      Definition: 'Test Definition'
+    }
+
+    test('should include the uid in the change note', () => {
+      const result = convertFormDataToRdf(basicFormData, userNote, scheme, uid)
+      expect(result).toContain(`User Id=${uid}`)
+    })
+
+    test('should use the provided uid', () => {
+      const customUid = 'custom-user-id'
+      const result = convertFormDataToRdf(basicFormData, userNote, scheme, customUid)
+      expect(result).toContain(`User Id=${customUid}`)
+    })
+  })
+
+  describe('When given different userNote values', () => {
+    const basicFormData = {
+      KeywordUUID: 'test-uuid',
+      PreferredLabel: 'Test Label',
+      Definition: 'Test Definition'
+    }
+
+    test('should include the userNote in the change note', () => {
+      const customUserNote = 'Custom user note'
+      const result = convertFormDataToRdf(basicFormData, customUserNote, scheme, uid)
+      expect(result).toContain(`User Note=${customUserNote}`)
+    })
+
+    test('should handle empty userNote', () => {
+      const result = convertFormDataToRdf(basicFormData, '', scheme, uid)
+      expect(result).toContain('User Note=')
+    })
+  })
+
+  describe('When given different scheme values', () => {
+    const basicFormData = {
+      KeywordUUID: 'test-uuid',
+      PreferredLabel: 'Test Label',
+      Definition: 'Test Definition'
+    }
+
+    test('should include the scheme name in the inScheme element', () => {
+      const customScheme = { name: 'CustomScheme' }
+      const result = convertFormDataToRdf(basicFormData, userNote, customScheme, uid)
+      expect(result).toContain('<skos:inScheme rdf:resource="https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/CustomScheme"/>')
+    })
+
+    test('should handle scheme with special characters', () => {
+      const specialScheme = { name: 'Special & Scheme' }
+      const result = convertFormDataToRdf(basicFormData, userNote, specialScheme, uid)
+      expect(result).toContain('<skos:inScheme rdf:resource="https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/Special &amp; Scheme"/>')
+    })
+  })
+
+  describe('When generating change notes', () => {
+    const basicFormData = {
+      KeywordUUID: 'test-uuid',
+      PreferredLabel: 'Test Label',
+      Definition: 'Test Definition'
+    }
+
+    test('should include the current date in the change note', () => {
+      const result = convertFormDataToRdf(basicFormData, userNote, scheme, uid)
+      const currentDate = new Date().toISOString().split('T')[0]
+      expect(result).toContain(`Date=${currentDate}`)
+    })
+
+    test('should include both existing and new change notes', () => {
+      const formDataWithChangeLogs = {
+        ...basicFormData,
+        ChangeLogs: 'Existing Change 1\n\nExisting Change 2'
+      }
+      const result = convertFormDataToRdf(formDataWithChangeLogs, userNote, scheme, uid)
+      expect(result).toContain('<skos:changeNote>Existing Change 1</skos:changeNote>')
+      expect(result).toContain('<skos:changeNote>Existing Change 2</skos:changeNote>')
+      expect(result).toContain('<skos:changeNote rdf:parseType="Literal">')
+      expect(result).toContain(`User Id=${uid}`)
+      expect(result).toContain(`User Note=${userNote}`)
+    })
+  })
+
+  describe('Edge cases', () => {
+    test('should handle very long text inputs', () => {
+      const longText = 'a'.repeat(10000)
+      const longFormData = {
+        KeywordUUID: 'long-uuid',
+        PreferredLabel: longText,
+        Definition: longText
+      }
+      const result = convertFormDataToRdf(longFormData, userNote, scheme, uid)
+      expect(result).toContain(`<skos:prefLabel xml:lang="en">${longText}</skos:prefLabel>`)
+      expect(result).toContain(`<skos:definition xml:lang="en">${longText}</skos:definition>`)
+    })
+
+    test('should handle form data with all optional fields omitted', () => {
+      const minimalFormData = {
+        KeywordUUID: 'minimal-uuid'
+      }
+      const result = convertFormDataToRdf(minimalFormData, userNote, scheme, uid)
+      expect(result).toContain('<skos:Concept rdf:about="minimal-uuid">')
+      expect(result).toContain('<skos:prefLabel xml:lang="en"/>')
+      expect(result).toContain('<skos:definition xml:lang="en"/>')
+      expect(result).not.toContain('<skos:broader')
+      expect(result).not.toContain('<skos:narrower')
+      expect(result).not.toContain('<gcmd:altLabel')
+      expect(result).not.toContain('<gcmd:resource')
+      expect(result).not.toContain('<skos:related')
     })
   })
 })
