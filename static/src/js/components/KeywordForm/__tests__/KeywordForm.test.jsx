@@ -159,7 +159,6 @@ describe('when initialData prop changes', () => {
   })
 })
 
-// New
 describe('when the form is submitted', () => {
   test('should open the modal when Save button is clicked', async () => {
     const user = userEvent.setup()

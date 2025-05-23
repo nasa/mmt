@@ -72,7 +72,6 @@ const getKmsKeywordTree = async (version, scheme, searchPattern) => {
     const treeDataArray = castArray(json.tree.treeData)
 
     // Process each root node in treeData
-    // Process each root node in treeData
     const treesWithIds = treeDataArray
       .map((rootNode) => {
         // If rootNode has children, process them; otherwise, process rootNode itself

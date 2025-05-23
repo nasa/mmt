@@ -1,4 +1,5 @@
 import { XMLBuilder } from 'fast-xml-parser'
+import removeEmpty from '@/js/utils/removeEmpty'
 
 /**
  * Converts form data to RDF XML format
@@ -103,20 +104,8 @@ export const convertFormDataToRdf = (formData, userNote, scheme, uid) => {
     }
   }
 
-  /**
-   * Recursively removes undefined properties from an object
-   * @param {Object} obj - The object to clean
-   * @returns {Object} The cleaned object
-   */
-  const removeUndefined = (obj) => Object.fromEntries(
-    Object.entries(obj).filter(([, value]) => value !== undefined).map(([key, value]) => [
-      key,
-      value && typeof value === 'object' ? removeUndefined(value) : value
-    ])
-  )
-
   // Clean up the object by removing undefined properties
-  removeUndefined(rdfObj)
+  removeEmpty(rdfObj)
 
   // Build the XML string from the RDF object
   const xmlContent = builder.build(rdfObj)
