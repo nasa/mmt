@@ -34,7 +34,7 @@ export const convertFormDataToRdf = (formData, userNote, scheme, uid) => {
   const createNewChangeNote = () => {
     const currentDate = new Date().toISOString().split('T')[0]
 
-    return `Date=${currentDate}\nUser Id=${uid}\nUser Note=${userNote}`
+    return `Date=${currentDate} User Id=${uid} User Note=${userNote}`
   }
 
   // Construct the RDF object structure

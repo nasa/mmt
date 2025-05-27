@@ -26,91 +26,16 @@ afterAll(() => {
 })
 
 describe('createUpdateKmsConcept', () => {
-  const defaultScheme = { name: 'default-scheme' }
   const defaultToken = 'test-token'
-
-  describe('When userNote is provided', () => {
-    test('should include userNote and scheme in the endpoint URL', async () => {
-      const params = {
-        rdfXml: 'some rdf data',
-        userNote: 'test user note',
-        version: {
-          version: '1.0',
-          version_type: 'draft'
-        },
-        scheme: defaultScheme,
-        token: defaultToken
-      }
-
-      global.fetch.mockResolvedValueOnce({ ok: true })
-
-      await createUpdateKmsConcept(params)
-
-      expect(global.fetch).toHaveBeenCalledWith(
-        'http://kms.example.com/concept?version=1.0',
-        expect.objectContaining({
-          headers: {
-            Authorization: defaultToken
-          }
-        })
-      )
-    })
-
-    test('should properly encode userNote and scheme in the URL', async () => {
-      const params = {
-        rdfXml: 'some rdf data',
-        userNote: 'test & user note',
-        version: {
-          version: '1.0',
-          version_type: 'draft'
-        },
-        scheme: { name: 'test & scheme' },
-        token: defaultToken
-      }
-
-      global.fetch.mockResolvedValueOnce({ ok: true })
-
-      await createUpdateKmsConcept(params)
-
-      expect(global.fetch).toHaveBeenCalledWith(
-        'http://kms.example.com/concept?version=1.0',
-        expect.anything()
-      )
-    })
-
-    test('should not include userNote in the URL when it is not provided', async () => {
-      const params = {
-        rdfXml: 'some rdf data',
-        userNote: '',
-        version: {
-          version: '1.0',
-          version_type: 'draft'
-        },
-        scheme: defaultScheme,
-        token: defaultToken
-      }
-
-      global.fetch.mockResolvedValueOnce({ ok: true })
-
-      await createUpdateKmsConcept(params)
-
-      expect(global.fetch).toHaveBeenCalledWith(
-        'http://kms.example.com/concept?version=1.0',
-        expect.anything()
-      )
-    })
-  })
 
   describe('When called with valid parameters', () => {
     test('should make a PUT request to the correct endpoint', async () => {
       const params = {
         rdfXml: 'some rdf data',
-        userNote: 'user note',
         version: {
           version: '1.0',
           version_type: 'draft'
         },
-        scheme: defaultScheme,
         token: defaultToken
       }
 
@@ -133,12 +58,10 @@ describe('createUpdateKmsConcept', () => {
     test('should use "published" as version parameter when version_type is "published"', async () => {
       const params = {
         rdfXml: 'some rdf data',
-        userNote: 'user note',
         version: {
           version: '1.0',
           version_type: 'published'
         },
-        scheme: defaultScheme,
         token: defaultToken
       }
 
@@ -157,12 +80,10 @@ describe('createUpdateKmsConcept', () => {
     test('should throw an error with the correct message', async () => {
       const params = {
         rdfXml: 'some rdf data',
-        userNote: 'user note',
         version: {
           version: '1.0',
           version_type: 'draft'
         },
-        scheme: defaultScheme,
         token: defaultToken
       }
 
@@ -180,19 +101,15 @@ describe('createUpdateKmsConcept', () => {
     test('should log the error and rethrow it', async () => {
       const params = {
         rdfXml: 'some rdf data',
-        userNote: 'user note',
         version: {
           version: '1.0',
           version_type: 'draft'
         },
-        scheme: defaultScheme,
         token: defaultToken
       }
 
       const error = new Error('Unexpected error')
       global.fetch.mockRejectedValueOnce(error)
-
-      console.error = vi.fn()
 
       await expect(createUpdateKmsConcept(params))
         .rejects.toThrow('Unexpected error')
