@@ -22,6 +22,24 @@ const mockInitialData = {
   PreferredLabel: 'Test Keyword'
 }
 
+const setup = (overrideProps = {}) => {
+  const defaultProps = {
+    initialData: mockInitialData,
+    scheme: { name: 'sciencekeywords' },
+    version: { version: 'draft' }
+  }
+
+  const props = {
+    ...defaultProps,
+    ...overrideProps
+  }
+
+  return {
+    user: userEvent.setup(),
+    ...render(<KeywordForm {...props} />)
+  }
+}
+
 vi.mock('@/js/hooks/useAuthContext', () => ({
   default: vi.fn(() => ({ token: 'mock-token' }))
 }))
@@ -90,22 +108,12 @@ afterAll(() => {
 
 describe('when KeywordForm is rendered', () => {
   test('should display the form title', () => {
-    render(<KeywordForm
-      initialData={mockInitialData}
-      scheme={{ name: 'sciencekeywords' }}
-      version={{ version: 'draft' }}
-    />)
-
+    setup()
     expect(screen.getByText('Edit Keyword')).toBeInTheDocument()
   })
 
   test('should render the form with initial data', () => {
-    render(<KeywordForm
-      initialData={mockInitialData}
-      scheme={{ name: 'sciencekeywords' }}
-      version={{ version: 'draft' }}
-    />)
-
+    setup()
     expect(screen.getByDisplayValue('Test Keyword')).toBeInTheDocument()
     expect(screen.getByDisplayValue('This is a test keyword')).toBeInTheDocument()
   })
@@ -113,21 +121,16 @@ describe('when KeywordForm is rendered', () => {
 
 describe('when user types in the form', () => {
   test('should update formData when a change occurs', async () => {
-    const user = userEvent.setup()
     const mockOnFormDataChange = vi.fn()
-
-    render(<KeywordForm
-      initialData={{ PreferredLabel: '' }}
-      scheme={{ name: 'sciencekeywords' }}
-      version={{ version: 'draft' }}
-      onFormDataChange={mockOnFormDataChange}
-    />)
+    const { user } = setup({
+      initialData: { PreferredLabel: '' },
+      onFormDataChange: mockOnFormDataChange
+    })
 
     const preferredLabelInput = screen.getByLabelText('Preferred Label')
 
     await user.type(preferredLabelInput, 'New Keyword')
 
-    // Wait for the state to update
     await waitFor(() => {
       expect(preferredLabelInput).toHaveValue('New Keyword')
     })
@@ -142,11 +145,7 @@ describe('when user types in the form', () => {
 
 describe('when initialData prop changes', () => {
   test('should update the form', () => {
-    const { rerender } = render(<KeywordForm
-      initialData={{ PreferredLabel: 'Initial Keyword' }}
-      scheme={{ name: 'sciencekeywords' }}
-      version={{ version: 'draft' }}
-    />)
+    const { rerender } = setup({ initialData: { PreferredLabel: 'Initial Keyword' } })
     expect(screen.getByDisplayValue('Initial Keyword')).toBeInTheDocument()
 
     rerender(<KeywordForm
@@ -161,70 +160,47 @@ describe('when initialData prop changes', () => {
 
 describe('when the form is submitted', () => {
   test('should open the modal when Save button is clicked', async () => {
-    const user = userEvent.setup()
-    render(<KeywordForm
-      initialData={mockInitialData}
-      scheme={{ name: 'sciencekeywords' }}
-      version={{ version: 'draft' }}
-    />)
+    const { user } = setup()
 
-    // Find the Save button within the form
     const saveButton = screen.getByRole('button', { name: 'Save' })
     await user.click(saveButton)
 
-    // Check for the presence of the modal
     expect(screen.getByRole('textbox', { name: /Add a user note for your change/i })).toBeVisible()
   })
 
   test('should call createUpdateKmsConcept when final save is clicked', async () => {
-    const user = userEvent.setup()
-    const scheme = { name: 'sciencekeywords' }
-    const version = { version: 'draft' }
-    const mockToken = 'mock-token'
-    const mockUid = 'test-user-id'
     const mockOnSave = vi.fn()
+    const { user } = setup({
+      onSave: mockOnSave,
+      token: 'mock-token',
+      uid: 'test-user-id'
+    })
 
-    render(<KeywordForm
-      initialData={mockInitialData}
-      scheme={scheme}
-      version={version}
-      onSave={mockOnSave}
-      token={mockToken}
-      uid={mockUid}
-    />)
-
-    // Click the form's Save button
     await user.click(screen.getByRole('button', { name: 'Save' }))
 
-    // Click the modal's Save button
     const modalSaveButton = screen.getAllByRole('button', { name: 'Save' })[1]
     await user.click(modalSaveButton)
 
     await waitFor(() => {
-      expect(convertFormDataToRdf).toHaveBeenCalledWith(mockInitialData, '', scheme, mockUid)
+      expect(convertFormDataToRdf).toHaveBeenCalledWith(mockInitialData, '', { name: 'sciencekeywords' }, 'test-user-id')
     })
 
     const expectedRdfXml = {
       ...mockInitialData,
       userNote: '',
-      scheme,
+      scheme: { name: 'sciencekeywords' },
       rdf: true
     }
 
     expect(createUpdateKmsConcept).toHaveBeenCalledWith({
       rdfXml: expectedRdfXml,
-      version,
-      token: mockToken
+      version: { version: 'draft' },
+      token: 'mock-token'
     })
   })
 
   test('should close the modal after successful save', async () => {
-    const user = userEvent.setup()
-    render(<KeywordForm
-      initialData={mockInitialData}
-      scheme={{ name: 'sciencekeywords' }}
-      version={{ version: 'draft' }}
-    />)
+    const { user } = setup()
 
     // Find the Save button within the form
     const saveButton = screen.getByRole('button', { name: 'Save' })
@@ -236,17 +212,8 @@ describe('when the form is submitted', () => {
   })
 
   test('should display error message when save fails', async () => {
-    const user = userEvent.setup()
+    const { user } = setup()
     createUpdateKmsConcept.mockRejectedValueOnce(new Error('Save failed'))
-
-    const scheme = { name: 'sciencekeywords' }
-    const version = { version: 'draft' }
-
-    render(<KeywordForm
-      initialData={mockInitialData}
-      scheme={scheme}
-      version={version}
-    />)
 
     // Find the Save button within the form
     const saveButton = screen.getByRole('button', { name: 'Save' })
@@ -266,12 +233,7 @@ describe('when the form is submitted', () => {
   })
 
   test('should update user note when typing', async () => {
-    const user = userEvent.setup()
-    render(<KeywordForm
-      initialData={mockInitialData}
-      scheme={{ name: 'sciencekeywords' }}
-      version={{ version: 'draft' }}
-    />)
+    const { user } = setup()
 
     // Find the Save button within the form
     const saveButton = screen.getByRole('button', { name: 'Save' })
@@ -286,12 +248,7 @@ describe('when the form is submitted', () => {
 
 describe('when the modal is open', () => {
   test('should close the modal when Cancel button is clicked', async () => {
-    const user = userEvent.setup()
-    render(<KeywordForm
-      initialData={mockInitialData}
-      scheme={{ name: 'sciencekeywords' }}
-      version={{ version: 'draft' }}
-    />)
+    const { user } = setup()
 
     // Open the modal
     await user.click(screen.getByRole('button', { name: 'Save' }))
@@ -309,12 +266,7 @@ describe('when the modal is open', () => {
   })
 
   test('should close the modal when close button is clicked', async () => {
-    const user = userEvent.setup()
-    render(<KeywordForm
-      initialData={mockInitialData}
-      scheme={{ name: 'sciencekeywords' }}
-      version={{ version: 'draft' }}
-    />)
+    const { user } = setup()
 
     // Open the modal
     await user.click(screen.getByRole('button', { name: 'Save' }))

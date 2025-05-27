@@ -66,7 +66,7 @@ const KeywordManagerPage = () => {
   const { uid } = user || {}
 
   const handleKeywordSave = useCallback((savedKeywordId) => {
-    setReloadTree((prev) => !prev)
+    setReloadTree(!reloadTree)
     setSelectedKeywordId(savedKeywordId)
   }, [])
 
