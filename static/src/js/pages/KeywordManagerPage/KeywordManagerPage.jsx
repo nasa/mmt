@@ -278,7 +278,7 @@ const KeywordManagerPage = () => {
     if (treeData) {
       return (
         <KeywordTree
-          key={`${selectedVersion?.version}-${selectedScheme?.name}-${reloadTree}`}
+          key={`${selectedVersion?.version}-${selectedScheme?.name}`}
           data={treeData}
           onNodeClick={handleNodeClick}
           onNodeEdit={handleShowKeyword}
