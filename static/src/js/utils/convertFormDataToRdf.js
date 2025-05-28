@@ -34,7 +34,7 @@ export const convertFormDataToRdf = (formData, userNote, scheme, uid) => {
   const createNewChangeNote = () => {
     const currentDate = new Date().toISOString().split('T')[0]
 
-    return `Date=${currentDate} User Id=${uid} User Note=${userNote}`
+    return `Date=${currentDate} User Id=${uid} User Note=${userNote.trim()}`
   }
 
   // Construct the RDF object structure
@@ -70,10 +70,12 @@ export const convertFormDataToRdf = (formData, userNote, scheme, uid) => {
           ...(formData.ChangeLogs
             ? formData.ChangeLogs.split('\n\n').map((note) => ({ '#text': note }))
             : []),
-          {
-            '#text': createNewChangeNote(),
-            '@_rdf:parseType': 'Literal'
-          }
+          ...(userNote && userNote.trim()
+            ? [{
+              '#text': createNewChangeNote(),
+              '@_rdf:parseType': 'Literal'
+            }]
+            : [])
         ],
         'skos:definition': {
           '#text': formData.Definition,

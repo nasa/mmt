@@ -313,9 +313,41 @@ describe('convertFormDataToRdf', () => {
       expect(result).toContain(`User Note=${customUserNote}`)
     })
 
-    test('should handle empty userNote', () => {
+    test('should include a change note when userNote is non-empty', () => {
+      const result = convertFormDataToRdf(basicFormData, 'Valid note', scheme, uid)
+      expect(result).toContain('<skos:changeNote rdf:parseType="Literal">')
+      expect(result).toContain('User Note=Valid note')
+    })
+
+    test('should not include a change note when userNote is empty', () => {
       const result = convertFormDataToRdf(basicFormData, '', scheme, uid)
-      expect(result).toContain('User Note=')
+      expect(result).not.toContain('<skos:changeNote rdf:parseType="Literal">')
+      expect(result).not.toContain('User Note=')
+    })
+
+    test('should not include a change note when userNote contains only spaces', () => {
+      const result = convertFormDataToRdf(basicFormData, '   ', scheme, uid)
+      expect(result).not.toContain('<skos:changeNote rdf:parseType="Literal">')
+      expect(result).not.toContain('User Note=')
+    })
+
+    test('should trim userNote in the change note', () => {
+      const result = convertFormDataToRdf(basicFormData, '  Trimmed note  ', scheme, uid)
+      expect(result).toContain('<skos:changeNote rdf:parseType="Literal">')
+      expect(result).toContain('User Note=Trimmed note')
+      expect(result).not.toContain('User Note=  Trimmed note  ')
+    })
+
+    test('should not include a change note when userNote is undefined', () => {
+      const result = convertFormDataToRdf(basicFormData, undefined, scheme, uid)
+      expect(result).not.toContain('<skos:changeNote rdf:parseType="Literal">')
+      expect(result).not.toContain('User Note=')
+    })
+
+    test('should not include a change note when userNote is null', () => {
+      const result = convertFormDataToRdf(basicFormData, null, scheme, uid)
+      expect(result).not.toContain('<skos:changeNote rdf:parseType="Literal">')
+      expect(result).not.toContain('User Note=')
     })
   })
 
