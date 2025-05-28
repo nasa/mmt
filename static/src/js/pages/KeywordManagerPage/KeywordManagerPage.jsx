@@ -53,13 +53,23 @@ const KeywordManagerPage = () => {
   const [isTreeLoading, setIsTreeLoading] = useState(false)
   const { kmsHost } = getApplicationConfig()
   const [treeMessage, setTreeMessage] = useState('Select a version and scheme to load the tree')
+  const [reloadTree, setReloadTree] = useState(false)
+  const [selectedKeywordId, setSelectedKeywordId] = useState(null)
+
   const [showPublishModal, setShowPublishModal] = useState(false)
   const [newVersionName, setNewVersionName] = useState('')
   const [publishError, setPublishError] = useState(null)
   const [showKeywordForm, setShowKeywordForm] = useState(false)
   const [showPublishingModal, setShowPublishingModal] = useState(false)
   const [versionSelectorKey, setVersionSelectorKey] = useState(0)
-  const { tokenValue } = useAuthContext()
+  const { tokenValue, user } = useAuthContext()
+  const { uid } = user || {}
+
+  const handleKeywordSave = useCallback((savedKeywordId) => {
+    setReloadTree(!reloadTree)
+    setSelectedKeywordId(savedKeywordId)
+  }, [])
+
   /**
    * Opens the modal for publishing a new keyword version.
    * Resets the new version name and clears any previous publish errors.
@@ -204,7 +214,7 @@ const KeywordManagerPage = () => {
     } else {
       setTreeMessage('Select a version and scheme to load the tree')
     }
-  }, [selectedVersion, selectedScheme])
+  }, [selectedVersion, selectedScheme, reloadTree])
 
   /**
    * Closes the warning modal
@@ -246,6 +256,9 @@ const KeywordManagerPage = () => {
           initialData={selectedKeywordData}
           version={selectedVersion}
           scheme={selectedScheme}
+          onSave={handleKeywordSave}
+          token={tokenValue}
+          uid={uid}
         />
       )
     }
@@ -270,6 +283,7 @@ const KeywordManagerPage = () => {
           onNodeClick={handleNodeClick}
           onNodeEdit={handleShowKeyword}
           onAddNarrower={handleAddNarrower}
+          selectedNodeId={selectedKeywordId}
         />
       )
     }
@@ -312,7 +326,7 @@ const KeywordManagerPage = () => {
       <ErrorBoundary>
         <div className="keyword-manager-page__selector-container">
           <label
-            htmlFor="version-selector"
+            htmlFor="version-selector-label"
             className="keyword-manager-page__selector-label"
           >
             Version:

@@ -54,21 +54,23 @@ vi.mock('@/js/components/KeywordTree/KeywordTree', () => ({
 vi.mock('sharedUtils/getConfig')
 vi.mock('@/js/utils/createFormDataFromRdf')
 
+const onSaveSpy = vi.fn()
+
 vi.mock('@/js/components/KeywordForm/KeywordForm', () => ({
   __esModule: true,
-  default: vi.fn(({ initialData, onFormDataChange }) => (
+  default: vi.fn(({ initialData, onSave }) => (
     <div data-testid="keyword-form">
       <pre>{JSON.stringify(initialData, null, 2)}</pre>
       <button
         type="button"
         onClick={
-          () => onFormDataChange({
-            ...initialData,
-            PreferredLabel: 'Updated Keyword'
-          })
+          () => {
+            onSaveSpy(initialData.KeywordUUID)
+            onSave(initialData.KeywordUUID)
+          }
         }
       >
-        Update Form Data
+        Save
       </button>
     </div>
   ))
@@ -731,6 +733,66 @@ describe('KeywordManagerPage component', () => {
 
       // Check if the KeywordForm is rendered
       expect(screen.getByTestId('keyword-form')).toBeInTheDocument()
+    })
+
+    test('should call clicking save and call tree to reload and select keyword', async () => {
+      const mockCreateFormDataFromRdf = vi.fn().mockReturnValue({
+        KeywordUUID: 'test-uuid',
+        PreferredLabel: 'Test Keyword'
+      })
+      vi.spyOn(createFormDataFromRdfModule, 'default').mockImplementation(mockCreateFormDataFromRdf)
+
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        text: () => Promise.resolve('<rdf:RDF></rdf:RDF>')
+      })
+
+      const { user } = setup()
+
+      // Select version and scheme
+      await waitFor(() => {
+        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+      })
+
+      const versionSelector = screen.getByTestId('version-selector')
+      await user.selectOptions(versionSelector, '2.0')
+
+      await waitFor(() => {
+        expect(screen.getByTestId('scheme-selector')).toBeInTheDocument()
+      })
+
+      const schemeSelector = screen.getByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Wait for the tree to load
+      await waitFor(() => {
+        expect(screen.getByTestId('keyword-tree')).toBeInTheDocument()
+      })
+
+      // Simulate click on a node
+      const clickButton = screen.getByText('Click Node')
+      await user.click(clickButton)
+
+      // Wait for the fetch to be called
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('/concept/test-node-id?version=2.0'))
+      })
+
+      // Verify that createFormDataFromRdf was called with the fetched RDF data
+      await waitFor(() => {
+        expect(mockCreateFormDataFromRdf).toHaveBeenCalledWith('<rdf:RDF></rdf:RDF>')
+      })
+
+      // Check if the KeywordForm is rendered
+      expect(screen.getByTestId('keyword-form')).toBeInTheDocument()
+
+      // Check if the KeywordForm is rendered
+
+      await user.click(screen.getByText('Save'))
+
+      // Check if onSave was called with the correct UUID
+      // This should trigger the reload and selecting keyword
+      expect(onSaveSpy).toHaveBeenCalledWith('test-uuid')
     })
 
     test('should show error message when fetching keyword data fails', async () => {

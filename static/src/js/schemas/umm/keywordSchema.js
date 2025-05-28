@@ -52,12 +52,12 @@ const keywordSchema = {
     },
     Definition: {
       type: 'string',
-      minLength: 1,
+      minLength: 0,
       maxLength: 4000
     },
     DefinitionReference: {
       type: 'string',
-      minLength: 1,
+      minLength: 0,
       maxLength: 2000
     },
     Resources: {
@@ -97,7 +97,7 @@ const keywordSchema = {
       type: 'string'
     }
   },
-  required: ['KeywordUUID'],
+  required: ['KeywordUUID', 'PreferredLabel'],
   definitions: {
     LabelTypeEnum: {
       type: 'string',
