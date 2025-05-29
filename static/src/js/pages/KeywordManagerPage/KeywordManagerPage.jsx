@@ -1,7 +1,8 @@
 import React, {
   useState,
   useCallback,
-  useEffect
+  useEffect,
+  useRef
 } from 'react'
 import {
   Col,
@@ -24,11 +25,7 @@ import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import { KeywordTree } from '@/js/components/KeywordTree/KeywordTree'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
-import {
-  KeywordTreePlaceHolder
-} from '@/js/components/KeywordTreePlaceHolder/KeywordTreePlaceHolder'
 
-import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
 import errorLogger from '@/js/utils/errorLogger'
 import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
 import useAuthContext from '@/js/hooks/useAuthContext'
@@ -49,11 +46,7 @@ const KeywordManagerPage = () => {
   const [selectedVersion, setSelectedVersion] = useState(null)
   const [selectedScheme, setSelectedScheme] = useState(null)
   const [showWarning, setShowWarning] = useState(false)
-  const [treeData, setTreeData] = useState(null)
-  const [isTreeLoading, setIsTreeLoading] = useState(false)
   const { kmsHost } = getApplicationConfig()
-  const [treeMessage, setTreeMessage] = useState('Select a version and scheme to load the tree')
-  const [reloadTree, setReloadTree] = useState(false)
   const [selectedKeywordId, setSelectedKeywordId] = useState(null)
 
   const [showPublishModal, setShowPublishModal] = useState(false)
@@ -65,11 +58,15 @@ const KeywordManagerPage = () => {
   const { tokenValue, user } = useAuthContext()
   const { uid } = user || {}
 
+  const keywordTreeRef = useRef(null)
+
   const handleKeywordSave = useCallback((savedKeywordId) => {
-    setReloadTree(!reloadTree)
+    if (keywordTreeRef.current) {
+      keywordTreeRef.current.refreshTree()
+    }
+
     setSelectedKeywordId(savedKeywordId)
   }, [])
-
   /**
    * Opens the modal for publishing a new keyword version.
    * Resets the new version name and clears any previous publish errors.
@@ -94,10 +91,8 @@ const KeywordManagerPage = () => {
       setVersionSelectorKey((prevKey) => prevKey + 1) // Force version selector to reload
       setSelectedVersion(null)
       setSelectedScheme(null)
-      setTreeData(null)
       setSelectedKeywordData(null)
       setShowKeywordForm(false)
-      setTreeMessage('Select a version and scheme to load the tree')
       setShowPublishModal(false) // Close the modal only on success
     } catch (error) {
       setPublishError('Error publishing new keyword version. Please try again in a few minutes.')
@@ -139,6 +134,7 @@ const KeywordManagerPage = () => {
   }, [selectedVersion])
 
   const handleAddNarrower = useCallback((parentId, newKeyword) => {
+    console.log('GOT ', parentId, newKeyword)
     // Create a new keyword data structure for the form
     const newKeywordData = {
       KeywordUUID: newKeyword.id,
@@ -157,26 +153,6 @@ const KeywordManagerPage = () => {
   const handleNodeClick = useCallback((nodeId) => {
     handleShowKeyword(nodeId)
   }, [handleShowKeyword])
-  /**
-   * Fetches the keyword tree data based on the selected version and scheme
-   * @param {object} version - The selected version object
-   * @param {object} scheme - The selected scheme object
-   */
-  const fetchTreeData = async (version, scheme) => {
-    if (version && scheme) {
-      setIsTreeLoading(true)
-      try {
-        const data = await getKmsKeywordTree(version, scheme)
-        setTreeData(data)
-      } catch (error) {
-        console.error('Error fetching keyword tree:', error)
-        setTreeData(null)
-        setTreeMessage('Failed to load the tree. Please try again.')
-      } finally {
-        setIsTreeLoading(false)
-      }
-    }
-  }
 
   /**
    * Handles the selection of a version
@@ -185,7 +161,6 @@ const KeywordManagerPage = () => {
   const onVersionSelect = useCallback((versionInfo) => {
     setSelectedVersion(versionInfo)
     setSelectedScheme(null)
-    setTreeData(null)
     setSelectedKeywordData(null)
     setShowKeywordForm(false)
   }, [])
@@ -195,7 +170,6 @@ const KeywordManagerPage = () => {
    */
   const onSchemeSelect = useCallback((schemeInfo) => {
     setSelectedScheme(schemeInfo)
-    setTreeData(null)
     setSelectedKeywordData(null)
     setShowKeywordForm(false)
   }, [])
@@ -205,16 +179,6 @@ const KeywordManagerPage = () => {
       setShowWarning(true)
     }
   }, [selectedVersion])
-
-  // Effect to fetch tree data when version and scheme are selected
-  useEffect(() => {
-    if (selectedVersion && selectedScheme) {
-      setTreeMessage('Loading...')
-      fetchTreeData(selectedVersion, selectedScheme)
-    } else {
-      setTreeMessage('Select a version and scheme to load the tree')
-    }
-  }, [selectedVersion, selectedScheme, reloadTree])
 
   /**
    * Closes the warning modal
@@ -270,26 +234,18 @@ const KeywordManagerPage = () => {
    * Renders the keyword tree or a placeholder based on the current state
    * @returns {JSX.Element} The rendered tree or placeholder
    */
-  const renderTree = () => {
-    if (isTreeLoading) {
-      return <KeywordTreePlaceHolder message="Loading..." />
-    }
-
-    if (treeData) {
-      return (
-        <KeywordTree
-          key={`${selectedVersion?.version}-${selectedScheme?.name}`}
-          data={treeData}
-          onNodeClick={handleNodeClick}
-          onNodeEdit={handleShowKeyword}
-          onAddNarrower={handleAddNarrower}
-          selectedNodeId={selectedKeywordId}
-        />
-      )
-    }
-
-    return <KeywordTreePlaceHolder message={treeMessage} />
-  }
+  const renderTree = () => (
+    <KeywordTree
+      ref={keywordTreeRef}
+      key={`${selectedVersion?.version}-${selectedScheme?.name}`}
+      onNodeClick={handleNodeClick}
+      onNodeEdit={handleShowKeyword}
+      onAddNarrower={handleAddNarrower}
+      selectedNodeId={selectedKeywordId}
+      selectedScheme={selectedScheme}
+      selectedVersion={selectedVersion}
+    />
+  )
 
   return (
     <Page
