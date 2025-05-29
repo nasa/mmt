@@ -35,9 +35,32 @@ import './KeywordManagerPage.scss'
 /**
  * KeywordManagerPage Component
  *
- * This component represents the main page for managing keywords.
- * It allows users to select keyword versions and schemes, view and interact with a keyword tree,
- * and manage individual keywords.
+ * This component represents the main page for managing keywords in a hierarchical structure.
+ * It provides functionality to:
+ * - Select and view different versions of keyword sets
+ * - Choose specific keyword schemes within a version
+ * - View and interact with a hierarchical keyword tree
+ * - Add, edit, and manage individual keywords
+ * - Publish new versions of keyword sets
+ *
+ * The page layout includes:
+ * - Version and scheme selectors
+ * - A keyword tree view
+ * - A form for viewing and editing keyword details
+ * - Modals for warnings and publishing new versions
+ *
+ * Key features:
+ * - Integration with KMS (Knowledge Management System) for keyword data
+ * - Real-time updates of the keyword tree upon modifications
+ * - Version control and publishing capabilities
+ * - Error handling and loading states
+ *
+ * @component
+ *
+ * @example
+ * return (
+ *   <KeywordManagerPage />
+ * )
  */
 const KeywordManagerPage = () => {
   const [showError, setShowError] = useState(null)

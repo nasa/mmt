@@ -12,17 +12,40 @@ import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/K
 import './KmsConceptSelectionEditModal.scss'
 
 /**
- * KmsConceptSelectionEditModal component provides an interface to edit keyword selections
- * within a modal. It allows users to select a scheme, search for keywords, and apply their changes.
+ * KmsConceptSelectionEditModal Component
  *
- * @param {Object} props - React component props.
- * @param {boolean} props.show - Determines if the modal is visible.
- * @param {Function} props.toggleModal - Function to toggle the modal visibility.
- * @param {string} props.uuid - UUID of the selected keyword.
- * @param {Object} props.version - Object containing version details like version and version_type.
- * @param {Object} props.scheme - Object containing scheme details.
- * @param {Function} props.handleAcceptChanges - Callback function when changes are accepted.
- * @returns {JSX.Element} The complete modal component for editing keyword selections.
+ * This component provides a modal interface for editing keyword selections.
+ * It allows users to select a scheme, view a keyword tree, and choose a specific keyword.
+ *
+ * Features:
+ * - Scheme selection using KmsConceptSchemeSelector
+ * - Keyword tree visualization and selection using KeywordTree
+ * - Ability to accept or cancel changes
+ *
+ * @component
+ * @param {Object} props
+ * @param {Function} props.handleAcceptChanges - Callback function when changes are accepted
+ * @param {Object} props.scheme - Object containing scheme details (e.g., {name: string})
+ * @param {boolean} props.show - Controls the visibility of the modal
+ * @param {Function} props.toggleModal - Function to toggle the modal's visibility
+ * @param {string} props.uuid - UUID of the initially selected keyword
+ * @param {Object} props.version - Object containing version details (e.g., {version: string, version_type: string})
+ *
+ * @example
+ * const handleAcceptChanges = (selectedKeyword) => {
+ *   console.log('Selected keyword:', selectedKeyword);
+ * };
+ *
+ * return (
+ *   <KmsConceptSelectionEditModal
+ *     handleAcceptChanges={handleAcceptChanges}
+ *     scheme={{name: 'Example Scheme'}}
+ *     show={true}
+ *     toggleModal={(show) => setShowModal(show)}
+ *     uuid="example-uuid"
+ *     version={{version: '1.0', version_type: 'draft'}}
+ *   />
+ * );
  */
 export const KmsConceptSelectionEditModal = ({
   handleAcceptChanges,

@@ -29,34 +29,16 @@ import { castArray } from 'lodash-es'
  * It uses react-arborist for the tree structure and provides context menu functionality.
  *
  * @component
- * @param {Object|Array} props.data - The initial tree data structure
+ * @param {Function} props.onAddNarrower - Callback function when a narrower keyword is added
  * @param {Function} props.onNodeClick - Callback function when a node is clicked
  * @param {Function} props.onNodeEdit - Callback function when a node is edited
- * @param {Function} props.onAddNarrower - Callback function when a narrower keyword is added
+ * @param {string} props.selectedNodeId - ID of the currently selected node
+ * @param {boolean} props.showContextMenu - Whether to show the context menu
+ * @param {boolean} props.openAll - Whether to open all nodes in the tree
+ * @param {Object} props.selectedVersion - The selected version object
+ * @param {Object} props.selectedScheme - The selected scheme object
  *
  * @example
- * const treeData = [
- *   {
- *     id: '1',
- *     key: '1',
- *     title: 'Root',
- *     children: [
- *       {
- *         id: '2',
- *         key: '2',
- *         title: 'Child 1',
- *         children: []
- *       },
- *       {
- *         id: '3',
- *         key: '3',
- *         title: 'Child 2',
- *         children: []
- *       }
- *     ]
- *   }
- * ];
- *
  * const handleNodeClick = (nodeId) => {
  *   console.log('Node clicked:', nodeId);
  * };
@@ -71,10 +53,14 @@ import { castArray } from 'lodash-es'
  *
  * return (
  *   <KeywordTree
- *     data={treeData}
  *     onNodeClick={handleNodeClick}
  *     onNodeEdit={handleNodeEdit}
  *     onAddNarrower={handleAddNarrower}
+ *     selectedNodeId="1"
+ *     showContextMenu={true}
+ *     openAll={false}
+ *     selectedVersion={{...}}
+ *     selectedScheme={{...}}
  *   />
  * );
  */
