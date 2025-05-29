@@ -114,6 +114,51 @@ describe('KeywordTree component', () => {
         expect(screen.getByText(/Failed to load the tree/i)).toBeInTheDocument()
       }, { timeout: 3000 })
     })
+
+    test('should set tree data to null when refreshTree is called without version and scheme', async () => {
+      const mockOnNodeClick = vi.fn()
+      const mockTreeData = [{
+        id: '1',
+        title: 'Root',
+        children: []
+      }]
+      getKmsKeywordTree.mockResolvedValueOnce(mockTreeData)
+
+      const { rerender } = render(
+        <KeywordTree
+          onNodeClick={mockOnNodeClick}
+          selectedVersion={{ id: 'v1' }}
+          selectedScheme={{ id: 's1' }}
+        />
+      )
+
+      // Wait for the initial render with data
+      await waitFor(() => {
+        expect(screen.getByText('Root')).toBeInTheDocument()
+      })
+
+      // Clear the selected version and scheme and call refreshTree
+      const ref = { current: null }
+      rerender(
+        <KeywordTree
+          ref={ref}
+          onNodeClick={mockOnNodeClick}
+          selectedVersion={null}
+          selectedScheme={null}
+        />
+      )
+
+      // Call refreshTree directly
+      await ref.current.refreshTree()
+
+      // Check that the tree data has been cleared
+      await waitFor(() => {
+        expect(screen.queryByText('Root')).not.toBeInTheDocument()
+      })
+
+      // Verify that the placeholder message is shown
+      expect(screen.getByText('Select a version and scheme to load the tree')).toBeInTheDocument()
+    })
   })
 
   describe('when searching', () => {
