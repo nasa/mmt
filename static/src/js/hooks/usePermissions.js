@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client'
 import useAuthContext from './useAuthContext'
 
 import { GET_PERMISSIONS } from '../operations/queries/getPermissions'
+import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
 
 /**
  * Requests the provided permissions from CMR
@@ -15,6 +16,7 @@ const usePermissions = ({
   systemGroup,
   systemKeywords
 }) => {
+  const { env } = getApplicationConfig()
   const { user } = useAuthContext()
   const { uid } = user || {}
 
@@ -68,6 +70,10 @@ const usePermissions = ({
     hasSystemKeywords = !!keywordsPermissions?.find((permission) => (
       systemKeywords.includes(permission)
     ))
+
+    if (env === 'development') {
+      hasSystemKeywords = true
+    }
   }
 
   return {
