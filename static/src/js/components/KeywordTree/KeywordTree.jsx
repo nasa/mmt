@@ -97,7 +97,11 @@ const KeywordTreeComponent = forwardRef(({
     if (selectedVersion && selectedScheme) {
       setIsTreeLoading(true)
       try {
-        const kmsTree = castArray(await getKmsKeywordTree(selectedVersion, selectedScheme, searchPattern))
+        const kmsTree = castArray(await getKmsKeywordTree(
+          selectedVersion,
+          selectedScheme,
+          searchPattern
+        ))
         setTreeData(kmsTree)
       } catch (error) {
         console.error('Error fetching keyword tree:', error)
