@@ -1,3 +1,4 @@
+// This is not currently in CDN. This is a combination of five different schemas found here:
 const otherSchemasVisSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'UMM-Vis',
@@ -1408,7 +1409,6 @@ const otherSchemasVisSchema = {
       additionalProperties: false,
       description: 'This element either references or contains more metadata about the element that includes this element. To reference metadata stored remotely, at least the xlinks:href attribute in xlink:simpleAttrs shall be included. Either at least one of the attributes in xlink:simpleAttrs or a substitute for the AbstractMetaData element shall be included, but not both. An Implementation Specification can restrict the contents of this element to always be a reference or always contain metadata. (Informative: This element was adapted from the metaDataProperty element in GML 3.0.)',
       properties: {
-        // Need descriptions for these
         'xlink:Href': {
           $comment: 'http://www.w3.org/1999/xlink.xsd',
           type: 'string'
@@ -1427,7 +1427,6 @@ const otherSchemasVisSchema = {
         },
         about: {
           type: 'string'
-          // Need a min and max length
         }
       }
     },
@@ -1714,16 +1713,17 @@ const otherSchemasVisSchema = {
         '15.125m'
       ]
     },
-    // If we're keeping it this way, this will need a custom widget
     VisualizationLatencyType: {
       description: "The approximate latency between the end of data acquisition and visualization file availability for GIBS to ingest. This value may be minutes, hours, or days, depending on the appropriate units. A value of 'N/A' may be provided if not applicable (e.g. static historical products)",
       $comment: "Integer + Units or 'N/A'",
       type: 'string',
       oneOf: [
         {
+          title: 'Unit',
           pattern: '(\\d+(\\.\\d+)?) (second|minute|hour|day|week|month|year)(s)?'
         },
         {
+          title: 'Not Applicable',
           enum: [
             'N/A'
           ]
@@ -1731,21 +1731,10 @@ const otherSchemasVisSchema = {
       ]
     },
     TextStringOrNaType: {
-      // Why is this needed???
       $comment: "Text string or 'N/A'",
-      oneOf: [
-        {
-          type: 'string',
-          // Why 8?
-          minLength: 8,
-          maxLength: 256
-        },
-        {
-          enum: [
-            'N/A'
-          ]
-        }
-      ]
+      type: 'string',
+      minLength: 1,
+      maxLength: 256
     },
     IdentifierType: {
       type: 'string',
@@ -1842,16 +1831,9 @@ const otherSchemasVisSchema = {
                   items: {
                     description: 'A unit name.',
                     $comment: 'can be null if no units are appropriate.',
-                    anyOf: [
-                      {
-                        type: 'null'
-                      },
-                      {
-                        type: 'string',
-                        minLength: 1,
-                        maxLength: 64
-                      }
-                    ]
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 64
                   },
                   minItems: 1
                 },
@@ -1876,42 +1858,27 @@ const otherSchemasVisSchema = {
                 },
                 DataDayBreak: {
                   description: 'The time of day (UTC) at which the "data day" changes for a data granule being visualized.',
-                  // Change to type: date-time and remove patter?
                   type: 'string',
                   pattern: '^[0-2][0-3]:[0-5][0-9]:[0-5][0-9]Z$'
                 },
                 VisualizationLatency: {
                   description: "The approximate latency between the end of data acquisition and visualization file availability for GIBS to ingest. This value may be minutes, hours, or days, depending on the appropriate units. A value of 'N/A' may be provided if not applicable (e.g. static historical products)",
-                  // This should be split into two properties. VisualizationLatencyIntegar and VisualizationLatencyUnit
                   $comment: "Integer + Units or 'N/A'",
                   $ref: '#/definitions/VisualizationLatencyType'
                 },
                 UpdateInterval: {
-                  description: "The approximate interval, in minutes, between updates for Near Real-Time or partially-delivered Standard visualizations. For example, the number of minutes between PDRs that contain input tiles for a specific data day. A value of 'N/A' may be provided if not applicable.",
+                  description: 'The approximate interval, in minutes, between updates for Near Real-Time or partially-delivered Standard visualizations. For example, the number of minutes between PDRs that contain input tiles for a specific data day.',
                   $comment: "Integer or 'N/A'",
-                  // Just make N/A part of enum list
-                  oneOf: [
-                    {
-                      type: 'integer'
-                    },
-                    {
-                      type: 'string',
-                      enum: [
-                        'N/A'
-                      ]
-                    }
-                  ]
+                  type: 'integer'
                 },
                 TemporalCoverage: {
-                  // This description is too long for our box
                   description: 'A time interval specifying the start , end, and duration of the visualization products that will be generated. The ISO 8601 interval notation (PnYnMnDTnHnMnS) is used to specify the durat ion between images. For example, a product that is generated every day within 2013 would have the following temporal coverage: 2013-01-01/2013-12-31/P1D. If a layer has discontinuous ranges, they should be provided in a comma-separated list. Visualization products that have a nonstatic end-date should provide only the start date and interval (e.g. 2013-01-01/P1D). Note that files which represent a 5-day average, but are generated daily, would have a period of P1D.',
                   $comment: 'A pattern for full matching of iso 8601 can be overkill. More discussion with stakeholders about pattern detail is needed.',
                   type: 'string',
                   minLength: 3
                 },
                 WGS84SpatialCoverage: {
-                  description: 'The spatial coverage of the data that will be visualized. The coverage is referenced in the WGS84 coordinate system.',
-                  // I'd argue this should be placed in a WGS84SpatialCoverageType, where we have these values described.
+                  description: 'The spatial coverage of the data that will be visualized. The coverage is referenced in the WGS84 coordinate system. In the order of LL_Lat, LL_Lon, UR_Lat, UR_Lon',
                   $comment: 'LL_Lat, LL_Lon, UR_Lat, UR_Lon',
                   type: 'array',
                   items: {
@@ -1921,8 +1888,7 @@ const otherSchemasVisSchema = {
                   minItems: 4
                 },
                 NativeSpatialCoverage: {
-                  // Same here
-                  description: 'The spatial coverage of the data that will be visualized. The coverage is referenced in the coordinate system native to the projection.',
+                  description: 'The spatial coverage of the data that will be visualized. The coverage is referenced in the coordinate system native to the projection. In the order of LL_Y, LL_X, UR_Y, UR_X',
                   $comment: 'LL_Y, LL_X, UR_Y, UR_X',
                   type: 'array',
                   items: {
@@ -1953,7 +1919,6 @@ const otherSchemasVisSchema = {
                   description: 'The extension-less filename (e.g. "FIRMS_MODIS_Thermal_Anomalies") of the vector metadata file associated with this product. One or more vector products may utilize the same vector metadata file for simplification of configuration and improved usability. Existing vector metadata files within the GIBS visualization catalog may be reviewed here https://gibs.earthdata.nasa.gov/vector-metadata/v1.0/.',
                   $ref: '#/definitions/TextStringOrNaType'
                 },
-                // Why are these here?
                 TitleAlt: {
                   $comment: 'LayerMetadata v1.0-0, kept for review and renamed as TitleAlt. /Title should be preferred.',
                   deprecated: true,
@@ -2002,17 +1967,12 @@ const otherSchemasVisSchema = {
                 Daynight: {
                   $comment: 'LayerMetadata v1.0-0',
                   description: 'Whether the visualization layer represents data captured during the day, night (or both) as perceived during time of data acquisition.',
-                  // Why are you the way that you are....
-                  // See Ascending or descending above
-                  type: 'array',
-                  uniqueItems: true,
-                  maxItems: 2,
-                  items: {
-                    enum: [
-                      'day',
-                      'night'
-                    ]
-                  }
+                  type: 'string',
+                  enum: [
+                    'day',
+                    'night',
+                    'day or night'
+                  ]
                 },
                 OrbitTracks: {
                   $comment: 'LayerMetadata v1.0-0',
@@ -2025,10 +1985,6 @@ const otherSchemasVisSchema = {
                     minLength: 1
                   }
                 },
-                // Do these corrolate with the tracks above?
-                // Makes more sense to create OrbitMetrics{OrbitMetricsType}
-                // Then make OrbitMetricsType have an OrbitMetric
-                // With both track an direction
                 OrbitDirection: {
                   $comment: 'LayerMetadata v1.0-0',
                   description: 'Whether the visualization layer represents data from the ascending, descending, or both tracks of a satellite.',
@@ -2044,7 +2000,7 @@ const otherSchemasVisSchema = {
                 },
                 ConceptIdsAlt: {
                   $comment: 'LayerMetadata v1.0-0, kept for review and renamed as ConceptIdsAlt. /ConceptIds should be preferred.',
-                  deprecated: true, // ???
+                  deprecated: true,
                   description: 'Which CMR dataset(s) are represented by the visualization layer.',
                   type: 'array',
                   items: {
@@ -2124,7 +2080,6 @@ const otherSchemasVisSchema = {
                   minItems: 1
                 },
                 'ows:WGS84BoundingBox': {
-                  // See Bounding Rectangle Type
                   $comment: 'http://schemas.opengis.net/ows/1.1.0/owsContents.xsd',
                   description: 'Unordered list of zero or more minimum bounding rectangles surrounding coverage data, using the WGS 84 CRS with decimal degrees and longitude before latitude. ... If multiple WGS 84 bounding boxes are included, this shall be interpreted as the union of the areas of these bounding boxes.',
                   type: 'array',
@@ -2143,7 +2098,6 @@ const otherSchemasVisSchema = {
                   maxLength: 64
                 },
                 'ows:BoundingBox': {
-                  // See above about the rectangles
                   $comment: 'http://schemas.opengis.net/ows/1.1.0/owsContents.xsd',
                   description: 'Unordered list of zero or more minimum bounding rectangles surrounding coverage data, in AvailableCRSs. Zero or more BoundingBoxes are allowed in addition to one or more WGS84BoundingBoxes to allow more precise specification of the Dataset area in AvailableCRSs. ... If multiple bounding boxes are included with the same CRS, this shall be interpreted as the union of the areas of these bounding boxes.',
                   type: 'array',
@@ -2163,7 +2117,7 @@ const otherSchemasVisSchema = {
                   },
                   minItems: 1
                 },
-                'ows:DatasetDescriptionSummary ': {
+                'ows:DatasetDescriptionSummary': {
                   $comment: 'http://schemas.opengis.net/ows/1.1.0/owsContents.xsd',
                   description: 'Metadata describing zero or more unordered subsidiary datasets available from this server.',
                   type: 'array',

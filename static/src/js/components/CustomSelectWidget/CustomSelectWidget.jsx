@@ -250,7 +250,9 @@ CustomSelectWidget.propTypes = {
   }),
   value: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.number
+    PropTypes.number,
+    PropTypes.oneOf([null]),
+    PropTypes.arrayOf(PropTypes.any)
   ])
 }
 

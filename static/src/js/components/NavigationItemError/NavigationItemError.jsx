@@ -120,8 +120,8 @@ const NavigationItemError = ({
         errors && (
           <For each={errors}>
             {
-              (nestedError) => {
-                const key = JSON.stringify(nestedError)
+              (nestedError, index) => {
+                const key = `${JSON.stringify(nestedError)}-${index}`
 
                 return (
                   <NavigationItemError

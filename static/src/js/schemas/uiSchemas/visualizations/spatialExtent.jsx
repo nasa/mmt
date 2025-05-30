@@ -173,7 +173,7 @@ const spatialExtentUiSchema = {
                     'ui:row': [
                       {
                         'ui:col': {
-                          style: { 'padding-top': '15px' },
+                          style: { paddingTop: '15px' },
                           md: 12,
                           children: ['Points']
                         }
@@ -1011,7 +1011,7 @@ const spatialExtentUiSchema = {
                   'ui:row': [
                     {
                       'ui:col': {
-                        style: { 'padding-top': '15px' },
+                        style: { paddingTop: '15px' },
                         md: 12,
                         children: ['SwathWidth']
                       }
@@ -1032,7 +1032,7 @@ const spatialExtentUiSchema = {
                   'ui:row': [
                     {
                       'ui:col': {
-                        style: { 'padding-top': '15px' },
+                        style: { paddingTop: '15px' },
                         md: 12,
                         children: ['Footprints']
                       }

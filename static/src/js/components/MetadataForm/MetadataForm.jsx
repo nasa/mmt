@@ -26,6 +26,7 @@ import JsonPreview from '@/js/components/JsonPreview/JsonPreview'
 import KeywordPicker from '@/js/components/KeywordPicker/KeywordPicker'
 import OneOfField from '@/js/components/OneOfField/OneOfField'
 import StreetAddressField from '@/js/components/StreetAddressField/StreetAddressField'
+import VisualizationLatency from '@/js/components/VisualizationLatency/VisualizationLatency'
 
 import formConfigurations from '@/js/schemas/uiForms'
 
@@ -178,6 +179,7 @@ const MetadataForm = () => {
     keywordPicker: KeywordPicker,
     layout: GridLayout,
     OneOfField,
+    VisualizationLatency,
     streetAddresses: StreetAddressField,
     TitleField: CustomTitleField
   }
