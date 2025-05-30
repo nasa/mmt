@@ -2,37 +2,11 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Form from 'react-bootstrap/Form'
 import { format } from 'date-fns'
-import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
-import { kmsGetConceptUpdatesReport } from '@/js/utils/KmsGetConceptUpdatesReport'
+import { kmsGetConceptUpdatesReport } from '@/js/utils/kmsGetConceptUpdatesReport'
 import DatePicker from 'react-datepicker'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
+import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
 
-/**
- * @typedef {Object} GenerateKeywordReportModalProps
- * @property {String} show Boolean that displays or hides the modal.
- * @property {Function} toggleModal A callback function called when the modal is closed with a boolean representing its next state.
- * @property {String} primaryActionType The text for the submit button.
- */
-
-/*
- * Renders a `GenerateKeywordReportModal` component.
- *
- * The component is renders a button, optionally displaying an icon
- *
- * @param {GenerateKeywordReportModalProps} props
- *
- * @component
- * @example <caption>Render a button with an icon</caption>
- * return (
- *   <GenerateKeywordReportModal
- *      show
- *      toggleModal={setModalShow}
- *      type="draft"
- *      onSubmit={doAThing}
- *      primaryActionType="Save & Continue"
- *   />
- * )
- */
 const GenerateKeywordReportModal = ({
   show,
   toggleModal
@@ -41,10 +15,10 @@ const GenerateKeywordReportModal = ({
   const [selectedVersion, setSelectedVersion] = useState(null)
   const [endDate, setEndDate] = useState(null)
   const [userId, setUserId] = useState(null)
+  const [isLoading, setIsLoading] = useState(false) // State for spinner
 
   const handleSubmit = async () => {
-    console.log('🚀 ~ file: GenerateKeywordReportModal.jsx:57 ~ startDate:', startDate)
-    console.log('🚀 ~ file: GenerateKeywordReportModal.jsx:42 ~ endDate:', endDate)
+    setIsLoading(true)
     try {
       await kmsGetConceptUpdatesReport({
         version: selectedVersion,
@@ -53,7 +27,9 @@ const GenerateKeywordReportModal = ({
         userId
       })
     } catch (error) {
-      console.log('🚀 ~ file: GenerateKeywordReportModal.jsx:54 ~ error:', error)
+      console.error('Error generating report:', error)
+    } finally {
+      setIsLoading(false) // Hide spinner
     }
   }
 
@@ -75,45 +51,61 @@ const GenerateKeywordReportModal = ({
       message={
         (
           <Form className="mb-3">
-            <KmsConceptVersionSelector
-              onVersionSelect={onVersionSelect}
-              id="version-selector"
-              key="version-selector"
-            />
-            Select Start and End Date for the report
             <div>
-              <label htmlFor="start-date">Start Date:</label>
-              <DatePicker
-                selected={startDate ? new Date(startDate) : null}
-                onChange={(date) => setStartDate(format(date, 'yyyy-MM-dd'))} // Format the date before storing
-                selectsStart
-                startDate={startDate ? new Date(startDate) : null}
-                endDate={endDate ? new Date(endDate) : null}
-                dateFormat="yyyy-MM-dd" // Ensures the displayed format is consistent
-                placeholderText="Select a start date"
+              <div className="py-2">
+                <label htmlFor="start-date-selector" className="fw-bold me-3">
+                  Start Date:
+                </label>
+                <DatePicker
+                  selected={startDate ? new Date(startDate) : null}
+                  onChange={(date) => setStartDate(format(date, 'yyyy-MM-dd'))} // Format the date before storing
+                  selectsStart
+                  startDate={startDate ? new Date(startDate) : null}
+                  endDate={endDate ? new Date(endDate) : null}
+                  dateFormat="yyyy-MM-dd" // Ensures the displayed format is consistent
+                  placeholderText="Select a start date"
+                  id="start-date-selector"
+                />
+              </div>
+              <div className="py-2">
+                <label htmlFor="end-date-selector" className="fw-bold me-3">
+                  End Date:
+                </label>
+                <DatePicker
+                  selected={endDate ? new Date(endDate) : null}
+                  onChange={(date) => setEndDate(format(date, 'yyyy-MM-dd'))} // Format the date before storing
+                  selectsEnd
+                  startDate={startDate ? new Date(startDate) : null}
+                  endDate={endDate ? new Date(endDate) : null}
+                  minDate={startDate ? new Date(startDate) : null}
+                  dateFormat="yyyy-MM-dd" // Ensures the displayed format is consistent
+                  placeholderText="Select an end date"
+                />
+              </div>
+            </div>
+            <div className="mt-3">
+              <label htmlFor="version-selector" className="fw-bold">
+                Version:
+              </label>
+              <KmsConceptVersionSelector
+                onVersionSelect={onVersionSelect}
+                id="version-selector"
+                key="version-selector"
               />
             </div>
-            <div>
-              <label htmlFor="end-date">End Date:</label>
-              <DatePicker
-                selected={endDate ? new Date(endDate) : null}
-                onChange={(date) => setEndDate(format(date, 'yyyy-MM-dd'))} // Format the date before storing
-                selectsEnd
-                startDate={startDate ? new Date(startDate) : null}
-                endDate={endDate ? new Date(endDate) : null}
-                minDate={startDate ? new Date(startDate) : null}
-                dateFormat="yyyy-MM-dd" // Ensures the displayed format is consistent
-                placeholderText="Select an end date"
+            <div className="mt-3">
+              <label htmlFor="user-id-input" className="fw-bold">
+                Filter by Earthdata Login User-Id:
+              </label>
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Earthdata Login Username (Optional)"
+                id="user-id-input"
+                value={userId}
+                onChange={handleUserIdUpdate}
               />
             </div>
-            <input
-              id="parsed-string"
-              className="form-control"
-              type="text"
-              placeholder="Enter a string to parse"
-              value={userId}
-              onChange={handleUserIdUpdate}
-            />
           </Form>
         )
       }
@@ -122,10 +114,10 @@ const GenerateKeywordReportModal = ({
           {
             label: 'Generate CSV Report',
             variant: 'success',
-            onClick: () => {
-              handleSubmit()
-              toggleModal(false)
-            }
+            onClick: () => handleSubmit(),
+            loading: isLoading,
+            disabled: isLoading,
+            loadingText: 'Generating report...'
           },
           {
             label: 'Cancel',

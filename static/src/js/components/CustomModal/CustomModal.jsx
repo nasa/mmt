@@ -94,13 +94,18 @@ const CustomModal = ({
         <Modal.Footer>
           {
             actions.map((item) => {
-              const { label, variant, onClick } = item
+              const {
+                label, variant, onClick, loading, loadingText, disabled
+              } = item
 
               return (
                 <Button
                   key={label}
                   variant={variant}
                   onClick={onClick}
+                  loading={loading}
+                  loadingText={loadingText}
+                  disabled={disabled}
                 >
                   {label}
                 </Button>
