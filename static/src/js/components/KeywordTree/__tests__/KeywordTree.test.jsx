@@ -116,7 +116,6 @@ describe('KeywordTree component', () => {
     })
 
     test('should set tree data to null when refreshTree is called without version and scheme', async () => {
-      const mockOnNodeClick = vi.fn()
       const mockTreeData = [{
         id: '1',
         title: 'Root',
@@ -229,42 +228,6 @@ describe('KeywordTree component', () => {
     test('should clear search pattern when input is cleared', async () => {
       const mockTreeData = [{
         id: '1',
-        title: 'Root',
-        children: []
-      }]
-      getKmsKeywordTree.mockResolvedValue(mockTreeData)
-
-      render(
-        <KeywordTree
-          onNodeClick={mockOnNodeClick}
-          selectedVersion={mockSelectedVersion}
-          selectedScheme={mockSelectedScheme}
-        />
-      )
-
-      await waitFor(() => {
-        expect(screen.getByText('Root')).toBeInTheDocument()
-      })
-
-      const searchInput = screen.getByPlaceholderText('Search by Pattern or UUID')
-
-      fireEvent.change(searchInput, { target: { value: 'test' } })
-      fireEvent.click(screen.getByText('Apply'))
-
-      await waitFor(() => {
-        expect(getKmsKeywordTree).toHaveBeenCalledWith(mockSelectedVersion, mockSelectedScheme, 'test')
-      })
-
-      fireEvent.change(searchInput, { target: { value: '' } })
-
-      await waitFor(() => {
-        expect(getKmsKeywordTree).toHaveBeenCalledWith(mockSelectedVersion, mockSelectedScheme, '')
-      })
-    })
-
-    test('should clear search pattern when input is cleared', async () => {
-      const mockTreeData = [{
-        id: '1',
         key: '1',
         title: 'Root',
         children: []
@@ -312,6 +275,7 @@ describe('KeywordTree component', () => {
           children: []
         }]
       }]
+
       getKmsKeywordTree.mockResolvedValue(mockTreeData)
 
       render(

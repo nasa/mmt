@@ -157,7 +157,6 @@ const KeywordManagerPage = () => {
   }, [selectedVersion])
 
   const handleAddNarrower = useCallback((parentId, newKeyword) => {
-    console.log('GOT ', parentId, newKeyword)
     // Create a new keyword data structure for the form
     const newKeywordData = {
       KeywordUUID: newKeyword.id,

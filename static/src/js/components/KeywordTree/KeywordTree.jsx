@@ -8,7 +8,7 @@ import React, {
 import { Tree } from 'react-arborist'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 import PropTypes from 'prop-types'
-import { Form } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 import { v4 as uuidv4 } from 'uuid'
 import {
   KeywordTreeContextMenu
@@ -274,13 +274,13 @@ const KeywordTreeComponent = forwardRef(({
           ref={searchInputRef}
           defaultValue={searchPattern}
         />
-        <button
+        <Button
           type="button"
           className="kms-concept-selection-edit-modal__apply-button"
           onClick={onHandleApplyFilteredSearch}
         >
           Apply
-        </button>
+        </Button>
       </div>
 
       <Tree
