@@ -101,7 +101,7 @@ const keywordSchema = {
   definitions: {
     LabelTypeEnum: {
       type: 'string',
-      enum: ['Primary', 'Alternate', 'Abbreviation', 'Outdated']
+      enum: ['primary', 'alternate', 'abbreviation', 'outdated']
     },
     RelationshipTypeEnum: {
       type: 'string',

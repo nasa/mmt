@@ -1,12 +1,14 @@
 import React, {
   useState,
   useEffect,
-  useRef
+  useRef,
+  useImperativeHandle,
+  forwardRef
 } from 'react'
 import { Tree } from 'react-arborist'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 import PropTypes from 'prop-types'
-import { Form } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 import { v4 as uuidv4 } from 'uuid'
 import {
   KeywordTreeContextMenu
@@ -14,6 +16,11 @@ import {
 import { KeywordTreeCustomNode } from '@/js/components/KeywordTreeCustomNode/KeywordTreeCustomNode'
 
 import './KeywordTree.scss'
+import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
+import {
+  KeywordTreePlaceHolder
+} from '@/js/components/KeywordTreePlaceHolder/KeywordTreePlaceHolder'
+import { castArray } from 'lodash-es'
 
 /**
  * KeywordTree Component
@@ -22,34 +29,16 @@ import './KeywordTree.scss'
  * It uses react-arborist for the tree structure and provides context menu functionality.
  *
  * @component
- * @param {Object|Array} props.data - The initial tree data structure
+ * @param {Function} props.onAddNarrower - Callback function when a narrower keyword is added
  * @param {Function} props.onNodeClick - Callback function when a node is clicked
  * @param {Function} props.onNodeEdit - Callback function when a node is edited
- * @param {Function} props.onAddNarrower - Callback function when a narrower keyword is added
+ * @param {string} props.selectedNodeId - ID of the currently selected node
+ * @param {boolean} props.showContextMenu - Whether to show the context menu
+ * @param {boolean} props.openAll - Whether to open all nodes in the tree
+ * @param {Object} props.selectedVersion - The selected version object
+ * @param {Object} props.selectedScheme - The selected scheme object
  *
  * @example
- * const treeData = [
- *   {
- *     id: '1',
- *     key: '1',
- *     title: 'Root',
- *     children: [
- *       {
- *         id: '2',
- *         key: '2',
- *         title: 'Child 1',
- *         children: []
- *       },
- *       {
- *         id: '3',
- *         key: '3',
- *         title: 'Child 2',
- *         children: []
- *       }
- *     ]
- *   }
- * ];
- *
  * const handleNodeClick = (nodeId) => {
  *   console.log('Node clicked:', nodeId);
  * };
@@ -64,17 +53,30 @@ import './KeywordTree.scss'
  *
  * return (
  *   <KeywordTree
- *     data={treeData}
  *     onNodeClick={handleNodeClick}
  *     onNodeEdit={handleNodeEdit}
  *     onAddNarrower={handleAddNarrower}
+ *     selectedNodeId="1"
+ *     showContextMenu={true}
+ *     openAll={false}
+ *     selectedVersion={{...}}
+ *     selectedScheme={{...}}
  *   />
  * );
  */
-export const KeywordTree = ({
-  data, onAddNarrower, onNodeClick, onNodeEdit, searchTerm, selectedNodeId, showContextMenu, openAll
-}) => {
-  const [treeData, setTreeData] = useState(Array.isArray(data) ? data : [data])
+const KeywordTreeComponent = forwardRef(({
+  onAddNarrower,
+  onNodeClick,
+  onNodeEdit,
+  selectedNodeId,
+  showContextMenu,
+  openAll,
+  selectedVersion,
+  selectedScheme
+}, ref) => {
+  const [treeData, setTreeData] = useState(null)
+  const [isTreeLoading, setIsTreeLoading] = useState(false)
+  const [treeMessage, setTreeMessage] = useState('Select a version and scheme to load the tree')
   const treeRef = useRef(null)
   const [contextMenu, setContextMenu] = useState(null)
   const contextMenuRef = useRef(null)
@@ -82,6 +84,51 @@ export const KeywordTree = ({
   const [showAddNarrowerPopup, setShowAddNarrowerPopup] = useState(false)
   const [newNarrowerTitle, setNewNarrowerTitle] = useState('')
   const [addNarrowerParentId, setAddNarrowerParentId] = useState(null)
+
+  const [searchPattern, setSearchPattern] = useState('')
+  const searchInputRef = useRef(null)
+
+  /**
+     * Fetches the keyword tree data based on the selected version and scheme
+     * @param {object} version - The selected version object
+     * @param {object} scheme - The selected scheme object
+     */
+  const refreshTree = async () => {
+    if (selectedVersion && selectedScheme) {
+      setIsTreeLoading(true)
+      try {
+        const kmsTree = castArray(await getKmsKeywordTree(
+          selectedVersion,
+          selectedScheme,
+          searchPattern
+        ))
+        setTreeData(kmsTree)
+      } catch (error) {
+        console.error('Error fetching keyword tree:', error)
+        setTreeData(null)
+        setTreeMessage('Failed to load the tree. Please try again.')
+      } finally {
+        setIsTreeLoading(false)
+      }
+    } else {
+      setTreeData(null)
+    }
+  }
+
+  // Effect to fetch tree data when version and scheme are selected
+  useEffect(() => {
+    if (selectedVersion && selectedScheme) {
+      setTreeMessage('Loading...')
+      refreshTree()
+    } else {
+      setTreeMessage('Select a version and scheme to load the tree')
+    }
+  }, [selectedVersion, selectedScheme, searchPattern])
+
+  // Expose the refreshTree function to the parent component
+  useImperativeHandle(ref, () => ({
+    refreshTree
+  }))
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -99,8 +146,10 @@ export const KeywordTree = ({
 
   // Effect to manage tree expansion or node selection
   useEffect(() => {
+    const shouldOpenAll = openAll || (searchPattern && searchPattern.trim() !== '')
+
     if (treeRef.current && treeData.length > 0) {
-      if (openAll) {
+      if (shouldOpenAll) {
         treeRef.current.openAll()
       } else if (selectedNodeId) {
         treeRef.current.openParents(selectedNodeId)
@@ -188,8 +237,52 @@ export const KeywordTree = ({
     })
   }
 
+  if (isTreeLoading) {
+    return <KeywordTreePlaceHolder message="Loading..." />
+  }
+
+  if (!treeData && treeMessage) {
+    return <KeywordTreePlaceHolder message={treeMessage} />
+  }
+
+  // New function to handle search input change
+  const onHandleSearchInputChange = (event) => {
+    if (event.target.value === '') {
+      setSearchPattern('')
+    }
+  }
+
+  const onHandleApplyFilteredSearch = () => {
+    setSearchPattern(searchInputRef.current.value)
+  }
+
+  const onHandleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      setSearchPattern(searchInputRef.current.value)
+    }
+  }
+
   return (
     <div className="keyword-tree__container">
+      <div className="kms-concept-selection-edit-modal__tree-wrapper">
+        <input
+          className="kms-concept-selection-edit-modal__search-input"
+          onChange={onHandleSearchInputChange}
+          onKeyDown={onHandleKeyDown}
+          placeholder="Search by Pattern or UUID"
+          type="text"
+          ref={searchInputRef}
+          defaultValue={searchPattern}
+        />
+        <Button
+          type="button"
+          className="kms-concept-selection-edit-modal__apply-button"
+          onClick={onHandleApplyFilteredSearch}
+        >
+          Apply
+        </Button>
+      </div>
+
       <Tree
         ref={treeRef}
         data={treeData}
@@ -207,7 +300,7 @@ export const KeywordTree = ({
               node={node}
               onAdd={handleAdd}
               onDelete={handleDelete}
-              searchTerm={searchTerm}
+              searchTerm={searchPattern}
               setContextMenu={setContextMenu}
               onToggle={handleToggle}
               onEdit={onNodeEdit}
@@ -249,7 +342,9 @@ export const KeywordTree = ({
 
     </div>
   )
-}
+})
+
+KeywordTreeComponent.displayName = 'KeywordTree'
 
 const NodeShape = {
   key: PropTypes.string.isRequired,
@@ -257,25 +352,32 @@ const NodeShape = {
 }
 NodeShape.children = PropTypes.arrayOf(PropTypes.shape(NodeShape))
 
-KeywordTree.defaultProps = {
+KeywordTreeComponent.defaultProps = {
   searchTerm: null,
   selectedNodeId: null,
   showContextMenu: true,
   openAll: false,
   onAddNarrower: null,
-  onNodeEdit: null
+  onNodeEdit: null,
+  selectedVersion: null,
+  selectedScheme: null,
+  data: null
 }
 
-KeywordTree.propTypes = {
+KeywordTreeComponent.propTypes = {
   selectedNodeId: PropTypes.string,
   data: PropTypes.oneOfType([
     PropTypes.shape(NodeShape),
     PropTypes.arrayOf(PropTypes.shape(NodeShape))
-  ]).isRequired,
+  ]),
   onAddNarrower: PropTypes.func,
   onNodeClick: PropTypes.func.isRequired,
   onNodeEdit: PropTypes.func,
   searchTerm: PropTypes.string,
   showContextMenu: PropTypes.bool,
-  openAll: PropTypes.bool
+  openAll: PropTypes.bool,
+  selectedVersion: PropTypes.shape(),
+  selectedScheme: PropTypes.shape()
 }
+
+export const KeywordTree = KeywordTreeComponent

@@ -196,13 +196,13 @@ const editKeywordsUiSchema = {
         'ui:row': [
           {
             'ui:col': {
-              md: 4,
+              md: 6,
               children: ['RelationshipType']
             }
           },
           {
             'ui:col': {
-              md: 8,
+              md: 6,
               children: ['UUID']
             }
           }

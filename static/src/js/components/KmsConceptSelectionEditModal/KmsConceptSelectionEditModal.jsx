@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React, {
   useCallback,
-  useEffect,
   useState,
   useRef
 } from 'react'
@@ -9,25 +8,44 @@ import React, {
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 import { KeywordTree } from '@/js/components/KeywordTree/KeywordTree'
 import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/KmsConceptSchemeSelector'
-import getKmsKeywordTree from '@/js/utils/getKmsKeywordTree'
 
 import './KmsConceptSelectionEditModal.scss'
-import {
-  KeywordTreePlaceHolder
-} from '@/js/components/KeywordTreePlaceHolder/KeywordTreePlaceHolder'
 
 /**
- * KmsConceptSelectionEditModal component provides an interface to edit keyword selections
- * within a modal. It allows users to select a scheme, search for keywords, and apply their changes.
+ * KmsConceptSelectionEditModal Component
  *
- * @param {Object} props - React component props.
- * @param {boolean} props.show - Determines if the modal is visible.
- * @param {Function} props.toggleModal - Function to toggle the modal visibility.
- * @param {string} props.uuid - UUID of the selected keyword.
- * @param {Object} props.version - Object containing version details like version and version_type.
- * @param {Object} props.scheme - Object containing scheme details.
- * @param {Function} props.handleAcceptChanges - Callback function when changes are accepted.
- * @returns {JSX.Element} The complete modal component for editing keyword selections.
+ * This component provides a modal interface for editing keyword selections.
+ * It allows users to select a scheme, view a keyword tree, and choose a specific keyword.
+ *
+ * Features:
+ * - Scheme selection using KmsConceptSchemeSelector
+ * - Keyword tree visualization and selection using KeywordTree
+ * - Ability to accept or cancel changes
+ *
+ * @component
+ * @param {Object} props
+ * @param {Function} props.handleAcceptChanges - Callback function when changes are accepted
+ * @param {Object} props.scheme - Object containing scheme details (e.g., {name: string})
+ * @param {boolean} props.show - Controls the visibility of the modal
+ * @param {Function} props.toggleModal - Function to toggle the modal's visibility
+ * @param {string} props.uuid - UUID of the initially selected keyword
+ * @param {Object} props.version - Object containing version details (e.g., {version: string, version_type: string})
+ *
+ * @example
+ * const handleAcceptChanges = (selectedKeyword) => {
+ *   console.log('Selected keyword:', selectedKeyword);
+ * };
+ *
+ * return (
+ *   <KmsConceptSelectionEditModal
+ *     handleAcceptChanges={handleAcceptChanges}
+ *     scheme={{name: 'Example Scheme'}}
+ *     show={true}
+ *     toggleModal={(show) => setShowModal(show)}
+ *     uuid="example-uuid"
+ *     version={{version: '1.0', version_type: 'draft'}}
+ *   />
+ * );
  */
 export const KmsConceptSelectionEditModal = ({
   handleAcceptChanges,
@@ -37,56 +55,13 @@ export const KmsConceptSelectionEditModal = ({
   uuid,
   version
 }) => {
-  const [treeData, setTreeData] = useState(null)
   const [selectedScheme, setSelectedScheme] = useState(scheme)
   const [selectedKeyword, setSelectedKeyword] = useState(uuid)
-  const [isTreeLoading, setIsTreeLoading] = useState(false)
-  const [treeMessage, setTreeMessage] = useState('')
-  const [searchPattern, setSearchPattern] = useState('')
-  const searchInputRef = useRef(null)
-
-  const fetchTreeData = async () => {
-    if (version && scheme) {
-      setIsTreeLoading(true)
-
-      try {
-        const data = await getKmsKeywordTree(version, selectedScheme, searchPattern)
-        if (data) {
-          setTreeData(data)
-        } else {
-          setTreeData(null)
-          setTreeMessage('No results.')
-        }
-      } catch (error) {
-        console.error('Error fetching keyword tree:', error)
-        setTreeData(null)
-        setTreeMessage('Failed to load the tree. Please try again.')
-      } finally {
-        setIsTreeLoading(false)
-      }
-    } else {
-      setTreeMessage('Select a version and scheme to load the tree')
-    }
-  }
-
-  useEffect(() => {
-    if (version && selectedScheme) {
-      setTreeMessage('Loading...')
-      fetchTreeData(version, selectedScheme, searchPattern)
-    }
-  }, [show, version, selectedScheme, searchPattern])
+  const keywordTreeRef = useRef(null)
 
   const onSchemeSelect = useCallback((schemeInfo) => {
     setSelectedScheme(schemeInfo)
-    setTreeData(null)
   }, [])
-
-  useEffect(() => {
-    if (show) {
-      setTreeMessage('Loading...')
-      fetchTreeData(version, selectedScheme, searchPattern)
-    }
-  }, [show])
 
   const onHandleSelectKeyword = (value) => {
     setSelectedKeyword(value)
@@ -97,28 +72,7 @@ export const KmsConceptSelectionEditModal = ({
     toggleModal(false)
   }
 
-  // New function to handle search input change
-  const onHandleSearchInputChange = (event) => {
-    if (event.target.value === '') {
-      setSearchPattern('')
-    }
-  }
-
-  const onHandleApplyFilteredSearch = () => {
-    setSearchPattern(searchInputRef.current.value)
-  }
-
-  const onHandleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      setSearchPattern(searchInputRef.current.value)
-    }
-  }
-
   const renderTree = () => {
-    if (isTreeLoading) {
-      return <KeywordTreePlaceHolder message="Loading..." />
-    }
-
     const schemeSelectorId = selectedScheme?.name
 
     return (
@@ -138,37 +92,15 @@ export const KmsConceptSelectionEditModal = ({
             version={version}
           />
         </div>
-        <div className="kms-concept-selection-edit-modal__tree-wrapper">
-          <input
-            className="kms-concept-selection-edit-modal__search-input"
-            onChange={onHandleSearchInputChange}
-            onKeyDown={onHandleKeyDown}
-            placeholder="Search by Pattern or UUID"
-            type="text"
-            ref={searchInputRef}
-            defaultValue={searchPattern}
-          />
-          <button
-            type="button"
-            className="kms-concept-selection-edit-modal__apply-button"
-            onClick={onHandleApplyFilteredSearch}
-          >
-            Apply
-          </button>
-        </div>
-        {
-          treeData ? (
-            <KeywordTree
-              data={treeData}
-              key={`${uuid}`}
-              onNodeClick={onHandleSelectKeyword}
-              openAll={!!searchPattern && searchPattern.trim() !== ''}
-              searchTerm={searchPattern}
-              selectedNodeId={uuid}
-              showContextMenu={false}
-            />
-          ) : <KeywordTreePlaceHolder message={treeMessage} />
-        }
+        <KeywordTree
+          ref={keywordTreeRef}
+          key={`${version?.version}-${selectedScheme?.name}`}
+          onNodeClick={onHandleSelectKeyword}
+          selectedNodeId={uuid}
+          showContextMenu={false}
+          selectedScheme={selectedScheme}
+          selectedVersion={version}
+        />
       </div>
     )
   }
