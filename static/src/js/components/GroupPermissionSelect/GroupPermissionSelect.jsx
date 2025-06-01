@@ -129,7 +129,8 @@ const GroupPermissionSelectComponent = ({
     skip: providerIds.length === 0,
     variables: {
       params: {
-        tags: providerIds
+        tags: providerIds,
+        limit: 500
       }
     }
   })
