@@ -1,13 +1,11 @@
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 import { kmsGetConceptUpdatesReport } from '../kmsGetConceptUpdatesReport'
 
-// Mock the getApplicationConfig function
 vi.mock('sharedUtils/getConfig', () => ({
   getApplicationConfig: vi.fn()
 }))
 
 describe('kmsGetConceptUpdatesReport', () => {
-  // Mock data
   const mockVersion = {
     version: 'v1.0',
     version_type: 'draft'
@@ -18,44 +16,13 @@ describe('kmsGetConceptUpdatesReport', () => {
   const mockKmsHost = 'http://example.com'
   const mockBlob = new Blob(['test data'], { type: 'text/csv' })
 
-  // Setup and teardown
   beforeEach(() => {
-    // Reset all mocks
     vi.clearAllMocks()
 
-    // Mock getApplicationConfig
     getApplicationConfig.mockReturnValue({ kmsHost: mockKmsHost })
-
-    // // Mock URL.createObjectURL
-    // global.URL.createObjectURL = vi.fn(() => 'blob:mock-url')
-    // global.URL.revokeObjectURL = vi.fn()
-
-    // const createObjectMock = vi.fn()
-    // window.URL.createObjectURL = createObjectMock
-
-    // // Mock document.body
-    // document.body = {
-    //   appendChild: vi.fn(),
-    //   removeChild: vi.fn()
-    // }
-
-    // vi.spyOn(document, 'createElement').mockImplementation(() => ({
-    //   setAttribute: vi.fn(),
-    //   click: vi.fn(),
-    //   href: '',
-    //   parentNode: document.body
-    // }))
-
-    // // Mock fetch
-    // global.fetch = vi.fn()
   })
 
-  test.only('should make a GET request with correct parameters for draft version', async () => {
-    // Mock successful fetch response
-    // global.fetch.mockImplementationOnce(() => Promise.resolve({
-    //   ok: true,
-    //   blob: () => Promise.resolve(mockBlob)
-    // }))
+  test('should make a GET request with correct parameters for draft version', async () => {
     global.fetch.mockResolvedValueOnce({
       ok: true,
       blob: () => Promise.resolve(mockBlob)
@@ -87,16 +54,16 @@ describe('kmsGetConceptUpdatesReport', () => {
     })
   })
 
-  test.only('should make a GET request with "published" version when version_type is published', async () => {
+  test('should make a GET request with "published" version when version_type is published', async () => {
     const publishedVersion = {
       version: 'v1.0',
       version_type: 'published'
     }
 
-    global.fetch.mockImplementationOnce(() => Promise.resolve({
+    global.fetch.mockResolvedValueOnce({
       ok: true,
       blob: () => Promise.resolve(mockBlob)
-    }))
+    })
 
     await kmsGetConceptUpdatesReport({
       version: publishedVersion,
@@ -111,18 +78,28 @@ describe('kmsGetConceptUpdatesReport', () => {
     })
   })
 
-  test.skip('should create and trigger download when response is successful', async () => {
-    global.fetch.mockImplementationOnce(() => Promise.resolve({
+  test('should create and trigger download when response is successful', async () => {
+    // Mock the fetch response
+    global.fetch.mockResolvedValueOnce({
       ok: true,
       blob: () => Promise.resolve(mockBlob)
-    }))
+    })
 
     const mockLink = {
-      href: '',
       setAttribute: vi.fn(),
-      click: vi.fn()
+      click: vi.fn(),
+      parentNode: document.body
     }
-    document.createElement.mockReturnValue(mockLink)
+
+    vi.spyOn(document, 'createElement').mockReturnValue(mockLink)
+    vi.spyOn(document.body, 'appendChild').mockImplementation(() => {})
+    vi.spyOn(document.body, 'removeChild').mockImplementation(() => {})
+
+    // Setup URL mock
+    const mockObjectUrl = 'blob:mock-url'
+    window.URL = {
+      createObjectURL: vi.fn(() => mockObjectUrl)
+    }
 
     await kmsGetConceptUpdatesReport({
       version: mockVersion,
@@ -130,15 +107,17 @@ describe('kmsGetConceptUpdatesReport', () => {
       endDate: mockEndDate
     })
 
-    expect(document.createElement).toHaveBeenCalledWith('a')
+    // Verify the download flow
+    expect(window.URL.createObjectURL).toHaveBeenCalledWith(mockBlob)
+    expect(document.body.appendChild).toHaveBeenCalledWith(mockLink)
+    expect(document.body.removeChild).toHaveBeenCalledWith(mockLink)
     expect(mockLink.setAttribute).toHaveBeenCalledWith('download', `KeywordUpdateReport-${mockStartDate}-${mockEndDate}`)
     expect(mockLink.click).toHaveBeenCalled()
-    expect(document.body.appendChild).toHaveBeenCalled()
   })
 
-  test.only('should throw an error when fetch fails', async () => {
+  test('should throw an error when fetch fails', async () => {
     const errorMessage = 'Network error'
-    global.fetch.mockImplementationOnce(() => Promise.reject(new Error(errorMessage)))
+    global.fetch.mockRejectedValueOnce(new Error(errorMessage))
 
     await expect(kmsGetConceptUpdatesReport({
       version: mockVersion,
@@ -148,10 +127,10 @@ describe('kmsGetConceptUpdatesReport', () => {
   })
 
   test('should handle optional userId parameter', async () => {
-    global.fetch.mockImplementationOnce(() => Promise.resolve({
+    global.fetch.mockResolvedValueOnce({
       ok: true,
       blob: () => Promise.resolve(mockBlob)
-    }))
+    })
 
     await kmsGetConceptUpdatesReport({
       version: mockVersion,
