@@ -10,62 +10,62 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  * @returns {Promise<void>} - A promise that resolves when the operation is complete
  * @throws {Error} - If there's an HTTP error or any other error during the process
  */
-export const kmsGetConceptUpdatesReport = async ({
-  version, startDate, endDate, userId
+export const kmsGetConceptUpdatesReport = async({
+    version,
+    startDate,
+    endDate,
+    userId
 }) => {
-  console.log('🚀 ~ file: KmsGetConceptUpdatesReport.js:16 ~ version:', version)
-  const { kmsHost } = getApplicationConfig()
-  // In case of published version, use 'published' instead of the version label
-  let versionParam = version.version
-  if (version.version_type === 'published') {
-    versionParam = 'published'
-  }
-
-  versionParam = encodeURIComponent(versionParam)
-
-  try {
-    // Construct the endpoint URL
-    let endpoint = `${kmsHost}/concepts/operations/update_report?version=${versionParam}&startDate=${startDate}&endDate=${endDate}`
-    if (userId) {
-      endpoint += `&userId=${userId}`
+    const { kmsHost } = getApplicationConfig()
+        // In case of published version, use 'published' instead of the version label
+    let versionParam = version.version
+    if (version.version_type === 'published') {
+        versionParam = 'published'
     }
 
-    const response = await fetch(endpoint, {
-      method: 'GET'
-    }).then(async (responseObject) => {
-      console.log('🚀 ~ file: KmsGetConceptUpdatesReport.js:36 ~ responseObject:', responseObject)
-      const data = await responseObject.blob()
-      console.log('🚀 ~ file: KmsGetConceptUpdatesReport.js:37 ~ data:', data)
+    versionParam = encodeURIComponent(versionParam)
 
-      // Create a blob with the text data from the response
-      const blob = new Blob([data], { type: 'text/csv' })
+    try {
+        // Construct the endpoint URL
+        let endpoint = `${kmsHost}/concepts/operations/update_report?version=${versionParam}&startDate=${startDate}&endDate=${endDate}`
+        if (userId) {
+            endpoint += `&userId=${userId}`
+        }
 
-      const url = window.URL.createObjectURL(blob)
+        const response = await fetch(endpoint, {
+                method: 'GET'
+            }).then(async(responseObject) => {
+                const data = await responseObject.blob()
 
-      // Create a hyperlink to the blob and give it a filename
-      const link = document.createElement('a')
-      link.href = url
-      link.setAttribute('download', 'mmt_kms_export.csv')
+                // Create a blob with the text data from the response
+                const blob = new Blob([data], { type: 'text/csv' })
 
-      // Add the link to the page
-      document.body.appendChild(link)
+                const url = window.URL.createObjectURL(blob)
 
-      // Click on the link to download the export file to the user's computer
-      link.click()
+                // Create a hyperlink to the blob and give it a filename
+                const link = document.createElement('a')
+                link.href = url
+                link.setAttribute('download', `KeywordUpdateReport-${startDate}-${endDate}`)
 
-      // Remove the link from the page
-      link.parentNode.removeChild(link)
-    })
-      .catch((error) => {
-        throw new Error(`Failed to download report ${error.message}`)
-      })
+                // Add the link to the page
+                document.body.appendChild(link)
 
-    // Check if the response is successful
-    if (!response.ok) {
-      throw new Error(`kmsGetConceptUpdatesReport HTTP error! status: ${response.status}`)
+                // Click on the link to download the export file to the user's computer
+                link.click()
+
+                // Remove the link from the page
+                link.parentNode.removeChild(link)
+            })
+            .catch((error) => {
+                throw new Error(`Failed to download report ${error.message}`)
+            })
+
+        // Check if the response is successful
+        if (!response.ok) {
+            throw new Error(`kmsGetConceptUpdatesReport HTTP error! status: ${response.status}`)
+        }
+    } catch (error) {
+        console.error('Error in kmsGetConceptUpdatesReport:', error)
+        throw error
     }
-  } catch (error) {
-    console.error('Error in kmsGetConceptUpdatesReport:', error)
-    throw error
-  }
 }
