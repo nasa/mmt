@@ -81,7 +81,12 @@ const setup = ({
         {
           request: {
             query: GET_GROUPS,
-            variables: { params: { tags: ['MMT_1', 'MMT_2'] } }
+            variables: {
+              params: {
+                tags: ['MMT_1', 'MMT_2'],
+                limit: 500
+              }
+            }
           },
           result: {
             data: {
