@@ -6,18 +6,41 @@ import OneOfField from '../OneOfField'
 
 class TestComponent extends OneOfField {
   handleChange = (e) => {
-    this.onOptionChange(e)
+    this.onOptionChange(e.value)
   }
 
   render() {
+    const { shouldRender } = this.state
+    if (!shouldRender) {
+      return null
+    }
+
     const { options } = this.props
+    const { selectedOption } = this.state
+
+    const enumOptions = options.map((opt, index) => ({
+      label: opt.title || `Option ${index + 1}`,
+      value: index
+    }))
 
     return (
-      <Select
-        options={options}
-        placeholder="Test Placeholder"
-        onChange={this.handleChange}
-      />
+      <div className="panel panel-default panel-body">
+        <div className="form-group">
+          <Select
+            options={enumOptions}
+            placeholder="Test Placeholder"
+            onChange={this.handleChange}
+            value={selectedOption >= 0 ? enumOptions[selectedOption] : null}
+          />
+        </div>
+        {
+          selectedOption >= 0 && (
+            <div data-testid="selected-option-schema">
+              {JSON.stringify(options[selectedOption])}
+            </div>
+          )
+        }
+      </div>
     )
   }
 }
@@ -192,6 +215,22 @@ describe('OneOfField', () => {
       const option = screen.getAllByRole('option')
       await userEvent.click(option[0])
       expect(props.onChange).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('component rendering', () => {
+    test('renders the select widget', () => {
+      setup()
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+    })
+
+    test('does not render when shouldRender is false', () => {
+      const props = {
+        idSchema: { $id: 'Specification_ProductMetadata_VisualizationLatency' },
+        schema: { oneOf: [] }
+      }
+      setup(props)
+      expect(screen.queryByRole('combobox')).not.toBeInTheDocument()
     })
   })
 })

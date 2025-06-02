@@ -1,4 +1,4 @@
-// This is not currently in CDN. This is a combination of five different schemas found here:
+// This is not currently in CDN. This is a combination of five different schemas found here: https://git.earthdata.nasa.gov/projects/EMFD/repos/otherschemas/browse/visualization/v1.1.0/schema.json
 const otherSchemasVisSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'UMM-Vis',
@@ -2000,7 +2000,6 @@ const otherSchemasVisSchema = {
                 },
                 ConceptIdsAlt: {
                   $comment: 'LayerMetadata v1.0-0, kept for review and renamed as ConceptIdsAlt. /ConceptIds should be preferred.',
-                  deprecated: true,
                   description: 'Which CMR dataset(s) are represented by the visualization layer.',
                   type: 'array',
                   items: {

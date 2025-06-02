@@ -53,10 +53,6 @@ const VisualizationLatency = ({
     onChange(`${value} ${getPluralUnit(value, newUnit)}`)
   }
 
-  const handleBlur = () => {
-    onBlur()
-  }
-
   const unitOptions = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year']
 
   return (
@@ -64,7 +60,7 @@ const VisualizationLatency = ({
       <CustomSelectWidget
         id="visualization-latency-type"
         label="Visualization Latency Type"
-        onBlur={handleBlur}
+        onBlur={onBlur}
         onChange={handleOptionChange}
         options={
           {
@@ -86,7 +82,6 @@ const VisualizationLatency = ({
               id="visualization-latency-value"
               label="Value"
               onChange={handleValueChange}
-              onBlur={() => null}
               registry={registry}
               schema={{ type: 'number' }}
               uiSchema={{}}
@@ -96,7 +91,7 @@ const VisualizationLatency = ({
               id="visualization-latency-unit"
               label="Unit"
               onChange={handleUnitChange}
-              onBlur={handleBlur}
+              onBlur={onBlur}
               options={
                 {
                   enumOptions: unitOptions.map((unitOption) => ({
