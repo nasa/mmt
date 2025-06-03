@@ -5,13 +5,12 @@
 
   &__options {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     gap: 1rem;
 
     .form-check {
-      margin-bottom: 0;
       min-width: 100px;
+      margin-bottom: 0;
     }
   }
 }
