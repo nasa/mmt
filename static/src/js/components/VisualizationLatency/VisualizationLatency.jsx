@@ -28,11 +28,7 @@ const VisualizationLatency = ({
     }
   }, [formData])
 
-  const getPluralUnit = (val, unitSingular) => {
-    const numericValue = parseFloat(val)
-
-    return numericValue > 1 ? `${unitSingular}s` : unitSingular
-  }
+  const getPluralUnit = (val, unitSingular) => (val > 1 ? `${unitSingular}s` : unitSingular)
 
   const handleOptionChange = (option) => {
     setSelectedOption(option)
@@ -81,6 +77,7 @@ const VisualizationLatency = ({
             <CustomTextWidget
               id="visualization-latency-value"
               label="Value"
+              onBlur={onBlur}
               onChange={handleValueChange}
               registry={registry}
               schema={{ type: 'number' }}

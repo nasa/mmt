@@ -1,5 +1,3 @@
-import VisualizationLatencyOneOfField from '@/js/components/VisualizationLatency/VisualizationLatency'
-
 const specificationUiSchema = {
   'ui:heading-level': 'h3',
   'ui:field': 'layout',
@@ -295,47 +293,26 @@ const specificationUiSchema = {
                     {
                       'ui:col': {
                         style: { paddingTop: '15px' },
-                        md: 6,
+                        md: 12,
                         children: ['AscendingOrDescending']
                       }
-                    },
+                    }
+                  ]
+                },
+                {
+                  'ui:row': [
                     {
                       'ui:col': {
                         style: { paddingTop: '15px' },
                         md: 6,
                         children: ['ColorMap']
                       }
-                    }
-                  ]
-                },
-                {
-                  'ui:row': [
+                    },
                     {
                       'ui:col': {
+                        style: { paddingTop: '15px' },
                         md: 6,
                         children: ['VectorStyle']
-                      }
-                    },
-                    {
-                      'ui:col': {
-                        md: 6,
-                        children: ['VectorMetadata']
-                      }
-                    }
-                  ]
-                },
-                {
-                  'ui:row': [
-                    {
-                      'ui:col': {
-                        md: 6,
-                        children: ['LayerPeriod']
-                      }
-                    },
-                    {
-                      'ui:col': {
-                        md: 6,
-                        children: ['TransAntiMeridian']
                       }
                     }
                   ]
@@ -345,7 +322,32 @@ const specificationUiSchema = {
                     {
                       'ui:col': {
                         style: { paddingTop: '15px' },
-                        md: 12,
+                        md: 6,
+                        children: ['VectorMetadata']
+                      }
+                    },
+                    {
+                      'ui:col': {
+                        style: { paddingTop: '15px' },
+                        md: 6,
+                        children: ['LayerPeriod']
+                      }
+                    }
+                  ]
+                },
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        style: { paddingTop: '15px' },
+                        md: 6,
+                        children: ['TransAntiMeridian']
+                      }
+                    },
+                    {
+                      'ui:col': {
+                        style: { paddingTop: '15px' },
+                        md: 6,
                         children: ['Daynight']
                       }
                     }
@@ -563,8 +565,11 @@ const specificationUiSchema = {
           }
         ]
       },
+      Daynight: {
+        'ui:widget': 'UniqueItemsArrayWidget'
+      },
       VisualizationLatency: {
-        'ui:field': VisualizationLatencyOneOfField
+        'ui:field': 'VisualizationLatency'
       },
       WGS84SpatialCoverage: {
         'ui:title': 'World Geodetic System (WGS84) Spatial Coverage'

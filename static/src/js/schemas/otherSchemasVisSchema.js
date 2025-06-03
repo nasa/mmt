@@ -170,42 +170,6 @@ const otherSchemasVisSchema = {
       additionalProperties: false,
       description: 'Specifies the geographic and vertical (altitude, depth) coverage of the data.',
       properties: {
-        LatitudeType: {
-          description: 'The latitude value of a spatially referenced point, in degrees.  Latitude values range from -90 to 90.',
-          type: 'number',
-          minimum: -90,
-          maximum: 90
-        },
-        LongitudeType: {
-          description: 'The longitude value of a spatially referenced point, in degrees.  Longitude values range from -180 to 180.',
-          type: 'number',
-          minimum: -180,
-          maximum: 180
-        },
-        BoundingRectangleType: {
-          type: 'object',
-          additionalProperties: false,
-          properties: {
-            WestBoundingCoordinate: {
-              $ref: '#/definitions/LongitudeType'
-            },
-            NorthBoundingCoordinate: {
-              $ref: '#/definitions/LatitudeType'
-            },
-            EastBoundingCoordinate: {
-              $ref: '#/definitions/LongitudeType'
-            },
-            SouthBoundingCoordinate: {
-              $ref: '#/definitions/LatitudeType'
-            }
-          },
-          required: [
-            'WestBoundingCoordinate',
-            'NorthBoundingCoordinate',
-            'EastBoundingCoordinate',
-            'SouthBoundingCoordinate'
-          ]
-        },
         SpatialCoverageType: {
           description: "Denotes whether the collection's spatial coverage requires horizontal, vertical, horizontal and vertical, orbit, or vertical and orbit in the spatial domain and coordinate system definitions.",
           $ref: '#/definitions/SpatialCoverageTypeEnum'
@@ -1987,11 +1951,14 @@ const otherSchemasVisSchema = {
                   minLength: 3
                 },
                 WGS84SpatialCoverage: {
+                  description: 'The spatial coverage of the data that will be visualized. The coverage is referenced in the WGS84 coordinate system.',
+                  $comment: 'LL_Lat, LL_Lon, UR_Lat, UR_Lon',
                   type: 'array',
                   items: {
-                    $ref: '#/definitions/BoundingRectangleType'
+                    type: 'number'
                   },
-                  minItems: 1
+                  maxItems: 4,
+                  minItems: 4
                 },
                 NativeSpatialCoverage: {
                   description: 'The spatial coverage of the data that will be visualized. The coverage is referenced in the coordinate system native to the projection. In the order of LL_Y, LL_X, UR_Y, UR_X',

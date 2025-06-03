@@ -291,6 +291,7 @@ OneOfField.propTypes = {
   formData: PropTypes.oneOfType([
     PropTypes.shape({}),
     PropTypes.string,
+    PropTypes.number,
     PropTypes.oneOf([null])
   ]),
   options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
