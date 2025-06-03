@@ -14,7 +14,7 @@ const GenerateKeywordReportModal = ({
   const [startDate, setStartDate] = useState(null)
   const [selectedVersion, setSelectedVersion] = useState(null)
   const [endDate, setEndDate] = useState(null)
-  const [userId, setUserId] = useState(null)
+  const [userId, setUserId] = useState('')
   const [isLoading, setIsLoading] = useState(false) // State for spinner
 
   const handleSubmit = async () => {
@@ -40,7 +40,6 @@ const GenerateKeywordReportModal = ({
 
   const onVersionSelect = (event) => {
     setSelectedVersion(event)
-    console.log('The selected version is:', selectedVersion)
   }
 
   return (

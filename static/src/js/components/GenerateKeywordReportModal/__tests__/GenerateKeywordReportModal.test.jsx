@@ -7,7 +7,6 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
-import { format } from 'date-fns'
 import { kmsGetConceptUpdatesReport } from '@/js/utils/kmsGetConceptUpdatesReport'
 import getKmsConceptVersions from '@/js/utils/getKmsConceptVersions'
 import GenerateKeywordReportModal from '../GenerateKeywordReportModal'
@@ -99,11 +98,6 @@ describe('GenerateKeywordReportModal', () => {
     const startDatePicker = screen.getByLabelText('Start Date:')
     const endDatePicker = screen.getByLabelText('End Date:')
 
-    // Simulate date selections
-    const startDate = new Date('2024-01-01')
-    const endDate = new Date('2024-01-31')
-
-    // Focus and type into each date picker separately
     await user.click(startDatePicker)
     await user.clear(startDatePicker)
     await user.type(startDatePicker, '2024-01-01')
