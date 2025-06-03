@@ -329,7 +329,6 @@ const KeywordManagerPage = () => {
               <div className="rounded p-3">
                 <KmsConceptVersionSelector
                   onVersionSelect={onVersionSelect}
-                  id="version-selector"
                   key={versionSelectorKey}
                 />
               </div>

@@ -35,7 +35,7 @@ const GenerateKeywordReportModal = ({
 
   const handleUserIdUpdate = (event) => {
     const inputValue = event.target.value
-    setUserId(inputValue.trim()) // Parse the string (e.g., trim whitespace)
+    setUserId(inputValue.trim())
   }
 
   const onVersionSelect = (event) => {
@@ -80,6 +80,7 @@ const GenerateKeywordReportModal = ({
                   minDate={startDate ? new Date(startDate) : null}
                   dateFormat="yyyy-MM-dd" // Ensures the displayed format is consistent
                   placeholderText="Select an end date"
+                  id="end-date-selector"
                 />
               </div>
             </div>
@@ -89,7 +90,6 @@ const GenerateKeywordReportModal = ({
               </label>
               <KmsConceptVersionSelector
                 onVersionSelect={onVersionSelect}
-                id="version-selector"
                 key="version-selector"
               />
             </div>
