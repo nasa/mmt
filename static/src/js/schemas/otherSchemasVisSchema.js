@@ -170,6 +170,42 @@ const otherSchemasVisSchema = {
       additionalProperties: false,
       description: 'Specifies the geographic and vertical (altitude, depth) coverage of the data.',
       properties: {
+        LatitudeType: {
+          description: 'The latitude value of a spatially referenced point, in degrees.  Latitude values range from -90 to 90.',
+          type: 'number',
+          minimum: -90,
+          maximum: 90
+        },
+        LongitudeType: {
+          description: 'The longitude value of a spatially referenced point, in degrees.  Longitude values range from -180 to 180.',
+          type: 'number',
+          minimum: -180,
+          maximum: 180
+        },
+        BoundingRectangleType: {
+          type: 'object',
+          additionalProperties: false,
+          properties: {
+            WestBoundingCoordinate: {
+              $ref: '#/definitions/LongitudeType'
+            },
+            NorthBoundingCoordinate: {
+              $ref: '#/definitions/LatitudeType'
+            },
+            EastBoundingCoordinate: {
+              $ref: '#/definitions/LongitudeType'
+            },
+            SouthBoundingCoordinate: {
+              $ref: '#/definitions/LatitudeType'
+            }
+          },
+          required: [
+            'WestBoundingCoordinate',
+            'NorthBoundingCoordinate',
+            'EastBoundingCoordinate',
+            'SouthBoundingCoordinate'
+          ]
+        },
         SpatialCoverageType: {
           description: "Denotes whether the collection's spatial coverage requires horizontal, vertical, horizontal and vertical, orbit, or vertical and orbit in the spatial domain and coordinate system definitions.",
           $ref: '#/definitions/SpatialCoverageTypeEnum'
@@ -1411,22 +1447,32 @@ const otherSchemasVisSchema = {
       properties: {
         'xlink:Href': {
           $comment: 'http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         'xlink:Role': {
           $comment: 'http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         'xlink:Title': {
           $comment: 'http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         'xlink:Type': {
           $comment: 'http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         about: {
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 1064
         }
       }
     },
@@ -1437,16 +1483,22 @@ const otherSchemasVisSchema = {
       description: 'Descriptive information for visualization appearance.',
       properties: {
         Title: {
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 64
         },
         Abstract: {
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 1064
         },
         Keywords: {
           $ref: '#/definitions/KeywordStringType'
         },
         Identifier: {
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 64
         },
         LegendURL: {
           type: 'array',
@@ -1469,19 +1521,27 @@ const otherSchemasVisSchema = {
       properties: {
         'xlink:Href': {
           $comment: 'https://schemas.opengis.net/ows/1.1.0/ows19115subset.xsd, http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         'xlink:Role': {
           $comment: 'https://schemas.opengis.net/ows/1.1.0/ows19115subset.xsd, http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         'xlink:Title': {
           $comment: 'https://schemas.opengis.net/ows/1.1.0/ows19115subset.xsd, http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         'xlink:Type': {
           $comment: 'https://schemas.opengis.net/ows/1.1.0/ows19115subset.xsd, http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         Format: {
           $ref: '#/definitions/ows:MimeType',
@@ -1521,28 +1581,40 @@ const otherSchemasVisSchema = {
       description: 'Metadata about a particular dimension that the tiles of a layer are available.',
       properties: {
         Title: {
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 64
         },
         Abstract: {
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 1064
         },
         Keywords: {
           $ref: '#/definitions/KeywordStringType'
         },
         Identifier: {
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         UOM: {
           type: 'string',
-          description: 'Units of measure of dimensional axis.'
+          description: 'Units of measure of dimensional axis.',
+          minLength: 0,
+          maxLength: 256
         },
         UnitSymbol: {
           type: 'string',
-          description: 'Symbol of the units.'
+          description: 'Symbol of the units.',
+          minLength: 0,
+          maxLength: 256
         },
         Default: {
           type: 'string',
-          description: "Default value that will be used if a tile request does not specify a value or uses the keyword 'default'."
+          description: "Default value that will be used if a tile request does not specify a value or uses the keyword 'default'.",
+          minLength: 0,
+          maxLength: 256
         },
         Current: {
           type: 'boolean',
@@ -1552,7 +1624,9 @@ const otherSchemasVisSchema = {
           type: 'array',
           description: 'Available value(s) for this dimension.',
           items: {
-            type: 'string'
+            type: 'string',
+            minLength: 0,
+            maxLength: 256
           }
         }
       }
@@ -1565,12 +1639,16 @@ const otherSchemasVisSchema = {
       properties: {
         TileMatrixSet: {
           type: 'string',
-          description: 'Reference to a tileMatrixSet'
+          description: 'Reference to a tileMatrixSet',
+          minLength: 0,
+          maxLength: 256
         },
         TileMatrixSetLimits: {
           $comment: 'Experimental. Need more details',
           type: 'string',
-          description: 'Indices limits for this tileMatrixSet. The absence of this element means that tile row and tile col indices are only limited by 0 and the corresponding tileMatrixSet maximum definitions.'
+          description: 'Indices limits for this tileMatrixSet. The absence of this element means that tile row and tile col indices are only limited by 0 and the corresponding tileMatrixSet maximum definitions.',
+          minLength: 0,
+          maxLength: 256
         }
       }
     },
@@ -1582,16 +1660,22 @@ const otherSchemasVisSchema = {
       properties: {
         Format: {
           type: 'string',
-          description: 'Format of the resource representation that can be retrieved one resolved the URL template.'
+          description: 'Format of the resource representation that can be retrieved one resolved the URL template.',
+          minLength: 0,
+          maxLength: 256
         },
         ResourceType: {
           type: 'string',
-          description: 'Resource type to be retrieved. The WMTS main standard only defines "tile" or "FeatureInfo" but others can be incorporated in the future.'
+          description: 'Resource type to be retrieved. The WMTS main standard only defines "tile" or "FeatureInfo" but others can be incorporated in the future.',
+          minLength: 0,
+          maxLength: 256
         },
         Template: {
           type: 'string',
-          description: "URL template. A template processor will be applied to substitute some variables between {} for their values and get a URL to a resource. We cound not use a anyURI type (that conforms the character restrictions specified in RFC2396 and excludes '{' '}' characters in some XML parsers) because this attribute must accept the '{' '}' caracters.",
-          pattern: "([A-Za-z0-9\\-_\\.!~\\*'\\(\\);/\\?:@\\+:$,#\\{\\}=&]|%[A-Fa-f0-9][A-Fa-f0-9])+"
+          description: "URL template. A template processor will be applied to substitute some variables between {} for their values and get a URL to a resource. We could not use a anyURI type (that conforms the character restrictions specified in RFC2396 and excludes '{' '}' characters in some XML parsers) because this attribute must accept the '{' '}' characters.",
+          pattern: "([A-Za-z0-9\\-_\\.!~\\*'\\(\\);/\\?:@\\+:$,#\\{\\}=&]|%[A-Fa-f0-9][A-Fa-f0-9])+",
+          minLength: 0,
+          maxLength: 256
         }
       }
     },
@@ -1599,6 +1683,7 @@ const otherSchemasVisSchema = {
       description: 'CMR concept id of a concept.',
       type: 'string',
       minLength: 4,
+      maxLength: 64,
       pattern: '[A-Z]+\\d+-[A-Z0-9_]+'
     },
     SourceDataType: {
@@ -1732,9 +1817,21 @@ const otherSchemasVisSchema = {
     },
     TextStringOrNaType: {
       $comment: "Text string or 'N/A'",
-      type: 'string',
-      minLength: 1,
-      maxLength: 256
+      oneOf: [
+        {
+          title: 'Input Manually',
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
+        },
+        {
+          title: 'Not Applicable',
+          type: 'string',
+          enum: [
+            'N/A'
+          ]
+        }
+      ]
     },
     IdentifierType: {
       type: 'string',
@@ -1867,9 +1964,21 @@ const otherSchemasVisSchema = {
                   $ref: '#/definitions/VisualizationLatencyType'
                 },
                 UpdateInterval: {
-                  description: 'The approximate interval, in minutes, between updates for Near Real-Time or partially-delivered Standard visualizations. For example, the number of minutes between PDRs that contain input tiles for a specific data day.',
+                  description: "The approximate interval, in minutes, between updates for Near Real-Time or partially-delivered Standard visualizations. For example, the number of minutes between PDRs that contain input tiles for a specific data day. A value of 'N/A' may be provided if not applicable.",
                   $comment: "Integer or 'N/A'",
-                  type: 'integer'
+                  oneOf: [
+                    {
+                      title: 'User Input',
+                      type: 'integer'
+                    },
+                    {
+                      title: 'Not Applicable',
+                      type: 'string',
+                      enum: [
+                        'N/A'
+                      ]
+                    }
+                  ]
                 },
                 TemporalCoverage: {
                   description: 'A time interval specifying the start , end, and duration of the visualization products that will be generated. The ISO 8601 interval notation (PnYnMnDTnHnMnS) is used to specify the durat ion between images. For example, a product that is generated every day within 2013 would have the following temporal coverage: 2013-01-01/2013-12-31/P1D. If a layer has discontinuous ranges, they should be provided in a comma-separated list. Visualization products that have a nonstatic end-date should provide only the start date and interval (e.g. 2013-01-01/P1D). Note that files which represent a 5-day average, but are generated daily, would have a period of P1D.',
@@ -1878,14 +1987,11 @@ const otherSchemasVisSchema = {
                   minLength: 3
                 },
                 WGS84SpatialCoverage: {
-                  description: 'The spatial coverage of the data that will be visualized. The coverage is referenced in the WGS84 coordinate system. In the order of LL_Lat, LL_Lon, UR_Lat, UR_Lon',
-                  $comment: 'LL_Lat, LL_Lon, UR_Lat, UR_Lon',
                   type: 'array',
                   items: {
-                    type: 'number'
+                    $ref: '#/definitions/BoundingRectangleType'
                   },
-                  maxItems: 4,
-                  minItems: 4
+                  minItems: 1
                 },
                 NativeSpatialCoverage: {
                   description: 'The spatial coverage of the data that will be visualized. The coverage is referenced in the coordinate system native to the projection. In the order of LL_Y, LL_X, UR_Y, UR_X',
@@ -1967,12 +2073,17 @@ const otherSchemasVisSchema = {
                 Daynight: {
                   $comment: 'LayerMetadata v1.0-0',
                   description: 'Whether the visualization layer represents data captured during the day, night (or both) as perceived during time of data acquisition.',
-                  type: 'string',
-                  enum: [
-                    'day',
-                    'night',
-                    'day or night'
-                  ]
+                  title: 'Day or Night',
+                  type: 'array',
+                  uniqueItems: true,
+                  maxItems: 2,
+                  items: {
+                    type: 'string',
+                    enum: [
+                      'day',
+                      'night'
+                    ]
+                  }
                 },
                 OrbitTracks: {
                   $comment: 'LayerMetadata v1.0-0',
@@ -2080,7 +2191,7 @@ const otherSchemasVisSchema = {
                 },
                 'ows:WGS84BoundingBox': {
                   $comment: 'http://schemas.opengis.net/ows/1.1.0/owsContents.xsd',
-                  description: 'Unordered list of zero or more minimum bounding rectangles surrounding coverage data, using the WGS 84 CRS with decimal degrees and longitude before latitude. ... If multiple WGS 84 bounding boxes are included, this shall be interpreted as the union of the areas of these bounding boxes.',
+                  description: 'Unordered list of zero or more minimum bounding rectangles surrounding coverage data, using the WGS 84 CRS with decimal degrees and longitude before latitude. ... If multiple WGS 84 bounding boxes are included, this shall be interpreted as the union of the areas of these bounding boxes. Should be in the order of longitude0, longitude1, latitude0, latitude1',
                   type: 'array',
                   items: {
                     description: 'longitude0, longitude1, latitude0, latitude1',
@@ -2122,7 +2233,8 @@ const otherSchemasVisSchema = {
                   type: 'array',
                   items: {
                     type: 'string',
-                    minLength: 1
+                    minLength: 1,
+                    maxLength: 1064
                   }
                 },
                 'wmts:Style': {
