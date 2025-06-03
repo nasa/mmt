@@ -6,6 +6,7 @@ import { kmsGetConceptUpdatesReport } from '@/js/utils/kmsGetConceptUpdatesRepor
 import DatePicker from 'react-datepicker'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
+import { toZonedTime } from 'date-fns-tz'
 
 const GenerateKeywordReportModal = ({
   show,
@@ -42,6 +43,9 @@ const GenerateKeywordReportModal = ({
     setSelectedVersion(event)
   }
 
+  const startDateValue = startDate ? toZonedTime(startDate, 'GMT') : null
+  const endDateValue = endDate ? toZonedTime(endDate, 'GMT') : null
+
   return (
     <CustomModal
       show={show}
@@ -56,11 +60,9 @@ const GenerateKeywordReportModal = ({
                   Start Date:
                 </label>
                 <DatePicker
-                  selected={startDate ? new Date(startDate) : null}
+                  selected={startDateValue}
                   onChange={(date) => setStartDate(format(date, 'yyyy-MM-dd'))} // Format the date before storing
                   selectsStart
-                  startDate={startDate ? new Date(startDate) : null}
-                  endDate={endDate ? new Date(endDate) : null}
                   dateFormat="yyyy-MM-dd" // Ensures the displayed format is consistent
                   placeholderText="Select a start date"
                   id="start-date-selector"
@@ -71,12 +73,10 @@ const GenerateKeywordReportModal = ({
                   End Date:
                 </label>
                 <DatePicker
-                  selected={endDate ? new Date(endDate) : null}
+                  selected={endDateValue}
                   onChange={(date) => setEndDate(format(date, 'yyyy-MM-dd'))} // Format the date before storing
                   selectsEnd
-                  startDate={startDate ? new Date(startDate) : null}
-                  endDate={endDate ? new Date(endDate) : null}
-                  minDate={startDate ? new Date(startDate) : null}
+                  minDate={startDateValue}
                   dateFormat="yyyy-MM-dd" // Ensures the displayed format is consistent
                   placeholderText="Select an end date"
                   id="end-date-selector"
