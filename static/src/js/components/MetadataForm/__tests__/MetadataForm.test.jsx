@@ -48,7 +48,6 @@ import KeywordPicker from '@/js/components/KeywordPicker/KeywordPicker'
 import OneOfField from '@/js/components/OneOfField/OneOfField'
 import StreetAddressField from '@/js/components/StreetAddressField/StreetAddressField'
 import UniqueItemsArray from '@/js/components/UniqueItemsArray/UniqueItemsArray'
-import VisualizationLatency from '@/js/components/VisualizationLatency/VisualizationLatency'
 
 import Providers from '@/js/providers/Providers/Providers'
 
@@ -363,7 +362,6 @@ describe('MetadataForm', () => {
               keywordPicker: KeywordPicker,
               layout: GridLayout,
               OneOfField,
-              VisualizationLatency,
               streetAddresses: StreetAddressField,
               TitleField: CustomTitleField
             },
@@ -426,7 +424,6 @@ describe('MetadataForm', () => {
           fields: {
             BoundingRectangle: BoundingRectangleField,
             OneOfField,
-            VisualizationLatency,
             TitleField: CustomTitleField,
             keywordPicker: KeywordPicker,
             layout: GridLayout,

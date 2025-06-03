@@ -568,9 +568,6 @@ const specificationUiSchema = {
       Daynight: {
         'ui:widget': 'UniqueItemsArrayWidget'
       },
-      VisualizationLatency: {
-        'ui:field': 'VisualizationLatency'
-      },
       WGS84SpatialCoverage: {
         'ui:title': 'World Geodetic System (WGS84) Spatial Coverage'
       },

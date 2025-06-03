@@ -43,9 +43,6 @@ class OneOfField extends React.Component {
       options,
       registry: { schemaUtils }
     } = this.props
-    const fieldId = this.getFieldId()
-    const shouldRender = fieldId !== 'Specification_ProductMetadata_VisualizationLatency__oneof_select'
-
     // Cache the retrieved options in state in case they have $refs to save doing it later
     const retrievedOptions = options.map((opt) => schemaUtils.retrieveSchema(opt, formData))
     const data = removeEmpty(cloneDeep(formData)) || {}
@@ -58,8 +55,7 @@ class OneOfField extends React.Component {
 
     this.state = {
       retrievedOptions,
-      selectedOption,
-      shouldRender
+      selectedOption
     }
   }
 
@@ -174,12 +170,6 @@ class OneOfField extends React.Component {
   /** Renders the `OneOfField` selector along with a `SchemaField` for the value of the `formData`
    */
   render() {
-    const { shouldRender } = this.state
-
-    if (!shouldRender) {
-      return null
-    }
-
     const {
       name,
       baseType,
@@ -237,6 +227,12 @@ class OneOfField extends React.Component {
       value: index
     })))
 
+    // Const { oneOf } = schema
+    // const found = oneOf.some((value) => (value).properties)
+    // if (!found) {
+    //   return null
+    // }
+
     return (
       <div className="panel panel-default panel-body">
         <div className="form-group">
@@ -288,12 +284,7 @@ OneOfField.defaultProps = {
 }
 
 OneOfField.propTypes = {
-  formData: PropTypes.oneOfType([
-    PropTypes.shape({}),
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.oneOf([null])
-  ]),
+  formData: PropTypes.shape({}),
   options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   registry: PropTypes.shape({
     schemaUtils: PropTypes.shape({

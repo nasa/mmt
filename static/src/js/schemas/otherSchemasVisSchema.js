@@ -1763,16 +1763,17 @@ const otherSchemasVisSchema = {
       ]
     },
     VisualizationLatencyType: {
-      description: "The approximate latency between the end of data acquisition and visualization file availability for GIBS to ingest. This value may be minutes, hours, or days, depending on the appropriate units. A value of 'N/A' may be provided if not applicable (e.g. static historical products)",
       $comment: "Integer + Units or 'N/A'",
-      type: 'string',
       oneOf: [
         {
+          description: "The approximate latency between the end of data acquisition and visualization file availability for GIBS to ingest. This value may be minutes, hours, or days, depending on the appropriate units. A value of 'N/A' may be provided if not applicable (e.g. static historical products). Examples: '1 second', '2 days'",
           title: 'Unit',
+          type: 'string',
           pattern: '(\\d+(\\.\\d+)?) (second|minute|hour|day|week|month|year)(s)?'
         },
         {
           title: 'Not Applicable',
+          type: 'string',
           enum: [
             'N/A'
           ]
