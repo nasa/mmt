@@ -92,21 +92,29 @@ describe('GenerateKeywordReportModal', () => {
     expect(screen.getByText('1.0 (PRODUCTION)')).toBeInTheDocument()
   })
 
-  test.skip('handles date selection correctly', async () => {
+  test('handles date selection correctly', async () => {
     const { user } = setup()
 
-    const startDatePicker = screen.getByPlaceholderText('Select a start date')
-    const endDatePicker = screen.getByPlaceholderText('Select an end date')
+    // Get the date picker inputs
+    const startDatePicker = screen.getByLabelText('Start Date:')
+    const endDatePicker = screen.getByLabelText('End Date:')
 
     // Simulate date selections
     const startDate = new Date('2024-01-01')
     const endDate = new Date('2024-01-31')
 
-    await user.type(startDatePicker, format(startDate, 'yyyy-MM-dd'))
-    await user.type(endDatePicker, format(endDate, 'yyyy-MM-dd'))
+    // Focus and type into each date picker separately
+    await user.click(startDatePicker)
+    await user.clear(startDatePicker)
+    await user.type(startDatePicker, '2024-01-01')
 
-    expect(startDatePicker.value).toBe('2024-01-01')
-    expect(endDatePicker.value).toBe('2024-01-31')
+    await user.click(endDatePicker)
+    await user.clear(endDatePicker)
+    await user.type(endDatePicker, '2024-01-31')
+
+    // Verify the values were set correctly
+    expect(startDatePicker).toHaveValue('2024-01-01')
+    expect(endDatePicker).toHaveValue('2024-01-31')
   })
 
   test('handles report generation correctly', async () => {

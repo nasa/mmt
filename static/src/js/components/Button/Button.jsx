@@ -62,7 +62,6 @@ const Button = React.forwardRef(({
   to,
   variant
 }, ref) => {
-  console.log('🚀 ~ file: Button.jsx:65 ~ loading:', loading)
   // Create an object to pass any conditional properties. These are ultimately spread on the component.
   let conditionalProps = {}
 
