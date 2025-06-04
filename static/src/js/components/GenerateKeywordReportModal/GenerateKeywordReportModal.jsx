@@ -17,9 +17,11 @@ const GenerateKeywordReportModal = ({
   const [endDate, setEndDate] = useState(null)
   const [userId, setUserId] = useState('')
   const [isLoading, setIsLoading] = useState(false) // State for spinner
+  const [status, setStatus] = useState(null)
 
   const handleSubmit = async () => {
     setIsLoading(true)
+    setStatus(null)
     try {
       await kmsGetConceptUpdatesReport({
         version: selectedVersion,
@@ -28,6 +30,7 @@ const GenerateKeywordReportModal = ({
         userId
       })
     } catch (error) {
+      setStatus('Error generating report.')
       console.error('Error generating report:', error)
     } finally {
       setIsLoading(false) // Hide spinner
@@ -41,6 +44,14 @@ const GenerateKeywordReportModal = ({
 
   const onVersionSelect = (event) => {
     setSelectedVersion(event)
+  }
+
+  const renderErrorStatus = () => {
+    if (status) {
+      return <div className="text-danger mt-2">{status}</div>
+    }
+
+    return null
   }
 
   // Normalize Datetime so that date picker selects the correct date for last days of the month
@@ -106,6 +117,7 @@ const GenerateKeywordReportModal = ({
                 onChange={handleUserIdUpdate}
               />
             </div>
+            {renderErrorStatus()}
           </Form>
         )
       }

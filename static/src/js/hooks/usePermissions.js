@@ -1,9 +1,8 @@
 import { useQuery } from '@apollo/client'
 
+import { getApplicationConfig } from 'sharedUtils/getConfig'
+import { GET_PERMISSIONS } from '@/js/operations/queries/getPermissions'
 import useAuthContext from './useAuthContext'
-
-import { GET_PERMISSIONS } from '../operations/queries/getPermissions'
-import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
 
 /**
  * Requests the provided permissions from CMR

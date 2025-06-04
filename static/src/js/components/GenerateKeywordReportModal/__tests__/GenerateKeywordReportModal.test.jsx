@@ -205,4 +205,57 @@ describe('GenerateKeywordReportModal', () => {
 
     expect(container).toBeEmptyDOMElement()
   })
+
+  test('handles error during report generation', async () => {
+    const mockError = new Error('Failed to generate report')
+    kmsGetConceptUpdatesReport.mockRejectedValueOnce(mockError)
+
+    const mockVersions = [
+      {
+        version: '1.0',
+        type: 'PUBLISHED'
+      },
+      {
+        version: 'draft',
+        type: 'DRAFT'
+      }
+    ]
+    getKmsConceptVersions.mockResolvedValue({ versions: mockVersions })
+
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const { user } = setup()
+
+    // Wait for versions to load
+    await waitFor(() => {
+      expect(screen.queryByText('Loading versions...')).not.toBeInTheDocument()
+    })
+
+    // Select a version
+    const selectElement = screen.getByRole('combobox')
+    await user.click(selectElement)
+    const option = await screen.findByText('1.0 (PRODUCTION)')
+    await user.click(option)
+
+    // Fill in the form
+    const startDatePicker = screen.getByPlaceholderText('Select a start date')
+    const endDatePicker = screen.getByPlaceholderText('Select an end date')
+    await user.type(startDatePicker, '2024-01-01')
+    await user.type(endDatePicker, '2024-01-31')
+
+    // Click generate report button
+    const generateButton = screen.getByText('Generate CSV Report')
+    await user.click(generateButton)
+
+    // Verify that kmsGetConceptUpdatesReport was called
+    expect(kmsGetConceptUpdatesReport).toHaveBeenCalled()
+
+    // Verify error was logged
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalledWith('Error generating report:', mockError)
+    })
+
+    expect(await screen.findByText('Error generating report.')).toBeVisible()
+
+    consoleSpy.mockRestore() // Removing the spy on console.error
+  })
 })

@@ -1,8 +1,13 @@
 import { getApplicationConfig } from 'sharedUtils/getConfig'
+import constructDownloadableFile from '@/js/utils/constructDownloadableFile'
 import { kmsGetConceptUpdatesReport } from '../kmsGetConceptUpdatesReport'
 
 vi.mock('sharedUtils/getConfig', () => ({
   getApplicationConfig: vi.fn()
+}))
+
+vi.mock('@/js/utils/constructDownloadableFile', () => ({
+  default: vi.fn()
 }))
 
 describe('kmsGetConceptUpdatesReport', () => {
@@ -14,7 +19,7 @@ describe('kmsGetConceptUpdatesReport', () => {
   const mockEndDate = '2024-01-31'
   const mockUserId = 'user123'
   const mockKmsHost = 'http://example.com'
-  const mockBlob = new Blob(['test data'], { type: 'text/csv' })
+  const mockCsvData = 'test,data\n1,2,3'
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -25,20 +30,8 @@ describe('kmsGetConceptUpdatesReport', () => {
   test('should make a GET request with correct parameters for draft version', async () => {
     global.fetch.mockResolvedValueOnce({
       ok: true,
-      blob: () => Promise.resolve(mockBlob)
+      text: () => Promise.resolve(mockCsvData)
     })
-
-    const createObjectMock = vi.fn()
-    window.URL.createObjectURL = createObjectMock
-    vi.spyOn(document, 'createElement').mockImplementation(() => ({
-      setAttribute: vi.fn(),
-      click: vi.fn(),
-      parentNode: {
-        removeChild: vi.fn()
-      }
-    }))
-
-    document.body.appendChild = vi.fn()
 
     await kmsGetConceptUpdatesReport({
       version: mockVersion,
@@ -62,7 +55,7 @@ describe('kmsGetConceptUpdatesReport', () => {
 
     global.fetch.mockResolvedValueOnce({
       ok: true,
-      blob: () => Promise.resolve(mockBlob)
+      text: () => Promise.resolve(mockCsvData)
     })
 
     await kmsGetConceptUpdatesReport({
@@ -76,30 +69,19 @@ describe('kmsGetConceptUpdatesReport', () => {
     expect(fetch).toHaveBeenCalledWith(expectedUrl, {
       method: 'GET'
     })
+
+    expect(constructDownloadableFile).toHaveBeenCalledWith(
+      mockCsvData,
+      `KeywordUpdateReport-${mockStartDate}-${mockEndDate}`,
+      'text/csv'
+    )
   })
 
-  test('should create and trigger download when response is successful', async () => {
-    // Mock the fetch response
+  test('should call constructDownloadableFile with correct parameters when response is successful', async () => {
     global.fetch.mockResolvedValueOnce({
       ok: true,
-      blob: () => Promise.resolve(mockBlob)
+      text: () => Promise.resolve(mockCsvData)
     })
-
-    const mockLink = {
-      setAttribute: vi.fn(),
-      click: vi.fn(),
-      parentNode: document.body
-    }
-
-    vi.spyOn(document, 'createElement').mockReturnValue(mockLink)
-    vi.spyOn(document.body, 'appendChild').mockImplementation(() => {})
-    vi.spyOn(document.body, 'removeChild').mockImplementation(() => {})
-
-    // Setup URL mock
-    const mockObjectUrl = 'blob:mock-url'
-    window.URL = {
-      createObjectURL: vi.fn(() => mockObjectUrl)
-    }
 
     await kmsGetConceptUpdatesReport({
       version: mockVersion,
@@ -107,12 +89,30 @@ describe('kmsGetConceptUpdatesReport', () => {
       endDate: mockEndDate
     })
 
-    // Verify the download flow
-    expect(window.URL.createObjectURL).toHaveBeenCalledWith(mockBlob)
-    expect(document.body.appendChild).toHaveBeenCalledWith(mockLink)
-    expect(document.body.removeChild).toHaveBeenCalledWith(mockLink)
-    expect(mockLink.setAttribute).toHaveBeenCalledWith('download', `KeywordUpdateReport-${mockStartDate}-${mockEndDate}`)
-    expect(mockLink.click).toHaveBeenCalled()
+    expect(constructDownloadableFile).toHaveBeenCalledWith(
+      mockCsvData,
+      `KeywordUpdateReport-${mockStartDate}-${mockEndDate}`,
+      'text/csv'
+    )
+  })
+
+  test('should create and trigger download when response is successful', async () => {
+    global.fetch.mockResolvedValueOnce({
+      ok: true,
+      text: () => Promise.resolve(mockCsvData)
+    })
+
+    await kmsGetConceptUpdatesReport({
+      version: mockVersion,
+      startDate: mockStartDate,
+      endDate: mockEndDate
+    })
+
+    expect(constructDownloadableFile).toHaveBeenCalledWith(
+      mockCsvData,
+      `KeywordUpdateReport-${mockStartDate}-${mockEndDate}`,
+      'text/csv'
+    )
   })
 
   test('should throw an error when fetch fails', async () => {
@@ -129,7 +129,7 @@ describe('kmsGetConceptUpdatesReport', () => {
   test('should handle optional userId parameter', async () => {
     global.fetch.mockResolvedValueOnce({
       ok: true,
-      blob: () => Promise.resolve(mockBlob)
+      text: () => Promise.resolve(mockCsvData)
     })
 
     await kmsGetConceptUpdatesReport({
@@ -143,5 +143,57 @@ describe('kmsGetConceptUpdatesReport', () => {
     expect(fetch).toHaveBeenCalledWith(expectedUrl, {
       method: 'GET'
     })
+  })
+
+  test('should properly encode version parameter', async () => {
+    const versionWithSpecialChars = {
+      version: 'v1.0 (special)',
+      version_type: 'draft'
+    }
+
+    global.fetch.mockResolvedValueOnce({
+      ok: true,
+      text: () => Promise.resolve(mockCsvData)
+    })
+
+    await kmsGetConceptUpdatesReport({
+      version: versionWithSpecialChars,
+      startDate: mockStartDate,
+      endDate: mockEndDate
+    })
+
+    const expectedUrl = `${mockKmsHost}/concepts/operations/update_report?version=${encodeURIComponent(versionWithSpecialChars.version)}&startDate=${mockStartDate}&endDate=${mockEndDate}`
+
+    expect(fetch).toHaveBeenCalledWith(expectedUrl, {
+      method: 'GET'
+    })
+  })
+
+  test('should log error to console when fetch fails', async () => {
+    const errorMessage = 'Network error'
+    global.fetch.mockRejectedValueOnce(new Error(errorMessage))
+
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+    await expect(kmsGetConceptUpdatesReport({
+      version: mockVersion,
+      startDate: mockStartDate,
+      endDate: mockEndDate
+    })).rejects.toThrow()
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith('Error in kmsGetConceptUpdatesReport:', expect.any(Error))
+
+    consoleErrorSpy.mockRestore()
+  })
+
+  test('should rethrow error after logging', async () => {
+    const errorMessage = 'Network error'
+    global.fetch.mockRejectedValueOnce(new Error(errorMessage))
+
+    await expect(kmsGetConceptUpdatesReport({
+      version: mockVersion,
+      startDate: mockStartDate,
+      endDate: mockEndDate
+    })).rejects.toThrow(`Failed to download report ${errorMessage}`)
   })
 })
