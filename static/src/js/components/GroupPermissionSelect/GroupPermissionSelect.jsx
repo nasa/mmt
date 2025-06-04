@@ -129,7 +129,8 @@ const GroupPermissionSelectComponent = ({
     skip: providerIds.length === 0,
     variables: {
       params: {
-        tags: providerIds
+        tags: providerIds,
+        limit: 500
       }
     }
   })
@@ -142,7 +143,7 @@ const GroupPermissionSelectComponent = ({
     value: item.id,
     label: item.name,
     provider: item.tag
-  }))
+  })).sort((a, b) => a.label.localeCompare(b.label))
 
   // Include "All RegisterUser" and "All Guest" in the initial options
   const additionalOptions = [
