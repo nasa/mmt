@@ -21,7 +21,10 @@ export const GET_VISUALIZATION = gql`
         count
         items {
           conceptId
+          provider
+          shortName
           title
+          version
         }
       }
       scienceKeywords
