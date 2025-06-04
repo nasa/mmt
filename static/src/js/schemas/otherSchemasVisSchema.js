@@ -1786,7 +1786,7 @@ const otherSchemasVisSchema = {
         {
           title: 'Input Manually',
           type: 'string',
-          minLength: 0,
+          minLength: 8,
           maxLength: 256
         },
         {
@@ -2195,7 +2195,7 @@ const otherSchemasVisSchema = {
                   },
                   minItems: 1
                 },
-                'ows:DatasetDescriptionSummary': {
+                'ows:DatasetDescriptionSummary ': {
                   $comment: 'http://schemas.opengis.net/ows/1.1.0/owsContents.xsd',
                   description: 'Metadata describing zero or more unordered subsidiary datasets available from this server.',
                   type: 'array',

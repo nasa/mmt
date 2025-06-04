@@ -495,7 +495,7 @@ const specificationUiSchema = {
                     {
                       'ui:col': {
                         md: 12,
-                        children: ['ows:DatasetDescriptionSummary']
+                        children: ['ows:DatasetDescriptionSummary ']
                       }
                     }
                   ]
