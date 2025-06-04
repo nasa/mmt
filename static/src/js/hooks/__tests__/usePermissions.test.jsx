@@ -8,6 +8,8 @@ import AuthContext from '@/js/context/AuthContext'
 
 import usePermissions from '../usePermissions'
 
+import * as getConfig from '../../../../../sharedUtils/getConfig'
+
 const TestComponent = () => {
   const { hasSystemGroup, hasSystemKeywords, loading } = usePermissions({
     systemGroup: ['read'],
@@ -201,6 +203,10 @@ describe('usePermissions', () => {
 
     describe('when the user does not have the given keyword permission', () => {
       test('returns false', async () => {
+        vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+          env: 'production'
+        }))
+
         setup({
           overrideMocks: [
             {

@@ -43,6 +43,7 @@ const GenerateKeywordReportModal = ({
     setSelectedVersion(event)
   }
 
+  // Normalize Datetime so that date picker selects the correct date for last days of the month
   const startDateValue = startDate ? toZonedTime(startDate, 'GMT') : null
   const endDateValue = endDate ? toZonedTime(endDate, 'GMT') : null
 

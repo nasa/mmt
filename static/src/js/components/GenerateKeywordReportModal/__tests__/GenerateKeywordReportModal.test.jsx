@@ -1,12 +1,11 @@
 import React from 'react'
 import {
-  act,
   render,
   screen,
   waitFor
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { vi } from 'vitest'
+import { expect, vi } from 'vitest'
 import { kmsGetConceptUpdatesReport } from '@/js/utils/kmsGetConceptUpdatesReport'
 import getKmsConceptVersions from '@/js/utils/getKmsConceptVersions'
 import GenerateKeywordReportModal from '../GenerateKeywordReportModal'
@@ -45,7 +44,18 @@ describe('GenerateKeywordReportModal', () => {
     vi.clearAllMocks()
   })
 
-  test('renders all form elements correctly', () => {
+  test('renders all form elements correctly', async () => {
+    const mockVersions = [
+      {
+        version: '1.0',
+        type: 'PUBLISHED'
+      },
+      {
+        version: 'draft',
+        type: 'DRAFT'
+      }
+    ]
+    getKmsConceptVersions.mockResolvedValue({ versions: mockVersions })
     setup()
 
     expect(screen.getByLabelText(/Start Date:/i)).toBeInTheDocument()
@@ -54,6 +64,7 @@ describe('GenerateKeywordReportModal', () => {
     expect(screen.getByLabelText(/Filter by Earthdata Login User-Id:/i)).toBeInTheDocument()
     expect(screen.getByText('Generate CSV Report')).toBeInTheDocument()
     expect(screen.getByText('Cancel')).toBeInTheDocument()
+    expect(await screen.findByText('draft (DRAFT-NEXT RELEASE)'))
   })
 
   test('handles user ID input correctly', async () => {
@@ -78,9 +89,7 @@ describe('GenerateKeywordReportModal', () => {
     getKmsConceptVersions.mockResolvedValue({ versions: mockVersions })
 
     const { user } = setup()
-    await waitFor(() => {
-      expect(screen.getByText('Loading versions...')).toBeInTheDocument()
-    })
+    expect(screen.getByText('Loading versions...')).toBeInTheDocument()
 
     const selectElement = screen.getByRole('combobox')
     await user.click(selectElement)
@@ -146,9 +155,7 @@ describe('GenerateKeywordReportModal', () => {
 
     // Click generate report button
     const generateButton = screen.getByText('Generate CSV Report')
-    await act(async () => {
-      await user.click(generateButton)
-    })
+    await user.click(generateButton)
 
     // Verify kmsGetConceptUpdatesReport was called with correct params
     expect(kmsGetConceptUpdatesReport).toHaveBeenCalledWith({
