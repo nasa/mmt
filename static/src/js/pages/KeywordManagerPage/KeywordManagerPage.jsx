@@ -10,7 +10,8 @@ import {
   Form,
   Spinner
 } from 'react-bootstrap'
-import { FaPlus } from 'react-icons/fa'
+
+import { FaPlus, FaFileCsv } from 'react-icons/fa'
 
 import { getApplicationConfig } from 'sharedUtils/getConfig'
 
@@ -25,6 +26,7 @@ import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import { KeywordTree } from '@/js/components/KeywordTree/KeywordTree'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
+import GenerateKeywordReportModal from '@/js/components/GenerateKeywordReportModal/GenerateKeywordReportModal'
 
 import errorLogger from '@/js/utils/errorLogger'
 import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
@@ -77,6 +79,7 @@ const KeywordManagerPage = () => {
   const [publishError, setPublishError] = useState(null)
   const [showKeywordForm, setShowKeywordForm] = useState(false)
   const [showPublishingModal, setShowPublishingModal] = useState(false)
+  const [showGenerateReportModal, setShowGenerateReportModal] = useState(false)
   const [versionSelectorKey, setVersionSelectorKey] = useState(0)
   const { tokenValue, user } = useAuthContext()
   const { uid } = user || {}
@@ -292,7 +295,16 @@ const KeywordManagerPage = () => {
                   iconTitle: 'A plus icon',
                   title: 'Publish New Keyword Version',
                   onClick: handleOpenPublishModal,
-                  variant: 'success'
+                  variant: 'primary'
+                },
+                {
+                  icon: FaFileCsv,
+                  iconTitle: 'A file csv icon',
+                  title: 'Generate Report',
+                  onClick: () => {
+                    setShowGenerateReportModal(true)
+                  },
+                  variant: 'secondary'
                 }
               ]
             }
@@ -304,7 +316,7 @@ const KeywordManagerPage = () => {
       <ErrorBoundary>
         <div className="keyword-manager-page__selector-container">
           <label
-            htmlFor="version-selector-label"
+            htmlFor="version-selector"
             className="keyword-manager-page__selector-label"
           >
             Version:
@@ -314,7 +326,6 @@ const KeywordManagerPage = () => {
               <div className="rounded p-3">
                 <KmsConceptVersionSelector
                   onVersionSelect={onVersionSelect}
-                  id="version-selector"
                   key={versionSelectorKey}
                 />
               </div>
@@ -398,7 +409,6 @@ const KeywordManagerPage = () => {
           ]
         }
       />
-
       <CustomModal
         show={showPublishingModal}
         header="Publishing New Version"
@@ -413,7 +423,10 @@ const KeywordManagerPage = () => {
         }
         actions={[]}
       />
-
+      <GenerateKeywordReportModal
+        show={showGenerateReportModal}
+        toggleModal={(state) => { setShowGenerateReportModal(state) }}
+      />
     </Page>
   )
 }
