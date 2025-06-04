@@ -316,7 +316,7 @@ const KeywordManagerPage = () => {
       <ErrorBoundary>
         <div className="keyword-manager-page__selector-container">
           <label
-            htmlFor="version-selector-label"
+            htmlFor="version-selector"
             className="keyword-manager-page__selector-label"
           >
             Version:
@@ -423,7 +423,6 @@ const KeywordManagerPage = () => {
         }
         actions={[]}
       />
-      {/* // TODO how does this work? */}
       <GenerateKeywordReportModal
         show={showGenerateReportModal}
         toggleModal={(state) => { setShowGenerateReportModal(state) }}

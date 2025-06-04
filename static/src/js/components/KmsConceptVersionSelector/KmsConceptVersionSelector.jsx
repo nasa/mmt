@@ -90,6 +90,7 @@ const KmsConceptVersionSelector = ({ onVersionSelect }) => {
 
   return (
     <Select
+      id="version-selector"
       isLoading={loading}
       options={versions}
       value={selectedVersion}
