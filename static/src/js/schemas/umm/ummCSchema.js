@@ -3814,7 +3814,7 @@ const ummCSchema = {
           description: 'This element represents the URL where the schema lives. The schema can be downloaded.',
           type: 'string',
           enum: [
-            'https://cdn.earthdata.nasa.gov/umm/collection/v1.18.4'
+            'https://cdn.earthdata.nasa.gov/umm/collection/v1.18.3'
           ]
         },
         Name: {
@@ -3828,7 +3828,7 @@ const ummCSchema = {
           description: 'This element represents the version of the schema.',
           type: 'string',
           enum: [
-            '1.18.4'
+            '1.18.3'
           ]
         }
       },
