@@ -111,7 +111,7 @@ const CustomTextWidget = ({
         ref={focusRef}
         tabIndex={0}
         type="text"
-        value={value}
+        value={value ?? ''}
       />
     </CustomWidgetWrapper>
   )

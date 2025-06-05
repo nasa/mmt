@@ -1,0 +1,16 @@
+.unique-items-array {
+  &__element {
+    padding: 0.5rem 0;
+  }
+
+  &__options {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1rem;
+
+    .form-check {
+      min-width: 100px;
+      margin-bottom: 0;
+    }
+  }
+}

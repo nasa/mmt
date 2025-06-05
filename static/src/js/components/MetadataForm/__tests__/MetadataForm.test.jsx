@@ -47,6 +47,7 @@ import JsonPreview from '@/js/components/JsonPreview/JsonPreview'
 import KeywordPicker from '@/js/components/KeywordPicker/KeywordPicker'
 import OneOfField from '@/js/components/OneOfField/OneOfField'
 import StreetAddressField from '@/js/components/StreetAddressField/StreetAddressField'
+import UniqueItemsArray from '@/js/components/UniqueItemsArray/UniqueItemsArray'
 
 import Providers from '@/js/providers/Providers/Providers'
 
@@ -358,11 +359,11 @@ describe('MetadataForm', () => {
           expect(Form).toHaveBeenCalledWith(expect.objectContaining({
             fields: {
               BoundingRectangle: BoundingRectangleField,
-              OneOfField,
-              TitleField: CustomTitleField,
               keywordPicker: KeywordPicker,
               layout: GridLayout,
-              streetAddresses: StreetAddressField
+              OneOfField,
+              streetAddresses: StreetAddressField,
+              TitleField: CustomTitleField
             },
             formData: {
               LongName: 'Long Name',
@@ -397,8 +398,9 @@ describe('MetadataForm', () => {
               DateTimeWidget: CustomDateTimeWidget,
               RadioWidget: CustomRadioWidget,
               SelectWidget: CustomSelectWidget,
+              TextareaWidget: CustomTextareaWidget,
               TextWidget: CustomTextWidget,
-              TextareaWidget: CustomTextareaWidget
+              UniqueItemsArrayWidget: UniqueItemsArray
             }
           }), {})
         })
@@ -451,7 +453,8 @@ describe('MetadataForm', () => {
             RadioWidget: CustomRadioWidget,
             SelectWidget: CustomSelectWidget,
             TextWidget: CustomTextWidget,
-            TextareaWidget: CustomTextareaWidget
+            TextareaWidget: CustomTextareaWidget,
+            UniqueItemsArrayWidget: UniqueItemsArray
           }
         }), {})
       })

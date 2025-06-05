@@ -227,12 +227,6 @@ class OneOfField extends React.Component {
       value: index
     })))
 
-    // Const { oneOf } = schema
-    // const found = oneOf.some((value) => (value).properties)
-    // if (!found) {
-    //   return null
-    // }
-
     return (
       <div className="panel panel-default panel-body">
         <div className="form-group">
@@ -284,7 +278,11 @@ OneOfField.defaultProps = {
 }
 
 OneOfField.propTypes = {
-  formData: PropTypes.shape({}),
+  formData: PropTypes.oneOfType([
+    PropTypes.shape({}),
+    PropTypes.string,
+    PropTypes.oneOf([null])
+  ]),
   options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   registry: PropTypes.shape({
     schemaUtils: PropTypes.shape({

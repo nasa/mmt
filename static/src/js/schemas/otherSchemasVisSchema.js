@@ -1,3 +1,4 @@
+// This is not currently in CDN. This is a combination of five different schemas found here: https://git.earthdata.nasa.gov/projects/EMFD/repos/otherschemas/browse/visualization/v1.1.0/schema.json
 const otherSchemasVisSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'UMM-Vis',
@@ -103,7 +104,8 @@ const otherSchemasVisSchema = {
       ]
     },
     Specification: {
-      $comment: 'must be here when additionalProperties==false. otherwise fails'
+      $comment: 'must be here when additionalProperties==false. otherwise fails',
+      $ref: '#/definitions/Specification'
     },
     Generation: {
       $comment: 'must be here when additionalProperties==false. otherwise fails'
@@ -1409,22 +1411,32 @@ const otherSchemasVisSchema = {
       properties: {
         'xlink:Href': {
           $comment: 'http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         'xlink:Role': {
           $comment: 'http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         'xlink:Title': {
           $comment: 'http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         'xlink:Type': {
           $comment: 'http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         about: {
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 1064
         }
       }
     },
@@ -1435,16 +1447,22 @@ const otherSchemasVisSchema = {
       description: 'Descriptive information for visualization appearance.',
       properties: {
         Title: {
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 64
         },
         Abstract: {
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 1064
         },
         Keywords: {
           $ref: '#/definitions/KeywordStringType'
         },
         Identifier: {
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 64
         },
         LegendURL: {
           type: 'array',
@@ -1467,19 +1485,27 @@ const otherSchemasVisSchema = {
       properties: {
         'xlink:Href': {
           $comment: 'https://schemas.opengis.net/ows/1.1.0/ows19115subset.xsd, http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         'xlink:Role': {
           $comment: 'https://schemas.opengis.net/ows/1.1.0/ows19115subset.xsd, http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         'xlink:Title': {
           $comment: 'https://schemas.opengis.net/ows/1.1.0/ows19115subset.xsd, http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         'xlink:Type': {
           $comment: 'https://schemas.opengis.net/ows/1.1.0/ows19115subset.xsd, http://www.w3.org/1999/xlink.xsd',
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         Format: {
           $ref: '#/definitions/ows:MimeType',
@@ -1519,28 +1545,40 @@ const otherSchemasVisSchema = {
       description: 'Metadata about a particular dimension that the tiles of a layer are available.',
       properties: {
         Title: {
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 64
         },
         Abstract: {
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 1064
         },
         Keywords: {
           $ref: '#/definitions/KeywordStringType'
         },
         Identifier: {
-          type: 'string'
+          type: 'string',
+          minLength: 0,
+          maxLength: 256
         },
         UOM: {
           type: 'string',
-          description: 'Units of measure of dimensional axis.'
+          description: 'Units of measure of dimensional axis.',
+          minLength: 0,
+          maxLength: 256
         },
         UnitSymbol: {
           type: 'string',
-          description: 'Symbol of the units.'
+          description: 'Symbol of the units.',
+          minLength: 0,
+          maxLength: 256
         },
         Default: {
           type: 'string',
-          description: "Default value that will be used if a tile request does not specify a value or uses the keyword 'default'."
+          description: "Default value that will be used if a tile request does not specify a value or uses the keyword 'default'.",
+          minLength: 0,
+          maxLength: 256
         },
         Current: {
           type: 'boolean',
@@ -1550,7 +1588,9 @@ const otherSchemasVisSchema = {
           type: 'array',
           description: 'Available value(s) for this dimension.',
           items: {
-            type: 'string'
+            type: 'string',
+            minLength: 0,
+            maxLength: 256
           }
         }
       }
@@ -1563,12 +1603,16 @@ const otherSchemasVisSchema = {
       properties: {
         TileMatrixSet: {
           type: 'string',
-          description: 'Reference to a tileMatrixSet'
+          description: 'Reference to a tileMatrixSet',
+          minLength: 0,
+          maxLength: 256
         },
         TileMatrixSetLimits: {
           $comment: 'Experimental. Need more details',
           type: 'string',
-          description: 'Indices limits for this tileMatrixSet. The absence of this element means that tile row and tile col indices are only limited by 0 and the corresponding tileMatrixSet maximum definitions.'
+          description: 'Indices limits for this tileMatrixSet. The absence of this element means that tile row and tile col indices are only limited by 0 and the corresponding tileMatrixSet maximum definitions.',
+          minLength: 0,
+          maxLength: 256
         }
       }
     },
@@ -1580,16 +1624,22 @@ const otherSchemasVisSchema = {
       properties: {
         Format: {
           type: 'string',
-          description: 'Format of the resource representation that can be retrieved one resolved the URL template.'
+          description: 'Format of the resource representation that can be retrieved one resolved the URL template.',
+          minLength: 0,
+          maxLength: 256
         },
         ResourceType: {
           type: 'string',
-          description: 'Resource type to be retrieved. The WMTS main standard only defines "tile" or "FeatureInfo" but others can be incorporated in the future.'
+          description: 'Resource type to be retrieved. The WMTS main standard only defines "tile" or "FeatureInfo" but others can be incorporated in the future.',
+          minLength: 0,
+          maxLength: 256
         },
         Template: {
           type: 'string',
-          description: "URL template. A template processor will be applied to substitute some variables between {} for their values and get a URL to a resource. We cound not use a anyURI type (that conforms the character restrictions specified in RFC2396 and excludes '{' '}' characters in some XML parsers) because this attribute must accept the '{' '}' caracters.",
-          pattern: "([A-Za-z0-9\\-_\\.!~\\*'\\(\\);/\\?:@\\+:$,#\\{\\}=&]|%[A-Fa-f0-9][A-Fa-f0-9])+"
+          description: "URL template. A template processor will be applied to substitute some variables between {} for their values and get a URL to a resource. We could not use a anyURI type (that conforms the character restrictions specified in RFC2396 and excludes '{' '}' characters in some XML parsers) because this attribute must accept the '{' '}' characters.",
+          pattern: "([A-Za-z0-9\\-_\\.!~\\*'\\(\\);/\\?:@\\+:$,#\\{\\}=&]|%[A-Fa-f0-9][A-Fa-f0-9])+",
+          minLength: 0,
+          maxLength: 256
         }
       }
     },
@@ -1597,6 +1647,7 @@ const otherSchemasVisSchema = {
       description: 'CMR concept id of a concept.',
       type: 'string',
       minLength: 4,
+      maxLength: 64,
       pattern: '[A-Z]+\\d+-[A-Z0-9_]+'
     },
     SourceDataType: {
@@ -1712,14 +1763,17 @@ const otherSchemasVisSchema = {
       ]
     },
     VisualizationLatencyType: {
-      description: "The approximate latency between the end of data acquisition and visualization file availability for GIBS to ingest. This value may be minutes, hours, or days, depending on the appropriate units. A value of 'N/A' may be provided if not applicable (e.g. static historical products)",
       $comment: "Integer + Units or 'N/A'",
-      type: 'string',
       oneOf: [
         {
+          description: "The approximate latency between the end of data acquisition and visualization file availability for GIBS to ingest. This value may be minutes, hours, or days, depending on the appropriate units. A value of 'N/A' may be provided if not applicable (e.g. static historical products). Examples: '1 second', '2 days'",
+          title: 'Unit',
+          type: 'string',
           pattern: '(\\d+(\\.\\d+)?) (second|minute|hour|day|week|month|year)(s)?'
         },
         {
+          title: 'Not Applicable',
+          type: 'string',
           enum: [
             'N/A'
           ]
@@ -1730,11 +1784,14 @@ const otherSchemasVisSchema = {
       $comment: "Text string or 'N/A'",
       oneOf: [
         {
+          title: 'Input Manually',
           type: 'string',
           minLength: 8,
           maxLength: 256
         },
         {
+          title: 'Not Applicable',
+          type: 'string',
           enum: [
             'N/A'
           ]
@@ -1754,9 +1811,10 @@ const otherSchemasVisSchema = {
     Specification: {
       oneOf: [
         {
-          description: 'Identify and specify visualization product.',
           type: 'object',
+          title: 'UMM-Vis-Tiles',
           additionalProperties: false,
+          description: 'Identify and specify visualization product.',
           properties: {
             ProductIdentification: {
               $comment: 'Table 3.1 1 in GIBS Imagery Provider ICD, Revision B',
@@ -1835,16 +1893,9 @@ const otherSchemasVisSchema = {
                   items: {
                     description: 'A unit name.',
                     $comment: 'can be null if no units are appropriate.',
-                    anyOf: [
-                      {
-                        type: 'null'
-                      },
-                      {
-                        type: 'string',
-                        minLength: 1,
-                        maxLength: 64
-                      }
-                    ]
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 64
                   },
                   minItems: 1
                 },
@@ -1882,9 +1933,11 @@ const otherSchemasVisSchema = {
                   $comment: "Integer or 'N/A'",
                   oneOf: [
                     {
+                      title: 'User Input',
                       type: 'integer'
                     },
                     {
+                      title: 'Not Applicable',
                       type: 'string',
                       enum: [
                         'N/A'
@@ -1909,7 +1962,7 @@ const otherSchemasVisSchema = {
                   minItems: 4
                 },
                 NativeSpatialCoverage: {
-                  description: 'The spatial coverage of the data that will be visualized. The coverage is referenced in the coordinate system native to the projection.',
+                  description: 'The spatial coverage of the data that will be visualized. The coverage is referenced in the coordinate system native to the projection. In the order of LL_Y, LL_X, UR_Y, UR_X',
                   $comment: 'LL_Y, LL_X, UR_Y, UR_X',
                   type: 'array',
                   items: {
@@ -1988,10 +2041,12 @@ const otherSchemasVisSchema = {
                 Daynight: {
                   $comment: 'LayerMetadata v1.0-0',
                   description: 'Whether the visualization layer represents data captured during the day, night (or both) as perceived during time of data acquisition.',
+                  title: 'Day or Night',
                   type: 'array',
                   uniqueItems: true,
                   maxItems: 2,
                   items: {
+                    type: 'string',
                     enum: [
                       'day',
                       'night'
@@ -2104,7 +2159,7 @@ const otherSchemasVisSchema = {
                 },
                 'ows:WGS84BoundingBox': {
                   $comment: 'http://schemas.opengis.net/ows/1.1.0/owsContents.xsd',
-                  description: 'Unordered list of zero or more minimum bounding rectangles surrounding coverage data, using the WGS 84 CRS with decimal degrees and longitude before latitude. ... If multiple WGS 84 bounding boxes are included, this shall be interpreted as the union of the areas of these bounding boxes.',
+                  description: 'Unordered list of zero or more minimum bounding rectangles surrounding coverage data, using the WGS 84 CRS with decimal degrees and longitude before latitude. ... If multiple WGS 84 bounding boxes are included, this shall be interpreted as the union of the areas of these bounding boxes. Should be in the order of longitude0, longitude1, latitude0, latitude1',
                   type: 'array',
                   items: {
                     description: 'longitude0, longitude1, latitude0, latitude1',
@@ -2146,7 +2201,8 @@ const otherSchemasVisSchema = {
                   type: 'array',
                   items: {
                     type: 'string',
-                    minLength: 1
+                    minLength: 1,
+                    maxLength: 1064
                   }
                 },
                 'wmts:Style': {

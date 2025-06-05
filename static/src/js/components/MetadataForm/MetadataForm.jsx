@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
-import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { kebabCase } from 'lodash-es'
-import validator from '@rjsf/validator-ajv8'
+import { useMutation, useSuspenseQuery } from '@apollo/client'
+import { useNavigate, useParams } from 'react-router'
+import { useSearchParams } from 'react-router-dom'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Form from '@rjsf/core'
-import Row from 'react-bootstrap/Row'
 import pluralize from 'pluralize'
+import React, { useEffect, useState } from 'react'
+import Row from 'react-bootstrap/Row'
+import validator from '@rjsf/validator-ajv8'
 
 import BoundingRectangleField from '@/js/components/BoundingRectangleField/BoundingRectangleField'
 import CustomArrayTemplate from '@/js/components/CustomArrayFieldTemplate/CustomArrayFieldTemplate'
@@ -26,6 +27,7 @@ import JsonPreview from '@/js/components/JsonPreview/JsonPreview'
 import KeywordPicker from '@/js/components/KeywordPicker/KeywordPicker'
 import OneOfField from '@/js/components/OneOfField/OneOfField'
 import StreetAddressField from '@/js/components/StreetAddressField/StreetAddressField'
+import UniqueItemsArray from '@/js/components/UniqueItemsArray/UniqueItemsArray'
 
 import formConfigurations from '@/js/schemas/uiForms'
 
@@ -52,7 +54,6 @@ import toKebabCase from '@/js/utils/toKebabCase'
 import usePublishMutation from '@/js/hooks/usePublishMutation'
 
 import './MetadataForm.scss'
-import { useSearchParams } from 'react-router-dom'
 
 const MetadataForm = () => {
   const {
@@ -188,7 +189,8 @@ const MetadataForm = () => {
     RadioWidget: CustomRadioWidget,
     SelectWidget: CustomSelectWidget,
     TextareaWidget: CustomTextareaWidget,
-    TextWidget: CustomTextWidget
+    TextWidget: CustomTextWidget,
+    UniqueItemsArrayWidget: UniqueItemsArray
   }
   const templates = {
     ArrayFieldTemplate: CustomArrayTemplate,
