@@ -108,7 +108,8 @@ const otherSchemasVisSchema = {
       $ref: '#/definitions/Specification'
     },
     Generation: {
-      $comment: 'must be here when additionalProperties==false. otherwise fails'
+      $comment: 'must be here when additionalProperties==false. otherwise fails',
+      $ref: '#/definitions/Generation'
     },
     MetadataSpecification: {
       description: "Required to add in schema information into every record. It includes the schema's name, version, and URL location. The information is controlled through enumerations at the end of this schema.",
@@ -1730,9 +1731,11 @@ const otherSchemasVisSchema = {
       description: 'Specifies resolution in one dimension.',
       properties: {
         Value: {
+          description: 'The integer value of the unit',
           type: 'number'
         },
         Unit: {
+          description: 'Unit for value specified above. ie. meters, seconds, degrees, etc.',
           type: 'string',
           minLength: 1,
           maxLength: 64
@@ -2281,6 +2284,7 @@ const otherSchemasVisSchema = {
         {
           $comment: 'Table 4.1 2 in GIBS Imagery Provider ICD, Revision B, Table 3.1 1 in GIBS Imagery Provider ICD, Revision B',
           description: 'How this visualization is generated.',
+          title: 'UMM-Vis-Tiles',
           type: 'object',
           additionalProperties: false,
           properties: {
@@ -2330,10 +2334,9 @@ const otherSchemasVisSchema = {
             },
             SourceNoDataIndexOrRGB: {
               description: "The palette entry index that is designated as the \"No Data\" value in the associated colormap for raster visualization produc ts with a Source Color Model value of 'Indexed RGBA', 'Hybrid RGBA', or 'Indexed Grayscale’ OR The RGB value to be used as \"No Data\" value for raster visualization products with a Source Color Model value of 'Full-Color RGB' or 'Full-Color RGBA'.",
-              type: [
-                'integer',
-                'string'
-              ]
+              type: 'string',
+              minLength: 0,
+              maxLength: 64
             },
             SourceCoverage: {
               description: 'The geographic coverage type of the source visualization file(s).',
@@ -2449,8 +2452,10 @@ const otherSchemasVisSchema = {
             },
             QualityFlag: {
               $comment: 'Experimental. From discussion with Jeff Hall, author of classic IDL-based tools for browse image generation.',
-              description: 'Descibe filtering, mask, etc.',
-              type: 'string'
+              description: 'Describe filtering, mask, etc.',
+              type: 'string',
+              minLength: 0,
+              maxLength: 256
             },
             ColorMapAlt: {
               $comment: 'Experimental. From discussion with Jeff Hall, author of classic IDL-based tools for browse image generation. Kept for review and renamed as ColorMapAlt. /Specification/ProductMetadata/ColorMap is preferred? Or they are different?',
