@@ -1,3 +1,4 @@
+import generationUiSchema from './generation'
 import scienceKeywordsUiSchema from './scienceKeywords'
 import spatialExtentUiSchema from './spatialExtent'
 import specificationUiSchema from './specification'
@@ -9,6 +10,7 @@ const visualizationUiSchema = {
   'science-keywords': scienceKeywordsUiSchema,
   'spatial-extent': spatialExtentUiSchema,
   'temporal-extents': temporalExtentsUiSchema,
+  generation: generationUiSchema,
   specification: specificationUiSchema
 }
 
