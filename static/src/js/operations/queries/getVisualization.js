@@ -16,6 +16,12 @@ export const GET_VISUALIZATION = gql`
       revisionId
       revisions {
         count
+        items {
+          conceptId
+          revisionDate
+          revisionId
+          userId
+        }
       }
       collections (params: $collectionsParams) {
         count

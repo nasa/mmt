@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 import Button from 'react-bootstrap/Button'
@@ -153,11 +153,15 @@ const RevisionList = () => {
     }
   ]
 
+  // Ensures items are sorted when items array changes as opposed to every render
+  const sortedItems = useMemo(() => [
+    ...items].sort((a, b) => new Date(b.revisionDate) - new Date(a.revisionDate)), [items])
+
   return (
     <Table
       id="revision-results-table"
       columns={columns}
-      data={items}
+      data={sortedItems}
       generateCellKey={({ revisionId }, dataKey) => `column_${dataKey}_${conceptId}_${revisionId}`}
       generateRowKey={({ revisionId }) => `row_${conceptId}_${revisionId}`}
       noDataMessage="No results"
