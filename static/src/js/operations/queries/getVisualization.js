@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_VISUALIZATION = gql`
-  query GetVisualization ($params: VisualizationInput) {
+  query GetVisualization ($params: VisualizationInput, $collectionsParams: CollectionsInput) {
     visualization (params: $params) {
       conceptId
       description
@@ -17,7 +17,7 @@ export const GET_VISUALIZATION = gql`
       revisions {
         count
       }
-      collections {
+      collections (params: $collectionsParams) {
         count
         items {
           conceptId
