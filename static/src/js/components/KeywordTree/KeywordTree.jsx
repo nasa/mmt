@@ -74,7 +74,7 @@ const KeywordTreeComponent = forwardRef(({
   onNodeClick,
   onNodeEdit,
   onNodeDelete,
-  selectedNodeId,
+  selectedNodeId: selectedNodeIdProp,
   showContextMenu,
   openAll,
   selectedVersion,
@@ -94,6 +94,7 @@ const KeywordTreeComponent = forwardRef(({
   const [nodeToDelete, setNodeToDelete] = useState(null)
   const [isDeleting, setIsDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState(null)
+  const [selectedNodeId, setSelectedNodeId] = useState(selectedNodeIdProp)
 
   const [searchPattern, setSearchPattern] = useState('')
   const searchInputRef = useRef(null)
@@ -133,7 +134,7 @@ const KeywordTreeComponent = forwardRef(({
     } else {
       setTreeMessage('Select a version and scheme to load the tree')
     }
-  }, [selectedVersion, selectedScheme, searchPattern])
+  }, [selectedVersion, selectedScheme, searchPattern, setSelectedNodeId])
 
   // Expose the refreshTree function to the parent component
   useImperativeHandle(ref, () => ({
@@ -168,6 +169,7 @@ const KeywordTreeComponent = forwardRef(({
           if (node) {
             treeRef.current.select(selectedNodeId)
             treeRef.current.scrollTo(selectedNodeId, 'center')
+            node.open()
           }
         }, 0)
       } else {
@@ -252,32 +254,7 @@ const KeywordTreeComponent = forwardRef(({
           // If there's an error message, set it and keep the modal open
           setDeleteError(errorMessage)
         } else {
-          setTreeData((prevData) => {
-            const newData = [...prevData]
-            const findAndDeleteNode = (nodes) => {
-              for (let i = 0; i < nodes.length; i += 1) {
-                if (nodes[i].id === nodeToDelete.id) {
-                // Node found, remove it
-                  nodes.splice(i, 1)
-
-                  return true
-                }
-
-                if (nodes[i].children) {
-                // Recursively search in children
-                  if (findAndDeleteNode(nodes[i].children)) {
-                    return true
-                  }
-                }
-              }
-
-              return false
-            }
-
-            findAndDeleteNode(newData)
-
-            return newData
-          })
+          setSelectedNodeId(nodeToDelete.parent.id)
 
           closeDeleteModal()
         }

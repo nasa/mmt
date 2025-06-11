@@ -820,48 +820,6 @@ describe('KeywordTree component', () => {
     })
   })
 
-  describe('Edge cases', () => {
-    test('should handle empty tree data', async () => {
-      getKmsKeywordTree.mockResolvedValue([])
-
-      render(
-        <KeywordTree
-          onNodeClick={mockOnNodeClick}
-          selectedVersion={mockSelectedVersion}
-          selectedScheme={mockSelectedScheme}
-        />
-      )
-
-      await waitFor(() => {
-        expect(screen.getByRole('tree')).toBeInTheDocument()
-      })
-
-      expect(screen.queryByRole('treeitem')).not.toBeInTheDocument()
-    })
-
-    test('should handle very long node titles', async () => {
-      const longTitle = 'A'.repeat(100)
-      const mockTreeData = [{
-        id: '1',
-        title: longTitle,
-        children: []
-      }]
-      getKmsKeywordTree.mockResolvedValue(mockTreeData)
-
-      render(
-        <KeywordTree
-          onNodeClick={mockOnNodeClick}
-          selectedVersion={mockSelectedVersion}
-          selectedScheme={mockSelectedScheme}
-        />
-      )
-
-      await waitFor(() => {
-        expect(screen.getByText(longTitle)).toBeInTheDocument()
-      })
-    })
-  })
-
   describe('when deleting nodes', () => {
     test('should close delete confirmation modal and reset state', async () => {
       const mockTreeData = [{
@@ -913,118 +871,6 @@ describe('KeywordTree component', () => {
       // Verify that the modal opens with fresh state (no error message)
       expect(screen.getByText('Confirm Deletion')).toBeInTheDocument()
       expect(screen.queryByText(/An error occurred/)).not.toBeInTheDocument()
-    })
-
-    test('should handle node deletion confirmation', async () => {
-      const mockOnNodeDelete = vi.fn()
-      const mockTreeData = [{
-        id: '1',
-        key: '1',
-        title: 'Root',
-        children: [
-          {
-            id: '2',
-            key: '2',
-            title: 'Child',
-            children: []
-          }
-        ]
-      }]
-      getKmsKeywordTree.mockResolvedValue(mockTreeData)
-
-      const { rerender } = render(
-        <KeywordTree
-          onNodeClick={mockOnNodeClick}
-          onNodeEdit={mockOnNodeEdit}
-          onAddNarrower={mockOnAddNarrower}
-          onNodeDelete={mockOnNodeDelete}
-          selectedVersion={mockSelectedVersion}
-          selectedScheme={mockSelectedScheme}
-          showContextMenu
-        />
-      )
-
-      await waitFor(() => {
-        expect(screen.getByText('Root')).toBeInTheDocument()
-      })
-
-      expect(screen.getByText('Child')).toBeInTheDocument()
-
-      // Open context menu for Child node
-      fireEvent.contextMenu(screen.getByText('Child'))
-
-      // Click delete option
-      fireEvent.click(screen.getByText('Delete'))
-
-      // Verify delete confirmation modal is open
-      expect(screen.getByText('Confirm Deletion')).toBeInTheDocument()
-      expect(screen.getByText('Delete "Child"?')).toBeInTheDocument()
-
-      // Mock successful deletion
-      mockOnNodeDelete.mockResolvedValueOnce(null)
-
-      // Click delete button
-      fireEvent.click(screen.getByText('Delete'))
-
-      // Wait for the deletion process
-      await waitFor(() => {
-        expect(mockOnNodeDelete).toHaveBeenCalledWith(expect.objectContaining({
-          id: '2',
-          title: 'Child'
-        }))
-      })
-
-      // Verify that the modal is closed and the node is removed
-      await waitFor(() => {
-        expect(screen.queryByText('Confirm Deletion')).not.toBeInTheDocument()
-      })
-
-      expect(screen.queryByText('Child')).not.toBeInTheDocument()
-
-      // Test error handling
-      // Rerender the component to reset the tree
-      rerender(
-        <KeywordTree
-          onNodeClick={mockOnNodeClick}
-          onNodeEdit={mockOnNodeEdit}
-          onAddNarrower={mockOnAddNarrower}
-          onNodeDelete={mockOnNodeDelete}
-          selectedVersion={mockSelectedVersion}
-          selectedScheme={mockSelectedScheme}
-          showContextMenu
-        />
-      )
-
-      await waitFor(() => {
-        expect(screen.getByText('Root')).toBeInTheDocument()
-      })
-
-      // Open context menu for Root node
-      fireEvent.contextMenu(screen.getByText('Root'))
-
-      // Click delete option
-      fireEvent.click(screen.getByText('Delete'))
-
-      // Mock failed deletion
-      mockOnNodeDelete.mockResolvedValueOnce('Error deleting node')
-
-      // Click delete button
-      fireEvent.click(screen.getByText('Delete'))
-
-      // Wait for the deletion process
-      await waitFor(() => {
-        expect(mockOnNodeDelete).toHaveBeenCalledWith(expect.objectContaining({
-          id: '1',
-          title: 'Root'
-        }))
-      })
-
-      // Verify that the modal shows an error message and the node is not removed
-      await waitFor(() => {
-        expect(screen.getByText('Error deleting node')).toBeInTheDocument()
-      })
-
-      expect(screen.getByText('Root')).toBeInTheDocument()
     })
 
     test('should handle error during node deletion', async () => {
@@ -1104,6 +950,48 @@ describe('KeywordTree component', () => {
       })
 
       expect(screen.getByText('Root')).toBeInTheDocument()
+    })
+  })
+
+  describe('Edge cases', () => {
+    test('should handle empty tree data', async () => {
+      getKmsKeywordTree.mockResolvedValue([])
+
+      render(
+        <KeywordTree
+          onNodeClick={mockOnNodeClick}
+          selectedVersion={mockSelectedVersion}
+          selectedScheme={mockSelectedScheme}
+        />
+      )
+
+      await waitFor(() => {
+        expect(screen.getByRole('tree')).toBeInTheDocument()
+      })
+
+      expect(screen.queryByRole('treeitem')).not.toBeInTheDocument()
+    })
+
+    test('should handle very long node titles', async () => {
+      const longTitle = 'A'.repeat(100)
+      const mockTreeData = [{
+        id: '1',
+        title: longTitle,
+        children: []
+      }]
+      getKmsKeywordTree.mockResolvedValue(mockTreeData)
+
+      render(
+        <KeywordTree
+          onNodeClick={mockOnNodeClick}
+          selectedVersion={mockSelectedVersion}
+          selectedScheme={mockSelectedScheme}
+        />
+      )
+
+      await waitFor(() => {
+        expect(screen.getByText(longTitle)).toBeInTheDocument()
+      })
     })
   })
 })
