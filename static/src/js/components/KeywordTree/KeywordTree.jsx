@@ -8,7 +8,11 @@ import React, {
 import { Tree } from 'react-arborist'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 import PropTypes from 'prop-types'
-import { Button, Form } from 'react-bootstrap'
+import {
+  Button,
+  Form,
+  Spinner
+} from 'react-bootstrap'
 import { v4 as uuidv4 } from 'uuid'
 import {
   KeywordTreeContextMenu
@@ -55,6 +59,7 @@ import { castArray } from 'lodash-es'
  *   <KeywordTree
  *     onNodeClick={handleNodeClick}
  *     onNodeEdit={handleNodeEdit}
+ *     onNodeDelete={handleNodeDelete}
  *     onAddNarrower={handleAddNarrower}
  *     selectedNodeId="1"
  *     showContextMenu={true}
@@ -68,6 +73,7 @@ const KeywordTreeComponent = forwardRef(({
   onAddNarrower,
   onNodeClick,
   onNodeEdit,
+  onNodeDelete,
   selectedNodeId,
   showContextMenu,
   openAll,
@@ -84,6 +90,10 @@ const KeywordTreeComponent = forwardRef(({
   const [showAddNarrowerPopup, setShowAddNarrowerPopup] = useState(false)
   const [newNarrowerTitle, setNewNarrowerTitle] = useState('')
   const [addNarrowerParentId, setAddNarrowerParentId] = useState(null)
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
+  const [nodeToDelete, setNodeToDelete] = useState(null)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [deleteError, setDeleteError] = useState(null)
 
   const [searchPattern, setSearchPattern] = useState('')
   const searchInputRef = useRef(null)
@@ -212,7 +222,7 @@ const KeywordTreeComponent = forwardRef(({
     }
   }
 
-  const modalActions = [
+  const addModalActions = [
     {
       label: 'Cancel',
       variant: 'secondary',
@@ -225,17 +235,79 @@ const KeywordTreeComponent = forwardRef(({
     }
   ]
 
-  const handleDelete = (nodeId) => {
-    setTreeData((prevData) => {
-      const deleteNode = (nodes) => nodes.filter((node) => node.id !== nodeId)
-        .map((node) => ({
-          ...node,
-          children: node.children ? deleteNode(node.children) : undefined
-        }))
-
-      return deleteNode(prevData)
-    })
+  const closeDeleteModal = () => {
+    setShowDeleteConfirmation(false)
+    setNodeToDelete(null)
+    setDeleteError(null)
   }
+
+  const handleDeleteConfirmation = async () => {
+    if (nodeToDelete) {
+      setIsDeleting(true)
+      setDeleteError(null)
+      try {
+        // Notify the parent component about the deletion
+        const errorMessage = await onNodeDelete(nodeToDelete.data)
+        if (errorMessage) {
+          // If there's an error message, set it and keep the modal open
+          setDeleteError(errorMessage)
+        } else {
+          setTreeData((prevData) => {
+            const newData = [...prevData]
+            const findAndDeleteNode = (nodes) => {
+              for (let i = 0; i < nodes.length; i += 1) {
+                if (nodes[i].id === nodeToDelete.id) {
+                // Node found, remove it
+                  nodes.splice(i, 1)
+
+                  return true
+                }
+
+                if (nodes[i].children) {
+                // Recursively search in children
+                  if (findAndDeleteNode(nodes[i].children)) {
+                    return true
+                  }
+                }
+              }
+
+              return false
+            }
+
+            findAndDeleteNode(newData)
+
+            return newData
+          })
+
+          closeDeleteModal()
+        }
+      } catch (error) {
+        setDeleteError(error.message || 'An error occurred while deleting the node.')
+      } finally {
+        setIsDeleting(false)
+      }
+    }
+  }
+
+  const handleDelete = (node) => {
+    setNodeToDelete(node)
+    setShowDeleteConfirmation(true)
+  }
+
+  const deleteModalActions = [
+    {
+      label: 'Cancel',
+      variant: 'secondary',
+      onClick: closeDeleteModal,
+      disabled: isDeleting
+    },
+    {
+      label: 'Delete',
+      variant: 'danger',
+      onClick: handleDeleteConfirmation,
+      disabled: isDeleting
+    }
+  ]
 
   if (isTreeLoading) {
     return <KeywordTreePlaceHolder message="Loading..." />
@@ -336,8 +408,31 @@ const KeywordTreeComponent = forwardRef(({
             </Form.Group>
           )
         }
-        actions={modalActions}
+        actions={addModalActions}
         toggleModal={setShowAddNarrowerPopup}
+      />
+      <CustomModal
+        show={showDeleteConfirmation}
+        header="Confirm Deletion"
+        message={
+          (
+            <div>
+              <p>{`Delete "${nodeToDelete?.data.title}"?`}</p>
+              {
+                isDeleting && (
+                  <div className="text-primary mt-2">
+                    <Spinner animation="border" size="sm" />
+                    {' '}
+                    Deleting...
+                  </div>
+                )
+              }
+              {deleteError && <div className="text-danger mt-2">{deleteError}</div>}
+            </div>
+          )
+        }
+        actions={deleteModalActions}
+        toggleModal={closeDeleteModal}
       />
 
     </div>
@@ -361,7 +456,8 @@ KeywordTreeComponent.defaultProps = {
   onNodeEdit: null,
   selectedVersion: null,
   selectedScheme: null,
-  data: null
+  data: null,
+  onNodeDelete: null
 }
 
 KeywordTreeComponent.propTypes = {
@@ -377,7 +473,8 @@ KeywordTreeComponent.propTypes = {
   showContextMenu: PropTypes.bool,
   openAll: PropTypes.bool,
   selectedVersion: PropTypes.shape(),
-  selectedScheme: PropTypes.shape()
+  selectedScheme: PropTypes.shape(),
+  onNodeDelete: PropTypes.func
 }
 
 export const KeywordTree = KeywordTreeComponent
