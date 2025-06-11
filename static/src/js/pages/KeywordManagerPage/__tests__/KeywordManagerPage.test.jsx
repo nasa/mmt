@@ -938,9 +938,6 @@ describe('KeywordManagerPage component', () => {
       await waitFor(() => {
         expect(screen.queryByTestId('mock-keyword-form')).not.toBeInTheDocument()
       }, { timeout: 3000 })
-
-      // Log the final state of the component for debugging
-      console.log('Final DOM state:', document.body.innerHTML)
     })
 
     test('should log error and handle deletion failure', async () => {
