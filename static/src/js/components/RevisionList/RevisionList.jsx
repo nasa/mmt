@@ -1,4 +1,8 @@
-import React, { useCallback } from 'react'
+import React, {
+  useCallback,
+  useMemo,
+  useState
+} from 'react'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 import Button from 'react-bootstrap/Button'
@@ -33,6 +37,8 @@ const RevisionList = () => {
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
+  const [publishedRevisionId, setPublishedRevisionId] = useState(null)
+
   const { data } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
     variables: {
       params: {
@@ -42,12 +48,12 @@ const RevisionList = () => {
   })
 
   const { [derivedConceptType.toLowerCase()]: concept } = data
-  const { revisions, revisionId: conceptRevisionId } = concept
+  const { revisions } = concept
   const { count, items } = revisions
 
   const buildDescriptionCell = useCallback((cellData, rowData) => {
     const { revisionId: rowDataRevisionId } = rowData
-    const isPublished = rowDataRevisionId === conceptRevisionId
+    const isPublished = rowDataRevisionId === publishedRevisionId
 
     let descriptionCellContent
 
@@ -66,7 +72,7 @@ const RevisionList = () => {
     }
 
     return descriptionCellContent
-  }, [])
+  }, [publishedRevisionId])
 
   const [restoreMutation] = useMutation(restoreRevisionMutations[derivedConceptType], {
     refetchQueries: [{
@@ -104,8 +110,7 @@ const RevisionList = () => {
 
   const buildActionCell = useCallback((cellData, rowData) => {
     const { revisionId: rowDataRevisionId } = rowData
-    const { revisionId: currRevisionId } = concept
-    const isPublished = rowDataRevisionId === currRevisionId
+    const isPublished = rowDataRevisionId === publishedRevisionId
 
     let actionCellContent
 
@@ -125,7 +130,7 @@ const RevisionList = () => {
     }
 
     return actionCellContent
-  })
+  }, [handleRevert, publishedRevisionId])
 
   const columns = [
     {
@@ -153,11 +158,22 @@ const RevisionList = () => {
     }
   ]
 
+  // Ensures items are sorted when items array changes as opposed to every render
+  const sortedItems = useMemo(() => {
+    const sorted = [...items].sort((a, b) => new Date(b.revisionDate) - new Date(a.revisionDate))
+    // Set the published revision ID to the first (most recent) revision
+    if (sorted.length > 0) {
+      setPublishedRevisionId(sorted[0].revisionId)
+    }
+
+    return sorted
+  }, [items])
+
   return (
     <Table
       id="revision-results-table"
       columns={columns}
-      data={items}
+      data={sortedItems}
       generateCellKey={({ revisionId }, dataKey) => `column_${dataKey}_${conceptId}_${revisionId}`}
       generateRowKey={({ revisionId }) => `row_${conceptId}_${revisionId}`}
       noDataMessage="No results"
