@@ -3283,7 +3283,7 @@ export const revertCollectionRevision = {
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2000-02-022T18:00:00.000Z',
+              revisionDate: '2000-02-22T18:00:00.000Z',
               revisionId: '3',
               userId: 'admin',
               __typename: 'Collection'
