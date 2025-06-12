@@ -951,6 +951,65 @@ describe('KeywordTree component', () => {
 
       expect(screen.getByText('Root')).toBeInTheDocument()
     })
+
+    test('should handle error message returned from onNodeDelete', async () => {
+      const mockOnNodeDelete = vi.fn().mockResolvedValue('Custom error message')
+      const mockTreeData = [{
+        id: '1',
+        key: '1',
+        title: 'Root',
+        children: []
+      }]
+      getKmsKeywordTree.mockResolvedValue(mockTreeData)
+
+      render(
+        <KeywordTree
+          onNodeClick={mockOnNodeClick}
+          onNodeEdit={mockOnNodeEdit}
+          onAddNarrower={mockOnAddNarrower}
+          onNodeDelete={mockOnNodeDelete}
+          selectedVersion={mockSelectedVersion}
+          selectedScheme={mockSelectedScheme}
+          showContextMenu
+        />
+      )
+
+      await waitFor(() => {
+        expect(screen.getByText('Root')).toBeInTheDocument()
+      })
+
+      // Open context menu for Root node
+      fireEvent.contextMenu(screen.getByText('Root'))
+
+      // Click delete option
+      fireEvent.click(screen.getByText('Delete'))
+
+      // Verify delete confirmation modal is open
+      expect(screen.getByText('Confirm Deletion')).toBeInTheDocument()
+      expect(screen.getByText('Delete "Root"?')).toBeInTheDocument()
+
+      // Click delete button
+      fireEvent.click(screen.getByText('Delete'))
+
+      // Wait for the deletion process to complete
+      await waitFor(() => {
+        expect(mockOnNodeDelete).toHaveBeenCalledWith(expect.objectContaining({
+          id: '1',
+          title: 'Root'
+        }))
+      })
+
+      // Verify that the modal shows the custom error message and remains open
+      await waitFor(() => {
+        expect(screen.getByText('Custom error message')).toBeInTheDocument()
+      })
+
+      expect(screen.getByText('Confirm Deletion')).toBeInTheDocument()
+      expect(screen.getByText('Delete "Root"?')).toBeInTheDocument()
+
+      // Verify that the node is not removed from the tree
+      expect(screen.getByText('Root')).toBeInTheDocument()
+    })
   })
 
   describe('Edge cases', () => {
