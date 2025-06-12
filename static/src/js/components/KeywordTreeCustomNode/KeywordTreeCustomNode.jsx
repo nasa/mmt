@@ -158,12 +158,8 @@ export const KeywordTreeCustomNode = ({
       </div>
       <div className="keyword-tree__text-wrapper">
         <span
-          className="keyword-tree__node-text"
-          style={
-            {
-              backgroundColor
-            }
-          }
+          className={`keyword-tree__node-text ${node.isSelected ? 'keyword-tree__node-text--selected' : ''}`}
+          style={{ backgroundColor }}
         >
           {highlightSearchTerm(node.data.title, searchTerm)}
         </span>

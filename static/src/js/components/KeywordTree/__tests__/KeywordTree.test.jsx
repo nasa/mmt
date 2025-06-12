@@ -765,7 +765,10 @@ describe('KeywordTree component', () => {
       })
 
       expect(screen.getByText('Parent')).toBeInTheDocument()
-      expect(screen.getByText('Child')).toBeInTheDocument()
+
+      const childNode = screen.getByText('Child')
+
+      expect(childNode).toHaveClass('keyword-tree__node-text--selected')
     })
   })
 
