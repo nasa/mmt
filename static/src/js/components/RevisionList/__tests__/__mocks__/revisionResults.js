@@ -15,6 +15,7 @@ export const collectionRevisions = {
     data: {
       collection: {
         abstract: "The 2012 Environmental Performance Index (EPI) ranks 132 countries on 22 performance indicators in the following 10 policy categories:  environmental burden of disease, water (effects on human health), air pollution (effects on human health), air pollution (ecosystem effects), water resources (ecosystem effects), biodiversity and habitat, forestry, fisheries, agriculture and climate change. These categories track performance and progress on two broad policy objectives, environmental health and ecosystem vitality. Each indicator has an associated environmental public health or ecosystem sustainability target. The EPI's proximity-to-target methodology facilitates cross-country comparisons among economic and regional peer groups.\n\n\n\n\nThe Pilot Trend Environmental Performance Index (Trend EPI) ranks countries on the change in their environmental performance over the last decade. As a complement to the EPI, the Trend EPI shows who is improving and who is declining over time.\n\n\n\n\nThe 2012 EPI and Pilot Trend EPI were formally released in Davos, Switzerland, at the annual meeting of the World Economic Forum on January 27, 2012. These are the result of collaboration between the Yale Center for Environmental Law and Policy (YCELP) and the Columbia University Center for International Earth Science Information Network (CIESIN). The Interactive Website for the 2012 EPI is at http://epi.yale.edu/.",
+        associationDetails: [],
         accessConstraints: {
           description: 'None'
         },
@@ -1569,66 +1570,68 @@ export const collectionRevisions = {
         userId: 'admin',
         variables: {
           count: 0,
+          cursor: '',
           items: null,
           __typename: 'VariableList'
         },
         versionDescription: null,
         versionId: '2012.00',
+        visualizations: [],
         revisions: {
           count: 8,
           items: [
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2000-02-01T18:00:00.000Z',
+              revisionDate: '2000-02-28T18:00:00.000Z',
               revisionId: '8',
               userId: 'admin',
               __typename: 'Collection'
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2024-04-24T16:37:11.849Z',
+              revisionDate: '2000-02-27T18:00:00.000Z',
               revisionId: '7',
               userId: 'admin',
               __typename: 'Collection'
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2024-04-24T16:30:34.542Z',
+              revisionDate: '2000-02-26T18:00:00.000Z',
               revisionId: '6',
               userId: 'admin',
               __typename: 'Collection'
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2024-04-24T16:25:36.563Z',
+              revisionDate: '2000-02-24T18:00:00.000Z',
               revisionId: '5',
               userId: 'admin',
               __typename: 'Collection'
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2024-04-24T04:55:11.745Z',
+              revisionDate: '2000-02-23T18:00:00.000Z',
               revisionId: '4',
               userId: 'admin',
               __typename: 'Collection'
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2024-04-24T03:38:28.988Z',
+              revisionDate: '2000-02-22T18:00:00.000Z',
               revisionId: '3',
               userId: 'admin',
               __typename: 'Collection'
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2024-04-24T03:24:08.375Z',
+              revisionDate: '2000-02-21T18:00:00.000Z',
               revisionId: '2',
               userId: 'admin',
               __typename: 'Collection'
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2024-04-24T03:23:24.368Z',
+              revisionDate: '2000-02-20T18:00:00.000Z',
               revisionId: '1',
               userId: 'admin',
               __typename: 'Collection'
@@ -1672,6 +1675,7 @@ export const revertCollectionRevision = {
     data: {
       collection: {
         abstract: "The 2012 Environmental Performance Index (EPI) ranks 132 countries on 22 performance indicators in the following 10 policy categories:  environmental burden of disease, water (effects on human health), air pollution (effects on human health), air pollution (ecosystem effects), water resources (ecosystem effects), biodiversity and habitat, forestry, fisheries, agriculture and climate change. These categories track performance and progress on two broad policy objectives, environmental health and ecosystem vitality. Each indicator has an associated environmental public health or ecosystem sustainability target. The EPI's proximity-to-target methodology facilitates cross-country comparisons among economic and regional peer groups.\n\n\n\n\nThe Pilot Trend Environmental Performance Index (Trend EPI) ranks countries on the change in their environmental performance over the last decade. As a complement to the EPI, the Trend EPI shows who is improving and who is declining over time.\n\n\n\n\nThe 2012 EPI and Pilot Trend EPI were formally released in Davos, Switzerland, at the annual meeting of the World Economic Forum on January 27, 2012. These are the result of collaboration between the Yale Center for Environmental Law and Policy (YCELP) and the Columbia University Center for International Earth Science Information Network (CIESIN). The Interactive Website for the 2012 EPI is at http://epi.yale.edu/.",
+        associationDetails: [],
         accessConstraints: {
           description: 'None'
         },
@@ -3225,73 +3229,75 @@ export const revertCollectionRevision = {
         userId: 'admin',
         variables: {
           count: 0,
+          cursor: '',
           items: null,
           __typename: 'VariableList'
         },
         versionDescription: null,
         versionId: '2012.00',
+        visualizations: [],
         revisions: {
           count: 9,
           items: [
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2000-02-01',
+              revisionDate: '2000-02-28T18:00:00.000Z',
               revisionId: '9',
               userId: 'admin',
               __typename: 'Collection'
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2000-02-01',
+              revisionDate: '2000-02-27T18:00:00.000Z',
               revisionId: '8',
               userId: 'admin',
               __typename: 'Collection'
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2000-02-01T18:00:00.000Z',
+              revisionDate: '2000-02-26T18:00:00.000Z',
               revisionId: '7',
               userId: 'admin',
               __typename: 'Collection'
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2000-02-01T18:00:00.000Z',
+              revisionDate: '2000-02-25T18:00:00.000Z',
               revisionId: '6',
               userId: 'admin',
               __typename: 'Collection'
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2000-02-01T18:00:00.000Z',
+              revisionDate: '2000-02-24T18:00:00.000Z',
               revisionId: '5',
               userId: 'admin',
               __typename: 'Collection'
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2000-02-01T18:00:00.000Z',
+              revisionDate: '2000-02-23T18:00:00.000Z',
               revisionId: '4',
               userId: 'admin',
               __typename: 'Collection'
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2000-02-01T18:00:00.000Z',
+              revisionDate: '2000-02-22T18:00:00.000Z',
               revisionId: '3',
               userId: 'admin',
               __typename: 'Collection'
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2000-02-01T18:00:00.000Z',
+              revisionDate: '2000-02-21T18:00:00.000Z',
               revisionId: '2',
               userId: 'admin',
               __typename: 'Collection'
             },
             {
               conceptId: 'C1200000104-MMT_2',
-              revisionDate: '2000-02-01T18:00:00.000Z',
+              revisionDate: '2000-02-20T18:00:00.000Z',
               revisionId: '1',
               userId: 'admin',
               __typename: 'Collection'

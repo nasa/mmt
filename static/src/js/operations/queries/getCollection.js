@@ -117,14 +117,6 @@ export const GET_COLLECTION = gql`
           url
         }
       }
-      visualizations {
-        count
-        items {
-          conceptId
-          name
-          type: visualizationType
-        }
-      }
       ummMetadata
       useConstraints
       userId
@@ -138,6 +130,14 @@ export const GET_COLLECTION = gql`
       }
       versionDescription
       versionId
+      visualizations {
+        count
+        items {
+          conceptId
+          name
+          type: visualizationType
+        }
+      }
     }
   }
 `

@@ -107,7 +107,7 @@ describe('RevisionList component', () => {
       const row2Cells = within(row2).queryAllByRole('cell')
       expect(row1Cells).toHaveLength(4)
       expect(row1Cells[0].textContent).toBe('8 - Published')
-      expect(row1Cells[1].textContent).toBe('Tuesday, February 1, 2000 6:00 PM')
+      expect(row1Cells[1].textContent).toBe('Monday, February 28, 2000 6:00 PM')
       expect(row1Cells[2].textContent).toBe('admin')
       expect(row1Cells[3].textContent).toBe('')
 
