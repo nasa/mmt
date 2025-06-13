@@ -33,6 +33,7 @@ import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
 import useAuthContext from '@/js/hooks/useAuthContext'
 
 import './KeywordManagerPage.scss'
+import { deleteKmsConcept } from '@/js/utils/deleteKmsConcept'
 
 /**
  * KeywordManagerPage Component
@@ -86,6 +87,15 @@ const KeywordManagerPage = () => {
 
   const keywordTreeRef = useRef(null)
 
+  const getVersionName = () => {
+    let versionName = selectedVersion.version
+    if (selectedVersion.version_type === 'published') {
+      versionName = 'published'
+    }
+
+    return versionName
+  }
+
   const handleKeywordSave = useCallback((savedKeywordId) => {
     if (keywordTreeRef.current) {
       keywordTreeRef.current.refreshTree()
@@ -93,6 +103,38 @@ const KeywordManagerPage = () => {
 
     setSelectedKeywordId(savedKeywordId)
   }, [])
+
+  const handleNodeDelete = useCallback(async (node) => {
+    setIsLoading(true)
+    setShowError(null)
+    try {
+      await deleteKmsConcept(
+        {
+          conceptId: node.id,
+          version: getVersionName(),
+          token: tokenValue
+        }
+      )
+
+      // After successful deletion, refresh the tree
+      if (keywordTreeRef.current) {
+        keywordTreeRef.current.refreshTree()
+      }
+
+      // Clear the selected keyword data regardless of which node was deleted
+      setSelectedKeywordData(null)
+      setShowKeywordForm(false)
+
+      return null
+    } catch (error) {
+      errorLogger(error, 'KeywordManagerPage: handleNodeDelete')
+
+      return error.message
+    } finally {
+      setIsLoading(false)
+    }
+  }, [getVersionName, tokenValue])
+
   /**
    * Opens the modal for publishing a new keyword version.
    * Resets the new version name and clears any previous publish errors.
@@ -135,12 +177,7 @@ const KeywordManagerPage = () => {
     setIsLoading(true)
     setShowError(null)
     try {
-      let versionParam = selectedVersion.version
-      if (selectedVersion.version_type === 'published') {
-        versionParam = 'published'
-      }
-
-      const response = await fetch(`${kmsHost}/concept/${uuid}?version=${versionParam}`)
+      const response = await fetch(`${kmsHost}/concept/${uuid}?version=${getVersionName()}`)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
@@ -266,6 +303,7 @@ const KeywordManagerPage = () => {
       onNodeClick={handleNodeClick}
       onNodeEdit={handleShowKeyword}
       onAddNarrower={handleAddNarrower}
+      onNodeDelete={handleNodeDelete}
       selectedNodeId={selectedKeywordId}
       selectedScheme={selectedScheme}
       selectedVersion={selectedVersion}
