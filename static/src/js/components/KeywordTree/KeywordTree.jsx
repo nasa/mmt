@@ -134,7 +134,7 @@ const KeywordTreeComponent = forwardRef(({
     } else {
       setTreeMessage('Select a version and scheme to load the tree')
     }
-  }, [selectedVersion, selectedScheme, searchPattern, setSelectedNodeId])
+  }, [selectedVersion, selectedScheme, searchPattern, selectedNodeId])
 
   // Expose the refreshTree function to the parent component
   useImperativeHandle(ref, () => ({
@@ -163,13 +163,15 @@ const KeywordTreeComponent = forwardRef(({
       if (shouldOpenAll) {
         treeRef.current.openAll()
       } else if (selectedNodeId) {
-        treeRef.current.openParents(selectedNodeId)
+        treeRef.current?.openParents(selectedNodeId)
         setTimeout(() => { // Delay to potentially allow tree updates
-          const node = treeRef.current.get(selectedNodeId)
-          if (node) {
-            treeRef.current.select(selectedNodeId)
-            treeRef.current.scrollTo(selectedNodeId, 'center')
-            node.open()
+          if (treeRef.current) {
+            const node = treeRef.current.get(selectedNodeId)
+            if (node) {
+              treeRef.current.select(selectedNodeId)
+              treeRef.current.scrollTo(selectedNodeId, 'center')
+              node.open()
+            }
           }
         }, 0)
       } else {
