@@ -54,5 +54,13 @@
     &:hover {
       background-color: #cce5ff;
     }
+
+    &--selected {
+      background-color: #99ccff;
+    }
+
+    &--hovered {
+      background-color: #cce5ff;
+    }
   }
 }

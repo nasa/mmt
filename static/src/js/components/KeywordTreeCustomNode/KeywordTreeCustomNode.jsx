@@ -87,11 +87,11 @@ export const KeywordTreeCustomNode = ({
     setContextMenu(newContextMenu)
   }
 
-  let backgroundColor = 'transparent'
+  const nodeTextClasses = ['keyword-tree__node-text']
   if (node.isSelected) {
-    backgroundColor = '#99ccff'
+    nodeTextClasses.push('keyword-tree__node-text--selected')
   } else if (isHovered) {
-    backgroundColor = '#cce5ff'
+    nodeTextClasses.push('keyword-tree__node-text--hovered')
   }
 
   const highlightSearchTerm = (text, term) => {
@@ -161,14 +161,7 @@ export const KeywordTreeCustomNode = ({
         }
       </div>
       <div className="keyword-tree__text-wrapper">
-        <span
-          className="keyword-tree__node-text"
-          style={
-            {
-              backgroundColor
-            }
-          }
-        >
+        <span className={nodeTextClasses.join(' ')}>
           {highlightSearchTerm(node.data.title, searchTerm)}
         </span>
       </div>

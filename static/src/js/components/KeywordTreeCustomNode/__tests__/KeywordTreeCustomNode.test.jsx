@@ -7,6 +7,7 @@ import {
 } from '@testing-library/react'
 import { vi } from 'vitest'
 import { KeywordTreeCustomNode } from '../KeywordTreeCustomNode'
+import '../KeywordTreeCustomNode.scss'
 
 describe('KeywordTreeCustomNode component', () => {
   const defaultProps = {
@@ -127,15 +128,15 @@ describe('KeywordTreeCustomNode component', () => {
       const nodeText = within(nodeContent).getByText('Node 1')
 
       // Check initial state (not hovered)
-      expect(window.getComputedStyle(nodeText).backgroundColor).not.toBe('rgb(204, 229, 255)')
+      expect(nodeText).not.toHaveClass('keyword-tree__node-text--hovered')
 
       // Hover
       fireEvent.mouseEnter(nodeContent)
-      expect(window.getComputedStyle(nodeText).backgroundColor).toBe('rgb(204, 229, 255)')
+      expect(nodeText).toHaveClass('keyword-tree__node-text--hovered')
 
       // Un-hover
       fireEvent.mouseLeave(nodeContent)
-      expect(window.getComputedStyle(nodeText).backgroundColor).not.toBe('rgb(204, 229, 255)')
+      expect(nodeText).not.toHaveClass('keyword-tree__node-text--hovered')
     })
 
     test('should call onNodeClick when Enter key is pressed', () => {
@@ -313,7 +314,7 @@ describe('KeywordTreeCustomNode component', () => {
   })
 
   describe('when node is selected', () => {
-    test('should have a blue background when selected', () => {
+    test('should have selected class when selected', () => {
       const selectedNodeProps = {
         ...defaultProps,
         node: {
@@ -326,17 +327,16 @@ describe('KeywordTreeCustomNode component', () => {
       const nodeContent = screen.getByRole('button', { name: /Keyword: Node 1/i })
       const nodeText = within(nodeContent).getByText('Node 1')
 
-      expect(window.getComputedStyle(nodeText).backgroundColor).toBe('rgb(153, 204, 255)') // #99ccff
+      expect(nodeText).toHaveClass('keyword-tree__node-text--selected')
     })
 
-    test('should have a transparent background when not selected', () => {
+    test('should not have selected class when not selected', () => {
       render(<KeywordTreeCustomNode {...defaultProps} />)
 
       const nodeContent = screen.getByRole('button', { name: /Keyword: Node 1/i })
       const nodeText = within(nodeContent).getByText('Node 1')
 
-      const { backgroundColor } = window.getComputedStyle(nodeText)
-      expect(['transparent', 'rgba(0, 0, 0, 0)']).toContain(backgroundColor)
+      expect(nodeText).not.toHaveClass('keyword-tree__node-text--selected')
     })
   })
 })
