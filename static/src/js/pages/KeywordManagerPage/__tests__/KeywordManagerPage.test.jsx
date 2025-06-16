@@ -21,7 +21,21 @@ import * as useAuthContextModule from '@/js/hooks/useAuthContext'
 import * as errorLoggerModule from '@/js/utils/errorLogger'
 import PropTypes from 'prop-types'
 import GenerateKeywordReportModal from '@/js/components/GenerateKeywordReportModal/GenerateKeywordReportModal'
+import { getVersionName } from '@/js/utils/getVersionName'
 import KeywordManagerPage from '../KeywordManagerPage'
+
+vi.mock('@/js/utils/getVersionName', () => ({
+  getVersionName: vi.fn((version) => {
+    if (!version) return null
+
+    return version.version_type === 'published' ? 'published' : version.version
+  })
+}))
+
+vi.mock('@/js/utils/errorLogger', () => ({
+  __esModule: true,
+  default: vi.fn()
+}))
 
 vi.mock('@/js/utils/getKmsKeywordTree')
 vi.mock('@/js/utils/publishKmsConceptVersion')
@@ -869,7 +883,10 @@ describe('KeywordManagerPage component', () => {
       await waitFor(() => {
         expect(deleteKmsConceptMock).toHaveBeenCalledWith({
           conceptId: 'mock-node-id',
-          version: 'published',
+          version: getVersionName({
+            version: '3.0',
+            version_type: 'published'
+          }),
           token: 'mock-token-value'
         })
       })
@@ -879,6 +896,28 @@ describe('KeywordManagerPage component', () => {
 
       // Check if the selected keyword data was cleared
       expect(screen.queryByTestId('mock-keyword-form')).not.toBeInTheDocument()
+    })
+
+    test('should not delete node when version is null', async () => {
+      const deleteKmsConceptMock = vi.fn().mockResolvedValue()
+      vi.spyOn(deleteKmsConceptModule, 'deleteKmsConcept').mockImplementation(deleteKmsConceptMock)
+
+      const { user } = setup()
+
+      // Don't select a version
+
+      // Click the "Select Node" button to simulate selecting a node
+      await user.click(screen.getByRole('button', { name: /select node/i }))
+
+      // Find and click the delete button
+      const deleteButton = screen.getByTestId('delete-node-button')
+      await user.click(deleteButton)
+
+      expect(getVersionName).toHaveBeenCalledWith(null)
+      expect(deleteKmsConceptMock).not.toHaveBeenCalled()
+
+      // Check that the tree was not refreshed
+      expect(mockRefreshTree).not.toHaveBeenCalled()
     })
 
     test('should clear selected keyword data when deleting the currently selected node', async () => {

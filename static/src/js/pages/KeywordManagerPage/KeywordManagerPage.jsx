@@ -34,6 +34,7 @@ import useAuthContext from '@/js/hooks/useAuthContext'
 
 import './KeywordManagerPage.scss'
 import { deleteKmsConcept } from '@/js/utils/deleteKmsConcept'
+import { getVersionName } from '@/js/utils/getVersionName'
 
 /**
  * KeywordManagerPage Component
@@ -87,15 +88,6 @@ const KeywordManagerPage = () => {
 
   const keywordTreeRef = useRef(null)
 
-  const getVersionName = () => {
-    let versionName = selectedVersion.version
-    if (selectedVersion.version_type === 'published') {
-      versionName = 'published'
-    }
-
-    return versionName
-  }
-
   const handleKeywordSave = useCallback((savedKeywordId) => {
     if (keywordTreeRef.current) {
       keywordTreeRef.current.refreshTree()
@@ -108,10 +100,15 @@ const KeywordManagerPage = () => {
     setIsLoading(true)
     setShowError(null)
     try {
+      const versionName = selectedVersion ? getVersionName(selectedVersion) : null
+      if (!versionName) {
+        throw new Error('No version selected')
+      }
+
       await deleteKmsConcept(
         {
           conceptId: node.id,
-          version: getVersionName(),
+          version: getVersionName(selectedVersion),
           token: tokenValue
         }
       )
@@ -133,7 +130,7 @@ const KeywordManagerPage = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [getVersionName, tokenValue])
+  }, [getVersionName(selectedVersion), tokenValue])
 
   /**
    * Opens the modal for publishing a new keyword version.
@@ -177,7 +174,7 @@ const KeywordManagerPage = () => {
     setIsLoading(true)
     setShowError(null)
     try {
-      const response = await fetch(`${kmsHost}/concept/${uuid}?version=${getVersionName()}`)
+      const response = await fetch(`${kmsHost}/concept/${uuid}?version=${getVersionName(selectedVersion)}`)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
