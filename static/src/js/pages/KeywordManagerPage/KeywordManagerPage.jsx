@@ -130,7 +130,7 @@ const KeywordManagerPage = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [getVersionName(selectedVersion), tokenValue])
+  }, [selectedVersion, tokenValue])
 
   /**
    * Opens the modal for publishing a new keyword version.
