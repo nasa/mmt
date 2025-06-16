@@ -38,6 +38,14 @@ vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
   }))
 }))
 
+vi.mock('@edsc/metadata-preview', () => ({
+  ToolPreview: vi.fn(() => null),
+  ServicePreview: vi.fn(() => null),
+  VariablePreview: vi.fn(() => null),
+  CollectionPreview: vi.fn(() => null),
+  VisualizationPreview: vi.fn(() => null)
+}))
+
 const setup = ({
   initialEntries,
   mock,
@@ -119,8 +127,6 @@ describe('MetadataPreview', () => {
           cmrHost: 'http://example.com',
           conceptId: 'TD000000-MMT',
           conceptType: 'tool-draft',
-          conceptUrlTemplate: '/{conceptType}/{conceptId}',
-          isPlugin: true,
           tool: {
             __typename: 'Tool',
             accessConstraints: null,
@@ -198,8 +204,6 @@ describe('MetadataPreview', () => {
           cmrHost: 'http://example.com',
           conceptId: 'SD000000-MMT',
           conceptType: 'service-draft',
-          conceptUrlTemplate: '/{conceptType}/{conceptId}',
-          isPlugin: true,
           service: {
             __typename: 'Service',
             accessConstraints: null,
@@ -270,8 +274,6 @@ describe('MetadataPreview', () => {
           cmrHost: 'http://example.com',
           conceptId: 'VISD000000-MMT',
           conceptType: 'visualization-draft',
-          conceptUrlTemplate: '/{conceptType}/{conceptId}',
-          isPlugin: true,
           visualization: {
             __typename: 'Visualization',
             conceptId: 'VISD0000000000-CMR',
@@ -338,8 +340,6 @@ describe('MetadataPreview', () => {
           cmrHost: 'http://example.com',
           conceptId: 'VD000000-MMT',
           conceptType: 'variable-draft',
-          conceptUrlTemplate: '/{conceptType}/{conceptId}',
-          isPlugin: true,
           variable: {
             __typename: 'Variable',
             additionalIdentifiers: [
@@ -411,8 +411,6 @@ describe('MetadataPreview', () => {
           cmrHost: 'http://example.com',
           conceptId: 'CD000000-MMT',
           conceptType: 'collection-draft',
-          conceptUrlTemplate: '/{conceptType}/{conceptId}',
-          isPlugin: true,
           collection: {
             __typename: 'Collection',
             abstract: null,
@@ -492,8 +490,7 @@ describe('MetadataPreview', () => {
             version: 'v.1.0.0',
             versionDescription: null,
             versionId: null
-          },
-          token: null
+          }
         }, {})
       })
 
@@ -532,10 +529,7 @@ describe('MetadataPreview', () => {
           cmrHost: 'http://example.com',
           conceptId: 'C1000000-MMT',
           conceptType: 'collection',
-          conceptUrlTemplate: '/{conceptType}/{conceptId}',
-          isPlugin: true,
-          collection: mockCollection,
-          token: null
+          collection: mockCollection
         }, {})
       })
 
@@ -574,10 +568,7 @@ describe('MetadataPreview', () => {
           cmrHost: 'http://example.com',
           conceptId: 'C1000000-MMT',
           conceptType: 'collection',
-          conceptUrlTemplate: '/{conceptType}/{conceptId}',
-          isPlugin: true,
-          collection: mockCollectionWithAssociatedVariables,
-          token: null
+          collection: mockCollectionWithAssociatedVariables
         }, {})
       })
 

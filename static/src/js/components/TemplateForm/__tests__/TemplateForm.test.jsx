@@ -52,8 +52,20 @@ vi.mock('@/js/utils/createTemplate')
 vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/utils/getTemplate')
 vi.mock('@/js/utils/updateTemplate')
-vi.mock('@/js/components/ErrorBanner/ErrorBanner')
 vi.mock('@/js/components/FormNavigation/FormNavigation')
+
+const errorBannerCalls = []
+
+vi.mock('../../ErrorBanner/ErrorBanner', () => ({
+  default: vi.fn((props) => {
+    errorBannerCalls.push({
+      props,
+      stack: new Error().stack
+    })
+
+    return null
+  })
+}))
 
 const getConfig = () => staticConfig
 
