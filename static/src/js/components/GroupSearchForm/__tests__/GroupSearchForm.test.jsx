@@ -163,7 +163,7 @@ describe('GroupSearchForm', () => {
   })
 
   describe('when loading the page', () => {
-    test.only('populates the form fields', async () => {
+    test('populates the form fields', async () => {
       const encodedUsers = Buffer.from(JSON.stringify([{
         id: 'testuser1',
         label: 'Test User 1'
