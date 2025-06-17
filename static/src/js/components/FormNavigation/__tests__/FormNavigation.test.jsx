@@ -18,18 +18,7 @@ import NavigationItem from '@/js/components/NavigationItem/NavigationItem'
 import saveTypes from '@/js/constants/saveTypes'
 import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
-const navigationItemCalls = []
-
-vi.mock('@/js/components/NavigationItem/NavigationItem', () => ({
-  default: vi.fn((props) => {
-    navigationItemCalls.push({
-      props,
-      stack: new Error().stack
-    })
-
-    return null
-  })
-}))
+vi.mock('@/js/components/NavigationItem/NavigationItem', () => ({ default: vi.fn(() => null) }))
 
 vi.mock('@/js/hooks/useAvailableProviders')
 useAvailableProviders.mockReturnValue({

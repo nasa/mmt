@@ -487,7 +487,6 @@ describe('MetadataForm', () => {
   })
 
   describe('when FormNavigation sends onCancel', () => {
-    console.log('********************')
     beforeEach(() => {
       FormNavigation.mockImplementation(
         vi.importActual('@/js/components/FormNavigation/FormNavigation').default

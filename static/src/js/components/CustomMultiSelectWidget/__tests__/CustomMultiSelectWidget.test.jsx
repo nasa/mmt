@@ -83,6 +83,7 @@ describe('CustomMultiSelectWidget', () => {
       expect(screen.getByRole('option', { name: 'Option3' })).toBeInTheDocument()
       expect(screen.getByRole('option', { name: 'Option4' })).toBeInTheDocument()
 
+      // Called with extra []
       expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
