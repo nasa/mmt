@@ -48,8 +48,7 @@ const Layout = ({ className, displayNav }) => {
     ummVis
   } = getUmmVersionsConfig()
 
-  // Remove showVisualizations in MMT-4028
-  const { env, displayProdWarning, showVisualizations } = getApplicationConfig()
+  const { env, displayProdWarning } = getApplicationConfig()
 
   const { user } = useAuthContext()
 
@@ -191,8 +190,7 @@ const Layout = ({ className, displayNav }) => {
                                   }
                                 ]
                               },
-                              // Remove in MMT-4028
-                              ...((showVisualizations === 'true') ? [{
+                              {
                                 title: 'Visualizations',
                                 version: `v${ummVis}`,
                                 children: [
@@ -205,7 +203,7 @@ const Layout = ({ className, displayNav }) => {
                                     title: 'Drafts'
                                   }
                                 ]
-                              }] : []),
+                              },
                               {
                                 title: 'Order Options',
                                 children: [
