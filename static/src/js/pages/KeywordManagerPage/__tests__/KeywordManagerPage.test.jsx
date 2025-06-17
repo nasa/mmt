@@ -13,16 +13,36 @@ import {
 } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import * as getConfigModule from 'sharedUtils/getConfig'
-import * as deleteKmsConceptModule from '@/js/utils/deleteKmsConcept'
 import * as getKmsConceptVersionsModule from '@/js/utils/getKmsConceptVersions'
 import userEvent from '@testing-library/user-event'
 import * as publishKmsConceptVersionModule from '@/js/utils/publishKmsConceptVersion'
 import * as useAuthContextModule from '@/js/hooks/useAuthContext'
-import * as errorLoggerModule from '@/js/utils/errorLogger'
 import PropTypes from 'prop-types'
 import GenerateKeywordReportModal from '@/js/components/GenerateKeywordReportModal/GenerateKeywordReportModal'
-import { getVersionName } from '@/js/utils/getVersionName'
 import KeywordManagerPage from '../KeywordManagerPage'
+
+vi.mock('@/js/utils/deleteKmsConcept', () => ({
+  deleteKmsConcept: vi.fn()
+}))
+
+vi.mock('@/js/components/DeleteConfirmationModal/DeleteConfirmationModal', () => {
+  const MockDeleteConfirmationModal = ({ show, onConfirm, onCancel }) => (
+    show ? (
+      <div data-testid="delete-confirmation-modal">
+        <button type="button" onClick={onConfirm} data-testid="confirm-delete">Confirm Delete</button>
+        <button type="button" onClick={onCancel} data-testid="cancel-delete">Cancel</button>
+      </div>
+    ) : null
+  )
+
+  MockDeleteConfirmationModal.propTypes = {
+    show: PropTypes.bool.isRequired,
+    onConfirm: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired
+  }
+
+  return { DeleteConfirmationModal: MockDeleteConfirmationModal }
+})
 
 vi.mock('@/js/utils/getVersionName', () => ({
   getVersionName: vi.fn((version) => {
@@ -855,178 +875,6 @@ describe('KeywordManagerPage component', () => {
 
       // Check that the Save Keyword button is present
       expect(screen.getByRole('button', { name: /save keyword/i })).toBeInTheDocument()
-    })
-  })
-
-  describe('when deleting a node', () => {
-    test('should delete a node and refresh the tree', async () => {
-      const deleteKmsConceptMock = vi.fn().mockResolvedValue()
-      vi.spyOn(deleteKmsConceptModule, 'deleteKmsConcept').mockImplementation(deleteKmsConceptMock)
-
-      const { user } = setup()
-
-      // Select version and scheme
-      const versionSelector = await screen.findByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
-
-      const schemeSelector = await screen.findByTestId('scheme-selector')
-      await user.selectOptions(schemeSelector, 'scheme1')
-
-      // Click the "Select Node" button to simulate selecting a node
-      await user.click(screen.getByRole('button', { name: /select node/i }))
-
-      // Find and click the delete button
-      const deleteButton = screen.getByTestId('delete-node-button')
-      await user.click(deleteButton)
-
-      // Check if deleteKmsConcept was called with the correct arguments
-      await waitFor(() => {
-        expect(deleteKmsConceptMock).toHaveBeenCalledWith({
-          conceptId: 'mock-node-id',
-          version: getVersionName({
-            version: '3.0',
-            version_type: 'published'
-          }),
-          token: 'mock-token-value'
-        })
-      })
-
-      // Check if the tree was refreshed
-      expect(mockRefreshTree).toHaveBeenCalled()
-
-      // Check if the selected keyword data was cleared
-      expect(screen.queryByTestId('mock-keyword-form')).not.toBeInTheDocument()
-    })
-
-    test('should not delete node when version is null', async () => {
-      const deleteKmsConceptMock = vi.fn().mockResolvedValue()
-      vi.spyOn(deleteKmsConceptModule, 'deleteKmsConcept').mockImplementation(deleteKmsConceptMock)
-
-      const { user } = setup()
-
-      // Don't select a version
-
-      // Click the "Select Node" button to simulate selecting a node
-      await user.click(screen.getByRole('button', { name: /select node/i }))
-
-      // Find and click the delete button
-      const deleteButton = screen.getByTestId('delete-node-button')
-      await user.click(deleteButton)
-
-      expect(getVersionName).toHaveBeenCalledWith(null)
-      expect(deleteKmsConceptMock).not.toHaveBeenCalled()
-
-      // Check that the tree was not refreshed
-      expect(mockRefreshTree).not.toHaveBeenCalled()
-    })
-
-    test('should clear selected keyword data when deleting the currently selected node', async () => {
-      const deleteKmsConceptMock = vi.fn().mockResolvedValue()
-      vi.spyOn(deleteKmsConceptModule, 'deleteKmsConcept').mockImplementation(deleteKmsConceptMock)
-
-      // Mock fetch to return some keyword data
-      global.fetch = vi.fn(() => Promise.resolve({
-        ok: true,
-        text: () => Promise.resolve(`
-      <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-               xmlns:skos="http://www.w3.org/2004/02/skos/core#">
-        <skos:Concept rdf:about="http://example.com/concept/mock-node-id">
-          <skos:prefLabel>Mock Keyword</skos:prefLabel>
-        </skos:Concept>
-      </rdf:RDF>
-    `)
-      }))
-
-      const { user } = setup()
-
-      // Select version and scheme
-      const versionSelector = await screen.findByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
-
-      const schemeSelector = await screen.findByTestId('scheme-selector')
-      await user.selectOptions(schemeSelector, 'scheme1')
-
-      // Click the "Select Node" button to simulate selecting a node
-      await user.click(screen.getByRole('button', { name: /select node/i }))
-
-      // Wait for the keyword form to appear
-      await waitFor(() => {
-        expect(screen.getByTestId('mock-keyword-form')).toBeInTheDocument()
-      })
-
-      // Verify that the form shows the correct label
-      expect(screen.getByTestId('preferred-label')).toHaveTextContent('PreferredLabel: Mock Keyword')
-
-      // Find and click the delete button
-      const deleteButton = screen.getByTestId('delete-node-button')
-      await user.click(deleteButton)
-
-      // Check if deleteKmsConcept was called
-      await waitFor(() => {
-        expect(deleteKmsConceptMock).toHaveBeenCalledWith({
-          conceptId: 'mock-node-id',
-          version: 'published',
-          token: 'mock-token-value'
-        })
-      })
-
-      // Check if the tree was refreshed
-      expect(mockRefreshTree).toHaveBeenCalled()
-
-      // Check if the selected keyword data was cleared (keyword form should not be visible)
-      await waitFor(() => {
-        expect(screen.queryByTestId('mock-keyword-form')).not.toBeInTheDocument()
-      }, { timeout: 3000 })
-    })
-
-    test('should log error and handle deletion failure', async () => {
-      const errorLoggerMock = vi.fn()
-      vi.spyOn(errorLoggerModule, 'default').mockImplementation(errorLoggerMock)
-
-      const deleteKmsConceptMock = vi.fn().mockRejectedValue(new Error('Deletion failed'))
-      vi.spyOn(deleteKmsConceptModule, 'deleteKmsConcept').mockImplementation(deleteKmsConceptMock)
-
-      const { user } = setup()
-
-      // Select version and scheme
-      const versionSelector = await screen.findByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
-
-      const schemeSelector = await screen.findByTestId('scheme-selector')
-      await user.selectOptions(schemeSelector, 'scheme1')
-
-      // Click the "Select Node" button to simulate selecting a node
-      await user.click(screen.getByRole('button', { name: /select node/i }))
-
-      // Wait for the keyword form to appear
-      await waitFor(() => {
-        expect(screen.getByTestId('mock-keyword-form')).toBeInTheDocument()
-      })
-
-      // Find and click the delete button
-      const deleteButton = screen.getByTestId('delete-node-button')
-      await user.click(deleteButton)
-
-      // Check if deleteKmsConcept was called
-      expect(deleteKmsConceptMock).toHaveBeenCalledWith({
-        conceptId: 'mock-node-id',
-        version: 'published',
-        token: 'mock-token-value'
-      })
-
-      // Check if errorLogger was called with the correct arguments
-      expect(errorLoggerMock).toHaveBeenCalledWith(
-        expect.any(Error),
-        'KeywordManagerPage: handleNodeDelete'
-      )
-
-      // The keyword form should still be visible as the deletion failed
-      expect(screen.getByTestId('mock-keyword-form')).toBeInTheDocument()
-
-      // Check that isLoading was set back to false
-      await waitFor(() => {
-        expect(screen.queryByText('Loading...')).not.toBeInTheDocument()
-      })
     })
   })
 

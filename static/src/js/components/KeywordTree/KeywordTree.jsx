@@ -8,11 +8,7 @@ import React, {
 import { Tree } from 'react-arborist'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 import PropTypes from 'prop-types'
-import {
-  Button,
-  Form,
-  Spinner
-} from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 import { v4 as uuidv4 } from 'uuid'
 import {
   KeywordTreeContextMenu
@@ -90,10 +86,6 @@ const KeywordTreeComponent = forwardRef(({
   const [showAddNarrowerPopup, setShowAddNarrowerPopup] = useState(false)
   const [newNarrowerTitle, setNewNarrowerTitle] = useState('')
   const [addNarrowerParentId, setAddNarrowerParentId] = useState(null)
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
-  const [nodeToDelete, setNodeToDelete] = useState(null)
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [deleteError, setDeleteError] = useState(null)
   const [selectedNodeId, setSelectedNodeId] = useState(selectedNodeIdProp)
 
   const [searchPattern, setSearchPattern] = useState('')
@@ -125,6 +117,10 @@ const KeywordTreeComponent = forwardRef(({
       setTreeData(null)
     }
   }
+
+  useEffect(() => {
+    setSelectedNodeId(selectedNodeIdProp)
+  }, [selectedNodeIdProp])
 
   // Effect to fetch tree data when version and scheme are selected
   useEffect(() => {
@@ -239,55 +235,6 @@ const KeywordTreeComponent = forwardRef(({
     }
   ]
 
-  const closeDeleteModal = () => {
-    setShowDeleteConfirmation(false)
-    setNodeToDelete(null)
-    setDeleteError(null)
-  }
-
-  const handleDeleteConfirmation = async () => {
-    if (nodeToDelete) {
-      setIsDeleting(true)
-      setDeleteError(null)
-      try {
-        // Notify the parent component about the deletion
-        const errorMessage = await onNodeDelete(nodeToDelete.data)
-        if (errorMessage) {
-          // If there's an error message, set it and keep the modal open
-          setDeleteError(errorMessage)
-        } else {
-          setSelectedNodeId(nodeToDelete.parent.id)
-
-          closeDeleteModal()
-        }
-      } catch (error) {
-        setDeleteError(error.message || 'An error occurred while deleting the node.')
-      } finally {
-        setIsDeleting(false)
-      }
-    }
-  }
-
-  const handleDelete = (node) => {
-    setNodeToDelete(node)
-    setShowDeleteConfirmation(true)
-  }
-
-  const deleteModalActions = [
-    {
-      label: 'Cancel',
-      variant: 'secondary',
-      onClick: closeDeleteModal,
-      disabled: isDeleting
-    },
-    {
-      label: 'Delete',
-      variant: 'danger',
-      onClick: handleDeleteConfirmation,
-      disabled: isDeleting
-    }
-  ]
-
   if (isTreeLoading) {
     return <KeywordTreePlaceHolder message="Loading..." />
   }
@@ -350,13 +297,14 @@ const KeywordTreeComponent = forwardRef(({
               {...props}
               node={node}
               onAdd={handleAdd}
-              onDelete={handleDelete}
+              onDelete={onNodeDelete}
               searchTerm={searchPattern}
               setContextMenu={setContextMenu}
               onToggle={handleToggle}
               onEdit={onNodeEdit}
               onNodeClick={onNodeClick}
               handleAdd={handleAdd}
+              isSelected={node.id === selectedNodeId}
             />
           )
         }
@@ -390,30 +338,6 @@ const KeywordTreeComponent = forwardRef(({
         actions={addModalActions}
         toggleModal={setShowAddNarrowerPopup}
       />
-      <CustomModal
-        show={showDeleteConfirmation}
-        header="Confirm Deletion"
-        message={
-          (
-            <div>
-              <p>{`Delete "${nodeToDelete?.data.title}"?`}</p>
-              {
-                isDeleting && (
-                  <div className="text-primary mt-2">
-                    <Spinner animation="border" size="sm" />
-                    {' '}
-                    Deleting...
-                  </div>
-                )
-              }
-              {deleteError && <div className="text-danger mt-2">{deleteError}</div>}
-            </div>
-          )
-        }
-        actions={deleteModalActions}
-        toggleModal={closeDeleteModal}
-      />
-
     </div>
   )
 })
