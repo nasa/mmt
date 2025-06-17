@@ -19,16 +19,23 @@ import * as publishKmsConceptVersionModule from '@/js/utils/publishKmsConceptVer
 import * as useAuthContextModule from '@/js/hooks/useAuthContext'
 import PropTypes from 'prop-types'
 import GenerateKeywordReportModal from '@/js/components/GenerateKeywordReportModal/GenerateKeywordReportModal'
+import { deleteKmsConcept } from '@/js/utils/deleteKmsConcept'
 import KeywordManagerPage from '../KeywordManagerPage'
 
 vi.mock('@/js/utils/deleteKmsConcept', () => ({
   deleteKmsConcept: vi.fn()
 }))
 
+// Get a reference to the mocked function
+const mockDeleteKmsConcept = vi.mocked(deleteKmsConcept)
+
 vi.mock('@/js/components/DeleteConfirmationModal/DeleteConfirmationModal', () => {
-  const MockDeleteConfirmationModal = ({ show, onConfirm, onCancel }) => (
+  const MockDeleteConfirmationModal = ({
+    show, onConfirm, onCancel, deleteError
+  }) => (
     show ? (
       <div data-testid="delete-confirmation-modal">
+        {deleteError && <div data-testid="delete-error">{deleteError}</div>}
         <button type="button" onClick={onConfirm} data-testid="confirm-delete">Confirm Delete</button>
         <button type="button" onClick={onCancel} data-testid="cancel-delete">Cancel</button>
       </div>
@@ -38,7 +45,12 @@ vi.mock('@/js/components/DeleteConfirmationModal/DeleteConfirmationModal', () =>
   MockDeleteConfirmationModal.propTypes = {
     show: PropTypes.bool.isRequired,
     onConfirm: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired
+    onCancel: PropTypes.func.isRequired,
+    deleteError: PropTypes.string
+  }
+
+  MockDeleteConfirmationModal.defaultProps = {
+    deleteError: null
   }
 
   return { DeleteConfirmationModal: MockDeleteConfirmationModal }
@@ -371,6 +383,10 @@ describe('KeywordManagerPage component', () => {
     vi.spyOn(useAuthContextModule, 'default').mockImplementation(() => ({
       tokenValue: 'mock-token-value'
     }))
+
+    // Reset the mock before each test
+    mockDeleteKmsConcept.mockReset()
+    mockDeleteKmsConcept.mockResolvedValue(null)
   })
 
   afterEach(() => {
@@ -931,6 +947,213 @@ describe('KeywordManagerPage component', () => {
         expect.objectContaining({ show: false }),
         expect.any(Object)
       )
+    })
+  })
+
+  describe('Delete functionality', () => {
+    test('should open delete confirmation modal when delete is triggered', async () => {
+      const { user } = setup()
+
+      // Select version and scheme
+      const versionSelector = await screen.findByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0')
+
+      const schemeSelector = await screen.findByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Trigger delete
+      const deleteButton = screen.getByTestId('delete-node-button')
+      await user.click(deleteButton)
+
+      // Wait for the modal to appear and then check its content
+      let modal
+      await waitFor(() => {
+        modal = screen.getByTestId('delete-confirmation-modal')
+        expect(modal).toBeInTheDocument()
+      })
+
+      expect(modal.textContent).toContain('Delete')
+
+      // Check for the presence of confirm and cancel buttons
+      expect(screen.getByTestId('confirm-delete')).toBeInTheDocument()
+      expect(screen.getByTestId('cancel-delete')).toBeInTheDocument()
+    })
+
+    test('should close delete confirmation modal when cancel is clicked', async () => {
+      const { user } = setup()
+
+      // Select version and scheme
+      const versionSelector = await screen.findByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0')
+
+      const schemeSelector = await screen.findByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Trigger delete
+      const deleteButton = screen.getByTestId('delete-node-button')
+      await user.click(deleteButton)
+
+      // Check if the delete confirmation modal is shown
+      expect(screen.getByTestId('delete-confirmation-modal')).toBeInTheDocument()
+
+      // Click cancel
+      const cancelButton = screen.getByTestId('cancel-delete')
+      await user.click(cancelButton)
+
+      // Check if the modal is closed
+      expect(screen.queryByTestId('delete-confirmation-modal')).not.toBeInTheDocument()
+    })
+
+    test('should call deleteKmsConcept when delete is confirmed', async () => {
+      const { user } = setup()
+
+      // Select version and scheme
+      const versionSelector = await screen.findByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0')
+
+      const schemeSelector = await screen.findByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Trigger delete
+      const deleteButton = screen.getByTestId('delete-node-button')
+      await user.click(deleteButton)
+
+      // Confirm delete
+      const confirmButton = screen.getByTestId('confirm-delete')
+      await user.click(confirmButton)
+
+      // Wait for deleteKmsConcept to be called
+      await waitFor(() => {
+        expect(mockDeleteKmsConcept).toHaveBeenCalledTimes(1)
+      }, { timeout: 2000 })
+
+      // Check if deleteKmsConcept was called with the correct arguments
+      expect(mockDeleteKmsConcept).toHaveBeenCalledWith(expect.objectContaining({
+        conceptId: 'mock-node-id',
+        version: 'published',
+        token: 'mock-token-value'
+      }))
+
+      // Wait for the modal to close
+      await waitFor(() => {
+        expect(screen.queryByTestId('delete-confirmation-modal')).not.toBeInTheDocument()
+      }, { timeout: 2000 })
+
+      // Check if the tree refresh function was called
+      expect(mockRefreshTree).toHaveBeenCalledTimes(1)
+    })
+
+    test('should display error message when delete fails', async () => {
+      const { user } = setup()
+
+      // Reset the mock and make it reject with an error
+      mockDeleteKmsConcept.mockReset()
+      mockDeleteKmsConcept.mockRejectedValue(new Error('Delete failed'))
+
+      // Select version and scheme
+      const versionSelector = await screen.findByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0')
+
+      const schemeSelector = await screen.findByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Trigger delete
+      const deleteButton = screen.getByTestId('delete-node-button')
+      await user.click(deleteButton)
+
+      // Get initial modal content
+      const initialModalContent = screen.getByTestId('delete-confirmation-modal').textContent
+
+      // Confirm delete
+      const confirmButton = screen.getByTestId('confirm-delete')
+      await user.click(confirmButton)
+
+      // Check if deleteKmsConcept was called
+      expect(mockDeleteKmsConcept).toHaveBeenCalledTimes(1)
+
+      // Wait for the modal content to change
+      await waitFor(() => {
+        const updatedModalContent = screen.getByTestId('delete-confirmation-modal').textContent
+        expect(updatedModalContent).not.toBe(initialModalContent)
+      }, { timeout: 3000 })
+
+      // Check if the error message is displayed
+      const modalContent = screen.getByTestId('delete-confirmation-modal').textContent
+      expect(modalContent.toLowerCase()).toContain('failed')
+
+      // The modal should still be open
+      expect(screen.getByTestId('delete-confirmation-modal')).toBeInTheDocument()
+    })
+
+    test('should close delete confirmation modal and clear error when closed', async () => {
+      const { user } = setup()
+
+      // Reset the mock and make it reject with an error
+      mockDeleteKmsConcept.mockReset()
+      mockDeleteKmsConcept.mockRejectedValue(new Error('Delete failed'))
+
+      // Select version and scheme
+      const versionSelector = await screen.findByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0')
+
+      const schemeSelector = await screen.findByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Trigger delete
+      const deleteButton = screen.getByTestId('delete-node-button')
+      await user.click(deleteButton)
+
+      // Confirm delete to trigger error
+      const confirmButton = screen.getByTestId('confirm-delete')
+      await user.click(confirmButton)
+
+      // Wait for the error message to appear
+      await waitFor(() => {
+        expect(screen.getByText('Delete failed')).toBeInTheDocument()
+      })
+
+      // Close the modal
+      const cancelButton = screen.getByTestId('cancel-delete')
+      await user.click(cancelButton)
+
+      // Check if the modal is closed
+      expect(screen.queryByTestId('delete-confirmation-modal')).not.toBeInTheDocument()
+
+      // Reopen the delete modal
+      await user.click(deleteButton)
+
+      // Check that the error message is no longer present
+      expect(screen.queryByText('Delete failed')).not.toBeInTheDocument()
+    })
+
+    test('should display error message when deleteKmsConcept returns an error', async () => {
+      const { user } = setup()
+
+      // Mock deleteKmsConcept to return an error message
+      mockDeleteKmsConcept.mockResolvedValue('An error occurred while deleting the concept')
+
+      // Select version and scheme
+      const versionSelector = await screen.findByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0')
+
+      const schemeSelector = await screen.findByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Trigger delete
+      const deleteButton = screen.getByTestId('delete-node-button')
+      await user.click(deleteButton)
+
+      // Confirm delete
+      const confirmButton = screen.getByTestId('confirm-delete')
+      await user.click(confirmButton)
+
+      // Wait for the error message to appear
+      await waitFor(() => {
+        expect(screen.getByText('An error occurred while deleting the concept')).toBeInTheDocument()
+      })
+
+      // The modal should still be open
+      expect(screen.getByTestId('delete-confirmation-modal')).toBeInTheDocument()
     })
   })
 })

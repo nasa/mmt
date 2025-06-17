@@ -112,15 +112,18 @@ const KeywordManagerPage = () => {
       setIsDeleting(true)
       setDeleteError(null)
       try {
-        const errorMessage = await deleteKmsConcept({
-          conceptId: nodeToDelete.data.id,
+        // Check if nodeToDelete has a data property, if not use id directly
+        const conceptId = nodeToDelete.data ? nodeToDelete.data.id : nodeToDelete.id
+        const params = {
+          conceptId,
           version: getVersionName(selectedVersion),
           token: tokenValue
-        })
+        }
+        const errorMessage = await deleteKmsConcept(params)
         if (errorMessage) {
           setDeleteError(errorMessage)
         } else {
-          // Select the parent node if it exists, otherwise select null
+        // Select the parent node if it exists, otherwise select null
           const newSelectedId = nodeToDelete.parent ? nodeToDelete.parent.id : null
           setSelectedKeywordId(newSelectedId)
 
@@ -130,6 +133,7 @@ const KeywordManagerPage = () => {
           }
         }
       } catch (error) {
+        console.error('Error in deleteKmsConcept:', error)
         setDeleteError(error.message || 'An error occurred while deleting the node.')
       } finally {
         setIsDeleting(false)
@@ -184,13 +188,6 @@ const KeywordManagerPage = () => {
    * @param {string} uuid - The unique identifier of the keyword
    */
   const handleShowKeyword = useCallback(async (uuid) => {
-    if (!uuid) {
-      setSelectedKeywordData(null)
-      setShowKeywordForm(false)
-
-      return
-    }
-
     setIsLoading(true)
     setShowError(null)
     try {
