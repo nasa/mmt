@@ -88,7 +88,8 @@ describe('CustomAsyncMultiSelectWidget', () => {
 
       expect(screen.getByText('Please enter 3 or more characters')).toBeInTheDocument()
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
+      // Called with extra []
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         label: 'Test Field',

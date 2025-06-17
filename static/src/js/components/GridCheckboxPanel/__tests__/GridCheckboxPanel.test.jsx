@@ -5,7 +5,7 @@ import GridCheckboxPanel from '../GridCheckboxPanel'
 
 import GridLayout from '../../GridLayout/GridLayout'
 
-vi.mock('../../GridLayout/GridLayout')
+vi.mock('../../GridLayout/GridLayout', () => ({ default: vi.fn(() => null) }))
 
 const setup = (overrideProps = {}) => {
   const onChange = vi.fn()

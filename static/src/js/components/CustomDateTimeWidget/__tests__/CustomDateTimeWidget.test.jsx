@@ -62,7 +62,8 @@ describe('CustomDateTimeWidget', () => {
 
       expect(await screen.findByRole('img', { name: 'Required' })).toBeInTheDocument()
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
+      // Called with extra []
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         charactersUsed: null,
         maxLength: null,
