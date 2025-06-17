@@ -166,7 +166,7 @@ const KeywordTreeComponent = forwardRef(({
             if (node) {
               treeRef.current.select(selectedNodeId)
               treeRef.current.scrollTo(selectedNodeId, 'center')
-              node.open()
+              node.open()// Should open node to show sub nodes, after one sub node is deleted
             }
           }
         }, 0)
