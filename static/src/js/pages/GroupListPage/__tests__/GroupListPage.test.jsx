@@ -14,31 +14,9 @@ import GroupListPage from '../GroupListPage'
 
 vi.mock('@/js/hooks/usePermissions')
 
-const groupListCalls = []
+vi.mock('@/js/components/GroupList/GroupList', () => ({ default: vi.fn(() => null) }))
 
-vi.mock('@/js/components/GroupList/GroupList', () => ({
-  default: vi.fn((props) => {
-    groupListCalls.push({
-      props,
-      stack: new Error().stack
-    })
-
-    return null
-  })
-}))
-
-const groupSearchFormCalls = []
-
-vi.mock('@/js/components/GroupSearchForm/GroupSearchForm', () => ({
-  default: vi.fn((props) => {
-    groupSearchFormCalls.push({
-      props,
-      stack: new Error().stack
-    })
-
-    return null
-  })
-}))
+vi.mock('@/js/components/GroupSearchForm/GroupSearchForm', () => ({ default: vi.fn(() => null) }))
 
 const setup = (
   pageUrl = '/groups',
@@ -68,7 +46,7 @@ const setup = (
 
 describe('GroupListPage', () => {
   describe('when the page is provider groups', () => {
-    test.only('render the page and calls GroupList', async () => {
+    test('render the page and calls GroupList', async () => {
       setup()
 
       expect(screen.getByRole('heading', { value: 'Groups' })).toBeInTheDocument()

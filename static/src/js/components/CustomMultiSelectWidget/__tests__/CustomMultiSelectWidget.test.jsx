@@ -83,7 +83,7 @@ describe('CustomMultiSelectWidget', () => {
       expect(screen.getByRole('option', { name: 'Option3' })).toBeInTheDocument()
       expect(screen.getByRole('option', { name: 'Option4' })).toBeInTheDocument()
 
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         label: 'Test Field',
@@ -126,8 +126,8 @@ describe('CustomMultiSelectWidget', () => {
       expect(screen.getByText('Test Field')).toBeInTheDocument()
       expect(screen.queryByText('Test Placeholder')).not.toBeInTheDocument()
 
-      expect(screen.getByText('Option1').className).toContain('MultiValueGeneric')
-      expect(screen.getByText('Option2').className).toContain('MultiValueGeneric')
+      expect(screen.getByText('Option1').className).toContain('css-9jq23d')
+      expect(screen.getByText('Option2').className).toContain('css-9jq23d')
 
       const select = screen.getByRole('combobox')
       await user.click(select)

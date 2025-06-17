@@ -18,18 +18,7 @@ vi.mock('react-router-dom', async () => ({
   useNavigate: () => mockedUsedNavigate
 }))
 
-const navigationItemErrorCalls = []
-
-vi.mock('../../NavigationItemError/NavigationItemError', () => ({
-  default: vi.fn((props) => {
-    navigationItemErrorCalls.push({
-      props,
-      stack: new Error().stack
-    })
-
-    return null
-  })
-}))
+vi.mock('../../NavigationItemError/NavigationItemError', () => ({ default: vi.fn(() => null) }))
 
 const setup = ({
   overrideProps = {},

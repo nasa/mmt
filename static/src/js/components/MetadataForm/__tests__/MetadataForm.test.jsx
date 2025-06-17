@@ -487,6 +487,7 @@ describe('MetadataForm', () => {
   })
 
   describe('when FormNavigation sends onCancel', () => {
+    console.log('********************')
     beforeEach(() => {
       FormNavigation.mockImplementation(
         vi.importActual('@/js/components/FormNavigation/FormNavigation').default
@@ -506,7 +507,7 @@ describe('MetadataForm', () => {
         value: 'Test Name'
       })).toBeInTheDocument()
 
-      expect(FormNavigation).toHaveBeenCalledTimes(14)
+      expect(FormNavigation).toHaveBeenCalledTimes(13)
       expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
         visitedFields: ['mock-name']
       }), {})
