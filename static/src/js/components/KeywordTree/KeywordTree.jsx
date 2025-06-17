@@ -130,7 +130,7 @@ const KeywordTreeComponent = forwardRef(({
     } else {
       setTreeMessage('Select a version and scheme to load the tree')
     }
-  }, [selectedVersion, selectedScheme, searchPattern, selectedNodeId])
+  }, [selectedVersion, selectedScheme, searchPattern])
 
   // Expose the refreshTree function to the parent component
   useImperativeHandle(ref, () => ({
