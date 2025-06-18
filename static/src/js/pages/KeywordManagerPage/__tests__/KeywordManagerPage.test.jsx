@@ -18,7 +18,56 @@ import userEvent from '@testing-library/user-event'
 import * as publishKmsConceptVersionModule from '@/js/utils/publishKmsConceptVersion'
 import * as useAuthContextModule from '@/js/hooks/useAuthContext'
 import PropTypes from 'prop-types'
+import GenerateKeywordReportModal from '@/js/components/GenerateKeywordReportModal/GenerateKeywordReportModal'
+import { deleteKmsConcept } from '@/js/utils/deleteKmsConcept'
 import KeywordManagerPage from '../KeywordManagerPage'
+
+vi.mock('@/js/utils/deleteKmsConcept', () => ({
+  deleteKmsConcept: vi.fn()
+}))
+
+// Get a reference to the mocked function
+const mockDeleteKmsConcept = vi.mocked(deleteKmsConcept)
+
+vi.mock('@/js/components/DeleteConfirmationModal/DeleteConfirmationModal', () => {
+  const MockDeleteConfirmationModal = ({
+    show, onConfirm, onCancel, deleteError
+  }) => (
+    show ? (
+      <div data-testid="delete-confirmation-modal">
+        {deleteError && <div data-testid="delete-error">{deleteError}</div>}
+        <button type="button" onClick={onConfirm} data-testid="confirm-delete">Confirm Delete</button>
+        <button type="button" onClick={onCancel} data-testid="cancel-delete">Cancel</button>
+      </div>
+    ) : null
+  )
+
+  MockDeleteConfirmationModal.propTypes = {
+    show: PropTypes.bool.isRequired,
+    onConfirm: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    deleteError: PropTypes.string
+  }
+
+  MockDeleteConfirmationModal.defaultProps = {
+    deleteError: null
+  }
+
+  return { DeleteConfirmationModal: MockDeleteConfirmationModal }
+})
+
+vi.mock('@/js/utils/getVersionName', () => ({
+  getVersionName: vi.fn((version) => {
+    if (!version) return null
+
+    return version.version_type === 'published' ? 'published' : version.version
+  })
+}))
+
+vi.mock('@/js/utils/errorLogger', () => ({
+  __esModule: true,
+  default: vi.fn()
+}))
 
 vi.mock('@/js/utils/getKmsKeywordTree')
 vi.mock('@/js/utils/publishKmsConceptVersion')
@@ -36,10 +85,26 @@ vi.mock('@/js/components/ErrorBanner/ErrorBanner', () => ({
   )
 }))
 
+vi.mock('@/js/components/GenerateKeywordReportModal/GenerateKeywordReportModal', () => ({
+  __esModule: true,
+  default: vi.fn(({ show, toggleModal }) => {
+    if (show) {
+      return (
+        <div data-testid="generate-keyword-report-modal">
+          Mocked Generate Keyword Report Modal
+          <button type="button" onClick={() => toggleModal(false)}>Close Modal</button>
+        </div>
+      )
+    }
+
+    return null
+  })
+}))
+
 export const mockRefreshTree = vi.fn()
 
 vi.mock('@/js/components/KeywordTree/KeywordTree', () => {
-  const KeywordTreeComponent = forwardRef(({ onNodeClick, onAddNarrower }, ref) => {
+  const KeywordTreeComponent = forwardRef(({ onNodeClick, onAddNarrower, onNodeDelete }, ref) => {
     const [refreshed, setRefreshed] = useState(false)
     const [selectedNode, setSelectedNode] = useState(null)
 
@@ -75,6 +140,13 @@ vi.mock('@/js/components/KeywordTree/KeywordTree', () => {
         >
           Add Narrower
         </button>
+        <button
+          type="button"
+          onClick={() => onNodeDelete({ id: 'mock-node-id' })}
+          data-testid="delete-node-button"
+        >
+          Delete Node
+        </button>
         {refreshed && <div data-testid="tree-refreshed">Tree refreshed</div>}
         {
           selectedNode && (
@@ -89,7 +161,8 @@ vi.mock('@/js/components/KeywordTree/KeywordTree', () => {
   })
   KeywordTreeComponent.propTypes = {
     onNodeClick: PropTypes.func.isRequired,
-    onAddNarrower: PropTypes.func.isRequired
+    onAddNarrower: PropTypes.func.isRequired,
+    onNodeDelete: PropTypes.func.isRequired
   }
 
   KeywordTreeComponent.displayName = 'KeywordTree'
@@ -110,16 +183,18 @@ vi.mock('react-router-dom', async (importOriginal) => {
   }
 })
 
-// Mock the necessary components and utilities
 vi.mock('@/js/components/KeywordForm/KeywordForm', () => ({
   default: ({ initialData, onSave }) => (
-    <div data-testid="mock-keyword-form">
-      <p data-testid="preferred-label">
-        PreferredLabel:
-        {initialData.PreferredLabel}
-      </p>
-      <button type="button" onClick={() => onSave('mock-keyword-id')}>Save Keyword</button>
-    </div>
+    initialData ? (
+      <div data-testid="mock-keyword-form">
+        <p data-testid="preferred-label">
+          PreferredLabel:
+          {' '}
+          {initialData.PreferredLabel}
+        </p>
+        <button type="button" onClick={() => onSave('mock-keyword-id')}>Save Keyword</button>
+      </div>
+    ) : null
   )
 }))
 
@@ -257,6 +332,11 @@ vi.mock('@/js/components/CustomModal/CustomModal', () => ({
 
 const setup = () => {
   const user = userEvent.setup()
+
+  vi.spyOn(useAuthContextModule, 'default').mockImplementation(() => ({
+    tokenValue: 'mock-token-value'
+  }))
+
   render(
     <BrowserRouter>
       <KeywordManagerPage />
@@ -303,11 +383,16 @@ describe('KeywordManagerPage component', () => {
     vi.spyOn(useAuthContextModule, 'default').mockImplementation(() => ({
       tokenValue: 'mock-token-value'
     }))
+
+    // Reset the mock before each test
+    mockDeleteKmsConcept.mockReset()
+    mockDeleteKmsConcept.mockResolvedValue(null)
   })
 
   afterEach(() => {
     console.error = originalConsoleError
     vi.restoreAllMocks()
+    vi.clearAllMocks()
   })
 
   describe('when the page loads', () => {
@@ -778,34 +863,297 @@ describe('KeywordManagerPage component', () => {
       // Verify that the KeywordForm is not displayed when there's an error
       expect(screen.queryByTestId('mock-keyword-form')).not.toBeInTheDocument()
     })
+
+    test('should create a new keyword and show the keyword form', async () => {
+      const { user } = setup()
+
+      // Select version and scheme
+      const versionSelector = await screen.findByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0')
+
+      const schemeSelector = await screen.findByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Click the "Add Narrower" button
+      await user.click(screen.getByRole('button', { name: /add narrower/i }))
+
+      // Check that the keyword form is shown
+      await waitFor(() => {
+        expect(screen.getByTestId('mock-keyword-form')).toBeInTheDocument()
+      })
+
+      // Check the content of the form
+      const preferredLabel = screen.getByTestId('preferred-label')
+      expect(preferredLabel).toHaveTextContent('PreferredLabel: New Keyword')
+
+      // Alternatively, you can use a more flexible regex match:
+      expect(preferredLabel).toHaveTextContent(/PreferredLabel:.*New Keyword/)
+
+      // Check that the Save Keyword button is present
+      expect(screen.getByRole('button', { name: /save keyword/i })).toBeInTheDocument()
+    })
   })
 
-  test('should create a new keyword and show the keyword form', async () => {
-    const { user } = setup()
+  describe('Generate Report functionality', () => {
+    test('should open the Generate Report modal when the button is clicked', async () => {
+      const { user } = setup()
 
-    // Select version and scheme
-    const versionSelector = await screen.findByTestId('version-selector')
-    await user.selectOptions(versionSelector, '3.0')
+      // Wait for the page to load
+      await waitFor(() => {
+        expect(screen.getByRole('heading', { name: 'Keyword Manager' })).toBeInTheDocument()
+      })
 
-    const schemeSelector = await screen.findByTestId('scheme-selector')
-    await user.selectOptions(schemeSelector, 'scheme1')
+      // Find the Generate Report button
+      const generateReportButton = screen.getByRole('button', { name: /generate report/i })
+      expect(generateReportButton).toBeInTheDocument()
 
-    // Click the "Add Narrower" button
-    await user.click(screen.getByRole('button', { name: /add narrower/i }))
+      // Click the Generate Report button
+      await user.click(generateReportButton)
 
-    // Check that the keyword form is shown
-    await waitFor(() => {
-      expect(screen.getByTestId('mock-keyword-form')).toBeInTheDocument()
+      // Check if the GenerateKeywordReportModal is rendered
+      await waitFor(() => {
+        expect(screen.getByTestId('generate-keyword-report-modal')).toBeInTheDocument()
+      })
     })
 
-    // Check the content of the form
-    const preferredLabel = screen.getByTestId('preferred-label')
-    expect(preferredLabel).toHaveTextContent('PreferredLabel:New Keyword')
+    test('should close the Generate Report modal when toggleModal is called', async () => {
+      const { user } = setup()
 
-    // Alternatively, you can use a more flexible regex match:
-    expect(preferredLabel).toHaveTextContent(/PreferredLabel:.*New Keyword/)
+      // Wait for the page to load
+      await waitFor(() => {
+        expect(screen.getByRole('heading', { name: 'Keyword Manager' })).toBeInTheDocument()
+      })
 
-    // Check that the Save Keyword button is present
-    expect(screen.getByRole('button', { name: /save keyword/i })).toBeInTheDocument()
+      // Find and click the Generate Report button
+      const generateReportButton = screen.getByRole('button', { name: /generate report/i })
+      await user.click(generateReportButton)
+
+      // Check if the GenerateKeywordReportModal is rendered
+      await waitFor(() => {
+        expect(screen.getByTestId('generate-keyword-report-modal')).toBeInTheDocument()
+      })
+
+      // Find and click the Close Modal button
+      const closeModalButton = screen.getByRole('button', { name: /close modal/i })
+      await user.click(closeModalButton)
+
+      // Check if the GenerateKeywordReportModal is no longer rendered
+      await waitFor(() => {
+        expect(screen.queryByTestId('generate-keyword-report-modal')).not.toBeInTheDocument()
+      })
+
+      // Verify that the mock function was called with false
+      expect(GenerateKeywordReportModal).toHaveBeenLastCalledWith(
+        expect.objectContaining({ show: false }),
+        expect.any(Object)
+      )
+    })
+  })
+
+  describe('Delete functionality', () => {
+    test('should open delete confirmation modal when delete is triggered', async () => {
+      const { user } = setup()
+
+      // Select version and scheme
+      const versionSelector = await screen.findByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0')
+
+      const schemeSelector = await screen.findByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Trigger delete
+      const deleteButton = screen.getByTestId('delete-node-button')
+      await user.click(deleteButton)
+
+      // Wait for the modal to appear and then check its content
+      let modal
+      await waitFor(() => {
+        modal = screen.getByTestId('delete-confirmation-modal')
+        expect(modal).toBeInTheDocument()
+      })
+
+      expect(modal.textContent).toContain('Delete')
+
+      // Check for the presence of confirm and cancel buttons
+      expect(screen.getByTestId('confirm-delete')).toBeInTheDocument()
+      expect(screen.getByTestId('cancel-delete')).toBeInTheDocument()
+    })
+
+    test('should close delete confirmation modal when cancel is clicked', async () => {
+      const { user } = setup()
+
+      // Select version and scheme
+      const versionSelector = await screen.findByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0')
+
+      const schemeSelector = await screen.findByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Trigger delete
+      const deleteButton = screen.getByTestId('delete-node-button')
+      await user.click(deleteButton)
+
+      // Check if the delete confirmation modal is shown
+      expect(screen.getByTestId('delete-confirmation-modal')).toBeInTheDocument()
+
+      // Click cancel
+      const cancelButton = screen.getByTestId('cancel-delete')
+      await user.click(cancelButton)
+
+      // Check if the modal is closed
+      expect(screen.queryByTestId('delete-confirmation-modal')).not.toBeInTheDocument()
+    })
+
+    test('should call deleteKmsConcept when delete is confirmed', async () => {
+      const { user } = setup()
+
+      // Select version and scheme
+      const versionSelector = await screen.findByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0')
+
+      const schemeSelector = await screen.findByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Trigger delete
+      const deleteButton = screen.getByTestId('delete-node-button')
+      await user.click(deleteButton)
+
+      // Confirm delete
+      const confirmButton = screen.getByTestId('confirm-delete')
+      await user.click(confirmButton)
+
+      // Wait for deleteKmsConcept to be called
+      await waitFor(() => {
+        expect(mockDeleteKmsConcept).toHaveBeenCalledTimes(1)
+      }, { timeout: 2000 })
+
+      // Check if deleteKmsConcept was called with the correct arguments
+      expect(mockDeleteKmsConcept).toHaveBeenCalledWith(expect.objectContaining({
+        conceptId: 'mock-node-id',
+        version: 'published',
+        token: 'mock-token-value'
+      }))
+
+      // Wait for the modal to close
+      await waitFor(() => {
+        expect(screen.queryByTestId('delete-confirmation-modal')).not.toBeInTheDocument()
+      }, { timeout: 2000 })
+
+      // Check if the tree refresh function was called
+      expect(mockRefreshTree).toHaveBeenCalledTimes(1)
+    })
+
+    test('should display error message when delete fails', async () => {
+      const { user } = setup()
+
+      // Reset the mock and make it reject with an error
+      mockDeleteKmsConcept.mockReset()
+      mockDeleteKmsConcept.mockRejectedValue(new Error('Delete failed'))
+
+      // Select version and scheme
+      const versionSelector = await screen.findByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0')
+
+      const schemeSelector = await screen.findByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Trigger delete
+      const deleteButton = screen.getByTestId('delete-node-button')
+      await user.click(deleteButton)
+
+      // Get initial modal content
+      const initialModalContent = screen.getByTestId('delete-confirmation-modal').textContent
+
+      // Confirm delete
+      const confirmButton = screen.getByTestId('confirm-delete')
+      await user.click(confirmButton)
+
+      // Check if deleteKmsConcept was called
+      expect(mockDeleteKmsConcept).toHaveBeenCalledTimes(1)
+
+      // Wait for the modal content to change
+      await waitFor(() => {
+        const updatedModalContent = screen.getByTestId('delete-confirmation-modal').textContent
+        expect(updatedModalContent).not.toBe(initialModalContent)
+      }, { timeout: 3000 })
+
+      // Check if the error message is displayed
+      const modalContent = screen.getByTestId('delete-confirmation-modal').textContent
+      expect(modalContent.toLowerCase()).toContain('failed')
+
+      // The modal should still be open
+      expect(screen.getByTestId('delete-confirmation-modal')).toBeInTheDocument()
+    })
+
+    test('should close delete confirmation modal and clear error when closed', async () => {
+      const { user } = setup()
+
+      // Reset the mock and make it reject with an error
+      mockDeleteKmsConcept.mockReset()
+      mockDeleteKmsConcept.mockRejectedValue(new Error('Delete failed'))
+
+      // Select version and scheme
+      const versionSelector = await screen.findByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0')
+
+      const schemeSelector = await screen.findByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Trigger delete
+      const deleteButton = screen.getByTestId('delete-node-button')
+      await user.click(deleteButton)
+
+      // Confirm delete to trigger error
+      const confirmButton = screen.getByTestId('confirm-delete')
+      await user.click(confirmButton)
+
+      // Wait for the error message to appear
+      await waitFor(() => {
+        expect(screen.getByText('Delete failed')).toBeInTheDocument()
+      })
+
+      // Close the modal
+      const cancelButton = screen.getByTestId('cancel-delete')
+      await user.click(cancelButton)
+
+      // Check if the modal is closed
+      expect(screen.queryByTestId('delete-confirmation-modal')).not.toBeInTheDocument()
+
+      // Reopen the delete modal
+      await user.click(deleteButton)
+
+      // Check that the error message is no longer present
+      expect(screen.queryByText('Delete failed')).not.toBeInTheDocument()
+    })
+
+    test('should display error message when deleteKmsConcept returns an error', async () => {
+      const { user } = setup()
+
+      // Mock deleteKmsConcept to return an error message
+      mockDeleteKmsConcept.mockResolvedValue('An error occurred while deleting the concept')
+
+      // Select version and scheme
+      const versionSelector = await screen.findByTestId('version-selector')
+      await user.selectOptions(versionSelector, '3.0')
+
+      const schemeSelector = await screen.findByTestId('scheme-selector')
+      await user.selectOptions(schemeSelector, 'scheme1')
+
+      // Trigger delete
+      const deleteButton = screen.getByTestId('delete-node-button')
+      await user.click(deleteButton)
+
+      // Confirm delete
+      const confirmButton = screen.getByTestId('confirm-delete')
+      await user.click(confirmButton)
+
+      // Wait for the error message to appear
+      await waitFor(() => {
+        expect(screen.getByText('An error occurred while deleting the concept')).toBeInTheDocument()
+      })
+
+      // The modal should still be open
+      expect(screen.getByTestId('delete-confirmation-modal')).toBeInTheDocument()
+    })
   })
 })

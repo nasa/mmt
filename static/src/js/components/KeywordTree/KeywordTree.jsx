@@ -55,6 +55,7 @@ import { castArray } from 'lodash-es'
  *   <KeywordTree
  *     onNodeClick={handleNodeClick}
  *     onNodeEdit={handleNodeEdit}
+ *     onNodeDelete={handleNodeDelete}
  *     onAddNarrower={handleAddNarrower}
  *     selectedNodeId="1"
  *     showContextMenu={true}
@@ -68,7 +69,8 @@ const KeywordTreeComponent = forwardRef(({
   onAddNarrower,
   onNodeClick,
   onNodeEdit,
-  selectedNodeId,
+  onNodeDelete,
+  selectedNodeId: selectedNodeIdProp,
   showContextMenu,
   openAll,
   selectedVersion,
@@ -84,6 +86,7 @@ const KeywordTreeComponent = forwardRef(({
   const [showAddNarrowerPopup, setShowAddNarrowerPopup] = useState(false)
   const [newNarrowerTitle, setNewNarrowerTitle] = useState('')
   const [addNarrowerParentId, setAddNarrowerParentId] = useState(null)
+  const [selectedNodeId, setSelectedNodeId] = useState(selectedNodeIdProp)
 
   const [searchPattern, setSearchPattern] = useState('')
   const searchInputRef = useRef(null)
@@ -114,6 +117,10 @@ const KeywordTreeComponent = forwardRef(({
       setTreeData(null)
     }
   }
+
+  useEffect(() => {
+    setSelectedNodeId(selectedNodeIdProp)
+  }, [selectedNodeIdProp])
 
   // Effect to fetch tree data when version and scheme are selected
   useEffect(() => {
@@ -152,12 +159,15 @@ const KeywordTreeComponent = forwardRef(({
       if (shouldOpenAll) {
         treeRef.current.openAll()
       } else if (selectedNodeId) {
-        treeRef.current.openParents(selectedNodeId)
+        treeRef.current?.openParents(selectedNodeId)
         setTimeout(() => { // Delay to potentially allow tree updates
-          const node = treeRef.current.get(selectedNodeId)
-          if (node) {
-            treeRef.current.select(selectedNodeId)
-            treeRef.current.scrollTo(selectedNodeId, 'center')
+          if (treeRef.current) {
+            const node = treeRef.current.get(selectedNodeId)
+            if (node) {
+              treeRef.current.select(selectedNodeId)
+              treeRef.current.scrollTo(selectedNodeId, 'center')
+              node.open()// Should open node to show sub nodes, after one sub node is deleted
+            }
           }
         }, 0)
       } else {
@@ -212,7 +222,7 @@ const KeywordTreeComponent = forwardRef(({
     }
   }
 
-  const modalActions = [
+  const addModalActions = [
     {
       label: 'Cancel',
       variant: 'secondary',
@@ -224,18 +234,6 @@ const KeywordTreeComponent = forwardRef(({
       onClick: handleAddNarrowerConfirm
     }
   ]
-
-  const handleDelete = (nodeId) => {
-    setTreeData((prevData) => {
-      const deleteNode = (nodes) => nodes.filter((node) => node.id !== nodeId)
-        .map((node) => ({
-          ...node,
-          children: node.children ? deleteNode(node.children) : undefined
-        }))
-
-      return deleteNode(prevData)
-    })
-  }
 
   if (isTreeLoading) {
     return <KeywordTreePlaceHolder message="Loading..." />
@@ -299,13 +297,14 @@ const KeywordTreeComponent = forwardRef(({
               {...props}
               node={node}
               onAdd={handleAdd}
-              onDelete={handleDelete}
+              onDelete={onNodeDelete}
               searchTerm={searchPattern}
               setContextMenu={setContextMenu}
               onToggle={handleToggle}
               onEdit={onNodeEdit}
               onNodeClick={onNodeClick}
               handleAdd={handleAdd}
+              isSelected={node.id === selectedNodeId}
             />
           )
         }
@@ -336,10 +335,9 @@ const KeywordTreeComponent = forwardRef(({
             </Form.Group>
           )
         }
-        actions={modalActions}
+        actions={addModalActions}
         toggleModal={setShowAddNarrowerPopup}
       />
-
     </div>
   )
 })
@@ -361,7 +359,8 @@ KeywordTreeComponent.defaultProps = {
   onNodeEdit: null,
   selectedVersion: null,
   selectedScheme: null,
-  data: null
+  data: null,
+  onNodeDelete: null
 }
 
 KeywordTreeComponent.propTypes = {
@@ -377,7 +376,8 @@ KeywordTreeComponent.propTypes = {
   showContextMenu: PropTypes.bool,
   openAll: PropTypes.bool,
   selectedVersion: PropTypes.shape(),
-  selectedScheme: PropTypes.shape()
+  selectedScheme: PropTypes.shape(),
+  onNodeDelete: PropTypes.func
 }
 
 export const KeywordTree = KeywordTreeComponent

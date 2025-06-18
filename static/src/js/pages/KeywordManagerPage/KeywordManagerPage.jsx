@@ -33,6 +33,11 @@ import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
 import useAuthContext from '@/js/hooks/useAuthContext'
 
 import './KeywordManagerPage.scss'
+import { deleteKmsConcept } from '@/js/utils/deleteKmsConcept'
+import { getVersionName } from '@/js/utils/getVersionName'
+import {
+  DeleteConfirmationModal
+} from '@/js/components/DeleteConfirmationModal/DeleteConfirmationModal'
 
 /**
  * KeywordManagerPage Component
@@ -74,6 +79,11 @@ const KeywordManagerPage = () => {
   const { kmsHost } = getApplicationConfig()
   const [selectedKeywordId, setSelectedKeywordId] = useState(null)
 
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
+  const [nodeToDelete, setNodeToDelete] = useState(null)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [deleteError, setDeleteError] = useState(null)
+
   const [showPublishModal, setShowPublishModal] = useState(false)
   const [newVersionName, setNewVersionName] = useState('')
   const [publishError, setPublishError] = useState(null)
@@ -86,6 +96,51 @@ const KeywordManagerPage = () => {
 
   const keywordTreeRef = useRef(null)
 
+  const handleDelete = (node) => {
+    setNodeToDelete(node)
+    setShowDeleteConfirmation(true)
+  }
+
+  const closeDeleteModal = () => {
+    setShowDeleteConfirmation(false)
+    setNodeToDelete(null)
+    setDeleteError(null)
+  }
+
+  const handleDeleteConfirmation = async () => {
+    if (nodeToDelete) {
+      setIsDeleting(true)
+      setDeleteError(null)
+      try {
+        // Check if nodeToDelete has a data property, if not use id directly
+        const conceptId = nodeToDelete.data ? nodeToDelete.data.id : nodeToDelete.id
+        const params = {
+          conceptId,
+          version: getVersionName(selectedVersion),
+          token: tokenValue
+        }
+        const errorMessage = await deleteKmsConcept(params)
+        if (errorMessage) {
+          setDeleteError(errorMessage)
+        } else {
+        // Select the parent node if it exists, otherwise select null
+          const newSelectedId = nodeToDelete.parent ? nodeToDelete.parent.id : null
+          setSelectedKeywordId(newSelectedId)
+
+          closeDeleteModal()
+          if (keywordTreeRef.current) {
+            keywordTreeRef.current.refreshTree()
+          }
+        }
+      } catch (error) {
+        console.error('Error in deleteKmsConcept:', error)
+        setDeleteError(error.message || 'An error occurred while deleting the node.')
+      } finally {
+        setIsDeleting(false)
+      }
+    }
+  }
+
   const handleKeywordSave = useCallback((savedKeywordId) => {
     if (keywordTreeRef.current) {
       keywordTreeRef.current.refreshTree()
@@ -93,6 +148,7 @@ const KeywordManagerPage = () => {
 
     setSelectedKeywordId(savedKeywordId)
   }, [])
+
   /**
    * Opens the modal for publishing a new keyword version.
    * Resets the new version name and clears any previous publish errors.
@@ -135,12 +191,7 @@ const KeywordManagerPage = () => {
     setIsLoading(true)
     setShowError(null)
     try {
-      let versionParam = selectedVersion.version
-      if (selectedVersion.version_type === 'published') {
-        versionParam = 'published'
-      }
-
-      const response = await fetch(`${kmsHost}/concept/${uuid}?version=${versionParam}`)
+      const response = await fetch(`${kmsHost}/concept/${uuid}?version=${getVersionName(selectedVersion)}`)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
@@ -159,6 +210,15 @@ const KeywordManagerPage = () => {
     }
   }, [selectedVersion])
 
+  useEffect(() => {
+    if (selectedKeywordId) {
+      handleShowKeyword(selectedKeywordId)
+    } else {
+      setSelectedKeywordData(null)
+      setShowKeywordForm(false)
+    }
+  }, [selectedKeywordId, handleShowKeyword])
+
   const handleAddNarrower = useCallback((parentId, newKeyword) => {
     // Create a new keyword data structure for the form
     const newKeywordData = {
@@ -176,8 +236,8 @@ const KeywordManagerPage = () => {
    * @param {string} nodeId - The id of the clicked node
    */
   const handleNodeClick = useCallback((nodeId) => {
-    handleShowKeyword(nodeId)
-  }, [handleShowKeyword])
+    setSelectedKeywordId(nodeId)
+  }, [])
 
   /**
    * Handles the selection of a version
@@ -266,6 +326,7 @@ const KeywordManagerPage = () => {
       onNodeClick={handleNodeClick}
       onNodeEdit={handleShowKeyword}
       onAddNarrower={handleAddNarrower}
+      onNodeDelete={handleDelete}
       selectedNodeId={selectedKeywordId}
       selectedScheme={selectedScheme}
       selectedVersion={selectedVersion}
@@ -426,6 +487,14 @@ const KeywordManagerPage = () => {
       <GenerateKeywordReportModal
         show={showGenerateReportModal}
         toggleModal={(state) => { setShowGenerateReportModal(state) }}
+      />
+      <DeleteConfirmationModal
+        show={showDeleteConfirmation}
+        nodeToDelete={nodeToDelete}
+        isDeleting={isDeleting}
+        deleteError={deleteError}
+        onConfirm={handleDeleteConfirmation}
+        onCancel={closeDeleteModal}
       />
     </Page>
   )

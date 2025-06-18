@@ -72,22 +72,26 @@ export const KeywordTreeCustomNode = ({
           id: 'add-child',
           label: 'Add Narrower',
           action: () => handleAdd(node.id)
-        },
-        {
-          id: 'delete',
-          label: 'Delete',
-          action: () => onDelete(node.id)
         }
       ]
     }
+    // Only add the 'Delete' option if the node doesn't have children
+    if (!node.data.children || node.data.children.length === 0) {
+      newContextMenu.options.push({
+        id: 'delete',
+        label: 'Delete',
+        action: () => onDelete(node)
+      })
+    }
+
     setContextMenu(newContextMenu)
   }
 
-  let backgroundColor = 'transparent'
+  const nodeTextClasses = ['keyword-tree__node-text']
   if (node.isSelected) {
-    backgroundColor = '#99ccff'
+    nodeTextClasses.push('keyword-tree__node-text--selected')
   } else if (isHovered) {
-    backgroundColor = '#cce5ff'
+    nodeTextClasses.push('keyword-tree__node-text--hovered')
   }
 
   const highlightSearchTerm = (text, term) => {
@@ -157,14 +161,7 @@ export const KeywordTreeCustomNode = ({
         }
       </div>
       <div className="keyword-tree__text-wrapper">
-        <span
-          className="keyword-tree__node-text"
-          style={
-            {
-              backgroundColor
-            }
-          }
-        >
+        <span className={nodeTextClasses.join(' ')}>
           {highlightSearchTerm(node.data.title, searchTerm)}
         </span>
       </div>
@@ -195,7 +192,7 @@ KeywordTreeCustomNode.propTypes = {
     id: PropTypes.string.isRequired
   }).isRequired,
   style: PropTypes.shape({}),
-  onDelete: PropTypes.func.isRequired,
+  onDelete: PropTypes.func,
   searchTerm: PropTypes.string,
   setContextMenu: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
@@ -207,5 +204,6 @@ KeywordTreeCustomNode.defaultProps = {
   dragHandle: null,
   searchTerm: null,
   style: {},
-  onEdit: null
+  onEdit: null,
+  onDelete: null
 }
