@@ -142,6 +142,12 @@ describe('GroupPermissionSelect', () => {
                       name: 'Group 1',
                       tag: 'MMT_2',
                       __typename: 'Group'
+                    },
+                    {
+                      id: '35780f67-91a5-4540-878b-7be541402f29',
+                      name: 'Group 2',
+                      tag: 'MMT_2',
+                      __typename: 'Group'
                     }
 
                   ],
