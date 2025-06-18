@@ -14,9 +14,7 @@ import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollection
 import PermissionFormPage from '../PermissionFormPage'
 import PermissionForm from '../../../components/PermissionForm/PermissionForm'
 
-vi.mock('../../../components/PermissionForm/PermissionForm', () => ({
-  default: vi.fn(() => null)
-}))
+vi.mock('../../../components/PermissionForm/PermissionForm')
 
 vi.mock('@/js/hooks/useAvailableProviders')
 useAvailableProviders.mockReturnValue({

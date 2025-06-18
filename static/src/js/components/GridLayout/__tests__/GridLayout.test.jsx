@@ -8,10 +8,10 @@ import GridField from '../../GridField/GridField'
 import GridLayout from '../GridLayout'
 import GridRow from '../../GridRow/GridRow'
 
-vi.mock('../../GridRow/GridRow', () => ({ default: vi.fn(() => null) }))
-vi.mock('../../GridCol/GridCol', () => ({ default: vi.fn(() => null) }))
+vi.mock('../../GridRow/GridRow')
+vi.mock('../../GridCol/GridCol')
 vi.mock('../../GridField/GridField')
-vi.mock('../../GridControlledField/GridControlledField', () => ({ default: vi.fn(() => null) }))
+vi.mock('../../GridControlledField/GridControlledField')
 
 const setup = (overrideProps = {}) => {
   const schema = {

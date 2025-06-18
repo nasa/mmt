@@ -31,7 +31,7 @@ vi.mock('../../PreviewProgress/PreviewProgress')
 vi.mock('../../../utils/errorLogger')
 vi.mock('../../../utils/deleteTemplate')
 
-vi.mock('../../ErrorBanner/ErrorBanner', () => ({ default: vi.fn(() => null) }))
+vi.mock('../../ErrorBanner/ErrorBanner')
 
 const getConfig = () => staticConfig
 

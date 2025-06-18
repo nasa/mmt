@@ -506,7 +506,7 @@ describe('MetadataForm', () => {
         value: 'Test Name'
       })).toBeInTheDocument()
 
-      expect(FormNavigation).toHaveBeenCalledTimes(13)
+      expect(FormNavigation).toHaveBeenCalledTimes(14)
       expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
         visitedFields: ['mock-name']
       }), {})

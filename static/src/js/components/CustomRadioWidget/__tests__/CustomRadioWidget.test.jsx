@@ -55,8 +55,7 @@ describe('CustomRadioWidget', () => {
       expect(screen.getByRole('radio', { name: 'True' })).toBeInTheDocument()
       expect(screen.getByRole('radio', { name: 'False' })).toBeInTheDocument()
 
-      // Called with extra []
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         label: 'Test Field',

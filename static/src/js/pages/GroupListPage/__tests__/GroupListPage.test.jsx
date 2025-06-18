@@ -14,9 +14,9 @@ import GroupListPage from '../GroupListPage'
 
 vi.mock('@/js/hooks/usePermissions')
 
-vi.mock('@/js/components/GroupList/GroupList', () => ({ default: vi.fn(() => null) }))
+vi.mock('@/js/components/GroupList/GroupList')
 
-vi.mock('@/js/components/GroupSearchForm/GroupSearchForm', () => ({ default: vi.fn(() => null) }))
+vi.mock('@/js/components/GroupSearchForm/GroupSearchForm')
 
 const setup = (
   pageUrl = '/groups',

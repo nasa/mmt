@@ -74,8 +74,7 @@ describe('CustomTextWidget', () => {
       expect(field).toHaveAttribute('type', 'text')
       expect(field).toHaveAttribute('value', '')
 
-      // Called with an extra []
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         charactersUsed: 0,

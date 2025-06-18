@@ -7,7 +7,7 @@ import GridGroupedSinglePanel from '../../GridGroupedSinglePanel/GridGroupedSing
 import GridLayout from '../../GridLayout/GridLayout'
 import GridRow from '../GridRow'
 
-vi.mock('../../GridLayout/GridLayout', () => ({ default: vi.fn(() => null) }))
+vi.mock('../../GridLayout/GridLayout')
 vi.mock('../../GridGroupedSinglePanel/GridGroupedSinglePanel')
 vi.mock('../../GridCheckboxPanel/GridCheckboxPanel')
 

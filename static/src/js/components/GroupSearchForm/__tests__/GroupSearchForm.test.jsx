@@ -155,8 +155,8 @@ describe('GroupSearchForm', () => {
       expect(navigateSpy).toHaveBeenCalledTimes(1)
 
       const encodedUsers = Buffer.from(JSON.stringify([{
-        label: 'Test User 1',
-        id: 'testuser1'
+        id: 'testuser1',
+        label: 'Test User 1'
       }])).toString('base64')
       expect(navigateSpy).toHaveBeenCalledWith(`/groups?members=${encodedUsers}`)
     })
@@ -174,10 +174,10 @@ describe('GroupSearchForm', () => {
       const nameField = await screen.findByRole('textbox', { name: 'Name' })
       expect(nameField).toHaveValue('Test Name')
 
-      expect(screen.getByText('MMT_1').className).toContain('css-9jq23d')
+      expect(screen.getByText('MMT_1').className).toContain('css-wsp0cs-MultiValueGeneric')
 
       // The CustomAsyncMultiSelectWidget doesn't use the same classes as MultiSelect
-      expect(screen.getByText('Test User 1').className).not.toContain('css-9jq23d')
+      expect(screen.getByText('Test User 1').className).not.toContain('css-wsp0cs-MultiValueGeneric')
     })
   })
 

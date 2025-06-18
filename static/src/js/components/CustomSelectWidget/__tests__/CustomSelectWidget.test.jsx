@@ -104,8 +104,7 @@ describe('CustomSelectWidget', () => {
 
       // First call is loading the page
       // Second call is setting the options
-      // Third call is []
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(3)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         label: 'Test Field',

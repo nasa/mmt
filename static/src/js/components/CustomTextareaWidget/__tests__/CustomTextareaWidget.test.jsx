@@ -69,8 +69,7 @@ describe('CustomTextareaWidget', () => {
       expect(field).toHaveAttribute('id', 'mock-id')
       expect(field).toHaveAttribute('name', 'Test Field')
 
-      // Called with an extra []
-      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(2)
+      expect(CustomWidgetWrapper).toHaveBeenCalledTimes(1)
       expect(CustomWidgetWrapper).toHaveBeenCalledWith(expect.objectContaining({
         description: 'Test Description',
         charactersUsed: 0,

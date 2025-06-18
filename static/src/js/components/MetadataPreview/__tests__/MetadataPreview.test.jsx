@@ -38,13 +38,7 @@ vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
   }))
 }))
 
-vi.mock('@edsc/metadata-preview', () => ({
-  ToolPreview: vi.fn(() => null),
-  ServicePreview: vi.fn(() => null),
-  VariablePreview: vi.fn(() => null),
-  CollectionPreview: vi.fn(() => null),
-  VisualizationPreview: vi.fn(() => null)
-}))
+vi.mock('@edsc/metadata-preview')
 
 const setup = ({
   initialEntries,

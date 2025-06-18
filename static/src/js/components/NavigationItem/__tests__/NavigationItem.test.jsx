@@ -18,7 +18,7 @@ vi.mock('react-router-dom', async () => ({
   useNavigate: () => mockedUsedNavigate
 }))
 
-vi.mock('../../NavigationItemError/NavigationItemError', () => ({ default: vi.fn(() => null) }))
+vi.mock('../../NavigationItemError/NavigationItemError')
 
 const setup = ({
   overrideProps = {},
@@ -131,6 +131,7 @@ describe('NavigationItem', () => {
 
         expect(NavigationItemError).toHaveBeenCalledTimes(1)
         expect(NavigationItemError).toHaveBeenCalledWith({
+          className: null,
           error: {
             message: "must have required property 'Name'",
             name: 'required',
@@ -170,6 +171,7 @@ describe('NavigationItem', () => {
 
         expect(NavigationItemError).toHaveBeenCalledTimes(1)
         expect(NavigationItemError).toHaveBeenCalledWith({
+          className: null,
           error: {
             errors: [{
               message: "must have required property ' Type'",
@@ -213,6 +215,7 @@ describe('NavigationItem', () => {
 
         expect(NavigationItemError).toHaveBeenCalledTimes(1)
         expect(NavigationItemError).toHaveBeenCalledWith({
+          className: null,
           error: {
             errors: [{
               message: "must have required property 'URLContentType'",
@@ -288,6 +291,7 @@ describe('NavigationItem', () => {
 
         expect(NavigationItemError).toHaveBeenCalledTimes(1)
         expect(NavigationItemError).toHaveBeenCalledWith({
+          className: null,
           error: {
             message: "must have required property 'Name'",
             name: 'required',
