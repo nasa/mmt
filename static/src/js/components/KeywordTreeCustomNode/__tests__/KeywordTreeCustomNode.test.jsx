@@ -7,6 +7,7 @@ import {
 } from '@testing-library/react'
 import { vi } from 'vitest'
 import { KeywordTreeCustomNode } from '../KeywordTreeCustomNode'
+import '../KeywordTreeCustomNode.scss'
 
 describe('KeywordTreeCustomNode component', () => {
   const defaultProps = {
@@ -17,6 +18,7 @@ describe('KeywordTreeCustomNode component', () => {
         children: []
       },
       isOpen: false,
+      isSelected: false,
       toggle: vi.fn()
     },
     style: {},
@@ -126,15 +128,15 @@ describe('KeywordTreeCustomNode component', () => {
       const nodeText = within(nodeContent).getByText('Node 1')
 
       // Check initial state (not hovered)
-      expect(window.getComputedStyle(nodeText).backgroundColor).not.toBe('rgb(204, 229, 255)')
+      expect(nodeText).not.toHaveClass('keyword-tree__node-text--hovered')
 
       // Hover
       fireEvent.mouseEnter(nodeContent)
-      expect(window.getComputedStyle(nodeText).backgroundColor).toBe('rgb(204, 229, 255)')
+      expect(nodeText).toHaveClass('keyword-tree__node-text--hovered')
 
       // Un-hover
       fireEvent.mouseLeave(nodeContent)
-      expect(window.getComputedStyle(nodeText).backgroundColor).not.toBe('rgb(204, 229, 255)')
+      expect(nodeText).not.toHaveClass('keyword-tree__node-text--hovered')
     })
 
     test('should call onNodeClick when Enter key is pressed', () => {
@@ -185,6 +187,55 @@ describe('KeywordTreeCustomNode component', () => {
       )
     })
 
+    test('should include delete option in context menu for nodes without children', () => {
+      render(<KeywordTreeCustomNode {...defaultProps} />)
+      const nodeContent = screen.getByRole('button', { name: /Keyword: Node 1/i })
+      fireEvent.contextMenu(nodeContent)
+
+      expect(defaultProps.setContextMenu).toHaveBeenCalledWith(
+        expect.objectContaining({
+          options: expect.arrayContaining([
+            expect.objectContaining({
+              id: 'delete',
+              label: 'Delete'
+            })
+          ])
+        })
+      )
+
+      // Verify that the delete action calls onDelete with the entire node
+      const deleteAction = defaultProps.setContextMenu.mock.calls[0][0].options.find((option) => option.id === 'delete').action
+      deleteAction()
+      expect(defaultProps.onDelete).toHaveBeenCalledWith(defaultProps.node)
+    })
+
+    test('should not include delete option in context menu for nodes with children', () => {
+      const nodeWithChildren = {
+        ...defaultProps.node,
+        data: {
+          ...defaultProps.node.data,
+          children: [{
+            id: 'child1',
+            title: 'Child 1'
+          }]
+        }
+      }
+      render(<KeywordTreeCustomNode {...defaultProps} node={nodeWithChildren} />)
+      const nodeContent = screen.getByRole('button', { name: /Keyword: Node 1/i })
+      fireEvent.contextMenu(nodeContent)
+
+      expect(defaultProps.setContextMenu).toHaveBeenCalledWith(
+        expect.objectContaining({
+          options: expect.not.arrayContaining([
+            expect.objectContaining({
+              id: 'delete',
+              label: 'Delete'
+            })
+          ])
+        })
+      )
+    })
+
     test('should call onEdit when click on context menu edit', () => {
       render(<KeywordTreeCustomNode {...defaultProps} />)
       const nodeContent = screen.getByRole('button', { name: /Keyword: Node 1/i })
@@ -212,7 +263,7 @@ describe('KeywordTreeCustomNode component', () => {
 
       const deleteAction = defaultProps.setContextMenu.mock.calls[0][0].options.find((option) => option.id === 'delete').action
       deleteAction()
-      expect(defaultProps.onDelete).toHaveBeenCalledWith('1')
+      expect(defaultProps.onDelete).toHaveBeenCalledWith(defaultProps.node)
     })
   })
 
@@ -259,6 +310,33 @@ describe('KeywordTreeCustomNode component', () => {
         expect(regularText).toBeInTheDocument()
         expect(regularText.tagName.toLowerCase()).not.toBe('strong')
       })
+    })
+  })
+
+  describe('when node is selected', () => {
+    test('should have selected class when selected', () => {
+      const selectedNodeProps = {
+        ...defaultProps,
+        node: {
+          ...defaultProps.node,
+          isSelected: true
+        }
+      }
+      render(<KeywordTreeCustomNode {...selectedNodeProps} />)
+
+      const nodeContent = screen.getByRole('button', { name: /Keyword: Node 1/i })
+      const nodeText = within(nodeContent).getByText('Node 1')
+
+      expect(nodeText).toHaveClass('keyword-tree__node-text--selected')
+    })
+
+    test('should not have selected class when not selected', () => {
+      render(<KeywordTreeCustomNode {...defaultProps} />)
+
+      const nodeContent = screen.getByRole('button', { name: /Keyword: Node 1/i })
+      const nodeText = within(nodeContent).getByText('Node 1')
+
+      expect(nodeText).not.toHaveClass('keyword-tree__node-text--selected')
     })
   })
 })
