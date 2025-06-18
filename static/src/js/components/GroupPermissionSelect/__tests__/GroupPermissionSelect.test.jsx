@@ -128,8 +128,8 @@ describe('GroupPermissionSelect', () => {
               variables: {
                 params: {
                   name: 'Gro',
-                  limit: 20,
-                  tags: ['MMT_1,MMT_2', 'CMR']
+                  limit: 100,
+                  tags: ['MMT_1', 'MMT_2', 'CMR']
                 }
               }
             },
@@ -187,8 +187,8 @@ describe('GroupPermissionSelect', () => {
               variables: {
                 params: {
                   name: 'Gro',
-                  limit: 20,
-                  tags: ['MMT_1,MMT_2', 'CMR']
+                  limit: 100,
+                  tags: ['MMT_1', 'MMT_2', 'CMR']
                 }
               }
             },
