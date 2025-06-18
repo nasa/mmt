@@ -27,11 +27,10 @@ import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
 import staticConfig from '../../../../../../static.config.json'
 
 vi.mock('../../../utils/getTemplate')
+vi.mock('../../ErrorBanner/ErrorBanner')
 vi.mock('../../PreviewProgress/PreviewProgress')
 vi.mock('../../../utils/errorLogger')
 vi.mock('../../../utils/deleteTemplate')
-
-vi.mock('../../ErrorBanner/ErrorBanner')
 
 const getConfig = () => staticConfig
 
