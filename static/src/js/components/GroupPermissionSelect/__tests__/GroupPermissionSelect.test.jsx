@@ -148,6 +148,12 @@ describe('GroupPermissionSelect', () => {
                       name: 'Group 2',
                       tag: 'MMT_2',
                       __typename: 'Group'
+                    },
+                    {
+                      id: '45780f67-91a5-4540-878b-7be541402f29',
+                      name: 'Another 3',
+                      tag: 'MMT_2',
+                      __typename: 'Group'
                     }
 
                   ],
@@ -180,6 +186,8 @@ describe('GroupPermissionSelect', () => {
           ]
         }
       )
+
+      expect(screen.queryByRole('option', { name: 'Another 3 MMT_2' })).not.toBeInTheDocument()
     })
   })
 
