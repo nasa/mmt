@@ -52,7 +52,7 @@ vi.mock('@/js/utils/createTemplate')
 vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/utils/getTemplate')
 vi.mock('@/js/utils/updateTemplate')
-vi.mock('@/js/ErrorBanner/ErrorBanner')
+vi.mock('@/js/components/ErrorBanner/ErrorBanner')
 vi.mock('@/js/components/FormNavigation/FormNavigation')
 
 const getConfig = () => staticConfig
