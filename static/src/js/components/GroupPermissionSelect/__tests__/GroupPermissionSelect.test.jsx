@@ -128,8 +128,8 @@ describe('GroupPermissionSelect', () => {
               variables: {
                 params: {
                   name: 'Gro',
-                  limit: 20,
-                  tags: ['MMT_1,MMT_2', 'CMR']
+                  limit: 100,
+                  tags: ['MMT_1', 'MMT_2', 'CMR']
                 }
               }
             },
@@ -140,6 +140,18 @@ describe('GroupPermissionSelect', () => {
                     {
                       id: '25780f67-91a5-4540-878b-7be541402f29',
                       name: 'Group 1',
+                      tag: 'MMT_2',
+                      __typename: 'Group'
+                    },
+                    {
+                      id: '35780f67-91a5-4540-878b-7be541402f29',
+                      name: 'Group 2',
+                      tag: 'MMT_2',
+                      __typename: 'Group'
+                    },
+                    {
+                      id: '45780f67-91a5-4540-878b-7be541402f29',
+                      name: 'Another 3',
                       tag: 'MMT_2',
                       __typename: 'Group'
                     }
@@ -174,6 +186,8 @@ describe('GroupPermissionSelect', () => {
           ]
         }
       )
+
+      expect(screen.queryByRole('option', { name: 'Another 3 MMT_2' })).not.toBeInTheDocument()
     })
   })
 
@@ -187,8 +201,8 @@ describe('GroupPermissionSelect', () => {
               variables: {
                 params: {
                   name: 'Gro',
-                  limit: 20,
-                  tags: ['MMT_1,MMT_2', 'CMR']
+                  limit: 100,
+                  tags: ['MMT_1', 'MMT_2', 'CMR']
                 }
               }
             },

@@ -227,8 +227,8 @@ const GroupPermissionSelectComponent = ({
         variables: {
           params: {
             name: inputValue,
-            limit: 20,
-            tags: [providerIds.toString(), 'CMR']
+            limit: 100,
+            tags: providerIds.concat(['CMR'])
           }
         },
         onCompleted: (data) => {
@@ -238,7 +238,7 @@ const GroupPermissionSelectComponent = ({
             value: item.name,
             label: item.name,
             provider: item.tag
-          }))
+          })).sort((a, b) => a.label.localeCompare(b.label))
           callback(options)
         }
       })
