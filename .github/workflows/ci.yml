@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
         matrix:
-          node-version: ['lts/iron']
+          node-version: ['lts/jod']
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
         matrix:
-          node-version: ['lts/iron']
+          node-version: ['lts/jod']
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -69,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
         matrix:
-          node-version: ['lts/iron']
+          node-version: ['lts/jod']
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
