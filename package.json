@@ -63,7 +63,7 @@
     "react-select-country-list": "^2.2.3",
     "request": "^2.88.2",
     "rollup-plugin-polyfill-node": "^0.12.0",
-    "serverless": "^3.38.0",
+    "serverless": "^3.39.0",
     "serverless-esbuild": "^1.52.1",
     "serverless-finch": "^4.0.4",
     "serverless-offline": "^13.3.0",
