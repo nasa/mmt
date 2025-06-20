@@ -4,10 +4,9 @@
 
 .keyword-tree {
   &__container {
+    overflow: auto;
     width: 100%;
     height: 500px;
-    overflow-x: auto;
-    overflow-y: auto;
   }
 
   &__node {
