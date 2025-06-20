@@ -60,7 +60,7 @@ tmp
 EOF
 
 cat <<EOF > Dockerfile
-FROM node:20-bullseye
+FROM node:20-bookworm
 COPY . /build
 WORKDIR /build
 RUN npm ci --omit=dev && npm run build
