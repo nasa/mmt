@@ -9,6 +9,7 @@
   }
 
   &__tree-container {
+    overflow: auto;
     width: 40%;
     max-width: 40%;
     max-height: 80vh;
@@ -16,8 +17,6 @@
     padding: 10px;
     border: 1px solid $gray-300;
     border-radius: 4px;
-    overflow-x: auto;
-    overflow-y: auto;
   }
 
   &__form-container {

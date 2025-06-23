@@ -174,10 +174,10 @@ describe('GroupSearchForm', () => {
       const nameField = await screen.findByRole('textbox', { name: 'Name' })
       expect(nameField).toHaveValue('Test Name')
 
-      expect(screen.getByText('MMT_1').className).toContain('MultiValueGeneric')
+      expect(screen.getByText('MMT_1').className).toContain('css-wsp0cs-MultiValueGeneric')
 
       // The CustomAsyncMultiSelectWidget doesn't use the same classes as MultiSelect
-      expect(screen.getByText('Test User 1').className).not.toContain('MultiValueGeneric')
+      expect(screen.getByText('Test User 1').className).not.toContain('css-wsp0cs-MultiValueGeneric')
     })
   })
 

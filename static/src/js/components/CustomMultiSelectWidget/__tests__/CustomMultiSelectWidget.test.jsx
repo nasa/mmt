@@ -126,8 +126,8 @@ describe('CustomMultiSelectWidget', () => {
       expect(screen.getByText('Test Field')).toBeInTheDocument()
       expect(screen.queryByText('Test Placeholder')).not.toBeInTheDocument()
 
-      expect(screen.getByText('Option1').className).toContain('MultiValueGeneric')
-      expect(screen.getByText('Option2').className).toContain('MultiValueGeneric')
+      expect(screen.getByText('Option1').className).toContain('css-wsp0cs-MultiValueGeneric')
+      expect(screen.getByText('Option2').className).toContain('css-wsp0cs-MultiValueGeneric')
 
       const select = screen.getByRole('combobox')
       await user.click(select)
