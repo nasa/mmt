@@ -13,7 +13,7 @@ import {
   KmsConceptSelectionEditModal
 } from '@/js/components/KmsConceptSelectionEditModal/KmsConceptSelectionEditModal'
 import { getKmsConceptFullPaths } from '@/js/utils/getKmsConceptFullPaths'
-
+import { getVersionName } from '@/js/utils/getVersionName'
 import CustomWidgetWrapper from '../CustomWidgetWrapper/CustomWidgetWrapper'
 
 import './KmsConceptSelectionWidget.scss'
@@ -65,7 +65,11 @@ const KmsConceptSelectionWidget = ({
   useEffect(() => {
     const fetchFullPaths = async () => {
       try {
-        let fullPaths = await getKmsConceptFullPaths(value)
+        const params = {
+          uuid: value,
+          version: getVersionName(version)
+        }
+        let fullPaths = await getKmsConceptFullPaths(params)
         const lastField = fullPaths[0].split('|').pop()
         fullPaths = fullPaths.map((path) => path.replaceAll('|', ' > '))
         setKeywordLabel(lastField)

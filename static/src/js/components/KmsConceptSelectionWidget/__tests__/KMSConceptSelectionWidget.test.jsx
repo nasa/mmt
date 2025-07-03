@@ -91,7 +91,11 @@ describe('KmsConceptSelectionWidget', () => {
 
     test('should fetch and display the correct keyword', async () => {
       renderComponent()
-      expect(getKmsConceptFullPaths).toHaveBeenCalledWith('test-uuid')
+      expect(getKmsConceptFullPaths).toHaveBeenCalledWith({
+        uuid: 'test-uuid',
+        version: '1'
+      })
+
       await waitFor(async () => {
         expect(await screen.findByText('TORNADOES')).toBeInTheDocument()
       })
@@ -99,7 +103,11 @@ describe('KmsConceptSelectionWidget', () => {
 
     test('should show the full path as a title attribute', async () => {
       renderComponent()
-      expect(getKmsConceptFullPaths).toHaveBeenCalledWith('test-uuid')
+      expect(getKmsConceptFullPaths).toHaveBeenCalledWith({
+        uuid: 'test-uuid',
+        version: '1'
+      })
+
       await waitFor(() => {
         const keywordElement = screen.getByText(/tornadoes/i)
         const expectedTitle = /ScienceKeywords\s*>\s*ATMOSPHERE\s*>\s*TORNADOES/
