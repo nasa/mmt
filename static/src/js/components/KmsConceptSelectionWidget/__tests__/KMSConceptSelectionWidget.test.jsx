@@ -92,7 +92,7 @@ describe('KmsConceptSelectionWidget', () => {
     test('should fetch and display the correct keyword', async () => {
       renderComponent()
       expect(getKmsConceptFullPaths).toHaveBeenCalledWith({
-        conceptId: 'test-uuid',
+        uuid: 'test-uuid',
         version: '1'
       })
 
@@ -104,7 +104,7 @@ describe('KmsConceptSelectionWidget', () => {
     test('should show the full path as a title attribute', async () => {
       renderComponent()
       expect(getKmsConceptFullPaths).toHaveBeenCalledWith({
-        conceptId: 'test-uuid',
+        uuid: 'test-uuid',
         version: '1'
       })
 

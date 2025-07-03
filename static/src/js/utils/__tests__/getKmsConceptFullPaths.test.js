@@ -30,10 +30,10 @@ describe('getKmsConceptFullPaths', () => {
   })
 
   it('should fetch and return full paths from KMS without version', async () => {
-    const conceptId = 'test-uuid'
+    const uuid = 'test-uuid'
     const expectedResult = ['Chained Operations']
 
-    const result = await getKmsConceptFullPaths({ conceptId })
+    const result = await getKmsConceptFullPaths({ uuid })
 
     expect(fetch).toHaveBeenCalledTimes(1)
     expect(fetch).toHaveBeenCalledWith('http://example.com/concept_fullpaths/concept_uuid/test-uuid', { method: 'GET' })
@@ -42,12 +42,12 @@ describe('getKmsConceptFullPaths', () => {
   })
 
   it('should fetch and return full paths from KMS with version', async () => {
-    const conceptId = 'test-uuid'
+    const uuid = 'test-uuid'
     const version = '1.0'
     const expectedResult = ['Chained Operations']
 
     const result = await getKmsConceptFullPaths({
-      conceptId,
+      uuid,
       version
     })
 
@@ -77,10 +77,10 @@ describe('getKmsConceptFullPaths', () => {
       `)
     }))
 
-    const conceptId = 'multi-path-uuid'
+    const uuid = 'multi-path-uuid'
     const expectedResult = ['Path 1', 'Path 2']
 
-    const result = await getKmsConceptFullPaths({ conceptId })
+    const result = await getKmsConceptFullPaths({ uuid })
 
     expect(result).toEqual(expectedResult)
   })

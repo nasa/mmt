@@ -66,7 +66,7 @@ const KmsConceptSelectionWidget = ({
     const fetchFullPaths = async () => {
       try {
         const params = {
-          conceptId: value,
+          uuid: value,
           version: getVersionName(version)
         }
         let fullPaths = await getKmsConceptFullPaths(params)

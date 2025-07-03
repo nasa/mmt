@@ -9,7 +9,7 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  * @async
  * @function getKmsConceptFullPaths
  * @param {Object} params - The parameters for the function.
- * @param {string} params.conceptId - The UUID of the KMS concept whose full paths are to be fetched.
+ * @param {string} params.uuid - The UUID of the KMS concept whose full paths are to be fetched.
  * @param {string|null} [params.version] - Optional. The version of the concept to fetch. If not provided, the latest version is used.
  * @returns {Promise<string[]>} A promise that resolves to an array of full paths as strings.
  * @throws Will throw an error if the fetch operation or XML parsing fails.
@@ -21,10 +21,10 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  * // Usage example
  * async function fetchConceptPaths() {
  *   try {
- *     const conceptId = '123e4567-e89b-12d3-a456-426614174000';
+ *     const uuid = '123e4567-e89b-12d3-a456-426614174000';
  *     const version = '1.0'; // Optional, can be omitted
  *
- *     const paths = await getKmsConceptFullPaths({ conceptId, version });
+ *     const paths = await getKmsConceptFullPaths({ uuid, version });
  *
  *     console.log('Concept full paths:', paths);
  *     // Example output: ['Root > Category > Subcategory > Concept']
@@ -36,11 +36,11 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  * // Call the function
  * fetchConceptPaths();
  */
-const getKmsConceptFullPaths = async ({ conceptId, version }) => {
+const getKmsConceptFullPaths = async ({ uuid, version }) => {
   const { kmsHost } = getApplicationConfig()
   try {
     // Construct the base URL
-    let url = `${kmsHost}/concept_fullpaths/concept_uuid/${conceptId}`
+    let url = `${kmsHost}/concept_fullpaths/concept_uuid/${uuid}`
 
     // Add version parameter only if version is not null
     if (version) {
