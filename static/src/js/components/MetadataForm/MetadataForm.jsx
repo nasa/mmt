@@ -154,10 +154,18 @@ const MetadataForm = () => {
   }, [data])
 
   const {
-    nativeId = `MMT_${crypto.randomUUID()}`,
+    nativeId: existingNativeId,
     providerId: fetchedMetadataProviderId,
     ummMetadata = {}
   } = draft || {}
+
+  const nativeId = existingNativeId || (
+    // Add '-draft' to the end of nativeId if it doesn't already end with it.
+    // Can be removed after CMR-10545 is complete
+    derivedConceptType === 'Visualization'
+      ? `MMT_${crypto.randomUUID()}-draft`
+      : `MMT_${crypto.randomUUID()}`
+  )
 
   const schema = getUmmSchema(derivedConceptType)
   const formSections = formConfigurations[derivedConceptType]
@@ -239,7 +247,7 @@ const MetadataForm = () => {
         // even though we will end up navigating to the preview page.  The reason
         // being is because the publish mutation causes the cache to be cleared and as a
         // result the draft is refetched.
-        if (type === saveTypes.save || type === saveTypes.saveAndPublish) {
+        if (type === saveTypes.save) {
           // Navigate to current form? just scroll to top of page instead?
           if (currentSection) navigate(`/drafts/${draftType}/${savedConceptId}/${currentSection}?revisionId=${savedRevisionId}`, { replace: true })
 
