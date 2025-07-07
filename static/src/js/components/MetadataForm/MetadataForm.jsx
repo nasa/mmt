@@ -247,8 +247,7 @@ const MetadataForm = () => {
         // even though we will end up navigating to the preview page.  The reason
         // being is because the publish mutation causes the cache to be cleared and as a
         // result the draft is refetched.
-        if (type === saveTypes.save) {
-          // Navigate to current form? just scroll to top of page instead?
+        if (type === saveTypes.save || type === saveTypes.saveAndPublish) {
           if (currentSection) navigate(`/drafts/${draftType}/${savedConceptId}/${currentSection}?revisionId=${savedRevisionId}`, { replace: true })
 
           window.scroll(0, 0)
