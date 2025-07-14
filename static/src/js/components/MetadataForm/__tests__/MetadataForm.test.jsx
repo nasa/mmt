@@ -184,6 +184,54 @@ vi.mock('react-router-dom', async () => ({
   useNavigate: () => mockedUsedNavigate
 }))
 
+const visualizationMockDraft = {
+  conceptId: 'VISD1000000-MMT',
+  description: null,
+  generation: null,
+  identifier: null,
+  metadataSpecification: null,
+  name: 'Name',
+  pageTitle: null,
+  nativeId: null,
+  providerId: null,
+  revisionDate: null,
+  revisionId: null,
+  revisions: {
+    count: null,
+    items: [{
+      conceptId: null,
+      revisionDate: null,
+      revisionId: null,
+      userId: null
+    }]
+  },
+  collections: {
+    count: null,
+    items: [{
+      conceptId: null,
+      provider: null,
+      shortName: null,
+      title: null,
+      version: null
+    }]
+  },
+  scienceKeywords: null,
+  spatialExtent: null,
+  specification: null,
+  subtitle: null,
+  temporalExtents: null,
+  title: null,
+  ummMetadata: {
+    Name: 'Name',
+    MetadataSpecification: {
+      URL: 'https://cdn.earthdata.nasa.gov/umm/visualization/v1.1.0',
+      Name: 'UMM-VIS',
+      Version: '1.1.0'
+    }
+  },
+  visualizationType: null
+}
+
 const mockDraft = {
   conceptId: 'TD1000000-MMT',
   conceptType: 'tool-draft',
@@ -630,6 +678,104 @@ describe('MetadataForm', () => {
 
         expect(navigateSpy).toHaveBeenCalledTimes(1)
         expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT/tool-information?revisionId=3', { replace: true })
+
+        expect(window.scroll).toHaveBeenCalledTimes(1)
+        expect(window.scroll).toHaveBeenCalledWith(0, 0)
+      })
+    })
+
+    describe('when the saveType is save and conceptType is Visualization', () => {
+      test('navigates to the current form and calls scroll to the top', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          pageUrl: '/drafts/visualizations/VISD1000000-MMT/visualization-information',
+          overrideMocks: [{
+            request: {
+              query: conceptTypeDraftQueries.Visualization,
+              variables: {
+                params: {
+                  conceptId: 'VISD1000000-MMT',
+                  conceptType: 'Visualization'
+                }
+              }
+            },
+            result: {
+              data: {
+                draft: visualizationMockDraft
+              }
+            }
+          }, {
+            request: {
+              query: GET_AVAILABLE_PROVIDERS,
+              variables: {
+                params: {
+                  limit: 500,
+                  permittedUser: undefined,
+                  target: 'PROVIDER_CONTEXT'
+                }
+              }
+            },
+            result: {
+              data: {
+                acls: {
+                  items: [{
+                    conceptId: 'mock-id-1',
+                    providerIdentity: {
+                      provider_id: 'MMT_1'
+                    }
+                  }, {
+                    conceptId: 'mock-id-2',
+                    providerIdentity: {
+                      provider_id: 'MMT_2'
+                    }
+                  }]
+                }
+              }
+            }
+          },
+          {
+            request: {
+              query: INGEST_DRAFT,
+              variables: {
+                conceptType: 'Visualization',
+                metadata: {
+                  Name: 'NameTest Visualization',
+                  MetadataSpecification: {
+                    URL: 'https://cdn.earthdata.nasa.gov/umm/visualization/v1.1.0',
+                    Name: 'UMM-VIS',
+                    Version: '1.1.0'
+                  }
+                },
+                nativeId: 'MMT_mock-uuid-draft',
+                providerId: 'MMT_1',
+                ummVersion: getUmmVersion('Visualization')
+              }
+            },
+            result: {
+              data: {
+                ingestDraft: {
+                  conceptId: 'VISD1000000-MMT',
+                  revisionId: '3'
+                }
+              }
+            }
+          }]
+        })
+
+        // Simulate filling out the form
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
+        await user.type(nameField, 'Test Visualization')
+
+        const dropdown = await screen.findByRole('button', { name: 'Save Options' })
+        await user.click(dropdown)
+
+        const button = screen.getByRole('button', { name: 'Save' })
+        await user.click(button)
+
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('/drafts/visualizations/VISD1000000-MMT/visualization-information?revisionId=3', { replace: true })
 
         expect(window.scroll).toHaveBeenCalledTimes(1)
         expect(window.scroll).toHaveBeenCalledWith(0, 0)
