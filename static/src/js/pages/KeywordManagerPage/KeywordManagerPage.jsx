@@ -112,10 +112,8 @@ const KeywordManagerPage = () => {
       setIsDeleting(true)
       setDeleteError(null)
       try {
-        // Check if nodeToDelete has a data property, if not use id directly
-        const conceptId = nodeToDelete.data ? nodeToDelete.data.id : nodeToDelete.id
         const params = {
-          conceptId,
+          conceptId: nodeToDelete.id,
           version: getVersionName(selectedVersion),
           token: tokenValue
         }
