@@ -31,11 +31,29 @@ describe('deleteKmsConcept', () => {
     vi.resetAllMocks()
   })
 
+  test('When called with a null UUID, should throw an error', async () => {
+    await expect(deleteKmsConcept({
+      uuid: null,
+      version: mockVersion,
+      token: mockToken
+    }))
+      .rejects.toThrow('UUID is required and cannot be null or undefined')
+  })
+
+  test('When called with an undefined UUID, should throw an error', async () => {
+    await expect(deleteKmsConcept({
+      uuid: undefined,
+      version: mockVersion,
+      token: mockToken
+    }))
+      .rejects.toThrow('UUID is required and cannot be null or undefined')
+  })
+
   test('When called with valid parameters, should make a DELETE request to the correct endpoint', async () => {
     global.fetch.mockResolvedValueOnce({ ok: true })
 
     await deleteKmsConcept({
-      conceptId: mockConceptId,
+      uuid: mockConceptId,
       version: mockVersion,
       token: mockToken
     })
@@ -58,7 +76,7 @@ describe('deleteKmsConcept', () => {
     })
 
     await expect(deleteKmsConcept({
-      conceptId: mockConceptId,
+      uuid: mockConceptId,
       version: mockVersion,
       token: mockToken
     }))
@@ -70,7 +88,7 @@ describe('deleteKmsConcept', () => {
     global.fetch.mockRejectedValueOnce(networkError)
 
     await expect(deleteKmsConcept({
-      conceptId: mockConceptId,
+      uuid: mockConceptId,
       version: mockVersion,
       token: mockToken
     }))
@@ -84,7 +102,7 @@ describe('deleteKmsConcept', () => {
     })
 
     await expect(deleteKmsConcept({
-      conceptId: mockConceptId,
+      uuid: mockConceptId,
       version: mockVersion,
       token: mockToken
     }))

@@ -113,7 +113,7 @@ const KeywordManagerPage = () => {
       setDeleteError(null)
       try {
         const params = {
-          conceptId: nodeToDelete.id,
+          uuid: nodeToDelete.id,
           version: getVersionName(selectedVersion),
           token: tokenValue
         }
