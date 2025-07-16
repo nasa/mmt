@@ -3,6 +3,7 @@
  */
 const draftConceptIdTypes = {
   CD: 'Collection',
+  CITD: 'Citation',
   SD: 'Service',
   TD: 'Tool',
   VD: 'Variable',

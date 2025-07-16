@@ -114,18 +114,13 @@ const DraftList = () => {
     }
   ]
 
-  const visColumns = [
+  // For 'generic' schemas as opposed to umm
+  const genericColumns = [
     {
       dataKey: 'previewMetadata.name',
       title: 'Name',
       className: 'col-auto',
       dataAccessorFn: buildPrimaryEllipsisLink
-    },
-    {
-      dataKey: 'previewMetadata.title',
-      title: 'Long Name',
-      className: 'col-auto',
-      dataAccessorFn: buildEllipsisTextCell
     }
   ]
 
@@ -167,7 +162,8 @@ const DraftList = () => {
       case 'Collection':
         return [...collectionColumns, ...commonColumns]
       case 'Visualization':
-        return [...visColumns, ...commonColumns]
+      case 'Citation':
+        return [...genericColumns, ...commonColumns]
       default:
         return [...defaultColumns, ...commonColumns]
     }

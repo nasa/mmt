@@ -120,28 +120,18 @@ const SearchList = ({ limit }) => {
   const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
     const { conceptId } = rowData
 
-    let newCellData = cellData
-
-    if (!newCellData && conceptType === 'visualizations') newCellData = '<Blank Short Name>'
-
     return (
       <EllipsisLink to={`/${conceptType}/${conceptId}`}>
-        {newCellData}
+        {cellData}
       </EllipsisLink>
     )
   }, [conceptType])
 
-  const buildEllipsisTextCell = useCallback((cellData) => {
-    let newCellData = cellData
-
-    if (!newCellData && conceptType === 'visualizations') newCellData = '<Blank Long Name>'
-
-    return (
-      <EllipsisText>
-        {newCellData}
-      </EllipsisText>
-    )
-  }, [])
+  const buildEllipsisTextCell = useCallback((cellData) => (
+    <EllipsisText>
+      {cellData}
+    </EllipsisText>
+  ), [])
 
   const buildTagCell = useCallback((cellData, rowData) => {
     const tagCount = getTagCount(cellData)
@@ -235,7 +225,7 @@ const SearchList = ({ limit }) => {
       ]
     }
 
-    if (formattedType === conceptTypes.Visualizations) {
+    if (formattedType === conceptTypes.Visualizations || formattedType === conceptTypes.Citations) {
       return [
         {
           className: 'col-auto',
@@ -243,15 +233,6 @@ const SearchList = ({ limit }) => {
           dataKey: 'name',
           sortFn,
           title: 'Short Name'
-        },
-        {
-          className: 'col-auto',
-          dataAccessorFn: buildEllipsisTextCell,
-          dataKey: 'title',
-          // To be completed in MMT-4023
-          // SortFn,
-          // sortKey: 'title',
-          title: 'Long Name'
         },
         {
           align: 'center',

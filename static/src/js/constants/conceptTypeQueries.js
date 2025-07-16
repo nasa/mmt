@@ -1,3 +1,4 @@
+import { GET_CITATIONS } from '@/js/operations/queries/getCitations'
 import { GET_COLLECTION } from '@/js/operations/queries/getCollection'
 import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
 import { GET_ORDER_OPTION } from '@/js/operations/queries/getOrderOption'
@@ -12,6 +13,7 @@ import { GET_VISUALIZATION } from '@/js/operations/queries/getVisualization'
 import { GET_VISUALIZATIONS } from '@/js/operations/queries/getVisualizations'
 
 const conceptTypeQueries = {
+  Citations: GET_CITATIONS,
   Collection: GET_COLLECTION,
   Collections: GET_COLLECTIONS,
   OrderOption: GET_ORDER_OPTION,

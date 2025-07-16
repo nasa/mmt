@@ -42,6 +42,7 @@ import './Layout.scss'
 const Layout = ({ className, displayNav }) => {
   const {
     ummC,
+    ummCit,
     ummS,
     ummT,
     ummV,
@@ -200,6 +201,20 @@ const Layout = ({ className, displayNav }) => {
                                   },
                                   {
                                     to: '/drafts/visualizations',
+                                    title: 'Drafts'
+                                  }
+                                ]
+                              },
+                              {
+                                title: 'Citations',
+                                version: `v${ummCit}`,
+                                children: [
+                                  {
+                                    to: '/citations',
+                                    title: 'All Citations'
+                                  },
+                                  {
+                                    to: '/drafts/citations',
                                     title: 'Drafts'
                                   }
                                 ]

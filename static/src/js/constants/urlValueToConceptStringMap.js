@@ -1,9 +1,10 @@
 const urlValueTypeToConceptTypeStringMap = {
-  variables: 'Variable',
-  collections: 'Collection',
-  tools: 'Tool',
-  services: 'Service',
+  citations: 'Citation',
   cmr: 'CMR',
+  collections: 'Collection',
+  services: 'Service',
+  tools: 'Tool',
+  variables: 'Variable',
   visualizations: 'Visualization'
 }
 
