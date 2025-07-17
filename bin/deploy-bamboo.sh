@@ -12,6 +12,8 @@ config="`cat static.config.json`"
 # update keys for deployment
 config="`jq '.application.version = $newValue' --arg newValue ${RELEASE_VERSION} <<< $config`"
 config="`jq '.application.env = $newValue' --arg newValue $bamboo_STAGE_NAME <<< $config`"
+# Remove in MMT-4059
+config="`jq '.application.viewCitations = $newValue' --arg newValue $bamboo_VIEW_CITATIONS <<< $config`"
 config="`jq '.application.graphQlHost = $newValue' --arg newValue $bamboo_GRAPHQL_HOST <<< $config`"
 config="`jq '.application.mmtHost = $newValue' --arg newValue $bamboo_MMT_HOST <<< $config`"
 config="`jq '.application.apiHost = $newValue' --arg newValue $bamboo_API_HOST <<< $config`"
