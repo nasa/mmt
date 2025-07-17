@@ -1029,7 +1029,7 @@ describe('KeywordManagerPage component', () => {
 
       // Check if deleteKmsConcept was called with the correct arguments
       expect(mockDeleteKmsConcept).toHaveBeenCalledWith(expect.objectContaining({
-        conceptId: 'mock-node-id',
+        uuid: 'mock-node-id',
         version: 'published',
         token: 'mock-token-value'
       }))

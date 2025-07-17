@@ -6,7 +6,7 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  * @async
  * @function deleteKmsConcept
  * @param {Object} params - The parameters for deleting the KMS concept.
- * @param {string} params.conceptId - The ID of the concept to be deleted.
+ * @param {string} params.uuid - The ID of the concept to be deleted.
  * @param {string} params.version - The version of the concept to be deleted.
  * @param {string} params.token - The authorization token for the API request.
  * @throws {Error} If there's an error during the deletion process.
@@ -18,7 +18,7 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  *
  * try {
  *   await deleteKmsConcept({
- *     conceptId: '12345',
+ *     uuid: '12345',
  *     version: '1.0',
  *     token: 'Bearer your-auth-token-here'
  *   });
@@ -27,10 +27,14 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  *   console.error('Failed to delete concept:', error.message);
  * }
  */
-export const deleteKmsConcept = async ({ conceptId, version, token }) => {
+export const deleteKmsConcept = async ({ uuid, version, token }) => {
+  if (uuid == null) {
+    throw new Error('UUID is required and cannot be null or undefined')
+  }
+
   try {
     const { kmsHost } = getApplicationConfig()
-    const endPoint = `${kmsHost}/concept/${conceptId}?version=${version}`
+    const endPoint = `${kmsHost}/concept/${uuid}?version=${version}`
     const options = {
       method: 'DELETE',
       headers: {
