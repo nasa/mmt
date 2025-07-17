@@ -8,7 +8,7 @@
     "mmtHost": "http://localhost:5173",
     "edscHost": "https://search.sit.earthdata.nasa.gov",
     "kmsHost": "https://cmr.sit.earthdata.nasa.gov/kms",
-    "viewCitations": true,
+    "viewCitations": false,
     "version": "development",
     "defaultResponseHeaders": {
       "Access-Control-Allow-Origin": "*",
