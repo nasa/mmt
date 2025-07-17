@@ -2,7 +2,8 @@
   "name": "mmt",
   "version": "0.0.1",
   "scripts": {
-    "start": "vite",
+    "start": "node bin/start.js",
+    "start:app": "vite",
     "start:proxy": "node setup/graphQlProxy.js",
     "start:graphdb": "docker run -it -p 8182:8182 tinkerpop/gremlin-server conf/gremlin-server-rest-modern.yaml",
     "build": "vite build",
@@ -88,6 +89,7 @@
     "@types/react-dom": "^18.2.7",
     "@vitest/coverage-istanbul": "^1.4.0",
     "aws-sdk-client-mock": "^4.0.0",
+    "concurrently": "^9.2.0",
     "eslint": "^8.45.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-cypress": "^2.15.1",
