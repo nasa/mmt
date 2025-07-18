@@ -34,6 +34,12 @@ describe('getUmmVersion', () => {
     })
   })
 
+  describe('when the concept type is Citation', () => {
+    test('returns correct UMM-CIT version', () => {
+      expect(getUmmVersion('Citation')).toEqual(ummVersion.ummCit)
+    })
+  })
+
   describe('when the concept type is a bad name', () => {
     test('returns null', () => {
       expect(getUmmVersion('bad-name')).toEqual(null)

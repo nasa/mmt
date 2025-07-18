@@ -8,6 +8,7 @@
     "mmtHost": "http://localhost:5173",
     "edscHost": "https://search.sit.earthdata.nasa.gov",
     "kmsHost": "https://cmr.sit.earthdata.nasa.gov/kms",
+    "viewCitations": true,
     "version": "development",
     "defaultResponseHeaders": {
       "Access-Control-Allow-Origin": "*",
@@ -27,6 +28,7 @@
   },
   "ummVersions": {
     "ummC": "1.18.4",
+    "ummCit": "1.0.0",
     "ummS": "1.5.3",
     "ummT": "1.2.0",
     "ummV": "1.9.0",

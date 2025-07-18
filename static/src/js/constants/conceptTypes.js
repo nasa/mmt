@@ -2,6 +2,7 @@
  * Mapping of concept id types
  */
 const conceptTypes = {
+  Citations: 'Citations',
   Collection: 'Collection',
   Collections: 'Collections',
   Service: 'Service',

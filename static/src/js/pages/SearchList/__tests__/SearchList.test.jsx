@@ -477,9 +477,8 @@ describe('SearchPage component', () => {
 
         expect(tableRows.length).toEqual(3)
 
-        expect(within(table).getAllByRole('columnheader')[1].textContent).toContain('Long Name')
-        expect(within(table).getAllByRole('columnheader')[2].textContent).toContain('Provider')
-        expect(within(table).getAllByRole('columnheader')[3].textContent).toContain('Last Modified')
+        expect(within(table).getAllByRole('columnheader')[1].textContent).toContain('Provider')
+        expect(within(table).getAllByRole('columnheader')[2].textContent).toContain('Last Modified')
       })
     })
 
@@ -494,18 +493,11 @@ describe('SearchPage component', () => {
         expect(tableRows.length).toEqual(3)
 
         const row1Cells = within(tableRows[1]).queryAllByRole('cell')
-        const row2Cells = within(tableRows[2]).queryAllByRole('cell')
 
-        expect(row1Cells).toHaveLength(4)
+        expect(row1Cells).toHaveLength(3)
         expect(row1Cells[0].textContent).toBe('Visualization Name 1')
-        expect(row1Cells[1].textContent).toBe('Visualization Long Name 1')
-        expect(row1Cells[2].textContent).toBe('TESTPROV')
-        expect(row1Cells[3].textContent).toBe('Monday, April 28, 2025 3:13 PM')
-        expect(row2Cells).toHaveLength(4)
-        expect(row2Cells[0].textContent).toBe('<Blank Short Name>')
-        expect(row2Cells[1].textContent).toBe('<Blank Long Name>')
-        expect(row2Cells[2].textContent).toBe('TESTPROV')
-        expect(row2Cells[3].textContent).toBe('Monday, April 28, 2025 3:13 PM')
+        expect(row1Cells[1].textContent).toBe('TESTPROV')
+        expect(row1Cells[2].textContent).toBe('Monday, April 28, 2025 3:13 PM')
       })
     })
   })

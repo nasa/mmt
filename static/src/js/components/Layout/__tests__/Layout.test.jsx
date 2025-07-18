@@ -24,6 +24,7 @@ vi.mock('../../PrimaryNavigation/PrimaryNavigation')
 const setup = (loggedIn) => {
   vi.spyOn(getConfig, 'getUmmVersionsConfig').mockImplementation(() => ({
     ummC: 'mock-umm-c',
+    ummCit: 'mock-umm-cit',
     ummS: 'mock-umm-s',
     ummT: 'mock-umm-t',
     ummV: 'mock-umm-v',
@@ -172,6 +173,20 @@ describe('Layout component', () => {
             ]
           },
           {
+            title: 'Citations',
+            version: 'vmock-umm-cit',
+            children: [
+              {
+                title: 'All Citations',
+                to: '/citations'
+              },
+              {
+                title: 'Drafts',
+                to: '/drafts/citations'
+              }
+            ]
+          },
+          {
             title: 'Order Options',
             children: [
               {
@@ -302,6 +317,20 @@ describe('Layout component', () => {
                 {
                   title: 'Drafts',
                   to: '/drafts/visualizations'
+                }
+              ]
+            },
+            {
+              title: 'Citations',
+              version: 'vmock-umm-cit',
+              children: [
+                {
+                  title: 'All Citations',
+                  to: '/citations'
+                },
+                {
+                  title: 'Drafts',
+                  to: '/drafts/citations'
                 }
               ]
             },
