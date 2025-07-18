@@ -100,6 +100,7 @@ const otherSchemasVisSchema = {
       type: 'string',
       enum: [
         'tiles'
+        // Can put back when maps is supported
         // 'maps'
       ]
     },
