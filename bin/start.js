@@ -4,7 +4,7 @@ concurrently([{
   command: 'npm run watch',
   name: 'watch'
 }, {
-  command: 'npm run cmr:start',
+  command: 'npm run cmr:start_and_setup',
   name: 'cmr'
 }, {
   command: 'npm run start:app',
