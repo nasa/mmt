@@ -1,4 +1,5 @@
 const typeParamToHumanizedStringMap = {
+  citations: 'citation',
   collections: 'collection',
   services: 'service',
   tools: 'tool',

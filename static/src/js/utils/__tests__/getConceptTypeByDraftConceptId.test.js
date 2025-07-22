@@ -19,6 +19,12 @@ describe('getConceptTypeByDraftConceptId', () => {
     })
   })
 
+  describe('when draft concept id starts with CITD', () => {
+    test('returns citation draft type', () => {
+      expect(getConceptTypeByDraftConceptId('CITD12345')).toEqual('Citation')
+    })
+  })
+
   describe('when draft concept id starts with CD', () => {
     test('returns collection draft type', () => {
       expect(getConceptTypeByDraftConceptId('CD12345')).toEqual('Collection')

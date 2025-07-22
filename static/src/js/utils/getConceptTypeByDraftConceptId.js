@@ -11,6 +11,10 @@ const getConceptTypeByDraftConceptId = (draftConceptId) => {
     return draftConceptIdTypes.VISD
   }
 
+  if (draftConceptId.startsWith('CITD')) {
+    return draftConceptIdTypes.CITD
+  }
+
   const prefix = draftConceptId.substring(0, 2)
 
   return draftConceptIdTypes[prefix]

@@ -42,13 +42,15 @@ import './Layout.scss'
 const Layout = ({ className, displayNav }) => {
   const {
     ummC,
+    ummCit,
     ummS,
     ummT,
     ummV,
     ummVis
   } = getUmmVersionsConfig()
 
-  const { env, displayProdWarning } = getApplicationConfig()
+  // Remove viewCitations in MMT-4059
+  const { env, displayProdWarning, viewCitations } = getApplicationConfig()
 
   const { user } = useAuthContext()
 
@@ -204,6 +206,21 @@ const Layout = ({ className, displayNav }) => {
                                   }
                                 ]
                               },
+                              // Remove in MMT-4059
+                              ...(viewCitations ? [{
+                                title: 'Citations',
+                                version: `v${ummCit}`,
+                                children: [
+                                  {
+                                    to: '/citations',
+                                    title: 'All Citations'
+                                  },
+                                  {
+                                    to: '/drafts/citations',
+                                    title: 'Drafts'
+                                  }
+                                ]
+                              }] : []),
                               {
                                 title: 'Order Options',
                                 children: [

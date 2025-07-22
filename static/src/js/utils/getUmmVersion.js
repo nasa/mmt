@@ -8,6 +8,8 @@ const getUmmVersion = (conceptType) => {
   const ummVersion = getUmmVersionsConfig()
 
   switch (conceptType) {
+    case 'Citation':
+      return ummVersion.ummCit
     case 'Collection':
       return ummVersion.ummC
     case 'Service':
