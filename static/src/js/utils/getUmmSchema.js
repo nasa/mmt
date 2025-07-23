@@ -3,6 +3,7 @@ import ummSSchema from '../schemas/umm/ummSSchema'
 import ummTSchema from '../schemas/umm/ummTSchema'
 import ummVarSchema from '../schemas/umm/ummVarSchema'
 import otherSchemasVisSchema from '../schemas/otherSchemasVisSchema'
+import otherSchemasCitSchema from '../schemas/otherSchemasCitSchema'
 
 /**
  * Returns the UMM Schema of the provided conceptType
@@ -20,6 +21,8 @@ const getUmmSchema = (conceptType) => {
       return ummVarSchema
     case 'Visualization':
       return otherSchemasVisSchema
+    case 'Citation':
+      return otherSchemasCitSchema
     default:
       return null
   }

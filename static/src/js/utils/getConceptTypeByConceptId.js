@@ -11,6 +11,10 @@ const getConceptTypeByConceptId = (conceptId) => {
     return conceptIdTypes.VIS
   }
 
+  if (conceptId.startsWith('CIT')) {
+    return conceptIdTypes.CIT
+  }
+
   const prefix = conceptId.charAt(0)
 
   return conceptIdTypes[prefix]

@@ -11,6 +11,7 @@ import { GET_VARIABLE } from '@/js/operations/queries/getVariable'
 import { GET_VARIABLES } from '@/js/operations/queries/getVariables'
 import { GET_VISUALIZATION } from '@/js/operations/queries/getVisualization'
 import { GET_VISUALIZATIONS } from '@/js/operations/queries/getVisualizations'
+import { GET_CITATION } from '@/js/operations/queries/getCitation'
 
 const conceptTypeQueries = {
   Citations: GET_CITATIONS,
@@ -25,7 +26,8 @@ const conceptTypeQueries = {
   Variable: GET_VARIABLE,
   Variables: GET_VARIABLES,
   Visualization: GET_VISUALIZATION,
-  Visualizations: GET_VISUALIZATIONS
+  Visualizations: GET_VISUALIZATIONS,
+  Citation: GET_CITATION
 }
 
 export default conceptTypeQueries
