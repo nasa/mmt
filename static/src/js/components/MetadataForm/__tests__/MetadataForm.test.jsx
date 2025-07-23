@@ -59,24 +59,19 @@ import MetadataForm from '../MetadataForm'
 
 vi.mock('@/js/hooks/usePublishMutation', () => ({
   default: vi.fn(() => {
-    const [publishDraft, setPublishDraft] = React.useState(null)
-    const [error] = React.useState(null)
-
-    const publishMutation = vi.fn(() => new Promise((resolve) => {
+    const publishMutation = vi.fn((conceptType, nativeId, savedConceptId, onPublishSuccess) => {
       setTimeout(() => {
-        setPublishDraft({
+        onPublishSuccess({
           conceptId: 'T1000000-MMT',
           revisionId: '1'
         })
-
-        resolve()
       }, 100)
-    }))
+    })
 
     return {
       publishMutation,
-      publishDraft,
-      error
+      error: null,
+      loading: false
     }
   })
 }))
@@ -1013,11 +1008,10 @@ describe('MetadataForm', () => {
         await user.click(button)
 
         await waitFor(() => {
-          expect(navigateSpy).toHaveBeenCalledTimes(2)
-        }, { timeout: 5000 })
+          expect(navigateSpy).toHaveBeenCalledTimes(1)
+        })
 
-        expect(navigateSpy).toHaveBeenNthCalledWith(1, '/drafts/tools/TD1000000-MMT/tool-information?revisionId=1', expect.anything())
-        expect(navigateSpy).toHaveBeenNthCalledWith(2, '/tools/T1000000-MMT')
+        expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT')
       })
     })
 
