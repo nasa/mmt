@@ -1,5 +1,5 @@
-import otherSchemasVisSchema from '@/js/schemas/otherSchemasVisSchema'
 import otherSchemasCitSchema from '@/js/schemas/otherSchemasCitSchema'
+import otherSchemasVisSchema from '@/js/schemas/otherSchemasVisSchema'
 import getUmmSchema from '../getUmmSchema'
 
 import ummCSchema from '../../schemas/umm/ummCSchema'

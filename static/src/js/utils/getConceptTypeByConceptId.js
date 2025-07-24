@@ -7,12 +7,12 @@ import conceptIdTypes from '../constants/conceptIdTypes'
 const getConceptTypeByConceptId = (conceptId) => {
   if (!conceptId) return undefined
 
-  if (conceptId.startsWith('VIS')) {
-    return conceptIdTypes.VIS
-  }
-
   if (conceptId.startsWith('CIT')) {
     return conceptIdTypes.CIT
+  }
+
+  if (conceptId.startsWith('VIS')) {
+    return conceptIdTypes.VIS
   }
 
   const prefix = conceptId.charAt(0)

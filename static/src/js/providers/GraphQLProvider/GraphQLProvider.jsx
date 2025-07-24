@@ -37,6 +37,9 @@ const cache = new InMemoryCache({
     AclGroup: {
       keyFields: false
     },
+    Citation: {
+      keyFields: keyFieldsFunction
+    },
     Collection: {
       keyFields: keyFieldsFunction
     },
@@ -62,9 +65,6 @@ const cache = new InMemoryCache({
       keyFields: keyFieldsFunction
     },
     Visualization: {
-      keyFields: keyFieldsFunction
-    },
-    Citation: {
       keyFields: keyFieldsFunction
     }
   }
