@@ -1,4 +1,5 @@
 import otherSchemasVisSchema from '@/js/schemas/otherSchemasVisSchema'
+import otherSchemasCitSchema from '@/js/schemas/otherSchemasCitSchema'
 import getUmmSchema from '../getUmmSchema'
 
 import ummCSchema from '../../schemas/umm/ummCSchema'
@@ -10,6 +11,12 @@ describe('getUmmSchema', () => {
   describe('when the concept type is collection-draft', () => {
     test('returns the UMM-C schema', () => {
       expect(getUmmSchema('Collection')).toEqual(ummCSchema)
+    })
+  })
+
+  describe('when the concept type is citation-draft', () => {
+    test('returns the UMM-C schema', () => {
+      expect(getUmmSchema('Citation')).toEqual(otherSchemasCitSchema)
     })
   })
 
