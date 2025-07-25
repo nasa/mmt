@@ -226,7 +226,7 @@ const MetadataForm = () => {
         providerId: fetchedMetadataProviderId || providerId,
         ummVersion: getUmmVersion(derivedConceptType)
       },
-      onCompleted: (mutationData) => {
+      onCompleted: async (mutationData) => {
         const { ingestDraft } = mutationData
         const { conceptId: savedConceptId, revisionId: savedRevisionId } = ingestDraft
 
@@ -268,23 +268,32 @@ const MetadataForm = () => {
           window.scroll(0, 0)
         } else if (type === saveTypes.saveAndPublish) {
           // All save options are set to ingestDraft and then refetch.
-          // Must first navigate to landing page for refetch of new draft before moving on to publishing record
+          // Because of this, we must first navigate to landing page for refetch of new draft before moving on to publishing record
           navigate(`/drafts/${draftType}/${savedConceptId}/${currentSection}?revisionId=${savedRevisionId}`, { replace: true })
-
           // Publishses the draft and navigates to published record
-          publishMutation(
-            derivedConceptType,
-            nativeId,
-            savedConceptId,
-            (publishedDraft) => {
-              addNotification({
-                message: `${publishedDraft.conceptId} Published`,
-                variant: 'success'
-              })
+          try {
+            await publishMutation(
+              derivedConceptType,
+              nativeId,
+              savedConceptId,
+              (publishedDraft) => {
+                addNotification({
+                  message: `${publishedDraft.conceptId} Published`,
+                  variant: 'success'
+                })
 
-              navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishedDraft.conceptId}`)
-            }
-          )
+                navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishedDraft.conceptId}`)
+              }
+            )
+          } catch (error) {
+            console.error('Publish error:', error)
+            addNotification({
+              message: error.message || 'Error publishing draft',
+              variant: 'danger'
+            })
+
+            errorLogger(error.message, 'PublishMutation: publishMutation')
+          }
         }
       },
       onError: (ingestError) => {

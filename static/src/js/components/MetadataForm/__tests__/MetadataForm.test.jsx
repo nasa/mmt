@@ -57,20 +57,24 @@ import { PUBLISH_DRAFT } from '@/js/operations/mutations/publishDraft'
 
 import MetadataForm from '../MetadataForm'
 
+let mockPublishError = null
+
 vi.mock('@/js/hooks/usePublishMutation', () => ({
   default: vi.fn(() => {
     const publishMutation = vi.fn((conceptType, nativeId, savedConceptId, onPublishSuccess) => {
-      setTimeout(() => {
-        onPublishSuccess({
-          conceptId: 'T1000000-MMT',
-          revisionId: '1'
-        })
-      }, 100)
+      if (mockPublishError) {
+        return Promise.reject(mockPublishError)
+      }
+
+      return Promise.resolve(onPublishSuccess({
+        conceptId: 'T1000000-MMT',
+        revisionId: '1'
+      }))
     })
 
     return {
       publishMutation,
-      error: null,
+      error: mockPublishError,
       loading: false
     }
   })
@@ -1008,10 +1012,170 @@ describe('MetadataForm', () => {
         await user.click(button)
 
         await waitFor(() => {
+          expect(navigateSpy).toHaveBeenCalledTimes(2)
+        })
+
+        expect(navigateSpy).toHaveBeenNthCalledWith(1, '/drafts/tools/TD1000000-MMT/tool-information?revisionId=1', { replace: true })
+        expect(navigateSpy).toHaveBeenNthCalledWith(2, '/tools/T1000000-MMT')
+      })
+
+      test('it should throw an error if publish is not successful', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        mockPublishError = { message: 'Failed to publish draft' }
+
+        // In order to publish we need to have a valid draft without any errors otherwise
+        // the button will be disabled.
+        const ummMetadata = {
+          Description: 'Mock Description',
+          LongName: 'Long Name',
+          MetadataSpecification: {
+            Name: 'UMM-T',
+            URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.2.0',
+            Version: '1.2.0'
+          },
+          Name: 'Mock Name',
+          Organizations: [{
+            LongName: 'CLIVAR and Carbon Hydrographic Data Office',
+            Roles: ['SERVICE PROVIDER'],
+            ShortName: 'CLIVAR/CCHDO',
+            URLValue: 'http://www.bodc.ac.uk/'
+          }],
+          ToolKeywords: [{
+            ToolCategory: 'EARTH SCIENCE SERVICES',
+            ToolSpecificTerm: 'MODEL LOGS',
+            ToolTerm: 'ANCILLARY MODELS',
+            ToolTopic: 'MODELS'
+          }],
+          Type: 'Model',
+          URL: {
+            Subtype: 'MOBILE APP',
+            Type: 'DOWNLOAD SOFTWARE',
+            URLContentType: 'DistributionURL',
+            URLValue: 'mock url'
+          },
+          Version: 'Mock Version'
+        }
+
+        const validMockDraft = {
+          ...mockDraft,
+          ummMetadata
+        }
+
+        const { user } = setup({
+          overrideMocks: [{
+            request: {
+              query: conceptTypeDraftQueries.Tool,
+              variables: {
+                params: {
+                  conceptId: 'TD1000000-MMT',
+                  conceptType: 'Tool'
+                }
+              }
+            },
+            result: {
+              data: {
+                draft: validMockDraft
+              }
+            }
+          }, {
+            request: {
+              query: GET_AVAILABLE_PROVIDERS,
+              variables: {
+                params: {
+                  limit: 500,
+                  // Don't have an easy way to get a real uid into the context here
+                  permittedUser: undefined,
+                  target: 'PROVIDER_CONTEXT'
+                }
+              }
+            },
+            result: {
+              data: {
+                acls: {
+                  items: [{
+                    conceptId: 'mock-id-1',
+                    providerIdentity: {
+                      provider_id: 'MMT_1'
+                    }
+                  }, {
+                    conceptId: 'mock-id-2',
+                    providerIdentity: {
+                      provider_id: 'MMT_2'
+                    }
+                  }]
+                }
+              }
+            }
+          },
+          {
+            request: {
+              query: INGEST_DRAFT,
+              variables: {
+                conceptType: 'Tool',
+                metadata: ummMetadata,
+                nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+                providerId: 'MMT_2',
+                ummVersion: getUmmVersion('Tool')
+              }
+            },
+            result: {
+              data: {
+                ingestDraft: {
+                  conceptId: 'TD1000000-MMT',
+                  revisionId: '1'
+                }
+              }
+            }
+          }, {
+            request: {
+              query: conceptTypeDraftQueries.Tool,
+              variables: {
+                params: {
+                  conceptId: 'TD1000000-MMT',
+                  conceptType: 'Tool'
+                }
+              }
+            },
+            result: {
+              data: {
+                draft: validMockDraft
+              }
+            }
+          }, {
+            request: {
+              query: PUBLISH_DRAFT,
+              variables: {
+                draftConceptId: 'TD1000000-MMT',
+                nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+                ummVersion: getUmmVersion('Tool')
+              }
+            }
+          }]
+        })
+
+        const dropdown = await screen.findByRole('button', { name: 'Save Options' })
+        await user.click(dropdown)
+
+        const button = screen.getByRole('button', { name: 'Save & Publish' })
+        await user.click(button)
+
+        // Wait for the navigation to occur (this happens before the publish attempt)
+        await waitFor(() => {
           expect(navigateSpy).toHaveBeenCalledTimes(1)
         })
 
-        expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT')
+        expect(navigateSpy).toHaveBeenCalledWith('/drafts/tools/TD1000000-MMT/tool-information?revisionId=1', { replace: true })
+
+        // Check that we didn't navigate to the published tool page
+        expect(navigateSpy).not.toHaveBeenCalledWith('/tools/T1000000-MMT')
+
+        // Check that errorLogger was called
+        expect(errorLogger).toHaveBeenCalledWith('Failed to publish draft', 'PublishMutation: publishMutation')
+
+        // Reset the mock error for other tests
+        mockPublishError = null
       })
     })
 
