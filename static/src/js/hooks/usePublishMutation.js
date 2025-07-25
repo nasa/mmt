@@ -1,10 +1,26 @@
 import { useMutation } from '@apollo/client'
 import { useCallback, useState } from 'react'
-import { useParams } from 'react-router'
 import { PUBLISH_DRAFT } from '../operations/mutations/publishDraft'
 
 import getUmmVersion from '../utils/getUmmVersion'
 import getHumanizedNameFromTypeParam from '../utils/getHumanizedNameFromTypeParam'
+
+/**
+ * A custom hook for publishing a draft concept.
+ *
+ * @param {string} queryName - The name of the query to be used for cache updates.
+ *
+ * @returns {Object} An object containing:
+ *   @property {Error|undefined} error - Any error that occurred during the publish operation.
+ *   @property {boolean} loading - Indicates whether a publish operation is in progress.
+ *   @property {Object|undefined} publishDraft - The data of the successfully published draft.
+ *   @property {Function} publishMutation - A function to trigger the publish mutation.
+ *     @param {string} conceptType - The type of the concept being published.
+ *     @param {string} nativeId - The native ID of the concept.
+ *     @param {string} savedConceptId - The ID of the saved draft concept.
+ *     @param {Function} onPublishSuccess - Callback function to be called on successful publish.
+ *       @param {Object} publishedDraftResponse - The response data from a successful publish.
+ */
 
 const usePublishMutation = (queryName) => {
   const [error, setError] = useState()
@@ -26,11 +42,11 @@ const usePublishMutation = (queryName) => {
     }
   })
 
-  const { conceptId } = useParams()
-
   const publishMutation = useCallback(async (
     conceptType,
-    nativeId
+    nativeId,
+    savedConceptId,
+    onPublishSuccess
   ) => {
     // Can be removed once CMR-10545 is complete
     let publishNativeId = nativeId
@@ -42,23 +58,27 @@ const usePublishMutation = (queryName) => {
         : nativeId
     }
 
-    await publishDraftMutation({
-      variables: {
-        draftConceptId: conceptId,
-        nativeId: publishNativeId,
-        ummVersion: getUmmVersion(conceptType)
-      },
-      onCompleted: (getPublishedData) => {
-        const { publishDraft: publishedDraftResponse } = getPublishedData
-        setPublishDraft(publishedDraftResponse)
-        setLoading(false)
-      },
-      onError: (getError) => {
-        setLoading(true)
-        setError(getError)
-        setLoading(false)
-      }
-    }, [publishDraftMutation])
+    setLoading(true)
+
+    try {
+      const { data } = await publishDraftMutation({
+        variables: {
+          draftConceptId: savedConceptId,
+          nativeId: publishNativeId,
+          ummVersion: getUmmVersion(conceptType)
+        }
+      })
+
+      const { publishDraft: publishedDraftResponse } = data
+      setPublishDraft(publishedDraftResponse)
+      setLoading(false)
+
+      // Call the onPublishSuccess callback with the published draft data
+      onPublishSuccess(publishedDraftResponse)
+    } catch (publishError) {
+      setError(publishError)
+      setLoading(false)
+    }
   })
 
   return {

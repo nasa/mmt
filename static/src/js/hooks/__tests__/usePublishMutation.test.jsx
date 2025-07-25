@@ -27,12 +27,16 @@ const TestComponent = ({ queryName, customNativeId }) => {
     error, loading, publishDraft, publishMutation
   } = usePublishMutation(queryName)
 
+  const onPublishSuccess = (publishedDraft) => {
+    console.log('Published:', publishedDraft)
+  }
+
   return (
     <div>
-      <button type="button" onClick={() => publishMutation('Tool', customNativeId || 'test-native-id')}>
+      <button type="button" onClick={() => publishMutation('Tool', customNativeId || 'test-native-id', 'TD1000000-MMT', onPublishSuccess)}>
         Publish Tool
       </button>
-      <button type="button" onClick={() => publishMutation('Visualization', customNativeId || 'test-native-id-draft')}>
+      <button type="button" onClick={() => publishMutation('Visualization', customNativeId || 'test-native-id', 'VISD1000000-MMT', onPublishSuccess)}>
         Publish Visualization
       </button>
       {loading && <span>Loading</span>}

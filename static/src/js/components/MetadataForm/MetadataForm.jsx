@@ -83,8 +83,7 @@ const MetadataForm = () => {
 
   const {
     publishMutation,
-    publishDraft,
-    error: publishDraftError
+    error: publishError
   } = usePublishMutation(pluralize(derivedConceptType).toLowerCase())
 
   useEffect(() => {
@@ -116,21 +115,21 @@ const MetadataForm = () => {
       cache.modify({
         fields: {
           // Remove the list of drafts from the cache. This ensures that if the user returns to the list page they will see the correct data.
-          drafts: () => {},
-          draft(existingDraftsRef, { DELETE }) {
-            const { __ref: draftRef = '' } = existingDraftsRef
-
-            // If the ref includes this conceptId, delete it to force a refetch of the data
-            if (draftRef.includes(conceptId)) {
-              return DELETE
-            }
-
-            return existingDraftsRef
-          }
-
+          drafts: () => {}
         }
       })
-    }
+    },
+    refetchQueries: [
+      {
+        query: conceptTypeDraftQueries[derivedConceptType],
+        variables: {
+          params: {
+            conceptId,
+            conceptType: derivedConceptType
+          }
+        }
+      }
+    ]
   })
 
   const { data } = useSuspenseQuery(conceptTypeDraftQueries[derivedConceptType], {
@@ -152,6 +151,17 @@ const MetadataForm = () => {
     setOriginalDraft(fetchedDraft)
     setDraft(fetchedDraft)
   }, [data])
+
+  useEffect(() => {
+    if (publishError) {
+      addNotification({
+        message: publishError.message || 'Error publishing draft',
+        variant: 'danger'
+      })
+
+      errorLogger(publishError.message, 'PublishMutation: publishMutation')
+    }
+  }, [publishError])
 
   const {
     nativeId: existingNativeId,
@@ -216,7 +226,7 @@ const MetadataForm = () => {
         providerId: fetchedMetadataProviderId || providerId,
         ummVersion: getUmmVersion(derivedConceptType)
       },
-      onCompleted: (mutationData) => {
+      onCompleted: async (mutationData) => {
         const { ingestDraft } = mutationData
         const { conceptId: savedConceptId, revisionId: savedRevisionId } = ingestDraft
 
@@ -243,32 +253,47 @@ const MetadataForm = () => {
           variant: 'success'
         })
 
-        // We still need to navigate to the new draft revision on save and publish
-        // even though we will end up navigating to the preview page.  The reason
-        // being is because the publish mutation causes the cache to be cleared and as a
-        // result the draft is refetched.
-        if (type === saveTypes.save || type === saveTypes.saveAndPublish) {
-          if (currentSection) navigate(`/drafts/${draftType}/${savedConceptId}/${currentSection}?revisionId=${savedRevisionId}`, { replace: true })
-
+        if (type === saveTypes.save) {
+          // Navigates to current draft with updated revisionId
+          navigate(`/drafts/${draftType}/${savedConceptId}/${currentSection}?revisionId=${savedRevisionId}`, { replace: true })
           window.scroll(0, 0)
-        }
-
-        if (type === saveTypes.saveAndContinue) {
+        } else if (type === saveTypes.saveAndContinue) {
           // Navigate to next form (using formSections), maybe scroll top too
           const nextFormName = getNextFormName(formSections, currentSection)
           navigate(`/drafts/${draftType}/${savedConceptId}/${toKebabCase(nextFormName)}?revisionId=${savedRevisionId}`)
-
           window.scroll(0, 0)
-        }
-
-        if (type === saveTypes.saveAndPreview) {
+        } else if (type === saveTypes.saveAndPreview) {
           // Navigate to preview page
-          window.scroll(0, 0)
           navigate(`/drafts/${draftType}/${savedConceptId}?revisionId=${savedRevisionId}`)
-        }
+          window.scroll(0, 0)
+        } else if (type === saveTypes.saveAndPublish) {
+          // All save options are set to ingestDraft and then refetch.
+          // Because of this, we must first navigate to landing page for refetch of new draft before moving on to publishing record
+          navigate(`/drafts/${draftType}/${savedConceptId}/${currentSection}?revisionId=${savedRevisionId}`, { replace: true })
+          // Publishses the draft and navigates to published record
+          try {
+            await publishMutation(
+              derivedConceptType,
+              nativeId,
+              savedConceptId,
+              (publishedDraft) => {
+                addNotification({
+                  message: `${publishedDraft.conceptId} Published`,
+                  variant: 'success'
+                })
 
-        if (type === saveTypes.saveAndPublish) {
-          publishMutation(derivedConceptType, nativeId)
+                navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishedDraft.conceptId}`)
+              }
+            )
+          } catch (error) {
+            console.error('Publish error:', error)
+            addNotification({
+              message: error.message || 'Error publishing draft',
+              variant: 'danger'
+            })
+
+            errorLogger(error.message, 'PublishMutation: publishMutation')
+          }
         }
       },
       onError: (ingestError) => {
@@ -283,32 +308,6 @@ const MetadataForm = () => {
       }
     })
   }
-
-  useEffect(() => {
-    if (publishDraft) {
-      const { conceptId: publishConceptId } = publishDraft
-
-      addNotification({
-        message: `${publishConceptId} Published`,
-        variant: 'success'
-      })
-
-      navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}`)
-    }
-
-    if (publishDraftError) {
-      const { message } = publishDraftError
-      const parseErr = message.split(',')
-      parseErr.map((err) => (
-        addNotification({
-          message: err,
-          variant: 'danger'
-        })
-      ))
-
-      errorLogger(message, 'PublishMutation: publishMutation')
-    }
-  }, [publishDraft, publishDraftError])
 
   // Handle the cancel button. Reset the form to the last time we fetched the draft from CMR
   const handleCancel = () => {

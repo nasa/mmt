@@ -68,8 +68,7 @@ const DraftPageHeader = () => {
 
   const {
     publishMutation,
-    publishDraft,
-    error: publishErrors
+    error: publishError
   } = usePublishMutation(pluralize(derivedConceptType).toLowerCase())
 
   const toggleShowDeleteModal = (nextState) => {
@@ -109,33 +108,32 @@ const DraftPageHeader = () => {
   const { errors } = ummMetadata
 
   const handlePublish = () => {
-    publishMutation(derivedConceptType, nativeId)
+    publishMutation(
+      derivedConceptType,
+      nativeId,
+      conceptId,
+      (publishedDraft) => {
+        addNotification({
+          message: 'Draft published',
+          variant: 'success'
+        })
+
+        navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishedDraft.conceptId}`)
+      }
+    )
   }
 
+  // Use an effect to handle publish errors
   useEffect(() => {
-    if (publishDraft) {
-      const { conceptId: publishConceptId } = publishDraft
-
-      navigate(`/${pluralize(derivedConceptType).toLowerCase()}/${publishConceptId}`)
-
+    if (publishError) {
       addNotification({
-        message: 'Draft published',
-        variant: 'success'
-      })
-    }
-  }, [publishDraft])
-
-  useEffect(() => {
-    if (publishErrors) {
-      const { message } = publishErrors
-      addNotification({
-        message,
+        message: publishError.message || 'Error publishing draft',
         variant: 'danger'
       })
 
-      errorLogger(message, 'PublishMutation: publishMutation')
+      errorLogger(publishError.message, 'PublishMutation: publishMutation')
     }
-  }, [publishErrors])
+  }, [publishError])
 
   const handleTemplate = async () => {
     const response = await createTemplate(providerId, mmtJwt, {
