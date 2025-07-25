@@ -207,7 +207,7 @@ const Layout = ({ className, displayNav }) => {
                                 ]
                               },
                               // Remove in MMT-4059
-                              ...(viewCitations ? [{
+                              ...((viewCitations === 'true') ? [{
                                 title: 'Citations',
                                 version: `v${ummCit}`,
                                 children: [

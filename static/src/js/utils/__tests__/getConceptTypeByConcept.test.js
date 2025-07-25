@@ -25,6 +25,12 @@ describe('getConceptTypeByConcept', () => {
     })
   })
 
+  describe('when concept id starts with CIT', () => {
+    test('returns citation type', () => {
+      expect(getConceptTypeByConceptId('CIT12345-MMT_1')).toEqual('Citation')
+    })
+  })
+
   describe('when concept id starts with S', () => {
     test('returns service type', () => {
       expect(getConceptTypeByConceptId('S12345-MMT_1')).toEqual('Service')
