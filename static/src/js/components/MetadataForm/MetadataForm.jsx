@@ -115,27 +115,21 @@ const MetadataForm = () => {
       cache.modify({
         fields: {
           // Remove the list of drafts from the cache. This ensures that if the user returns to the list page they will see the correct data.
-          drafts: () => {},
-          draft(existingDraft, { readField, toReference }) {
-            // Get the ID of the existing draft
-            const existingId = readField('id', existingDraft)
-
-            // If this is the draft we just updated
-            if (existingId === conceptId) {
-              // Return a reference to the new data
-              return toReference({
-                __typename: 'Draft',
-                id: conceptId
-              })
-            }
-
-            // If it's not the draft we updated, leave it as is
-            return existingDraft
-          }
-
+          drafts: () => {}
         }
       })
-    }
+    },
+    refetchQueries: [
+      {
+        query: conceptTypeDraftQueries[derivedConceptType],
+        variables: {
+          params: {
+            conceptId,
+            conceptType: derivedConceptType
+          }
+        }
+      }
+    ]
   })
 
   const { data } = useSuspenseQuery(conceptTypeDraftQueries[derivedConceptType], {
@@ -261,19 +255,22 @@ const MetadataForm = () => {
 
         if (type === saveTypes.save) {
           // Navigates to current draft with updated revisionId
-          if (currentSection) navigate(`/drafts/${draftType}/${savedConceptId}/${currentSection}?revisionId=${savedRevisionId}`, { replace: true })
+          navigate(`/drafts/${draftType}/${savedConceptId}/${currentSection}?revisionId=${savedRevisionId}`, { replace: true })
           window.scroll(0, 0)
         } else if (type === saveTypes.saveAndContinue) {
           // Navigate to next form (using formSections), maybe scroll top too
           const nextFormName = getNextFormName(formSections, currentSection)
           navigate(`/drafts/${draftType}/${savedConceptId}/${toKebabCase(nextFormName)}?revisionId=${savedRevisionId}`)
-
           window.scroll(0, 0)
         } else if (type === saveTypes.saveAndPreview) {
           // Navigate to preview page
-          window.scroll(0, 0)
           navigate(`/drafts/${draftType}/${savedConceptId}?revisionId=${savedRevisionId}`)
+          window.scroll(0, 0)
         } else if (type === saveTypes.saveAndPublish) {
+          // All save options are set to ingestDraft and then refetch.
+          // Must first navigate to landing page for refetch of new draft before moving on to publishing record
+          navigate(`/drafts/${draftType}/${savedConceptId}/${currentSection}?revisionId=${savedRevisionId}`, { replace: true })
+
           // Publishses the draft and navigates to published record
           publishMutation(
             derivedConceptType,
