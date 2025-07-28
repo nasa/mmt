@@ -243,10 +243,6 @@ const MetadataForm = () => {
           variant: 'success'
         })
 
-        // We still need to navigate to the new draft revision on save and publish
-        // even though we will end up navigating to the preview page.  The reason
-        // being is because the publish mutation causes the cache to be cleared and as a
-        // result the draft is refetched.
         if (type === saveTypes.save) {
           if (currentSection) navigate(`/drafts/${draftType}/${savedConceptId}/${currentSection}?revisionId=${savedRevisionId}`, { replace: true })
 
@@ -268,6 +264,10 @@ const MetadataForm = () => {
         }
 
         if (type === saveTypes.saveAndPublish) {
+          // We still need to navigate to the new draft revision on save and publish
+          // even though we will end up navigating to the preview page.  The reason
+          // being is because the publish mutation causes the cache to be cleared and as a
+          // result the draft is refetched.
           navigate(`/drafts/${draftType}/${savedConceptId}/${currentSection}?revisionId=${savedRevisionId}`, { replace: true })
           publishMutation(derivedConceptType, nativeId)
         }
