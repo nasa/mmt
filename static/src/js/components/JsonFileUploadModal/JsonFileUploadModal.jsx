@@ -59,7 +59,10 @@ export const JsonFileUploadModal = ({
     reader.onload = (e) => {
       try {
         const jsonData = JSON.parse(e.target.result)
-        const validationResult = validateJson(jsonData, schema)
+        const validationResult = validateJson({
+          jsonData,
+          schema
+        })
         if (validationResult.errors) {
           setErrors(validationResult.errors.map((error) => ({
             id: generateId(),

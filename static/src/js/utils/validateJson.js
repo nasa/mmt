@@ -7,7 +7,7 @@ import addFormats from 'ajv-formats'
  * @param {Object} schema - The JSON schema to validate against
  * @returns {Object} An object containing the validated data and any error messages
  */
-export const validateJson = (jsonData, schema) => {
+export const validateJson = ({ jsonData, schema }) => {
   const ajv = new Ajv({
     allErrors: true,
     removeAdditional: true,
