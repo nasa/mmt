@@ -1,5 +1,5 @@
 import React, { Suspense, useState } from 'react'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { FaPlus, FaFileUpload } from 'react-icons/fa'
 
 import urlValueTypeToConceptTypeStringMap from '@/js/constants/urlValueToConceptStringMap'
@@ -14,6 +14,12 @@ import { JsonFileUploadModal } from '@/js/components/JsonFileUploadModal/JsonFil
 import ChooseProviderModal from '@/js/components/ChooseProviderModal/ChooseProviderModal'
 import saveTypes from '@/js/constants/saveTypes'
 import useAppContext from '@/js/hooks/useAppContext'
+import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
+import { useMutation } from '@apollo/client'
+import errorLogger from '@/js/utils/errorLogger'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
+import getUmmVersion from '@/js/utils/getUmmVersion'
+import removeEmpty from '@/js/utils/removeEmpty'
 
 /**
  * Renders a DraftPageHeader component
@@ -30,8 +36,20 @@ const DraftListPageHeader = () => {
   const [showProviderModal, setShowProviderModal] = useState(false)
   const [draftToSave, setDraftToSave] = useState(null)
   const { providerId } = useAppContext()
+  const { addNotification } = useNotificationsContext()
+  const navigate = useNavigate()
 
   const conceptType = urlValueTypeToConceptTypeStringMap[draftType]
+
+  const [ingestDraftMutation] = useMutation(INGEST_DRAFT, {
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          drafts: () => {}
+        }
+      })
+    }
+  })
 
   const toggleFileUploadModal = () => {
     setShowFileUploadModal(!showFileUploadModal)
@@ -42,10 +60,38 @@ const DraftListPageHeader = () => {
     setShowProviderModal(true)
   }
 
-  const saveDraft = () => {
-    console.log('Saving draft', draftToSave)
-    console.log('Saving draft with provider', providerId)
-    // Implement the actual save logic here
+  const handleUpload = () => {
+    ingestDraftMutation({
+      variables: {
+        conceptType,
+        metadata: removeEmpty(draftToSave),
+        nativeId: `MMT_${crypto.randomUUID()}`,
+        providerId,
+        ummVersion: getUmmVersion(conceptType)
+      },
+      onCompleted: (mutationData) => {
+        const { ingestDraft } = mutationData
+        const { conceptId: savedConceptId } = ingestDraft
+
+        navigate(`/drafts/${draftType}/${savedConceptId}`)
+
+        addNotification({
+          message: 'Draft uploaded successfully',
+          variant: 'success'
+        })
+      },
+      onError: (ingestError) => {
+        // Add an error notification
+        addNotification({
+          message: 'Error uploading draft',
+          variant: 'danger'
+        })
+
+        // Send the error to the errorLogger
+        errorLogger(ingestError, 'MetadataForm: ingestDraftMutation')
+      }
+    })
+
     setShowProviderModal(false)
     setDraftToSave(null)
   }
@@ -97,7 +143,7 @@ const DraftListPageHeader = () => {
         show={showProviderModal}
         toggleModal={() => setShowProviderModal(false)}
         type="draft"
-        onSubmit={saveDraft}
+        onSubmit={handleUpload}
         primaryActionType={saveTypes.submit}
       />
     </>

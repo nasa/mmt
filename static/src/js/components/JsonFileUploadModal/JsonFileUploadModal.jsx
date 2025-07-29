@@ -20,16 +20,10 @@ export const JsonFileUploadModal = ({
   const [file, setFile] = useState(null)
   const [errors, setErrors] = useState([])
 
-  const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
-    console.log('ONDROP')
-    console.log('ONDROP acceptedFiles', acceptedFiles)
-    console.log('ONDROP rejectedFiles', rejectedFiles)
+  const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles && acceptedFiles.length > 0) {
-      console.log('onDrop: File dropped is ', acceptedFiles[0])
       setFile(acceptedFiles[0])
       setErrors([])
-    } else {
-      console.log('ONDROP: No files were accepted')
     }
   }, [])
 
@@ -52,8 +46,6 @@ export const JsonFileUploadModal = ({
   }, [show])
 
   const handleUpload = () => {
-    console.log('HANDLEUPLOAD')
-    console.log('HANDLEUPLOAD called, current file:', file)
     if (!file) {
       setErrors([{
         id: generateId(),
@@ -96,17 +88,6 @@ export const JsonFileUploadModal = ({
       message={
         (
           <>
-            {/* <div
-              className="file-upload-area"
-              onClick={getRootProps().onClick}
-              onKeyDown={getRootProps().onKeyDown}
-              onFocus={getRootProps().onFocus}
-              onBlur={getRootProps().onBlur}
-              tabIndex={0}
-              role="button"
-              aria-label="File upload area. Drag and drop a JSON file here or click to select a file."
-              onDrop={onDrop}
-            > */}
             <div
               className="file-upload-area"
               // eslint-disable-next-line react/jsx-props-no-spreading
