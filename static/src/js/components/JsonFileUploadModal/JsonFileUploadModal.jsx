@@ -15,22 +15,21 @@ import { validateJson } from '@/js/utils/validateJson'
 const generateId = () => Math.random().toString(36).slice(2, 11)
 
 export const JsonFileUploadModal = ({
-  show, toggleModal, schema, saveDraft
+  show, toggleModal, schema, upload
 }) => {
   const [file, setFile] = useState(null)
   const [errors, setErrors] = useState([])
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     console.log('ONDROP')
-    console.log('onDrop acceptedFiles', acceptedFiles)
-    console.log('onDrop rejectedFiles', rejectedFiles)
-    console.log('File type:', acceptedFiles[0]?.type)
+    console.log('ONDROP acceptedFiles', acceptedFiles)
+    console.log('ONDROP rejectedFiles', rejectedFiles)
     if (acceptedFiles && acceptedFiles.length > 0) {
       console.log('onDrop: File dropped is ', acceptedFiles[0])
       setFile(acceptedFiles[0])
       setErrors([])
     } else {
-      console.log('onDrop: No files were accepted')
+      console.log('ONDROP: No files were accepted')
     }
   }, [])
 
@@ -54,7 +53,7 @@ export const JsonFileUploadModal = ({
 
   const handleUpload = () => {
     console.log('HANDLEUPLOAD')
-    console.log('handleUpload called, current file:', file)
+    console.log('HANDLEUPLOAD called, current file:', file)
     if (!file) {
       setErrors([{
         id: generateId(),
@@ -75,7 +74,7 @@ export const JsonFileUploadModal = ({
             message: error
           })))
         } else {
-          saveDraft(jsonData)
+          upload(jsonData)
           toggleModal(false)
         }
       } catch (error) {
@@ -196,5 +195,5 @@ JsonFileUploadModal.propTypes = {
     }),
     PropTypes.func
   ]).isRequired,
-  saveDraft: PropTypes.func.isRequired
+  upload: PropTypes.func.isRequired
 }

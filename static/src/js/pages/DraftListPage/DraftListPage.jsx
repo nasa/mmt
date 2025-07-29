@@ -11,6 +11,9 @@ import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import ummCSchema from '@/js/schemas/umm/ummCSchema'
 import { JsonFileUploadModal } from '@/js/components/JsonFileUploadModal/JsonFileUploadModal'
+import ChooseProviderModal from '@/js/components/ChooseProviderModal/ChooseProviderModal'
+import saveTypes from '@/js/constants/saveTypes'
+import useAppContext from '@/js/hooks/useAppContext'
 
 /**
  * Renders a DraftPageHeader component
@@ -23,20 +26,28 @@ import { JsonFileUploadModal } from '@/js/components/JsonFileUploadModal/JsonFil
  */
 const DraftListPageHeader = () => {
   const { draftType } = useParams()
-  const [showModal, setShowModal] = useState(false)
+  const [showFileUploadModal, setShowFileUploadModal] = useState(false)
+  const [showProviderModal, setShowProviderModal] = useState(false)
+  const [draftToSave, setDraftToSave] = useState(null)
+  const { providerId } = useAppContext()
 
   const conceptType = urlValueTypeToConceptTypeStringMap[draftType]
 
-  const toggleModal = () => {
-    setShowModal(!showModal)
+  const toggleFileUploadModal = () => {
+    setShowFileUploadModal(!showFileUploadModal)
   }
 
-  const showUploadModal = () => {
-    setShowModal(true)
+  const upload = (jsonData) => {
+    setDraftToSave(jsonData)
+    setShowProviderModal(true)
   }
 
-  const saveDraft = (jsonData) => {
-    console.log('saveDraft called with jsonData', jsonData)
+  const saveDraft = () => {
+    console.log('Saving draft', draftToSave)
+    console.log('Saving draft with provider', providerId)
+    // Implement the actual save logic here
+    setShowProviderModal(false)
+    setDraftToSave(null)
   }
 
   const primaryActions = [
@@ -55,7 +66,7 @@ const DraftListPageHeader = () => {
       icon: FaFileUpload,
       iconTitle: 'A file upload icon',
       title: 'Upload Draft',
-      onClick: showUploadModal,
+      onClick: toggleFileUploadModal,
       variant: 'secondary'
     })
   }
@@ -77,10 +88,17 @@ const DraftListPageHeader = () => {
         primaryActions={primaryActions}
       />
       <JsonFileUploadModal
-        show={showModal}
-        toggleModal={toggleModal}
+        show={showFileUploadModal}
+        toggleModal={toggleFileUploadModal}
         schema={ummCSchema}
-        saveDraft={saveDraft}
+        upload={upload}
+      />
+      <ChooseProviderModal
+        show={showProviderModal}
+        toggleModal={() => setShowProviderModal(false)}
+        type="draft"
+        onSubmit={saveDraft}
+        primaryActionType={saveTypes.submit}
       />
     </>
   )
