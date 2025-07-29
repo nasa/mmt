@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
@@ -39,9 +39,10 @@ const GroupSearchForm = ({ isAdminPage }) => {
   const navigate = useNavigate()
 
   const [searchParams] = useSearchParams()
+  const [updatedGroupsSchema, setUpdatedGroupsSchema] = useState(groupSearch)
 
   const searchName = searchParams.get('name') || ''
-  const searchProviders = searchParams.get('providers') || undefined
+  const searchProviders = isAdminPage ? 'CMR' : searchParams.get('providers')
   const encodedMembers = searchParams.get('members') || ''
   const decodedMembers = Buffer.from(encodedMembers, 'base64').toString() || '[]'
   const searchMembers = JSON.parse(decodedMembers)
@@ -52,16 +53,23 @@ const GroupSearchForm = ({ isAdminPage }) => {
     providers: searchProviders?.split(',')
   })
 
-  const updatedGroupsSchema = groupSearch
-
   const { data: providersData } = useSuspenseQuery(GET_PROVIDERS, {
     skip: isAdminPage
   })
-  if (!isAdminPage) {
-    updatedGroupsSchema.properties.providers.items.enum = providersData?.providers.items?.map(
-      (provider) => provider.providerId
-    ).sort()
-  }
+
+  // Required providers means we must validate again updatedGroupsSchema
+  useEffect(() => {
+    const newSchema = { ...groupSearch }
+    if (isAdminPage) {
+      newSchema.properties.providers.items.enum = ['CMR']
+    } else if (providersData?.providers?.items) {
+      newSchema.properties.providers.items.enum = providersData.providers.items
+        .map((provider) => provider.providerId)
+        .sort()
+    }
+
+    setUpdatedGroupsSchema(newSchema)
+  }, [isAdminPage, providersData])
 
   // Handle form changes
   const handleChange = (event) => {
@@ -78,7 +86,7 @@ const GroupSearchForm = ({ isAdminPage }) => {
         ? Buffer.from(JSON.stringify(formData.members)).toString('base64')
         : undefined,
       name: formData.name || undefined,
-      providers: isAdminPage ? 'CMR' : formData.providers.join(',')
+      providers: formData.providers.join(',')
     }
 
     // Remove any null search params
@@ -119,7 +127,7 @@ const GroupSearchForm = ({ isAdminPage }) => {
               }
             }
             widgets={widgets}
-            schema={groupSearch}
+            schema={updatedGroupsSchema}
             validator={validator}
             templates={templates}
             uiSchema={isAdminPage ? systemGroupSearchUiSchema : groupSearchUiSchema}

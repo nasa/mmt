@@ -21,13 +21,13 @@ const groupSearchUiSchema = {
                 {
                   'ui:col': {
                     md: 4,
-                    children: ['name']
+                    children: ['providers']
                   }
                 },
                 {
                   'ui:col': {
                     md: 4,
-                    children: ['providers']
+                    children: ['name']
                   }
                 },
                 {
@@ -44,7 +44,6 @@ const groupSearchUiSchema = {
     ]
   },
   providers: {
-    'ui:required': true,
     'ui:widget': CustomMultiSelectWidget
   },
   members: {

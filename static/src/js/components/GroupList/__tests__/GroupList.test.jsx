@@ -145,7 +145,7 @@ describe('GroupList', () => {
         }]
       })
 
-      expect(await screen.findByText('Please select a provider')).toBeInTheDocument()
+      expect(await screen.findByText('Required fields not selected')).toBeInTheDocument()
     })
   })
 

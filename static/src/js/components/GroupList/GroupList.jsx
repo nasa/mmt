@@ -228,7 +228,7 @@ const GroupList = ({ isAdminPage }) => {
           !providers ? (
             <Alert variant="info" className="mb-4">
               <FaQuestionCircle className="me-2 small" />
-              Please select a provider
+              Required fields not selected
             </Alert>
           ) : (
             <ControlledPaginatedContent
