@@ -1,16 +1,22 @@
-import React, { useCallback, useState } from 'react'
-import PropTypes from 'prop-types'
+import { Alert } from 'react-bootstrap'
+import {
+  FaEdit,
+  FaQuestionCircle,
+  FaTrash
+} from 'react-icons/fa'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { useSearchParams } from 'react-router-dom'
-import { FaEdit, FaTrash } from 'react-icons/fa'
 import Col from 'react-bootstrap/Col'
+import PropTypes from 'prop-types'
+import React, { useCallback, useState } from 'react'
 import Row from 'react-bootstrap/Row'
 
-import usePermissions from '@/js/hooks/usePermissions'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
+import usePermissions from '@/js/hooks/usePermissions'
 
 import { DELETE_GROUP } from '@/js/operations/mutations/deleteGroup'
 import { GET_GROUPS } from '@/js/operations/queries/getGroups'
+
 import errorLogger from '@/js/utils/errorLogger'
 
 import Button from '@/js/components/Button/Button'
@@ -43,7 +49,7 @@ const GroupList = ({ isAdminPage }) => {
   const [searchParams, setSearchParams] = useSearchParams()
   const activePage = parseInt(searchParams.get('page'), 10) || 1
   const name = searchParams.get('name') || ''
-  const providers = searchParams.get('providers') || undefined
+  const providers = isAdminPage ? 'CMR' : searchParams.get('providers')
   const encodedMembers = searchParams.get('members') || []
   const decodedMembers = Buffer.from(encodedMembers, 'base64').toString() || '[]'
   const userIds = JSON.parse(decodedMembers)?.map((member) => member.id)
@@ -65,7 +71,7 @@ const GroupList = ({ isAdminPage }) => {
       limit,
       name,
       offset,
-      tags: providers?.split(','),
+      tags: providers?.split(',') || [],
       userIds: userIds.length > 0 ? userIds : undefined
     }
   }
@@ -73,11 +79,12 @@ const GroupList = ({ isAdminPage }) => {
   // If we are on the admin page, always use the 'CMR' provider
   if (isAdminPage) {
     delete groupVariables.params.excludeTags
-    groupVariables.params.tags = ['CMR']
   }
 
   const { data, refetch } = useSuspenseQuery(GET_GROUPS, {
-    variables: groupVariables
+    variables: groupVariables,
+    // Providers are required, if a user hasn't selected any then skip the network call
+    skip: !isAdminPage && !providers
   })
 
   const [deleteGroupMutation] = useMutation(DELETE_GROUP, {
@@ -211,78 +218,85 @@ const GroupList = ({ isAdminPage }) => {
     }
   ]
 
-  const { groups } = data
-  const { count, items } = groups
+  const { groups } = data || {}
+  const { count, items } = groups || {}
 
   return (
     <Row className="mt-5">
       <Col sm={12}>
-        <ControlledPaginatedContent
-          activePage={activePage}
-          count={count}
-          limit={limit}
-          setPage={setPage}
-        >
-          {
-            ({
-              totalPages,
-              pagination,
-              firstResultPosition,
-              lastResultPosition
-            }) => {
-              const paginationMessage = count > 0
-                ? `Showing ${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} groups`
-                : 'No groups found'
+        {
+          !providers ? (
+            <Alert variant="info" className="mb-4">
+              <FaQuestionCircle className="me-2 small" />
+              Required fields not selected
+            </Alert>
+          ) : (
+            <ControlledPaginatedContent
+              activePage={activePage}
+              count={count}
+              limit={limit}
+              setPage={setPage}
+            >
+              {
+                ({
+                  totalPages,
+                  pagination,
+                  firstResultPosition,
+                  lastResultPosition
+                }) => {
+                  const paginationMessage = count > 0
+                    ? `Showing ${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} groups`
+                    : 'No groups found'
 
-              return (
-                <>
-                  <Row className="d-flex justify-content-between align-items-center">
-                    <Col className="mb-4 flex-grow-1" xs="auto">
+                  return (
+                    <>
+                      <Row className="d-flex justify-content-between align-items-center">
+                        <Col className="mb-4 flex-grow-1" xs="auto">
+                          {
+                            (!!count) && (
+                              <span className="text-secondary fw-bolder">{paginationMessage}</span>
+                            )
+                          }
+                        </Col>
+
+                        {
+                          totalPages > 1 && (
+                            <Col xs="auto">
+                              {pagination}
+                            </Col>
+                          )
+                        }
+                      </Row>
+                      <Table
+                        id="group-table"
+                        columns={columns.filter(Boolean)}
+                        generateCellKey={({ id }, dataKey) => `column_${dataKey}_${id}`}
+                        generateRowKey={({ id }) => `row_${id}`}
+                        data={items}
+                        noDataMessage="No groups found"
+                        count={count}
+                        setPage={setPage}
+                        limit={limit}
+                        offset={offset}
+                      />
                       {
-                        (!!count) && (
-                          <span className="text-secondary fw-bolder">{paginationMessage}</span>
+                        totalPages > 1 && (
+                          <Row>
+                            <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
+                              <div>
+                                {pagination}
+                              </div>
+                            </Col>
+                          </Row>
                         )
                       }
-                    </Col>
-
-                    {
-                      totalPages > 1 && (
-                        <Col xs="auto">
-                          {pagination}
-                        </Col>
-                      )
-                    }
-                  </Row>
-
-                  <Table
-                    id="group-table"
-                    columns={columns.filter(Boolean)}
-                    generateCellKey={({ id }, dataKey) => `column_${dataKey}_${id}`}
-                    generateRowKey={({ id }) => `row_${id}`}
-                    data={items}
-                    noDataMessage="No groups found"
-                    count={count}
-                    setPage={setPage}
-                    limit={limit}
-                    offset={offset}
-                  />
-
-                  {
-                    totalPages > 1 && (
-                      <Row>
-                        <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
-                          <div>
-                            {pagination}
-                          </div>
-                        </Col>
-                      </Row>
-                    )
-                  }
-                </>
-              )
-            }
-          }
-        </ControlledPaginatedContent>
+                    </>
+                  )
+                }
+              }
+            </ControlledPaginatedContent>
+          )
+        }
       </Col>
 
       <CustomModal
