@@ -78,7 +78,7 @@ const GroupSearchForm = ({ isAdminPage }) => {
         ? Buffer.from(JSON.stringify(formData.members)).toString('base64')
         : undefined,
       name: formData.name || undefined,
-      providers: formData.providers?.join(',') || undefined
+      providers: isAdminPage ? 'CMR' : formData.providers.join(',')
     }
 
     // Remove any null search params
@@ -129,7 +129,7 @@ const GroupSearchForm = ({ isAdminPage }) => {
             showErrorList="false"
           >
             <div className="d-flex gap-2">
-              <Button type="submit">
+              <Button type="submit" disabled={!isAdminPage && !formData.providers}>
                 Submit
               </Button>
             </div>

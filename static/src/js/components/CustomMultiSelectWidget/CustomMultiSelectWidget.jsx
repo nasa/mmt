@@ -44,6 +44,7 @@ const CustomMultiSelectWidget = ({
   const { items } = schema
   const { schemaUtils } = registry
   const retrievedSchema = schemaUtils.retrieveSchema(items)
+  const requiredUI = uiSchema['ui:required']
 
   const multiSelectScrollRef = useRef(null)
   const focusRef = useRef(null)
@@ -123,7 +124,7 @@ const CustomMultiSelectWidget = ({
       description={description}
       id={id}
       label={label}
-      required={required}
+      required={required || requiredUI}
       scrollRef={multiSelectScrollRef}
       title={title}
     >
@@ -177,6 +178,7 @@ CustomMultiSelectWidget.propTypes = {
     enum: PropTypes.arrayOf(PropTypes.string)
   }).isRequired,
   uiSchema: PropTypes.shape({
+    'ui:required': PropTypes.bool,
     'ui:title': PropTypes.string
   }),
   value: PropTypes.arrayOf(PropTypes.string)

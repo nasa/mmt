@@ -44,6 +44,7 @@ const groupSearchUiSchema = {
     ]
   },
   providers: {
+    'ui:required': true,
     'ui:widget': CustomMultiSelectWidget
   },
   members: {
