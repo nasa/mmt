@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { FaFileDownload } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
@@ -117,7 +117,7 @@ const DraftList = () => {
   // For 'generic' schemas as opposed to umm
   const genericColumns = [
     {
-      dataKey: 'previewMetadata.name',
+      dataKey: 'ummMetadata.Name',
       title: 'Name',
       className: 'col-auto',
       dataAccessorFn: buildPrimaryEllipsisLink
