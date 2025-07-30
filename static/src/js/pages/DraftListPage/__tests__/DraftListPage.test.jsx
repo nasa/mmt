@@ -13,11 +13,16 @@ import {
 import DraftListPage from '../DraftListPage'
 import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary'
 
+let mockDraftType
+const setMockDraftType = (draftType) => {
+  mockDraftType = draftType
+}
+
 vi.mock('../../../components/DraftList/DraftList')
 
 vi.mock('react-router-dom', async () => ({
   ...await vi.importActual('react-router-dom'),
-  useParams: vi.fn().mockImplementation(() => ({ draftType: 'Tool' }))
+  useParams: vi.fn().mockImplementation(() => ({ draftType: mockDraftType }))
 }))
 
 vi.mock('../../../hooks/useAppContext', () => ({
@@ -62,11 +67,12 @@ vi.mock('@apollo/client', async (importOriginal) => {
   }
 })
 
-const setup = () => {
+const setup = (draftType) => {
+  setMockDraftType(draftType)
   render(
     <MemoryRouter initialEntries={
       [{
-        pathname: '/drafts/tools'
+        pathname: `/drafts/${draftType}`
       }]
     }
     >
@@ -90,15 +96,29 @@ const setup = () => {
 }
 
 describe('DraftListPage', () => {
-  describe('when showing the header', () => {
-    test('render the header', async () => {
-      setup()
+  describe('when showing the header for tools', () => {
+    test('should render the correct header', async () => {
+      setup('tools')
 
       expect(await screen.findByRole('heading', { name: 'Tool Drafts' })).toBeInTheDocument()
 
       expect(screen.getByText('New Draft')).toBeInTheDocument()
       expect(screen.getByLabelText('A plus icon')).toBeInTheDocument()
+      expect(screen.queryByText('Upload Draft')).not.toBeInTheDocument()
       expect(within(screen.getByRole('navigation', { name: 'breadcrumb' })).getByText('Tool Drafts')).toBeInTheDocument()
+    })
+  })
+
+  describe('when showing the header for collections', () => {
+    test('should render the correct header', async () => {
+      setup('collections')
+
+      expect(await screen.findByRole('heading', { name: 'Collection Drafts' })).toBeInTheDocument()
+
+      expect(screen.getByText('New Draft')).toBeInTheDocument()
+      expect(screen.getByLabelText('A plus icon')).toBeInTheDocument()
+      expect(screen.getByText('Upload Draft')).toBeInTheDocument()
+      expect(within(screen.getByRole('navigation', { name: 'breadcrumb' })).getByText('Collection Drafts')).toBeInTheDocument()
     })
   })
 })
