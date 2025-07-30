@@ -20,6 +20,48 @@ vi.mock('react-router-dom', async () => ({
   useParams: vi.fn().mockImplementation(() => ({ draftType: 'Tool' }))
 }))
 
+vi.mock('../../../hooks/useAppContext', () => ({
+  default: vi.fn(() => ({
+    providerId: 'MOCK_PROVIDER_ID'
+  }))
+}))
+
+vi.mock('../../../hooks/useAvailableProviders', () => ({
+  default: vi.fn(() => ({
+    availableProviders: [
+      {
+        id: 'MOCK_PROVIDER_1',
+        name: 'Mock Provider 1'
+      },
+      {
+        id: 'MOCK_PROVIDER_2',
+        name: 'Mock Provider 2'
+      }
+    ],
+    loading: false,
+    error: null
+  }))
+}))
+
+vi.mock('../../../hooks/useNotificationsContext', () => ({
+  default: vi.fn(() => ({
+    addNotification: vi.fn()
+  }))
+}))
+
+vi.mock('@apollo/client', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useMutation: vi.fn(() => [vi.fn(), {
+      loading: false,
+      error: null
+    }]),
+    gql: vi.fn((args) => args)
+  }
+})
+
 const setup = () => {
   render(
     <MemoryRouter initialEntries={
