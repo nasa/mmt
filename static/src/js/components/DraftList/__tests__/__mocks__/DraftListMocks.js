@@ -121,6 +121,9 @@ export const mockVisualizationDrafts = {
   items: [
     {
       conceptId: 'VISD1-MMT_1',
+      ummMetadata: {
+        Name: 'Short Name 1'
+      },
       previewMetadata: {
         conceptId: 'VISD1-MMT_1',
         name: 'Short Name 1',
@@ -131,6 +134,9 @@ export const mockVisualizationDrafts = {
     },
     {
       conceptId: 'VISD2-MMT_1',
+      ummMetadata: {
+        Name: ''
+      },
       previewMetadata: {
         conceptId: 'VISD2-MMT_1',
         name: '',
@@ -141,6 +147,9 @@ export const mockVisualizationDrafts = {
     },
     {
       conceptId: 'VISD3-MMT_1',
+      ummMetadata: {
+        Name: 'Short Name 3'
+      },
       previewMetadata: {
         conceptId: 'VISD3-MMT_1',
         name: 'Short Name 3',

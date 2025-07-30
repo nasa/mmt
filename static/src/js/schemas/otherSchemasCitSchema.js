@@ -1,4 +1,3 @@
-// This is not currently in CDN. This is a combination of five different schemas found here: https://git.earthdata.nasa.gov/projects/EMFD/repos/otherschemas/browse/visualization/v1.1.0/schema.json
 const otherSchemasCitSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'Citation Metadata',
@@ -10,12 +9,16 @@ const otherSchemasCitSchema = {
     Name: {
       type: 'string',
       description: 'The name of the cited resource',
-      examples: ['Example Citation']
+      examples: ['Example Citation'],
+      minLength: 1,
+      maxLength: 256
     },
     Identifier: {
       type: 'string',
       description: 'The identifier for the resource, e.g., DOI, ISBN, ARK',
-      examples: ['10.5067/ABC123XYZ', '978-3-16-148410-0']
+      examples: ['10.5067/ABC123XYZ', '978-3-16-148410-0'],
+      minLength: 1,
+      maxLength: 256
     },
     IdentifierType: {
       type: 'string',
@@ -31,7 +34,9 @@ const otherSchemasCitSchema = {
         'https://doi.org',
         'https://n2t.net',
         'https://isbndb.com'
-      ]
+      ],
+      minLength: 1,
+      maxLength: 256
     },
     RelatedIdentifiers: {
       type: 'array',
@@ -158,11 +163,13 @@ const otherSchemasCitSchema = {
     },
     Abstract: {
       type: 'string',
-      description: 'Citation abstract'
+      description: 'Citation abstract',
+      minLength: 1,
+      maxLength: 6000
     },
     ScienceKeywords: {
       type: 'array',
-      description: 'GCMD science keywords',
+      description: 'Earth Science keywords that are representative of the data being visualized. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS).',
       items: {
         type: 'object',
         additionalProperties: false,

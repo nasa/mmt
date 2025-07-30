@@ -24,16 +24,6 @@ const citationInformationUiSchema = {
                 {
                   'ui:col': {
                     md: 12,
-                    children: ['IdentifierType']
-                  }
-                }
-              ]
-            },
-            {
-              'ui:row': [
-                {
-                  'ui:col': {
-                    md: 12,
                     children: ['Name']
                   }
                 }
@@ -58,6 +48,16 @@ const citationInformationUiSchema = {
                   }
                 }
               ]
+            },
+            {
+              'ui:row': [
+                {
+                  'ui:col': {
+                    md: 12,
+                    children: ['IdentifierType']
+                  }
+                }
+              ]
             }
           ]
         }
@@ -66,6 +66,9 @@ const citationInformationUiSchema = {
   },
   Abstract: {
     'ui:widget': 'textarea'
+  },
+  ResolutionAuthority: {
+    'ui:widget': 'TextWidget'
   }
 }
 
