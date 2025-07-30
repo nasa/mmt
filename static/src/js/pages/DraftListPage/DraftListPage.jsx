@@ -41,15 +41,7 @@ const DraftListPageHeader = () => {
 
   const conceptType = urlValueTypeToConceptTypeStringMap[draftType]
 
-  const [ingestDraftMutation] = useMutation(INGEST_DRAFT, {
-    update: (cache) => {
-      cache.modify({
-        fields: {
-          drafts: () => {}
-        }
-      })
-    }
-  })
+  const [ingestDraftMutation] = useMutation(INGEST_DRAFT)
 
   const toggleFileUploadModal = () => {
     setShowFileUploadModal(!showFileUploadModal)
