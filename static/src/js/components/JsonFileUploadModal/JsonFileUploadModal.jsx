@@ -104,6 +104,7 @@ export const JsonFileUploadModal = ({
                 onClick={getInputProps().onClick}
                 ref={getInputProps().ref}
                 style={getInputProps().style}
+                data-testid="file-input"
               />
               {
                 isDragActive ? (
@@ -115,7 +116,7 @@ export const JsonFileUploadModal = ({
             </div>
             {
               file && (
-                <div className="alert alert-info mt-3">
+                <div className="alert alert-info mt-3" data-testid="selected-file-info">
                   <FaFile className="me-2" />
                   Selected file:
                   {' '}
