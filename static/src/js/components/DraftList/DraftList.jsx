@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { FaFileDownload } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
