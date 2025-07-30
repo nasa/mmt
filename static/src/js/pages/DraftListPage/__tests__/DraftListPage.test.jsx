@@ -15,6 +15,9 @@ import userEvent from '@testing-library/user-event'
 
 import DraftListPage from '../DraftListPage'
 import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary'
+import errorLogger from '../../../utils/errorLogger'
+
+vi.mock('../../../utils/errorLogger')
 
 const mockIngestDraftMutation = vi.fn()
 
@@ -206,6 +209,59 @@ describe('DraftListPage', () => {
           variant: 'success'
         })
       })
+    })
+  })
+
+  describe('when upload a collection fails', () => {
+    test('should handle draft upload error correctly', async () => {
+    // Mock the JsonFileUploadModal and ChooseProviderModal
+      vi.mock('../../../components/JsonFileUploadModal/JsonFileUploadModal', () => ({
+        JsonFileUploadModal: vi.fn(({ upload }) => (
+          <button type="button" onClick={() => upload({ test: 'data' })}>Mock Upload</button>
+        ))
+      }))
+
+      vi.mock('../../../components/ChooseProviderModal/ChooseProviderModal', () => ({
+        default: vi.fn(({ onSubmit }) => (
+          <button type="button" onClick={() => onSubmit()}>Mock Submit</button>
+        ))
+      }))
+
+      // Mock the mutation to simulate an error
+      const mockError = new Error('Upload failed')
+      mockIngestDraftMutation.mockImplementation((options) => {
+        options.onError(mockError)
+      })
+
+      setup('collections')
+
+      // Find the "Upload Draft" button more specifically
+      const uploadButton = screen.getByRole('button', { name: /upload draft/i })
+      await userEvent.click(uploadButton)
+
+      // Simulate file upload
+      const mockUploadButton = screen.getByRole('button', { name: /mock upload/i })
+      await userEvent.click(mockUploadButton)
+
+      // Click the submit button in the ChooseProviderModal
+      const mockSubmitButton = screen.getByRole('button', { name: /mock submit/i })
+      await userEvent.click(mockSubmitButton)
+
+      // Wait for the mutation to be called
+      await waitFor(() => {
+        expect(mockIngestDraftMutation).toHaveBeenCalled()
+      })
+
+      // Check if error notification was added
+      await waitFor(() => {
+        expect(mockAddNotification).toHaveBeenCalledWith({
+          message: 'Error uploading draft',
+          variant: 'danger'
+        })
+      })
+
+      // Check if errorLogger was called
+      expect(errorLogger).toHaveBeenCalledWith(mockError, 'MetadataForm: ingestDraftMutation')
     })
   })
 })
