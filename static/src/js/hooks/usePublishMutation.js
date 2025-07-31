@@ -35,7 +35,7 @@ const usePublishMutation = (queryName) => {
     // Can be removed once CMR-10545 is complete
     let publishNativeId = nativeId
 
-    if (conceptType === 'Visualization') {
+    if (conceptType === 'Visualization' || conceptType === 'Citation') {
       // Remove '-draft' from the end of nativeId if it exists
       publishNativeId = nativeId.endsWith('-draft')
         ? nativeId.slice(0, -6)

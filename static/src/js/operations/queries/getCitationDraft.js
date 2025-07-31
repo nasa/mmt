@@ -18,7 +18,7 @@ export const CITATION_DRAFT = gql`
           conceptId
           identifier
           identifierType
-          name
+          pageTitle: name
           nativeId
           providerId
           relatedIdentifiers

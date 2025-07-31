@@ -1,19 +1,17 @@
 /**
- * Stores URLs and the URL they should be redirected to
+ * Stores URLs from legacy code and redirects users to appropriate URLS in react MMT
 */
 const REDIRECTS = {
   '/': 'collections',
+  collection_drafts: 'drafts/collections',
+  manage_cmr: 'collections',
   manage_collections: 'collections',
-  manage_variables: 'variables',
   manage_services: 'services',
   manage_tools: 'tools',
-  manage_visualizations: 'visualizations',
-  manage_cmr: 'collections',
-  tool_drafts: 'drafts/tools',
+  manage_variables: 'variables',
   service_drafts: 'drafts/services',
-  collection_drafts: 'drafts/collections',
-  variable_drafts: 'drafts/variables',
-  visualization_drafts: 'drafts/visualizations'
+  tool_drafts: 'drafts/tools',
+  variable_drafts: 'drafts/variables'
 }
 
 export default REDIRECTS
