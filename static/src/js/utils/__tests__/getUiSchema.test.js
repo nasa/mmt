@@ -1,3 +1,4 @@
+import citationUiSchema from '@/js/schemas/uiSchemas/citations'
 import collectionUiSchema from '@/js/schemas/uiSchemas/collections'
 import serviceUiSchema from '@/js/schemas/uiSchemas/services'
 import toolsUiSchema from '@/js/schemas/uiSchemas/tools'
@@ -34,6 +35,12 @@ describe('getUiSchema', () => {
   describe('when the concept type is visualization-draft', () => {
     test('returns the UMM-VIS schema', () => {
       expect(getUiSchema('Visualization')).toEqual(visualizationUiSchema)
+    })
+  })
+
+  describe('when the concept type is citation-draft', () => {
+    test('returns the UMM-VIS schema', () => {
+      expect(getUiSchema('Citation')).toEqual(citationUiSchema)
     })
   })
 

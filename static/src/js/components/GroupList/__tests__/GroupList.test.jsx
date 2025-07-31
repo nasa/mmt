@@ -52,7 +52,7 @@ const mockGroups = {
 const setup = ({
   additionalMocks = [],
   overrideMocks = false,
-  initialEntries = '/groups',
+  initialEntries = '/groups?providers=MMT_2',
   hasSystemGroup = true
 }) => {
   usePermissions.mockReturnValue({ hasSystemGroup })
@@ -65,7 +65,8 @@ const setup = ({
           excludeTags: ['CMR'],
           limit: 20,
           name: '',
-          offset: 0
+          offset: 0,
+          tags: ['MMT_2']
         }
       }
     },
@@ -119,6 +120,35 @@ const setup = ({
 }
 
 describe('GroupList', () => {
+  describe('when loading page for the first time', () => {
+    test('alert banner asking users to select a provider is present', async () => {
+      setup({
+        initialEntries: '/groups',
+        overrideMocks: [{
+          request: {
+            query: GET_GROUPS,
+            variables: {
+              params: {
+                excludeTags: undefined,
+                tags: [],
+                limit: 20,
+                name: '',
+                offset: 0
+              }
+            }
+          },
+          result: {
+            data: {
+              groups: mockGroups
+            }
+          }
+        }]
+      })
+
+      expect(await screen.findByText('Required fields not selected')).toBeInTheDocument()
+    })
+  })
+
   describe('when getting list of groups results in a success', () => {
     test('renders a table with 2 groups', async () => {
       setup({})
@@ -247,7 +277,8 @@ describe('GroupList', () => {
                     excludeTags: ['CMR'],
                     limit: 20,
                     name: '',
-                    offset: 0
+                    offset: 0,
+                    tags: ['MMT_2']
                   }
                 }
               },
@@ -343,7 +374,8 @@ describe('GroupList', () => {
                   excludeTags: ['CMR'],
                   limit: 20,
                   name: '',
-                  offset: 0
+                  offset: 0,
+                  tags: ['MMT_2']
                 }
               }
             },
@@ -375,7 +407,8 @@ describe('GroupList', () => {
                   excludeTags: ['CMR'],
                   limit: 20,
                   name: '',
-                  offset: 0
+                  offset: 0,
+                  tags: ['MMT_2']
                 }
               }
             },
@@ -403,7 +436,8 @@ describe('GroupList', () => {
                   excludeTags: ['CMR'],
                   limit: 20,
                   name: '',
-                  offset: 20
+                  offset: 20,
+                  tags: ['MMT_2']
                 }
               }
             },

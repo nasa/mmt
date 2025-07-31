@@ -37,6 +37,9 @@ const cache = new InMemoryCache({
     AclGroup: {
       keyFields: false
     },
+    Citation: {
+      keyFields: keyFieldsFunction
+    },
     Collection: {
       keyFields: keyFieldsFunction
     },

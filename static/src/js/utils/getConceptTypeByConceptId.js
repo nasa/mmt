@@ -7,6 +7,10 @@ import conceptIdTypes from '../constants/conceptIdTypes'
 const getConceptTypeByConceptId = (conceptId) => {
   if (!conceptId) return undefined
 
+  if (conceptId.startsWith('CIT')) {
+    return conceptIdTypes.CIT
+  }
+
   if (conceptId.startsWith('VIS')) {
     return conceptIdTypes.VIS
   }
