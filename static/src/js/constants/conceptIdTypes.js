@@ -3,6 +3,7 @@
  */
 const conceptIdTypes = {
   C: 'Collection',
+  CIT: 'Citation',
   O: 'OrderOption',
   S: 'Service',
   T: 'Tool',

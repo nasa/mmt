@@ -1,13 +1,15 @@
+import citationConfiguration from './citationConfiguration'
+import collectionsConfiguration from './collectionsConfiguration'
 import servicesConfiguration from './serviceConfiguration'
 import toolsConfiguration from './toolsConfiguration'
-import collectionsConfiguration from './collectionsConfiguration'
 import variableConfiguration from './variableConfiguration'
 import visualizationConfiguration from './visualizationConfiguration'
 
 const formConfigurations = {
-  Tool: toolsConfiguration,
-  Service: servicesConfiguration,
+  Citation: citationConfiguration,
   Collection: collectionsConfiguration,
+  Service: servicesConfiguration,
+  Tool: toolsConfiguration,
   Variable: variableConfiguration,
   Visualization: visualizationConfiguration
 }

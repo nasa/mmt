@@ -2,6 +2,7 @@ import ummCSchema from '../schemas/umm/ummCSchema'
 import ummSSchema from '../schemas/umm/ummSSchema'
 import ummTSchema from '../schemas/umm/ummTSchema'
 import ummVarSchema from '../schemas/umm/ummVarSchema'
+import otherSchemasCitSchema from '../schemas/otherSchemasCitSchema'
 import otherSchemasVisSchema from '../schemas/otherSchemasVisSchema'
 
 /**
@@ -10,6 +11,8 @@ import otherSchemasVisSchema from '../schemas/otherSchemasVisSchema'
  */
 const getUmmSchema = (conceptType) => {
   switch (conceptType) {
+    case 'Citation':
+      return otherSchemasCitSchema
     case 'Collection':
       return ummCSchema
     case 'Service':

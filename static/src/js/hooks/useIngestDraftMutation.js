@@ -22,7 +22,7 @@ const useIngestDraftMutation = () => {
   const ingestMutation = useCallback(async (conceptType, metadata, nativeId, providerId) => {
     let draftNativeId = nativeId
 
-    if (conceptType === 'Visualization') {
+    if (conceptType === 'Visualization' || conceptType === 'Citation') {
       // Add '-draft' to the end of nativeId if it doesn't already end with it.
       // Can be removed after CMR-10545 is complete
       draftNativeId = nativeId.endsWith('-draft')

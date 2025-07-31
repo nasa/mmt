@@ -1,3 +1,4 @@
+import citationUiSchema from '../schemas/uiSchemas/citations'
 import collectionsUiSchema from '../schemas/uiSchemas/collections'
 import serviceUiSchema from '../schemas/uiSchemas/services'
 import toolsUiSchema from '../schemas/uiSchemas/tools'
@@ -10,6 +11,8 @@ import visualizationUiSchema from '../schemas/uiSchemas/visualizations'
  */
 const getUiSchema = (conceptType) => {
   switch (conceptType) {
+    case 'Citation':
+      return citationUiSchema
     case 'Collection':
       return collectionsUiSchema
     case 'Service':

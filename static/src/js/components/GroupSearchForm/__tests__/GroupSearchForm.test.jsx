@@ -82,12 +82,29 @@ const setup = (initialPath = '/groups') => {
 }
 
 describe('GroupSearchForm', () => {
+  describe('on initial page load', () => {
+    test('submit button is disabled', async () => {
+      const navigateSpy = vi.fn()
+      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+      const { user } = setup()
+
+      const submitButton = await screen.findByRole('button', { name: 'Submit' })
+
+      expect(submitButton).toBeDisabled()
+
+      await user.click(submitButton)
+
+      expect(navigateSpy).not.toHaveBeenCalled()
+    })
+  })
+
   describe('when searching by group name', () => {
     test('updates the URL with the value', async () => {
       const navigateSpy = vi.fn()
       vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
-      const { user } = setup()
+      const { user } = setup('/groups?providers=MMT_1')
 
       const nameField = await screen.findByRole('textbox', { name: 'Name' })
 
@@ -97,7 +114,7 @@ describe('GroupSearchForm', () => {
       await user.click(submitButton)
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
-      expect(navigateSpy).toHaveBeenCalledWith('/groups?name=Test+Name')
+      expect(navigateSpy).toHaveBeenCalledWith('/groups?name=Test+Name&providers=MMT_1')
     })
   })
 
@@ -139,7 +156,7 @@ describe('GroupSearchForm', () => {
         }])
       })
 
-      const { user } = setup()
+      const { user } = setup('/groups?providers=MMT_1')
 
       const comboboxes = await screen.findAllByRole('combobox')
       const membersField = comboboxes[1]
@@ -158,7 +175,7 @@ describe('GroupSearchForm', () => {
         id: 'testuser1',
         label: 'Test User 1'
       }])).toString('base64')
-      expect(navigateSpy).toHaveBeenCalledWith(`/groups?members=${encodedUsers}`)
+      expect(navigateSpy).toHaveBeenCalledWith(`/groups?members=${encodedUsers}&providers=MMT_1`)
     })
   })
 
@@ -196,7 +213,7 @@ describe('GroupSearchForm', () => {
       await user.click(submitButton)
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
-      expect(navigateSpy).toHaveBeenCalledWith('/admin/groups?name=Test+Name')
+      expect(navigateSpy).toHaveBeenCalledWith('/admin/groups?name=Test+Name&providers=CMR')
     })
   })
 })

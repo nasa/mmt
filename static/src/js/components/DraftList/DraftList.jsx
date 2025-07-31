@@ -117,7 +117,7 @@ const DraftList = () => {
   // For 'generic' schemas as opposed to umm
   const genericColumns = [
     {
-      dataKey: 'previewMetadata.name',
+      dataKey: 'ummMetadata.Name',
       title: 'Name',
       className: 'col-auto',
       dataAccessorFn: buildPrimaryEllipsisLink

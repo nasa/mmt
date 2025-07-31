@@ -34,7 +34,7 @@ const groupSearch = {
       }
     }
   },
-  required: []
+  required: ['providers']
 }
 
 export default groupSearch
