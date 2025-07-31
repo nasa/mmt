@@ -43,15 +43,25 @@ const DraftListPageHeader = () => {
 
   const [ingestDraftMutation] = useMutation(INGEST_DRAFT)
 
+  /**
+   * Toggles the file upload modal visibility
+   */
   const toggleFileUploadModal = () => {
     setShowFileUploadModal(!showFileUploadModal)
   }
 
+  /**
+   * Handles the upload of JSON data
+   * @param {Object} jsonData - The JSON data to be uploaded
+   */
   const upload = (jsonData) => {
     setDraftToSave(jsonData)
     setShowProviderModal(true)
   }
 
+  /**
+   * Handles the upload process after provider selection
+   */
   const handleUpload = () => {
     ingestDraftMutation({
       variables: {

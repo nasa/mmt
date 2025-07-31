@@ -11,15 +11,32 @@ import './JsonFileUploadModal.scss'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 import { validateJson } from '@/js/utils/validateJson'
 
-// Helper function to generate a unique ID
+/**
+ * Helper function to generate a unique ID
+ * @returns {string} A random string to be used as an ID
+ */
 const generateId = () => Math.random().toString(36).slice(2, 11)
 
+/**
+ * JsonFileUploadModal component
+ * Renders a modal for uploading and validating JSON files
+ *
+ * @param {Object} props - Component props
+ * @param {boolean} props.show - Controls the visibility of the modal
+ * @param {Function} props.toggleModal - Function to toggle the modal visibility
+ * @param {Object|Function} props.schema - JSON schema for validation
+ * @param {Function} props.upload - Function to handle the upload of valid JSON data
+ */
 export const JsonFileUploadModal = ({
   show, toggleModal, schema, upload
 }) => {
   const [file, setFile] = useState(null)
   const [errors, setErrors] = useState([])
 
+  /**
+   * Callback function for handling file drop
+   * @param {File[]} acceptedFiles - Array of accepted files
+   */
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles && acceptedFiles.length > 0) {
       setFile(acceptedFiles[0])
@@ -45,6 +62,9 @@ export const JsonFileUploadModal = ({
     }
   }, [show])
 
+  /**
+   * Handles the file upload and validation process
+   */
   const handleUpload = () => {
     if (!file) {
       setErrors([{
