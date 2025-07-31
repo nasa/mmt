@@ -46,8 +46,7 @@ describe('JsonFileUploadModal', () => {
     test('should display the file name', async () => {
       const { user } = setup()
       const file = new File(['{}'], 'test.json', { type: 'application/json' })
-      const input = screen.getByTestId('file-input')
-
+      const input = screen.getByLabelText('Upload JSON file')
       await user.upload(input, file)
 
       expect(screen.getByText(/Selected file: test.json/)).toBeInTheDocument()
@@ -69,7 +68,7 @@ describe('JsonFileUploadModal', () => {
     test('should display an error message', async () => {
       const { user } = setup()
       const file = new File(['invalid json'], 'test.json', { type: 'application/json' })
-      const input = screen.getByTestId('file-input')
+      const input = screen.getByLabelText('Upload JSON file')
 
       await user.upload(input, file)
 
@@ -91,7 +90,7 @@ describe('JsonFileUploadModal', () => {
       })
 
       const file = new File(['{"name": "test"}'], 'test.json', { type: 'application/json' })
-      const input = screen.getByTestId('file-input')
+      const input = screen.getByLabelText('Upload JSON file')
 
       await user.upload(input, file)
 
@@ -123,7 +122,7 @@ describe('JsonFileUploadModal', () => {
       const { rerender } = setup()
 
       const file = new File(['{}'], 'test.json', { type: 'application/json' })
-      const input = screen.getByTestId('file-input')
+      const input = screen.getByLabelText('Upload JSON file')
       await userEvent.upload(input, file)
 
       expect(screen.getByText(/Selected file: test.json/)).toBeInTheDocument()
@@ -147,7 +146,7 @@ describe('JsonFileUploadModal', () => {
       const { user } = setup()
 
       const file = new File(['{"invalidField": "test"}'], 'test.json', { type: 'application/json' })
-      const input = screen.getByTestId('file-input')
+      const input = screen.getByLabelText('Upload JSON file')
 
       await user.upload(input, file)
 
@@ -164,7 +163,7 @@ describe('JsonFileUploadModal', () => {
 
       const file1 = new File(['{}'], 'test1.json', { type: 'application/json' })
       const file2 = new File(['{}'], 'test2.json', { type: 'application/json' })
-      const input = screen.getByTestId('file-input')
+      const input = screen.getByLabelText('Upload JSON file')
 
       await user.upload(input, [file1, file2])
 

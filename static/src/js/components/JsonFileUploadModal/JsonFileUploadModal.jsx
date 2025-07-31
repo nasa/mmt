@@ -118,19 +118,19 @@ export const JsonFileUploadModal = ({
             >
               <input
                 type="file"
+                aria-label="Upload JSON file"
                 accept="application/json,text/plain"
                 onChange={getInputProps().onChange}
                 onBlur={getInputProps().onBlur}
                 onClick={getInputProps().onClick}
                 ref={getInputProps().ref}
                 style={getInputProps().style}
-                data-testid="file-input"
               />
               <p>Drag &apos;n&apos; drop a JSON file here, or click to select a file</p>
             </div>
             {
               file && (
-                <div className="alert alert-info mt-3" data-testid="selected-file-info">
+                <div className="alert alert-info mt-3">
                   <FaFile className="me-2" />
                   Selected file:
                   {' '}
