@@ -121,10 +121,6 @@ const setup = (draftType) => {
   )
 }
 
-beforeEach(() => {
-  vi.clearAllMocks()
-})
-
 describe('DraftListPage', () => {
   describe('when showing the header for tools', () => {
     test('should render the correct header', async () => {
