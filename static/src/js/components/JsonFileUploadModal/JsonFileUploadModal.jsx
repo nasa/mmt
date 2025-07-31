@@ -45,7 +45,7 @@ export const JsonFileUploadModal = ({
   }, [])
 
   const {
-    getRootProps, getInputProps, isDragActive
+    getRootProps, getInputProps
   } = useDropzone({
     onDrop,
     accept: {
@@ -126,13 +126,7 @@ export const JsonFileUploadModal = ({
                 style={getInputProps().style}
                 data-testid="file-input"
               />
-              {
-                isDragActive ? (
-                  <p>Drop the JSON file here...</p>
-                ) : (
-                  <p>Drag &apos;n&apos; drop a JSON file here, or click to select a file</p>
-                )
-              }
+              <p>Drag &apos;n&apos; drop a JSON file here, or click to select a file</p>
             </div>
             {
               file && (
