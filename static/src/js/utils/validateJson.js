@@ -10,7 +10,7 @@ import addFormats from 'ajv-formats'
 export const validateJson = ({ jsonData, schema }) => {
   const ajv = new Ajv({
     allErrors: true,
-    removeAdditional: true,
+    removeAdditional: false,
     verbose: true
   })
 
@@ -31,7 +31,14 @@ export const validateJson = ({ jsonData, schema }) => {
     // Filter out errors about missing required properties
     const errorMessages = validate.errors
       .filter((error) => error.keyword !== 'required')
-      .map((error) => `${error.instancePath} ${error.message}`)
+      .map((error) => {
+        // Show name of properties which do not belong to schema
+        if (error.keyword === 'additionalProperties') {
+          return `${error.instancePath} ${error.message}: '${error.params.additionalProperty}'`
+        }
+
+        return `${error.instancePath} ${error.message}`
+      })
 
     return {
       data: jsonData,

@@ -191,4 +191,35 @@ describe('validateJson', () => {
       errors: null
     })
   })
+
+  test('When given JSON data with additional properties, should return error message with property name', () => {
+    const mockJsonData = {
+      name: 'John',
+      age: 30,
+      extraField: 'unexpected'
+    }
+    const mockValidate = vi.fn().mockReturnValue(false)
+    mockValidate.errors = [
+      {
+        keyword: 'additionalProperties',
+        instancePath: '',
+        message: 'must NOT have additional properties',
+        params: { additionalProperty: 'extraField' }
+      }
+    ]
+
+    Ajv.mockImplementation(() => ({
+      compile: () => mockValidate
+    }))
+
+    const result = validateJson({
+      jsonData: mockJsonData,
+      schema: mockSchema
+    })
+
+    expect(result).toEqual({
+      data: mockJsonData,
+      errors: [" must NOT have additional properties: 'extraField'"]
+    })
+  })
 })
