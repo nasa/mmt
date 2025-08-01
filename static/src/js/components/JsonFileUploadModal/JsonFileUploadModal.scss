@@ -1,0 +1,11 @@
+.file-upload-area {
+  padding: 20px;
+  border: 2px dashed #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  
+  &:hover {
+    border-color: #999;
+  }
+}
