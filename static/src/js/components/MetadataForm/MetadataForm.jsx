@@ -118,7 +118,8 @@ const MetadataForm = () => {
           // Remove the list of drafts from the cache. This ensures that if the user returns to the list page they will see the correct data.
           drafts: () => {},
           draft(existingDraftsRef, { DELETE }) {
-            const { __ref: draftRef = '' } = existingDraftsRef
+            // Examine need for || {} in MMT-4070
+            const { __ref: draftRef = '' } = existingDraftsRef || {}
 
             // If the ref includes this conceptId, delete it to force a refetch of the data
             if (draftRef.includes(conceptId)) {
@@ -264,11 +265,6 @@ const MetadataForm = () => {
         }
 
         if (type === saveTypes.saveAndPublish) {
-          // We still need to navigate to the new draft revision on save and publish
-          // even though we will end up navigating to the preview page.  The reason
-          // being is because the publish mutation causes the cache to be cleared and as a
-          // result the draft is refetched.
-          navigate(`/drafts/${draftType}/${savedConceptId}/${currentSection}?revisionId=${savedRevisionId}`, { replace: true })
           publishMutation(derivedConceptType, nativeId)
         }
       },

@@ -282,4 +282,36 @@ describe('MetadataFormPage', () => {
       expect(breadcrumbActive).toHaveClass('active')
     })
   })
+
+  describe('when draft is null', () => {
+    test('renders the page', async () => {
+      setup({
+        overrideMocks: [
+          {
+            request: {
+              query: conceptTypeDraftQueries.Tool,
+              variables: {
+                params: {
+                  conceptId: 'TD1000000-MMT',
+                  conceptType: 'Tool'
+                }
+              }
+            },
+            result: {
+              data: {
+                draft: null
+              }
+            }
+          }
+        ],
+        pageUrl: '/drafts/tools/TD1000000-MMT/tool-information'
+      })
+
+      const breadcrumbParent = await screen.findByRole('navigation', { name: 'breadcrumb' })
+      const breadcrumbLinks = within(breadcrumbParent).getAllByRole('link')
+
+      expect(breadcrumbLinks.at(0)).toHaveAttribute('href', '/drafts/tools')
+      expect(breadcrumbLinks.at(0)).toHaveTextContent('Tool Drafts')
+    })
+  })
 })
