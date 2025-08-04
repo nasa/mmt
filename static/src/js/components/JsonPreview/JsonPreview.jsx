@@ -11,7 +11,8 @@ const JsonPreview = () => {
     draft = {}
   } = useAppContext()
 
-  const { ummMetadata = {} } = draft
+  // Remove || {} in MMT-4070
+  const { ummMetadata = {} } = draft || {}
 
   const data = cloneDeep(removeEmpty(ummMetadata))
 

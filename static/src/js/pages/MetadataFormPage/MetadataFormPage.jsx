@@ -45,7 +45,8 @@ const MetadataFormPageHeader = () => {
   })
 
   const { draft = {} } = data
-  const { previewMetadata = {}, providerId } = draft
+  // Remove || {} in MMT-4070
+  const { previewMetadata = {}, providerId } = draft || {}
   const { pageTitle } = previewMetadata
 
   const displayTitle = pageTitle || '<Blank Name>'
