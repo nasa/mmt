@@ -88,8 +88,6 @@ const citationMetadataUiSchema = {
                     }
                   },
                   {
-                    'ui:group-classname': 'h2-title',
-                    'ui:group': 'Addition Information',
                     'ui:col': {
                       md: 12,
                       children: ['Address']
