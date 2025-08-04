@@ -38,7 +38,7 @@ describe('JsonFileUploadModal', () => {
   describe('When the modal is shown', () => {
     test('should display the file upload area', () => {
       setup()
-      expect(screen.getByText(/Drag 'n' drop a JSON file here/)).toBeInTheDocument()
+      expect(screen.getByText(/Drop a JSON file here or click to upload/)).toBeInTheDocument()
     })
   })
 
