@@ -85,6 +85,18 @@ vi.mock('../../../hooks/useNotificationsContext', () => ({
   }))
 }))
 
+vi.mock('../../../components/JsonFileUploadModal/JsonFileUploadModal', () => ({
+  JsonFileUploadModal: vi.fn(({ upload }) => (
+    <button type="button" onClick={() => upload({ test: 'data' })}>Mock Upload</button>
+  ))
+}))
+
+vi.mock('../../../components/ChooseProviderModal/ChooseProviderModal', () => ({
+  default: vi.fn(({ onSubmit, toggleModal }) => (
+    <button type="button" onClick={() => { onSubmit(); toggleModal() }}>Mock Submit</button>
+  ))
+}))
+
 const setup = (draftType) => {
   setMockDraftType(draftType)
   render(
@@ -142,18 +154,6 @@ describe('DraftListPage', () => {
 
   describe('when upload a collection', () => {
     test('should handle draft upload correctly', async () => {
-      vi.mock('../../../components/JsonFileUploadModal/JsonFileUploadModal', () => ({
-        JsonFileUploadModal: vi.fn(({ upload }) => (
-          <button type="button" onClick={() => upload({ test: 'data' })}>Mock Upload</button>
-        ))
-      }))
-
-      vi.mock('../../../components/ChooseProviderModal/ChooseProviderModal', () => ({
-        default: vi.fn(({ onSubmit }) => (
-          <button type="button" onClick={() => onSubmit()}>Mock Submit</button>
-        ))
-      }))
-
       setup('collections')
 
       // Find the "Upload Draft" button more specifically
@@ -201,18 +201,6 @@ describe('DraftListPage', () => {
 
   describe('when upload a collection fails', () => {
     test('should handle draft upload error correctly', async () => {
-      vi.mock('../../../components/JsonFileUploadModal/JsonFileUploadModal', () => ({
-        JsonFileUploadModal: vi.fn(({ upload }) => (
-          <button type="button" onClick={() => upload({ test: 'data' })}>Mock Upload</button>
-        ))
-      }))
-
-      vi.mock('../../../components/ChooseProviderModal/ChooseProviderModal', () => ({
-        default: vi.fn(({ onSubmit }) => (
-          <button type="button" onClick={() => onSubmit()}>Mock Submit</button>
-        ))
-      }))
-
       // Mock the mutation to simulate an error
       const mockError = new Error('Upload failed')
       mockIngestDraftMutation.mockImplementation((options) => {
