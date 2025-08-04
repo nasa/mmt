@@ -1013,11 +1013,10 @@ describe('MetadataForm', () => {
         await user.click(button)
 
         await waitFor(() => {
-          expect(navigateSpy).toHaveBeenCalledTimes(2)
+          expect(navigateSpy).toHaveBeenCalledTimes(1)
         }, { timeout: 5000 })
 
-        expect(navigateSpy).toHaveBeenNthCalledWith(1, '/drafts/tools/TD1000000-MMT/tool-information?revisionId=1', expect.anything())
-        expect(navigateSpy).toHaveBeenNthCalledWith(2, '/tools/T1000000-MMT')
+        expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT')
       })
     })
 
