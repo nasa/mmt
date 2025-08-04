@@ -85,14 +85,6 @@ vi.mock('../../../hooks/useNotificationsContext', () => ({
   }))
 }))
 
-vi.mock('@apollo/client', () => ({
-  useMutation: vi.fn(() => [mockIngestDraftMutation, {
-    loading: false,
-    error: null
-  }]),
-  gql: vi.fn((args) => args)
-}))
-
 const setup = (draftType) => {
   setMockDraftType(draftType)
   render(
@@ -150,7 +142,6 @@ describe('DraftListPage', () => {
 
   describe('when upload a collection', () => {
     test('should handle draft upload correctly', async () => {
-    // Mock the JsonFileUploadModal and ChooseProviderModal
       vi.mock('../../../components/JsonFileUploadModal/JsonFileUploadModal', () => ({
         JsonFileUploadModal: vi.fn(({ upload }) => (
           <button type="button" onClick={() => upload({ test: 'data' })}>Mock Upload</button>
@@ -210,7 +201,6 @@ describe('DraftListPage', () => {
 
   describe('when upload a collection fails', () => {
     test('should handle draft upload error correctly', async () => {
-    // Mock the JsonFileUploadModal and ChooseProviderModal
       vi.mock('../../../components/JsonFileUploadModal/JsonFileUploadModal', () => ({
         JsonFileUploadModal: vi.fn(({ upload }) => (
           <button type="button" onClick={() => upload({ test: 'data' })}>Mock Upload</button>
