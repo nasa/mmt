@@ -61,13 +61,17 @@ const otherSchemasCitSchema = {
           RelatedIdentifier: {
             type: 'string',
             description: 'The identifier for related resource',
-            examples: ['10.5067/ABC123XYZ', '978-3-16-148410-0']
+            examples: ['10.5067/ABC123XYZ', '978-3-16-148410-0'],
+            minLength: 1,
+            maxLength: 1024
           },
           RelatedResolutionAuthority: {
             type: 'string',
             format: 'uri',
             description: 'URI used to resolve the related identifier',
-            examples: ['https://doi.org']
+            examples: ['https://doi.org'],
+            minLength: 1,
+            maxLength: 1024
           }
         }
       }
@@ -81,12 +85,16 @@ const otherSchemasCitSchema = {
         Title: {
           type: 'string',
           description: 'Title of the resource',
-          examples: ['Air quality during three covid-19 lockdown phases']
+          examples: ['Air quality during three covid-19 lockdown phases'],
+          minLength: 1,
+          maxLength: 1024
         },
         Year: {
           type: 'integer',
           description: 'Year when resource was published',
-          examples: [2022]
+          examples: [2022],
+          minLength: 1,
+          maxLength: 256
         },
         Type: {
           type: 'string',
@@ -104,17 +112,23 @@ const otherSchemasCitSchema = {
               ORCID: {
                 type: 'string',
                 description: 'ORCID identifier of the author',
-                examples: ['0009-0004-9235-1891']
+                examples: ['0009-0004-9235-1891'],
+                minLength: 1,
+                maxLength: 512
               },
               Given: {
                 type: 'string',
                 description: 'Given name of the author',
-                examples: ['Abdelfettah']
+                examples: ['Abdelfettah'],
+                minLength: 1,
+                maxLength: 256
               },
               Family: {
                 type: 'string',
                 description: 'Family name of the author',
-                examples: ['Benchrif']
+                examples: ['Benchrif'],
+                minLength: 1,
+                maxLength: 256
               },
               Sequence: {
                 type: 'string',
@@ -127,37 +141,51 @@ const otherSchemasCitSchema = {
         },
         Publisher: {
           type: 'string',
-          description: 'Name of the resource publisher'
+          description: 'Name of the resource publisher',
+          minLength: 1,
+          maxLength: 1024
         },
         Container: {
           type: 'string',
           description: 'Journal name for journal articles, conference name for proceedings, book name for book chapters',
-          examples: ['Sustainable Cities and Society']
+          examples: ['Sustainable Cities and Society'],
+          minLength: 1,
+          maxLength: 1024
         },
         Volume: {
           type: 'string',
           description: 'The journal volume of journal article',
-          examples: ['84']
+          examples: ['84'],
+          minLength: 1,
+          maxLength: 1024
         },
         Number: {
           type: 'string',
           description: 'The issue of a journal article or number of technical report',
-          examples: ['1']
+          examples: ['1'],
+          minLength: 1,
+          maxLength: 256
         },
         Pages: {
           type: 'string',
           description: 'Page numbers, separated either by commas or double-hyphens',
-          examples: ['100-110']
+          examples: ['100-110'],
+          minLength: 1,
+          maxLength: 256
         },
         Address: {
           type: 'string',
           description: 'The address where the book was published, or thesis or report were created',
-          examples: ['Cham, Switzerland']
+          examples: ['Cham, Switzerland'],
+          minLength: 1,
+          maxLength: 1024
         },
         Institution: {
           type: 'string',
           description: 'Name of institution where the thesis or report were created',
-          examples: ['Stanford University']
+          examples: ['Stanford University'],
+          minLength: 1,
+          maxLength: 1024
         }
       }
     },

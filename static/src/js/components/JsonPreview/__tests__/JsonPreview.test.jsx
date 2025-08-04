@@ -27,6 +27,17 @@ describe('JsonPreview Component', () => {
     })
   })
 
+  describe('when draft is null', () => {
+    test('renders JSONPretty with empty object', () => {
+      setup(null)
+
+      expect(JSONPretty).toHaveBeenCalledTimes(1)
+      expect(JSONPretty).toHaveBeenCalledWith(expect.objectContaining({
+        data: {}
+      }), {})
+    })
+  })
+
   describe('when ummMetadata is not present in draft', () => {
     test('renders JSONPretty', () => {
       setup({})
