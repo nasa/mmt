@@ -85,17 +85,14 @@ vi.mock('@/js/components/JsonFileUploadModal/JsonFileUploadModal', () => ({
 
 vi.mock('@/js/components/ChooseProviderModal/ChooseProviderModal', () => ({
   default: vi.fn(({ onSubmit, toggleModal }) => (
-    <button
-      type="button"
-      onClick={
-        () => {
-          onSubmit()
-          toggleModal()
-        }
-      }
-    >
-      Mock Submit
-    </button>
+    <div>
+      <button type="button" onClick={onSubmit}>
+        Mock Submit
+      </button>
+      <button type="button" onClick={toggleModal}>
+        Mock Close
+      </button>
+    </div>
   ))
 }))
 
@@ -198,6 +195,10 @@ describe('DraftListPage', () => {
           variant: 'success'
         })
       })
+
+      // Now click the close button to test the toggleModal function
+      const mockCloseButton = screen.getByRole('button', { name: /mock close/i })
+      await userEvent.click(mockCloseButton)
     })
   })
 
