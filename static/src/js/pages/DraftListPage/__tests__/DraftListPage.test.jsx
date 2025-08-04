@@ -13,16 +13,16 @@ import {
 import { act } from 'react-dom/test-utils'
 import userEvent from '@testing-library/user-event'
 
+import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import errorLogger from '@/js/utils/errorLogger'
 import DraftListPage from '../DraftListPage'
-import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary'
-import errorLogger from '../../../utils/errorLogger'
 
-vi.mock('../../../utils/errorLogger')
+vi.mock('@/js/utils/errorLogger')
 
 const mockIngestDraftMutation = vi.fn()
 
 const mockAddNotification = vi.fn()
-vi.mock('../../../hooks/useNotificationsContext', () => ({
+vi.mock('@/js/hooks/useNotificationsContext', () => ({
   default: vi.fn(() => ({
     addNotification: mockAddNotification
   }))
@@ -41,28 +41,20 @@ const setMockDraftType = (draftType) => {
   mockDraftType = draftType
 }
 
-vi.mock('../../../components/JsonFileUploadModal/JsonFileUploadModal', () => ({
-  JsonFileUploadModal: vi.fn(() => null)
-}))
-
-vi.mock('../../../components/ChooseProviderModal/ChooseProviderModal', () => ({
-  default: vi.fn(() => null)
-}))
-
-vi.mock('../../../components/DraftList/DraftList')
+vi.mock('@/js/components/DraftList/DraftList')
 
 vi.mock('react-router-dom', async () => ({
   ...await vi.importActual('react-router-dom'),
   useParams: vi.fn().mockImplementation(() => ({ draftType: mockDraftType }))
 }))
 
-vi.mock('../../../hooks/useAppContext', () => ({
+vi.mock('@/js/hooks/useAppContext', () => ({
   default: vi.fn(() => ({
     providerId: 'MOCK_PROVIDER_ID'
   }))
 }))
 
-vi.mock('../../../hooks/useAvailableProviders', () => ({
+vi.mock('@/js/hooks/useAvailableProviders', () => ({
   default: vi.fn(() => ({
     availableProviders: [
       {
@@ -79,21 +71,31 @@ vi.mock('../../../hooks/useAvailableProviders', () => ({
   }))
 }))
 
-vi.mock('../../../hooks/useNotificationsContext', () => ({
+vi.mock('@/js/hooks/useNotificationsContext', () => ({
   default: vi.fn(() => ({
     addNotification: mockAddNotification
   }))
 }))
 
-vi.mock('../../../components/JsonFileUploadModal/JsonFileUploadModal', () => ({
+vi.mock('@/js/components/JsonFileUploadModal/JsonFileUploadModal', () => ({
   JsonFileUploadModal: vi.fn(({ upload }) => (
     <button type="button" onClick={() => upload({ test: 'data' })}>Mock Upload</button>
   ))
 }))
 
-vi.mock('../../../components/ChooseProviderModal/ChooseProviderModal', () => ({
+vi.mock('@/js/components/ChooseProviderModal/ChooseProviderModal', () => ({
   default: vi.fn(({ onSubmit, toggleModal }) => (
-    <button type="button" onClick={() => { onSubmit(); toggleModal() }}>Mock Submit</button>
+    <button
+      type="button"
+      onClick={
+        () => {
+          onSubmit()
+          toggleModal()
+        }
+      }
+    >
+      Mock Submit
+    </button>
   ))
 }))
 

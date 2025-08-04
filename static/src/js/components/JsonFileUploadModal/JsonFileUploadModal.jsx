@@ -126,7 +126,7 @@ export const JsonFileUploadModal = ({
                 ref={getInputProps().ref}
                 style={getInputProps().style}
               />
-              <p>Drag &apos;n&apos; drop a JSON file here, or click to select a file</p>
+              <p>Drop a JSON file here or click to upload</p>
             </div>
             {
               file && (
