@@ -83,17 +83,24 @@ vi.mock('@/js/components/JsonFileUploadModal/JsonFileUploadModal', () => ({
   ))
 }))
 
+const mockToggleModal = vi.fn()
+
 vi.mock('@/js/components/ChooseProviderModal/ChooseProviderModal', () => ({
-  default: vi.fn(({ onSubmit, toggleModal }) => (
-    <div>
-      <button type="button" onClick={onSubmit}>
-        Mock Submit
-      </button>
-      <button type="button" onClick={toggleModal}>
-        Mock Close
-      </button>
-    </div>
-  ))
+  default: vi.fn(({ onSubmit, toggleModal }) => {
+    // Store the toggleModal function so we can call it in our test
+    mockToggleModal.mockImplementation(toggleModal)
+
+    return (
+      <div>
+        <button type="button" onClick={onSubmit}>
+          Mock Submit
+        </button>
+        <button type="button" onClick={mockToggleModal}>
+          Mock Close
+        </button>
+      </div>
+    )
+  })
 }))
 
 const setup = (draftType) => {
@@ -199,6 +206,7 @@ describe('DraftListPage', () => {
       // Now click the close button to test the toggleModal function
       const mockCloseButton = screen.getByRole('button', { name: /mock close/i })
       await userEvent.click(mockCloseButton)
+      expect(mockToggleModal).toHaveBeenCalledTimes(1)
     })
   })
 
