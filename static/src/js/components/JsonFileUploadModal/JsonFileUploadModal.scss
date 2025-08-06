@@ -5,6 +5,10 @@
   cursor: pointer;
   text-align: center;
   
+  &__error-message {
+    word-wrap: break-word;
+  }
+  
   &:hover {
     border-color: #999;
   }

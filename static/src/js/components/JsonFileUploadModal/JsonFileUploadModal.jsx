@@ -140,7 +140,7 @@ export const JsonFileUploadModal = ({
             }
             {
               errors.length > 0 && (
-                <div className="alert alert-danger">
+                <div className="alert alert-danger file-upload-area__error-message">
                   <ul className="mb-0">
                     {
                       errors.map((error) => (
