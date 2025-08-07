@@ -6,10 +6,10 @@ import React, {
 import PropTypes from 'prop-types'
 import { FaFile } from 'react-icons/fa'
 import { useDropzone } from 'react-dropzone'
+import { v4 as uuidv4 } from 'uuid'
 
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 import { validateJson } from '@/js/utils/validateJson'
-import generateRandomId from '@/js/utils/generateRandomId'
 
 import './JsonFileUploadModal.scss'
 
@@ -64,7 +64,7 @@ export const JsonFileUploadModal = ({
   const handleUpload = () => {
     if (!file) {
       setErrors([{
-        id: generateRandomId,
+        id: uuidv4(),
         message: 'Please select a file to upload.'
       }])
 
@@ -81,7 +81,7 @@ export const JsonFileUploadModal = ({
         })
         if (validationResult.errors) {
           setErrors(validationResult.errors.map((error) => ({
-            id: generateRandomId,
+            id: uuidv4(),
             message: error
           })))
         } else {
@@ -90,7 +90,7 @@ export const JsonFileUploadModal = ({
         }
       } catch (error) {
         setErrors([{
-          id: generateRandomId,
+          id: uuidv4(),
           message: 'Invalid JSON file. Please upload a valid JSON file.'
         }])
       }
