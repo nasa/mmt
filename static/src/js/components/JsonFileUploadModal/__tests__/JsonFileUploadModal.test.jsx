@@ -75,7 +75,7 @@ describe('JsonFileUploadModal', () => {
       const uploadButton = screen.getByRole('button', { name: 'Upload' })
       await user.click(uploadButton)
 
-      expect(screen.getByText('Invalid JSON file. Please upload a valid JSON file.')).toBeInTheDocument()
+      expect(await screen.findByText('Invalid JSON file. Please upload a valid JSON file.')).toBeInTheDocument()
     })
   })
 
