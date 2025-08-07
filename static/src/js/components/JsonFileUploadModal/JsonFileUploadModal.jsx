@@ -11,6 +11,8 @@ import CustomModal from '@/js/components/CustomModal/CustomModal'
 import { validateJson } from '@/js/utils/validateJson'
 import generateRandomId from '@/js/utils/generateRandomId'
 
+import './JsonFileUploadModal.scss'
+
 /**
  * JsonFileUploadModal component
  * Renders a modal for uploading and validating JSON files
@@ -26,7 +28,6 @@ export const JsonFileUploadModal = ({
 }) => {
   const [file, setFile] = useState(null)
   const [errors, setErrors] = useState([])
-  const [isHovered, setIsHovered] = useState(false)
 
   /**
    * Callback function for handling file drop
@@ -107,10 +108,7 @@ export const JsonFileUploadModal = ({
         (
           <>
             <div
-              className={`p-4 border border-2 border-dashed rounded text-center ${isHovered ? 'border-secondary' : 'border-light'}`}
-              style={{ cursor: 'pointer' }}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
+              className="p-4 text-center file-upload-area"
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...getRootProps()}
             >
@@ -135,7 +133,7 @@ export const JsonFileUploadModal = ({
             }
             {
               errors.length > 0 && (
-                <div className="alert alert-danger" style={{ wordWrap: 'break-word' }}>
+                <div className="alert alert-danger text-break">
                   <ul className="mb-0">
                     {
                       errors.map((error) => (
