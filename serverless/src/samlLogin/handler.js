@@ -13,6 +13,7 @@ const samlLogin = async (event) => {
   // although it is only necessary if we are validating tokens (which we are not doing at the
   // moment)
   options.cert = 'fake_cert'
+  options.idpCert = 'fake_idp_cert'
   const saml = new SAML(options)
   const { queryStringParameters } = event
   const { target: relayState } = queryStringParameters || {}
