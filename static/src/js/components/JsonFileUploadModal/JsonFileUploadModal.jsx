@@ -108,7 +108,7 @@ export const JsonFileUploadModal = ({
         (
           <>
             <div
-              className="p-4 text-center file-upload-area"
+              className="p-4 border border-2 border-secondary rounded text-center file-upload-area"
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...getRootProps()}
             >
@@ -119,7 +119,7 @@ export const JsonFileUploadModal = ({
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...getInputProps()}
               />
-              <p>Drop a JSON file here or click to upload</p>
+              <p className="mb-0">Drop a JSON file here or click to upload</p>
             </div>
             {
               file && (

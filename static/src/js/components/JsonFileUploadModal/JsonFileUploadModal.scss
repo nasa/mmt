@@ -1,9 +1,4 @@
 .file-upload-area {
-  border: 0.125rem dashed #ccc;
-  border-radius: 0.25rem;
+  --bs-border-style: dashed;
   cursor: pointer;
-  
-  &:hover {
-    border-color: #999;
-  }
 }
