@@ -9,7 +9,7 @@ import { getSamlConfig } from '../../../sharedUtils/getConfig'
 const samlLogin = async (event) => {
   const options = getSamlConfig()
 
-  // SAML package will not produce an authorization url (see below) without the 'cert' property,
+  // SAML package will not produce an authorization url (see below) without the 'cert' and the 'idpCert' property,
   // although it is only necessary if we are validating tokens (which we are not doing at the
   // moment)
   options.cert = 'fake_cert'
