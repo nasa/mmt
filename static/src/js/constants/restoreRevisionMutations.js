@@ -1,3 +1,4 @@
+import { RESTORE_CITATION_REVISION } from '../operations/mutations/restoreCitationRevision'
 import { RESTORE_COLLECTION_REVISION } from '../operations/mutations/restoreCollectionRevision'
 import { RESTORE_SERVICE_REVISION } from '../operations/mutations/restoreServiceRevision'
 import { RESTORE_TOOL_REVISION } from '../operations/mutations/restoreToolRevision'
@@ -7,6 +8,7 @@ import {
 } from '../operations/mutations/restoreVisualizationRevision'
 
 const restoreRevisionMutations = {
+  Citation: RESTORE_CITATION_REVISION,
   Collection: RESTORE_COLLECTION_REVISION,
   Service: RESTORE_SERVICE_REVISION,
   Tool: RESTORE_TOOL_REVISION,
