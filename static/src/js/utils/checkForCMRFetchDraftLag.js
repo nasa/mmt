@@ -5,7 +5,7 @@
  */
 
 const checkForCMRFetchDraftLag = (fetchedRevisionId, expectedRevisionId) => {
-  if ((fetchedRevisionId && expectedRevisionId) && (fetchedRevisionId !== expectedRevisionId)) {
+  if ((fetchedRevisionId && expectedRevisionId) && (fetchedRevisionId < expectedRevisionId)) {
     throw new Error('Delay in CMR has been detected. Refresh the page in order to see latest revision')
   }
 }
