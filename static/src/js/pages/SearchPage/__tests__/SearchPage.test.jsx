@@ -171,7 +171,7 @@ describe('SearchPage component', () => {
         expect(await screen.findByText('All Tools')).toBeInTheDocument()
       })
 
-      test.skip('renders the SearchList', () => {
+      test('renders the SearchList', () => {
         expect(true)
       })
     })

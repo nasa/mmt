@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node bin/start.js",
+    "start:app-env": "node bin/start-env.js",
     "start:app": "vite",
     "start:proxy": "node setup/graphQlProxy.js",
     "start:graphdb": "docker run -it -p 8182:8182 tinkerpop/gremlin-server conf/gremlin-server-rest-modern.yaml",

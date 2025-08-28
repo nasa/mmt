@@ -79,15 +79,6 @@ const SearchList = ({ limit }) => {
     }
   }
 
-  if (formattedType === conceptTypes.Visualizations) {
-    params = {
-      limit,
-      offset,
-      provider: providerParam,
-      sortKey: sortKeyParam
-    }
-  }
-
   const { data } = useSuspenseQuery(conceptTypeQueries[formattedType], {
     variables: {
       params
