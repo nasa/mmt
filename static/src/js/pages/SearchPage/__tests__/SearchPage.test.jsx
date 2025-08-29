@@ -154,6 +154,21 @@ describe('SearchPage component', () => {
     })
   })
 
+  describe('when searching for citations', () => {
+    beforeEach(() => {
+      setup({
+        overrideMocks: [providerResults], // Add appropriate mock for citations if needed
+        overrideProps: {},
+        overrideInitialEntries: ['/citations?keyword=']
+      })
+    })
+
+    test('renders the search input with correct placeholder for citations', async () => {
+      const searchInput = await screen.findByRole('textbox', { name: 'Search' })
+      expect(searchInput).toHaveAttribute('placeholder', 'Search by science keyword')
+    })
+  })
+
   describe('when searching for tools', () => {
     beforeEach(() => {
       setup({
@@ -170,6 +185,11 @@ describe('SearchPage component', () => {
         expect(await screen.findByText('Tools')).toBeInTheDocument()
         expect(await screen.findByText('All Tools')).toBeInTheDocument()
       })
+    })
+
+    test('renders the search input with correct placeholder for non-citations', async () => {
+      const searchInput = await screen.findByRole('textbox', { name: 'Search' })
+      expect(searchInput).toHaveAttribute('placeholder', 'Enter a search term')
     })
   })
 
