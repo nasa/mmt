@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node bin/start.js",
+    "start:app-env": "node bin/start-env.js",
     "start:app": "vite",
     "start:proxy": "node setup/graphQlProxy.js",
     "start:graphdb": "docker run -it -p 8182:8182 tinkerpop/gremlin-server conf/gremlin-server-rest-modern.yaml",
@@ -20,7 +21,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.5",
-    "@edsc/metadata-preview": "^1.4.1",
+    "@edsc/metadata-preview": "^1.5.0",
     "@node-saml/node-saml": "^5.1.0",
     "@rjsf/core": "^5.15.0",
     "@rjsf/utils": "^5.15.0",

@@ -791,6 +791,7 @@ export const singlePageVisualizationsSearch = {
     query: GET_VISUALIZATIONS,
     variables: {
       params: {
+        keyword: null,
         limit: 25,
         offset: 0,
         provider: null,

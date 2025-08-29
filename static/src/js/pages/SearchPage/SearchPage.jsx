@@ -50,6 +50,10 @@ const SearchBar = () => {
   // Set the input with the value from the keyword search param if one exists
   const [searchKeyword, setSearchKeyword] = useState(searchParams.get('keyword') || '')
 
+  const placeholderText = searchTypeFromPath.toLowerCase() === 'citations'
+    ? 'Search by science keyword'
+    : 'Enter a search term'
+
   useEffect(() => {
     const currentSearchProvider = searchParams.get('provider')
     if (currentSearchProvider) {
@@ -112,7 +116,7 @@ const SearchBar = () => {
             }
             className="rounded-start-1"
             type="text"
-            placeholder="Enter a search term"
+            placeholder={placeholderText}
             value={searchKeyword}
             onChange={onSearchChange}
           />
@@ -210,17 +214,6 @@ const SearchBar = () => {
  * )
  */
 
-// Remove this in MMT-4023
-const renderSearchBar = () => {
-  const { type: searchTypeFromPath } = useParams()
-  // Don't render SearchBar for Visualizations or Citations. Waiting on CMR-10529 and CMR-10683
-  if (searchTypeFromPath.toLowerCase() === 'visualizations' || searchTypeFromPath.toLowerCase() === 'citations') {
-    return null
-  }
-
-  return <SearchBar />
-}
-
 const SearchPageHeader = () => {
   const { type: conceptType } = useParams()
 
@@ -228,7 +221,7 @@ const SearchPageHeader = () => {
     <PageHeader
       title={`All ${capitalize(getHumanizedNameFromTypeParam(conceptType))}s`}
       pageType="secondary"
-      beforeActions={renderSearchBar()}
+      beforeActions={<SearchBar />}
       breadcrumbs={
         [
           {
