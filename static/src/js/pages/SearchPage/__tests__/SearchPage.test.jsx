@@ -170,10 +170,6 @@ describe('SearchPage component', () => {
         expect(await screen.findByText('Tools')).toBeInTheDocument()
         expect(await screen.findByText('All Tools')).toBeInTheDocument()
       })
-
-      test('renders the SearchList', () => {
-        expect(true)
-      })
     })
   })
 
