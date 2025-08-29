@@ -154,9 +154,10 @@ const PublishPreviewHeader = () => {
 
   useEffect(() => {
     if (ingestDraftError) {
+      const { message } = ingestDraftError
       errorLogger(ingestDraftError, 'PublishPreview ingestDraftMutation Query')
       addNotification({
-        message: 'Error creating draft',
+        message: `Error creating draft: ${message}`,
         variant: 'danger'
       })
     }
