@@ -29,7 +29,7 @@ console.log(`Starting ${environment} environment...`)
 
 concurrently([
   {
-    command: `EDL_PASSWORD=${password} npm run offline`,
+    command: `EDL_PASSWORD='${password}' npm run offline`,
     name: 'api'
   },
   {
