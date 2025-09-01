@@ -377,7 +377,7 @@ describe('PublishPreview', () => {
 
       expect(navigateSpy).toHaveBeenCalledTimes(0)
       expect(errorLogger).toHaveBeenCalledTimes(1)
-      expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'PublishPreview ingestDraftMutation Query')
+      expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'PublishPreview: ingestDraftMutation Query')
     })
   })
 

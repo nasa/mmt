@@ -579,7 +579,7 @@ describe('TemplateForm', () => {
           expect(navigateSpy).toHaveBeenCalledTimes(0)
 
           expect(errorLogger).toHaveBeenCalledTimes(1)
-          expect(errorLogger).toHaveBeenCalledWith('Unable to Ingest Draft', 'Collection Association: ingestDraft Mutation')
+          expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'TemplateForm: ingestDraft Mutation')
         })
       })
     })

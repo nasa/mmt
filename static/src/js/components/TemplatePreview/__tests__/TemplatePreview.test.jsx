@@ -426,7 +426,7 @@ describe('TemplatePreview', () => {
         expect(navigateSpy).toHaveBeenCalledTimes(0)
 
         expect(errorLogger).toHaveBeenCalledTimes(1)
-        expect(errorLogger).toHaveBeenCalledWith('Unable to Ingest Draft', 'Template Preview: ingestDraft Mutation')
+        expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'TemplatePreview: ingestDraft Mutation')
       })
     })
   })
