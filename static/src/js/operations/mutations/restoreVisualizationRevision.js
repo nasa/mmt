@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const RESTORE_VISUALIZATION_REVISION = gql`
-  mutation RestoreVariableRevision (
+  mutation RestoreVisualizationRevision (
     $conceptId: String!
     $revisionId: String!
   ) {
