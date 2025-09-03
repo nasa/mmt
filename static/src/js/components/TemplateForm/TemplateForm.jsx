@@ -244,10 +244,11 @@ const TemplateForm = () => {
     }
 
     if (ingestDraftError) {
+      const { message } = ingestDraftError
       setLoading(false)
-      errorLogger('Unable to Ingest Draft', 'Collection Association: ingestDraft Mutation')
+      errorLogger(ingestDraftError, 'TemplateForm: ingestDraft Mutation')
       addNotification({
-        message: 'Error removing collection association ',
+        message: `Error creating draft: ${message}`,
         variant: 'danger'
       })
     }

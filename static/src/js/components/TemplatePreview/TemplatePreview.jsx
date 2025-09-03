@@ -152,10 +152,11 @@ const TemplatePreview = () => {
     }
 
     if (ingestDraftError) {
+      const { message } = ingestDraftError
       setLoading(false)
-      errorLogger('Unable to Ingest Draft', 'Template Preview: ingestDraft Mutation')
+      errorLogger(ingestDraftError, 'TemplatePreview: ingestDraft Mutation')
       addNotification({
-        message: 'Error removing collection association ',
+        message: `Error creating draft: ${message}`,
         variant: 'danger'
       })
     }
