@@ -33,6 +33,7 @@ const CustomToggle = React.forwardRef(
       Icon={FaEllipsisV}
       iconTitle="A vertical ellipsis icon"
       ref={ref}
+      size="lg"
       onClick={
         (e) => {
           e.preventDefault()

@@ -21,7 +21,10 @@ const groupSearchUiSchema = {
                 {
                   'ui:col': {
                     md: 4,
-                    children: ['providers']
+                    children: ['providers'],
+                    style: {
+                      zIndex: 9999
+                    }
                   }
                 },
                 {
@@ -33,7 +36,10 @@ const groupSearchUiSchema = {
                 {
                   'ui:col': {
                     md: 4,
-                    children: ['members']
+                    children: ['members'],
+                    style: {
+                      zIndex: 9999
+                    }
                   }
                 }
               ]
