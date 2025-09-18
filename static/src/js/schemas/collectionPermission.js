@@ -41,21 +41,31 @@ const collectionPermission = {
       oneOf: [
         {
           title: 'All Collections',
+          type: 'object',
           properties: {
             allCollection: {
               title: 'All Collections',
-              type: 'string',
-              default: true
+              type: 'boolean',
+              const: true
             }
-          }
+          },
+          required: ['allCollection']
         },
         {
-          title: 'Selected Collection',
+          title: 'Selected Collections',
+          type: 'object',
           properties: {
+            allCollection: {
+              title: 'All Collections',
+              type: 'boolean',
+              const: false
+            },
             selectedCollections: {
-              description: 'Entry Title of the collection'
+              type: 'object',
+              description: 'Entry Titles of the selected collections'
             }
-          }
+          },
+          required: ['allCollection', 'selectedCollections']
         }
       ]
     },
