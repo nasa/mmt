@@ -797,10 +797,10 @@ describe('PermissionForm', () => {
             }]
         })
 
+        // Check the checkbox
         const checkbox = screen.getByRole('checkbox', { name: 'All Collections' })
         await user.click(checkbox)
 
-        // Check the checkbox
         const nameField = screen.getByRole('textbox', { name: 'Name' })
 
         await user.type(nameField, 'Test Name')
