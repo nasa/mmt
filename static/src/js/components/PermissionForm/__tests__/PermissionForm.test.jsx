@@ -45,8 +45,6 @@ useAvailableProviders.mockReturnValue({
 
 vi.spyOn(console, 'error').mockImplementation(() => {})
 
-let client
-
 const setup = ({
   mocks = [],
   pageUrl
@@ -56,9 +54,6 @@ const setup = ({
   render(
     <Providers>
       <MockedProvider
-        client={client}
-        addTypename={false}
-        additiveMatching
         mocks={
           [{
             request: {
@@ -161,31 +156,6 @@ const setup = ({
 }
 
 describe('PermissionForm', () => {
-  beforeAll(() => {
-    client = new ApolloClient({
-      cache: new InMemoryCache(),
-      defaultOptions: {
-        watchQuery: {
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'ignore'
-        },
-        query: {
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'all'
-        }
-      }
-    })
-  })
-
-  afterEach(async () => {
-    vi.clearAllMocks()
-    vi.resetModules()
-    if (client) {
-      await client.clearStore()
-      await client.resetStore()
-    }
-  })
-
   describe('when creating a new permission', () => {
     describe('when filling out the form and submitting', () => {
       test('should navigate to /permissions/conceptId', async () => {
