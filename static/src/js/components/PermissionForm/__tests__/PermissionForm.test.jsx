@@ -2325,6 +2325,15 @@ describe('PermissionForm', () => {
                           shortName: 'This is collection 2',
                           entryTitle: 'Collection 1',
                           version: '1'
+                        },
+                        {
+                          __typename: 'Collection',
+                          conceptId: 'C12000000-MMT_2',
+                          directDistributionInformation: null,
+                          provider: 'MMT_2',
+                          shortName: 'This is collection 2',
+                          entryTitle: 'Collection 1',
+                          version: '1'
                         }
                       ]
                     },
@@ -2370,80 +2379,6 @@ describe('PermissionForm', () => {
                           id: 'valid_id',
                           name: 'Mock valid group permission',
                           tag: 'ABC'
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            },
-            {
-              request: {
-                query: GET_COLLECTION_FOR_PERMISSION_FORM,
-                variables: {
-                  conceptId: 'ACL1000000-MMT',
-                  params: {
-                    offset: 0,
-                    limit: 1
-                  }
-                }
-              },
-              result: {
-                data: {
-                  acl: {
-                    __typename: 'Acl',
-                    conceptId: 'ACL1000000-CMR',
-                    identityType: 'Catalog Item',
-                    location: 'https://cmr.sit.earthdata.nasa.gov:443/access-control/acls/ACL1200427411-CMR',
-                    name: 'Mock ACL',
-                    providerIdentity: null,
-                    revisionId: 1,
-                    systemIdentity: null,
-                    catalogItemIdentity: {
-                      __typename: 'CatalogItemIdentity',
-                      collectionIdentifier: {},
-                      collectionApplicable: true,
-                      granuleApplicable: false,
-                      granuleIdentifier: null,
-                      providerId: 'MMT_2'
-                    },
-                    collections: {
-                      __typename: 'CollectionList',
-                      count: 2,
-                      items: [
-                        {
-                          __typename: 'Collection',
-                          conceptId: 'C12000000-MMT_2',
-                          directDistributionInformation: null,
-                          provider: 'MMT_2',
-                          shortName: 'This is collection 2',
-                          entryTitle: 'Collection 1',
-                          version: '1'
-                        }
-                      ]
-                    },
-                    groups: {
-                      __typename: 'AclGroupList',
-                      items: [
-                        {
-                          __typename: 'AclGroup',
-                          permissions: [
-                            'read'
-                          ],
-                          userType: 'guest',
-                          id: null,
-                          name: null,
-                          tag: null
-                        },
-                        {
-                          __typename: 'AclGroup',
-                          permissions: [
-                            'read'
-                          ],
-                          userType: 'registered',
-                          id: null,
-                          name: null,
-                          tag: null
                         }
                       ]
                     }
@@ -2534,8 +2469,8 @@ describe('PermissionForm', () => {
         const invalidGroup = screen.queryByText('Mock invalid group permission')
         expect(invalidGroup).toBeNull()
 
-        // Const validGroup = screen.queryByText('Mock valid group permission')
-        // expect(validGroup).toBeInTheDocument()
+        const validGroup = screen.queryByText('Mock valid group permission')
+        expect(validGroup).toBeInTheDocument()
       })
     })
   })
