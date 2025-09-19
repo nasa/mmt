@@ -2096,6 +2096,182 @@ describe('PermissionForm', () => {
     })
   })
 
+  describe('collection selection handling', () => {
+    test('sets allCollection to false when hasCollectionIdentifier is true', async () => {
+      setup({
+        pageUrl: '/permissions/ACL1000000-MMT/edit',
+        mocks: [
+          {
+            request: {
+              query: GET_COLLECTION_FOR_PERMISSION_FORM,
+              variables: {
+                conceptId: 'ACL1000000-MMT',
+                params: {
+                  offset: 0,
+                  limit: 1
+                }
+              }
+            },
+            result: {
+              data: {
+                acl: {
+                  __typename: 'Acl',
+                  conceptId: 'ACL1000000-CMR',
+                  catalogItemIdentity: {
+                    __typename: 'CatalogItemIdentity',
+                    collectionIdentifier: {
+                      conceptIds: ['C1234-TEST']
+                    },
+                    providerId: 'TEST_PROVIDER'
+                  },
+                  collections: {
+                    __typename: 'CollectionList',
+                    count: 1,
+                    items: [
+                      {
+                        __typename: 'Collection',
+                        conceptId: 'C1234-TEST',
+                        shortName: 'Test Collection'
+                      }
+                    ]
+                  },
+                  groups: {
+                    __typename: 'AclGroupList',
+                    items: []
+                  }
+                }
+              }
+            }
+          }
+        ]
+      })
+
+      await waitFor(() => {
+        const allCollectionsCheckbox = screen.getByRole('checkbox', { name: 'All Collections' })
+        expect(allCollectionsCheckbox).not.toBeChecked()
+      })
+    })
+
+    test('sets allCollection to true when hasCollectionIdentifier is false', async () => {
+      setup({
+        pageUrl: '/permissions/ACL1000000-MMT/edit',
+        mocks: [
+          {
+            request: {
+              query: GET_COLLECTION_FOR_PERMISSION_FORM,
+              variables: {
+                conceptId: 'ACL1000000-MMT',
+                params: {
+                  offset: 0,
+                  limit: 1
+                }
+              }
+            },
+            result: {
+              data: {
+                acl: {
+                  __typename: 'Acl',
+                  conceptId: 'ACL1000000-CMR',
+                  catalogItemIdentity: {
+                    __typename: 'CatalogItemIdentity',
+                    collectionIdentifier: null,
+                    providerId: 'TEST_PROVIDER'
+                  },
+                  collections: {
+                    __typename: 'CollectionList',
+                    count: 0,
+                    items: []
+                  },
+                  groups: {
+                    __typename: 'AclGroupList',
+                    items: []
+                  }
+                }
+              }
+            }
+          }
+        ]
+      })
+
+      await waitFor(() => {
+        const allCollectionsCheckbox = screen.getByRole('checkbox', { name: 'All Collections' })
+        expect(allCollectionsCheckbox).toBeChecked()
+      })
+
+      // Optionally, you can also check that the selectedCollections are empty
+      const selectedCollectionsSection = screen.queryByText('Selected Collections')
+      expect(selectedCollectionsSection).not.toBeInTheDocument()
+    })
+
+    test('shows confirmation modal when switching to All Collections with existing filters', async () => {
+      const { user } = setup({
+        pageUrl: '/permissions/ACL1000000-MMT/edit',
+        mocks: [
+          {
+            request: {
+              query: GET_COLLECTION_FOR_PERMISSION_FORM,
+              variables: {
+                conceptId: 'ACL1000000-MMT',
+                params: {
+                  offset: 0,
+                  limit: 1
+                }
+              }
+            },
+            result: {
+              data: {
+                acl: {
+                  __typename: 'Acl',
+                  conceptId: 'ACL1000000-CMR',
+                  catalogItemIdentity: {
+                    __typename: 'CatalogItemIdentity',
+                    collectionIdentifier: {
+                      conceptIds: ['C1234-TEST']
+                    },
+                    providerId: 'TEST_PROVIDER'
+                  },
+                  collections: {
+                    __typename: 'CollectionList',
+                    count: 1,
+                    items: [
+                      {
+                        __typename: 'Collection',
+                        conceptId: 'C1234-TEST',
+                        shortName: 'Test Collection'
+                      }
+                    ]
+                  },
+                  groups: {
+                    __typename: 'AclGroupList',
+                    items: []
+                  }
+                }
+              }
+            }
+          }
+        ]
+      })
+
+      // Wait for the form to load
+      await waitFor(() => {
+        expect(screen.getByRole('checkbox', { name: 'All Collections' })).toBeInTheDocument()
+      })
+
+      // Add a filter
+      const minValueInput = screen.getAllByRole('textbox', { name: 'Minimum Value' })[0]
+      await user.type(minValueInput, '10')
+
+      // Click "All Collections" checkbox
+      const allCollectionsCheckbox = screen.getByRole('checkbox', { name: 'All Collections' })
+      await user.click(allCollectionsCheckbox)
+
+      // Check if the confirmation modal is shown
+      await waitFor(() => {
+        expect(screen.getByText(/Setting "All Collections" to true will remove/)).toBeInTheDocument()
+      })
+    })
+  })
+
   describe('form validation', () => {
     describe('when invalid group permission occur', () => {
       test('should remove the invalid group permission', async () => {
