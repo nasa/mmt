@@ -172,7 +172,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     setProviderId
   } = useAppContext()
 
-  const [formData, setFormData] = useState({
+  const initFormState = {
     collectionSelection: {
       allCollection: true,
       selectedCollections: {}
@@ -181,7 +181,9 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       collection: true,
       granule: true
     }
-  })
+  }
+
+  const [formData, setFormData] = useState({ ...initFormState })
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [pendingFormData, setPendingFormData] = useState(null)
 
@@ -305,16 +307,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
 
   useEffect(() => {
     if (conceptId === 'new') {
-      setFormData({
-        collectionSelection: {
-          allCollection: true,
-          selectedCollections: {}
-        },
-        accessPermission: {
-          collection: true,
-          granule: true
-        }
-      })
+      setFormData({ ...initFormState })
     }
   }, [conceptId])
 
@@ -489,15 +482,10 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
           collection: collectionApplicable,
           granule: granuleApplicable
         },
-        collectionSelection: hasCollectionIdentifier
-          ? {
-            allCollection: false,
-            selectedCollections
-          }
-          : {
-            allCollection: true,
-            selectedCollections
-          },
+        collectionSelection: {
+          allCollection: !hasCollectionIdentifier,
+          selectedCollections
+        },
         groupPermissions: {
           searchAndOrderGroup: searchAndOrderGroupPermission,
           searchGroup: searchPermission
@@ -552,7 +540,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
 
     setProviderId(formDataObj.providers)
 
-    // Check if allCollection has changed to true
+    // Check if allCollection has changed to true and we nned to clear selections
     if (formDataObj.collectionSelection?.allCollection
       && !formData.collectionSelection?.allCollection
       && (formDataObj.accessConstraintFilter
@@ -588,7 +576,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
   const getWarningMessage = () => {
     const count = totalSelectedCollections()
 
-    return `Setting  "All Collections" to true will remove ${count > 0
+    return `Checking  "All Collections" will remove ${count > 0
       ? `${count} collection selections and ` : ''} related filters. Are you sure you want to proceed?`
   }
 

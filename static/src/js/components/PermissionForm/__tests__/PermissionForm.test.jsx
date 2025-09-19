@@ -2056,7 +2056,7 @@ describe('PermissionForm', () => {
       await user.click(checkbox)
 
       // Check if the confirmation modal is shown
-      expect(screen.getByText(/Setting "All Collections" to true will remove/)).toBeInTheDocument()
+      expect(screen.getByText(/Checking "All Collections" will remove/)).toBeInTheDocument()
     })
 
     test('handleConfirmAllCollection deletes fields and updates form data', async () => {
@@ -2267,7 +2267,7 @@ describe('PermissionForm', () => {
 
       // Check if the confirmation modal is shown
       await waitFor(() => {
-        expect(screen.getByText(/Setting "All Collections" to true will remove/)).toBeInTheDocument()
+        expect(screen.getByText(/Checking "All Collections" will remove/)).toBeInTheDocument()
       })
     })
   })
