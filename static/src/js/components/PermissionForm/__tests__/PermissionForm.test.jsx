@@ -34,7 +34,6 @@ import {
 } from '@/js/operations/queries/getCollectionForPermissionForm'
 import PermissionForm from '@/js/components/PermissionForm/PermissionForm'
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
-import { ApolloClient, InMemoryCache } from '@apollo/client'
 
 vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/hooks/useAvailableProviders')
