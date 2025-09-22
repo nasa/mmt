@@ -521,7 +521,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     } = formData
 
     // Extract conceptIds from selectedCollections
-    const { selectedCollections } = collectionSelection
+    const { selectedCollections } = collectionSelection || {}
 
     let conceptIds = []
     if (selectedCollections) {
