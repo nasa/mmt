@@ -215,9 +215,10 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
 
   useEffect(() => {
     formData.providers = providerId
-    setFormData({
-      ...formData
-    })
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      providers: providerId
+    }))
   }, [providerId])
 
   const [createAclMutation] = useMutation(CREATE_ACL)
@@ -362,6 +363,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
 
   // When 'data' is available, this block generates formData using information from the ACL from CMR.
   useEffect(() => {
+    console.log('data is ', data)
     if (data) {
       const { acl } = data
       const {
@@ -511,7 +513,14 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       formDataObj.providers = savedProviderId
 
       // Update the draft with formData by removing empty fields
-      setFormData({ ...removeEmpty(formDataObj) })
+      setFormData((prevFormData) => {
+        const updatedFormData = removeEmpty(formDataObj)
+
+        return {
+          ...prevFormData,
+          ...updatedFormData
+        }
+      })
     }
   }, [data])
 
