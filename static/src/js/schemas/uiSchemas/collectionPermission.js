@@ -29,7 +29,7 @@ const collectionPermissionUiSchema = {
                 {
                   'ui:col': {
                     style: {
-                      marginTop: '-10px'
+                      marginTop: '-15px'
                     },
                     md: 4,
                     children: ['accessPermission']
@@ -151,13 +151,19 @@ const collectionPermissionUiSchema = {
                 'ui:row': [
                   {
                     'ui:col': {
-                      md: 4,
+                      style: {
+                        marginTop: '-10px'
+                      },
+                      md: 5,
                       children: ['collection']
                     }
                   },
                   {
                     'ui:col': {
-                      md: 4,
+                      style: {
+                        marginTop: '-10px'
+                      },
+                      md: 5,
                       children: ['granule']
                     }
                   }

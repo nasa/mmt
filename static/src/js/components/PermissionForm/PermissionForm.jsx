@@ -49,6 +49,7 @@ import GridLayout from '@/js/components/GridLayout/GridLayout'
 import GroupPermissionSelect from '@/js/components/GroupPermissionSelect/GroupPermissionSelect'
 import KeywordPicker from '@/js/components/KeywordPicker/KeywordPicker'
 import validGroupItems from '@/js/utils/validGroupItems'
+import CustomModal from '@/js/components/CustomModal/CustomModal'
 
 /**
  * Validates the form data for the access constraints and temporal constraints.
@@ -167,13 +168,24 @@ const validate = (formData, errors) => {
  */
 const PermissionForm = ({ selectedCollectionsPageSize }) => {
   const {
-    draft,
-    originalDraft,
-    setDraft,
-    setOriginalDraft,
     providerId,
     setProviderId
   } = useAppContext()
+
+  const initFormState = {
+    collectionSelection: {
+      allCollection: true,
+      selectedCollections: {}
+    },
+    accessPermission: {
+      collection: true,
+      granule: true
+    }
+  }
+
+  const [formData, setFormData] = useState({ ...initFormState })
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [pendingFormData, setPendingFormData] = useState(null)
 
   const navigate = useNavigate()
 
@@ -202,12 +214,11 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
   }, [providerIds])
 
   useEffect(() => {
-    const { formData = {} } = draft || {}
     formData.providers = providerId
-    setDraft({
-      ...draft,
-      formData
-    })
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      providers: providerId
+    }))
   }, [providerId])
 
   const [createAclMutation] = useMutation(CREATE_ACL)
@@ -297,8 +308,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
 
   useEffect(() => {
     if (conceptId === 'new') {
-      setDraft({})
-      setOriginalDraft({})
+      setFormData({ ...initFormState })
     }
   }, [conceptId])
 
@@ -315,22 +325,35 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
    * @param {Object} formData.accessPermission - The access permissions within the form data.
    * @param {boolean} formData.accessPermission.granule - The flag indicating if granule access is allowed.
    */
-  const showGranuleFields = (formData) => {
-    if (formData.accessPermission) {
+  const updateUiSchema = (formDataObj) => {
+    const showFields = !formDataObj.collectionSelection?.allCollection
+
+    if (formDataObj.accessPermission) {
       const newUiSchema = {
         ...uiSchema,
         accessConstraintFilter: {
           ...uiSchema.accessConstraintFilter,
+          'ui:disabled': !showFields,
+          collectionAccessConstraint: {
+            ...uiSchema.accessConstraintFilter.collectionAccessConstraint,
+            'ui:disabled': !formDataObj.accessPermission?.collection
+          },
           granuleAccessConstraint: {
             ...uiSchema.accessConstraintFilter.granuleAccessConstraint,
-            'ui:disabled': !formData.accessPermission?.granule
+            'ui:disabled': !formDataObj.accessPermission?.granule
           }
         },
         temporalConstraintFilter: {
           ...uiSchema.temporalConstraintFilter,
+          'ui:disabled': !showFields,
+
+          collectionTemporalConstraint: {
+            ...uiSchema.temporalConstraintFilter.collectionTemporalConstraint,
+            'ui:disabled': !formDataObj.accessPermission?.collection
+          },
           granuleTemporalConstraint: {
             ...uiSchema.temporalConstraintFilter.granuleTemporalConstraint,
-            'ui:disabled': !formData.accessPermission?.granule
+            'ui:disabled': !formDataObj.accessPermission?.granule
           }
         }
       }
@@ -340,6 +363,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
 
   // When 'data' is available, this block generates formData using information from the ACL from CMR.
   useEffect(() => {
+    console.log('data is ', data)
     if (data) {
       const { acl } = data
       const {
@@ -355,7 +379,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       const selectedCollections = items?.reduce((obj, item) => ({
         ...obj,
         [item.conceptId]: item
-      }), {})
+      }), {}) || {}
 
       const searchAndOrderGroupPermission = []
       const searchPermission = []
@@ -438,8 +462,12 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
         mask: granuleMask
       } = granuleTemporal || {}
 
+      // Check if collectionIdentifier exists and has conceptIds
+      const hasCollectionIdentifier = catalogItemIdentity
+      && catalogItemIdentity.collectionIdentifier
+
       // Construct formData object
-      const formData = {
+      const formDataObj = {
         accessConstraintFilter: {
           collectionAccessConstraint: {
             includeUndefined: collectionIncludeUndefined,
@@ -457,7 +485,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
           granule: granuleApplicable
         },
         collectionSelection: {
-          allCollection: true,
+          allCollection: !hasCollectionIdentifier,
           selectedCollections
         },
         groupPermissions: {
@@ -480,29 +508,86 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       }
 
       // Call the function to show/hide granule fields based on formData
-      showGranuleFields(formData)
+      updateUiSchema(formDataObj)
 
-      formData.providers = savedProviderId
+      formDataObj.providers = savedProviderId
 
       // Update the draft with formData by removing empty fields
-      setDraft({ formData: removeEmpty(formData) })
+      setFormData((prevFormData) => {
+        const updatedFormData = removeEmpty(formDataObj)
+
+        return {
+          ...prevFormData,
+          ...updatedFormData
+        }
+      })
     }
   }, [data])
 
-  const handleChange = (event) => {
-    const { formData } = event
+  const totalSelectedCollections = () => {
+    const {
+      collectionSelection
+    } = formData
 
-    showGranuleFields(formData)
+    // Extract conceptIds from selectedCollections
+    const { selectedCollections } = collectionSelection || {}
 
-    setProviderId(formData.providers)
+    let conceptIds = []
+    if (selectedCollections) {
+      conceptIds = Object.keys(selectedCollections).map(
+        (key) => selectedCollections[key].conceptId
+      )
+    }
 
-    setDraft({
-      ...draft,
-      formData: removeEmpty(formData)
-    })
+    return conceptIds.length
   }
 
-  const { formData } = draft || {}
+  const handleChange = (event) => {
+    const { formData: formDataObj } = event
+
+    updateUiSchema(formDataObj)
+
+    setProviderId(formDataObj.providers)
+
+    // Check if allCollection has changed to true and we nned to clear selections
+    if (formDataObj.collectionSelection?.allCollection
+      && !formData.collectionSelection?.allCollection
+      && (formDataObj.accessConstraintFilter
+        || formDataObj.temporalConstraintFilter || totalSelectedCollections() > 0)) {
+      // Instead of deleting immediately, show a confirmation modal
+      setShowConfirmModal(true)
+      setPendingFormData(formDataObj)
+    } else {
+      // If not changing to allCollection: true, update formData as usual
+      setFormData({ ...formDataObj })
+    }
+  }
+
+  const handleConfirmAllCollection = () => {
+  // User confirmed, so now we can delete the fields
+    const updatedFormData = { ...pendingFormData }
+    delete updatedFormData.collectionSelection?.selectedCollections
+    delete updatedFormData.catalogItemIdentity?.collectionIdentifier
+    delete updatedFormData.accessConstraintFilter
+    delete updatedFormData.temporalConstraintFilter
+
+    setFormData(updatedFormData)
+    setShowConfirmModal(false)
+  }
+
+  const handleCancelAllCollection = () => {
+    const updatedFormData = { ...formData }
+    updatedFormData.collectionSelection.allCollection = false
+    setFormData(updatedFormData)
+    setShowConfirmModal(false)
+  }
+
+  const getWarningMessage = () => {
+    const count = totalSelectedCollections()
+
+    return `Checking  "All Collections" will remove ${count > 0
+      ? `${count} collection selections and ` : ''} related filters. Are you sure you want to proceed?`
+  }
 
   /**
    * Handles the submission of the permission form.
@@ -556,7 +641,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     } = granuleTemporalConstraint || {}
 
     // Extract conceptIds from selectedCollections
-    const { selectedCollections } = collectionSelection
+    const { selectedCollections, allCollection } = collectionSelection
 
     let conceptIds = []
     if (selectedCollections) {
@@ -626,7 +711,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     const permissions = searchGroupPermissions.concat(searchAndOrderGroupPermissions)
 
     // Construct catalogItemIdentity object
-    const catalogItemIdentity = {
+    let catalogItemIdentity = {
       collectionApplicable,
       collectionIdentifier: {
         conceptIds,
@@ -687,9 +772,22 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
         }
       })
     } else {
+      // Remove empty fields from catalogItemIdentity
+      catalogItemIdentity = removeEmpty(catalogItemIdentity)
+
+      if (!allCollection) {
+        // Add conceptIds back if they exist
+        if (conceptIds) {
+          catalogItemIdentity.collectionIdentifier = {
+            ...catalogItemIdentity.collectionIdentifier,
+            conceptIds
+          }
+        }
+      }
+
       updateAclMutation({
         variables: {
-          catalogItemIdentity: removeEmpty(catalogItemIdentity),
+          catalogItemIdentity,
           conceptId,
           groupPermissions: removeEmpty(permissions)
         },
@@ -718,7 +816,6 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
   }
 
   const handleClear = () => {
-    setDraft(originalDraft)
     addNotification({
       message: 'Collection Permission cleared successfully',
       variant: 'success'
@@ -766,6 +863,28 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
           </Form>
         </Col>
       </Row>
+
+      <CustomModal
+        message={getWarningMessage()}
+        show={showConfirmModal}
+        size="lg"
+        toggleModal={handleCancelAllCollection}
+        actions={
+          [
+            {
+              label: 'No',
+              variant: 'secondary',
+              onClick: handleCancelAllCollection
+            },
+            {
+              label: 'Yes',
+              variant: 'primary',
+              onClick: handleConfirmAllCollection
+            }
+          ]
+        }
+      />
+
     </Container>
   )
 }
