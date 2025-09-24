@@ -213,14 +213,6 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     }
   }, [providerIds])
 
-  useEffect(() => {
-    formData.providers = providerId
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      providers: providerId
-    }))
-  }, [providerId])
-
   const [createAclMutation] = useMutation(CREATE_ACL)
   const [updateAclMutation] = useMutation(UPDATE_ACL, {
     update: (cache) => {
@@ -307,12 +299,6 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
   }, [data])
 
   useEffect(() => {
-    if (conceptId === 'new') {
-      setFormData({ ...initFormState })
-    }
-  }, [conceptId])
-
-  useEffect(() => {
     if (error) {
       throw error
     }
@@ -363,7 +349,6 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
 
   // When 'data' is available, this block generates formData using information from the ACL from CMR.
   useEffect(() => {
-    console.log('data is ', data)
     if (data) {
       const { acl } = data
       const {
@@ -518,11 +503,19 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
 
         return {
           ...prevFormData,
-          ...updatedFormData
+          ...updatedFormData,
+          providers: providerId // Use the latest providerId
         }
       })
+    } else if (conceptId === 'new') {
+    // Handle the case for new permissions
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        ...initFormState,
+        providers: providerId
+      }))
     }
-  }, [data])
+  }, [data, providerId, conceptId])
 
   const totalSelectedCollections = () => {
     const {
