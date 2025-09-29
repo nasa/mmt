@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
 import { isEmpty, kebabCase } from 'lodash-es'
+import { v4 as uuidv4 } from 'uuid'
 
 import useAppContext from '@/js/hooks/useAppContext'
 
@@ -217,7 +218,7 @@ const TemplateForm = () => {
     }
 
     if (type === saveTypes.saveAndCreateDraft) {
-      const nativeId = `MMT_${crypto.randomUUID()}`
+      const nativeId = `MMT_${uuidv4()}`
 
       delete ummMetadata.TemplateName
 

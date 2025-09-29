@@ -16,14 +16,12 @@ vi.mock('lodash-es', async () => ({
   debounce: vi.fn((fn) => fn)
 }))
 
-vi.mock('crypto', () => ({
-  default: {
-    randomUUID: () => 'mock-uuid'
-  }
+vi.mock('uuid', () => ({
+  v4: () => 'mock-uuid'
 }))
 
-Object.defineProperty(globalThis, 'crypto', {
+Object.defineProperty(globalThis, 'uuid', {
   value: {
-    randomUUID: () => 'mock-uuid'
+    v4: () => 'mock-uuid'
   }
 })

@@ -14,7 +14,13 @@ const { enabled, propertyId } = localIdentifier
 export default defineConfig({
   plugins: [
     react(),
-    nodePolyfills(),
+    nodePolyfills({
+      include: [
+        'buffer',
+        'stream',
+        'util'
+      ]
+    }),
     ViteEjsPlugin({
       gtmPropertyId,
       environment: process.env.NODE_ENV || 'development',
