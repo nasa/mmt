@@ -82,17 +82,33 @@ const CollectionAssociationFormPageHeader = () => {
  *   <CollectionAssociationFormPage />
  * )
  */
-const CollectionAssociationFormPage = () => (
-  <Page
-    pageType="secondary"
-    header={<CollectionAssociationFormPageHeader />}
-  >
-    <ErrorBoundary>
-      <Suspense fallback="Loading...">
-        <CollectionAssociationForm />
-      </Suspense>
-    </ErrorBoundary>
-  </Page>
-)
+const CollectionAssociationFormPage = () => {
+  const { conceptId } = useParams()
+
+  const derivedConceptType = getConceptTypeByConceptId(conceptId)
+
+  const { data } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
+    variables: {
+      params: {
+        conceptId
+      }
+    }
+  })
+
+  const { [camelCase(derivedConceptType)]: concept } = data
+
+  return (
+    <Page
+      pageType="secondary"
+      header={<CollectionAssociationFormPageHeader />}
+    >
+      <ErrorBoundary>
+        <Suspense fallback="Loading...">
+          <CollectionAssociationForm metadata={concept} />
+        </Suspense>
+      </ErrorBoundary>
+    </Page>
+  )
+}
 
 export default CollectionAssociationFormPage

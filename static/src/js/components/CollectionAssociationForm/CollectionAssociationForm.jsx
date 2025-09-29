@@ -309,15 +309,15 @@ const CollectionAssociationForm = ({ metadata }) => {
     let checked = null
 
     const { conceptId: collectionConceptId } = rowData
-    const { associationDetails } = fetchedDraft
-    const { collections } = associationDetails || {}
+    const { collections = {} } = fetchedDraft
+    const { items } = collections
 
     // Checks if collection is already associated to the record.
-    if (collections) {
-      const associatedCollection = collections.filter(
+    if (items) {
+      const associatedCollection = items.find(
         (item) => item.conceptId === collectionConceptId
       )
-      if (associatedCollection[0]?.conceptId === collectionConceptId) {
+      if (associatedCollection) {
         disabled = true
         checked = true
       }
