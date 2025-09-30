@@ -10,6 +10,14 @@ export const GET_COLLECTION = gql`
       archiveAndDistributionInformation
       associationDetails
       associatedDois
+      citations {
+        count
+        items {
+          conceptId
+          name
+          type: identifierType
+        }
+      }
       collectionCitations
       collectionProgress
       conceptId

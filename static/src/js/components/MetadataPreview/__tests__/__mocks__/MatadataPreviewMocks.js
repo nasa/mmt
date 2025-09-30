@@ -3853,3 +3853,40 @@ export const mockVisualizationDraft = {
   visualizationType: 'tiles',
   __typename: 'Visualization'
 }
+
+export const mockCitationDraft = {
+  conceptId: 'CITD0000000-MMT_1',
+  conceptType: 'citation-draft',
+  deleted: false,
+  name: 'Archival Earth Science Resource 8',
+  nativeId: 'GQL-113-test',
+  providerId: 'DEMO_PROV',
+  revisionDate: '2025-09-03T21:45:49.248Z',
+  revisionId: '2',
+  ummMetadata: {},
+  previewMetadata: {
+    abstract: 'This is a randomly generated citation for demonstration purposes. Created at 2025-05-28T18:48:11.453Z.',
+    citationMetadata: {
+      type: 'journal-article',
+      volume: '23',
+      publisher: 'Springer Nature',
+      number: '2',
+      title: 'Archival Earth Science Resource 8 - Research Publication 8'
+    },
+    conceptId: 'CITD1200484992-DEMO_PROV',
+    identifier: 'ark:/13030/tf8p17484-test-2',
+    identifierType: 'ARK',
+    name: 'Archival Earth Science Resource 8',
+    nativeId: 'GQL-113-test',
+    pageTitle: 'Archival Earth Science Resource 8',
+    providerId: 'DEMO_PROV',
+    relatedIdentifiers: [],
+    resolutionAuthority: 'https://n2t.net',
+    revisionDate: '2025-09-03T21:45:49.248Z',
+    revisionId: '2',
+    scienceKeywords: [],
+    userId: 'test.user',
+    __typename: 'Citation'
+  },
+  __typename: 'Citation'
+}
