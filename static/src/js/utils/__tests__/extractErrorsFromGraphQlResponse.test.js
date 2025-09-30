@@ -3,7 +3,7 @@ import {
   test,
   expect
 } from 'vitest'
-import { extractErrorsFromGraphQlResponse } from '../extractErrorsFromGraphQlResponse'
+import extractErrorsFromGraphQlResponse from '../extractErrorsFromGraphQlResponse'
 
 describe('when parsing a graphql error response', () => {
   test('should extracts error messages', () => {

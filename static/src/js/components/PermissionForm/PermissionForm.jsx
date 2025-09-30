@@ -262,7 +262,10 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     return newResult
   }
 
-  const { data, fetchMore, error: queryError } = useSuspenseQuery(GET_COLLECTION_FOR_PERMISSION_FORM, {
+  const {
+    data, fetchMore,
+    error: queryError
+  } = useSuspenseQuery(GET_COLLECTION_FOR_PERMISSION_FORM, {
     skip: conceptId === 'new',
     variables: {
       conceptId,
