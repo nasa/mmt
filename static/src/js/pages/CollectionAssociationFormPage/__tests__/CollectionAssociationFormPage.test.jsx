@@ -1,5 +1,3 @@
-// CollectionAssociationFormPage.test.jsx
-
 import React, { Suspense } from 'react'
 import { render, screen } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
