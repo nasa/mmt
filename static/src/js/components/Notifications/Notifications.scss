@@ -1,13 +1,13 @@
 .notifications-list {
-  max-width: 90vw; // Limit the maximum width of notifications
+  max-inline-size: 90vw; // Limit the maximum width of notifications
 
   .toast {
-    max-width: 100%; // Allow toasts to take full width of the container
+    max-inline-size: 100%; // Allow toasts to take full width of the container
   }
 
   &__icon-background {
-    width: 2rem;
-    height: 2rem;
+    inline-size: 2rem;
+    block-size: 2rem;
     border-radius: 50%;
     flex-shrink: 0;
   }
@@ -18,8 +18,8 @@
 
   &__message {
     flex: 1;
-    min-width: 0; // Ensures flexbox works correctly
-    padding-right: 0.5rem; // Add some space before the close button
+    min-inline-size: 0; // Ensures flexbox works correctly
+    padding-inline-end: 0.5rem; // Add some space before the close button
     word-wrap: break-word; // Allows long words to break and wrap
     overflow-wrap: break-word; // Additional support for wrapping
   }
@@ -33,19 +33,19 @@
   &__timer {
     --timer-duration: 3000ms;
 
-    width: 0%;
-    height: 0.325rem;
+    inline-size: 0%;
+    block-size: 0.325rem;
     animation: timer var(--timer-duration) linear;
     background-color: var(--bs-gray-600);
   }
 
   @keyframes timer {
     0% {
-      width: 0%;
+      inline-size: 0%;
     }
 
     100% {
-      width: 100%;
+      inline-size: 100%;
     }
   }
 }
