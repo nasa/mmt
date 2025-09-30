@@ -7,9 +7,9 @@
 
   &__icon-background {
     block-size: 2rem;
-    inline-size: 2rem;
     border-radius: 50%;
     flex-shrink: 0;
+    inline-size: 2rem;
   }
 
   &__icon {
@@ -19,8 +19,8 @@
   &__message {
     flex: 1;
     min-inline-size: 0; // Ensures flexbox works correctly
-    padding-inline-end: 0.5rem; // Add some space before the close button
     overflow-wrap: break-word; // Additional support for wrapping
+    padding-inline-end: 0.5rem; // Add some space before the close button
     word-wrap: break-word; // Allows long words to break and wrap
   }
 
@@ -33,10 +33,10 @@
   &__timer {
     --timer-duration: 3000ms;
 
-    block-size: 0.325rem;
-    inline-size: 0%;
     animation: timer var(--timer-duration) linear;
     background-color: var(--bs-gray-600);
+    block-size: 0.325rem;
+    inline-size: 0%;
   }
 
   @keyframes timer {
