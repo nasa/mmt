@@ -1546,6 +1546,8 @@ describe('PermissionForm', () => {
         await user.click(submitButton)
 
         expect(await screen.findByText('Minimum value should be less than Maximum value')).toBeInTheDocument()
+
+        expect(submitButton).toBeDisabled()
       })
     })
 
