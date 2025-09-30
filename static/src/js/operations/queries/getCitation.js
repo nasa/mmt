@@ -17,8 +17,8 @@ export const GET_CITATION = gql`
       }
       conceptId
       identifier
-      identifierType
-      name,
+      identifierType,
+      name
       pageTitle: name
       nativeId
       providerId
