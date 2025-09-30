@@ -53,14 +53,14 @@ const PermissionPageHeader = () => {
     }
   })
 
-  const { data } = useSuspenseQuery(GET_COLLECTION_PERMISSION, {
+  const { data = {} } = useSuspenseQuery(GET_COLLECTION_PERMISSION, {
     variables: {
       conceptId
     }
   })
 
-  const { acl } = data
-  const { name } = acl
+  const { acl = {} } = data || {}
+  const { name = 'Untitled Permission' } = acl || {}
 
   const handleDelete = () => {
     deleteAclMutation({

@@ -35,6 +35,8 @@ import {
 import PermissionForm from '@/js/components/PermissionForm/PermissionForm'
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 
+import NotificationsContext from '@/js/context/NotificationsContext'
+
 vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/hooks/useAvailableProviders')
 
@@ -49,6 +51,9 @@ const setup = ({
   pageUrl
 }) => {
   const user = userEvent.setup()
+  const notificationContext = {
+    addNotification: vi.fn()
+  }
 
   render(
     <Providers>
@@ -115,42 +120,45 @@ const setup = ({
           ...mocks]
         }
       >
-        <MemoryRouter initialEntries={[pageUrl]}>
-          <Routes>
-            <Route path="/permissions">
-              <Route
-                element={
-                  (
-                    <ErrorBoundary>
-                      <Suspense>
-                        <PermissionForm selectedCollectionsPageSize={1} />
-                      </Suspense>
-                    </ErrorBoundary>
-                  )
-                }
-                path="new"
-              />
-              <Route
-                path=":conceptId/edit"
-                element={
-                  (
-                    <ErrorBoundary>
-                      <Suspense>
-                        <PermissionForm selectedCollectionsPageSize={1} />
-                      </Suspense>
-                    </ErrorBoundary>
-                  )
-                }
-              />
-            </Route>
-          </Routes>
-        </MemoryRouter>
+        <NotificationsContext.Provider value={notificationContext}>
+          <MemoryRouter initialEntries={[pageUrl]}>
+            <Routes>
+              <Route path="/permissions">
+                <Route
+                  element={
+                    (
+                      <ErrorBoundary>
+                        <Suspense>
+                          <PermissionForm selectedCollectionsPageSize={1} />
+                        </Suspense>
+                      </ErrorBoundary>
+                    )
+                  }
+                  path="new"
+                />
+                <Route
+                  path=":conceptId/edit"
+                  element={
+                    (
+                      <ErrorBoundary>
+                        <Suspense>
+                          <PermissionForm selectedCollectionsPageSize={1} />
+                        </Suspense>
+                      </ErrorBoundary>
+                    )
+                  }
+                />
+              </Route>
+            </Routes>
+          </MemoryRouter>
+        </NotificationsContext.Provider>
       </MockedProvider>
     </Providers>
   )
 
   return {
-    user
+    user,
+    notificationContext
   }
 }
 
@@ -937,7 +945,15 @@ describe('PermissionForm', () => {
         expect(errorLogger).toHaveBeenCalledTimes(1)
         expect(errorLogger).toHaveBeenCalledWith(
           'Error creating collection permission',
-          'PermissionForm: createAclMutation'
+          'PermissionForm: updateAclMutation',
+          [
+            {
+              extensions: {
+                code: 'UNKNOWN_ERROR'
+              },
+              message: 'An error occurred'
+            }
+          ]
         )
       })
     })
@@ -1464,7 +1480,16 @@ describe('PermissionForm', () => {
         const submitButton = screen.getByRole('button', { name: 'Submit' })
         await user.click(submitButton)
 
-        expect(errorLogger).toHaveBeenCalledWith('Error creating collection permission', 'PermissionForm: updateAclMutation')
+        expect(errorLogger).toHaveBeenCalledWith(
+          'Error creating collection permission',
+          'PermissionForm: updateAclMutation',
+          [{ // Add this array with the error object
+            message: 'An error occurred',
+            extensions: {
+              code: 'UNKNOWN_ERROR'
+            }
+          }]
+        )
       })
     })
   })
@@ -2472,6 +2497,44 @@ describe('PermissionForm', () => {
         const validGroup = screen.queryByText('Mock valid group permission')
         expect(validGroup).toBeInTheDocument()
       })
+    })
+  })
+
+  describe('when the ACL is not found', () => {
+    test('should show a notification and navigate to permissions page', async () => {
+      const navigateSpy = vi.fn()
+      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+      vi.spyOn(router, 'useParams').mockReturnValue({ conceptId: 'NOT_FOUND_ACL' })
+
+      const { notificationContext } = setup({
+        pageUrl: '/permissions/NOT_FOUND_ACL/edit',
+        mocks: [{
+          request: {
+            query: GET_COLLECTION_FOR_PERMISSION_FORM,
+            variables: {
+              conceptId: 'NOT_FOUND_ACL',
+              params: {
+                offset: 0,
+                limit: 1
+              }
+            }
+          },
+          result: {
+            data: {
+              acl: null
+            }
+          }
+        }]
+      })
+
+      await waitFor(() => {
+        expect(notificationContext.addNotification).toHaveBeenCalledWith({
+          message: 'NOT_FOUND_ACL was not found.',
+          variant: 'danger'
+        })
+      })
+
+      expect(navigateSpy).toHaveBeenCalledWith('/permissions')
     })
   })
 })
