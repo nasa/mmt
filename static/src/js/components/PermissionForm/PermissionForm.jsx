@@ -263,8 +263,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
   }
 
   const {
-    data, fetchMore,
-    error: queryError
+    data, fetchMore
   } = useSuspenseQuery(GET_COLLECTION_FOR_PERMISSION_FORM, {
     skip: conceptId === 'new',
     variables: {
@@ -278,7 +277,6 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
 
   useEffect(() => {
     if (data && conceptId !== 'new') {
-      console.log('query error', queryError, data)
       const { acl } = data
       if (!acl) {
         addNotification({
