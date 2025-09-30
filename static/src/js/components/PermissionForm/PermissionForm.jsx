@@ -67,90 +67,87 @@ import CustomModal from '@/js/components/CustomModal/CustomModal'
  * @returns {Object} - The 'errors' object populated with any validation errors.
  */
 const validate = (formData, errors) => {
-  // Destructure everything with default values
+  const { accessConstraintFilter, temporalConstraintFilter, groupPermissions } = formData
+
+  const { collectionAccessConstraint, granuleAccessConstraint } = accessConstraintFilter || {}
+
+  const { collectionTemporalConstraint, granuleTemporalConstraint } = temporalConstraintFilter || {}
+
+  // Destructure specific properties to avoid repeated code
   const {
-    accessConstraintFilter: {
-      collectionAccessConstraint: {
-        minimumValue: collectionMinValue,
-        maximumValue: collectionMaxValue
-      } = {},
-      granuleAccessConstraint: {
-        minimumValue: granuleMinValue,
-        maximumValue: granuleMaxValue
-      } = {}
-    } = {},
-    temporalConstraintFilter: {
-      collectionTemporalConstraint: {
-        startDate: collectionStartDateString,
-        stopDate: collectionStopDateString
-      } = {},
-      granuleTemporalConstraint: {
-        startDate: granuleStartDateString,
-        stopDate: granuleStopDateString
-      } = {}
-    } = {},
-    groupPermissions = []
-  } = formData
+    minimumValue: collectionMinValue,
+    maximumValue: collectionMaxValue
+  } = collectionAccessConstraint || {}
 
   const {
-    accessConstraintFilter: {
-      collectionAccessConstraint: {
-        minimumValue: collectionMinValueError = {},
-        maximumValue: collectionMaxValueError = {}
-      } = {},
-      granuleAccessConstraint: {
-        minimumValue: granuleMinValueError = {},
-        maximumValue: granuleMaxValueError = {}
-      } = {}
-    } = {},
-    temporalConstraintFilter: {
-      collectionTemporalConstraint: {
-        startDate: collectionStartDateError = {},
-        stopDate: collectionStopDateError = {}
-      } = {},
-      granuleTemporalConstraint: {
-        startDate: granuleStartDateError = {},
-        stopDate: granuleStopDateError = {}
-      } = {}
-    } = {}
-  } = errors
-
-  // Parse dates
-  const collectionStartDate = collectionStartDateString ? new Date(collectionStartDateString) : null
-  const collectionStopDate = collectionStopDateString ? new Date(collectionStopDateString) : null
-  const granuleStartDate = granuleStartDateString ? new Date(granuleStartDateString) : null
-  const granuleStopDate = granuleStopDateString ? new Date(granuleStopDateString) : null
+    minimumValue: granuleMinValue,
+    maximumValue: granuleMaxValue
+  } = granuleAccessConstraint || {}
 
   // Validate collectionAccessConstraint min and max values
   if (collectionMinValue !== undefined
     && collectionMaxValue !== undefined
     && collectionMinValue >= collectionMaxValue) {
-    collectionMinValueError.addError?.('Minimum value should be less than Maximum value')
-    collectionMaxValueError.addError?.('Maximum value should be greater than Minimum value')
+    const {
+      collectionAccessConstraint: {
+        minimumValue,
+        maximumValue
+      }
+    } = errors.accessConstraintFilter
+    minimumValue.addError('Minimum value should be less than Maximum value')
+    maximumValue.addError('Maximum value should be greater than Minimum value')
   }
 
   // Validate granuleAccessConstraint min and max values
   if (granuleMinValue !== undefined
     && granuleMaxValue !== undefined
     && granuleMinValue >= granuleMaxValue) {
-    granuleMinValueError.addError?.('Minimum value should be less than Maximum value')
-    granuleMaxValueError.addError?.('Maximum value should be greater than Minimum value')
+    const {
+      granuleAccessConstraint: {
+        minimumValue,
+        maximumValue
+      }
+    } = errors.accessConstraintFilter
+
+    minimumValue.addError('Minimum value should be less than Maximum value')
+    maximumValue.addError('Maximum value should be greater than Minimum value')
   }
+
+  // Destructure and parse dates for collectionTemporalConstraint
+  const collectionStartDate = new Date(collectionTemporalConstraint?.startDate)
+  const collectionStopDate = new Date(collectionTemporalConstraint?.stopDate)
 
   // Validate collectionTemporalConstraint startDate and stopDate
   if (collectionStartDate
     && collectionStopDate
     && collectionStartDate >= collectionStopDate) {
-    collectionStartDateError.addError?.('Start date should be earlier than Stop date')
-    collectionStopDateError.addError?.('Stop date should be later than Start date')
+    const {
+      collectionTemporalConstraint: {
+        startDate,
+        stopDate
+      }
+    } = errors.temporalConstraintFilter
+
+    startDate.addError('Start date should be earlier than Stop date')
+    stopDate.addError('Stop date should be later than Start date')
   }
+
+  // Destructure and parse dates for granuleTemporalConstraint
+  const granuleStartDate = new Date(granuleTemporalConstraint?.startDate)
+  const granuleStopDate = new Date(granuleTemporalConstraint?.stopDate)
 
   // Validate granuleTemporalConstraint startDate and stopDate
   if (granuleStartDate
     && granuleStopDate
     && granuleStartDate >= granuleStopDate) {
-    granuleStartDateError.addError?.('Start date should be earlier than Stop date')
-    granuleStopDateError.addError?.('Stop date should be later than Start date')
+    const {
+      granuleTemporalConstraint: {
+        startDate,
+        stopDate
+      }
+    } = errors.temporalConstraintFilter
+    startDate.addError('Start date should be earlier than Stop date')
+    stopDate.addError('Stop date should be later than Start date')
   }
 
   // Validate groupPermissions
