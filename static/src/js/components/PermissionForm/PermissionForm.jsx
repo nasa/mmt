@@ -373,7 +373,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
         catalogItemIdentity,
         groups,
         collections
-      } = acl
+      } = acl || {}
 
       const { items } = collections || {}
 
