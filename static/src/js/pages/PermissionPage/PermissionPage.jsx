@@ -59,7 +59,7 @@ const PermissionPageHeader = () => {
     }
   })
 
-  const { acl = {} } = data || {}
+  const { acl } = data || {}
   const { name = 'Untitled Permission' } = acl || {}
 
   const handleDelete = () => {
