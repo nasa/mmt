@@ -74,8 +74,8 @@ const Notifications = () => {
                 }
                 show={show}
               >
-                <Toast.Body className="d-flex align-items-center justify-content-between">
-                  <div className="d-flex align-items-center">
+                <Toast.Body className="d-flex">
+                  <div className="d-flex flex-grow-1 overflow-hidden">
                     <span
                       className={
                         classNames(
@@ -89,12 +89,12 @@ const Notifications = () => {
                     >
                       {iconMap[variant] && iconMap[variant]}
                     </span>
-
-                    {message}
+                    <div className="notifications-list__message">
+                      {message}
+                    </div>
                   </div>
-
                   <Button
-                    className="ms-2"
+                    className="notifications-list__close-button ms-2"
                     onClick={() => hideNotification(id)}
                     size="sm"
                     variant="outline-light-dark"

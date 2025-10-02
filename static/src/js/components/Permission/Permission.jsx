@@ -1,5 +1,9 @@
-import React, { Suspense, useCallback } from 'react'
-import { useParams } from 'react-router'
+import React, {
+  Suspense,
+  useCallback,
+  useEffect
+} from 'react'
+import { useNavigate, useParams } from 'react-router'
 import { useSuspenseQuery } from '@apollo/client'
 
 import Col from 'react-bootstrap/Col'
@@ -11,6 +15,7 @@ import LoadingTable from '@/js/components/LoadingTable/LoadingTable'
 import PermissionCollectionTable from '@/js/components/PermissionCollectionTable/PermissionCollectionTable'
 import Table from '@/js/components/Table/Table'
 import validGroupItems from '@/js/utils/validGroupItems'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
 
@@ -18,30 +23,46 @@ import './Permission.scss'
 
 const Permission = () => {
   const { conceptId } = useParams()
+  const navigate = useNavigate()
+  const { addNotification } = useNotificationsContext()
 
-  const { data } = useSuspenseQuery(GET_COLLECTION_PERMISSION, {
+  const { data = {} } = useSuspenseQuery(GET_COLLECTION_PERMISSION, {
     variables: {
       conceptId
     }
   })
 
-  const { acl } = data
+  useEffect(() => {
+    if (data && conceptId !== 'new') {
+      const { acl } = data
+      if (!acl) {
+        addNotification({
+          message: `${conceptId} was not found.`,
+          variant: 'danger'
+        })
+
+        navigate('/permissions')
+      }
+    }
+  }, [data])
+
+  const { acl } = data || {}
 
   const {
     catalogItemIdentity,
     collections,
     groups
-  } = acl
+  } = acl || {}
 
   // Returns valid group permission items. Invalid items are those without both id and userType.
-  const groupItems = validGroupItems(groups.items)
+  const groupItems = validGroupItems(groups?.items) || []
 
   const {
     collectionApplicable,
     collectionIdentifier,
     granuleApplicable,
     granuleIdentifier
-  } = catalogItemIdentity
+  } = catalogItemIdentity || {}
 
   const {
     accessValue: collectionAccessValue,
