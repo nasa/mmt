@@ -306,7 +306,8 @@ const CollectionAssociationForm = ({ metadata }) => {
   // Creates an action cell based on the current concept type
   const buildActionsCell = useCallback((cellData, rowData) => {
     let disabled = false
-    let checked = false
+    // Use null to allow uncontrolled checkbox behavior, preserving toggle functionality
+    let checked = null
 
     const { conceptId: collectionConceptId } = rowData
     const { collections = {} } = fetchedDraft
