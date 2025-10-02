@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { v4 as uuidv4 } from 'uuid'
+
 import errorLogger from '@/js/utils/errorLogger'
 
 import Header from '../Header/Header'
@@ -7,7 +9,7 @@ import Header from '../Header/Header'
 import './ErrorPageNotFound.scss'
 
 const ErrorPageNotFound = () => {
-  const guid = crypto.randomUUID()
+  const guid = uuidv4()
 
   errorLogger(`404 Not Found see ${guid}`, 'user attempted to access a page that does not exist')
 

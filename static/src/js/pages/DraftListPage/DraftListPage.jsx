@@ -1,6 +1,7 @@
 import React, { Suspense, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { FaPlus, FaFileUpload } from 'react-icons/fa'
+import { v4 as uuidv4 } from 'uuid'
 
 import urlValueTypeToConceptTypeStringMap from '@/js/constants/urlValueToConceptStringMap'
 
@@ -67,7 +68,7 @@ const DraftListPageHeader = () => {
       variables: {
         conceptType,
         metadata: removeEmpty(draftToSave),
-        nativeId: `MMT_${crypto.randomUUID()}`,
+        nativeId: `MMT_${uuidv4()}`,
         providerId,
         ummVersion: getUmmVersion(conceptType)
       },

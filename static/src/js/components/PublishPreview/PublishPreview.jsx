@@ -20,6 +20,7 @@ import {
   FaEye,
   FaTrash
 } from 'react-icons/fa'
+import { v4 as uuidv4 } from 'uuid'
 
 import conceptTypeQueries from '@/js//constants/conceptTypeQueries'
 import deleteMutationTypes from '@/js//constants/deleteMutationTypes'
@@ -138,7 +139,7 @@ const PublishPreviewHeader = () => {
 
   // Calls ingestDraft mutation with a new nativeId
   const handleClone = () => {
-    const cloneNativeId = `MMT_${crypto.randomUUID()}`
+    const cloneNativeId = `MMT_${uuidv4()}`
     // Removes the value from the metadata that has to be unique
     const modifiedMetadata = removeMetadataKeys(ummMetadata, ['Name', 'LongName', 'ShortName', 'EntryTitle'])
 
