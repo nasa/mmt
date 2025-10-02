@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.5",
-    "@edsc/metadata-preview": "^1.5.0",
+    "@edsc/metadata-preview": "^1.5.1",
     "@node-saml/node-saml": "^5.1.0",
     "@rjsf/core": "^5.15.0",
     "@rjsf/utils": "^5.15.0",

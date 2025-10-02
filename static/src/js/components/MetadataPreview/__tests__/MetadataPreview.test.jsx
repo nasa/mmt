@@ -1,4 +1,5 @@
 import {
+  CitationPreview,
   CollectionPreview,
   ServicePreview,
   ToolPreview,
@@ -20,6 +21,7 @@ import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
 import conceptTypeDraftQueries from '../../../constants/conceptTypeDraftQueries'
 import conceptTypeQueries from '../../../constants/conceptTypeQueries'
 import {
+  mockCitationDraft,
   mockCollection,
   mockCollectionDraft,
   mockCollectionWithAssociatedVariables,
@@ -302,6 +304,71 @@ describe('MetadataPreview', () => {
       })
 
       expect(VisualizationPreview).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('when the conceptType is Citation draft', () => {
+    test('renders a Citation Preview component', async () => {
+      setup({
+        overrideProps: {
+          conceptId: 'CITD0000000-MMT_1',
+          conceptType: 'Citation'
+        },
+        mock: [{
+          request: {
+            query: conceptTypeDraftQueries.Citation,
+            variables: {
+              params: {
+                conceptId: 'CITD0000000-MMT_1',
+                conceptType: 'Citation'
+              },
+              variableParams: null
+            }
+          },
+          result: {
+            data: {
+              draft: mockCitationDraft
+            }
+          }
+        }],
+        initialEntries: '/drafts/citations/CITD0000000-MMT_1'
+      })
+
+      await waitFor(() => {
+        expect(CitationPreview).toHaveBeenCalledWith({
+          cmrHost: 'http://example.com',
+          conceptId: 'CITD0000000-MMT_1',
+          conceptType: 'citation-draft',
+          conceptUrlTemplate: '/{conceptType}/{conceptId}',
+          isPlugin: true,
+          citation: {
+            __typename: 'Citation',
+            abstract: 'This is a randomly generated citation for demonstration purposes. Created at 2025-05-28T18:48:11.453Z.',
+            citationMetadata: {
+              number: '2',
+              publisher: 'Springer Nature',
+              title: 'Archival Earth Science Resource 8 - Research Publication 8',
+              type: 'journal-article',
+              volume: '23'
+            },
+            conceptId: 'CITD1200484992-DEMO_PROV',
+            identifier: 'ark:/13030/tf8p17484-test-2',
+            identifierType: 'ARK',
+            name: 'Archival Earth Science Resource 8',
+            nativeId: 'GQL-113-test',
+            pageTitle: 'Archival Earth Science Resource 8',
+            providerId: 'DEMO_PROV',
+            relatedIdentifiers: [],
+            resolutionAuthority: 'https://n2t.net',
+            revisionDate: '2025-09-03T21:45:49.248Z',
+            revisionId: '2',
+            scienceKeywords: [],
+            userId: 'test.user'
+          }
+        }, {})
+      })
+
+      expect(CitationPreview).toHaveBeenCalledTimes(1)
     })
   })
 
