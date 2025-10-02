@@ -28,6 +28,7 @@ import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 import errorLogger from '@/js/utils/errorLogger'
+import extractErrorsFromGraphQlResponse from '@/js/utils/extractErrorsFromGraphQlResponse'
 import removeEmpty from '@/js/utils/removeEmpty'
 
 import { CREATE_ACL } from '@/js/operations/mutations/createAcl'
@@ -86,7 +87,7 @@ const validate = (formData, errors) => {
   // Validate collectionAccessConstraint min and max values
   if (collectionMinValue !== undefined
     && collectionMaxValue !== undefined
-     && collectionMinValue >= collectionMaxValue) {
+    && collectionMinValue >= collectionMaxValue) {
     const {
       collectionAccessConstraint: {
         minimumValue,
@@ -97,10 +98,10 @@ const validate = (formData, errors) => {
     maximumValue.addError('Maximum value should be greater than Minimum value')
   }
 
-  // Validate granuleAccessConstraint min and mix values
+  // Validate granuleAccessConstraint min and max values
   if (granuleMinValue !== undefined
-     && granuleMaxValue !== undefined
-     && granuleMinValue >= granuleMaxValue) {
+    && granuleMaxValue !== undefined
+    && granuleMinValue >= granuleMaxValue) {
     const {
       granuleAccessConstraint: {
         minimumValue,
@@ -258,7 +259,9 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
     return newResult
   }
 
-  const { data, fetchMore } = useSuspenseQuery(GET_COLLECTION_FOR_PERMISSION_FORM, {
+  const {
+    data, fetchMore
+  } = useSuspenseQuery(GET_COLLECTION_FOR_PERMISSION_FORM, {
     skip: conceptId === 'new',
     variables: {
       conceptId,
@@ -268,6 +271,20 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       }
     }
   })
+
+  useEffect(() => {
+    if (data && conceptId !== 'new') {
+      const { acl } = data
+      if (!acl) {
+        addNotification({
+          message: `${conceptId} was not found.`,
+          variant: 'danger'
+        })
+
+        navigate('/permissions')
+      }
+    }
+  }, [data])
 
   useEffect(() => {
     async function fetchData() {
@@ -356,7 +373,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
         catalogItemIdentity,
         groups,
         collections
-      } = acl
+      } = acl || {}
 
       const { items } = collections || {}
 
@@ -743,8 +760,8 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
           catalogItemIdentity: removeEmpty(catalogItemIdentity),
           groupPermissions: removeEmpty(permissions)
         },
-        onCompleted: (getCreateData) => {
-          const { createAcl } = getCreateData
+        onCompleted: (createData) => {
+          const { createAcl } = createData
 
           const { conceptId: aclConceptId } = createAcl
 
@@ -755,13 +772,17 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
 
           navigate(`/permissions/${aclConceptId}`)
         },
-        onError: () => {
-          addNotification({
-            message: 'Error creating permission',
-            variant: 'danger'
+        onError: (fullError) => {
+          const errors = extractErrorsFromGraphQlResponse(fullError)
+
+          errors.forEach((err) => {
+            addNotification({
+              message: `Error creating permission: ${err.message}`,
+              variant: 'danger'
+            })
           })
 
-          errorLogger('Error creating collection permission', 'PermissionForm: createAclMutation')
+          errorLogger('Error creating collection permission', 'PermissionForm: updateAclMutation', errors)
         }
       })
     } else {
@@ -784,8 +805,8 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
           conceptId,
           groupPermissions: removeEmpty(permissions)
         },
-        onCompleted: (getCreateData) => {
-          const { updateAcl } = getCreateData
+        onCompleted: (updateData) => {
+          const { updateAcl } = updateData
 
           const { conceptId: aclConceptId } = updateAcl
 
@@ -796,13 +817,17 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
 
           navigate(`/permissions/${aclConceptId}`)
         },
-        onError: () => {
-          addNotification({
-            message: 'Error creating permission',
-            variant: 'danger'
+        onError: (fullError) => {
+          const errors = extractErrorsFromGraphQlResponse(fullError)
+
+          errors.forEach((err) => {
+            addNotification({
+              message: `Error creating permission: ${err.message}`,
+              variant: 'danger'
+            })
           })
 
-          errorLogger('Error creating collection permission', 'PermissionForm: updateAclMutation')
+          errorLogger('Error creating collection permission', 'PermissionForm: updateAclMutation', errors)
         }
       })
     }
@@ -813,6 +838,12 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
       message: 'Collection Permission cleared successfully',
       variant: 'success'
     })
+  }
+
+  const hasErrors = () => {
+    const { errors } = validator.validateFormData(formData, schema)
+
+    return errors.length > 0
   }
 
   return (
@@ -841,6 +872,7 @@ const PermissionForm = ({ selectedCollectionsPageSize }) => {
           >
             <div className="d-flex gap-2">
               <Button
+                disabled={hasErrors()}
                 type="submit"
                 variant="primary"
               >

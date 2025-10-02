@@ -165,6 +165,7 @@ export const mockTool = {
     version: '1.2.0'
   },
   name: 'Collection Association Mock Test',
+  pageTitle: 'Collection Association Mock Test',
   organizations: [
     {
       roles: [
@@ -180,6 +181,15 @@ export const mockTool = {
   quality: null,
   revisionId: '1',
   revisionDate: '2024-03-21T15:01:58.533Z',
+  revisions: {
+    count: 1,
+    items: {
+      conceptId: 'T1200000098-MMT_2',
+      revisionDate: '2024-03-21T15:01:58.533Z',
+      revisionId: '1',
+      userId: 'user1'
+    }
+  },
   relatedUrls: null,
   searchAction: null,
   supportedBrowsers: null,

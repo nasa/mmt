@@ -2,6 +2,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 import React, { Suspense } from 'react'
@@ -10,14 +11,28 @@ import {
   Route,
   Routes
 } from 'react-router'
+
+import * as router from 'react-router'
+
 import userEvent from '@testing-library/user-event'
 
 import Permission from '@/js/components/Permission/Permission'
 import PermissionCollectionTable from '@/js/components/PermissionCollectionTable/PermissionCollectionTable'
 
 import { GET_COLLECTION_PERMISSION } from '@/js/operations/queries/getCollectionPermission'
+import { GET_GROUPS } from '@/js/operations/queries/getGroups'
+import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
+
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
+import Providers from '@/js/providers/Providers/Providers'
+import NotificationsContext from '@/js/context/NotificationsContext'
 
 vi.mock('../../PermissionCollectionTable/PermissionCollectionTable')
+vi.mock('@/js/hooks/useAvailableProviders')
+
+useAvailableProviders.mockReturnValue({
+  providerIds: ['MMT_1', 'MMT_2']
+})
 
 const setup = ({
   overrideMocks = false
@@ -85,33 +100,106 @@ const setup = ({
 
   const user = userEvent.setup()
 
+  const defaultMocks = [{
+    request: {
+      query: GET_AVAILABLE_PROVIDERS,
+      variables: {
+        params: {
+          limit: 500,
+          permittedUser: undefined,
+          target: 'PROVIDER_CONTEXT'
+        }
+      }
+    },
+    result: {
+      data: {
+        acls: {
+          items: [{
+            conceptId: 'mock-id',
+            providerIdentity: {
+              target: 'PROVIDER_CONTEXT',
+              provider_id: 'MMT_2'
+            }
+          }]
+        }
+      }
+    }
+  },
+  {
+    request: {
+      query: GET_GROUPS,
+      variables: {
+        params: {
+          tags: ['MMT_1', 'MMT_2'],
+          limit: 500
+        }
+      }
+    },
+    result: {
+      data: {
+        groups: {
+          __typename: 'GroupList',
+          count: 1,
+          items: [
+            {
+              __typename: 'Group',
+              description: 'Test group',
+              id: '1234-abcd-5678',
+              members: {
+                __typename: 'GroupMemberList',
+                count: 2
+              },
+              name: 'Mock group',
+              tag: 'MMT_2'
+            }
+          ]
+        }
+
+      }
+    }
+  }]
+  const notificationContext = {
+    addNotification: vi.fn()
+  }
+
   render(
-    <MockedProvider
-      mocks={overrideMocks || mocks}
-    >
-      <MemoryRouter initialEntries={['/permissions/ACL00000-CMR']}>
-        <Routes>
-          <Route
-            path="/permissions"
-          >
-            <Route
-              path=":conceptId"
-              element={
-                (
-                  <Suspense>
-                    <Permission />
-                  </Suspense>
-                )
-              }
-            />
-          </Route>
-        </Routes>
-      </MemoryRouter>
-    </MockedProvider>
+    <Providers>
+      <MockedProvider
+        mocks={
+          [
+            ...defaultMocks,
+            ...(overrideMocks || mocks)
+          ]
+        }
+      >
+        <NotificationsContext.Provider value={notificationContext}>
+          <MemoryRouter initialEntries={['/permissions/ACL00000-CMR']}>
+            <Routes>
+              <Route
+                path="/permissions"
+              >
+                <Route
+                  path=":conceptId"
+                  element={
+                    (
+                      <Suspense>
+                        <Permission />
+                      </Suspense>
+                    )
+                  }
+                />
+              </Route>
+            </Routes>
+          </MemoryRouter>
+        </NotificationsContext.Provider>
+
+      </MockedProvider>
+    </Providers>
   )
 
   return {
-    user
+    user,
+    notificationContext
   }
 }
 
@@ -835,6 +923,38 @@ describe('Permission', () => {
 
       const invalidGroup = screen.queryByText('Mock invalid group permission')
       expect(invalidGroup).not.toBeInTheDocument()
+    })
+  })
+
+  describe('when the ACL is not found', () => {
+    test('should show a notification and navigate to permissions page', async () => {
+      const navigateSpy = vi.fn()
+
+      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+      vi.spyOn(router, 'useParams').mockReturnValue({ conceptId: 'NOT_FOUND_ACL' })
+
+      const { notificationContext } = setup({
+        overrideMocks: [{
+          request: {
+            query: GET_COLLECTION_PERMISSION,
+            variables: { conceptId: 'NOT_FOUND_ACL' }
+          },
+          result: {
+            data: {
+              acl: null
+            }
+          }
+        }]
+      })
+
+      await waitFor(() => {
+        expect(notificationContext.addNotification).toHaveBeenCalledWith({
+          message: 'NOT_FOUND_ACL was not found.',
+          variant: 'danger'
+        })
+      })
+
+      expect(navigateSpy).toHaveBeenCalledWith('/permissions')
     })
   })
 })

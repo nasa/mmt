@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  CitationPreview,
   CollectionPreview,
   ServicePreview,
   ToolPreview,
@@ -130,6 +131,16 @@ const MetadataPreview = ({
             <VisualizationPreview
               cmrHost={cmrHost}
               visualization={concept}
+              conceptId={conceptId}
+              conceptType={type}
+            />
+          )
+        }
+        {
+          conceptType === 'Citation' && (
+            <CitationPreview
+              cmrHost={cmrHost}
+              citation={concept}
               conceptId={conceptId}
               conceptType={type}
             />
