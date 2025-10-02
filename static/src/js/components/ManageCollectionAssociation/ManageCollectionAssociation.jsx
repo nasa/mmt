@@ -217,7 +217,7 @@ const ManageCollectionAssociation = () => {
   })
 
   // Handle refresh, calls getMetadata to get the list of association
-  // TODO: See if we can get rid of this refresh button.
+  // TODO: MMT-4089 See if we can get rid of this refresh button.
   const handleRefreshPage = () => {
     refetch()
   }
