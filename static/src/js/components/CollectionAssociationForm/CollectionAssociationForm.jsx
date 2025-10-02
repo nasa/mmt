@@ -306,7 +306,7 @@ const CollectionAssociationForm = ({ metadata }) => {
   // Creates an action cell based on the current concept type
   const buildActionsCell = useCallback((cellData, rowData) => {
     let disabled = false
-    let checked = null
+    let checked = false
 
     const { conceptId: collectionConceptId } = rowData
     const { collections = {} } = fetchedDraft
