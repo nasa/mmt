@@ -1,5 +1,5 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3'
-import crypto from 'crypto'
+import { v4 as uuidv4 } from 'uuid'
 
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { getS3Client } from '../utils/getS3Client'
@@ -22,7 +22,7 @@ const createTemplate = async (event) => {
   const { TemplateName: templateName } = JSON.parse(body)
 
   const hashedName = Buffer.from(templateName).toString('base64')
-  const guid = crypto.randomUUID()
+  const guid = uuidv4()
 
   const { COLLECTION_TEMPLATES_BUCKET_NAME: collectionTemplatesBucketName } = process.env
   const createCommand = new PutObjectCommand({

@@ -11,11 +11,6 @@ import AuthContext from '@/js/context/AuthContext'
 import ErrorPageNotFound from '../ErrorPageNotFound'
 
 vi.mock('@/js/utils/errorLogger')
-vi.mock('crypto', () => ({
-  default: {
-    randomUUID: () => 'mock-uuid'
-  }
-}))
 
 const setup = () => {
   const context = {

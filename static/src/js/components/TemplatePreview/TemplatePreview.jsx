@@ -7,6 +7,7 @@ import validator from '@rjsf/validator-ajv8'
 import camelcaseKeys from 'camelcase-keys'
 import { FaCopy, FaTrash } from 'react-icons/fa'
 import { CollectionPreview } from '@edsc/metadata-preview'
+import { v4 as uuidv4 } from 'uuid'
 
 import collectionsTemplateConfiguration from '@/js/schemas/uiForms/collectionTemplatesConfiguration'
 import ummCTemplateSchema from '@/js/schemas/umm/ummCTemplateSchema'
@@ -109,7 +110,7 @@ const TemplatePreview = () => {
 
   const handleCreateCollectionDraft = () => {
     const { ummMetadata } = draft
-    const nativeId = `MMT_${crypto.randomUUID()}`
+    const nativeId = `MMT_${uuidv4()}`
 
     delete ummMetadata.TemplateName
 

@@ -9,6 +9,7 @@ import pluralize from 'pluralize'
 import React, { useEffect, useState } from 'react'
 import Row from 'react-bootstrap/Row'
 import validator from '@rjsf/validator-ajv8'
+import { v4 as uuidv4 } from 'uuid'
 
 import BoundingRectangleField from '@/js/components/BoundingRectangleField/BoundingRectangleField'
 import CustomArrayTemplate from '@/js/components/CustomArrayFieldTemplate/CustomArrayFieldTemplate'
@@ -164,8 +165,8 @@ const MetadataForm = () => {
     // Add '-draft' to the end of nativeId if it doesn't already end with it.
     // Can be removed after CMR-10545 is complete
     derivedConceptType === 'Visualization' || derivedConceptType === 'Citation'
-      ? `MMT_${crypto.randomUUID()}-draft`
-      : `MMT_${crypto.randomUUID()}`
+      ? `MMT_${uuidv4()}-draft`
+      : `MMT_${uuidv4()}`
   )
 
   const schema = getUmmSchema(derivedConceptType)
