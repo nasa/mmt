@@ -32,7 +32,7 @@ const keywordSchema = {
     PreferredLabel: {
       type: 'string',
       minLength: 1,
-      maxLength: 80
+      maxLength: 1024
     },
     AlternateLabels: {
       type: 'array',
@@ -41,7 +41,7 @@ const keywordSchema = {
         properties: {
           LabelName: {
             type: 'string',
-            maxLength: 80
+            maxLength: 1024
           },
           LabelType: {
             $ref: '#/definitions/LabelTypeEnum'
