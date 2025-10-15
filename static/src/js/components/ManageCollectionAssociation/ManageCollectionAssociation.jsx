@@ -1,8 +1,4 @@
-import {
-  Alert,
-  Col,
-  Row
-} from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import { camelCase } from 'lodash-es'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
@@ -12,9 +8,9 @@ import React, { useCallback, useState } from 'react'
 import pluralize from 'pluralize'
 
 import Button from '@/js/components/Button/Button'
+import ControlledPaginatedContent from '@/js/components/ControlledPaginatedContent/ControlledPaginatedContent'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 import EllipsisText from '@/js/components/EllipsisText/EllipsisText'
-import Pagination from '@/js/components/Pagination/Pagination'
 import Table from '@/js/components/Table/Table'
 
 import conceptTypeQueries from '@/js/constants/conceptTypeQueries'
@@ -41,14 +37,17 @@ const ManageCollectionAssociation = () => {
 
   const { addNotification } = useNotificationsContext()
 
-  const [searchParams, setSearchParams] = useSearchParams()
-  const [collectionConceptIds, setCollectionConceptIds] = useState([])
-  const [showDeleteModal, setShowDeleteModal] = useState(false)
-
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
+  // Variables for deletion mutation
+  const [collectionConceptIds, setCollectionConceptIds] = useState([])
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  // Variables for pagination
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [activePage, setActivePage] = useState(1)
   const limit = 20
-  const activePage = parseInt(searchParams.get('page'), 10) || 1
   const offset = (activePage - 1) * limit
 
   let params = {
@@ -75,14 +74,11 @@ const ManageCollectionAssociation = () => {
   }
 
   const { data, refetch } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
-    variables: params
+    variables: params,
+    fetchPolicy: 'network-only'
   })
 
   const [deleteAssociationMutation] = useMutation(DELETE_ASSOCIATION, {
-    refetchQueries: [{
-      query: conceptTypeQueries[derivedConceptType],
-      variables: params
-    }],
     onCompleted: () => {
       setShowDeleteModal(false)
 
@@ -93,8 +89,10 @@ const ManageCollectionAssociation = () => {
       })
 
       setCollectionConceptIds([])
+      refetch() // Refetch the data to update the associated collections list
     },
     onError: () => {
+      setShowDeleteModal(false)
       addNotification({
         message: 'Error disassociating collection',
         variant: 'danger'
@@ -105,13 +103,15 @@ const ManageCollectionAssociation = () => {
   })
 
   // Handles deleting selected collection
-  // if no collections selected, returns an error notification
   const handleDeleteAssociation = () => {
+    setIsDeleting(true)
     deleteAssociationMutation({
       variables: {
         conceptId,
         associatedConceptIds: collectionConceptIds
       }
+    }).finally(() => {
+      setIsDeleting(false)
     })
   }
 
@@ -124,14 +124,13 @@ const ManageCollectionAssociation = () => {
       if (order === 'ascending') nextSortKey = `-${key}`
       if (order === 'descending') nextSortKey = key
 
-      // Reset the page parameter
-      currentParams.delete('page')
-
       // Set the sort key
       currentParams.set('sortKey', nextSortKey)
 
       return Object.fromEntries(currentParams)
     })
+
+    setActivePage(1) // Reset to first page when sorting
   }, [])
 
   const buildEllipsisTextCell = useCallback((cellData) => (
@@ -140,8 +139,8 @@ const ManageCollectionAssociation = () => {
     </EllipsisText>
   ), [])
 
-  // Handles checkbox selections, if checked add the conceptId to the state variable
-  // and pops the added conceptId from the array.
+  // Adds or removes checked collections from collectionConceptIds array
+  // which is provided to the deleteMutation
   const handleCheckbox = (event) => {
     const { target } = event
     const { value } = target
@@ -200,11 +199,7 @@ const ManageCollectionAssociation = () => {
   ]
 
   const setPage = (nextPage) => {
-    setSearchParams((currentParams) => {
-      currentParams.set('page', nextPage)
-
-      return Object.fromEntries(currentParams)
-    })
+    setActivePage(nextPage)
   }
 
   const toggleShowDeleteModal = (nextState) => {
@@ -216,91 +211,80 @@ const ManageCollectionAssociation = () => {
     toggleShowDeleteModal(true)
   })
 
-  // Handle refresh, calls getMetadata to get the list of association
-  // TODO: MMT-4089 See if we can get rid of this refresh button.
-  const handleRefreshPage = () => {
-    refetch()
-  }
-
-  const refreshAccessibleEventProps = useAccessibleEvent(() => {
-    handleRefreshPage()
-  })
-
   const { [camelCase(derivedConceptType)]: concept } = data
 
   const { collections: associatedCollections } = concept
 
   const { items = [], count } = associatedCollections
 
-  const totalPages = Math.ceil(count / limit)
-
-  const currentPageIndex = Math.floor(offset / limit)
-  const firstResultIndex = currentPageIndex * limit
-  const isLastPage = totalPages === activePage
-  const lastResultIndex = firstResultIndex + (isLastPage ? count % limit : limit)
-
-  const paginationMessage = count > 0
-    ? `Showing ${totalPages > 1 ? `Collection Associations ${firstResultIndex + 1}-${lastResultIndex} of ${count}` : `${count} ${pluralize('Collection Association', count)}`}`
-    : 'No Collection Associations found'
-
   return (
-    <div className="mt-4">
-      <Alert className="fst-italic fs-6" variant="warning">
-        <i className="eui-icon eui-fa-info-circle" />
-        {' '}
-        Association operations may take some time. If you are not seeing what you expect below,
-        please
-        {' '}
-        <span
-          className="text-decoration-underline"
-          style={
-            {
-              color: 'blue',
-              cursor: 'pointer'
-            }
-          }
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...refreshAccessibleEventProps}
-        >
-          refresh the page
-        </span>
-      </Alert>
-      <Row className="d-flex justify-content-between align-items-center mb-4 mt-5">
-        <Col className="mb-4 flex-grow-1" xs="auto">
-          {
-            (!!count) && (
-              <span className="text-secondary fw-bolder">{paginationMessage}</span>
+    <div>
+      <ControlledPaginatedContent
+        activePage={activePage}
+        count={count}
+        limit={limit}
+        setPage={setPage}
+      >
+        {
+          ({
+            totalPages,
+            pagination,
+            firstResultPosition,
+            lastResultPosition
+          }) => {
+            const paginationMessage = count > 0
+              ? `Showing ${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} Collection ${pluralize('Association', count)}`
+              : 'No collection associations found'
+
+            return (
+              <>
+                <Row className="d-flex justify-content-between align-items-center mb-4">
+                  <Col className="mb-4 flex-grow-1" xs="auto">
+                    {
+                      (!!count) && (
+                        <span className="text-secondary fw-bolder">{paginationMessage}</span>
+                      )
+                    }
+                  </Col>
+                  <Col className="mb-4 flex-grow-1" xs="auto" />
+                  {
+                    totalPages > 1 && (
+                      <Col xs="auto">
+                        {pagination}
+                      </Col>
+                    )
+                  }
+                </Row>
+                <Table
+                  className="m-5"
+                  columns={columns}
+                  data={items}
+                  generateCellKey={({ conceptId: conceptIdCell }, dataKey) => `column_${dataKey}_${conceptIdCell}`}
+                  generateRowKey={({ conceptId: conceptIdRow }) => `row_${conceptIdRow}`}
+                  id="associated-collections"
+                  limit={count}
+                  noDataMessage="No collection associations found."
+                />
+                {
+                  totalPages > 1 && (
+                    <Row>
+                      <Col xs="12" className="pt-4 d-flex align-items-center justify-content-center">
+                        <div>
+                          {pagination}
+                        </div>
+                      </Col>
+                    </Row>
+                  )
+                }
+              </>
             )
           }
-        </Col>
-        {
-          totalPages > 1 && (
-            <Col xs="auto">
-              <Pagination
-                setPage={setPage}
-                activePage={activePage}
-                totalPages={totalPages}
-              />
-            </Col>
-          )
         }
-      </Row>
-      <Table
-        className="m-5"
-        columns={columns}
-        data={items}
-        generateCellKey={({ conceptId: conceptIdCell }, dataKey) => `column_${dataKey}_${conceptIdCell}`}
-        generateRowKey={({ conceptId: conceptIdRow }) => `row_${conceptIdRow}`}
-        id="associated-collections"
-        limit={count}
-        noDataMessage="No collection associations found."
-        offset={offset}
-      />
+      </ControlledPaginatedContent>
       <Button
         className="mt-4"
         variant="danger"
-        disabled={collectionConceptIds.length === 0}
-        // eslint-disable-next-line react/jsx-props-no-spreading
+        disabled={collectionConceptIds.length === 0 || isDeleting}
         {...accessibleEventProps}
       >
         Delete Selected Associations
@@ -319,7 +303,8 @@ const ManageCollectionAssociation = () => {
             {
               label: 'Yes',
               variant: 'primary',
-              onClick: handleDeleteAssociation
+              onClick: handleDeleteAssociation,
+              disabled: isDeleting
             }
           ]
         }

@@ -8,6 +8,7 @@ import pluralize from 'pluralize'
 
 import CollectionAssociationForm from '@/js/components/CollectionAssociationForm/CollectionAssociationForm'
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
+import LoadingBanner from '@/js/components/LoadingBanner/LoadingBanner'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 
@@ -46,7 +47,7 @@ const CollectionAssociationFormPageHeader = () => {
 
   return (
     <PageHeader
-      title={`${name} Collection Associations`}
+      title={`${name} Collection Association Search`}
       breadcrumbs={
         [
           {
@@ -82,33 +83,17 @@ const CollectionAssociationFormPageHeader = () => {
  *   <CollectionAssociationFormPage />
  * )
  */
-const CollectionAssociationFormPage = () => {
-  const { conceptId } = useParams()
-
-  const derivedConceptType = getConceptTypeByConceptId(conceptId)
-
-  const { data } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
-    variables: {
-      params: {
-        conceptId
-      }
-    }
-  })
-
-  const { [camelCase(derivedConceptType)]: concept } = data
-
-  return (
-    <Page
-      pageType="secondary"
-      header={<CollectionAssociationFormPageHeader />}
-    >
-      <ErrorBoundary>
-        <Suspense fallback="Loading...">
-          <CollectionAssociationForm metadata={concept} />
-        </Suspense>
-      </ErrorBoundary>
-    </Page>
-  )
-}
+const CollectionAssociationFormPage = () => (
+  <Page
+    pageType="secondary"
+    header={<CollectionAssociationFormPageHeader />}
+  >
+    <ErrorBoundary>
+      <Suspense fallback={<LoadingBanner />}>
+        <CollectionAssociationForm />
+      </Suspense>
+    </ErrorBoundary>
+  </Page>
+)
 
 export default CollectionAssociationFormPage

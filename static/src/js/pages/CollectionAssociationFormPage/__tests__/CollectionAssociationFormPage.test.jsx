@@ -10,7 +10,6 @@ import {
 import { GET_TOOL } from '@/js/operations/queries/getTool'
 import { GET_ORDER_OPTION } from '@/js/operations/queries/getOrderOption'
 
-import CollectionAssociationForm from '@/js/components/CollectionAssociationForm/CollectionAssociationForm'
 import CollectionAssociationFormPage from '../CollectionAssociationFormPage'
 
 vi.mock('@/js/components/CollectionAssociationForm/CollectionAssociationForm')
@@ -188,7 +187,7 @@ describe('CollectionAssociationFormPage', () => {
       })
 
       expect(await screen.findByText('Tools')).toBeInTheDocument()
-      expect(screen.getByRole('heading', { name: 'Mock Tool Collection Associations' })).toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: 'Mock Tool Collection Association Search' })).toBeInTheDocument()
     })
   })
 
@@ -254,42 +253,7 @@ describe('CollectionAssociationFormPage', () => {
       })
 
       expect(await screen.findByText('Order Options')).toBeInTheDocument()
-      expect(screen.getByRole('heading', { name: 'Test Order Option Collection Associations' })).toBeInTheDocument()
-    })
-  })
-
-  describe('when rendering the CollectionAssociationForm', () => {
-    test('should pass the correct props', async () => {
-      const mocks = [{
-        request: {
-          query: GET_TOOL,
-          variables: { params: { conceptId: 'T1234-MMT' } }
-        },
-        result: {
-          data: {
-            tool: mockTool
-          }
-        }
-      }]
-
-      setup({
-        mocks,
-        pageUrl: '/tools/T1234-MMT/collection-association-search'
-      })
-
-      // Wait for the query to resolve
-      await screen.findByText('Mock Tool Collection Associations')
-
-      // Check if CollectionAssociationForm is rendered with correct props
-      expect(CollectionAssociationForm).toHaveBeenCalledWith(
-        expect.objectContaining({
-          metadata: expect.objectContaining({
-            conceptId: 'T1234-MMT',
-            name: 'Mock Tool'
-          })
-        }),
-        expect.anything()
-      )
+      expect(screen.getByRole('heading', { name: 'Test Order Option Collection Association Search' })).toBeInTheDocument()
     })
   })
 
