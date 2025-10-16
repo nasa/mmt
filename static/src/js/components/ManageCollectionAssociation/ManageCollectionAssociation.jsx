@@ -1,4 +1,8 @@
-import { Col, Row } from 'react-bootstrap'
+import {
+  Alert,
+  Col,
+  Row
+} from 'react-bootstrap'
 import { camelCase } from 'lodash-es'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { useParams } from 'react-router'
@@ -78,13 +82,7 @@ const ManageCollectionAssociation = () => {
   })
 
   const [deleteAssociationMutation] = useMutation(DELETE_ASSOCIATION, {
-    refetchQueries: [
-      {
-        query: conceptTypeQueries[derivedConceptType],
-        variables: params
-      }
-    ],
-    awaitRefetchQueries: true,
+
     onCompleted: () => {
       setShowDeleteModal(false)
 
@@ -95,8 +93,11 @@ const ManageCollectionAssociation = () => {
       })
 
       setCollectionConceptIds([])
-      console.log('refetching in onComplete in ManageCollectionAssociation....')
-      refetch()
+
+      // Gives time for CMR to update data
+      setTimeout(() => {
+        refetch()
+      }, 250)
     },
     onError: () => {
       setShowDeleteModal(false)
@@ -222,10 +223,31 @@ const ManageCollectionAssociation = () => {
 
   const { collections: associatedCollections } = concept
 
-  const { items = [], count } = associatedCollections
+  const { items, count } = associatedCollections
 
   return (
     <div>
+      <Alert className="fst-italic fs-6" variant="warning">
+        <i className="eui-icon eui-fa-info-circle" />
+        {' '}
+        Association operations may take some time. If you are not seeing what you expect below,
+        please
+        {' '}
+        <button
+          className="btn btn-link p-0 text-decoration-underline"
+          style={
+            {
+              color: 'blue',
+              cursor: 'pointer'
+            }
+          }
+          onClick={() => refetch()}
+          aria-label="Refresh the page"
+          type="button"
+        >
+          <i>refresh the page</i>
+        </button>
+      </Alert>
       <ControlledPaginatedContent
         activePage={activePage}
         count={count}

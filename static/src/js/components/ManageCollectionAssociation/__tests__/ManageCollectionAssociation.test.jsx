@@ -11,7 +11,6 @@ import {
 } from 'react-router'
 import { MockedProvider } from '@apollo/client/testing'
 import userEvent from '@testing-library/user-event'
-import * as router from 'react-router'
 import { InMemoryCache, defaultDataIdFromObject } from '@apollo/client'
 
 import NotificationsContext from '@/js/context/NotificationsContext'
@@ -254,19 +253,23 @@ describe('ManageCollectionAssociation', () => {
     })
   })
 
-  describe('when clicking on Add Collection Associations button', () => {
-    test.skip('should navigate to collection-search', async () => {
-      const navigateSpy = vi.fn()
-      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+  describe('when clicking on refresh button', () => {
+    test('should refetch the data', async () => {
+      const { user } = setup({
+        overrideMocks: [toolRecordSearch, deletedAssociationResponse]
+      })
 
-      const { user } = setup({})
+      await screen.findByText('Showing 2 Collection Associations')
 
-      const addCollectionAssociationButton = await screen.findByRole('button', { name: 'Add Collection Associations' })
+      const refreshButton = screen.getByRole('button', { name: /refresh the page/i })
+      expect(refreshButton).toBeInTheDocument()
 
-      await user.click(addCollectionAssociationButton)
+      await user.click(refreshButton)
 
-      expect(navigateSpy).toHaveBeenCalledWith('/tools/T1200000-TEST/collection-association-search')
-      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      // Check to see that data has been refetched
+      await waitFor(() => {
+        expect(screen.getByText('Showing 1 Collection Association')).toBeInTheDocument()
+      })
     })
   })
 

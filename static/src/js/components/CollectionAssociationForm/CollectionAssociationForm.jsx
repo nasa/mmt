@@ -150,7 +150,7 @@ const CollectionAssociationForm = () => {
   // Validate ummMetadata
   const { errors: validationErrors } = validator.validateFormData(searchFormData, schema)
 
-  // Query to retrieve collections
+  // Query to retrieve collections after 'Search for Collection' button click
   const [
     getCollections,
     {
@@ -166,6 +166,7 @@ const CollectionAssociationForm = () => {
     }
   })
 
+  // Query to retrieve concept after 'Search for Collection' button click
   const [
     getConcept,
     {
@@ -286,14 +287,6 @@ const CollectionAssociationForm = () => {
         if (derivedConceptType === conceptIdTypes.O) {
           navigate(`/order-options/${conceptId}`)
         } else {
-          getConcept({
-            variables: {
-              params: {
-                conceptId
-              }
-            }
-          })
-
           navigate(`/${pluralize(camelCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`)
         }
 
