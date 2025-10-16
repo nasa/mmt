@@ -286,6 +286,14 @@ const CollectionAssociationForm = () => {
         if (derivedConceptType === conceptIdTypes.O) {
           navigate(`/order-options/${conceptId}`)
         } else {
+          getConcept({
+            variables: {
+              params: {
+                conceptId
+              }
+            }
+          })
+
           navigate(`/${pluralize(camelCase(derivedConceptType)).toLowerCase()}/${conceptId}/collection-association`)
         }
 

@@ -226,14 +226,15 @@ describe('ManageCollectionAssociation', () => {
     describe('when selecting Yes in the modal and results in a success ', () => {
       test('should remove the deleted collection', async () => {
         const { user } = setup({
-          overrideMocks: [
-            deletedAssociationResponse,
+          additionalMocks: [
             deleteAssociationResponse,
+            deletedAssociationResponse,
             deletedAssociationResponse
           ]
         })
+        await screen.findByText('Showing 2 Collection Associations')
 
-        const checkboxes = await screen.findAllByRole('checkbox')
+        const checkboxes = screen.queryAllByRole('checkbox')
         const firstCheckbox = checkboxes[0]
 
         await user.click(firstCheckbox)
@@ -247,6 +248,7 @@ describe('ManageCollectionAssociation', () => {
         const yesButton = screen.getByRole('button', { name: 'Yes' })
         await user.click(yesButton)
 
+        await screen.findByText('Showing 1 Collection Association')
         expect(screen.getByText('CIESIN_SEDAC_ESI_2001')).toBeInTheDocument()
       })
     })

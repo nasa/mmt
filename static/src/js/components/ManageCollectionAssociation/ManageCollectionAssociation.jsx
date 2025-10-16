@@ -74,11 +74,17 @@ const ManageCollectionAssociation = () => {
   }
 
   const { data, refetch } = useSuspenseQuery(conceptTypeQueries[derivedConceptType], {
-    variables: params,
-    fetchPolicy: 'network-only'
+    variables: params
   })
 
   const [deleteAssociationMutation] = useMutation(DELETE_ASSOCIATION, {
+    refetchQueries: [
+      {
+        query: conceptTypeQueries[derivedConceptType],
+        variables: params
+      }
+    ],
+    awaitRefetchQueries: true,
     onCompleted: () => {
       setShowDeleteModal(false)
 
@@ -89,7 +95,8 @@ const ManageCollectionAssociation = () => {
       })
 
       setCollectionConceptIds([])
-      refetch() // Refetch the data to update the associated collections list
+      console.log('refetching in onComplete in ManageCollectionAssociation....')
+      refetch()
     },
     onError: () => {
       setShowDeleteModal(false)
