@@ -141,6 +141,121 @@ export const toolRecordSearch = {
     }
   }
 }
+export const toolRecordSearchNoAssociatedCollections = {
+  request: {
+    query: GET_TOOL,
+    variables: {
+      params: {
+        conceptId: 'T1200000-TEST'
+      },
+      collectionsParams: {
+        limit: 20,
+        offset: 0
+      }
+    }
+  },
+  result: {
+    data: {
+      tool: {
+        __typename: 'Tool',
+        accessConstraints: null,
+        ancillaryKeywords: null,
+        associationDetails: null,
+        collections: {
+          count: 0,
+          items: []
+        },
+        conceptId: 'T1200000-TEST',
+        contactGroups: null,
+        contactPersons: null,
+        description: '312',
+        doi: null,
+        lastUpdatedDate: null,
+        longName: '123',
+        metadataSpecification: {
+          name: 'UMM-T',
+          url: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.2.0',
+          version: '1.2.0'
+        },
+        name: 'Testing publish with routes',
+        nativeId: 'Test-123',
+        organizations: [{
+          longName: 'Woods Hole Science Center, Coastal and Marine Geology, U.S. Geological Survey, U.S. Department of the Interior',
+          roles: ['DEVELOPER'],
+          shortName: 'DOI/USGS/CMG/WHSC',
+          urlValue: 'http://woodshole.er.usgs.gov/'
+        }],
+        pageTitle: 'Testing publish with routes',
+        potentialAction: null,
+        providerId: 'MMT_2',
+        quality: null,
+        relatedUrls: null,
+        revisionDate: '2024-03-19T17:05:21.642Z',
+        revisionId: '1',
+        revisions: {
+          __typename: 'ToolRevisionList',
+          count: 1,
+          items: [{
+            __typename: 'Tool',
+            conceptId: 'T1200000-TEST',
+            revisionDate: '2024-04-25T17:11:57.611Z',
+            revisionId: '1',
+            userId: 'ECHO_SYS'
+          }]
+        },
+        searchAction: null,
+        supportedBrowsers: null,
+        supportedInputFormats: null,
+        supportedOperatingSystems: null,
+        supportedOutputFormats: null,
+        supportedSoftwareLanguages: null,
+        toolKeywords: [{
+          toolCategory: 'EARTH SCIENCE SERVICES',
+          toolTerm: 'CALIBRATION/VALIDATION',
+          toolTopic: 'DATA ANALYSIS AND VISUALIZATION'
+        }],
+        type: 'Model',
+        ummMetadata: {
+          Description: '312',
+          LongName: '123',
+          MetadataSpecification: {
+            Name: 'UMM-T',
+            URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.2.0',
+            Version: '1.2.0'
+          },
+          Name: 'Testing publish with routes',
+          Organizations: [{
+            LongName: 'Woods Hole Science Center, Coastal and Marine Geology, U.S. Geological Survey, U.S. Department of the Interior',
+            Roles: ['DEVELOPER'],
+            ShortName: 'DOI/USGS/CMG/WHSC',
+            URLValue: 'http://woodshole.er.usgs.gov/'
+          }],
+          ToolKeywords: [{
+            ToolCategory: 'EARTH SCIENCE SERVICES',
+            ToolTerm: 'CALIBRATION/VALIDATION',
+            ToolTopic: 'DATA ANALYSIS AND VISUALIZATION'
+          }],
+          Type: 'Model',
+          URL: {
+            Type: 'DOWNLOAD SOFTWARE',
+            URLContentType: 'DistributionURL',
+            URLValue: '132'
+          },
+          Version: '123'
+        },
+        url: {
+          type: 'DOWNLOAD SOFTWARE',
+          urlContentType: 'DistributionURL',
+          urlValue: '132'
+        },
+        useConstraints: null,
+        version: '123',
+        versionDescription: null
+      }
+    }
+  }
+}
+
 export const toolRecordSearchwithPages = {
   request: {
     query: GET_TOOL,
@@ -150,7 +265,7 @@ export const toolRecordSearchwithPages = {
       },
       collectionsParams: {
         limit: 20,
-        offset: 40
+        offset: 20
       }
     }
   },
