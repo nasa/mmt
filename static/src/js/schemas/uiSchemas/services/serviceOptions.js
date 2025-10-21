@@ -23,6 +23,13 @@ const serviceOptionsUiSchema = {
                   },
                   {
                     'ui:col': {
+                      className: 'grid-layout__field-left-border',
+                      md: 12,
+                      children: ['Aggregation']
+                    }
+                  },
+                  {
+                    'ui:col': {
                       md: 12,
                       children: ['VariableAggregationSupportedMethods']
                     }
@@ -163,6 +170,35 @@ const serviceOptionsUiSchema = {
             }
           ]
         }
+      }
+    },
+    Aggregation: {
+      'ui:fieldReplacesAnyOrOneOf': true,
+      'ui:group-description': true,
+      'ui:heading-level': 'h4',
+      'ui:title': 'Aggregation',
+      'ui:field': 'layout',
+      'ui:layout_grid': {
+        'ui:row': [
+          {
+            'ui:group': 'Aggregation',
+            'ui:group-description': true,
+            'ui:col': {
+              md: 12,
+              children: [
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['Concatenate']
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }]
       }
     },
     SupportedOutputProjections: {
