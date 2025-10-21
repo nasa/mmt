@@ -11,12 +11,10 @@ import {
 } from 'react-router'
 import { MockedProvider } from '@apollo/client/testing'
 import userEvent from '@testing-library/user-event'
-import * as router from 'react-router'
 import { InMemoryCache, defaultDataIdFromObject } from '@apollo/client'
 
 import NotificationsContext from '@/js/context/NotificationsContext'
 import errorLogger from '@/js/utils/errorLogger'
-import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
 import { DELETE_ASSOCIATION } from '@/js/operations/mutations/deleteAssociation'
 import ErrorBoundary from '@/js/components/ErrorBoundary/ErrorBoundary'
 
@@ -26,7 +24,7 @@ import {
   deleteAssociationResponse,
   deletedAssociationResponse,
   toolRecordSearch,
-  toolRecordSearchError,
+  toolRecordSearchNoAssociatedCollections,
   toolRecordSearchTestPage,
   toolRecordSearchwithPages,
   toolRecordSortSearch
@@ -108,11 +106,24 @@ const setup = ({
 describe('ManageCollectionAssociation', () => {
   describe('when the collection association page is requested', () => {
     test('renders the collection association page with the associated collections', async () => {
-      setup({})
+      setup({
+        overrideMocks: [toolRecordSearch]
+      })
 
       expect(await screen.findByText('Showing 2 Collection Associations')).toBeInTheDocument()
       expect(screen.getByText('CIESIN_SEDAC_ESI_2000')).toBeInTheDocument()
       expect(screen.getByText('CIESIN_SEDAC_ESI_2001')).toBeInTheDocument()
+    })
+  })
+
+  describe('when the collection association page is requested but the record has no associations', () => {
+    test('renders the collection association page with message ', async () => {
+      setup({
+        overrideMocks: [toolRecordSearchNoAssociatedCollections]
+      })
+
+      await screen.findByText('No collection associations found.')
+      expect(screen.getByText('No collection associations found.')).toBeInTheDocument()
     })
   })
 
@@ -122,27 +133,13 @@ describe('ManageCollectionAssociation', () => {
         overrideMocks: [toolRecordSearchTestPage, toolRecordSearchwithPages]
       })
 
-      expect(await screen.findByText('Showing Collection Associations 1-20 of 50'))
-      const paginationButton = screen.getByRole('button', { name: 'Goto Page 3' })
-      await user.click(paginationButton)
+      expect(await screen.findByText('Showing 1-20 of 50 Collection Associations'))
 
-      expect(await screen.findByText('Showing Collection Associations 41-50 of 50'))
-    })
-  })
+      // Find the "Next" button in the new pagination structure
+      const nextPageButtons = screen.getAllByRole('button', { name: 'Goto Next Page' })
+      await user.click(nextPageButtons[0])
 
-  describe.skip('when the request results in an error', () => {
-    test('should call errorLogger and renders an ErrorBanner', async () => {
-      setup({
-        overrideMocks: [toolRecordSearchError]
-      })
-
-      await waitFor(() => {
-        expect(errorLogger).toHaveBeenCalledWith('Unable to get draft', 'Manage Collection Association: getMetadata Query')
-      })
-
-      expect(errorLogger).toHaveBeenCalledTimes(1)
-
-      expect(ErrorBanner).toHaveBeenCalledTimes(1)
+      expect(await screen.findByText('Showing 21-40 of 50 Collection Associations'))
     })
   })
 
@@ -228,14 +225,15 @@ describe('ManageCollectionAssociation', () => {
     describe('when selecting Yes in the modal and results in a success ', () => {
       test('should remove the deleted collection', async () => {
         const { user } = setup({
-          overrideMocks: [
-            deletedAssociationResponse,
+          additionalMocks: [
             deleteAssociationResponse,
+            deletedAssociationResponse,
             deletedAssociationResponse
           ]
         })
+        await screen.findByText('Showing 2 Collection Associations')
 
-        const checkboxes = await screen.findAllByRole('checkbox')
+        const checkboxes = screen.queryAllByRole('checkbox')
         const firstCheckbox = checkboxes[0]
 
         await user.click(firstCheckbox)
@@ -249,38 +247,29 @@ describe('ManageCollectionAssociation', () => {
         const yesButton = screen.getByRole('button', { name: 'Yes' })
         await user.click(yesButton)
 
+        await screen.findByText('Showing 1 Collection Association')
         expect(screen.getByText('CIESIN_SEDAC_ESI_2001')).toBeInTheDocument()
       })
     })
   })
 
   describe('when clicking on refresh button', () => {
-    test('should call getMetadata() again', async () => {
+    test('should refetch the data', async () => {
       const { user } = setup({
-        additionalMocks: [toolRecordSearch]
+        overrideMocks: [toolRecordSearch, deletedAssociationResponse]
       })
 
-      const refreshButton = await screen.findByRole('link', { name: 'refresh the page' })
+      await screen.findByText('Showing 2 Collection Associations')
+
+      const refreshButton = screen.getByRole('button', { name: /refresh the page/i })
+      expect(refreshButton).toBeInTheDocument()
 
       await user.click(refreshButton)
 
-      expect(screen.getByText('CIESIN_SEDAC_ESI_2000')).toBeInTheDocument()
-    })
-  })
-
-  describe('when clicking on Add Collection Associations button', () => {
-    test.skip('should navigate to collection-search', async () => {
-      const navigateSpy = vi.fn()
-      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
-
-      const { user } = setup({})
-
-      const addCollectionAssociationButton = await screen.findByRole('button', { name: 'Add Collection Associations' })
-
-      await user.click(addCollectionAssociationButton)
-
-      expect(navigateSpy).toHaveBeenCalledWith('/tools/T1200000-TEST/collection-association-search')
-      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      // Check to see that data has been refetched
+      await waitFor(() => {
+        expect(screen.getByText('Showing 1 Collection Association')).toBeInTheDocument()
+      })
     })
   })
 
@@ -319,19 +308,19 @@ describe('ManageCollectionAssociation', () => {
               collectionsParams: {
                 limit: 20,
                 offset: 0,
-                sortKey: '-shortName'
+                sortKey: 'shortName'
               }
             }
           },
           result: toolRecordSortSearch.result
         }],
-        overrideInitialEntries: ['/tools/T1200000-TEST/collection-association']
+        overrideInitialEntries: ['/tools/T1200000-TEST/collection-association?sortKey=shortName']
       })
 
-      const test = await screen.findByRole('button', { name: /Sort Short Name in ascending order/ })
+      const test = await screen.findByRole('button', { name: /Sort Short Name in descending order/ })
       await user.click(test)
 
-      expect(await screen.findByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
+      expect(await screen.findByRole('button', { name: /Sort Short Name in descending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
     })
   })
 })
