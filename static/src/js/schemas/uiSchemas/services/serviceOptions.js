@@ -174,7 +174,6 @@ const serviceOptionsUiSchema = {
     },
     Aggregation: {
       'ui:fieldReplacesAnyOrOneOf': true,
-      'ui:group-description': true,
       'ui:heading-level': 'h4',
       'ui:title': 'Aggregation',
       'ui:field': 'layout',
