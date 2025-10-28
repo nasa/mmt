@@ -81,6 +81,12 @@ vi.mock('@/js/pages/KeywordManagerPage/KeywordManagerPage', () => ({
   ))
 }))
 
+vi.mock('@/js/pages/GranulesListPage/GranulesListPage', () => ({
+  default: vi.fn(() => (
+    <div data-testid="mock-granules-list-page">Granules List Page</div>
+  ))
+}))
+
 const setup = () => {
   render(
     <App />
@@ -225,6 +231,19 @@ describe('App component', () => {
       setup()
 
       expect(await screen.findByTestId('mock-keyword-manager-page-admin')).toBeInTheDocument()
+
+      window.history.pushState({}, '', '/')
+    })
+  })
+
+  describe('when rendering the "/collections/:conceptId/granules" route', () => {
+    test('renders the granules list page', async () => {
+      const mockConceptId = 'C1234567-TEST'
+      window.history.pushState({}, '', `/collections/${mockConceptId}/granules`)
+
+      setup()
+
+      expect(await screen.findByTestId('mock-granules-list-page')).toBeInTheDocument()
 
       window.history.pushState({}, '', '/')
     })

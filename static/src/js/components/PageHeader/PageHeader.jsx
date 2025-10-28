@@ -214,6 +214,7 @@ const PageHeader = ({
                               (
                                 {
                                   count: actionCount,
+                                  disabled,
                                   loading: actionLoading,
                                   loadingText: actionLoadingText,
                                   onClick: actionOnClick,
@@ -257,6 +258,7 @@ const PageHeader = ({
                                     className="d-flex flex-row align-items-center"
                                     key={actionTitle}
                                     eventKey={snakeCase(actionTitle)}
+                                    disabled={disabled}
                                     onClick={actionOnClick}
                                     aria-busy={actionLoading}
                                   >
