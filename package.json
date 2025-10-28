@@ -39,7 +39,7 @@
     "cookie": "^0.6.0",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
-    "esbuild": "^0.19.5",
+    "esbuild": "^0.25.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-testing-library": "^6.2.2",
     "fast-xml-parser": "^5.2.1",
