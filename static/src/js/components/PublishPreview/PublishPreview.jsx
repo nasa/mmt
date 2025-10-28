@@ -121,7 +121,6 @@ const PublishPreviewHeader = () => {
   const { count: revisionCount } = revisions
 
   let granuleCount = 0
-  console.log('granules=', granules)
   if (granules) {
     ({ count: granuleCount } = granules)
   }
