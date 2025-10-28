@@ -13,12 +13,12 @@ import { DATE_FORMAT } from '../../constants/dateFormat'
 import Table from '../Table/Table'
 
 /**
- * Renders a RevisionList component
+ * Renders a GranulesList component
  *
  * @component
- * @example <caption>Render a RevisionList</caption>
+ * @example <caption>Render a GranulesList</caption>
  * return (
- *   <RevisionList />
+ *   <GranulesList />
  * )
  */
 const GranulesList = () => {
