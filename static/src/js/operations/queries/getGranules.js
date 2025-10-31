@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client'
 
 export const GET_GRANULES = gql`
-  query GetGranules ($params: CollectionInput) {
+  query GetCollection($params: CollectionInput, $granulesParams: GranulesInput) {
     collection (params: $params) {
-      granules {
+      granules (params: $granulesParams) {
         count
         items {
           conceptId
