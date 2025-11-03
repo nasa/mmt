@@ -76,6 +76,10 @@ const PublishPreviewHeader = () => {
     navigate(`/collections/${conceptId}/service-associations`)
   }
 
+  const navigateToGranules = () => {
+    navigate(`/collections/${conceptId}/granules`)
+  }
+
   const { addNotification } = useNotificationsContext()
   const [deleteMutation] = useMutation(deleteMutationTypes[derivedConceptType], {
     update: (cache) => {
@@ -231,10 +235,10 @@ const PublishPreviewHeader = () => {
                 ? [
                   {
                     icon: FaEye,
-                    onClick: () => { },
+                    onClick: () => navigateToGranules(),
                     title: 'View Granules',
                     count: granuleCount,
-                    disabled: true
+                    disabled: granuleCount === 0
                   },
                   {
                     icon: FaEye,
