@@ -59,8 +59,6 @@
   }
 
   td:first-child {
-    border: 0;
-
     &::before {
       position: absolute;
       z-index: -1;
