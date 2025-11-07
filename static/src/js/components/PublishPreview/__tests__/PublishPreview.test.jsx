@@ -757,6 +757,44 @@ describe('PublishPreview', () => {
       })
     })
 
+    describe('when clicking on View Granules', () => {
+      test('should navigate to granules page', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          overrideInitialEntries: ['/collections/C1000000-MMT/1'],
+          overridePath: '/collections',
+          overrideMocks: [
+            {
+              request: {
+                query: conceptTypeQueries.Collection,
+                variables: {
+                  params: {
+                    conceptId: 'C1000000-MMT'
+                  }
+                }
+              },
+              result: {
+                data: {
+                  collection: publishCollectionRecord
+                }
+              }
+            }
+          ]
+        })
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        const viewGranulesButton = screen.getByRole('button', { name: 'View Granules 1' })
+        await user.click(viewGranulesButton)
+
+        expect(navigateSpy).toHaveBeenCalledTimes(1)
+        expect(navigateSpy).toHaveBeenCalledWith('/collections/C1000000-MMT/granules')
+      })
+    })
+
     describe('when the collection has no granules', () => {
       test('should display the granule count with 0', async () => {
         const { user } = setup({
@@ -803,6 +841,10 @@ describe('PublishPreview', () => {
         await user.click(moreActionsButton)
 
         expect(screen.getByRole('button', { name: 'View Granules 0' }))
+
+        const viewGranulesButton = screen.getByRole('button', { name: 'View Granules 0' })
+        expect(viewGranulesButton).toBeInTheDocument()
+        expect(viewGranulesButton).toHaveClass('disabled')
       })
     })
   })

@@ -5,6 +5,7 @@ import { Navigate, createBrowserRouter } from 'react-router-dom'
 import CollectionAssociationFormPage from '@/js/pages/CollectionAssociationFormPage/CollectionAssociationFormPage'
 import DraftListPage from '@/js/pages/DraftListPage/DraftListPage'
 import DraftPage from '@/js/pages/DraftPage/DraftPage'
+import GranulesListPage from '@/js/pages/GranulesListPage/GranulesListPage'
 import GroupFormPage from '@/js/pages/GroupFormPage/GroupFormPage'
 import GroupListPage from '@/js/pages/GroupListPage/GroupListPage'
 import GroupPage from '@/js/pages/GroupPage/GroupPage'
@@ -110,6 +111,10 @@ export const App = () => {
             {
               path: '/:type/:conceptId/collection-association',
               element: <ManageCollectionAssociationPage />
+            },
+            {
+              path: '/collections/:conceptId/granules',
+              element: <GranulesListPage />
             },
             {
               path: '/collections/:conceptId/service-associations',
