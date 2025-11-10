@@ -99,7 +99,7 @@ const CustomRadioWidget = ({
           <input
             className="d-flex form-check-input m-2"
             id={`${id}-true`}
-            name={`${id}-true`}
+            name={`${id}-true`} // Note: react-jsonschema-form requires these name properties to be unique.
             onChange={handleChange}
             type="radio"
             checked={value === true}
@@ -113,7 +113,7 @@ const CustomRadioWidget = ({
         >
           <input
             className="form-check-input m-2"
-            id={`${id}-false`}
+            id={`${id}-false`} // Note: react-jsonschema-form requires these name properties to be unique.
             name={`${id}-false`}
             onChange={handleChange}
             type="radio"
