@@ -25,13 +25,6 @@ config="`jq '.application.cookieDomain = $newValue' --arg newValue $bamboo_COOKI
 config="`jq '.application.displayProdWarning = $newValue' --arg newValue $bamboo_DISPLAY_PROD_WARNING <<< $config`"
 config="`jq '.application.tokenValidTime = $newValue' --arg newValue $bamboo_JWT_VALID_TIME <<< $config`"
 config="`jq '.application.analytics.gtmPropertyId = $newValue' --arg newValue $bamboo_GTM_PROPERTY_ID <<< $config`"
-config="`jq '.saml.host = $newValue' --arg newValue $bamboo_SAML_HOST <<< $config`"
-config="`jq '.saml.callbackUrl = $newValue' --arg newValue $bamboo_SAML_CALLBACK_URL <<< $config`"
-config="`jq '.saml.keepAliveOrigin = $newValue' --arg newValue $bamboo_SAML_KEEP_ALIVE_ORIGIN <<< $config`"
-config="`jq '.saml.issuer = $newValue' --arg newValue $bamboo_SAML_ISSUER <<< $config`"
-config="`jq '.saml.cookieName = $newValue' --arg newValue $bamboo_SAML_COOKIE_NAME <<< $config`"
-config="`jq '.saml.entryPoint = $newValue' --arg newValue $bamboo_SAML_ENTRY_POINT <<< $config`"
-config="`jq '.saml.launchpadRoot = $newValue' --arg newValue $bamboo_SAML_LAUNCHPAD_ROOT <<< $config`"
 config="`jq '.edl.host = $newValue' --arg newValue $bamboo_EDL_HOST <<< $config`"
 config="`jq '.edl.uid = $newValue' --arg newValue $bamboo_EDL_UID <<< $config`"
 
@@ -79,8 +72,8 @@ dockerRun() {
         -e "COOKIE_DOMAIN=$bamboo_COOKIE_DOMAIN" \
         -e "DISPLAY_PROD_WARNING=$bamboo_DISPLAY_PROD_WARNING" \
         -e "EDL_PASSWORD=$bamboo_EDL_PASSWORD" \
+        -e "EDL_PASSWORD=$bamboo_EDL_CLIENT_ID" \
         -e "JWT_SECRET=$bamboo_JWT_SECRET" \
-        -e "JWT_VALID_TIME=$bamboo_JWT_VALID_TIME" \
         -e "LAMBDA_TIMEOUT=$bamboo_LAMBDA_TIMEOUT" \
         -e "MMT_HOST=$bamboo_MMT_HOST" \
         -e "NODE_ENV=production" \

@@ -52,10 +52,10 @@ const AuthContextProvider = ({ children }) => {
 
   const [authLoading, setAuthLoading] = useState(true)
 
-  // The user's Launchpad Token
+  // The user's EDL Token
   const [tokenValue, setTokenValue] = useState()
 
-  // The timestamp the JWT (and Launchpad) expires
+  // The timestamp the JWT (and EDL) expires
   const [tokenExpires, setTokenExpires] = useState()
 
   // The user's name and EDL uid
