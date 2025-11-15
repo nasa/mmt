@@ -4,6 +4,14 @@ import createJwt from '../utils/createJwt'
 import createCookie from '../utils/createCookie'
 import { downcaseKeys } from '../utils/downcaseKeys'
 
+/**
+ * Refreshes an existing EDL session by exchanging the refresh token embedded in the
+ * caller's JWT for a new access/refresh token pair, then returning an updated cookie.
+ *
+ * @param {Object} event Lambda invocation event containing the HTTP request.
+ * @param {Object} event.headers Request headers; must include `Authorization` with the MMT JWT.
+ * @returns {Promise<{statusCode:number, headers:Object, body?:string}>} HTTP response compatible with API Gateway.
+ */
 const edlRefreshToken = async (event) => {
   console.log('Entering edlRefreshToken function')
 
