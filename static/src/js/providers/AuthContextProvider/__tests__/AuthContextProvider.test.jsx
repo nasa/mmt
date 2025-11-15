@@ -36,7 +36,7 @@ vi.mock('jsonwebtoken', async () => ({
         name: 'Test User'
       },
       exp: (new Date('2024-01-01').getTime() / 1000) + 900,
-      launchpadToken: 'mock-token'
+      edlToken: 'mock-token'
     })
   }
 }))

@@ -37,7 +37,8 @@
   "ummJsonSchemaUrl": "http://json-schema.org/draft-07/schema#",
   "edl": {
     "host": "https://sit.urs.earthdata.nasa.gov",
-    "uid": "mmt_test"
+    "uid": "mmt_test",
+    "redirectUriPath": "/urs_callback"
   },
   "saml": {
     "keepAliveOrigin": "https://api.mmt.sit.earthdatacloud.nasa.gov",

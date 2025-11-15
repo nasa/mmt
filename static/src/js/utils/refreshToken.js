@@ -20,7 +20,7 @@ const refreshToken = async ({
     method: 'POST'
   }
 
-  await fetch(`${apiHost}/saml-refresh-token`, (options)).then((response) => {
+  await fetch(`${apiHost}/edl-refresh-token`, (options)).then((response) => {
     // If the refresh token failed, log out the user
     if (!response.ok) {
       setToken(null)
