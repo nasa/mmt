@@ -3,172 +3,106 @@ import {
   test,
   expect,
   vi,
-  beforeEach
+  beforeEach,
+  afterEach
 } from 'vitest'
 import edlLogin from '../handler'
-import { getApplicationConfig, getEdlConfig } from '../../../../sharedUtils/getConfig'
+import * as getConfig from '../../../../sharedUtils/getConfig'
 
-vi.mock('../../../../sharedUtils/getConfig')
+const mockEdlConfig = {
+  host: 'https://edl.example.com',
+  redirectUriPath: '/callback'
+}
 
-describe('when logging in', () => {
+const mockApplicationConfig = {
+  apiHost: 'https://api.example.com'
+}
+
+const buildEvent = (queryStringParameters) => ({ queryStringParameters })
+
+describe('edlLogin', () => {
+  let getEdlConfigMock
+  let getApplicationConfigMock
+
   beforeEach(() => {
     vi.resetAllMocks()
     process.env.EDL_CLIENT_ID = 'test-client-id'
+    getEdlConfigMock = vi.spyOn(getConfig, 'getEdlConfig').mockResolvedValue(mockEdlConfig)
+    getApplicationConfigMock = vi.spyOn(getConfig, 'getApplicationConfig').mockReturnValue(mockApplicationConfig)
   })
 
-  test('should return a 307 redirect with correct location', async () => {
-    getEdlConfig.mockResolvedValue({
-      host: 'https://edl.example.com',
-      redirectUriPath: '/callback'
-    })
-
-    getApplicationConfig.mockReturnValue({
-      apiHost: 'https://api.example.com'
-    })
-
-    const event = { queryStringParameters: { target: '/dashboard' } }
-    const result = await edlLogin(event)
-
-    expect(result.statusCode).toBe(307)
-    expect(result.headers.Location).toContain('https://edl.example.com/oauth/authorize')
-    expect(result.headers.Location).toContain('client_id=test-client-id')
-    expect(result.headers.Location).toContain('redirect_uri=https%3A%2F%2Fapi.example.com%2Fcallback')
-    expect(result.headers.Location).toContain('state=')
-    expect(result.headers.Location).toContain(encodeURIComponent('/dashboard'))
+  afterEach(() => {
+    vi.restoreAllMocks()
   })
 
-  test('should use an empty object for queryStringParameters if not provided', async () => {
-    getEdlConfig.mockResolvedValue({
-      host: 'https://edl.example.com',
-      redirectUriPath: '/callback'
+  describe('when a target is provided', () => {
+    test('should return a 307 redirect with an authorization URL', async () => {
+      const result = await edlLogin(buildEvent({ target: '/dashboard' }))
+
+      expect(result.statusCode).toBe(307)
+      expect(result.headers.Location).toContain(`${mockEdlConfig.host}/oauth/authorize`)
+      expect(result.headers.Location).toContain('client_id=test-client-id')
+      expect(result.headers.Location).toContain(`redirect_uri=${encodeURIComponent(`${mockApplicationConfig.apiHost}${mockEdlConfig.redirectUriPath}`)}`)
+      expect(result.headers.Location).toContain(`state=${encodeURIComponent(JSON.stringify({ target: '/dashboard' }))}`)
     })
 
-    getApplicationConfig.mockReturnValue({
-      apiHost: 'https://api.example.com'
+    test('should include a response_type parameter', async () => {
+      const result = await edlLogin(buildEvent({ target: '/dashboard' }))
+      expect(result.headers.Location).toContain('response_type=code')
     })
 
-    const event = {}
-    const result = await edlLogin(event)
+    test('should encode complex targets inside the state parameter', async () => {
+      const complexTarget = '/search?q=test&filter=active'
+      const result = await edlLogin(buildEvent({ target: complexTarget }))
 
-    expect(result.statusCode).toBe(307)
-    expect(result.headers.Location).toContain('state=')
-    expect(result.headers.Location).toContain(encodeURIComponent('{}'))
+      expect(result.headers.Location).toContain('state=')
+      expect(result.headers.Location).toContain(
+        encodeURIComponent(JSON.stringify({ target: complexTarget }))
+      )
+    })
   })
 
-  test('should throw an error if EDL_CLIENT_ID is not set', async () => {
-    delete process.env.EDL_CLIENT_ID
+  describe('when the target is missing', () => {
+    test('should default to using \'/\' when queryStringParameters is missing', async () => {
+      const result = await edlLogin({})
 
-    getEdlConfig.mockResolvedValue({
-      host: 'https://edl.example.com',
-      redirectUriPath: '/callback'
+      expect(result.statusCode).toBe(307)
+      expect(result.headers.Location).toContain(encodeURIComponent(JSON.stringify({ target: '/' })))
     })
 
-    getApplicationConfig.mockReturnValue({
-      apiHost: 'https://api.example.com'
-    })
+    test('should default state to \'/\' when target key exists but value is missing', async () => {
+      const result = await edlLogin(buildEvent({}))
 
-    await expect(edlLogin({})).rejects.toThrow('EDL client ID is not configured')
+      expect(result.headers.Location).toContain(encodeURIComponent(JSON.stringify({ target: '/' })))
+    })
   })
 
-  test('should correctly encode the state parameter', async () => {
-    getEdlConfig.mockResolvedValue({
-      host: 'https://edl.example.com',
-      redirectUriPath: '/callback'
+  describe('when logging in', () => {
+    test('should use values returned by getEdlConfig and getApplicationConfig', async () => {
+      getEdlConfigMock.mockResolvedValueOnce({
+        host: 'https://custom-edl.example.com',
+        redirectUriPath: '/custom-callback'
+      })
+
+      getApplicationConfigMock.mockReturnValueOnce({
+        apiHost: 'https://custom-api.example.com'
+      })
+
+      const result = await edlLogin(buildEvent({ target: '/dashboard' }))
+
+      expect(result.headers.Location).toContain('https://custom-edl.example.com/oauth/authorize')
+      expect(result.headers.Location).toContain('redirect_uri=https%3A%2F%2Fcustom-api.example.com%2Fcustom-callback')
+
+      expect(getEdlConfigMock).toHaveBeenCalledTimes(1)
+      expect(getApplicationConfigMock).toHaveBeenCalledTimes(1)
     })
-
-    getApplicationConfig.mockReturnValue({
-      apiHost: 'https://api.example.com'
-    })
-
-    const event = { queryStringParameters: { target: '/page with spaces' } }
-    const result = await edlLogin(event)
-
-    expect(result.headers.Location).toContain('state=')
-    expect(result.headers.Location).toContain(encodeURIComponent(JSON.stringify({ target: '/page with spaces' })))
   })
 
-  test('should use values from getEdlConfig and getApplicationConfig', async () => {
-    getEdlConfig.mockResolvedValue({
-      host: 'https://custom-edl.example.com',
-      redirectUriPath: '/custom-callback'
+  describe('when the client id is not configured', () => {
+    test('should throw an error if EDL_CLIENT_ID is missing', async () => {
+      delete process.env.EDL_CLIENT_ID
+
+      await expect(edlLogin(buildEvent({ target: '/dashboard' }))).rejects.toThrow('EDL client ID is not configured')
     })
-
-    getApplicationConfig.mockReturnValue({
-      apiHost: 'https://custom-api.example.com'
-    })
-
-    const event = { queryStringParameters: { target: '/dashboard' } }
-    const result = await edlLogin(event)
-
-    expect(result.headers.Location).toContain('https://custom-edl.example.com/oauth/authorize')
-    expect(result.headers.Location).toContain('redirect_uri=https%3A%2F%2Fcustom-api.example.com%2Fcustom-callback')
-  })
-
-  test('should handle missing target in queryStringParameters', async () => {
-    getEdlConfig.mockResolvedValue({
-      host: 'https://edl.example.com',
-      redirectUriPath: '/callback'
-    })
-
-    getApplicationConfig.mockReturnValue({
-      apiHost: 'https://api.example.com'
-    })
-
-    const event = { queryStringParameters: {} }
-    const result = await edlLogin(event)
-
-    expect(result.statusCode).toBe(307)
-    expect(result.headers.Location).toContain('state=')
-    expect(result.headers.Location).toContain(encodeURIComponent(JSON.stringify({ target: undefined })))
-  })
-
-  test('should include response_type=code in the redirect URL', async () => {
-    getEdlConfig.mockResolvedValue({
-      host: 'https://edl.example.com',
-      redirectUriPath: '/callback'
-    })
-
-    getApplicationConfig.mockReturnValue({
-      apiHost: 'https://api.example.com'
-    })
-
-    const event = { queryStringParameters: { target: '/dashboard' } }
-    const result = await edlLogin(event)
-
-    expect(result.headers.Location).toContain('response_type=code')
-  })
-
-  test('should handle special characters in the target URL', async () => {
-    getEdlConfig.mockResolvedValue({
-      host: 'https://edl.example.com',
-      redirectUriPath: '/callback'
-    })
-
-    getApplicationConfig.mockReturnValue({
-      apiHost: 'https://api.example.com'
-    })
-
-    const event = { queryStringParameters: { target: '/search?q=test&filter=active' } }
-    const result = await edlLogin(event)
-
-    expect(result.headers.Location).toContain('state=')
-    expect(result.headers.Location).toContain(encodeURIComponent(JSON.stringify({ target: '/search?q=test&filter=active' })))
-  })
-
-  test('should call getEdlConfig and getApplicationConfig exactly once', async () => {
-    getEdlConfig.mockResolvedValue({
-      host: 'https://edl.example.com',
-      redirectUriPath: '/callback'
-    })
-
-    getApplicationConfig.mockReturnValue({
-      apiHost: 'https://api.example.com'
-    })
-
-    const event = { queryStringParameters: { target: '/dashboard' } }
-    await edlLogin(event)
-
-    expect(getEdlConfig).toHaveBeenCalledTimes(1)
-    expect(getApplicationConfig).toHaveBeenCalledTimes(1)
   })
 })

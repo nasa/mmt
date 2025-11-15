@@ -48,7 +48,7 @@ const defaultAuthContext = {
   login: vi.fn(),
   logout: vi.fn(),
   setUser: vi.fn(),
-  tokenValue: 'launchpad_token',
+  tokenValue: 'edl_token',
   user: {
     name: 'User Name',
     auid: 'username'
@@ -100,7 +100,7 @@ describe('GraphQLProvider component', () => {
       expect(setContext).toHaveBeenCalledTimes(1)
       expect(setContext.mock.calls[0][0](null, {})).toEqual({
         headers: {
-          Authorization: 'launchpad_token',
+          Authorization: 'Bearer edl_token',
           'Client-Id': 'eed-mmt-test'
         }
       })
@@ -129,7 +129,7 @@ describe('GraphQLProvider component', () => {
       expect(setContext.mock.calls[0][0](null, {})).toEqual(
         {
           headers: {
-            Authorization: undefined,
+            Authorization: 'Bearer undefined',
             'Client-Id': 'eed-mmt-test'
           }
         }
@@ -183,7 +183,7 @@ describe('GraphQLProvider component', () => {
           <AuthContext.Provider value={
             {
               ...defaultAuthContext,
-              tokenValue: 'new_launchpad_token'
+              tokenValue: 'new_edl_token'
             }
           }
           >

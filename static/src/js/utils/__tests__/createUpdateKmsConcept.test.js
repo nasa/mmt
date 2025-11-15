@@ -49,7 +49,7 @@ describe('createUpdateKmsConcept', () => {
           method: 'PUT',
           body: params.rdfXml,
           headers: {
-            Authorization: defaultToken
+            Authorization: `Bearer ${defaultToken}`
           }
         })
       )

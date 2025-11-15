@@ -15,7 +15,7 @@ const refreshToken = async ({
   const options = {
     credentials: 'include',
     headers: {
-      Authorization: jwt
+      Authorization: `Bearer ${jwt}`
     },
     method: 'POST'
   }

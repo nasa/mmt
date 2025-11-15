@@ -6,7 +6,7 @@ import { getApplicationConfig, getEdlConfig } from '../../../sharedUtils/getConf
  * @param {Object} context Methods and properties that provide information about the invocation, function, and execution environment
  */
 const edlLogin = async (event) => {
-  const { target } = event.queryStringParameters || {}
+  const { target = '/' } = event.queryStringParameters || {}
 
   // Get the EDL configuration
   const edlConfig = await getEdlConfig()

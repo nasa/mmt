@@ -22,8 +22,6 @@ const createJwt = (edlToken, refreshToken, expiresAt, edlProfile) => {
     exp: expirationTime
   }
 
-  console.log('data=', data)
-
   const token = jwt.sign(
     data,
     JWT_SECRET

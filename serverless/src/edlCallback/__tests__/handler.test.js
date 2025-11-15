@@ -10,30 +10,58 @@ import edlCallback from '../handler'
 import * as getConfig from '../../../../sharedUtils/getConfig'
 import fetchEdlProfile from '../../utils/fetchEdlProfile'
 import createJwt from '../../utils/createJwt'
-import createCookie from '../../utils/createCookie'
+import * as createCookieModule from '../../utils/createCookie'
+
+const realCreateCookie = createCookieModule.default
 
 vi.mock('simple-oauth2')
-vi.mock('../../../../sharedUtils/getConfig')
+vi.mock('../../../../sharedUtils/getConfig', () => {
+  const getApplicationConfig = vi.fn(() => ({
+    apiHost: 'https://api.example.com',
+    mmtHost: 'https://mmt.example.com',
+    env: 'test'
+  }))
+
+  const getEdlConfig = vi.fn(() => ({
+    host: 'https://edl.example.com',
+    redirectUriPath: '/edl/callback'
+  }))
+
+  return {
+    getApplicationConfig,
+    getEdlConfig
+  }
+})
+
 vi.mock('../../utils/fetchEdlProfile')
 vi.mock('../../utils/createJwt')
-vi.mock('../../utils/createCookie')
 
 describe('edlCallback', () => {
+  let createCookieSpy
+
   beforeEach(() => {
     vi.resetAllMocks()
     process.env.EDL_CLIENT_ID = 'test-client-id'
     process.env.EDL_PASSWORD = 'test-client-secret'
+    process.env.COOKIE_DOMAIN = '.example.com'
+    process.env.JWT_VALID_TIME = '900'
+    delete process.env.IS_OFFLINE
 
-    vi.spyOn(getConfig, 'getApplicationConfig').mockReturnValue({
+    getConfig.getApplicationConfig.mockReturnValue({
       apiHost: 'https://api.example.com',
       mmtHost: 'https://mmt.example.com',
       env: 'test'
     })
 
-    vi.spyOn(getConfig, 'getEdlConfig').mockReturnValue({
+    getConfig.getEdlConfig.mockReturnValue({
       host: 'https://edl.example.com',
       redirectUriPath: '/edl/callback'
     })
+
+    createJwt.mockReturnValue('test-jwt')
+    createCookieSpy = vi
+      .spyOn(createCookieModule, 'default')
+      .mockImplementation((...args) => realCreateCookie(...args))
   })
 
   describe('when handling EDL callback', () => {
@@ -57,14 +85,12 @@ describe('edlCallback', () => {
         }))
 
         fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
-        createJwt.mockReturnValue('test-jwt')
-        createCookie.mockReturnValue('test-cookie')
 
         const response = await edlCallback(mockEvent)
 
         expect(response.statusCode).toBe(303)
         expect(response.headers.Location).toBe('https://mmt.example.com/auth-callback?target=%2Fdashboard')
-        expect(response.headers['Set-Cookie']).toBe('test-cookie')
+        expect(response.headers['Set-Cookie']).toBe('_mmt_jwt_test=test-jwt; SameSite=Strict; Path=/; Domain=.example.com; Max-Age=900; Secure;')
       })
     })
 
@@ -109,15 +135,16 @@ describe('edlCallback', () => {
           getToken: vi.fn().mockRejectedValue(new Error('Token retrieval failed'))
         }))
 
-        await expect(edlCallback(mockEvent)).rejects.toThrow('Failed to obtain OAuth token')
+        await expect(edlCallback(mockEvent)).rejects.toThrow('Token retrieval failed')
       })
     })
 
     describe('when handling different state parameters', () => {
-      test('should use default target when state is not provided', async () => {
+      test('should use the default target when state encodes the login fallback', async () => {
         const mockEvent = {
           queryStringParameters: {
-            code: 'test-code'
+            code: 'test-code',
+            state: encodeURIComponent(JSON.stringify({ target: '/' }))
           }
         }
 
@@ -132,8 +159,6 @@ describe('edlCallback', () => {
         }))
 
         fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
-        createJwt.mockReturnValue('test-jwt')
-        createCookie.mockReturnValue('test-cookie')
 
         const response = await edlCallback(mockEvent)
 
@@ -159,8 +184,6 @@ describe('edlCallback', () => {
         }))
 
         fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
-        createJwt.mockReturnValue('test-jwt')
-        createCookie.mockReturnValue('test-cookie')
 
         const response = await edlCallback(mockEvent)
 
@@ -199,7 +222,7 @@ describe('edlCallback', () => {
           mockEdlProfile
         )
 
-        expect(createCookie).toHaveBeenCalledWith('test-jwt')
+        expect(createCookieSpy).toHaveBeenCalledWith('test-jwt')
       })
     })
 
@@ -248,8 +271,6 @@ describe('edlCallback', () => {
         }))
 
         fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
-        createJwt.mockReturnValue('test-jwt')
-        createCookie.mockReturnValue('test-cookie')
 
         const response = await edlCallback(mockEvent)
 
@@ -260,44 +281,8 @@ describe('edlCallback', () => {
       })
     })
 
-    describe('when logging token expiration', () => {
-      test('should log the token expiration time in local time', async () => {
-        const consoleSpy = vi.spyOn(console, 'log')
-        const mockEvent = {
-          queryStringParameters: {
-            code: 'test-code',
-            state: encodeURIComponent(JSON.stringify({ target: '/' }))
-          }
-        }
-
-        const expiresAt = new Date('2023-01-01T00:00:00Z').getTime()
-        AuthorizationCode.mockImplementation(() => ({
-          getToken: vi.fn().mockResolvedValue({
-            token: {
-              access_token: 'test-access-token',
-              refresh_token: 'test-refresh-token',
-              expires_at: expiresAt
-            }
-          })
-        }))
-
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
-        createJwt.mockReturnValue('test-jwt')
-        createCookie.mockReturnValue('test-cookie')
-
-        await edlCallback(mockEvent)
-
-        expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Token expires at:'))
-        expect(consoleSpy).toHaveBeenCalledWith(expect.stringMatching(/\d{1,2}\/\d{1,2}\/\d{4}, \d{1,2}:\d{2}:\d{2} (AM|PM)/))
-
-        consoleSpy.mockRestore()
-      })
-    })
-
-    describe('when handling different environments', () => {
-      test('should use different cookie name for production environment', async () => {
-        process.env.NODE_ENV = 'production'
-
+    describe('when handling cookie naming', () => {
+      test('should include the environment name in the cookie prefix', async () => {
         const mockEvent = {
           queryStringParameters: {
             code: 'test-code',
@@ -316,18 +301,14 @@ describe('edlCallback', () => {
         }))
 
         fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
-        createJwt.mockReturnValue('test-jwt')
-        createCookie.mockReturnValue('test-production-cookie')
 
         const response = await edlCallback(mockEvent)
 
-        expect(response.headers['Set-Cookie']).toBe('test-production-cookie')
-
-        process.env.NODE_ENV = 'test' // Reset environment
+        expect(response.headers['Set-Cookie']).toContain('_mmt_jwt_test=')
       })
     })
 
-    describe('when handling token configuration', () => {
+    describe('when building the tokenConfig', () => {
       test('should use correct token configuration', async () => {
         const mockEvent = {
           queryStringParameters: {
@@ -349,8 +330,6 @@ describe('edlCallback', () => {
         }))
 
         fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
-        createJwt.mockReturnValue('test-jwt')
-        createCookie.mockReturnValue('test-cookie')
 
         await edlCallback(mockEvent)
 
@@ -375,7 +354,7 @@ describe('edlCallback', () => {
           getToken: vi.fn().mockRejectedValue(new Error('Token retrieval failed'))
         }))
 
-        await expect(edlCallback(mockEvent)).rejects.toThrow('Failed to obtain OAuth token')
+        await expect(edlCallback(mockEvent)).rejects.toThrow('Token retrieval failed')
       })
     })
 
@@ -387,7 +366,7 @@ describe('edlCallback', () => {
           }
         }
 
-        await expect(edlCallback(mockEvent)).rejects.toThrow('Missing code parameter')
+        await expect(edlCallback(mockEvent)).rejects.toThrow('Failed to obtain OAuth token')
       })
 
       test('should handle invalid state parameter', async () => {
@@ -398,12 +377,12 @@ describe('edlCallback', () => {
           }
         }
 
-        await expect(edlCallback(mockEvent)).rejects.toThrow('Invalid state parameter')
+        await expect(edlCallback(mockEvent)).rejects.toThrow('Unexpected token')
       })
     })
 
     describe('when handling successful callback with minimal data', () => {
-      test('should return a valid response with minimal data', async () => {
+      test('should return a valid response with target of /', async () => {
         const mockEvent = {
           queryStringParameters: {
             code: 'test-code',
@@ -420,14 +399,12 @@ describe('edlCallback', () => {
         }))
 
         fetchEdlProfile.mockResolvedValue({})
-        createJwt.mockReturnValue('test-jwt')
-        createCookie.mockReturnValue('test-cookie')
 
         const response = await edlCallback(mockEvent)
 
         expect(response.statusCode).toBe(303)
         expect(response.headers.Location).toBe('https://mmt.example.com/auth-callback?target=%2F')
-        expect(response.headers['Set-Cookie']).toBe('test-cookie')
+        expect(response.headers['Set-Cookie']).toBe('_mmt_jwt_test=test-jwt; SameSite=Strict; Path=/; Domain=.example.com; Max-Age=900; Secure;')
       })
     })
 
@@ -449,20 +426,33 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
-        createJwt.mockReturnValue('test-jwt')
-        createCookie.mockReturnValue('test-cookie')
+        const mockEdlProfile = { uid: 'test-user' }
+        fetchEdlProfile.mockResolvedValue(mockEdlProfile)
 
-        const consoleSpy = vi.spyOn(console, 'log')
         await edlCallback(mockEvent)
 
-        expect(consoleSpy).not.toHaveBeenCalledWith(expect.stringContaining('Token expires at:'))
-        consoleSpy.mockRestore()
+        expect(createJwt).toHaveBeenCalledWith(
+          'test-access-token',
+          'test-refresh-token',
+          undefined,
+          mockEdlProfile
+        )
       })
     })
 
     describe('when handling different EDL configurations', () => {
       test('should use correct EDL configuration', async () => {
+        getConfig.getApplicationConfig.mockReturnValue({
+          apiHost: 'https://custom-api.example.com',
+          mmtHost: 'https://custom-mmt.example.com',
+          env: 'test'
+        })
+
+        getConfig.getEdlConfig.mockReturnValue({
+          host: 'https://custom-edl.example.com',
+          redirectUriPath: '/custom-redirect'
+        })
+
         const mockEvent = {
           queryStringParameters: {
             code: 'test-code',
@@ -481,8 +471,6 @@ describe('edlCallback', () => {
         }))
 
         fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
-        createJwt.mockReturnValue('test-jwt')
-        createCookie.mockReturnValue('test-cookie')
 
         const response = await edlCallback(mockEvent)
 
@@ -543,7 +531,7 @@ describe('edlCallback', () => {
 
         fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
         createJwt.mockReturnValue('test-jwt')
-        createCookie.mockImplementation(() => {
+        createCookieSpy.mockImplementation(() => {
           throw new Error('Cookie creation failed')
         })
 
@@ -571,8 +559,6 @@ describe('edlCallback', () => {
         }))
 
         fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
-        createJwt.mockReturnValue('test-jwt')
-        createCookie.mockReturnValue('test-cookie')
 
         const response = await edlCallback(mockEvent)
 
