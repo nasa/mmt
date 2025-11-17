@@ -32,11 +32,11 @@ describe('createProposal', () => {
     })
 
     const event = {
-      body: {
+      body: JSON.stringify({
         id: 'test-proposal-id',
         title: 'Test Proposal',
         content: 'This is a test proposal'
-      }
+      })
     }
 
     const response = await createProposal(event)
@@ -51,11 +51,11 @@ describe('createProposal', () => {
     })
 
     const event = {
-      body: {
+      body: JSON.stringify({
         id: 'test-proposal-id',
         title: 'Test Proposal',
         content: 'This is a test proposal'
-      }
+      })
     }
 
     await createProposal(event)
@@ -68,11 +68,11 @@ describe('createProposal', () => {
     s3ClientMock.on(PutObjectCommand).rejects(new Error('S3 operation failed'))
 
     const event = {
-      body: {
+      body: JSON.stringify({
         id: 'test-proposal-id',
         title: 'Test Proposal',
         content: 'This is a test proposal'
-      }
+      })
     }
 
     const response = await createProposal(event)
@@ -85,12 +85,14 @@ describe('createProposal', () => {
       $metadata: { httpStatusCode: 200 }
     })
 
+    const proposalData = {
+      id: 'test-proposal-id',
+      title: 'Test Proposal',
+      content: 'This is a test proposal'
+    }
+
     const event = {
-      body: {
-        id: 'test-proposal-id',
-        title: 'Test Proposal',
-        content: 'This is a test proposal'
-      }
+      body: JSON.stringify(proposalData)
     }
 
     process.env.COLLECTION_PROPOSALS_BUCKET_NAME = 'test-bucket'
@@ -101,7 +103,7 @@ describe('createProposal', () => {
     const { input } = call.args[0]
     expect(input.Bucket).toBe('test-bucket')
     expect(input.Key).toBe('proposals/test-proposal-id')
-    expect(JSON.parse(input.Body)).toEqual(event.body)
+    expect(JSON.parse(input.Body)).toEqual(proposalData) // Compare with the original object, not the stringified version
   })
 
   test('When S3 operation fails with a custom error message, should return that message', async () => {
@@ -109,11 +111,11 @@ describe('createProposal', () => {
     s3ClientMock.on(PutObjectCommand).rejects(new Error(customErrorMessage))
 
     const event = {
-      body: {
+      body: JSON.stringify({
         id: 'test-proposal-id',
         title: 'Test Proposal',
         content: 'This is a test proposal'
-      }
+      })
     }
 
     const response = await createProposal(event)
@@ -126,16 +128,49 @@ describe('createProposal', () => {
     s3ClientMock.on(PutObjectCommand).rejects(new Error())
 
     const event = {
-      body: {
+      body: JSON.stringify({
         id: 'test-proposal-id',
         title: 'Test Proposal',
         content: 'This is a test proposal'
-      }
+      })
     }
 
     const response = await createProposal(event)
 
     expect(response.statusCode).toBe(500)
     expect(JSON.parse(response.body)).toEqual({ message: 'Internal server error' })
+  })
+
+  test('When event is missing body, should return 400', async () => {
+    const event = {
+    // No body property
+    }
+
+    const response = await createProposal(event)
+
+    expect(response.statusCode).toBe(400)
+    expect(JSON.parse(response.body)).toEqual({ message: 'Missing request body' })
+  })
+
+  test('When event body contains invalid JSON, should return 400', async () => {
+    const event = {
+      body: '{ "id": "test-proposal-id", "title": "Test Proposal", "content": "This is a test proposal"' // Note the missing closing brace
+    }
+
+    const response = await createProposal(event)
+
+    expect(response.statusCode).toBe(400)
+    expect(JSON.parse(response.body)).toEqual({ message: 'Invalid JSON in request body' })
+  })
+
+  test('When event body is an empty object, should return 400', async () => {
+    const event = {
+      body: '{}' // Empty JSON object
+    }
+
+    const response = await createProposal(event)
+
+    expect(response.statusCode).toBe(400)
+    expect(JSON.parse(response.body)).toEqual({ message: 'Missing request body' })
   })
 })

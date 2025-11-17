@@ -17,6 +17,10 @@ const edlAuthorizer = async (event) => {
     methodArn
   } = event
 
+  if (process.env.IS_OFFLINE) {
+    return generatePolicy('local-user', 'Allow', methodArn)
+  }
+
   const { authorization: authorizationToken = '' } = downcaseKeys(headers)
 
   const [, token] = authorizationToken.split('Bearer ')

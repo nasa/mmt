@@ -21,7 +21,36 @@ const createProposal = async (event) => {
 
   try {
     // Extract proposal from the event body
-    const { body: proposal } = event
+    const { body } = event
+    // Check if body is provided
+    if (!body) {
+      return {
+        statusCode: 400,
+        headers: defaultResponseHeaders,
+        body: JSON.stringify({ message: 'Missing request body' })
+      }
+    }
+
+    let proposal
+    try {
+      proposal = JSON.parse(body)
+    } catch (error) {
+      return {
+        statusCode: 400,
+        headers: defaultResponseHeaders,
+        body: JSON.stringify({ message: 'Invalid JSON in request body' })
+      }
+    }
+
+    // Check if proposal data is provided
+    if (!proposal || Object.keys(proposal).length === 0) {
+      return {
+        statusCode: 400,
+        headers: defaultResponseHeaders,
+        body: JSON.stringify({ message: 'Missing request body' })
+      }
+    }
+
     const { id } = proposal
 
     // Get the S3 bucket name from environment variables

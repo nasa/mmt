@@ -26,11 +26,31 @@ const updateProposal = async (event) => {
   }
 
   // Extract proposal data and ID from the event
-  const { body: proposal, pathParameters } = event
+  const { body, pathParameters } = event
+  // Check if body is provided
+  if (!body) {
+    return {
+      statusCode: 400,
+      headers: defaultResponseHeaders,
+      body: JSON.stringify({ message: 'Missing request body' })
+    }
+  }
+
+  let proposal
+  try {
+    proposal = JSON.parse(body)
+  } catch (error) {
+    return {
+      statusCode: 400,
+      headers: defaultResponseHeaders,
+      body: JSON.stringify({ message: 'Invalid JSON in request body' })
+    }
+  }
+
   const { id } = pathParameters
 
   // Check if proposal data is provided
-  if (!proposal) {
+  if (!proposal || Object.keys(proposal).length === 0) {
     return {
       statusCode: 400,
       headers: defaultResponseHeaders,
@@ -50,7 +70,7 @@ const updateProposal = async (event) => {
     // Object exists, proceed with update
     const putCommand = new PutObjectCommand({
       Bucket: collectionProposalsBucketName,
-      Body: proposal,
+      Body: JSON.stringify(proposal),
       Key: `proposals/${id}`
     })
 

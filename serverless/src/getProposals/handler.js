@@ -10,8 +10,8 @@ const getProposals = async (event) => {
   // Get default response headers from application config
   const { defaultResponseHeaders } = getApplicationConfig()
   // Extract query parameters from the event
-  const { queryStringParameters = {} } = event
-  const { providerId } = queryStringParameters
+  const { queryStringParameters } = event
+  const { providerId } = queryStringParameters || {}
 
   // Initialize S3 client if not already done
   if (s3Client == null) {

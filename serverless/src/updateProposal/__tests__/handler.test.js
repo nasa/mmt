@@ -100,17 +100,6 @@ describe('updateProposal', () => {
     expect(putCall.args[0].input.Body).toBe(JSON.stringify({ title: 'Test Proposal' }))
   })
 
-  test('When event is missing body, should return 400', async () => {
-    const event = {
-      pathParameters: { id: 'test-id' }
-    }
-
-    const response = await updateProposal(event)
-
-    expect(response.statusCode).toBe(400)
-    expect(JSON.parse(response.body).message).toBe('Missing request body')
-  })
-
   test('When S3 returns a non-200 status code, should return that status code', async () => {
     s3ClientMock.on(HeadObjectCommand).resolves({})
     s3ClientMock.on(PutObjectCommand).resolves({
@@ -202,5 +191,40 @@ describe('updateProposal', () => {
 
     expect(response.statusCode).toBe(400)
     expect(JSON.parse(response.body).message).toBe('Internal server error')
+  })
+
+  test('When event is missing body, should return 400', async () => {
+    const event = {
+      pathParameters: { id: 'test-id' }
+    }
+
+    const response = await updateProposal(event)
+
+    expect(response.statusCode).toBe(400)
+    expect(JSON.parse(response.body).message).toBe('Missing request body')
+  })
+
+  test('When event body contains invalid JSON, should return 400', async () => {
+    const event = {
+      body: '{ "title": "Test Proposal" ', // Note the missing closing brace
+      pathParameters: { id: 'test-id' }
+    }
+
+    const response = await updateProposal(event)
+
+    expect(response.statusCode).toBe(400)
+    expect(JSON.parse(response.body).message).toBe('Invalid JSON in request body')
+  })
+
+  test('When event body is an empty object, should return 400', async () => {
+    const event = {
+      body: '{}',
+      pathParameters: { id: 'test-id' }
+    }
+
+    const response = await updateProposal(event)
+
+    expect(response.statusCode).toBe(400)
+    expect(JSON.parse(response.body).message).toBe('Missing request body')
   })
 })

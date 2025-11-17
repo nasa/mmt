@@ -25,32 +25,23 @@ provider:
       - ${env:SUBNET_ID_B, 'subnetIdB'}
       - ${env:SUBNET_ID_C, 'subnetIdC'}
 
-  # Prevent Serverless from attempting to modify the deployment bucket policy as NGAP does not allow it
   deploymentBucket:
     skipPolicySetup: true
 
-# Package each lambda into individual zip files. This reduces the size of
-# each lambda but increases the complexity of the compilation process slightly
 package:
   individually: true
 
 configValidationMode: error
 
-#
-# Lambda Functions
-#
 functions: ${file(./serverless-configs/${self:provider.name}-functions.yml)}
 
-#
-# Additional AWS Resources
-#
 resources: ${file(./serverless-configs/${self:provider.name}-resources.yml)}
 
 plugins:
   - serverless-esbuild
   - serverless-finch
-  - serverless-offline
   - serverless-s3-local
+  - serverless-offline
 
 custom:
   siteName: mmt-${self:provider.stage}
@@ -59,7 +50,6 @@ custom:
 
   infrastructureStackName: mmt-infrastructure-${self:provider.stage}
 
-  # Finch (S3 sync plugin)
   client:
     bucketName: ${self:custom.siteName}
     distributionFolder: dist
@@ -76,11 +66,8 @@ custom:
       assets/:
         - name: Cache-Control
           value: 'max-age=31536000'
-
-    # Prevent the plugin from attempting to change the bucket policy
     manageResources: false
 
-  # Default is 3000 so to avoid conflicts with rails applications we'll define a new port
   serverless-offline:
     httpPort: 4001
     lambdaPort: 4003
@@ -88,9 +75,10 @@ custom:
 
   s3:
     host: localhost
-    directory: tmp
+    directory: .s3-local
+    buckets:
+      - ${self:custom.collectionProposalsBucketName}
 
-  # Don't minify the build in development
   minifyBuild:
     dev: false
     sit: true
@@ -100,3 +88,4 @@ custom:
   esbuild:
     bundle: true
     minify: ${self:custom.minifyBuild.${self:provider.stage}}
+
