@@ -17,6 +17,7 @@ import refreshToken from '@/js/utils/refreshToken'
 
 import MMT_COOKIE from 'sharedConstants/mmtCookie'
 
+import getApplicationNameFromHostname from '@/js/utils/getApplicationNameFromHostname'
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 const {
@@ -165,7 +166,11 @@ const AuthContextProvider = ({ children }) => {
 
   // Login redirect
   const login = useCallback(() => {
-    window.location.href = `${apiHost}/login?target=${encodeURIComponent('/')}`
+    const app = getApplicationNameFromHostname()
+    const loginUrl = new URL(`${apiHost}/login`)
+    loginUrl.searchParams.append('target', '/')
+    loginUrl.searchParams.append('app', app)
+    window.location.href = loginUrl.toString()
   }, [])
 
   // Context values

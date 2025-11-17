@@ -6,7 +6,7 @@ import { getApplicationConfig, getEdlConfig } from '../../../sharedUtils/getConf
  * @param {Object} context Methods and properties that provide information about the invocation, function, and execution environment
  */
 const edlLogin = async (event) => {
-  const { target = '/' } = event.queryStringParameters || {}
+  const { target = '/', app } = event.queryStringParameters || {}
 
   // Get the EDL configuration
   const edlConfig = await getEdlConfig()
@@ -27,15 +27,26 @@ const edlLogin = async (event) => {
   const { apiHost } = getApplicationConfig()
   const redirectUri = `${apiHost}${redirectUriPath}`
 
-  // Encode the target into the state parameter
-  const state = encodeURIComponent(JSON.stringify({ target }))
+  // Determine the acr_values based on the app parameter
+  const acrValues = app === 'dmmt' ? 'edl' : 'launchpad'
 
-  const location = `${edlHost}/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}`
+  // Encode the target and app into the state parameter
+  const state = encodeURIComponent(JSON.stringify({
+    target,
+    app
+  }))
+
+  const location = new URL(`${edlHost}/oauth/authorize`)
+  location.searchParams.append('response_type', 'code')
+  location.searchParams.append('client_id', clientId)
+  location.searchParams.append('redirect_uri', redirectUri)
+  location.searchParams.append('state', state)
+  location.searchParams.append('acr_values', acrValues)
 
   return {
     statusCode: 307,
     headers: {
-      Location: location
+      Location: location.toString()
     }
   }
 }

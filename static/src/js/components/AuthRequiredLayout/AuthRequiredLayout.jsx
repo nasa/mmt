@@ -5,6 +5,7 @@ import useAuthContext from '@/js/hooks/useAuthContext'
 
 import isTokenExpired from '@/js/utils/isTokenExpired'
 
+import getApplicationNameFromHostname from '@/js/utils/getApplicationNameFromHostname'
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 const AuthRequiredLayout = () => {
@@ -20,8 +21,11 @@ const AuthRequiredLayout = () => {
     // If we have a token value that has expired, redirect to login the user again
     if (!authLoading && isTokenExpired(tokenExpires)) {
       const nextPath = location.pathname + location.search
-
-      window.location.href = `${apiHost}/login?target=${encodeURIComponent(nextPath)}`
+      const app = getApplicationNameFromHostname()
+      const loginUrl = new URL(`${apiHost}/login`)
+      loginUrl.searchParams.append('target', nextPath)
+      loginUrl.searchParams.append('app', app)
+      window.location.href = loginUrl.toString()
     }
   }, [authLoading, tokenExpires])
 
