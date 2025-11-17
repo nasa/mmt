@@ -59,6 +59,12 @@ const edlCallback = async (event) => {
     expires_at: expiresAt
   } = token
 
+  // Log token details
+  console.log('OAuth Token received:')
+  console.log('Access Token:', accessToken)
+  console.log('Refresh Token:', refreshToken)
+  console.log('Expires At:', expiresAt)
+
   // Convert expires_at to local time and log it
   const expiresAtLocal = new Date(expiresAt).toLocaleString()
   console.log(`Token expires at: ${expiresAtLocal} (local time)`)

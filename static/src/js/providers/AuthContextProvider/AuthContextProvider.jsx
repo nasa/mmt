@@ -165,7 +165,7 @@ const AuthContextProvider = ({ children }) => {
 
   // Login redirect
   const login = useCallback(() => {
-    window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/')}`
+    window.location.href = `${apiHost}/login?target=${encodeURIComponent('/')}`
   }, [])
 
   // Context values

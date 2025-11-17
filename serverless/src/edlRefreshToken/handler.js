@@ -28,7 +28,8 @@ const edlRefreshToken = async (event) => {
 
   try {
     // Decode the JWT to get the current EDL profile and refresh token
-    const decodedJwt = jwt.verify(jwtToken, JWT_SECRET)
+    const [, token] = jwtToken.split('Bearer ')
+    const decodedJwt = jwt.verify(token, JWT_SECRET)
     console.log('Decoded JWT:', JSON.stringify(decodedJwt, null, 2))
 
     const { edlProfile, refreshToken: oldRefreshToken } = decodedJwt

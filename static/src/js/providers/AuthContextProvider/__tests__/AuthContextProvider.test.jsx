@@ -105,7 +105,7 @@ describe('AuthContextProvider component', () => {
 
         await user.click(button)
 
-        const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/')}`
+        const expectedPath = `http://test.com/dev/login?target=${encodeURIComponent('/')}`
         expect(window.location.href).toEqual(expectedPath)
 
         expect(setCookie).toHaveBeenCalledTimes(1)

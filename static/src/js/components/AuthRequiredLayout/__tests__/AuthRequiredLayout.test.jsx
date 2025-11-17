@@ -63,7 +63,7 @@ describe('AuthRequiredContainer component', () => {
 
       expect(screen.queryByText('Mock Component')).not.toBeInTheDocument()
 
-      expect(window.location.href).toEqual('https://example.com/saml-login?target=%2Ftools')
+      expect(window.location.href).toEqual('https://example.com/login?target=%2Ftools')
     })
   })
 
