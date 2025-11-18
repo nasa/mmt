@@ -2,7 +2,8 @@ import React from 'react'
 import {
   act,
   render,
-  screen
+  screen,
+  waitFor
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useCookies } from 'react-cookie'
@@ -32,13 +33,13 @@ vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
 
 vi.mock('jsonwebtoken', async () => ({
   default: {
-    decode: vi.fn().mockReturnValue({
+    decode: vi.fn(() => ({
       edlProfile: {
         name: 'Test User'
       },
-      exp: (new Date('2024-01-01').getTime() / 1000) + 900,
+      exp: Math.floor(Date.now() / 1000) + (15 * 60),
       edlToken: 'mock-token'
-    })
+    }))
   }
 }))
 
@@ -148,9 +149,59 @@ describe('AuthContextProvider component', () => {
       })
 
       describe('when the first token\'s timer ends', () => {
+        test('does not refresh immediately after the token is saved', async () => {
+          const setCookie = vi.fn()
+          useCookies.mockImplementation(() => ([
+            {
+              [MMT_COOKIE]: 'mock-jwt'
+            },
+            setCookie,
+            vi.fn()
+          ]))
+
+          refreshToken.mockClear()
+          setup()
+
+          await waitFor(() => {
+            expect(refreshToken).not.toHaveBeenCalled()
+          })
+        })
+
+        test('sets an intermediate timer when token expiry exceeds the max timeout', () => {
+          const setCookie = vi.fn()
+          useCookies.mockImplementation(() => ([
+            {
+              [MMT_COOKIE]: 'mock-jwt'
+            },
+            setCookie,
+            vi.fn()
+          ]))
+
+          const setTimeoutSpy = vi.spyOn(global, 'setTimeout')
+          const maxTimeout = 2147483647
+          const futureExp = Math.floor((Date.now() + maxTimeout + 120000) / 1000)
+          jwt.decode.mockReturnValueOnce({
+            edlProfile: {
+              name: 'Future User'
+            },
+            exp: futureExp,
+            edlToken: 'future-token'
+          })
+
+          setup()
+
+          expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), maxTimeout)
+
+          vi.advanceTimersByTime(maxTimeout)
+
+          expect(setTimeoutSpy).toHaveBeenCalledTimes(2)
+
+          setTimeoutSpy.mockRestore()
+        })
+
         test('refreshes the user token', async () => {
-        // The first timer will always refresh the token, because the user loaded the page
-        // within the valid timeframe of the token
+          // The first timer will always refresh the token, because the user loaded the page
+          // within the valid timeframe of the token
           const setCookie = vi.fn()
           useCookies.mockImplementation(() => ([
             {

@@ -158,10 +158,12 @@ const AuthContextProvider = ({ children }) => {
         clearTimeout(timerRef.current)
       }
 
-      const maxTimeout = 2147483647 // Maximum timeout (about 24.8 days)
+      const maxTimeout = 2147483647 // Maximum setTimeout delay (approx 24.8 days) due to 32-bit signed int limit
 
       if (timeoutValue > 0) {
         if (timeoutValue > maxTimeout) {
+          // When the token expiry is further in the future than setTimeout supports,
+          // schedule an intermediate timer and reset once it fires.
           console.log(`Setting intermediate timer for ${maxTimeout / 1000} seconds`)
           timerRef.current = setTimeout(() => {
             console.log(`Intermediate timer expired at ${new Date().toISOString()}, resetting timer`)
