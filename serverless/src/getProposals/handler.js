@@ -43,13 +43,12 @@ const getProposals = async (event) => {
       // Parse the proposal data
       const proposal = JSON.parse(await responseBody.transformToString())
 
-      // Return relevant proposal details
+      // Return proposal object without the 'draft' attribute
+      const { draft, ...proposalWithoutDraft } = proposal
+
       return {
         id,
-        providerId: proposal.providerId,
-        shortName: proposal.shortName,
-        entryTitle: proposal.entryTitle,
-        proposalStatus: proposal.proposalStatus
+        ...proposalWithoutDraft
       }
     }))
 

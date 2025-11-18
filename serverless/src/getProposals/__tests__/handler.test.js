@@ -84,6 +84,46 @@ describe('getProposals', () => {
       }))
     })
 
+    test('returns proposals without the draft attribute', async () => {
+      vi.spyOn(s3BucketContents, 's3BucketContents').mockResolvedValue([
+        {
+          Key: 'proposals/123',
+          LastModified: '2023-01-01T00:00:00.000Z'
+        }
+      ])
+
+      s3ClientMock
+        .on(GetObjectCommand, { Key: 'proposals/123' })
+        .resolves({
+          Body: sdkStreamMixin(new Blob([JSON.stringify({
+            providerId: 'MMT-1',
+            shortName: 'Proposal 1',
+            entryTitle: 'Entry 1',
+            proposalStatus: 'SUBMITTED',
+            draft: true,
+            additionalField: 'Some value'
+          })]))
+        })
+
+      const event = { queryStringParameters: {} }
+      const response = await getProposals(event)
+
+      expect(response.statusCode).toBe(200)
+
+      const parsedBody = JSON.parse(response.body)
+      expect(parsedBody).toHaveLength(1)
+      expect(parsedBody[0]).toEqual({
+        id: '123',
+        providerId: 'MMT-1',
+        shortName: 'Proposal 1',
+        entryTitle: 'Entry 1',
+        proposalStatus: 'SUBMITTED',
+        additionalField: 'Some value'
+      })
+
+      expect(parsedBody[0]).not.toHaveProperty('draft')
+    })
+
     test('filters proposals by providerId when specified', async () => {
       vi.spyOn(s3BucketContents, 's3BucketContents').mockResolvedValue([
         {
