@@ -3,7 +3,7 @@ import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { sdkStreamMixin } from '@smithy/util-stream'
 
 import getProposals from '../handler'
-import * as s3BucketContents from '../../utils/s3BucketContents'
+import * as s3ListObjects from '../../utils/s3ListObjects'
 
 const s3ClientMock = mockClient(S3Client)
 
@@ -23,7 +23,7 @@ afterAll(() => {
 describe('getProposals', () => {
   describe('when the proposals are found', () => {
     test('returns the proposals from s3', async () => {
-      const bucketContentsMock = vi.spyOn(s3BucketContents, 's3BucketContents').mockResolvedValue([
+      const bucketContentsMock = vi.spyOn(s3ListObjects, 's3ListObjects').mockResolvedValue([
         {
           Key: 'proposals/123',
           LastModified: '2023-01-01T00:00:00.000Z'
@@ -78,14 +78,15 @@ describe('getProposals', () => {
       }))
 
       expect(bucketContentsMock).toHaveBeenCalledTimes(1)
-      expect(bucketContentsMock).toHaveBeenCalledWith(expect.objectContaining({
-        bucketName: 'test-bucket',
-        prefix: 'proposals/'
-      }))
+      expect(bucketContentsMock).toHaveBeenCalledWith(
+        expect.anything(), // S3Client
+        'proposals/', // Prefix
+        'test-bucket' // BucketName
+      )
     })
 
     test('returns proposals without the draft attribute', async () => {
-      vi.spyOn(s3BucketContents, 's3BucketContents').mockResolvedValue([
+      vi.spyOn(s3ListObjects, 's3ListObjects').mockResolvedValue([
         {
           Key: 'proposals/123',
           LastModified: '2023-01-01T00:00:00.000Z'
@@ -125,7 +126,7 @@ describe('getProposals', () => {
     })
 
     test('filters proposals by providerId when specified', async () => {
-      vi.spyOn(s3BucketContents, 's3BucketContents').mockResolvedValue([
+      vi.spyOn(s3ListObjects, 's3ListObjects').mockResolvedValue([
         {
           Key: 'proposals/123',
           LastModified: '2023-01-01T00:00:00.000Z'
@@ -175,7 +176,7 @@ describe('getProposals', () => {
 
   describe('when no proposals are found', () => {
     test('returns an empty array', async () => {
-      const bucketContentsMock = vi.spyOn(s3BucketContents, 's3BucketContents').mockResolvedValue([])
+      const bucketContentsMock = vi.spyOn(s3ListObjects, 's3ListObjects').mockResolvedValue([])
 
       const event = { queryStringParameters: {} }
       const response = await getProposals(event)
@@ -184,16 +185,17 @@ describe('getProposals', () => {
       expect(response.body).toBe('[]')
 
       expect(bucketContentsMock).toHaveBeenCalledTimes(1)
-      expect(bucketContentsMock).toHaveBeenCalledWith(expect.objectContaining({
-        bucketName: 'test-bucket',
-        prefix: 'proposals/'
-      }))
+      expect(bucketContentsMock).toHaveBeenCalledWith(
+        expect.anything(), // S3Client
+        'proposals/', // Prefix
+        'test-bucket' // BucketName
+      )
     })
   })
 
   describe('when an error occurs', () => {
     test('returns a 500 status code and error message', async () => {
-      vi.spyOn(s3BucketContents, 's3BucketContents').mockRejectedValue(new Error('Test error'))
+      vi.spyOn(s3ListObjects, 's3ListObjects').mockRejectedValue(new Error('Test error'))
 
       const event = { queryStringParameters: {} }
       const response = await getProposals(event)
@@ -206,7 +208,7 @@ describe('getProposals', () => {
     // Create an error without a message
       const errorWithoutMessage = new Error()
       errorWithoutMessage.message = undefined
-      vi.spyOn(s3BucketContents, 's3BucketContents').mockRejectedValue(errorWithoutMessage)
+      vi.spyOn(s3ListObjects, 's3ListObjects').mockRejectedValue(errorWithoutMessage)
 
       const event = { queryStringParameters: {} }
       const response = await getProposals(event)
@@ -218,7 +220,7 @@ describe('getProposals', () => {
     test('uses error.$metadata.httpStatusCode when available', async () => {
       const errorWithMetadata = new Error('Custom error')
       errorWithMetadata.$metadata = { httpStatusCode: 403 }
-      vi.spyOn(s3BucketContents, 's3BucketContents').mockRejectedValue(errorWithMetadata)
+      vi.spyOn(s3ListObjects, 's3ListObjects').mockRejectedValue(errorWithMetadata)
 
       const event = { queryStringParameters: {} }
       const response = await getProposals(event)
@@ -230,7 +232,7 @@ describe('getProposals', () => {
 
   describe('when event does not contain queryStringParameters', () => {
     test('handles the request without error', async () => {
-      vi.spyOn(s3BucketContents, 's3BucketContents').mockResolvedValue([
+      vi.spyOn(s3ListObjects, 's3ListObjects').mockResolvedValue([
         {
           Key: 'proposals/123',
           LastModified: '2023-01-01T00:00:00.000Z'

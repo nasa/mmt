@@ -1,6 +1,6 @@
 import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
-import { s3BucketContents } from '../utils/s3BucketContents'
+import { s3ListObjects } from '../utils/s3ListObjects'
 import { getS3Client } from '../utils/getS3Client'
 
 // Initialize S3 client
@@ -23,11 +23,11 @@ const getProposals = async (event) => {
     const { COLLECTION_PROPOSALS_BUCKET_NAME: collectionProposalsBucketName } = process.env
 
     // Get the list of objects in the S3 bucket with the 'proposals/' prefix
-    const objectList = await s3BucketContents({
+    const objectList = await s3ListObjects(
       s3Client,
-      bucketName: collectionProposalsBucketName,
-      prefix: 'proposals/'
-    })
+      'proposals/',
+      collectionProposalsBucketName
+    )
 
     // Retrieve and process each proposal
     let proposals = await Promise.all(objectList.map(async (object) => {
