@@ -49,8 +49,8 @@ resources: ${file(./serverless-configs/${self:provider.name}-resources.yml)}
 plugins:
   - serverless-esbuild
   - serverless-finch
-  - serverless-s3-local
   - serverless-offline
+  - serverless-s3-local
 
 custom:
   siteName: mmt-${self:provider.stage}
