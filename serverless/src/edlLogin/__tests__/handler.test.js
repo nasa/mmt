@@ -38,42 +38,73 @@ describe('edlLogin', () => {
   describe('when a target is provided', () => {
     test('should return a 307 redirect with an authorization URL', async () => {
       const result = await edlLogin(buildEvent({ target: '/dashboard' }))
+      const url = new URL(result.headers.Location)
 
       expect(result.statusCode).toBe(307)
       expect(result.headers.Location).toContain(`${mockEdlConfig.host}/oauth/authorize`)
-      expect(result.headers.Location).toContain('client_id=test-client-id')
-      expect(result.headers.Location).toContain(`redirect_uri=${encodeURIComponent(`${mockApplicationConfig.apiHost}${mockEdlConfig.redirectUriPath}`)}`)
-      expect(result.headers.Location).toContain(`state=${encodeURIComponent(JSON.stringify({ target: '/dashboard' }))}`)
+      expect(url.searchParams.get('client_id')).toBe('test-client-id')
+      expect(url.searchParams.get('redirect_uri')).toBe(`${mockApplicationConfig.apiHost}${mockEdlConfig.redirectUriPath}`)
+      expect(JSON.parse(decodeURIComponent(url.searchParams.get('state')))).toEqual({
+        target: '/dashboard',
+        app: undefined
+      })
+
+      expect(url.searchParams.get('acr_values')).toBe('launchpad')
     })
 
     test('should include a response_type parameter', async () => {
       const result = await edlLogin(buildEvent({ target: '/dashboard' }))
-      expect(result.headers.Location).toContain('response_type=code')
+      const url = new URL(result.headers.Location)
+      expect(url.searchParams.get('response_type')).toBe('code')
     })
 
     test('should encode complex targets inside the state parameter', async () => {
       const complexTarget = '/search?q=test&filter=active'
       const result = await edlLogin(buildEvent({ target: complexTarget }))
+      const url = new URL(result.headers.Location)
 
-      expect(result.headers.Location).toContain('state=')
-      expect(result.headers.Location).toContain(
-        encodeURIComponent(JSON.stringify({ target: complexTarget }))
-      )
+      expect(JSON.parse(decodeURIComponent(url.searchParams.get('state')))).toEqual({
+        target: complexTarget,
+        app: undefined
+      })
+    })
+
+    test('should set acr_values based on app parameter', async () => {
+      const result = await edlLogin(buildEvent({
+        target: '/dashboard',
+        app: 'dmmt'
+      }))
+      const url = new URL(result.headers.Location)
+
+      expect(url.searchParams.get('acr_values')).toBe('edl')
+      expect(JSON.parse(decodeURIComponent(url.searchParams.get('state')))).toEqual({
+        target: '/dashboard',
+        app: 'dmmt'
+      })
     })
   })
 
   describe('when the target is missing', () => {
     test('should default to using \'/\' when queryStringParameters is missing', async () => {
       const result = await edlLogin({})
+      const url = new URL(result.headers.Location)
 
       expect(result.statusCode).toBe(307)
-      expect(result.headers.Location).toContain(encodeURIComponent(JSON.stringify({ target: '/' })))
+      expect(JSON.parse(decodeURIComponent(url.searchParams.get('state')))).toEqual({
+        target: '/',
+        app: undefined
+      })
+
+      expect(url.searchParams.get('acr_values')).toBe('launchpad')
     })
 
     test('should default state to \'/\' when target key exists but value is missing', async () => {
       const result = await edlLogin(buildEvent({}))
-
-      expect(result.headers.Location).toContain(encodeURIComponent(JSON.stringify({ target: '/' })))
+      const url = new URL(result.headers.Location)
+      expect(JSON.parse(decodeURIComponent(url.searchParams.get('state')))).toEqual({
+        target: '/',
+        app: undefined
+      })
     })
   })
 

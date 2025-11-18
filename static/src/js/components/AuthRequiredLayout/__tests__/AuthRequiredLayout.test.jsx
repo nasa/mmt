@@ -8,6 +8,7 @@ import {
 
 import AuthContext from '@/js/context/AuthContext'
 
+import * as getApplicationNameFromHostnameModule from '@/js/utils/getApplicationNameFromHostname'
 import AuthRequiredLayout from '../AuthRequiredLayout'
 
 import * as getConfig from '../../../../../../sharedUtils/getConfig'
@@ -54,6 +55,7 @@ const setup = (isLoggedIn = false, authLoading = false) => {
 beforeEach(() => {
   delete window.location
   window.location = {}
+  vi.spyOn(getApplicationNameFromHostnameModule, 'default').mockReturnValue('mmt')
 })
 
 describe('AuthRequiredContainer component', () => {
@@ -63,7 +65,7 @@ describe('AuthRequiredContainer component', () => {
 
       expect(screen.queryByText('Mock Component')).not.toBeInTheDocument()
 
-      expect(window.location.href).toEqual('https://example.com/login?target=%2Ftools')
+      expect(window.location.href).toEqual('https://example.com/login?target=%2Ftools&app=mmt')
     })
   })
 

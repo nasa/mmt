@@ -15,6 +15,7 @@ import refreshToken from '@/js/utils/refreshToken'
 import NotificationsContextProvider from '@/js/providers/NotificationsContextProvider/NotificationsContextProvider'
 
 import MMT_COOKIE from 'sharedConstants/mmtCookie'
+import * as getApplicationNameFromHostnameModule from '@/js/utils/getApplicationNameFromHostname'
 import AuthContextProvider from '../AuthContextProvider'
 
 vi.mock('@/js/utils/errorLogger')
@@ -72,6 +73,8 @@ const MockComponent = () => {
 const setup = () => {
   const user = userEvent.setup()
 
+  vi.spyOn(getApplicationNameFromHostnameModule, 'default').mockReturnValue('mmt')
+
   render(
     <AuthContextProvider>
       <NotificationsContextProvider>
@@ -105,7 +108,7 @@ describe('AuthContextProvider component', () => {
 
         await user.click(button)
 
-        const expectedPath = `http://test.com/dev/login?target=${encodeURIComponent('/')}`
+        const expectedPath = `http://test.com/dev/login?target=${encodeURIComponent('/')}&app=mmt`
         expect(window.location.href).toEqual(expectedPath)
 
         expect(setCookie).toHaveBeenCalledTimes(1)
@@ -146,8 +149,8 @@ describe('AuthContextProvider component', () => {
 
       describe('when the first token\'s timer ends', () => {
         test('refreshes the user token', async () => {
-          // The first timer will always refresh the token, because the user loaded the page
-          // within the valid timeframe of the token
+        // The first timer will always refresh the token, because the user loaded the page
+        // within the valid timeframe of the token
           const setCookie = vi.fn()
           useCookies.mockImplementation(() => ([
             {
