@@ -2,8 +2,7 @@ import React from 'react'
 import {
   act,
   render,
-  screen,
-  waitFor
+  screen
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useCookies } from 'react-cookie'
@@ -162,9 +161,9 @@ describe('AuthContextProvider component', () => {
           refreshToken.mockClear()
           setup()
 
-          await waitFor(() => {
-            expect(refreshToken).not.toHaveBeenCalled()
-          })
+          // Flush pending tasks so the initial saveToken completes before asserting
+          await act(async () => { await Promise.resolve() })
+          expect(refreshToken).not.toHaveBeenCalled()
         })
 
         test('sets an intermediate timer when token expiry exceeds the max timeout', () => {
