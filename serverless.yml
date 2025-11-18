@@ -24,7 +24,7 @@ provider:
       - ${env:SUBNET_ID_A, 'subnetIdA'}
       - ${env:SUBNET_ID_B, 'subnetIdB'}
       - ${env:SUBNET_ID_C, 'subnetIdC'}
-  
+
   # Prevent Serverless from attempting to modify the deployment bucket policy as NGAP does not allow it
   deploymentBucket:
     skipPolicySetup: true
@@ -76,7 +76,7 @@ custom:
       assets/:
         - name: Cache-Control
           value: 'max-age=31536000'
-    
+
     # Prevent the plugin from attempting to change the bucket policy
     manageResources: false
 
@@ -88,9 +88,10 @@ custom:
 
   s3:
     host: localhost
-    directory: .s3-local
+    directory: tmp
     buckets:
       - ${self:custom.collectionProposalsBucketName}
+      - ${self:custom.collectionTemplatesBucketName}
 
   # Don't minify the build in development
   minifyBuild:
