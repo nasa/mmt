@@ -41,6 +41,9 @@ configValidationMode: error
 #
 functions: ${file(./serverless-configs/${self:provider.name}-functions.yml)}
 
+#
+# Additional AWS Resources
+#
 resources: ${file(./serverless-configs/${self:provider.name}-resources.yml)}
 
 plugins:
