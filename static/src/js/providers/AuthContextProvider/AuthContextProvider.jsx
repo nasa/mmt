@@ -2,11 +2,13 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState
 } from 'react'
 import PropTypes from 'prop-types'
 import jwt from 'jsonwebtoken'
 import { useIdle } from '@uidotdev/usehooks'
+import { debounce } from 'lodash-es'
 
 import AuthContext from '@/js/context/AuthContext'
 
@@ -48,10 +50,9 @@ const AuthContextProvider = ({ children }) => {
     setCookie
   } = useMMTCookie()
 
+  const [authLoading, setAuthLoading] = useState(true)
   const [idleTimeout, setIdleTimeout] = useState(900000) // Default to 15 minutes in milliseconds
   const idle = useIdle(idleTimeout)
-
-  const [authLoading, setAuthLoading] = useState(true)
 
   // The user's EDL Token
   const [tokenValue, setTokenValue] = useState()
@@ -62,8 +63,9 @@ const AuthContextProvider = ({ children }) => {
   // The user's name and EDL uid
   const [user, setUser] = useState({})
 
-  // `setTimeout` timeoutId used for the timer for auto refreshing the user
-  let idleTimeoutId
+  const timerRef = useRef(null)
+  const idleRef = useRef(idle)
+  const tokenExpiresRef = useRef(null)
 
   // Parse the new token
   const saveToken = async (newToken) => {
@@ -88,9 +90,6 @@ const AuthContextProvider = ({ children }) => {
         console.log(`  Current time: ${new Date(now).toISOString()}`)
         console.log(`  Token expires at: ${new Date(expiresAt).toISOString()}`)
         console.log(`  Time until expiry: ${timeUntilExpiry / 1000} seconds`)
-
-        // Set idle timeout to 1 minute less than time until expiry, or 0 if already expired
-        setIdleTimeout(Math.max(timeUntilExpiry - 60000, 0))
 
         setTokenExpires(expiresAt)
         setTokenValue(edlToken)
@@ -121,54 +120,97 @@ const AuthContextProvider = ({ children }) => {
     saveToken(mmtJwt)
   }, [mmtJwt])
 
-  // Setup a `setTimeout` for checking if the user has been active during their token's valid time
-  const resetTimer = (userIdle) => {
+  const refreshTokenIfNeeded = useCallback(() => {
     const now = Date.now()
-    const timeUntilExpiry = tokenExpires - now
-    const timeoutValue = Math.max(timeUntilExpiry - 60000, 0) // 60 seconds before expiry or 0
-
-    console.log('Resetting Token Timer:')
-    console.log(`  Current time: ${new Date(now).toISOString()}`)
-    console.log(`  Token expires at: ${new Date(tokenExpires).toISOString()}`)
+    const timeUntilExpiry = tokenExpiresRef.current - now
+    console.log(`Refresh check at ${new Date(now).toISOString()}:`)
+    console.log(`  Token expires at: ${new Date(tokenExpiresRef.current).toISOString()}`)
     console.log(`  Time until expiry: ${timeUntilExpiry / 1000} seconds`)
-    console.log(`  Setting timeout to: ${timeoutValue / 1000} seconds`)
+    console.log(`  Idle: ${idleRef.current}`)
 
-    return setTimeout(() => {
-      if (!userIdle) {
-        // If the user was active at some point during their token's valid time, refresh their token for them
-        refreshToken({
-          jwt: mmtJwt,
-          setToken: saveToken
-        })
-      } else {
-        // If they have not been active, warn them that they will be logged out
-        // TODO MMT-3750
-        console.log('LOG OUT WARNING')
-      }
-    }, timeoutValue)
-  }
+    if (timeUntilExpiry <= 60000 && !idleRef.current) { // 1 minute before expiry and not idle
+      console.log(`Attempting to refresh token at ${new Date().toISOString()}`)
+      refreshToken({
+        jwt: mmtJwt,
+        setToken: saveToken
+      })
+    } else {
+      console.log('No need to refresh token')
+    }
+  }, [mmtJwt, saveToken])
+
+  const debouncedRefresh = useMemo(
+    () => debounce(refreshTokenIfNeeded, 1000),
+    [refreshTokenIfNeeded]
+  )
 
   useEffect(() => {
+    idleRef.current = idle
+    tokenExpiresRef.current = tokenExpires
+
     if (tokenExpires) {
       console.log(`Setting up timer at: ${new Date().toISOString()}`)
+      const now = Date.now()
+      const timeUntilExpiry = tokenExpires - now
+      const timeoutValue = Math.max(timeUntilExpiry - 60000, 0) // 60 seconds before expiry or 0
 
-      // If the tokenExpires value was updated, set the idleTimeoutId to that value - 60s
-      idleTimeoutId = resetTimer(idle)
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+
+      const maxTimeout = 2147483647 // Maximum timeout (about 24.8 days)
+
+      if (timeoutValue > 0) {
+        if (timeoutValue > maxTimeout) {
+          console.log(`Setting intermediate timer for ${maxTimeout / 1000} seconds`)
+          timerRef.current = setTimeout(() => {
+            console.log(`Intermediate timer expired at ${new Date().toISOString()}, resetting timer`)
+            // Reset the timer
+            setTokenExpires(tokenExpires)
+          }, maxTimeout)
+        } else {
+          console.log(`Setting final timer to expire in ${timeoutValue / 1000} seconds`)
+          timerRef.current = setTimeout(() => {
+            console.log(`Timer expired at ${new Date().toISOString()}, checking if refresh is needed`)
+            debouncedRefresh()
+          }, timeoutValue)
+        }
+      } else {
+        console.log('Token is already expired or about to expire, refreshing now')
+        debouncedRefresh()
+      }
     }
 
     return () => {
-      console.log(`Clearing timer at: ${new Date().toISOString()}`)
-
-      // Clear the existing timer to ensure only one timer is running at a time
-      clearTimeout(idleTimeoutId)
+      if (timerRef.current) {
+        console.log(`Clearing timer at: ${new Date().toISOString()}`)
+        clearTimeout(timerRef.current)
+      }
     }
-  }, [tokenExpires, idle])
+  }, [tokenExpires, idle, debouncedRefresh])
+
+  useEffect(() => {
+    if (tokenExpires) {
+      const timeUntilExpiry = tokenExpires - Date.now()
+      setIdleTimeout(Math.min(900000, Math.max(timeUntilExpiry - 60000, 0)))
+    }
+  }, [tokenExpires])
+
+  useEffect(() => {
+    console.log('Idle state changed:', idle)
+    if (idle) {
+      console.log('LOG OUT WARNING')
+      // Implement your logout warning logic here
+    }
+  }, [idle])
 
   // Login redirect
   const login = useCallback(() => {
+    console.log('in auth context provider logging in')
     const app = getApplicationNameFromHostname()
     const loginUrl = new URL(`${apiHost}/login`)
     loginUrl.searchParams.append('target', '/')
+
     loginUrl.searchParams.append('app', app)
     window.location.href = loginUrl.toString()
   }, [])
@@ -183,6 +225,7 @@ const AuthContextProvider = ({ children }) => {
     user
   }), [
     authLoading,
+    login,
     tokenExpires,
     tokenValue,
     user
