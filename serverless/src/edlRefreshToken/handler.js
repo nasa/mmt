@@ -99,10 +99,12 @@ const edlRefreshToken = async (event) => {
     const newJwt = createJwt(newAccessToken, newRefreshToken, expiresAt, edlProfile)
     console.log('New JWT created')
 
+    const expiresAtInSeconds = Math.floor(new Date(expiresAt).getTime() / 1000)
+
     return {
       statusCode: 200,
       headers: {
-        'Set-Cookie': createCookie(newJwt),
+        'Set-Cookie': createCookie(newJwt, expiresAtInSeconds),
         'Access-Control-Allow-Origin': mmtHost,
         'Access-Control-Allow-Headers': '*',
         'Access-Control-Allow-Methods': 'POST',

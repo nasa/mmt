@@ -76,10 +76,12 @@ const edlCallback = async (event) => {
 
   const location = `${mmtHost}/auth-callback?target=${encodeURIComponent(target)}`
 
+  const expiresAtInSeconds = Math.floor(new Date(expiresAt).getTime() / 1000)
+
   const response = {
     statusCode: 303,
     headers: {
-      'Set-Cookie': createCookie(jwt),
+      'Set-Cookie': createCookie(jwt, expiresAtInSeconds),
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': '*',
       'Access-Control-Allow-Methods': 'GET, POST',
