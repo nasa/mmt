@@ -45,11 +45,8 @@ describe('edlLogin', () => {
       expect(url.searchParams.get('client_id')).toBe('test-client-id')
       expect(url.searchParams.get('redirect_uri')).toBe(`${mockApplicationConfig.apiHost}${mockEdlConfig.redirectUriPath}`)
       expect(JSON.parse(decodeURIComponent(url.searchParams.get('state')))).toEqual({
-        target: '/dashboard',
-        app: undefined
+        target: '/dashboard'
       })
-
-      expect(url.searchParams.get('acr_values')).toBe('launchpad')
     })
 
     test('should include a response_type parameter', async () => {
@@ -64,22 +61,7 @@ describe('edlLogin', () => {
       const url = new URL(result.headers.Location)
 
       expect(JSON.parse(decodeURIComponent(url.searchParams.get('state')))).toEqual({
-        target: complexTarget,
-        app: undefined
-      })
-    })
-
-    test('should set acr_values based on app parameter', async () => {
-      const result = await edlLogin(buildEvent({
-        target: '/dashboard',
-        app: 'dmmt'
-      }))
-      const url = new URL(result.headers.Location)
-
-      expect(url.searchParams.get('acr_values')).toBe('edl')
-      expect(JSON.parse(decodeURIComponent(url.searchParams.get('state')))).toEqual({
-        target: '/dashboard',
-        app: 'dmmt'
+        target: complexTarget
       })
     })
   })
@@ -91,19 +73,15 @@ describe('edlLogin', () => {
 
       expect(result.statusCode).toBe(307)
       expect(JSON.parse(decodeURIComponent(url.searchParams.get('state')))).toEqual({
-        target: '/',
-        app: undefined
+        target: '/'
       })
-
-      expect(url.searchParams.get('acr_values')).toBe('launchpad')
     })
 
     test('should default state to \'/\' when target key exists but value is missing', async () => {
       const result = await edlLogin(buildEvent({}))
       const url = new URL(result.headers.Location)
       expect(JSON.parse(decodeURIComponent(url.searchParams.get('state')))).toEqual({
-        target: '/',
-        app: undefined
+        target: '/'
       })
     })
   })

@@ -8,7 +8,6 @@ import React, {
 import PropTypes from 'prop-types'
 import jwt from 'jsonwebtoken'
 import { useIdle } from '@uidotdev/usehooks'
-import { debounce } from 'lodash-es'
 
 import AuthContext from '@/js/context/AuthContext'
 
@@ -19,7 +18,6 @@ import refreshToken from '@/js/utils/refreshToken'
 
 import MMT_COOKIE from 'sharedConstants/mmtCookie'
 
-import getApplicationNameFromHostname from '@/js/utils/getApplicationNameFromHostname'
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 const {
@@ -64,8 +62,6 @@ const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({})
 
   const timerRef = useRef(null)
-  const idleRef = useRef(idle)
-  const tokenExpiresRef = useRef(null)
 
   // Parse the new token
   const saveToken = async (newToken) => {
@@ -122,13 +118,13 @@ const AuthContextProvider = ({ children }) => {
 
   const refreshTokenIfNeeded = useCallback(() => {
     const now = Date.now()
-    const timeUntilExpiry = tokenExpiresRef.current - now
+    const timeUntilExpiry = tokenExpires - now
     console.log(`Refresh check at ${new Date(now).toISOString()}:`)
-    console.log(`  Token expires at: ${new Date(tokenExpiresRef.current).toISOString()}`)
+    console.log(`  Token expires at: ${new Date(tokenExpires).toISOString()}`)
     console.log(`  Time until expiry: ${timeUntilExpiry / 1000} seconds`)
-    console.log(`  Idle: ${idleRef.current}`)
+    console.log(`  Idle: ${idle}`)
 
-    if (timeUntilExpiry <= 60000 && !idleRef.current) { // 1 minute before expiry and not idle
+    if (timeUntilExpiry <= 60000 && !idle) { // 1 minute before expiry and not idle
       console.log(`Attempting to refresh token at ${new Date().toISOString()}`)
       refreshToken({
         jwt: mmtJwt,
@@ -137,49 +133,29 @@ const AuthContextProvider = ({ children }) => {
     } else {
       console.log('No need to refresh token')
     }
-  }, [mmtJwt, saveToken])
-
-  const debouncedRefresh = useMemo(
-    () => debounce(refreshTokenIfNeeded, 1000),
-    [refreshTokenIfNeeded]
-  )
+  }, [mmtJwt, saveToken, tokenExpires, idle])
 
   useEffect(() => {
-    idleRef.current = idle
-    tokenExpiresRef.current = tokenExpires
-
     if (tokenExpires) {
       console.log(`Setting up timer at: ${new Date().toISOString()}`)
       const now = Date.now()
       const timeUntilExpiry = tokenExpires - now
-      const timeoutValue = Math.max(timeUntilExpiry - 60000, 0) // 60 seconds before expiry or 0
+      const maxTimeout = 2147483647 // Maximum setTimeout delay (approx 24.8 days) due to 32-bit signed int limit
+      const timeoutValue = Math.min(maxTimeout, Math.max(timeUntilExpiry - 60000, 0)) // 60 seconds before expiry or 0, capped at maxTimeout
 
       if (timerRef.current) {
         clearTimeout(timerRef.current)
       }
 
-      const maxTimeout = 2147483647 // Maximum setTimeout delay (approx 24.8 days) due to 32-bit signed int limit
-
       if (timeoutValue > 0) {
-        if (timeoutValue > maxTimeout) {
-          // When the token expiry is further in the future than setTimeout supports,
-          // schedule an intermediate timer and reset once it fires.
-          console.log(`Setting intermediate timer for ${maxTimeout / 1000} seconds`)
-          timerRef.current = setTimeout(() => {
-            console.log(`Intermediate timer expired at ${new Date().toISOString()}, resetting timer`)
-            // Reset the timer
-            setTokenExpires(tokenExpires)
-          }, maxTimeout)
-        } else {
-          console.log(`Setting final timer to expire in ${timeoutValue / 1000} seconds`)
-          timerRef.current = setTimeout(() => {
-            console.log(`Timer expired at ${new Date().toISOString()}, checking if refresh is needed`)
-            debouncedRefresh()
-          }, timeoutValue)
-        }
+        console.log(`Setting timer to expire in ${timeoutValue / 1000} seconds`)
+        timerRef.current = setTimeout(() => {
+          console.log(`Timer expired at ${new Date().toISOString()}, checking if refresh is needed`)
+          refreshTokenIfNeeded()
+        }, timeoutValue)
       } else {
         console.log('Token is already expired or about to expire, refreshing now')
-        debouncedRefresh()
+        refreshTokenIfNeeded()
       }
     }
 
@@ -189,7 +165,7 @@ const AuthContextProvider = ({ children }) => {
         clearTimeout(timerRef.current)
       }
     }
-  }, [tokenExpires, idle, debouncedRefresh])
+  }, [tokenExpires, refreshTokenIfNeeded])
 
   useEffect(() => {
     if (tokenExpires) {
@@ -208,12 +184,10 @@ const AuthContextProvider = ({ children }) => {
 
   // Login redirect
   const login = useCallback(() => {
-    console.log('in auth context provider logging in')
-    const app = getApplicationNameFromHostname()
     const loginUrl = new URL(`${apiHost}/login`)
     loginUrl.searchParams.append('target', '/')
+    console.log('in auth context provider logging in', loginUrl)
 
-    loginUrl.searchParams.append('app', app)
     window.location.href = loginUrl.toString()
   }, [])
 

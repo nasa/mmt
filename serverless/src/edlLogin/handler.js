@@ -27,9 +27,6 @@ const edlLogin = async (event) => {
   const { apiHost } = getApplicationConfig()
   const redirectUri = `${apiHost}${redirectUriPath}`
 
-  // Determine the acr_values based on the app parameter
-  const acrValues = app === 'dmmt' ? 'edl' : 'launchpad'
-
   // Encode the target and app into the state parameter
   const state = encodeURIComponent(JSON.stringify({
     target,
@@ -41,7 +38,6 @@ const edlLogin = async (event) => {
   location.searchParams.append('client_id', clientId)
   location.searchParams.append('redirect_uri', redirectUri)
   location.searchParams.append('state', state)
-  location.searchParams.append('acr_values', acrValues)
 
   return {
     statusCode: 307,

@@ -5,7 +5,6 @@ import useAuthContext from '@/js/hooks/useAuthContext'
 
 import isTokenExpired from '@/js/utils/isTokenExpired'
 
-import getApplicationNameFromHostname from '@/js/utils/getApplicationNameFromHostname'
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 const AuthRequiredLayout = () => {
@@ -20,12 +19,11 @@ const AuthRequiredLayout = () => {
   useEffect(() => {
     // If we have a token value that has expired, redirect to login the user again
     if (!authLoading && isTokenExpired(tokenExpires)) {
-      console.log('in auth required container logging in')
       const nextPath = location.pathname + location.search
-      const app = getApplicationNameFromHostname()
       const loginUrl = new URL(`${apiHost}/login`)
       loginUrl.searchParams.append('target', nextPath)
-      loginUrl.searchParams.append('app', app)
+      console.log('in auth required container logging in: ', loginUrl)
+
       window.location.href = loginUrl.toString()
     }
   }, [authLoading, tokenExpires])
