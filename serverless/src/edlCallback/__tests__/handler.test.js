@@ -93,6 +93,40 @@ describe('edlCallback', () => {
       })
     })
 
+    describe('when running in offline mode', () => {
+      test('should issue mock tokens without calling EDL', async () => {
+        process.env.IS_OFFLINE = 'true'
+
+        const mockEvent = {
+          queryStringParameters: {
+            code: 'test-code',
+            state: encodeURIComponent(JSON.stringify({ target: '/dashboard' }))
+          }
+        }
+
+        fetchEdlProfile.mockResolvedValue({ uid: 'offline-user' })
+
+        const response = await edlCallback(mockEvent)
+        const offlineExpiration = '2023-01-01T00:15:00.000Z'
+        const expectedExpirationSeconds = Math.floor(new Date(offlineExpiration).getTime() / 1000)
+
+        expect(AuthorizationCode).not.toHaveBeenCalled()
+        expect(fetchEdlProfile).toHaveBeenCalledWith('ABC-1')
+        expect(createJwt).toHaveBeenCalledWith(
+          'ABC-1',
+          'ABC-1-refresh',
+          offlineExpiration,
+          { uid: 'offline-user' }
+        )
+
+        expect(createCookieSpy).toHaveBeenCalledWith('test-jwt', expectedExpirationSeconds)
+        expect(response.statusCode).toBe(303)
+        expect(response.headers.Location).toBe('https://mmt.example.com/auth-callback?target=%2Fdashboard')
+
+        delete process.env.IS_OFFLINE
+      })
+    })
+
     describe('when environment variables are not set', () => {
       test('should throw an error if EDL_CLIENT_ID is not set', async () => {
         delete process.env.EDL_CLIENT_ID

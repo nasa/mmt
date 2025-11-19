@@ -105,6 +105,46 @@ describe('edlRefreshToken', () => {
     })
   })
 
+  describe('when running in offline mode', () => {
+    test('should return mock tokens without calling EDL', async () => {
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date('2024-02-02T00:00:00Z'))
+      process.env.IS_OFFLINE = 'true'
+
+      jwtVerifySpy.mockReturnValue({
+        edlProfile: { uid: 'test-user' },
+        refreshToken: 'old-refresh-token'
+      })
+
+      createJwtSpy = vi.spyOn(createJwtModule, 'default').mockReturnValue('offline-jwt')
+      createCookieSpy = vi.spyOn(createCookieModule, 'default').mockReturnValue('offline-cookie')
+
+      const event = {
+        headers: {
+          Authorization: 'Bearer abc.def'
+        }
+      }
+
+      const response = await edlRefreshToken(event)
+      const offlineExpiration = '2024-02-02T00:30:00.000Z'
+      const expirationSeconds = Math.floor(new Date(offlineExpiration).getTime() / 1000)
+
+      expect(fetchMock).not.toHaveBeenCalled()
+      expect(createJwtSpy).toHaveBeenCalledWith(
+        'ABC-1',
+        'ABC-1-refresh',
+        offlineExpiration,
+        { uid: 'test-user' }
+      )
+
+      expect(createCookieSpy).toHaveBeenCalledWith('offline-jwt', expirationSeconds)
+      expect(response.statusCode).toBe(200)
+      expect(response.headers['Set-Cookie']).toBe('offline-cookie')
+
+      delete process.env.IS_OFFLINE
+    })
+  })
+
   describe('when refreshing the token fails', () => {
     test('should return an error response when the OAuth server responds with an error', async () => {
       jwtVerifySpy.mockReturnValue({
