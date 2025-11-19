@@ -5,9 +5,12 @@ import createJwt from '../utils/createJwt'
 import createCookie from '../utils/createCookie'
 
 /**
- * Fetches an EDL token based on the 'code' param supplied by EDL. Sets a cookie containing a JWT containing the EDL token
- * @param {Object} event Details about the HTTP request that it received
- * @param {Object} context Methods and properties that provide information about the invocation, function, and execution environment
+ * Handles the EDL callback during authentication
+ * @param {Object} event - Details about the HTTP request that it received
+ * @param {Object} event.queryStringParameters - Query parameters from the EDL callback
+ * @param {string} event.queryStringParameters.code - The authorization code from EDL
+ * @param {string} event.queryStringParameters.state - The state parameter, containing the original target URL
+ * @returns {Promise<Object>} - HTTP response object
  */
 const edlCallback = async (event) => {
   const { code, state } = event.queryStringParameters
@@ -17,47 +20,59 @@ const edlCallback = async (event) => {
   const { apiHost, mmtHost } = getApplicationConfig()
   const redirectUri = `${apiHost}${redirectUriPath}`
 
-  // Use environment variables for client ID and secret
-  const clientId = process.env.EDL_CLIENT_ID
-  const clientSecret = process.env.EDL_PASSWORD
+  let accessToken
+  let refreshToken
+  let expiresAt
+  let edlProfile
 
-  if (!clientId || !clientSecret) {
-    console.error('EDL_CLIENT_ID or EDL_PASSWORD environment variable is not set')
-    throw new Error('EDL client credentials are not properly configured')
-  }
+  if (process.env.IS_OFFLINE) {
+    // Development mode
+    accessToken = 'ABC-1'
+    refreshToken = 'ABC-1-refresh'
+    expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString() // 30 minutes from now
+    edlProfile = await fetchEdlProfile(accessToken)
+  } else {
+    // Production mode
+    const clientId = process.env.EDL_CLIENT_ID
+    const clientSecret = process.env.EDL_PASSWORD
 
-  const config = {
-    client: {
-      id: clientId,
-      secret: clientSecret
-    },
-    auth: {
-      tokenHost,
-      authorizePath: '/oauth/authorize',
-      tokenPath: '/oauth/token'
+    if (!clientId || !clientSecret) {
+      console.error('EDL_CLIENT_ID or EDL_PASSWORD environment variable is not set')
+      throw new Error('EDL client credentials are not properly configured')
     }
+
+    const config = {
+      client: {
+        id: clientId,
+        secret: clientSecret
+      },
+      auth: {
+        tokenHost,
+        authorizePath: '/oauth/authorize',
+        tokenPath: '/oauth/token'
+      }
+    }
+
+    const client = new AuthorizationCode(config)
+    const tokenConfig = {
+      code,
+      redirect_uri: redirectUri,
+      grant_type: 'authorization_code'
+    }
+
+    const oauthToken = await client.getToken(tokenConfig)
+
+    if (!oauthToken) {
+      throw new Error('Failed to obtain OAuth token')
+    }
+
+    const { token } = oauthToken
+    accessToken = token.access_token
+    refreshToken = token.refresh_token
+    expiresAt = token.expires_at
+
+    edlProfile = await fetchEdlProfile(oauthToken)
   }
-
-  const client = new AuthorizationCode(config)
-
-  const tokenConfig = {
-    code,
-    redirect_uri: redirectUri,
-    grant_type: 'authorization_code'
-  }
-
-  const oauthToken = await client.getToken(tokenConfig)
-
-  if (!oauthToken) {
-    throw new Error('Failed to obtain OAuth token')
-  }
-
-  const { token } = oauthToken
-  const {
-    access_token: accessToken,
-    refresh_token: refreshToken,
-    expires_at: expiresAt
-  } = token
 
   // Log token details
   console.log('OAuth Token received:')
@@ -68,8 +83,6 @@ const edlCallback = async (event) => {
   // Convert expires_at to local time and log it
   const expiresAtLocal = new Date(expiresAt).toLocaleString()
   console.log(`Token expires at: ${expiresAtLocal} (local time)`)
-
-  const edlProfile = await fetchEdlProfile(oauthToken)
 
   // Create JWT with EDL token and edl profile
   const jwt = createJwt(accessToken, refreshToken, expiresAt, edlProfile)

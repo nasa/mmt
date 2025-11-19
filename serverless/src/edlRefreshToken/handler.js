@@ -15,7 +15,7 @@ import { downcaseKeys } from '../utils/downcaseKeys'
 const edlRefreshToken = async (event) => {
   console.log('Entering edlRefreshToken function')
 
-  const { JWT_SECRET } = process.env
+  const { JWT_SECRET, IS_OFFLINE } = process.env
   const { mmtHost } = getApplicationConfig()
   const { host: tokenHost } = getEdlConfig()
 
@@ -33,63 +33,74 @@ const edlRefreshToken = async (event) => {
     console.log('Decoded JWT:', JSON.stringify(decodedJwt, null, 2))
 
     const { edlProfile, refreshToken: oldRefreshToken } = decodedJwt
-    console.log(`Refresh token extracted: ${oldRefreshToken.substring(0, 20)}...`)
 
-    // Use environment variables for client ID and secret
-    const clientId = process.env.EDL_CLIENT_ID
-    const clientSecret = process.env.EDL_PASSWORD
+    let newAccessToken; let newRefreshToken; let
+      expiresAt
 
-    if (!clientId || !clientSecret) {
-      console.error('EDL_CLIENT_ID or EDL_PASSWORD environment variable is not set')
-      throw new Error('EDL client credentials are not properly configured')
+    if (IS_OFFLINE) {
+      // Development mode
+      console.log('Running in offline/development mode')
+      newAccessToken = 'ABC-1'
+      newRefreshToken = 'ABC-1-refresh'
+      expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString() // 30 minutes from now
+    } else {
+      // Production mode
+      console.log('Running in production mode')
+      console.log(`Refresh token extracted: ${oldRefreshToken.substring(0, 20)}...`)
+
+      const clientId = process.env.EDL_CLIENT_ID
+      const clientSecret = process.env.EDL_PASSWORD
+
+      if (!clientId || !clientSecret) {
+        console.error('EDL_CLIENT_ID or EDL_PASSWORD environment variable is not set')
+        throw new Error('EDL client credentials are not properly configured')
+      }
+
+      const tokenUrl = `${tokenHost}/oauth/token`
+      console.log(`Token URL: ${tokenUrl}`)
+
+      const body = new URLSearchParams({
+        grant_type: 'refresh_token',
+        refresh_token: oldRefreshToken
+      }).toString()
+
+      console.log('Request body (partially masked):', body.replace(/refresh_token=[^&]+/, 'refresh_token=XXXXX'))
+
+      const auth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
+
+      const response = await fetch(tokenUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Accept: 'application/json',
+          Authorization: `Basic ${auth}`
+        },
+        body
+      })
+
+      console.log('Response status:', response.status)
+
+      const responseBody = await response.text()
+      console.log('Response body:', responseBody)
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}, body: ${responseBody}`)
+      }
+
+      const newToken = JSON.parse(responseBody)
+      console.log('New token received')
+
+      newAccessToken = newToken.access_token
+      newRefreshToken = newToken.refresh_token
+      const expiresIn = newToken.expires_in
+
+      // Calculate expires_at
+      expiresAt = new Date(Date.now() + expiresIn * 1000).toISOString()
     }
-
-    const tokenUrl = `${tokenHost}/oauth/token`
-    console.log(`Token URL: ${tokenUrl}`)
-
-    const body = new URLSearchParams({
-      grant_type: 'refresh_token',
-      refresh_token: oldRefreshToken
-    }).toString()
-
-    console.log('Request body (partially masked):', body.replace(/refresh_token=[^&]+/, 'refresh_token=XXXXX'))
-
-    const auth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
-
-    const response = await fetch(tokenUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'application/json',
-        Authorization: `Basic ${auth}`
-      },
-      body
-    })
-
-    console.log('Response status:', response.status)
-
-    const responseBody = await response.text()
-    console.log('Response body:', responseBody)
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}, body: ${responseBody}`)
-    }
-
-    const newToken = JSON.parse(responseBody)
-    console.log('New token received')
-
-    const {
-      access_token: newAccessToken,
-      refresh_token: newRefreshToken,
-      expires_in: expiresIn
-    } = newToken
 
     console.log(`New access token: ${newAccessToken.substring(0, 20)}...`)
     console.log(`New refresh token: ${newRefreshToken ? `${newRefreshToken.substring(0, 20)}...` : 'Not provided'}`)
-    console.log(`Expires in: ${expiresIn} seconds`)
-
-    // Calculate expires_at
-    const expiresAt = new Date(Date.now() + expiresIn * 1000).toISOString()
+    console.log(`Expires at: ${expiresAt}`)
 
     // Convert expires_at to local time and log it
     const expiresAtLocal = new Date(expiresAt).toLocaleString()
