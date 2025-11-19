@@ -29,7 +29,6 @@ describe('edlRefreshToken', () => {
     process.env.EDL_PASSWORD = 'test-client-secret'
     process.env.JWT_SECRET = 'jwt-secret'
     process.env.COOKIE_DOMAIN = '.example.com'
-    process.env.JWT_VALID_TIME = '900'
     delete process.env.IS_OFFLINE
 
     vi.spyOn(getConfig, 'getApplicationConfig').mockReturnValue({
@@ -100,7 +99,7 @@ describe('edlRefreshToken', () => {
       )
 
       expect(response.statusCode).toBe(200)
-      expect(createCookieSpy).toHaveBeenCalledWith('new-jwt')
+      expect(createCookieSpy).toHaveBeenCalledWith('new-jwt', 1704070800)
       expect(response.headers['Set-Cookie']).toBe('cookie-string')
       expect(response.headers['Access-Control-Allow-Origin']).toBe('https://mmt.example.com')
     })

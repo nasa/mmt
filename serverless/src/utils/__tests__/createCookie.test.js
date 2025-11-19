@@ -1,21 +1,29 @@
+import {
+  describe,
+  test,
+  expect,
+  beforeEach,
+  afterEach,
+  vi
+} from 'vitest'
 import createCookie from '../createCookie'
 
 describe('createCookie', () => {
   const OLD_ENV = process.env
 
   beforeEach(() => {
-    jest.resetModules()
+    vi.resetModules()
     process.env = {
       ...OLD_ENV,
       COOKIE_DOMAIN: '.example.com'
     }
 
-    jest.spyOn(Date, 'now').mockImplementation(() => 1625097600000) // 2021-07-01T00:00:00.000Z
+    vi.spyOn(Date, 'now').mockImplementation(() => 1625097600000) // 2021-07-01T00:00:00.000Z
   })
 
   afterEach(() => {
     process.env = OLD_ENV
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
   })
 
   describe('when not running locally', () => {

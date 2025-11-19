@@ -13,7 +13,6 @@ import createJwt from '../../utils/createJwt'
 import * as createCookieModule from '../../utils/createCookie'
 
 const realCreateCookie = createCookieModule.default
-
 vi.mock('simple-oauth2')
 vi.mock('../../../../sharedUtils/getConfig', () => {
   const getApplicationConfig = vi.fn(() => ({
@@ -41,10 +40,10 @@ describe('edlCallback', () => {
 
   beforeEach(() => {
     vi.resetAllMocks()
+    vi.spyOn(Date, 'now').mockReturnValue(new Date('2022-12-31T23:45:00Z').getTime())
     process.env.EDL_CLIENT_ID = 'test-client-id'
     process.env.EDL_PASSWORD = 'test-client-secret'
     process.env.COOKIE_DOMAIN = '.example.com'
-    process.env.JWT_VALID_TIME = '900'
     delete process.env.IS_OFFLINE
 
     getConfig.getApplicationConfig.mockReturnValue({
@@ -214,6 +213,7 @@ describe('edlCallback', () => {
         fetchEdlProfile.mockResolvedValue(mockEdlProfile)
 
         await edlCallback(mockEvent)
+        const expectedExpirationSeconds = Math.floor(new Date(mockToken.expires_at).getTime() / 1000)
 
         expect(createJwt).toHaveBeenCalledWith(
           mockToken.access_token,
@@ -222,7 +222,7 @@ describe('edlCallback', () => {
           mockEdlProfile
         )
 
-        expect(createCookieSpy).toHaveBeenCalledWith('test-jwt')
+        expect(createCookieSpy).toHaveBeenCalledWith('test-jwt', expectedExpirationSeconds)
       })
     })
 
@@ -393,7 +393,8 @@ describe('edlCallback', () => {
         AuthorizationCode.mockImplementation(() => ({
           getToken: vi.fn().mockResolvedValue({
             token: {
-              access_token: 'test-access-token'
+              access_token: 'test-access-token',
+              expires_at: '2023-01-01T00:00:00Z'
             }
           })
         }))
