@@ -6,6 +6,11 @@ import { getS3Client } from '../utils/getS3Client'
 // Initialize S3 client
 let s3Client
 
+/**
+ * Retrieves proposals from an S3 bucket
+ * @param {Object} event - The Lambda event object
+ * @returns {Object} - Response object with proposals data or error message
+ */
 const getProposals = async (event) => {
   // Get default response headers from application config
   const { defaultResponseHeaders } = getApplicationConfig()
