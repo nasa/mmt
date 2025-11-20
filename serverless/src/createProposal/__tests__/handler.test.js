@@ -66,9 +66,8 @@ describe('createProposal', () => {
     }
 
     await createProposal(event)
-    await createProposal(event)
 
-    expect(s3ClientMock.calls()).toHaveLength(2)
+    expect(s3ClientMock.calls()).toHaveLength(1)
   })
 
   test('When S3 operation fails, should return the error status code', async () => {

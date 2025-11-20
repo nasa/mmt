@@ -79,7 +79,7 @@ describe('getProposals', () => {
 
       expect(bucketContentsMock).toHaveBeenCalledTimes(1)
       expect(bucketContentsMock).toHaveBeenCalledWith(
-        expect.anything(), // S3Client
+        expect.any(S3Client), // S3Client
         'proposals/', // Prefix
         'test-bucket' // BucketName
       )

@@ -104,7 +104,7 @@ describe('s3ListObjects', () => {
     })
   })
 
-  test('returns an s3 list command contents when no prefix is passed', async () => {
+  test('returns the default templates bucket s3 list command contents when no prefix is passed', async () => {
     s3ClientMock.on(ListObjectsV2Command).resolves({
       Contents: [
         {

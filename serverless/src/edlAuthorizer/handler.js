@@ -17,6 +17,7 @@ const edlAuthorizer = async (event) => {
     methodArn
   } = event
 
+  // To access proposal in S3 in dev env
   if (process.env.IS_OFFLINE) {
     return generatePolicy('mock_user', 'Allow', methodArn)
   }
