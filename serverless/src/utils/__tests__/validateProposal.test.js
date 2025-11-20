@@ -11,6 +11,7 @@ describe('validateProposal', () => {
         proposalStatus: 'Draft',
         requestType: 'Create',
         submitterId: 'submitter1',
+        createdAt: '2023-04-20T12:00:00Z',
         updatedAt: '2023-04-20T12:00:00Z',
         draft: {}
       }
@@ -32,6 +33,7 @@ describe('validateProposal', () => {
         proposalStatus: 'Draft',
         requestType: 'Create',
         submitterId: 'submitter1',
+        createdAt: '2023-04-20T12:00:00Z',
         updatedAt: '2023-04-20T12:00:00Z',
         draft: { someKey: 'someValue' },
         extraField1: 'Extra',
@@ -57,6 +59,7 @@ describe('validateProposal', () => {
         // Missing proposalStatus
         requestType: 'Create',
         // Missing submitterId
+        createdAt: '2023-04-20T12:00:00Z',
         updatedAt: '2023-04-20T12:00:00Z',
         draft: {}
       }
@@ -86,6 +89,7 @@ describe('validateProposal', () => {
           'proposalStatus',
           'requestType',
           'submitterId',
+          'createdAt',
           'updatedAt',
           'draft'
         ]

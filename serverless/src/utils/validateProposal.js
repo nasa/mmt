@@ -12,6 +12,7 @@ export const validateProposal = (proposal) => {
     'proposalStatus',
     'requestType',
     'submitterId',
+    'createdAt',
     'updatedAt',
     'draft'
   ]

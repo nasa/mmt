@@ -35,6 +35,7 @@ describe('updateProposal', () => {
     proposalStatus: 'DRAFT',
     requestType: 'CREATE',
     submitterId: 'test-submitter-id',
+    createdAt: '2023-05-20T12:00:00Z',
     updatedAt: '2023-05-20T12:00:00Z',
     draft: {
       lastUpdated: '2023-05-20T12:00:00Z',

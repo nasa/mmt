@@ -26,6 +26,7 @@ describe('createProposal', () => {
     proposalStatus: 'DRAFT',
     requestType: 'CREATE',
     submitterId: 'test-submitter-id',
+    createdAt: '2023-05-20T12:00:00Z',
     updatedAt: '2023-05-20T12:00:00Z',
     draft: {
       lastUpdated: '2023-05-20T12:00:00Z',
@@ -98,7 +99,7 @@ describe('createProposal', () => {
     expect(response.statusCode).toBe(400)
     expect(JSON.parse(response.body)).toEqual({
       message: 'Invalid proposal: missing mandatory fields',
-      missingFields: ['providerId', 'entryTitle', 'proposalStatus', 'requestType', 'submitterId', 'updatedAt', 'draft']
+      missingFields: ['providerId', 'entryTitle', 'proposalStatus', 'requestType', 'submitterId', 'createdAt', 'updatedAt', 'draft']
     })
   })
 
