@@ -6,6 +6,7 @@ import {
 
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { getS3Client } from '../utils/getS3Client'
+import { validateProposal } from '../utils/validateProposal'
 
 // Initialize S3 client
 let s3Client
@@ -47,16 +48,29 @@ const updateProposal = async (event) => {
     }
   }
 
-  const { id } = pathParameters
-
   // Check if proposal data is provided
-  if (!proposal || Object.keys(proposal).length === 0) {
+  if (!proposal) {
     return {
       statusCode: 400,
       headers: defaultResponseHeaders,
       body: JSON.stringify({ message: 'Missing request body' })
     }
   }
+
+  // Validate the proposal
+  const { isValid, missingFields } = validateProposal(proposal)
+  if (!isValid) {
+    return {
+      statusCode: 400,
+      headers: defaultResponseHeaders,
+      body: JSON.stringify({
+        message: 'Invalid proposal: missing mandatory fields',
+        missingFields
+      })
+    }
+  }
+
+  const { id } = pathParameters
 
   try {
     // Check if the proposal exists in S3

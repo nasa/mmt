@@ -2,6 +2,7 @@ import { PutObjectCommand } from '@aws-sdk/client-s3'
 
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { getS3Client } from '../utils/getS3Client'
+import { validateProposal } from '../utils/validateProposal'
 
 // Initialize S3 client
 let s3Client
@@ -42,12 +43,25 @@ const createProposal = async (event) => {
       }
     }
 
-    // Check if proposal data is provided
-    if (!proposal || Object.keys(proposal).length === 0) {
+    // Check if proposal is provided
+    if (!proposal) {
       return {
         statusCode: 400,
         headers: defaultResponseHeaders,
         body: JSON.stringify({ message: 'Missing request body' })
+      }
+    }
+
+    // Validate the proposal
+    const { isValid, missingFields } = validateProposal(proposal)
+    if (!isValid) {
+      return {
+        statusCode: 400,
+        headers: defaultResponseHeaders,
+        body: JSON.stringify({
+          message: 'Invalid proposal: missing mandatory fields',
+          missingFields
+        })
       }
     }
 

@@ -27,6 +27,20 @@ afterEach(() => {
 })
 
 describe('updateProposal', () => {
+  const validProposal = {
+    id: 'test-proposal-id',
+    providerId: 'test-provider-id',
+    shortName: 'Test Proposal',
+    entryTitle: 'Test Proposal Title',
+    proposalStatus: 'DRAFT',
+    requestType: 'CREATE',
+    submitterId: 'test-submitter-id',
+    updatedAt: '2023-05-20T12:00:00Z',
+    draft: {
+      lastUpdated: '2023-05-20T12:00:00Z',
+      comment: 'Initial draft'
+    }
+  }
   test('When given a valid proposal and it exists, should update it in S3 and return success', async () => {
     s3ClientMock.on(HeadObjectCommand).resolves({})
     s3ClientMock.on(PutObjectCommand).resolves({
@@ -34,7 +48,7 @@ describe('updateProposal', () => {
     })
 
     const event = {
-      body: JSON.stringify({ title: 'Test Proposal' }),
+      body: JSON.stringify(validProposal),
       pathParameters: { id: 'test-id' }
     }
 
@@ -51,7 +65,7 @@ describe('updateProposal', () => {
     s3ClientMock.on(HeadObjectCommand).rejects(notFoundError)
 
     const event = {
-      body: JSON.stringify({ title: 'Test Proposal' }),
+      body: JSON.stringify(validProposal),
       pathParameters: { id: 'test-id' }
     }
 
@@ -65,7 +79,7 @@ describe('updateProposal', () => {
     s3ClientMock.on(HeadObjectCommand).rejects(new Error('Unknown S3 error'))
 
     const event = {
-      body: JSON.stringify({ title: 'Test Proposal' }),
+      body: JSON.stringify(validProposal),
       pathParameters: { id: 'test-id' }
     }
 
@@ -83,7 +97,7 @@ describe('updateProposal', () => {
     })
 
     const event = {
-      body: JSON.stringify({ title: 'Test Proposal' }),
+      body: JSON.stringify(validProposal),
       pathParameters: { id: 'test-id' }
     }
 
@@ -97,7 +111,7 @@ describe('updateProposal', () => {
     expect(headCall.args[0].input.Key).toBe('proposals/test-id')
     expect(putCall.args[0].input.Bucket).toBe('test-bucket')
     expect(putCall.args[0].input.Key).toBe('proposals/test-id')
-    expect(putCall.args[0].input.Body).toBe(JSON.stringify({ title: 'Test Proposal' }))
+    expect(putCall.args[0].input.Body).toBe(JSON.stringify(validProposal))
   })
 
   test('When S3 returns a non-200 status code, should return that status code', async () => {
@@ -107,7 +121,7 @@ describe('updateProposal', () => {
     })
 
     const event = {
-      body: JSON.stringify({ title: 'Test Proposal' }),
+      body: JSON.stringify(validProposal),
       pathParameters: { id: 'test-id' }
     }
 
@@ -149,7 +163,7 @@ describe('updateProposal', () => {
     s3ClientMock.on(HeadObjectCommand).rejects(customError)
 
     const event = {
-      body: JSON.stringify({ title: 'Test Proposal' }),
+      body: JSON.stringify(validProposal),
       pathParameters: { id: 'test-id' }
     }
 
@@ -166,7 +180,7 @@ describe('updateProposal', () => {
     s3ClientMock.on(HeadObjectCommand).rejects(serverError)
 
     const event = {
-      body: JSON.stringify({ title: 'Test Proposal' }),
+      body: JSON.stringify(validProposal),
       pathParameters: { id: 'test-id' }
     }
 
@@ -183,7 +197,7 @@ describe('updateProposal', () => {
     s3ClientMock.on(HeadObjectCommand).rejects(errorWithoutMessage)
 
     const event = {
-      body: JSON.stringify({ title: 'Test Proposal' }),
+      body: JSON.stringify(validProposal),
       pathParameters: { id: 'test-id' }
     }
 
@@ -218,7 +232,7 @@ describe('updateProposal', () => {
 
   test('When event body is an empty object, should return 400', async () => {
     const event = {
-      body: '{}',
+      body: 'null',
       pathParameters: { id: 'test-id' }
     }
 

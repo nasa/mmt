@@ -18,6 +18,20 @@ afterEach(() => {
 })
 
 describe('createProposal', () => {
+  const validProposal = {
+    id: 'test-proposal-id',
+    providerId: 'test-provider-id',
+    shortName: 'Test Proposal',
+    entryTitle: 'Test Proposal Title',
+    proposalStatus: 'DRAFT',
+    requestType: 'CREATE',
+    submitterId: 'test-submitter-id',
+    updatedAt: '2023-05-20T12:00:00Z',
+    draft: {
+      lastUpdated: '2023-05-20T12:00:00Z',
+      comment: 'Initial draft'
+    }
+  }
   test('When given a valid proposal, should save it to S3 and return success', async () => {
     s3ClientMock.on(PutObjectCommand).resolves({
       $metadata: {
@@ -32,11 +46,7 @@ describe('createProposal', () => {
     })
 
     const event = {
-      body: JSON.stringify({
-        id: 'test-proposal-id',
-        title: 'Test Proposal',
-        content: 'This is a test proposal'
-      })
+      body: JSON.stringify(validProposal)
     }
 
     const response = await createProposal(event)
@@ -51,11 +61,7 @@ describe('createProposal', () => {
     })
 
     const event = {
-      body: JSON.stringify({
-        id: 'test-proposal-id',
-        title: 'Test Proposal',
-        content: 'This is a test proposal'
-      })
+      body: JSON.stringify(validProposal)
     }
 
     await createProposal(event)
@@ -68,11 +74,7 @@ describe('createProposal', () => {
     s3ClientMock.on(PutObjectCommand).rejects(new Error('S3 operation failed'))
 
     const event = {
-      body: JSON.stringify({
-        id: 'test-proposal-id',
-        title: 'Test Proposal',
-        content: 'This is a test proposal'
-      })
+      body: JSON.stringify(validProposal)
     }
 
     const response = await createProposal(event)
@@ -80,19 +82,33 @@ describe('createProposal', () => {
     expect(response.statusCode).toBe(500)
   })
 
+  test('When proposal is missing mandatory fields, should return 400', async () => {
+    const invalidProposal = {
+      id: 'test-proposal-id',
+      shortName: 'Test Proposal'
+      // Missing other mandatory fields
+    }
+
+    const event = {
+      body: JSON.stringify(invalidProposal)
+    }
+
+    const response = await createProposal(event)
+
+    expect(response.statusCode).toBe(400)
+    expect(JSON.parse(response.body)).toEqual({
+      message: 'Invalid proposal: missing mandatory fields',
+      missingFields: ['providerId', 'entryTitle', 'proposalStatus', 'requestType', 'submitterId', 'updatedAt', 'draft']
+    })
+  })
+
   test('When proposal is saved, should use correct S3 bucket and key', async () => {
     s3ClientMock.on(PutObjectCommand).resolves({
       $metadata: { httpStatusCode: 200 }
     })
 
-    const proposalData = {
-      id: 'test-proposal-id',
-      title: 'Test Proposal',
-      content: 'This is a test proposal'
-    }
-
     const event = {
-      body: JSON.stringify(proposalData)
+      body: JSON.stringify(validProposal)
     }
 
     process.env.COLLECTION_PROPOSALS_BUCKET_NAME = 'test-bucket'
@@ -103,7 +119,7 @@ describe('createProposal', () => {
     const { input } = call.args[0]
     expect(input.Bucket).toBe('test-bucket')
     expect(input.Key).toBe('proposals/test-proposal-id')
-    expect(JSON.parse(input.Body)).toEqual(proposalData) // Compare with the original object, not the stringified version
+    expect(JSON.parse(input.Body)).toEqual(validProposal)
   })
 
   test('When S3 operation fails with a custom error message, should return that message', async () => {
@@ -111,11 +127,7 @@ describe('createProposal', () => {
     s3ClientMock.on(PutObjectCommand).rejects(new Error(customErrorMessage))
 
     const event = {
-      body: JSON.stringify({
-        id: 'test-proposal-id',
-        title: 'Test Proposal',
-        content: 'This is a test proposal'
-      })
+      body: JSON.stringify(validProposal)
     }
 
     const response = await createProposal(event)
@@ -128,11 +140,7 @@ describe('createProposal', () => {
     s3ClientMock.on(PutObjectCommand).rejects(new Error())
 
     const event = {
-      body: JSON.stringify({
-        id: 'test-proposal-id',
-        title: 'Test Proposal',
-        content: 'This is a test proposal'
-      })
+      body: JSON.stringify(validProposal)
     }
 
     const response = await createProposal(event)
@@ -165,7 +173,7 @@ describe('createProposal', () => {
 
   test('When event body is an empty object, should return 400', async () => {
     const event = {
-      body: '{}' // Empty JSON object
+      body: 'null'
     }
 
     const response = await createProposal(event)
