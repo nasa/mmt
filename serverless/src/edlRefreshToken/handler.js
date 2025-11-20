@@ -13,24 +13,17 @@ import { downcaseKeys } from '../utils/downcaseKeys'
  * @returns {Promise<{statusCode:number, headers:Object, body?:string}>} HTTP response compatible with API Gateway.
  */
 const edlRefreshToken = async (event) => {
-  console.log('Entering edlRefreshToken function')
-
   const { JWT_SECRET, IS_OFFLINE } = process.env
   const { mmtHost } = getApplicationConfig()
   const { host: tokenHost } = getEdlConfig()
 
-  console.log(`Token host: ${tokenHost}`)
-
   const { headers } = event
   const { authorization: jwtToken = '' } = downcaseKeys(headers)
-
-  console.log('Received JWT token: ', jwtToken)
 
   try {
     // Decode the JWT to get the current EDL profile and refresh token
     const [, token] = jwtToken.split('Bearer ')
     const decodedJwt = jwt.verify(token, JWT_SECRET)
-    console.log('Decoded JWT:', JSON.stringify(decodedJwt, null, 2))
 
     const { edlProfile, refreshToken: oldRefreshToken } = decodedJwt
 
@@ -39,14 +32,11 @@ const edlRefreshToken = async (event) => {
 
     if (IS_OFFLINE) {
       // Development mode
-      console.log('Running in offline/development mode')
       newAccessToken = 'ABC-1'
       newRefreshToken = 'ABC-1-refresh'
       expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString() // 30 minutes from now
     } else {
       // Production mode
-      console.log('Running in production mode')
-      console.log(`Refresh token extracted: ${oldRefreshToken.substring(0, 20)}...`)
 
       const clientId = process.env.EDL_CLIENT_ID
       const clientSecret = process.env.EDL_PASSWORD
@@ -57,14 +47,11 @@ const edlRefreshToken = async (event) => {
       }
 
       const tokenUrl = `${tokenHost}/oauth/token`
-      console.log(`Token URL: ${tokenUrl}`)
 
       const body = new URLSearchParams({
         grant_type: 'refresh_token',
         refresh_token: oldRefreshToken
       }).toString()
-
-      console.log('Request body (partially masked):', body.replace(/refresh_token=[^&]+/, 'refresh_token=XXXXX'))
 
       const auth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
 
@@ -78,17 +65,13 @@ const edlRefreshToken = async (event) => {
         body
       })
 
-      console.log('Response status:', response.status)
-
       const responseBody = await response.text()
-      console.log('Response body:', responseBody)
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}, body: ${responseBody}`)
       }
 
       const newToken = JSON.parse(responseBody)
-      console.log('New token received')
 
       newAccessToken = newToken.access_token
       newRefreshToken = newToken.refresh_token
@@ -98,17 +81,8 @@ const edlRefreshToken = async (event) => {
       expiresAt = new Date(Date.now() + expiresIn * 1000).toISOString()
     }
 
-    console.log(`New access token: ${newAccessToken.substring(0, 20)}...`)
-    console.log(`New refresh token: ${newRefreshToken ? `${newRefreshToken.substring(0, 20)}...` : 'Not provided'}`)
-    console.log(`Expires at: ${expiresAt}`)
-
-    // Convert expires_at to local time and log it
-    const expiresAtLocal = new Date(expiresAt).toLocaleString()
-    console.log(`New token expires at: ${expiresAtLocal} (local time)`)
-
     // Create a new JWT with the new access token, refresh token, and existing EDL profile
     const newJwt = createJwt(newAccessToken, newRefreshToken, expiresAt, edlProfile)
-    console.log('New JWT created')
 
     const expiresAtInSeconds = Math.floor(new Date(expiresAt).getTime() / 1000)
 
@@ -139,8 +113,6 @@ const edlRefreshToken = async (event) => {
         details: error.message
       })
     }
-  } finally {
-    console.log('Exiting edlRefreshToken function')
   }
 }
 

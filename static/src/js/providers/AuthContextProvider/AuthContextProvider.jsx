@@ -78,14 +78,7 @@ const AuthContextProvider = ({ children }) => {
           edlToken
         } = decodedToken
 
-        const now = Date.now()
         const expiresAt = exp * 1000 // Convert to milliseconds
-        const timeUntilExpiry = expiresAt - now
-
-        console.log('Token Expiration Details:')
-        console.log(`  Current time: ${new Date(now).toISOString()}`)
-        console.log(`  Token expires at: ${new Date(expiresAt).toISOString()}`)
-        console.log(`  Time until expiry: ${timeUntilExpiry / 1000} seconds`)
 
         setTokenExpires(expiresAt)
         setTokenValue(edlToken)
@@ -117,27 +110,17 @@ const AuthContextProvider = ({ children }) => {
   }, [mmtJwt])
 
   const refreshTokenIfNeeded = useCallback(() => {
-    const now = Date.now()
-    const timeUntilExpiry = tokenExpires - now
-    console.log(`Refresh check at ${new Date(now).toISOString()}:`)
-    console.log(`  Token expires at: ${new Date(tokenExpires).toISOString()}`)
-    console.log(`  Time until expiry: ${timeUntilExpiry / 1000} seconds`)
-    console.log(`  Idle: ${idle}`)
-
+    const timeUntilExpiry = tokenExpires - Date.now()
     if (timeUntilExpiry <= 60000 && !idle) { // 1 minute before expiry and not idle
-      console.log(`Attempting to refresh token at ${new Date().toISOString()}`)
       refreshToken({
         jwt: mmtJwt,
         setToken: saveToken
       })
-    } else {
-      console.log('No need to refresh token')
     }
   }, [mmtJwt, saveToken, tokenExpires, idle])
 
   useEffect(() => {
     if (tokenExpires) {
-      console.log(`Setting up timer at: ${new Date().toISOString()}`)
       const now = Date.now()
       const timeUntilExpiry = tokenExpires - now
       const maxTimeout = 2147483647 // Maximum setTimeout delay (approx 24.8 days) due to 32-bit signed int limit
@@ -148,20 +131,16 @@ const AuthContextProvider = ({ children }) => {
       }
 
       if (timeoutValue > 0) {
-        console.log(`Setting timer to expire in ${timeoutValue / 1000} seconds`)
         timerRef.current = setTimeout(() => {
-          console.log(`Timer expired at ${new Date().toISOString()}, checking if refresh is needed`)
           refreshTokenIfNeeded()
         }, timeoutValue)
       } else {
-        console.log('Token is already expired or about to expire, refreshing now')
         refreshTokenIfNeeded()
       }
     }
 
     return () => {
       if (timerRef.current) {
-        console.log(`Clearing timer at: ${new Date().toISOString()}`)
         clearTimeout(timerRef.current)
       }
     }
@@ -175,9 +154,7 @@ const AuthContextProvider = ({ children }) => {
   }, [tokenExpires])
 
   useEffect(() => {
-    console.log('Idle state changed:', idle)
     if (idle) {
-      console.log('LOG OUT WARNING')
       // Implement your logout warning logic here
     }
   }, [idle])
@@ -186,7 +163,6 @@ const AuthContextProvider = ({ children }) => {
   const login = useCallback(() => {
     const loginUrl = new URL(`${apiHost}/login`)
     loginUrl.searchParams.append('target', '/')
-    console.log('in auth context provider logging in', loginUrl)
 
     window.location.href = loginUrl.toString()
   }, [])

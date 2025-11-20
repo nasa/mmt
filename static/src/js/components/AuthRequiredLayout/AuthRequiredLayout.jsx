@@ -22,7 +22,6 @@ const AuthRequiredLayout = () => {
       const nextPath = location.pathname + location.search
       const loginUrl = new URL(`${apiHost}/login`)
       loginUrl.searchParams.append('target', nextPath)
-      console.log('in auth required container logging in: ', loginUrl)
 
       window.location.href = loginUrl.toString()
     }

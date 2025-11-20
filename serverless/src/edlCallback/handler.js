@@ -74,16 +74,6 @@ const edlCallback = async (event) => {
     edlProfile = await fetchEdlProfile(oauthToken)
   }
 
-  // Log token details
-  console.log('OAuth Token received:')
-  console.log('Access Token:', accessToken)
-  console.log('Refresh Token:', refreshToken)
-  console.log('Expires At:', expiresAt)
-
-  // Convert expires_at to local time and log it
-  const expiresAtLocal = new Date(expiresAt).toLocaleString()
-  console.log(`Token expires at: ${expiresAtLocal} (local time)`)
-
   // Create JWT with EDL token and edl profile
   const jwt = createJwt(accessToken, refreshToken, expiresAt, edlProfile)
 
