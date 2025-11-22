@@ -45,19 +45,54 @@ describe('edlAuthorizer', () => {
   })
 
   describe('when running offline', () => {
-    test('returns a valid policy', async () => {
-      process.env.IS_OFFLINE = true
+    test('returns a valid policy with correct parameters', async () => {
+      process.env.IS_OFFLINE = 'true'
 
       const event = {
         headers: {
           Authorization: 'Bearer ABC-1'
-        }
+        },
+        methodArn: 'arn:aws:execute-api:us-east-1:123456789012:api-id/stage/method/resource-path'
       }
 
       const response = await edlAuthorizer(event, {})
 
       expect(response).toEqual({
-        principalId: 'mock_user'
+        principalId: 'mock_user',
+        policyDocument: {
+          Version: '2012-10-17',
+          Statement: [
+            {
+              Action: 'execute-api:Invoke',
+              Effect: 'Allow',
+              Resource: event.methodArn
+            }
+          ]
+        }
+      })
+    })
+
+    test('returns a valid policy even without Authorization header', async () => {
+      process.env.IS_OFFLINE = 'true'
+
+      const event = {
+        methodArn: 'arn:aws:execute-api:us-east-1:123456789012:api-id/stage/method/resource-path'
+      }
+
+      const response = await edlAuthorizer(event, {})
+
+      expect(response).toEqual({
+        principalId: 'mock_user',
+        policyDocument: {
+          Version: '2012-10-17',
+          Statement: [
+            {
+              Action: 'execute-api:Invoke',
+              Effect: 'Allow',
+              Resource: event.methodArn
+            }
+          ]
+        }
       })
     })
   })
