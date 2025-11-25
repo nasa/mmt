@@ -72,6 +72,10 @@ const PublishPreviewHeader = () => {
     setShowTagModal(nextState)
   }
 
+  const navigateToCitations = () => {
+    navigate(`/collections/${conceptId}/citation-associations`)
+  }
+
   const navigateToServices = () => {
     navigate(`/collections/${conceptId}/service-associations`)
   }
@@ -108,6 +112,7 @@ const PublishPreviewHeader = () => {
   }
 
   const {
+    citations,
     granules,
     nativeId,
     pageTitle = '<Blank Name>',
@@ -133,6 +138,11 @@ const PublishPreviewHeader = () => {
   let serviceCount = 0
   if (services) {
     ({ count: serviceCount } = services)
+  }
+
+  let citationCount = 0
+  if (citations) {
+    ({ count: citationCount } = citations)
   }
 
   const {
@@ -251,6 +261,12 @@ const PublishPreviewHeader = () => {
                     onClick: () => navigateToServices(),
                     title: 'View Services',
                     count: serviceCount
+                  },
+                  {
+                    icon: FaEye,
+                    onClick: () => navigateToCitations(),
+                    title: 'View Citations',
+                    count: citationCount
                   }
                 ]
                 : [

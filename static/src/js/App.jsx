@@ -12,6 +12,7 @@ import GroupPage from '@/js/pages/GroupPage/GroupPage'
 import HomePage from '@/js/pages/HomePage/HomePage'
 import KeywordManagerPage from '@/js/pages/KeywordManagerPage/KeywordManagerPage'
 import LogoutPage from '@/js/pages/LogoutPage/LogoutPage'
+import ManageCitationAssociationsPage from '@/js/pages/ManageCitationAssociationsPage/ManageCitationAssociationsPage'
 import ManageCollectionAssociationPage from '@/js/pages/ManageCollectionAssociationPage/ManageCollectionAssociationPage'
 import ManageServiceAssociationsPage from '@/js/pages/ManageServiceAssociationsPage/ManageServiceAssociationsPage'
 import MetadataFormPage from '@/js/pages/MetadataFormPage/MetadataFormPage'
@@ -119,6 +120,10 @@ export const App = () => {
             {
               path: '/collections/:conceptId/service-associations',
               element: <ManageServiceAssociationsPage />
+            },
+            {
+              path: '/collections/:conceptId/citation-associations',
+              element: <ManageCitationAssociationsPage />
             },
             {
               path: '/:type/:conceptId/collection-association-search',

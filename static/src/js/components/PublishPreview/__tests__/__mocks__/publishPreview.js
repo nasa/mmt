@@ -43,6 +43,11 @@ export const publishCollectionRecord = {
     title: 'Testing',
     version: '1'
   }],
+  citations: {
+    __typename: 'CitationList',
+    count: 1,
+    items: []
+  },
   collectionProgress: 'NOT APPLICABLE',
   conceptId: 'C1200000100-MMT_2',
   contactGroups: null,
@@ -399,7 +404,7 @@ export const publishCollectionRecord = {
   versionId: '1'
 }
 
-export const noTagsOrGranulesOrServicesCollection = {
+export const noTagsOrGranulesOrServicesOrCitationsCollection = {
   __typename: 'Collection',
   abstract: 'Mock Testing Collections',
   accessConstraints: null,
@@ -439,11 +444,12 @@ export const noTagsOrGranulesOrServicesCollection = {
   associatedDois: [{
     doi: 'TestDOI'
   }],
-  collectionCitations: [{
-    releaseDate: '2024-01-23T00:00:00.000Z',
-    title: 'Testing',
-    version: '1'
-  }],
+  citations: {
+    __typename: 'CitationList',
+    count: 0,
+    items: null
+  },
+  collectionCitations: null,
   collectionProgress: 'NOT APPLICABLE',
   conceptId: 'C1200000100-MMT_2',
   contactGroups: null,
