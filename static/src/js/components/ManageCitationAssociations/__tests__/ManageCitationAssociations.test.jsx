@@ -19,7 +19,9 @@ import NotificationsContext from '@/js/context/NotificationsContext'
 import {
   deleteAssociationsError,
   deleteAssociationResponse,
-  citationAssociationsSearch
+  citationAssociationsSearch,
+  citationAssociationsSearchZero,
+  citationAssociationsSearchTwelve
 } from './__mocks__/citationAssociationsResponses'
 
 import ManageCitationAssociations from '../ManageCitationAssociations'
@@ -88,6 +90,22 @@ describe('ManageCitationAssociation', () => {
       expect(screen.getByText('ISBN')).toBeInTheDocument()
       expect(screen.getByText('MMT_1')).toBeInTheDocument()
       expect(screen.getByText('MMT_2')).toBeInTheDocument()
+    })
+  })
+
+  describe('when the citation association page is requested with zero associations', () => {
+    test('renders the citation association page with no associated citations found', async () => {
+      setup({ overrideMocks: [citationAssociationsSearchZero] })
+
+      expect(await screen.findByText('No citation associations found')).toBeInTheDocument()
+    })
+  })
+
+  describe('when the citation association page is requested with more than 10 associations', () => {
+    test('renders the citation association page with a 2nd page', async () => {
+      setup({ overrideMocks: [citationAssociationsSearchTwelve] })
+
+      expect(await screen.findByText('Showing 1-10 of 12 citation associations')).toBeInTheDocument()
     })
   })
 
