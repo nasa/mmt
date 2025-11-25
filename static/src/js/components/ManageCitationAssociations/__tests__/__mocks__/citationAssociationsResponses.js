@@ -80,7 +80,7 @@ export const citationAssociationsSearchZero = {
   }
 }
 
-export const citationAssociationsSearchTwelve = {
+export const citationAssociationsSearchPage1 = {
   request: {
     query: GET_CITATION_ASSOCIATIONS,
     variables: {
@@ -171,7 +171,40 @@ export const citationAssociationsSearchTwelve = {
               identifier: 'citation10',
               identifierType: 'ISBN',
               providerId: 'MMT_2'
-            },
+            }
+          ]
+        },
+        temporalKeywords: null,
+        entryTitle: null,
+        revisionDate: '2023-11-30 00:00:00',
+        previewMetadata: {}
+      }
+    }
+  }
+}
+
+export const citationAssociationsSearchPage2 = {
+  request: {
+    query: GET_CITATION_ASSOCIATIONS,
+    variables: {
+      params: {
+        conceptId: 'C00000001-TESTPROV'
+      },
+      citationParams: {
+        limit: 10,
+        offset: 10
+      }
+    }
+  },
+  result: {
+    data: {
+      collection: {
+        conceptId: 'C1000000000-TESTPROV',
+        shortName: 'Collection Short Name 1',
+        citations: {
+          __typename: 'CitationList',
+          count: 12,
+          items: [
             {
               conceptId: 'CIT1100000-TESTPROV',
               name: 'Citation 11',

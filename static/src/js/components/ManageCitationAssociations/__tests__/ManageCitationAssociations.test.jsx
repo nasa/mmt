@@ -21,7 +21,8 @@ import {
   deleteAssociationResponse,
   citationAssociationsSearch,
   citationAssociationsSearchZero,
-  citationAssociationsSearchTwelve
+  citationAssociationsSearchPage1,
+  citationAssociationsSearchPage2
 } from './__mocks__/citationAssociationsResponses'
 
 import ManageCitationAssociations from '../ManageCitationAssociations'
@@ -103,9 +104,16 @@ describe('ManageCitationAssociation', () => {
 
   describe('when the citation association page is requested with more than 10 associations', () => {
     test('renders the citation association page with a 2nd page', async () => {
-      setup({ overrideMocks: [citationAssociationsSearchTwelve] })
+      const { user } = setup({
+        overrideMocks: [citationAssociationsSearchPage1, citationAssociationsSearchPage2]
+      })
 
       expect(await screen.findByText('Showing 1-10 of 12 citation associations')).toBeInTheDocument()
+
+      const nextPageButtons = screen.getAllByRole('button', { name: 'Goto Next Page' })
+      await user.click(nextPageButtons[0])
+
+      expect(await screen.findByText('Showing 11-12 of 12 citation associations')).toBeInTheDocument()
     })
   })
 
