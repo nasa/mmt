@@ -13,12 +13,12 @@ import { GET_CITATION_ASSOCIATIONS } from '@/js/operations/queries/getCitationAs
 import ManageCitationAssociations from '@/js/components/ManageCitationAssociations/ManageCitationAssociations'
 
 /**
- * Renders a ManageServiceAssociationsPageHeader component
+ * Renders a ManageCitationAssociationsPageHeader component
  *
  * @component
- * @example <caption>Render a ManageServiceAssociationsPageHeader</caption>
+ * @example <caption>Render a ManageCitationAssociationsPageHeader</caption>
  * return (
- *   <ManageServiceAssociationsPageHeader />
+ *   <ManageCitationAssociationsPageHeader />
  * )
  */
 const ManageCitationAssociationsPageHeader = () => {

@@ -22,12 +22,12 @@ import { GET_CITATION_ASSOCIATIONS } from '@/js/operations/queries/getCitationAs
 import errorLogger from '@/js/utils/errorLogger'
 
 /**
- * Renders a ManageServiceAssociations component
+ * Renders a ManageCitationAssociations component
  *
  * @component
- * @example <caption>Render a ManageServiceAssociations</caption>
+ * @example <caption>Render a ManageCitationAssociations</caption>
  * return (
- *   <ManageServiceAssociations />
+ *   <ManageCitationAssociations />
  * )
  */
 const ManageCitationAssociations = () => {
@@ -65,7 +65,7 @@ const ManageCitationAssociations = () => {
 
       // Add a success notification
       addNotification({
-        message: 'Service Associations Deleted Successfully!',
+        message: 'Citation Associations Deleted Successfully!',
         variant: 'success'
       })
 
