@@ -258,7 +258,7 @@ export const publishCollectionRecord = {
     AssociatedDOIs: [{
       DOI: 'TestDOI'
     }],
-    CollectionCitations: [{
+    collectionCitations: [{
       ReleaseDate: '2024-01-23T00:00:00.000Z',
       Title: 'Testing',
       Version: '1'
@@ -444,17 +444,16 @@ export const noTagsOrGranulesOrServicesOrCitationsCollection = {
   associatedDois: [{
     doi: 'TestDOI'
   }],
-  CollectionCitations: [{
-    ReleaseDate: '2024-01-23T00:00:00.000Z',
-    Title: 'Testing',
-    Version: '1'
-  }],
   citations: {
     __typename: 'CitationList',
     count: 0,
     items: null
   },
-  collectionCitations: null,
+  collectionCitations: [{
+    ReleaseDate: '2024-01-23T00:00:00.000Z',
+    Title: 'Testing',
+    Version: '1'
+  }],
   collectionProgress: 'NOT APPLICABLE',
   conceptId: 'C1200000100-MMT_2',
   contactGroups: null,
@@ -657,7 +656,7 @@ export const noTagsOrGranulesOrServicesOrCitationsCollection = {
     AssociatedDOIs: [{
       DOI: 'TestDOI'
     }],
-    CollectionCitations: [{
+    collectionCitations: [{
       ReleaseDate: '2024-01-23T00:00:00.000Z',
       Title: 'Testing',
       Version: '1'
