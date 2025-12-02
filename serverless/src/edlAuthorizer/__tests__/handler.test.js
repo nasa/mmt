@@ -5,7 +5,7 @@ vi.mock('../../utils/fetchEdlProfile')
 vi.mock('jsonwebtoken', async () => ({
   default: {
     verify: vi.fn().mockReturnValue({
-      launchpadToken: 'mock-token'
+      edlToken: 'mock-token'
     })
   }
 }))

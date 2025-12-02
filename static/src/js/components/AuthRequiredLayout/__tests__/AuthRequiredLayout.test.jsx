@@ -7,7 +7,6 @@ import {
 } from 'react-router'
 
 import AuthContext from '@/js/context/AuthContext'
-
 import AuthRequiredLayout from '../AuthRequiredLayout'
 
 import * as getConfig from '../../../../../../sharedUtils/getConfig'
@@ -63,7 +62,7 @@ describe('AuthRequiredContainer component', () => {
 
       expect(screen.queryByText('Mock Component')).not.toBeInTheDocument()
 
-      expect(window.location.href).toEqual('https://example.com/saml-login?target=%2Ftools')
+      expect(window.location.href).toEqual('https://example.com/login?target=%2Ftools')
     })
   })
 

@@ -37,22 +37,7 @@
   "ummJsonSchemaUrl": "http://json-schema.org/draft-07/schema#",
   "edl": {
     "host": "https://sit.urs.earthdata.nasa.gov",
-    "uid": "mmt_test"
-  },
-  "saml": {
-    "keepAliveOrigin": "https://api.mmt.sit.earthdatacloud.nasa.gov",
-    "host": "https://api.mmt.localtest.earthdatacloud.nasa.gov",
-    "callbackUrl": "http://localhost:4001/dev/saml-acs",
-    "issuer": "https://api.mmt.localtest.earthdatacloud.nasa.gov",
-    "launchpadRoot": "https://auth.launchpad-sbx.nasa.gov",
-    "entryPoint": "https://auth.launchpad-sbx.nasa.gov/affwebservices/public/saml2sso",
-    "protocol": "https://",
-    "signatureAlgorithm": "sha256",
-    "digestAlgorithm": "sha256",
-    "authnContext": [
-      "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport"
-    ],
-    "identifierFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
-    "cookieName": "SBXSESSION"
+    "uid": "mmt_test",
+    "redirectUriPath": "/urs_callback"
   }
 }

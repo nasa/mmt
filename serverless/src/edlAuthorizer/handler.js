@@ -26,9 +26,9 @@ const edlAuthorizer = async (event) => {
 
   const [, token] = authorizationToken.split('Bearer ')
   const decodedJwt = jwt.verify(token, JWT_SECRET)
-  const { launchpadToken } = decodedJwt
+  const { edlToken } = decodedJwt
 
-  const profile = await fetchEdlProfile(launchpadToken)
+  const profile = await fetchEdlProfile(edlToken)
   const { uid } = profile
 
   if (uid) {
