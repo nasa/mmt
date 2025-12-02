@@ -357,7 +357,9 @@ describe('edlCallback', () => {
         fetchEdlProfile.mockResolvedValue(mockEdlProfile)
 
         await edlCallback(mockEvent)
-        const expectedExpirationSeconds = Math.floor(new Date(mockToken.expires_at).getTime() / 1000)
+        const expectedExpirationSeconds = Math.floor(
+          new Date(mockToken.expires_at).getTime() / 1000
+        )
 
         expect(createJwt).toHaveBeenCalledWith(
           mockToken.access_token,
