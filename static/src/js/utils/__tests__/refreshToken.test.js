@@ -1,12 +1,13 @@
 import refreshToken from '../refreshToken'
 
 beforeEach(() => {
+  global.fetch = vi.fn()
   delete window.location
   window.location = {}
 })
 
 describe('refreshToken in production mode', () => {
-  describe('when the request is successfull', () => {
+  describe('when the request is successful', () => {
     test('does not call setToken or navigate', async () => {
       global.fetch.mockResolvedValue(Promise.resolve({
         ok: true,
@@ -14,23 +15,21 @@ describe('refreshToken in production mode', () => {
       }))
 
       const setToken = vi.fn()
-      const navigate = vi.fn()
 
       await refreshToken({
         jwt: 'mock_token',
-        setToken,
-        navigate
+        setToken
       })
 
       expect(setToken).toHaveBeenCalledTimes(0)
 
       expect(fetch).toHaveBeenCalledTimes(1)
       expect(fetch).toHaveBeenCalledWith(
-        'http://localhost:4001/dev/saml-refresh-token',
+        'http://localhost:4001/dev/edl-refresh-token',
         {
           credentials: 'include',
           headers: {
-            Authorization: 'mock_token'
+            Authorization: 'Bearer mock_token'
           },
           method: 'POST'
         }
@@ -46,12 +45,10 @@ describe('refreshToken in production mode', () => {
       }))
 
       const setToken = vi.fn()
-      const navigate = vi.fn()
 
       await refreshToken({
         jwt: 'mock_token',
-        setToken,
-        navigate
+        setToken
       })
 
       expect(setToken).toHaveBeenCalledTimes(1)
@@ -61,11 +58,11 @@ describe('refreshToken in production mode', () => {
 
       expect(fetch).toHaveBeenCalledTimes(1)
       expect(fetch).toHaveBeenCalledWith(
-        'http://localhost:4001/dev/saml-refresh-token',
+        'http://localhost:4001/dev/edl-refresh-token',
         {
           credentials: 'include',
           headers: {
-            Authorization: 'mock_token'
+            Authorization: 'Bearer mock_token'
           },
           method: 'POST'
         }

@@ -21,15 +21,130 @@ import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 const {
   apiHost,
-  cookieDomain,
-  tokenValidTime
+  cookieDomain
 } = getApplicationConfig()
 
-const tokenValidSeconds = parseInt(tokenValidTime, 10)
+const MAX_IDLE_TIMEOUT = 900000
+const REFRESH_THRESHOLD_MS = 60000
+const MAX_TIMEOUT_DELAY = 2147483647
+
+/**
+ * Parses a JWT for the information needed to hydrate AuthContext state.
+ * @param {string} token The encoded JWT.
+ * @returns {{ edlProfile: Object, edlToken: string, expiresAt: number } | null} The decoded payload or null on failure.
+ */
+const decodeTokenPayload = (token) => {
+  if (!token) return null
+
+  const decodedToken = jwt.decode(token)
+
+  if (!decodedToken) return null
+
+  const {
+    edlProfile,
+    exp,
+    edlToken
+  } = decodedToken
+
+  return {
+    edlProfile,
+    edlToken,
+    expiresAt: exp ? exp * 1000 : null
+  }
+}
+
+/**
+ * Clears cookie and state references when the token is missing or invalid.
+ * @param {Object} params The setter callbacks from AuthContextProvider.
+ */
+const resetTokenState = ({
+  setCookie,
+  setTokenExpires,
+  setTokenValue,
+  setUser
+}) => {
+  setCookie(MMT_COOKIE, null, {
+    domain: cookieDomain,
+    path: '/',
+    maxAge: 0,
+    expires: new Date(0)
+  })
+
+  setTokenValue(null)
+  setTokenExpires(null)
+  setUser({})
+}
+
+/**
+ * Determines whether the token is close enough to expiry to trigger a refresh.
+ * @param {Object} params Evaluation inputs.
+ * @param {boolean} params.idle True when the user is idle.
+ * @param {number} params.threshold How long before expiry to trigger refresh.
+ * @param {number} params.tokenExpires Token expiry timestamp in ms.
+ * @returns {boolean} True when the refresh should run.
+ */
+const shouldRefreshToken = ({
+  idle,
+  threshold = REFRESH_THRESHOLD_MS,
+  tokenExpires
+}) => {
+  if (!tokenExpires) return false
+
+  const timeUntilExpiry = tokenExpires - Date.now()
+
+  return timeUntilExpiry <= threshold && !idle
+}
+
+/**
+ * Calculates the delay before the next refresh timer should fire.
+ * @param {number} tokenExpires Expiration timestamp in ms.
+ * @param {number} [threshold] Lead time in ms before expiry.
+ * @returns {number|null} Milliseconds until refresh or null if expiry missing.
+ */
+const getRefreshDelay = (tokenExpires, threshold = REFRESH_THRESHOLD_MS) => {
+  if (!tokenExpires) return null
+
+  const timeUntilExpiry = tokenExpires - Date.now()
+
+  return Math.min(
+    MAX_TIMEOUT_DELAY,
+    Math.max(timeUntilExpiry - threshold, 0)
+  )
+}
+
+/**
+ * Determines the idle timeout to pass to useIdle based on token expiry.
+ * @param {number} tokenExpires Expiration timestamp in ms.
+ * @returns {number} Milliseconds for the idle timeout.
+ */
+const getIdleTimeout = (tokenExpires) => {
+  if (!tokenExpires) return MAX_IDLE_TIMEOUT
+
+  const timeUntilExpiry = tokenExpires - Date.now()
+
+  return Math.min(
+    MAX_IDLE_TIMEOUT,
+    Math.max(timeUntilExpiry - REFRESH_THRESHOLD_MS, 0)
+  )
+}
+
+/**
+ * Builds the login URL with the default redirect target.
+ * @param {string} host API host base URL.
+ * @param {string} [target='/'] The desired redirect target after login.
+ * @returns {string} A fully qualified login URL.
+ */
+const buildLoginUrl = (host, target = '/') => {
+  const loginUrl = new URL(`${host}/login`)
+  loginUrl.searchParams.append('target', target)
+
+  return loginUrl.toString()
+}
 
 /**
  * @typedef {Object} AuthContextProviderProps
  * @property {ReactNode} children The children to be rendered.
+ */
 
 /**
  * Renders any children and provides access to AuthContext.
@@ -49,111 +164,109 @@ const AuthContextProvider = ({ children }) => {
     setCookie
   } = useMMTCookie()
 
-  // The idle timeout should be 60s less than the total token valid time
-  const idleTimeoutMs = (tokenValidSeconds - 60) * 1000
-  const idle = useIdle(idleTimeoutMs)
-
   const [authLoading, setAuthLoading] = useState(true)
+  const [idleTimeout, setIdleTimeout] = useState(MAX_IDLE_TIMEOUT) // Default to 15 minutes in milliseconds
+  const idle = useIdle(idleTimeout)
 
-  // The user's Launchpad Token
+  // The user's EDL Token
   const [tokenValue, setTokenValue] = useState()
 
-  // The timestamp the JWT (and Launchpad) expires
+  // The timestamp the JWT (and EDL) expires
   const [tokenExpires, setTokenExpires] = useState()
 
   // The user's name and EDL uid
   const [user, setUser] = useState({})
 
-  // `setTimeout` timeoutId used for the timer for auto refreshing the user
-  let idleTimeoutId
-
   // Parse the new token
-  const saveToken = async (newToken) => {
+  const saveToken = useCallback(async (newToken) => {
     setAuthLoading(false)
 
     try {
-      if (newToken) {
-        // Decode the token to get the launchpadToken and edlProfile
-        const decodedToken = jwt.decode(newToken)
+      const decodedToken = decodeTokenPayload(newToken)
 
+      if (decodedToken) {
         const {
           edlProfile,
-          exp,
-          launchpadToken
+          edlToken,
+          expiresAt
         } = decodedToken
 
-        // `exp` comes back in seconds since epoch, we need milliseconds
-        setTokenExpires(exp * 1000)
-        setTokenValue(launchpadToken)
+        setTokenExpires(expiresAt)
+        setTokenValue(edlToken)
         setUser(edlProfile)
 
         return
       }
 
-      // `removeCookie` doesn't seem to work on Safari, using `setCookie` with a null value does remove the cookie
-      setCookie(MMT_COOKIE, null, {
-        domain: cookieDomain,
-        path: '/',
-        maxAge: 0,
-        expires: new Date(0)
+      resetTokenState({
+        setCookie,
+        setTokenExpires,
+        setTokenValue,
+        setUser
       })
-
-      setTokenValue(null)
-      setTokenExpires(null)
-      setUser({})
     } catch (error) {
       // Saving error
       errorLogger(error, 'AuthContextProvider: decoding JWT')
     }
-  }
+  }, [
+    setCookie,
+    setTokenExpires,
+    setTokenValue,
+    setUser
+  ])
 
   // On page load, save the token from the cookie into the state
   useEffect(() => {
     saveToken(mmtJwt)
   }, [mmtJwt])
 
-  // Setup a `setTimeout` for checking if the user has been active during their token's valid time
-  const resetTimer = (userIdle) => {
-    const now = new Date().getTime()
+  const refreshTokenIfNeeded = useCallback(() => {
+    if (shouldRefreshToken({
+      idle,
+      tokenExpires
+    })) { // 1 minute before expiry and not idle
+      refreshToken({
+        jwt: mmtJwt,
+        setToken: saveToken
+      })
+    }
+  }, [mmtJwt, saveToken, tokenExpires, idle])
 
-    // The amount of time left before the token expires
-    const expiresIn = tokenExpires - now
+  useEffect(() => {
+    if (!tokenExpires) return undefined
 
-    // The timeoutValue will be 60 seconds before the token expires.
-    const timeoutValue = expiresIn - 60 * 1000
+    const refreshDelay = getRefreshDelay(tokenExpires)
 
-    // Set a timeout for refreshing the user token. If the user has been active during the lifespan of their
-    // current token we can refresh it for them.
-    return setTimeout(() => {
-      if (!userIdle) {
-        // If the user was active at some point during their token's valid time, refresh their token for them
-        refreshToken({
-          jwt: mmtJwt,
-          setToken: saveToken
-        })
-      } else {
-        // If they have not been active, warn them that they will be logged out
-        // TODO MMT-3750
-        console.log('LOG OUT WARNING')
+    if (refreshDelay > 0) {
+      const timeoutId = setTimeout(() => {
+        refreshTokenIfNeeded()
+      }, refreshDelay)
+
+      return () => {
+        clearTimeout(timeoutId)
       }
-    }, timeoutValue)
-  }
+    }
+
+    refreshTokenIfNeeded()
+
+    return undefined
+  }, [tokenExpires, refreshTokenIfNeeded])
 
   useEffect(() => {
     if (tokenExpires) {
-      // If the tokenExpires value was updated, set the idleTimeoutId to that value - 60s
-      idleTimeoutId = resetTimer(idle)
+      setIdleTimeout(getIdleTimeout(tokenExpires))
     }
+  }, [tokenExpires])
 
-    return () => {
-      // Clear the existing timer to ensure only one timer is running at a time
-      clearTimeout(idleTimeoutId)
+  useEffect(() => {
+    if (idle) {
+      // Todo: Implement logout warning logic here
     }
-  }, [tokenExpires, idle, idleTimeoutId])
+  }, [idle])
 
   // Login redirect
   const login = useCallback(() => {
-    window.location.href = `${apiHost}/saml-login?target=${encodeURIComponent('/')}`
+    window.location.href = buildLoginUrl(apiHost)
   }, [])
 
   // Context values
@@ -166,6 +279,8 @@ const AuthContextProvider = ({ children }) => {
     user
   }), [
     authLoading,
+    login,
+    saveToken,
     tokenExpires,
     tokenValue,
     user

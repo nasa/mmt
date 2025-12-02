@@ -16,7 +16,7 @@ describe('deleteKmsConcept', () => {
   const mockKmsHost = 'https://mock-kms-host.com'
   const mockConceptId = '12345'
   const mockVersion = '1.0'
-  const mockToken = 'Bearer mock-token'
+  const mockToken = 'mock-token'
   let consoleErrorSpy
 
   beforeEach(() => {
@@ -63,7 +63,7 @@ describe('deleteKmsConcept', () => {
       {
         method: 'DELETE',
         headers: {
-          Authorization: mockToken
+          Authorization: `Bearer ${mockToken}`
         }
       }
     )

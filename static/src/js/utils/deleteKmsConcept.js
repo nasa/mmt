@@ -38,7 +38,7 @@ export const deleteKmsConcept = async ({ uuid, version, token }) => {
     const options = {
       method: 'DELETE',
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     }
     const response = await fetch(endPoint, options)
