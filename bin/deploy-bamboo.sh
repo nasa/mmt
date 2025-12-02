@@ -72,7 +72,7 @@ dockerRun() {
         -e "COOKIE_DOMAIN=$bamboo_COOKIE_DOMAIN" \
         -e "DISPLAY_PROD_WARNING=$bamboo_DISPLAY_PROD_WARNING" \
         -e "EDL_PASSWORD=$bamboo_EDL_PASSWORD" \
-        -e "EDL_PASSWORD=$bamboo_EDL_CLIENT_ID" \
+        -e "EDL_CLIENT_ID=$bamboo_EDL_CLIENT_ID" \
         -e "JWT_SECRET=$bamboo_JWT_SECRET" \
         -e "LAMBDA_TIMEOUT=$bamboo_LAMBDA_TIMEOUT" \
         -e "MMT_HOST=$bamboo_MMT_HOST" \
