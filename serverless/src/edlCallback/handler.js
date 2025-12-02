@@ -3,6 +3,7 @@ import { getApplicationConfig, getEdlConfig } from '../../../sharedUtils/getConf
 import fetchEdlProfile from '../utils/fetchEdlProfile'
 import createJwt from '../utils/createJwt'
 import createCookie from '../utils/createCookie'
+import checkNonNasaMMTAccess from '../utils/checkNonNasaMMTAccess'
 
 /**
  * Handles the EDL callback during authentication
@@ -72,6 +73,35 @@ const edlCallback = async (event) => {
     expiresAt = token.expires_at
 
     edlProfile = await fetchEdlProfile(oauthToken)
+
+    // Convert assuranceLevel to number if it's not already
+    const assuranceLevel = Number(edlProfile.assuranceLevel)
+
+    if (assuranceLevel < 4) {
+      return {
+        statusCode: 303,
+        headers: {
+          Location: `${mmtHost}/unauthorizedMMTAccess`
+        }
+      }
+    }
+
+    if (assuranceLevel === 4) {
+      try {
+        const hasNonNasaDraftAccess = await checkNonNasaMMTAccess(edlProfile.uid, accessToken)
+        if (!hasNonNasaDraftAccess) {
+          return {
+            statusCode: 303,
+            headers: {
+              Location: `${mmtHost}/unauthorizedNonNasaMMTAccess`
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error checking Non-NASA MMT access:', error)
+        throw error
+      }
+    }
   }
 
   // Create JWT with EDL token and edl profile
