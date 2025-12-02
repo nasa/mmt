@@ -27,7 +27,7 @@ const checkNonNasaMMTAccess = async (uid, token) => {
 
     const data = await response.json()
 
-    return data.items.some((item) => item.name.endsWith('NON_NASA_DRAFT_USER'))
+    return data.items.some((item) => item.name.includes('NON_NASA_DRAFT_USER'))
   } catch (error) {
     console.error('Error checking Non-NASA MMT access:', error)
     throw error
