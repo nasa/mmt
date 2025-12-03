@@ -39,7 +39,7 @@ describe('checkNonNasaMMTAccess', () => {
       await checkNonNasaMMTAccess('testUser', 'testToken')
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'https://cmr.example.com/access-control/acls?permitted_user=testUser&identity_type=Provider&target=NON_NASA_DRAFT_USER',
+        'https://cmr.example.com/access-control/acls?permitted_user=testUser&identity_type=Provider&target=NON_NASA_DRAFT_USER&page_size=2000',
         {
           method: 'GET',
           headers: {
