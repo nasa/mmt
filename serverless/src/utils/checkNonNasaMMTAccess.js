@@ -13,7 +13,7 @@ import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 const checkNonNasaMMTAccess = async (uid, token) => {
   const { cmrHost } = getApplicationConfig()
   try {
-    const response = await fetch(`${cmrHost}/access-control/acls?permitted_user=${uid}&identity_type=Provider&page_size=2000`, {
+    const response = await fetch(`${cmrHost}/access-control/acls?permitted_user=${uid}&identity_type=Provider&target=NON_NASA_DRAFT_USER`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
