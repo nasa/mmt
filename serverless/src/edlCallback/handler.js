@@ -77,7 +77,7 @@ const edlCallback = async (event) => {
     // Convert assuranceLevel to number if it's not already
     const assuranceLevel = Number(edlProfile.assuranceLevel)
 
-    if (assuranceLevel < 4) {
+    if (Number.isNaN(assuranceLevel) || assuranceLevel < 4) {
       return {
         statusCode: 303,
         headers: {

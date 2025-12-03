@@ -85,7 +85,10 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         const response = await edlCallback(mockEvent)
 
@@ -301,7 +304,10 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         const response = await edlCallback(mockEvent)
 
@@ -326,7 +332,10 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         const response = await edlCallback(mockEvent)
 
@@ -353,7 +362,10 @@ describe('edlCallback', () => {
           getToken: vi.fn().mockResolvedValue({ token: mockToken })
         }))
 
-        const mockEdlProfile = { uid: 'test-user' }
+        const mockEdlProfile = {
+          uid: 'test-user',
+          assuranceLevel: 5
+        }
         fetchEdlProfile.mockResolvedValue(mockEdlProfile)
 
         await edlCallback(mockEvent)
@@ -416,7 +428,10 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         const response = await edlCallback(mockEvent)
 
@@ -446,7 +461,10 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         const response = await edlCallback(mockEvent)
 
@@ -475,7 +493,10 @@ describe('edlCallback', () => {
           getToken: mockGetToken
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         await edlCallback(mockEvent)
 
@@ -545,7 +566,7 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({})
+        fetchEdlProfile.mockResolvedValue({ assuranceLevel: 5 })
 
         const response = await edlCallback(mockEvent)
 
@@ -573,7 +594,10 @@ describe('edlCallback', () => {
           })
         }))
 
-        const mockEdlProfile = { uid: 'test-user' }
+        const mockEdlProfile = {
+          uid: 'test-user',
+          assuranceLevel: 5
+        }
         fetchEdlProfile.mockResolvedValue(mockEdlProfile)
 
         await edlCallback(mockEvent)
@@ -617,7 +641,10 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         const response = await edlCallback(mockEvent)
 
@@ -650,7 +677,11 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
+
         createJwt.mockImplementation(() => {
           throw new Error('JWT creation failed')
         })
@@ -676,7 +707,11 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
+
         createJwt.mockReturnValue('test-jwt')
         createCookieSpy.mockImplementation(() => {
           throw new Error('Cookie creation failed')
@@ -705,7 +740,10 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         const response = await edlCallback(mockEvent)
 
