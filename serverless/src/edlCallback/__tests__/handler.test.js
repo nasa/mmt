@@ -13,6 +13,14 @@ import createJwt from '../../utils/createJwt'
 import * as createCookieModule from '../../utils/createCookie'
 import checkNonNasaMMTAccess from '../../utils/checkNonNasaMMTAccess'
 
+beforeAll(() => {
+  vi.spyOn(console, 'error').mockImplementation(() => {})
+})
+
+afterAll(() => {
+  vi.restoreAllMocks()
+})
+
 vi.mock('../../utils/checkNonNasaMMTAccess')
 const realCreateCookie = createCookieModule.default
 vi.mock('simple-oauth2')
@@ -124,7 +132,7 @@ describe('edlCallback', () => {
         const response = await edlCallback(mockEvent)
 
         expect(response.statusCode).toBe(303)
-        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedMMTAccess')
+        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedAccess?errorType=mmt')
       })
     })
 
@@ -155,7 +163,7 @@ describe('edlCallback', () => {
         const response = await edlCallback(mockEvent)
 
         expect(response.statusCode).toBe(303)
-        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedMMTAccess')
+        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedAccess?errorType=mmt')
       })
     })
 
@@ -190,7 +198,7 @@ describe('edlCallback', () => {
         const response = await edlCallback(mockEvent)
 
         expect(response.statusCode).toBe(303)
-        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedNonNasaMMTAccess')
+        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedAccess?errorType=nonNasaMMT')
         expect(checkNonNasaMMTAccess).toHaveBeenCalledWith('test-user', 'test-access-token')
       })
 

@@ -16,9 +16,9 @@ const setup = (errorType) => {
   }
   render(
     <AuthContext.Provider value={context}>
-      <MemoryRouter initialEntries={['/unauthorized']}>
+      <MemoryRouter initialEntries={[`/unauthorized?errorType=${errorType}`]}>
         <Routes>
-          <Route path="/unauthorized" element={<ErrorUnauthorizedAccess errorType={errorType} />} />
+          <Route path="/unauthorized" element={<ErrorUnauthorizedAccess />} />
         </Routes>
       </MemoryRouter>
     </AuthContext.Provider>
@@ -37,10 +37,17 @@ describe('ErrorUnauthorizedAccess component', () => {
     })
   })
 
-  describe('when errorType is "nonNasaDraft"', () => {
-    test('renders the non-NASA draft error message', () => {
+  describe('when errorType is "nonNasaMMT"', () => {
+    test('renders the non-NASA MMT error message', () => {
       setup('nonNasaMMT')
       expect(screen.getByText('It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users.')).toBeInTheDocument()
+    })
+  })
+
+  describe('when errorType is not provided', () => {
+    test('renders the default error message', () => {
+      setup('')
+      expect(screen.getByText('An unknown error occurred.')).toBeInTheDocument()
     })
   })
 

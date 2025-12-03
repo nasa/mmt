@@ -1,14 +1,18 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { useLocation } from 'react-router-dom'
 
 import Header from '../Header/Header'
 
 import './ErrorUnauthorizedAccess.scss'
 
-const ErrorUnauthorizedAccess = ({ errorType }) => {
+const ErrorUnauthorizedAccess = () => {
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const errorType = queryParams.get('errorType') || 'default'
   const errorMessages = {
     mmt: 'It appears you are not provisioned with the proper permissions to access MMT.',
-    nonNasaMMT: 'It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users.'
+    nonNasaMMT: 'It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users.',
+    default: 'An unknown error occurred.'
   }
 
   return (
@@ -30,10 +34,6 @@ const ErrorUnauthorizedAccess = ({ errorType }) => {
       </div>
     </div>
   )
-}
-
-ErrorUnauthorizedAccess.propTypes = {
-  errorType: PropTypes.oneOf(['mmt', 'nonNasaMMT']).isRequired
 }
 
 export default ErrorUnauthorizedAccess

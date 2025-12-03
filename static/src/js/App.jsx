@@ -272,12 +272,8 @@ export const App = () => {
       element: <ErrorPageNotFound />
     },
     {
-      path: '/unauthorizedNonNasaMMTAccess',
-      element: <ErrorUnauthorizedAccess errorType="nonNasaMMT" />
-    },
-    {
-      path: '/unauthorizedMMTAccess',
-      element: <ErrorUnauthorizedAccess errorType="mmt" />
+      path: '/unauthorizedAccess',
+      element: <ErrorUnauthorizedAccess />
     }
   ])
 
