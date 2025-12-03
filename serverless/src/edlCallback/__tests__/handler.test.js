@@ -99,7 +99,7 @@ describe('edlCallback', () => {
     })
 
     describe('when handling invalid assurance levels', () => {
-      test('should redirect to unauthorizedMMTAccess when assurance level is not a number', async () => {
+      test('should redirect to unauthorizedMMTAccess when assurance level is not defined', async () => {
         const mockEvent = {
           queryStringParameters: {
             code: 'test-code',
@@ -118,8 +118,7 @@ describe('edlCallback', () => {
         }))
 
         fetchEdlProfile.mockResolvedValue({
-          uid: 'test-user',
-          assuranceLevel: 'not-a-number' // Set assurance level to a non-numeric value
+          uid: 'test-user' // No assurance level
         })
 
         const response = await edlCallback(mockEvent)
