@@ -98,6 +98,37 @@ describe('edlCallback', () => {
       })
     })
 
+    describe('when handling invalid assurance levels', () => {
+      test('should redirect to unauthorizedMMTAccess when assurance level is not a number', async () => {
+        const mockEvent = {
+          queryStringParameters: {
+            code: 'test-code',
+            state: encodeURIComponent(JSON.stringify({ target: '/' }))
+          }
+        }
+
+        AuthorizationCode.mockImplementation(() => ({
+          getToken: vi.fn().mockResolvedValue({
+            token: {
+              access_token: 'test-access-token',
+              refresh_token: 'test-refresh-token',
+              expires_at: '2023-01-01T00:00:00Z'
+            }
+          })
+        }))
+
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 'not-a-number' // Set assurance level to a non-numeric value
+        })
+
+        const response = await edlCallback(mockEvent)
+
+        expect(response.statusCode).toBe(303)
+        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedMMTAccess')
+      })
+    })
+
     describe('when handling assurance levels less than 4', () => {
       test('should redirect to unauthorizedMMTAccess when assurance level is less than 4', async () => {
         const mockEvent = {
