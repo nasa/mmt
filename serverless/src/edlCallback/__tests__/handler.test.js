@@ -202,7 +202,7 @@ describe('edlCallback', () => {
         expect(checkNonNasaMMTAccess).toHaveBeenCalledWith('test-user', 'test-access-token')
       })
 
-      test('should continue normal flow when checkNonNasaMMTAccess returns true', async () => {
+      test('should redirect to auth-callback with target when checkNonNasaMMTAccess returns true for assurance level 4', async () => {
         const mockEvent = {
           queryStringParameters: {
             code: 'test-code',
