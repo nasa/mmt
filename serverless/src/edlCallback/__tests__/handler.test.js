@@ -200,6 +200,7 @@ describe('edlCallback', () => {
         expect(response.statusCode).toBe(303)
         expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedAccess?errorType=deniedNonNasaAccessMMT')
         expect(checkNonNasaMMTAccess).toHaveBeenCalledWith('test-user', 'test-access-token')
+        expect(checkNonNasaMMTAccess).toHaveBeenCalledTimes(1)
       })
 
       test('should redirect to auth-callback with target when checkNonNasaMMTAccess returns true for assurance level 4', async () => {
@@ -222,6 +223,7 @@ describe('edlCallback', () => {
         expect(response.statusCode).toBe(303)
         expect(response.headers.Location).toBe('https://mmt.example.com/auth-callback?target=%2F')
         expect(checkNonNasaMMTAccess).toHaveBeenCalledWith('test-user', 'test-access-token')
+        expect(checkNonNasaMMTAccess).toHaveBeenCalledTimes(1)
       })
 
       test('should throw an error when checkNonNasaMMTAccess fails', async () => {
@@ -241,6 +243,7 @@ describe('edlCallback', () => {
 
         await expect(edlCallback(mockEvent)).rejects.toThrow('Failed to check access')
         expect(checkNonNasaMMTAccess).toHaveBeenCalledWith('test-user', 'test-access-token')
+        expect(checkNonNasaMMTAccess).toHaveBeenCalledTimes(1)
       })
     })
 
