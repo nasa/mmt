@@ -81,7 +81,7 @@ const edlCallback = async (event) => {
       return {
         statusCode: 303,
         headers: {
-          Location: `${mmtHost}/unauthorizedAccess?errorType=mmt`
+          Location: `${mmtHost}/unauthorizedAccess?errorType=deniedAccessMMT`
         }
       }
     }
@@ -93,7 +93,7 @@ const edlCallback = async (event) => {
           return {
             statusCode: 303,
             headers: {
-              Location: `${mmtHost}/unauthorizedAccess?errorType=nonNasaMMT`
+              Location: `${mmtHost}/unauthorizedAccess?errorType=deniedNonNasaAccessMMT`
             }
           }
         }

@@ -132,7 +132,7 @@ describe('edlCallback', () => {
         const response = await edlCallback(mockEvent)
 
         expect(response.statusCode).toBe(303)
-        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedAccess?errorType=mmt')
+        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedAccess?errorType=deniedAccessMMT')
       })
     })
 
@@ -163,7 +163,7 @@ describe('edlCallback', () => {
         const response = await edlCallback(mockEvent)
 
         expect(response.statusCode).toBe(303)
-        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedAccess?errorType=mmt')
+        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedAccess?errorType=deniedAccessMMT')
       })
     })
 
@@ -198,7 +198,7 @@ describe('edlCallback', () => {
         const response = await edlCallback(mockEvent)
 
         expect(response.statusCode).toBe(303)
-        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedAccess?errorType=nonNasaMMT')
+        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedAccess?errorType=deniedNonNasaAccessMMT')
         expect(checkNonNasaMMTAccess).toHaveBeenCalledWith('test-user', 'test-access-token')
       })
 

@@ -30,16 +30,16 @@ const setup = (errorType) => {
 }
 
 describe('ErrorUnauthorizedAccess component', () => {
-  describe('when errorType is "mmt"', () => {
-    test('renders the MMT error message', () => {
-      setup('mmt')
+  describe('when errorType is "deniedAccessMMT"', () => {
+    test('renders the deniedAccessMMT error message', () => {
+      setup('deniedAccessMMT')
       expect(screen.getByText('It appears you are not provisioned with the proper permissions to access MMT.')).toBeInTheDocument()
     })
   })
 
-  describe('when errorType is "nonNasaMMT"', () => {
+  describe('when errorType is "deniedNonNasaAccessMMT"', () => {
     test('renders the non-NASA MMT error message', () => {
-      setup('nonNasaMMT')
+      setup('deniedNonNasaAccessMMT')
       expect(screen.getByText('It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users.')).toBeInTheDocument()
     })
   })
@@ -53,7 +53,7 @@ describe('ErrorUnauthorizedAccess component', () => {
 
   describe('common elements', () => {
     beforeEach(() => {
-      setup('mmt')
+      setup('deniedAccessMMT')
     })
 
     test('renders the contact information', () => {
