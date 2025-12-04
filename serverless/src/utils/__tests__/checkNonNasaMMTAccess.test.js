@@ -51,6 +51,18 @@ describe('checkNonNasaMMTAccess', () => {
     })
   })
 
+  describe('When the response does not contain items', () => {
+    test('should return false and not throw an error', async () => {
+      global.fetch.mockResolvedValue({
+        ok: true,
+        json: async () => ({})
+      })
+
+      const result = await checkNonNasaMMTAccess('testUser', 'testToken')
+      expect(result).toBe(false)
+    })
+  })
+
   describe('When the user has Non-NASA Draft access', () => {
     test('should return true', async () => {
       global.fetch.mockResolvedValue({

@@ -16,9 +16,9 @@ const setup = (errorType) => {
   }
   render(
     <AuthContext.Provider value={context}>
-      <MemoryRouter initialEntries={[`/unauthorized?errorType=${errorType}`]}>
+      <MemoryRouter initialEntries={[`/unauthorizedAccess?errorType=${errorType}`]}>
         <Routes>
-          <Route path="/unauthorized" element={<ErrorUnauthorizedAccess />} />
+          <Route path="/unauthorizedAccess" element={<ErrorUnauthorizedAccess />} />
         </Routes>
       </MemoryRouter>
     </AuthContext.Provider>
@@ -60,6 +60,13 @@ describe('ErrorUnauthorizedAccess component', () => {
       const contactLink = screen.getByText('Earthdata Operations')
       expect(contactLink).toBeInTheDocument()
       expect(contactLink).toHaveAttribute('href', 'mailto:support@earthdata.nasa.gov')
+    })
+  })
+
+  describe('when errorType is an unrecognized value', () => {
+    test('renders the default error message', () => {
+      setup('foo')
+      expect(screen.getByText('An unknown error occurred.')).toBeInTheDocument()
     })
   })
 })

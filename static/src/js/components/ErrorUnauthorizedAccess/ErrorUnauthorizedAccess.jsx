@@ -20,7 +20,9 @@ const ErrorUnauthorizedAccess = () => {
       <Header noLogin />
       <div className="body--has-error">
         <div className="wrap">
-          <h2 className="h1 pt-3">{errorMessages[errorType]}</h2>
+          <h2 className="h1 pt-3">
+            {errorMessages[errorType] || errorMessages.default}
+          </h2>
           <p>
             Please try again or contact
             {' '}
