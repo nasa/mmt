@@ -29,17 +29,17 @@ describe('checkNonNasaMMTAccess', () => {
     vi.restoreAllMocks()
   })
 
-  describe('When making a request to the CMR access control endpoint', () => {
+  describe('When making a request to the CMR permissions endpoint', () => {
     test('should use the correct URL and headers', async () => {
       global.fetch.mockResolvedValue({
         ok: true,
-        json: async () => ({ items: [] })
+        json: async () => ({ NON_NASA_DRAFT_USER: [] })
       })
 
       await checkNonNasaMMTAccess('testUser', 'testToken')
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'https://cmr.example.com/access-control/acls?permitted_user=testUser&identity_type=Provider&target=NON_NASA_DRAFT_USER&page_size=2000',
+        'https://cmr.example.com/access-control/permissions?target=NON_NASA_DRAFT_USER&provider=SCIOPS&user_id=testUser',
         {
           method: 'GET',
           headers: {
@@ -51,8 +51,8 @@ describe('checkNonNasaMMTAccess', () => {
     })
   })
 
-  describe('When the response does not contain items', () => {
-    test('should return false and not throw an error', async () => {
+  describe('When the response does not contain NON_NASA_DRAFT_USER', () => {
+    test('should return false', async () => {
       global.fetch.mockResolvedValue({
         ok: true,
         json: async () => ({})
@@ -63,12 +63,12 @@ describe('checkNonNasaMMTAccess', () => {
     })
   })
 
-  describe('When the user has Non-NASA Draft access', () => {
+  describe('When the user has create permission for Non-NASA Draft', () => {
     test('should return true', async () => {
       global.fetch.mockResolvedValue({
         ok: true,
         json: async () => ({
-          items: [{ name: 'Provider - CMR_ONLY - NON_NASA_DRAFT_USER' }]
+          NON_NASA_DRAFT_USER: ['read', 'create', 'update', 'delete']
         })
       })
 
@@ -77,12 +77,12 @@ describe('checkNonNasaMMTAccess', () => {
     })
   })
 
-  describe('When the user does not have Non-NASA Draft access', () => {
+  describe('When the user does not have create permission for Non-NASA Draft', () => {
     test('should return false', async () => {
       global.fetch.mockResolvedValue({
         ok: true,
         json: async () => ({
-          items: [{ name: 'Some_Other_ACL' }]
+          NON_NASA_DRAFT_USER: ['read', 'update', 'delete']
         })
       })
 
