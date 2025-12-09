@@ -9,13 +9,10 @@ import {
 import checkNonNasaMMTAccess from '../checkNonNasaMMTAccess'
 import * as getConfig from '../../../../sharedUtils/getConfig'
 
-const originalFetch = global.fetch
 const originalConsoleError = console.error
 
 describe('checkNonNasaMMTAccess', () => {
   beforeEach(() => {
-    vi.resetAllMocks()
-    global.fetch = vi.fn()
     vi.spyOn(getConfig, 'getApplicationConfig').mockReturnValue({
       cmrHost: 'https://cmr.example.com'
     })
@@ -24,9 +21,7 @@ describe('checkNonNasaMMTAccess', () => {
   })
 
   afterEach(() => {
-    global.fetch = originalFetch
     console.error = originalConsoleError
-    vi.restoreAllMocks()
   })
 
   describe('When making a request to the CMR permissions endpoint', () => {
@@ -58,8 +53,10 @@ describe('checkNonNasaMMTAccess', () => {
         json: async () => ({})
       })
 
-      const result = await checkNonNasaMMTAccess('testUser', 'testToken')
-      expect(result).toBe(false)
+      await expect(async () => {
+        const result = await checkNonNasaMMTAccess('testUser', 'testToken')
+        expect(result).toBe(false)
+      }).not.toThrow()
     })
   })
 
@@ -72,8 +69,10 @@ describe('checkNonNasaMMTAccess', () => {
         })
       })
 
-      const result = await checkNonNasaMMTAccess('testUser', 'testToken')
-      expect(result).toBe(true)
+      await expect(async () => {
+        const result = await checkNonNasaMMTAccess('testUser', 'testToken')
+        expect(result).toBe(true)
+      }).not.toThrow()
     })
   })
 
@@ -86,8 +85,10 @@ describe('checkNonNasaMMTAccess', () => {
         })
       })
 
-      const result = await checkNonNasaMMTAccess('testUser', 'testToken')
-      expect(result).toBe(false)
+      await expect(async () => {
+        const result = await checkNonNasaMMTAccess('testUser', 'testToken')
+        expect(result).toBe(false)
+      }).not.toThrow()
     })
   })
 
@@ -109,7 +110,6 @@ describe('checkNonNasaMMTAccess', () => {
 
       await expect(checkNonNasaMMTAccess('testUser', 'testToken')).rejects.toThrow('Network error')
       expect(consoleSpy).toHaveBeenCalledWith('Error checking Non-NASA MMT access:', expect.any(Error))
-      consoleSpy.mockRestore()
     })
   })
 })

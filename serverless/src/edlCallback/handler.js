@@ -74,26 +74,39 @@ const edlCallback = async (event) => {
 
     edlProfile = await fetchEdlProfile(oauthToken)
 
-    // Convert assuranceLevel to number if it's not already
-    const assuranceLevel = Number(edlProfile.assuranceLevel)
+    let { assuranceLevel } = edlProfile
+    // Check if assuranceLevel is not already a number
+    if (typeof assuranceLevel !== 'number') {
+      assuranceLevel = Number(assuranceLevel)
+    }
 
-    if (Number.isNaN(assuranceLevel) || assuranceLevel < 4) {
+    // Define the minimum required assurance level
+    const MINIMUM_ASSURANCE_LEVEL = 4
+
+    // If assuranceLevel is undefined, not a valid number or a number smaller than MINIMUM_ASSURANCE_LEVEL
+    // then show access denied error page
+    if (!Number.isFinite(assuranceLevel) || assuranceLevel < MINIMUM_ASSURANCE_LEVEL) {
+      console.log(`Invalid or insufficient assurance level: ${assuranceLevel}`)
+
       return {
         statusCode: 303,
         headers: {
-          Location: `${mmtHost}/unauthorizedAccess?errorType=mmt`
+          Location: `${mmtHost}/unauthorizedAccess?errorType=deniedAccessMMT`
         }
       }
     }
 
-    if (assuranceLevel === 4) {
+    // If assuranceLevel is MINIMUM_ASSURANCE_LEVEL then check for non NASA access role
+    if (assuranceLevel === MINIMUM_ASSURANCE_LEVEL) {
       try {
-        const hasNonNasaDraftAccess = await checkNonNasaMMTAccess(edlProfile.uid, accessToken)
-        if (!hasNonNasaDraftAccess) {
+        const hasNonNasaMMTAccess = await checkNonNasaMMTAccess(edlProfile.uid, accessToken)
+        if (!hasNonNasaMMTAccess) {
+          console.log('User does not have Non-NASA MMT access')
+
           return {
             statusCode: 303,
             headers: {
-              Location: `${mmtHost}/unauthorizedAccess?errorType=nonNasaMMT`
+              Location: `${mmtHost}/unauthorizedAccess?errorType=deniedNonNasaAccessMMT`
             }
           }
         }

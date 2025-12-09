@@ -10,8 +10,8 @@ const ErrorUnauthorizedAccess = () => {
   const queryParams = new URLSearchParams(location.search)
   const errorType = queryParams.get('errorType') || 'default'
   const errorMessages = {
-    mmt: 'It appears you are not provisioned with the proper permissions to access MMT.',
-    nonNasaMMT: 'It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users.',
+    deniedAccessMMT: 'It appears you are not provisioned with the proper permissions to access MMT.',
+    deniedNonNasaAccessMMT: 'It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users.',
     default: 'An unknown error occurred.'
   }
 
