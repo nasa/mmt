@@ -39,8 +39,8 @@ const checkNonNasaMMTAccess = async (uid, token) => {
     }
 
     console.log('Parsing response JSON...')
-    const data = await response.json()
-    console.log('Parsed data:', JSON.stringify(data, null, 2))
+    const data = await response.text()
+    console.log('Parsed data:', data)
 
     // Default to an empty array if items is not present or null
     const { items = [] } = data
