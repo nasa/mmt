@@ -35,7 +35,7 @@ const checkNonNasaMMTAccess = async (uid, token) => {
 
     if (!response.ok) {
       console.error('Response not OK. Status:', response.status)
-      throw new Error(`HTTP error! status: ${response.status}`)
+      // Throw new Error(`HTTP error! status: ${response.status}`)
     }
 
     console.log('Parsing response JSON...')
