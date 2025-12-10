@@ -3,6 +3,7 @@ import { getApplicationConfig, getEdlConfig } from '../../../sharedUtils/getConf
 import fetchEdlProfile from '../utils/fetchEdlProfile'
 import createJwt from '../utils/createJwt'
 import createCookie from '../utils/createCookie'
+import checkNonNasaMMTAccess from '../utils/checkNonNasaMMTAccess'
 
 /**
  * Handles the EDL callback during authentication
@@ -72,6 +73,48 @@ const edlCallback = async (event) => {
     expiresAt = token.expires_at
 
     edlProfile = await fetchEdlProfile(oauthToken)
+
+    let { assuranceLevel } = edlProfile
+    // Check if assuranceLevel is not already a number
+    if (typeof assuranceLevel !== 'number') {
+      assuranceLevel = Number(assuranceLevel)
+    }
+
+    // Define the minimum required assurance level
+    const MINIMUM_ASSURANCE_LEVEL = 4
+
+    // If assuranceLevel is undefined, not a valid number or a number smaller than MINIMUM_ASSURANCE_LEVEL
+    // then show access denied error page
+    if (!Number.isFinite(assuranceLevel) || assuranceLevel < MINIMUM_ASSURANCE_LEVEL) {
+      console.log(`Invalid or insufficient assurance level: ${assuranceLevel}`)
+
+      return {
+        statusCode: 303,
+        headers: {
+          Location: `${mmtHost}/unauthorizedAccess?errorType=deniedAccessMMT`
+        }
+      }
+    }
+
+    // If assuranceLevel is MINIMUM_ASSURANCE_LEVEL then check for non NASA access role
+    if (assuranceLevel === MINIMUM_ASSURANCE_LEVEL) {
+      try {
+        const hasNonNasaMMTAccess = await checkNonNasaMMTAccess(edlProfile.uid, accessToken)
+        if (!hasNonNasaMMTAccess) {
+          console.log('User does not have Non-NASA MMT access')
+
+          return {
+            statusCode: 303,
+            headers: {
+              Location: `${mmtHost}/unauthorizedAccess?errorType=deniedNonNasaAccessMMT`
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error checking Non-NASA MMT access:', error)
+        throw error
+      }
+    }
   }
 
   // Create JWT with EDL token and edl profile

@@ -11,7 +11,17 @@ import * as getConfig from '../../../../sharedUtils/getConfig'
 import fetchEdlProfile from '../../utils/fetchEdlProfile'
 import createJwt from '../../utils/createJwt'
 import * as createCookieModule from '../../utils/createCookie'
+import checkNonNasaMMTAccess from '../../utils/checkNonNasaMMTAccess'
 
+beforeAll(() => {
+  vi.spyOn(console, 'error').mockImplementation(() => {})
+})
+
+afterAll(() => {
+  vi.restoreAllMocks()
+})
+
+vi.mock('../../utils/checkNonNasaMMTAccess')
 const realCreateCookie = createCookieModule.default
 vi.mock('simple-oauth2')
 vi.mock('../../../../sharedUtils/getConfig', () => {
@@ -83,13 +93,157 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         const response = await edlCallback(mockEvent)
 
         expect(response.statusCode).toBe(303)
         expect(response.headers.Location).toBe('https://mmt.example.com/auth-callback?target=%2Fdashboard')
         expect(response.headers['Set-Cookie']).toBe('_mmt_jwt_test=test-jwt; SameSite=Strict; Path=/; Domain=.example.com; Max-Age=900; Secure;')
+      })
+    })
+
+    describe('when handling invalid assurance levels', () => {
+      test('should redirect to unauthorizedMMTAccess when assurance level is not defined', async () => {
+        const mockEvent = {
+          queryStringParameters: {
+            code: 'test-code',
+            state: encodeURIComponent(JSON.stringify({ target: '/' }))
+          }
+        }
+
+        AuthorizationCode.mockImplementation(() => ({
+          getToken: vi.fn().mockResolvedValue({
+            token: {
+              access_token: 'test-access-token',
+              refresh_token: 'test-refresh-token',
+              expires_at: '2023-01-01T00:00:00Z'
+            }
+          })
+        }))
+
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user' // No assurance level
+        })
+
+        const response = await edlCallback(mockEvent)
+
+        expect(response.statusCode).toBe(303)
+        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedAccess?errorType=deniedAccessMMT')
+      })
+    })
+
+    describe('when handling assurance levels less than 4', () => {
+      test('should redirect to unauthorizedMMTAccess when assurance level is less than 4', async () => {
+        const mockEvent = {
+          queryStringParameters: {
+            code: 'test-code',
+            state: encodeURIComponent(JSON.stringify({ target: '/' }))
+          }
+        }
+
+        AuthorizationCode.mockImplementation(() => ({
+          getToken: vi.fn().mockResolvedValue({
+            token: {
+              access_token: 'test-access-token',
+              refresh_token: 'test-refresh-token',
+              expires_at: '2023-01-01T00:00:00Z'
+            }
+          })
+        }))
+
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: '3' // Set assurance level to 3
+        })
+
+        const response = await edlCallback(mockEvent)
+
+        expect(response.statusCode).toBe(303)
+        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedAccess?errorType=deniedAccessMMT')
+      })
+    })
+
+    describe('when handling assurance level 4', () => {
+      beforeEach(() => {
+        AuthorizationCode.mockImplementation(() => ({
+          getToken: vi.fn().mockResolvedValue({
+            token: {
+              access_token: 'test-access-token',
+              refresh_token: 'test-refresh-token',
+              expires_at: '2023-01-01T00:00:00Z'
+            }
+          })
+        }))
+      })
+
+      test('should redirect to unauthorizedNonNasaMMTAccess when checkNonNasaMMTAccess returns false', async () => {
+        const mockEvent = {
+          queryStringParameters: {
+            code: 'test-code',
+            state: encodeURIComponent(JSON.stringify({ target: '/' }))
+          }
+        }
+
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: '4'
+        })
+
+        checkNonNasaMMTAccess.mockResolvedValue(false)
+
+        const response = await edlCallback(mockEvent)
+
+        expect(response.statusCode).toBe(303)
+        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedAccess?errorType=deniedNonNasaAccessMMT')
+        expect(checkNonNasaMMTAccess).toHaveBeenCalledWith('test-user', 'test-access-token')
+        expect(checkNonNasaMMTAccess).toHaveBeenCalledTimes(1)
+      })
+
+      test('should redirect to auth-callback with target when checkNonNasaMMTAccess returns true for assurance level 4', async () => {
+        const mockEvent = {
+          queryStringParameters: {
+            code: 'test-code',
+            state: encodeURIComponent(JSON.stringify({ target: '/' }))
+          }
+        }
+
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: '4'
+        })
+
+        checkNonNasaMMTAccess.mockResolvedValue(true)
+
+        const response = await edlCallback(mockEvent)
+
+        expect(response.statusCode).toBe(303)
+        expect(response.headers.Location).toBe('https://mmt.example.com/auth-callback?target=%2F')
+        expect(checkNonNasaMMTAccess).toHaveBeenCalledWith('test-user', 'test-access-token')
+        expect(checkNonNasaMMTAccess).toHaveBeenCalledTimes(1)
+      })
+
+      test('should throw an error when checkNonNasaMMTAccess fails', async () => {
+        const mockEvent = {
+          queryStringParameters: {
+            code: 'test-code',
+            state: encodeURIComponent(JSON.stringify({ target: '/' }))
+          }
+        }
+
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: '4'
+        })
+
+        checkNonNasaMMTAccess.mockRejectedValue(new Error('Failed to check access'))
+
+        await expect(edlCallback(mockEvent)).rejects.toThrow('Failed to check access')
+        expect(checkNonNasaMMTAccess).toHaveBeenCalledWith('test-user', 'test-access-token')
+        expect(checkNonNasaMMTAccess).toHaveBeenCalledTimes(1)
       })
     })
 
@@ -191,7 +345,10 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         const response = await edlCallback(mockEvent)
 
@@ -216,7 +373,10 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         const response = await edlCallback(mockEvent)
 
@@ -243,11 +403,16 @@ describe('edlCallback', () => {
           getToken: vi.fn().mockResolvedValue({ token: mockToken })
         }))
 
-        const mockEdlProfile = { uid: 'test-user' }
+        const mockEdlProfile = {
+          uid: 'test-user',
+          assuranceLevel: 5
+        }
         fetchEdlProfile.mockResolvedValue(mockEdlProfile)
 
         await edlCallback(mockEvent)
-        const expectedExpirationSeconds = Math.floor(new Date(mockToken.expires_at).getTime() / 1000)
+        const expectedExpirationSeconds = Math.floor(
+          new Date(mockToken.expires_at).getTime() / 1000
+        )
 
         expect(createJwt).toHaveBeenCalledWith(
           mockToken.access_token,
@@ -304,7 +469,10 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         const response = await edlCallback(mockEvent)
 
@@ -334,7 +502,10 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         const response = await edlCallback(mockEvent)
 
@@ -363,7 +534,10 @@ describe('edlCallback', () => {
           getToken: mockGetToken
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         await edlCallback(mockEvent)
 
@@ -433,7 +607,7 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({})
+        fetchEdlProfile.mockResolvedValue({ assuranceLevel: 5 })
 
         const response = await edlCallback(mockEvent)
 
@@ -461,7 +635,10 @@ describe('edlCallback', () => {
           })
         }))
 
-        const mockEdlProfile = { uid: 'test-user' }
+        const mockEdlProfile = {
+          uid: 'test-user',
+          assuranceLevel: 5
+        }
         fetchEdlProfile.mockResolvedValue(mockEdlProfile)
 
         await edlCallback(mockEvent)
@@ -505,7 +682,10 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         const response = await edlCallback(mockEvent)
 
@@ -538,7 +718,11 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
+
         createJwt.mockImplementation(() => {
           throw new Error('JWT creation failed')
         })
@@ -564,7 +748,11 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
+
         createJwt.mockReturnValue('test-jwt')
         createCookieSpy.mockImplementation(() => {
           throw new Error('Cookie creation failed')
@@ -593,7 +781,10 @@ describe('edlCallback', () => {
           })
         }))
 
-        fetchEdlProfile.mockResolvedValue({ uid: 'test-user' })
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
 
         const response = await edlCallback(mockEvent)
 

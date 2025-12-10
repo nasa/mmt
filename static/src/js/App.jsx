@@ -45,6 +45,7 @@ import REDIRECTS from '@/js/constants/redirectsMap/redirectsMap'
 import withProviders from '@/js/providers/withProviders/withProviders'
 
 import '../css/index.scss'
+import ErrorUnauthorizedAccess from './components/ErrorUnauthorizedAccess/ErrorUnauthorizedAccess'
 
 /**
  * Renders the `App` component
@@ -274,6 +275,10 @@ export const App = () => {
     {
       path: '/404',
       element: <ErrorPageNotFound />
+    },
+    {
+      path: '/unauthorizedAccess',
+      element: <ErrorUnauthorizedAccess />
     }
   ])
 
