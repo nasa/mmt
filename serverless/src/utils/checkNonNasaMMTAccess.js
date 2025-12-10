@@ -14,7 +14,7 @@ const checkNonNasaMMTAccess = async (uid, token) => {
   const { cmrHost } = getApplicationConfig()
   try {
     const encodedUid = encodeURIComponent(uid)
-    const response = await fetch(`${cmrHost}/access-control/permissions?target=NON_NASA_DRAFT_USER&provider=SCIOPS&user_id=${encodedUid}`, {
+    const response = await fetch(`${cmrHost}/access-control/acls?permitted_user=${encodedUid}&identity_type=Provider&target=NON_NASA_DRAFT_USER&page_size=2000`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -28,10 +28,10 @@ const checkNonNasaMMTAccess = async (uid, token) => {
 
     const data = await response.json()
 
-    // Check if the user has the 'create' permission for NON_NASA_DRAFT_USER
-    const permissions = data.NON_NASA_DRAFT_USER || []
+    // Default to an empty array if items is not present or null
+    const { items = [] } = data
 
-    return permissions.includes('create')
+    return items.some((item) => item.name.includes('NON_NASA_DRAFT_USER'))
   } catch (error) {
     console.error('Error checking Non-NASA MMT access:', error)
     throw error

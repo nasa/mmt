@@ -9,10 +9,13 @@ import {
 import checkNonNasaMMTAccess from '../checkNonNasaMMTAccess'
 import * as getConfig from '../../../../sharedUtils/getConfig'
 
+const originalFetch = global.fetch
 const originalConsoleError = console.error
 
 describe('checkNonNasaMMTAccess', () => {
   beforeEach(() => {
+    vi.resetAllMocks()
+    global.fetch = vi.fn()
     vi.spyOn(getConfig, 'getApplicationConfig').mockReturnValue({
       cmrHost: 'https://cmr.example.com'
     })
@@ -21,20 +24,22 @@ describe('checkNonNasaMMTAccess', () => {
   })
 
   afterEach(() => {
+    global.fetch = originalFetch
     console.error = originalConsoleError
+    vi.restoreAllMocks()
   })
 
-  describe('When making a request to the CMR permissions endpoint', () => {
+  describe('When making a request to the CMR access control endpoint', () => {
     test('should use the correct URL and headers', async () => {
       global.fetch.mockResolvedValue({
         ok: true,
-        json: async () => ({ NON_NASA_DRAFT_USER: [] })
+        json: async () => ({ items: [] })
       })
 
       await checkNonNasaMMTAccess('testUser', 'testToken')
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'https://cmr.example.com/access-control/permissions?target=NON_NASA_DRAFT_USER&provider=SCIOPS&user_id=testUser',
+        'https://cmr.example.com/access-control/acls?permitted_user=testUser&identity_type=Provider&target=NON_NASA_DRAFT_USER&page_size=2000',
         {
           method: 'GET',
           headers: {
@@ -46,49 +51,43 @@ describe('checkNonNasaMMTAccess', () => {
     })
   })
 
-  describe('When the response does not contain NON_NASA_DRAFT_USER', () => {
-    test('should return false', async () => {
+  describe('When the response does not contain items', () => {
+    test('should return false and not throw an error', async () => {
       global.fetch.mockResolvedValue({
         ok: true,
         json: async () => ({})
       })
 
-      await expect(async () => {
-        const result = await checkNonNasaMMTAccess('testUser', 'testToken')
-        expect(result).toBe(false)
-      }).not.toThrow()
+      const result = await checkNonNasaMMTAccess('testUser', 'testToken')
+      expect(result).toBe(false)
     })
   })
 
-  describe('When the user has create permission for Non-NASA Draft', () => {
+  describe('When the user has Non-NASA Draft access', () => {
     test('should return true', async () => {
       global.fetch.mockResolvedValue({
         ok: true,
         json: async () => ({
-          NON_NASA_DRAFT_USER: ['read', 'create', 'update', 'delete']
+          items: [{ name: 'Provider - CMR_ONLY - NON_NASA_DRAFT_USER' }]
         })
       })
 
-      await expect(async () => {
-        const result = await checkNonNasaMMTAccess('testUser', 'testToken')
-        expect(result).toBe(true)
-      }).not.toThrow()
+      const result = await checkNonNasaMMTAccess('testUser', 'testToken')
+      expect(result).toBe(true)
     })
   })
 
-  describe('When the user does not have create permission for Non-NASA Draft', () => {
+  describe('When the user does not have Non-NASA Draft access', () => {
     test('should return false', async () => {
       global.fetch.mockResolvedValue({
         ok: true,
         json: async () => ({
-          NON_NASA_DRAFT_USER: ['read', 'update', 'delete']
+          items: [{ name: 'Some_Other_ACL' }]
         })
       })
 
-      await expect(async () => {
-        const result = await checkNonNasaMMTAccess('testUser', 'testToken')
-        expect(result).toBe(false)
-      }).not.toThrow()
+      const result = await checkNonNasaMMTAccess('testUser', 'testToken')
+      expect(result).toBe(false)
     })
   })
 
@@ -110,6 +109,7 @@ describe('checkNonNasaMMTAccess', () => {
 
       await expect(checkNonNasaMMTAccess('testUser', 'testToken')).rejects.toThrow('Network error')
       expect(consoleSpy).toHaveBeenCalledWith('Error checking Non-NASA MMT access:', expect.any(Error))
+      consoleSpy.mockRestore()
     })
   })
 })
