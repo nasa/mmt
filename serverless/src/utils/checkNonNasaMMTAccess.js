@@ -11,30 +11,51 @@ import { getApplicationConfig } from '../../../sharedUtils/getConfig'
  * @throws {Error} If there's an error during the API request or processing the response.
  */
 const checkNonNasaMMTAccess = async (uid, token) => {
+  console.log('Starting checkNonNasaMMTAccess function')
+  console.log('Input parameters:', {
+    uid,
+    token: token || 'Token missing'
+  })
+
   const { cmrHost } = getApplicationConfig()
+  console.log('CMR Host:', cmrHost)
   try {
     const encodedUid = encodeURIComponent(uid)
-    const response = await fetch(`${cmrHost}/access-control/acls?permitted_user=${encodedUid}&identity_type=Provider&target=NON_NASA_DRAFT_USER&page_size=2000`, {
+    console.log('Encoded UID:', encodedUid)
+    const url = `${cmrHost}/access-control/acls?permitted_user=${encodedUid}&identity_type=Provider&target=NON_NASA_DRAFT_USER&page_size=2000`
+    console.log('Request URL:', url)
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
     })
+    console.log('Response received. Status:', response.status)
 
     if (!response.ok) {
+      console.error('Response not OK. Status:', response.status)
       throw new Error(`HTTP error! status: ${response.status}`)
     }
 
+    console.log('Parsing response JSON...')
     const data = await response.json()
+    console.log('Parsed data:', JSON.stringify(data, null, 2))
 
     // Default to an empty array if items is not present or null
     const { items = [] } = data
+    console.log('Number of items:', items.length)
 
-    return items.some((item) => item.name.includes('NON_NASA_DRAFT_USER'))
+    const hasAccess = items.some((item) => item.name.includes('NON_NASA_DRAFT_USER'))
+    console.log('Has Non-NASA MMT access:', hasAccess)
+
+    return hasAccess
   } catch (error) {
     console.error('Error checking Non-NASA MMT access:', error)
+    console.error('Error stack:', error.stack)
     throw error
+  } finally {
+    console.log('Finished checkNonNasaMMTAccess function')
   }
 }
 
