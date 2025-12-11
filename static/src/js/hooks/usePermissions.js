@@ -14,7 +14,7 @@ import useAuthContext from './useAuthContext'
 const usePermissions = ({
   systemGroup,
   systemKeywords,
-  providerIdentityTargets
+  providerPermissionParams
 } = {}) => {
   const { env } = getApplicationConfig()
   const { user } = useAuthContext()
@@ -22,8 +22,8 @@ const usePermissions = ({
 
   const shouldCheckGroup = Array.isArray(systemGroup) && systemGroup.length > 0
   const shouldCheckKeywords = Array.isArray(systemKeywords) && systemKeywords.length > 0
-  const shouldCheckProviderIdentities = Array.isArray(providerIdentityTargets) && providerIdentityTargets.length > 0
-  const shouldQuery = shouldCheckGroup || shouldCheckKeywords || shouldCheckProviderIdentities
+  const shouldCheckProviderPermissions = Boolean(providerPermissionParams)
+  const shouldQuery = shouldCheckGroup || shouldCheckKeywords || shouldCheckProviderPermissions
 
   const { data, loading } = useQuery(GET_PERMISSIONS, {
     skip: !uid || !shouldQuery,
@@ -36,10 +36,9 @@ const usePermissions = ({
         systemObject: 'KEYWORD_MANAGEMENT_SYSTEM',
         userId: uid
       } : null,
-      providerIdentityParams: shouldCheckProviderIdentities ? {
-        limit: 2000,
-        permittedUser: uid,
-        target: providerIdentityTargets[0]
+      providerPermissionParams: shouldCheckProviderPermissions ? {
+        ...providerPermissionParams,
+        userId: uid
       } : null
     }
   })
@@ -48,7 +47,7 @@ const usePermissions = ({
     return {
       hasSystemGroup: false,
       hasSystemKeywords: false,
-      hasProviderIdentities: !shouldCheckProviderIdentities,
+      hasProviderPermissions: !shouldCheckProviderPermissions,
       loading: false
     }
   }
@@ -62,12 +61,12 @@ const usePermissions = ({
   const {
     groupPermissions: groupPermissionsResult = {},
     keywordsPermissions: keywordsPermissionsResult = {},
-    providerIdentityAcls
+    providerPermissions: providerPermissionsResult = {}
   } = data
 
   const { items: groupItems = [] } = groupPermissionsResult
   const { items: keywordItems = [] } = keywordsPermissionsResult
-  const providerIdentityItems = providerIdentityAcls?.items || []
+  const { items: providerPermissionItems = [] } = providerPermissionsResult
 
   const groupPermissionsObject = groupItems.find((groupItem) => groupItem.systemObject === 'GROUP')
   const keywordsPermissionsObject = keywordItems.find((keywordItem) => keywordItem.systemObject === 'KEYWORD_MANAGEMENT_SYSTEM')
@@ -91,17 +90,15 @@ const usePermissions = ({
     }
   }
 
-  let hasProviderIdentities = true
-  if (shouldCheckProviderIdentities) {
-    hasProviderIdentities = providerIdentityItems.some(
-      (acl) => providerIdentityTargets.includes(acl?.target)
-    )
+  let hasProviderPermissions = true
+  if (shouldCheckProviderPermissions) {
+    hasProviderPermissions = providerPermissionItems.length > 0
   }
 
   return {
     hasSystemGroup,
     hasSystemKeywords,
-    hasProviderIdentities,
+    hasProviderPermissions,
     loading: false
   }
 }

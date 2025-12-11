@@ -4,7 +4,7 @@ export const GET_PERMISSIONS = gql`
   query Permissions(
     $groupPermissionParams: PermissionsInput
     $keywordsPermissionParams: PermissionsInput
-    $providerIdentityParams: AclsInput
+    $providerPermissionParams: PermissionsInput
     # $otherParams: PermissionsInput
   ) {
     groupPermissions: permissions(params: $groupPermissionParams) {
@@ -21,9 +21,13 @@ export const GET_PERMISSIONS = gql`
         permissions
       }
     }
-    providerIdentityAcls: acls(params: $providerIdentityParams) {
+    providerPermissions: permissions(params: $providerPermissionParams) {
+      count
       items {
+        conceptId
+        systemObject
         target
+        permissions
       }
     }
 

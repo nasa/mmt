@@ -1,5 +1,9 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
 import {
   MemoryRouter,
   Navigate,
@@ -8,7 +12,9 @@ import {
 } from 'react-router'
 
 import AuthContext from '@/js/context/AuthContext'
+import AppContext from '@/js/context/AppContext'
 import usePermissions from '@/js/hooks/usePermissions'
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 import AuthRequiredLayout from '../AuthRequiredLayout'
 
 import * as getConfig from '../../../../../../sharedUtils/getConfig'
@@ -23,9 +29,13 @@ vi.mock('react-router', async () => ({
 }))
 
 vi.mock('@/js/hooks/usePermissions')
+vi.mock('@/js/hooks/useAvailableProviders', () => ({
+  __esModule: true,
+  default: vi.fn()
+}))
 
 const mockUsePermissions = (returns = {
-  hasProviderIdentities: true,
+  hasProviderPermissions: true,
   loading: false
 }) => {
   usePermissions.mockReturnValue(returns)
@@ -34,7 +44,8 @@ const mockUsePermissions = (returns = {
 const setup = ({
   isLoggedIn = false,
   authLoading = false,
-  user = {}
+  user = {},
+  providerId = 'SCIOPS'
 } = {}) => {
   vi.setSystemTime('2024-01-01')
 
@@ -49,19 +60,27 @@ const setup = ({
 
   render(
     <AuthContext.Provider value={context}>
-      <MemoryRouter initialEntries={['/tools']}>
-        <Routes>
-          <Route
-            path="/"
-            element={<AuthRequiredLayout />}
-          >
+      <AppContext.Provider value={
+        {
+          providerId,
+          setProviderId: vi.fn()
+        }
+      }
+      >
+        <MemoryRouter initialEntries={['/tools']}>
+          <Routes>
             <Route
-              path="/tools"
-              element={<div>Mock Component</div>}
-            />
-          </Route>
-        </Routes>
-      </MemoryRouter>
+              path="/"
+              element={<AuthRequiredLayout />}
+            >
+              <Route
+                path="/tools"
+                element={<div>Mock Component</div>}
+              />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </AppContext.Provider>
     </AuthContext.Provider>
   )
 }
@@ -75,6 +94,10 @@ describe('AuthRequiredContainer component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockUsePermissions()
+    useAvailableProviders.mockReturnValue({
+      providerIds: ['SCIOPS'],
+      providersLoading: false
+    })
   })
 
   describe('when the user has not authenticated', () => {
@@ -129,7 +152,7 @@ describe('AuthRequiredContainer component', () => {
   describe('when assurance level is 4', () => {
     test('navigates to deniedNonNasaAccess when ACL missing', () => {
       mockUsePermissions({
-        hasProviderIdentities: false,
+        hasProviderPermissions: false,
         loading: false
       })
 
@@ -140,15 +163,17 @@ describe('AuthRequiredContainer component', () => {
         }
       })
 
-      expect(Navigate).toHaveBeenCalledWith({
-        replace: true,
-        to: '/unauthorizedAccess?errorType=deniedNonNasaAccessMMT'
-      }, {})
+      return waitFor(() => {
+        expect(Navigate).toHaveBeenCalledWith({
+          replace: true,
+          to: '/unauthorizedAccess?errorType=deniedNonNasaAccessMMT'
+        }, {})
+      })
     })
 
     test('shows loading state while ACLs load', () => {
       mockUsePermissions({
-        hasProviderIdentities: true,
+        hasProviderPermissions: true,
         loading: true
       })
 
@@ -160,6 +185,37 @@ describe('AuthRequiredContainer component', () => {
       })
 
       expect(screen.getByText('Please wait logging in...')).toBeInTheDocument()
+    })
+
+    test('allows access if any provider grants the ACL', async () => {
+      useAvailableProviders.mockReturnValue({
+        providerIds: ['SCIOPS', 'SCIOPS2'],
+        providersLoading: false
+      })
+
+      usePermissions
+        .mockReturnValueOnce({
+          hasProviderPermissions: false,
+          loading: false
+        })
+        .mockReturnValue({
+          hasProviderPermissions: true,
+          loading: false
+        })
+
+      setup({
+        isLoggedIn: true,
+        user: {
+          assuranceLevel: 4
+        }
+      })
+
+      await screen.findByText('Mock Component')
+
+      expect(Navigate).not.toHaveBeenCalledWith({
+        replace: true,
+        to: '/unauthorizedAccess?errorType=deniedNonNasaAccessMMT'
+      }, {})
     })
   })
 })

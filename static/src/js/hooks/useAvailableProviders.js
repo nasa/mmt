@@ -19,7 +19,10 @@ const useAvailableProviders = () => {
   const { user } = useAuthContext()
   const { uid } = user || {}
 
-  useQuery(GET_AVAILABLE_PROVIDERS, {
+  const shouldFetchProviders = Boolean(uid)
+
+  const { loading: providersLoading } = useQuery(GET_AVAILABLE_PROVIDERS, {
+    skip: !shouldFetchProviders,
     variables: {
       params: {
         limit: 500,
@@ -45,10 +48,11 @@ const useAvailableProviders = () => {
     if (!providerId && providerIds?.length > 0) {
       setProviderId(providerIds[0])
     }
-  }, [providerIds, providerId])
+  }, [providerIds, providerId, setProviderId])
 
   return {
-    providerIds
+    providerIds,
+    providersLoading
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Navigate,
   Outlet,
@@ -6,6 +6,7 @@ import {
 } from 'react-router'
 
 import useAuthContext from '@/js/hooks/useAuthContext'
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 import usePermissions from '@/js/hooks/usePermissions'
 
 import isTokenExpired from '@/js/utils/isTokenExpired'
@@ -27,11 +28,95 @@ const AuthRequiredLayout = () => {
   const requiresNonNasaCheck = assuranceLevel === MINIMUM_ASSURANCE_LEVEL
 
   const {
-    hasProviderIdentities: hasNonNasaAccess = true,
+    providerIds = [],
+    providersLoading = false
+  } = useAvailableProviders()
+
+  const [providerIndex, setProviderIndex] = useState(0)
+  const [hasNonNasaAccess, setHasNonNasaAccess] = useState(
+    requiresNonNasaCheck ? null : true
+  )
+
+  const providerIdToCheck = providerIds[providerIndex]
+
+  const shouldCheckNonNasaAccess = requiresNonNasaCheck
+    && hasNonNasaAccess !== true
+    && Boolean(providerIdToCheck)
+
+  const {
+    hasProviderPermissions: currentProviderHasAccess = false,
     loading: permissionsLoading
   } = usePermissions({
-    providerIdentityTargets: requiresNonNasaCheck ? ['NON_NASA_DRAFT_USER'] : null
+    providerPermissionParams: shouldCheckNonNasaAccess
+      ? {
+        provider: providerIdToCheck,
+        target: 'NON_NASA_DRAFT_USER'
+      }
+      : null
   })
+
+  useEffect(() => {
+    if (!requiresNonNasaCheck) {
+      setHasNonNasaAccess(true)
+
+      return
+    }
+
+    setHasNonNasaAccess(null)
+    setProviderIndex(0)
+  }, [requiresNonNasaCheck])
+
+  useEffect(() => {
+    if (!requiresNonNasaCheck) return
+
+    setHasNonNasaAccess(null)
+    setProviderIndex(0)
+  }, [requiresNonNasaCheck, providerIds])
+
+  useEffect(() => {
+    if (!requiresNonNasaCheck || hasNonNasaAccess === true) return
+
+    if (providersLoading) return
+
+    const hasProviders = providerIds.length > 0
+    if (!hasProviders) {
+      setHasNonNasaAccess(false)
+
+      return
+    }
+
+    if (!shouldCheckNonNasaAccess) {
+      if (hasNonNasaAccess === null && providerIndex >= providerIds.length) {
+        setHasNonNasaAccess(false)
+      }
+
+      return
+    }
+
+    if (permissionsLoading) return
+
+    if (currentProviderHasAccess) {
+      setHasNonNasaAccess(true)
+
+      return
+    }
+
+    if (providerIndex < providerIds.length - 1) {
+      setProviderIndex((index) => index + 1)
+    } else {
+      setHasNonNasaAccess(false)
+    }
+  }, [
+    currentProviderHasAccess,
+    hasNonNasaAccess,
+    permissionsLoading,
+    providerIdToCheck,
+    providerIds,
+    providerIndex,
+    providersLoading,
+    requiresNonNasaCheck,
+    shouldCheckNonNasaAccess
+  ])
 
   const assuranceInsufficient = !Number.isFinite(assuranceLevel) || assuranceLevel < MINIMUM_ASSURANCE_LEVEL
 
@@ -50,7 +135,11 @@ const AuthRequiredLayout = () => {
     }
   }, [apiHost, authLoading, location, tokenExpired])
 
-  const providerCheckLoading = requiresNonNasaCheck && permissionsLoading
+  const providerCheckLoading = requiresNonNasaCheck && (
+    providersLoading
+    || (shouldCheckNonNasaAccess && permissionsLoading)
+    || hasNonNasaAccess === null
+  )
 
   if (!authLoading && !tokenExpired) {
     if (assuranceInsufficient) {
