@@ -47,8 +47,6 @@ const AuthRequiredLayout = () => {
     }
   })
 
-  const assuranceInsufficient = !Number.isFinite(assuranceLevel)
-
   const location = useLocation()
 
   const tokenExpired = isTokenExpired(tokenExpires)
@@ -75,12 +73,6 @@ const AuthRequiredLayout = () => {
         </span>
         <div className="spinner-border text-primary" role="status" />
       </div>
-    )
-  }
-
-  if (assuranceInsufficient) {
-    return (
-      <Navigate to="/unauthorizedAccess?errorType=deniedAccessMMT" replace />
     )
   }
 
