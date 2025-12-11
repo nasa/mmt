@@ -3,7 +3,6 @@ import { getApplicationConfig, getEdlConfig } from '../../../sharedUtils/getConf
 import fetchEdlProfile from '../utils/fetchEdlProfile'
 import createJwt from '../utils/createJwt'
 import createCookie from '../utils/createCookie'
-import checkNonNasaMMTAccess from '../utils/checkNonNasaMMTAccess'
 
 /**
  * Handles the EDL callback during authentication
@@ -93,26 +92,6 @@ const edlCallback = async (event) => {
         headers: {
           Location: `${mmtHost}/unauthorizedAccess?errorType=deniedAccessMMT`
         }
-      }
-    }
-
-    // If assuranceLevel is MINIMUM_ASSURANCE_LEVEL then check for non NASA access role
-    if (assuranceLevel === MINIMUM_ASSURANCE_LEVEL) {
-      try {
-        const hasNonNasaMMTAccess = await checkNonNasaMMTAccess(edlProfile.uid, accessToken)
-        if (!hasNonNasaMMTAccess) {
-          console.log('User does not have Non-NASA MMT access')
-
-          return {
-            statusCode: 303,
-            headers: {
-              Location: `${mmtHost}/unauthorizedAccess?errorType=deniedNonNasaAccessMMT`
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Error checking Non-NASA MMT access:', error)
-        throw error
       }
     }
   }
