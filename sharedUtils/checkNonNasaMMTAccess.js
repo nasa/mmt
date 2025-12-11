@@ -1,4 +1,5 @@
-import { getApplicationConfig } from '../../../sharedUtils/getConfig'
+import { getApplicationConfig } from './getConfig'
+
 /**
  * Checks if a user has Non-NASA MMT access.
  *
@@ -11,19 +12,15 @@ import { getApplicationConfig } from '../../../sharedUtils/getConfig'
  * @throws {Error} If there's an error during the API request or processing the response.
  */
 const checkNonNasaMMTAccess = async (uid, token) => {
-  console.log('Starting checkNonNasaMMTAccess function')
-  console.log('Input parameters:', {
-    uid,
-    token: token || 'Token missing'
-  })
+  if (!uid || !token) {
+    throw new Error('User id and token are required to verify Non-NASA MMT access')
+  }
 
-  const { cmrHost } = getApplicationConfig()
-  console.log('CMR Host:', cmrHost)
   try {
+    const { cmrHost } = getApplicationConfig()
     const encodedUid = encodeURIComponent(uid)
-    console.log('Encoded UID:', encodedUid)
     const url = `${cmrHost}/access-control/acls?permitted_user=${encodedUid}&identity_type=Provider&target=NON_NASA_DRAFT_USER&page_size=2000`
-    console.log('Request URL:', url)
+
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -31,31 +28,19 @@ const checkNonNasaMMTAccess = async (uid, token) => {
         'Content-Type': 'application/json'
       }
     })
-    console.log('Response received. Status:', response.status)
 
     if (!response.ok) {
-      console.error('Response not OK. Status:', response.status)
-      // Throw new Error(`HTTP error! status: ${response.status}`)
+      throw new Error(`HTTP error! status: ${response.status}`)
     }
 
-    console.log('Parsing response JSON...')
-    const data = await response.text()
-    console.log('Parsed data:', data)
+    const data = await response.json()
 
-    // Default to an empty array if items is not present or null
     const { items = [] } = data
-    console.log('Number of items:', items.length)
 
-    const hasAccess = items.some((item) => item.name.includes('NON_NASA_DRAFT_USER'))
-    console.log('Has Non-NASA MMT access:', hasAccess)
-
-    return hasAccess
+    return items.some((item = {}) => item.name?.includes('NON_NASA_DRAFT_USER'))
   } catch (error) {
     console.error('Error checking Non-NASA MMT access:', error)
-    console.error('Error stack:', error.stack)
     throw error
-  } finally {
-    console.log('Finished checkNonNasaMMTAccess function')
   }
 }
 

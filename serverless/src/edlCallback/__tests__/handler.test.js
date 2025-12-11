@@ -11,7 +11,6 @@ import * as getConfig from '../../../../sharedUtils/getConfig'
 import fetchEdlProfile from '../../utils/fetchEdlProfile'
 import createJwt from '../../utils/createJwt'
 import * as createCookieModule from '../../utils/createCookie'
-import checkNonNasaMMTAccess from '../../utils/checkNonNasaMMTAccess'
 
 beforeAll(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {})
@@ -21,7 +20,6 @@ afterAll(() => {
   vi.restoreAllMocks()
 })
 
-vi.mock('../../utils/checkNonNasaMMTAccess')
 const realCreateCookie = createCookieModule.default
 vi.mock('simple-oauth2')
 vi.mock('../../../../sharedUtils/getConfig', () => {
@@ -168,7 +166,14 @@ describe('edlCallback', () => {
     })
 
     describe('when handling assurance level 4', () => {
-      beforeEach(() => {
+      test('should redirect to auth-callback with target', async () => {
+        const mockEvent = {
+          queryStringParameters: {
+            code: 'test-code',
+            state: encodeURIComponent(JSON.stringify({ target: '/' }))
+          }
+        }
+
         AuthorizationCode.mockImplementation(() => ({
           getToken: vi.fn().mockResolvedValue({
             token: {
@@ -178,72 +183,16 @@ describe('edlCallback', () => {
             }
           })
         }))
-      })
-
-      test('should redirect to unauthorizedNonNasaMMTAccess when checkNonNasaMMTAccess returns false', async () => {
-        const mockEvent = {
-          queryStringParameters: {
-            code: 'test-code',
-            state: encodeURIComponent(JSON.stringify({ target: '/' }))
-          }
-        }
 
         fetchEdlProfile.mockResolvedValue({
           uid: 'test-user',
           assuranceLevel: '4'
         })
-
-        checkNonNasaMMTAccess.mockResolvedValue(false)
-
-        const response = await edlCallback(mockEvent)
-
-        expect(response.statusCode).toBe(303)
-        expect(response.headers.Location).toBe('https://mmt.example.com/unauthorizedAccess?errorType=deniedNonNasaAccessMMT')
-        expect(checkNonNasaMMTAccess).toHaveBeenCalledWith('test-user', 'test-access-token')
-        expect(checkNonNasaMMTAccess).toHaveBeenCalledTimes(1)
-      })
-
-      test('should redirect to auth-callback with target when checkNonNasaMMTAccess returns true for assurance level 4', async () => {
-        const mockEvent = {
-          queryStringParameters: {
-            code: 'test-code',
-            state: encodeURIComponent(JSON.stringify({ target: '/' }))
-          }
-        }
-
-        fetchEdlProfile.mockResolvedValue({
-          uid: 'test-user',
-          assuranceLevel: '4'
-        })
-
-        checkNonNasaMMTAccess.mockResolvedValue(true)
 
         const response = await edlCallback(mockEvent)
 
         expect(response.statusCode).toBe(303)
         expect(response.headers.Location).toBe('https://mmt.example.com/auth-callback?target=%2F')
-        expect(checkNonNasaMMTAccess).toHaveBeenCalledWith('test-user', 'test-access-token')
-        expect(checkNonNasaMMTAccess).toHaveBeenCalledTimes(1)
-      })
-
-      test('should throw an error when checkNonNasaMMTAccess fails', async () => {
-        const mockEvent = {
-          queryStringParameters: {
-            code: 'test-code',
-            state: encodeURIComponent(JSON.stringify({ target: '/' }))
-          }
-        }
-
-        fetchEdlProfile.mockResolvedValue({
-          uid: 'test-user',
-          assuranceLevel: '4'
-        })
-
-        checkNonNasaMMTAccess.mockRejectedValue(new Error('Failed to check access'))
-
-        await expect(edlCallback(mockEvent)).rejects.toThrow('Failed to check access')
-        expect(checkNonNasaMMTAccess).toHaveBeenCalledWith('test-user', 'test-access-token')
-        expect(checkNonNasaMMTAccess).toHaveBeenCalledTimes(1)
       })
     })
 

@@ -6,8 +6,9 @@ import {
   beforeEach,
   afterEach
 } from 'vitest'
+
 import checkNonNasaMMTAccess from '../checkNonNasaMMTAccess'
-import * as getConfig from '../../../../sharedUtils/getConfig'
+import * as getConfig from '../getConfig'
 
 const originalFetch = global.fetch
 const originalConsoleError = console.error
@@ -103,7 +104,7 @@ describe('checkNonNasaMMTAccess', () => {
   })
 
   describe('When there is a network error', () => {
-    test('should throw an error', async () => {
+    test('should throw an error and log it', async () => {
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
       global.fetch.mockRejectedValue(new Error('Network error'))
 
