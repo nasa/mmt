@@ -1,12 +1,10 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { MemoryRouter, Navigate } from 'react-router'
 import { createSearchParams } from 'react-router-dom'
 
 import AuthContext from '@/js/context/AuthContext'
 
-import checkNonNasaMMTAccess from 'sharedUtils/checkNonNasaMMTAccess'
-import errorLogger from '@/js/utils/errorLogger'
 import AuthCallback from '../AuthCallback'
 
 vi.mock('react-router', async () => ({
@@ -14,26 +12,16 @@ vi.mock('react-router', async () => ({
   Navigate: vi.fn()
 }))
 
-vi.mock('sharedUtils/checkNonNasaMMTAccess')
-vi.mock('@/js/utils/errorLogger')
-
 const setup = ({
   authLoading = false,
   tokenExpires = new Date().getTime() + 1,
-  tokenValue = 'test-token',
-  user = {
-    assuranceLevel: 5,
-    uid: 'test-user'
-  },
   target = '/mock/target'
 } = {}) => {
   vi.setSystemTime(new Date('2024-01-01T00:00:00Z'))
 
   const context = {
     authLoading,
-    tokenExpires,
-    tokenValue,
-    user
+    tokenExpires
   }
 
   render(
@@ -78,100 +66,6 @@ describe('AuthCallback component', () => {
         expect(Navigate).toHaveBeenCalledTimes(1)
         expect(Navigate).toHaveBeenCalledWith({
           to: '/'
-        }, {})
-      })
-    })
-  })
-
-  describe('when validating assurance level', () => {
-    test('navigates to deniedAccessMMT when the assurance level is missing', () => {
-      setup({
-        user: {
-          assuranceLevel: undefined,
-          uid: 'test-user'
-        }
-      })
-
-      expect(Navigate).toHaveBeenCalledWith({
-        to: '/unauthorizedAccess?errorType=deniedAccessMMT',
-        replace: true
-      }, {})
-    })
-
-    test('navigates to deniedAccessMMT when the assurance level is less than minimum', () => {
-      setup({
-        user: {
-          assuranceLevel: 3,
-          uid: 'test-user'
-        }
-      })
-
-      expect(Navigate).toHaveBeenCalledWith({
-        to: '/unauthorizedAccess?errorType=deniedAccessMMT',
-        replace: true
-      }, {})
-    })
-  })
-
-  describe('Non-NASA access checks', () => {
-    test('navigates to the target when the user has Non-NASA access', async () => {
-      checkNonNasaMMTAccess.mockResolvedValue(true)
-
-      setup({
-        user: {
-          assuranceLevel: 4,
-          uid: 'test-user'
-        }
-      })
-
-      await waitFor(() => {
-        expect(checkNonNasaMMTAccess).toHaveBeenCalledWith('test-user', 'test-token')
-      })
-
-      await waitFor(() => {
-        expect(Navigate).toHaveBeenCalledWith({
-          to: '/mock/target'
-        }, {})
-      })
-    })
-
-    test('navigates to the Non-NASA denied page when the user lacks access', async () => {
-      checkNonNasaMMTAccess.mockResolvedValue(false)
-
-      setup({
-        user: {
-          assuranceLevel: 4,
-          uid: 'test-user'
-        }
-      })
-
-      await waitFor(() => {
-        expect(Navigate).toHaveBeenCalledWith({
-          to: '/unauthorizedAccess?errorType=deniedNonNasaAccessMMT',
-          replace: true
-        }, {})
-      })
-    })
-
-    test('logs an error and navigates to the Non-NASA denied page when the check fails', async () => {
-      const mockError = new Error('boom')
-      checkNonNasaMMTAccess.mockRejectedValue(mockError)
-
-      setup({
-        user: {
-          assuranceLevel: 4,
-          uid: 'test-user'
-        }
-      })
-
-      await waitFor(() => {
-        expect(errorLogger).toHaveBeenCalledWith(mockError, 'AuthCallback: checking Non-NASA MMT access')
-      })
-
-      await waitFor(() => {
-        expect(Navigate).toHaveBeenCalledWith({
-          to: '/unauthorizedAccess?errorType=deniedNonNasaAccessMMT',
-          replace: true
         }, {})
       })
     })

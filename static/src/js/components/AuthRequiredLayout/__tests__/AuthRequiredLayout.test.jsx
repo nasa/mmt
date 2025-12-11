@@ -2,11 +2,13 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import {
   MemoryRouter,
+  Navigate,
   Routes,
   Route
 } from 'react-router'
 
 import AuthContext from '@/js/context/AuthContext'
+import usePermissions from '@/js/hooks/usePermissions'
 import AuthRequiredLayout from '../AuthRequiredLayout'
 
 import * as getConfig from '../../../../../../sharedUtils/getConfig'
@@ -20,7 +22,20 @@ vi.mock('react-router', async () => ({
   Navigate: vi.fn()
 }))
 
-const setup = (isLoggedIn = false, authLoading = false) => {
+vi.mock('@/js/hooks/usePermissions')
+
+const mockUsePermissions = (returns = {
+  hasProviderIdentities: true,
+  loading: false
+}) => {
+  usePermissions.mockReturnValue(returns)
+}
+
+const setup = ({
+  isLoggedIn = false,
+  authLoading = false,
+  user = {}
+} = {}) => {
   vi.setSystemTime('2024-01-01')
 
   const now = new Date().getTime()
@@ -28,7 +43,8 @@ const setup = (isLoggedIn = false, authLoading = false) => {
   const context = {
     authLoading,
     tokenValue: 'mock-token',
-    tokenExpires: isLoggedIn ? now + 1 : now - 1
+    tokenExpires: isLoggedIn ? now + 1 : now - 1,
+    user
   }
 
   render(
@@ -56,6 +72,11 @@ beforeEach(() => {
 })
 
 describe('AuthRequiredContainer component', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mockUsePermissions()
+  })
+
   describe('when the user has not authenticated', () => {
     test('redirects the user to login', () => {
       setup()
@@ -68,7 +89,12 @@ describe('AuthRequiredContainer component', () => {
 
   describe('when the user is authenticated', () => {
     test('should not redirect the user', () => {
-      setup(true)
+      setup({
+        isLoggedIn: true,
+        user: {
+          assuranceLevel: 5
+        }
+      })
 
       expect(screen.getByText('Mock Component')).toBeInTheDocument()
     })
@@ -76,9 +102,64 @@ describe('AuthRequiredContainer component', () => {
 
   describe('when the app is still loading the token', () => {
     test('should not redirect the user', () => {
-      setup(undefined, true)
+      setup({
+        authLoading: true
+      })
 
       expect(screen.queryByText('Mock Component')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('when assurance level is insufficient', () => {
+    test('navigates to the denied access page', () => {
+      setup({
+        isLoggedIn: true,
+        user: {
+          assuranceLevel: 3
+        }
+      })
+
+      expect(Navigate).toHaveBeenCalledWith({
+        replace: true,
+        to: '/unauthorizedAccess?errorType=deniedAccessMMT'
+      }, {})
+    })
+  })
+
+  describe('when assurance level is 4', () => {
+    test('navigates to deniedNonNasaAccess when ACL missing', () => {
+      mockUsePermissions({
+        hasProviderIdentities: false,
+        loading: false
+      })
+
+      setup({
+        isLoggedIn: true,
+        user: {
+          assuranceLevel: 4
+        }
+      })
+
+      expect(Navigate).toHaveBeenCalledWith({
+        replace: true,
+        to: '/unauthorizedAccess?errorType=deniedNonNasaAccessMMT'
+      }, {})
+    })
+
+    test('shows loading state while ACLs load', () => {
+      mockUsePermissions({
+        hasProviderIdentities: true,
+        loading: true
+      })
+
+      setup({
+        isLoggedIn: true,
+        user: {
+          assuranceLevel: 4
+        }
+      })
+
+      expect(screen.getByText('Please wait logging in...')).toBeInTheDocument()
     })
   })
 })
