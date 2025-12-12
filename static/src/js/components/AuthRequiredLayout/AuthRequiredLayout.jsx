@@ -14,6 +14,10 @@ import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 const MINIMUM_ASSURANCE_LEVEL = 4
 
+/**
+ * Gatekeeper layout that ensures users are authenticated and, when needed,
+ * verifies Non-NASA draft permissions before exposing protected routes.
+ */
 const AuthRequiredLayout = () => {
   const { apiHost } = getApplicationConfig()
   const {

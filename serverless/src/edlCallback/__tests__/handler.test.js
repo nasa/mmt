@@ -20,7 +20,6 @@ afterAll(() => {
   vi.restoreAllMocks()
 })
 
-vi.mock('../../utils/checkNonNasaMMTAccess')
 const realCreateCookie = createCookieModule.default
 vi.mock('simple-oauth2')
 vi.mock('../../../../sharedUtils/getConfig', () => {
