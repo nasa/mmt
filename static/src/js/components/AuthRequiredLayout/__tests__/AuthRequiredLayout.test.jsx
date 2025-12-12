@@ -217,7 +217,7 @@ describe('AuthRequiredContainer component', () => {
       })
 
       await waitFor(() => {
-        expect(errorLogger).toHaveBeenCalledWith('Failed fetching available providers', mockError)
+        expect(errorLogger).toHaveBeenCalledWith('Failed non nasa draft user acls', mockError)
       })
 
       expect(Navigate).toHaveBeenCalledWith(expect.objectContaining({

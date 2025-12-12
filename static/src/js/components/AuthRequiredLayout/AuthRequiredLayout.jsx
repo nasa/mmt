@@ -46,7 +46,7 @@ const AuthRequiredLayout = () => {
       setHasNonNasaAccess(items.length > 0)
     },
     onError: (error) => {
-      errorLogger('Failed fetching available providers', error)
+      errorLogger('Failed non nasa draft user acls', error)
       setHasNonNasaAccess(false)
     }
   })
