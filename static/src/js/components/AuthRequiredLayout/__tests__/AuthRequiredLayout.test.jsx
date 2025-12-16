@@ -1,12 +1,20 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
+import { MockedProvider } from '@apollo/client/testing'
 import {
   MemoryRouter,
   Routes,
-  Route
+  Route,
+  Navigate
 } from 'react-router'
 
 import AuthContext from '@/js/context/AuthContext'
+import errorLogger from '@/js/utils/errorLogger'
+import { GET_NON_NASA_DRAFT_USER_ACLS } from '@/js/operations/queries/getNonNasaDraftUserAcls'
 import AuthRequiredLayout from '../AuthRequiredLayout'
 
 import * as getConfig from '../../../../../../sharedUtils/getConfig'
@@ -20,7 +28,17 @@ vi.mock('react-router', async () => ({
   Navigate: vi.fn()
 }))
 
-const setup = (isLoggedIn = false, authLoading = false) => {
+vi.mock('@/js/utils/errorLogger', () => ({
+  __esModule: true,
+  default: vi.fn()
+}))
+
+const setup = ({
+  isLoggedIn = false,
+  authLoading = false,
+  user = {},
+  mocks = []
+} = {}) => {
   vi.setSystemTime('2024-01-01')
 
   const now = new Date().getTime()
@@ -28,31 +46,36 @@ const setup = (isLoggedIn = false, authLoading = false) => {
   const context = {
     authLoading,
     tokenValue: 'mock-token',
-    tokenExpires: isLoggedIn ? now + 1 : now - 1
+    tokenExpires: isLoggedIn ? now + 60000 : now - 1,
+    user
   }
 
   render(
-    <AuthContext.Provider value={context}>
-      <MemoryRouter initialEntries={['/tools']}>
-        <Routes>
-          <Route
-            path="/"
-            element={<AuthRequiredLayout />}
-          >
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <AuthContext.Provider value={context}>
+        <MemoryRouter initialEntries={['/tools']}>
+          <Routes>
             <Route
-              path="/tools"
-              element={<div>Mock Component</div>}
-            />
-          </Route>
-        </Routes>
-      </MemoryRouter>
-    </AuthContext.Provider>
+              path="/"
+              element={<AuthRequiredLayout />}
+            >
+              <Route
+                path="/tools"
+                element={<div>Mock Component</div>}
+              />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </AuthContext.Provider>
+    </MockedProvider>
   )
 }
 
 beforeEach(() => {
   delete window.location
   window.location = {}
+
+  vi.clearAllMocks()
 })
 
 describe('AuthRequiredContainer component', () => {
@@ -68,7 +91,7 @@ describe('AuthRequiredContainer component', () => {
 
   describe('when the user is authenticated', () => {
     test('should not redirect the user', () => {
-      setup(true)
+      setup({ isLoggedIn: true })
 
       expect(screen.getByText('Mock Component')).toBeInTheDocument()
     })
@@ -76,9 +99,131 @@ describe('AuthRequiredContainer component', () => {
 
   describe('when the app is still loading the token', () => {
     test('should not redirect the user', () => {
-      setup(undefined, true)
+      setup({
+        isLoggedIn: false,
+        authLoading: true
+      })
 
       expect(screen.queryByText('Mock Component')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('when checking assurance levels', () => {
+    test('renders content for NASA users (level 5) without extra permission checks', async () => {
+      setup({
+        isLoggedIn: true,
+        user: {
+          assuranceLevel: 5,
+          uid: 'nasa-user'
+        }
+      })
+
+      expect(await screen.findByText('Mock Component')).toBeInTheDocument()
+      expect(Navigate).not.toHaveBeenCalled()
+    })
+
+    test('allows non-NASA users (level 4) that have the required ACLs', async () => {
+      const uid = 'non-nasa-user'
+      setup({
+        isLoggedIn: true,
+        user: {
+          assuranceLevel: 4,
+          uid
+        },
+        mocks: [{
+          request: {
+            query: GET_NON_NASA_DRAFT_USER_ACLS,
+            variables: {
+              params: {
+                permittedUser: uid,
+                target: 'NON_NASA_DRAFT_USER'
+              }
+            }
+          },
+          result: {
+            data: {
+              acls: {
+                items: [{
+                  name: 'mock-acl'
+                }]
+              }
+            }
+          }
+        }]
+      })
+
+      expect(await screen.findByText('Mock Component')).toBeInTheDocument()
+      expect(Navigate).not.toHaveBeenCalled()
+    })
+
+    test('blocks non-NASA users (level 4) without the ACLs', async () => {
+      const uid = 'denied-user'
+      setup({
+        isLoggedIn: true,
+        user: {
+          assuranceLevel: 4,
+          uid
+        },
+        mocks: [{
+          request: {
+            query: GET_NON_NASA_DRAFT_USER_ACLS,
+            variables: {
+              params: {
+                permittedUser: uid,
+                target: 'NON_NASA_DRAFT_USER'
+              }
+            }
+          },
+          result: {
+            data: {
+              acls: {
+                items: []
+              }
+            }
+          }
+        }]
+      })
+
+      await waitFor(() => {
+        expect(Navigate).toHaveBeenCalledWith(expect.objectContaining({
+          replace: true,
+          to: '/unauthorizedAccess?errorType=deniedNonNasaAccessMMT'
+        }), {})
+      })
+    })
+
+    test('logs errors and denies non-NASA users when the ACL check fails', async () => {
+      const uid = 'errored-user'
+      const mockError = new Error('boom')
+
+      setup({
+        isLoggedIn: true,
+        user: {
+          assuranceLevel: 4,
+          uid
+        },
+        mocks: [{
+          request: {
+            query: GET_NON_NASA_DRAFT_USER_ACLS,
+            variables: {
+              params: {
+                permittedUser: uid,
+                target: 'NON_NASA_DRAFT_USER'
+              }
+            }
+          },
+          error: mockError
+        }]
+      })
+
+      await waitFor(() => {
+        expect(errorLogger).toHaveBeenCalledWith('Failed non nasa draft user acls', mockError)
+      })
+
+      expect(Navigate).toHaveBeenCalledWith(expect.objectContaining({
+        replace: true,
+        to: '/unauthorizedAccess?errorType=deniedNonNasaAccessMMT'
+      }), {})
     })
   })
 })
