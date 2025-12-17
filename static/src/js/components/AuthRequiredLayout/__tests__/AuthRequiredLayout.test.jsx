@@ -226,4 +226,15 @@ describe('AuthRequiredContainer component', () => {
       }), {})
     })
   })
+
+  describe('when the auth context does not include a user', () => {
+    test('falls back when user is undefined without crashing', async () => {
+      setup({
+        isLoggedIn: true,
+        user: undefined
+      })
+
+      expect(await screen.findByText('Mock Component')).toBeInTheDocument()
+    })
+  })
 })
