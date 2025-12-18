@@ -15,12 +15,22 @@ import {
 import AuthContext from '@/js/context/AuthContext'
 import errorLogger from '@/js/utils/errorLogger'
 import { GET_NON_NASA_DRAFT_USER_ACLS } from '@/js/operations/queries/getNonNasaDraftUserAcls'
+import MMT_COOKIE from 'sharedConstants/mmtCookie'
 import AuthRequiredLayout from '../AuthRequiredLayout'
 
 import * as getConfig from '../../../../../../sharedUtils/getConfig'
 
+const mockSetCookie = vi.fn()
+vi.mock('@/js/hooks/useMMTCookie', () => ({
+  __esModule: true,
+  default: () => ({
+    setCookie: mockSetCookie
+  })
+}))
+
 vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
-  apiHost: 'https://example.com'
+  apiHost: 'https://example.com',
+  cookieDomain: '.example.com'
 }))
 
 vi.mock('react-router', async () => ({
@@ -76,6 +86,7 @@ beforeEach(() => {
   window.location = {}
 
   vi.clearAllMocks()
+  mockSetCookie.mockClear()
 })
 
 describe('AuthRequiredContainer component', () => {
@@ -190,6 +201,13 @@ describe('AuthRequiredContainer component', () => {
           to: '/unauthorizedAccess?errorType=deniedNonNasaAccessMMT'
         }), {})
       })
+
+      expect(mockSetCookie).toHaveBeenCalledWith(MMT_COOKIE, null, expect.objectContaining({
+        domain: '.example.com',
+        path: '/',
+        maxAge: 0,
+        expires: new Date(0)
+      }))
     })
 
     test('logs errors and denies non-NASA users when the ACL check fails', async () => {
@@ -224,6 +242,13 @@ describe('AuthRequiredContainer component', () => {
         replace: true,
         to: '/unauthorizedAccess?errorType=deniedNonNasaAccessMMT'
       }), {})
+
+      expect(mockSetCookie).toHaveBeenCalledWith(MMT_COOKIE, null, expect.objectContaining({
+        domain: '.example.com',
+        path: '/',
+        maxAge: 0,
+        expires: new Date(0)
+      }))
     })
   })
 

@@ -10,6 +10,8 @@ import useAuthContext from '@/js/hooks/useAuthContext'
 import isTokenExpired from '@/js/utils/isTokenExpired'
 import errorLogger from '@/js/utils/errorLogger'
 import { GET_NON_NASA_DRAFT_USER_ACLS } from '@/js/operations/queries/getNonNasaDraftUserAcls'
+import useMMTCookie from '@/js/hooks/useMMTCookie'
+import MMT_COOKIE from 'sharedConstants/mmtCookie'
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 const MINIMUM_ASSURANCE_LEVEL = 4
@@ -19,12 +21,16 @@ const MINIMUM_ASSURANCE_LEVEL = 4
  * verifies Non-NASA draft permissions before exposing protected routes.
  */
 const AuthRequiredLayout = () => {
-  const { apiHost } = getApplicationConfig()
+  const {
+    apiHost,
+    cookieDomain
+  } = getApplicationConfig()
   const {
     authLoading,
     tokenExpires,
     user = {}
   } = useAuthContext()
+  const { setCookie } = useMMTCookie()
 
   const { assuranceLevel: rawAssuranceLevel } = user
   const assuranceLevel = Number(rawAssuranceLevel)
@@ -68,6 +74,17 @@ const AuthRequiredLayout = () => {
 
   const isLoading = authLoading || tokenExpired
   || (requiresNonNasaCheck && (nonNasaCheckLoading || hasNonNasaAccess === null))
+
+  useEffect(() => {
+    if (!requiresNonNasaCheck || hasNonNasaAccess !== false) return
+
+    setCookie(MMT_COOKIE, null, {
+      domain: cookieDomain,
+      path: '/',
+      maxAge: 0,
+      expires: new Date(0)
+    })
+  }, [cookieDomain, hasNonNasaAccess, requiresNonNasaCheck, setCookie])
 
   if (isLoading) {
     return (
