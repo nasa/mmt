@@ -16,10 +16,6 @@ import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 const MINIMUM_ASSURANCE_LEVEL = 4
 
-/**
- * Gatekeeper layout that ensures users are authenticated and, when needed,
- * verifies Non-NASA draft permissions before exposing protected routes.
- */
 const AuthRequiredLayout = () => {
   const {
     apiHost,
@@ -62,7 +58,6 @@ const AuthRequiredLayout = () => {
   const tokenExpired = isTokenExpired(tokenExpires)
 
   useEffect(() => {
-    // If we have a token value that has expired, redirect to login the user again
     if (!authLoading && tokenExpired) {
       const nextPath = location.pathname + location.search
       const loginUrl = new URL(`${apiHost}/login`)
@@ -73,18 +68,7 @@ const AuthRequiredLayout = () => {
   }, [apiHost, authLoading, location, tokenExpired])
 
   const isLoading = authLoading || tokenExpired
-  || (requiresNonNasaCheck && (nonNasaCheckLoading || hasNonNasaAccess === null))
-
-  useEffect(() => {
-    if (!requiresNonNasaCheck || hasNonNasaAccess !== false) return
-
-    setCookie(MMT_COOKIE, null, {
-      domain: cookieDomain,
-      path: '/',
-      maxAge: 0,
-      expires: new Date(0)
-    })
-  }, [cookieDomain, hasNonNasaAccess, requiresNonNasaCheck, setCookie])
+    || (requiresNonNasaCheck && nonNasaCheckLoading)
 
   if (isLoading) {
     return (
@@ -97,13 +81,38 @@ const AuthRequiredLayout = () => {
     )
   }
 
-  if (requiresNonNasaCheck && !hasNonNasaAccess) {
+  if (requiresNonNasaCheck) {
+    if (hasNonNasaAccess === true) {
+      return <Outlet />
+    }
+
+    if (hasNonNasaAccess === false) {
+      // Clear the cookie before redirecting
+      setCookie(MMT_COOKIE, null, {
+        domain: cookieDomain,
+        path: '/',
+        maxAge: 0,
+        expires: new Date(0)
+      })
+
+      return (
+        <Navigate to="/unauthorizedAccess?errorType=deniedNonNasaAccessMMT" replace />
+      )
+    }
+
+    // If hasNonNasaAccess is null, we're still loading
+    // If hasNonNasaAccess is null, we're still loading
     return (
-      <Navigate to="/unauthorizedAccess?errorType=deniedNonNasaAccessMMT" replace />
+      <div className="p-5">
+        <span className="app-loading-screen__text">
+          Checking permissions...
+        </span>
+        <div className="spinner-border text-primary" role="status" />
+      </div>
     )
   }
 
-  // If the user has a non-expired token and sufficient access, render the Outlet component
+  // If we don't require a non-NASA check or all checks have passed
   return <Outlet />
 }
 
