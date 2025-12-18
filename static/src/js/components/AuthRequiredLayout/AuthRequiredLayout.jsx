@@ -39,6 +39,7 @@ const AuthRequiredLayout = () => {
     onCompleted: (data) => {
       const { acls = {} } = data
       const { items = [] } = acls
+      console.log('on complete, items=', items)
       setHasNonNasaAccess(items.length > 0)
     },
     onError: (error) => {
@@ -76,6 +77,8 @@ const AuthRequiredLayout = () => {
   }
 
   if (requiresNonNasaCheck && !hasNonNasaAccess) {
+    console.log('required non nasa', requiresNonNasaCheck, !hasNonNasaAccess)
+
     return (
       <Navigate to="/unauthorizedAccess?errorType=deniedNonNasaAccessMMT" replace />
     )
