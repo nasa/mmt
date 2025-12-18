@@ -7,8 +7,22 @@ import {
 import { render, screen } from '@testing-library/react'
 
 import AuthContext from '@/js/context/AuthContext'
+import MMT_COOKIE from 'sharedConstants/mmtCookie'
 
 import ErrorUnauthorizedAccess from '../ErrorUnauthorizedAccess'
+import * as getConfig from '../../../../../../sharedUtils/getConfig'
+
+const mockRemoveCookie = vi.fn()
+vi.mock('@/js/hooks/useMMTCookie', () => ({
+  __esModule: true,
+  default: () => ({
+    removeCookie: mockRemoveCookie
+  })
+}))
+
+vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+  cookieDomain: '.example.com'
+}))
 
 const setup = (errorType) => {
   const context = {
@@ -30,6 +44,10 @@ const setup = (errorType) => {
 }
 
 describe('ErrorUnauthorizedAccess component', () => {
+  beforeEach(() => {
+    mockRemoveCookie.mockClear()
+  })
+
   describe('when errorType is "deniedAccessMMT"', () => {
     test('renders the deniedAccessMMT error message', () => {
       setup('deniedAccessMMT')
@@ -41,6 +59,15 @@ describe('ErrorUnauthorizedAccess component', () => {
     test('renders the non-NASA MMT error message', () => {
       setup('deniedNonNasaAccessMMT')
       expect(screen.getByText('It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users.')).toBeInTheDocument()
+    })
+
+    test('clears the auth cookie so the user can log in again', () => {
+      setup('deniedNonNasaAccessMMT')
+
+      expect(mockRemoveCookie).toHaveBeenCalledWith(MMT_COOKIE, {
+        domain: '.example.com',
+        path: '/'
+      })
     })
   })
 

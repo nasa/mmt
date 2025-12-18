@@ -10,23 +10,17 @@ import useAuthContext from '@/js/hooks/useAuthContext'
 import isTokenExpired from '@/js/utils/isTokenExpired'
 import errorLogger from '@/js/utils/errorLogger'
 import { GET_NON_NASA_DRAFT_USER_ACLS } from '@/js/operations/queries/getNonNasaDraftUserAcls'
-import useMMTCookie from '@/js/hooks/useMMTCookie'
-import MMT_COOKIE from 'sharedConstants/mmtCookie'
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 const MINIMUM_ASSURANCE_LEVEL = 4
 
 const AuthRequiredLayout = () => {
-  const {
-    apiHost,
-    cookieDomain
-  } = getApplicationConfig()
+  const { apiHost } = getApplicationConfig()
   const {
     authLoading,
     tokenExpires,
     user = {}
   } = useAuthContext()
-  const { setCookie } = useMMTCookie()
 
   const { assuranceLevel: rawAssuranceLevel } = user
   const assuranceLevel = Number(rawAssuranceLevel)
@@ -68,7 +62,7 @@ const AuthRequiredLayout = () => {
   }, [apiHost, authLoading, location, tokenExpired])
 
   const isLoading = authLoading || tokenExpired
-    || (requiresNonNasaCheck && nonNasaCheckLoading)
+    || (requiresNonNasaCheck && (nonNasaCheckLoading || hasNonNasaAccess === null))
 
   if (isLoading) {
     return (
@@ -81,34 +75,9 @@ const AuthRequiredLayout = () => {
     )
   }
 
-  if (requiresNonNasaCheck) {
-    if (hasNonNasaAccess === true) {
-      return <Outlet />
-    }
-
-    if (hasNonNasaAccess === false) {
-      // Clear the cookie before redirecting
-      setCookie(MMT_COOKIE, null, {
-        domain: cookieDomain,
-        path: '/',
-        maxAge: 0,
-        expires: new Date(0)
-      })
-
-      return (
-        <Navigate to="/unauthorizedAccess?errorType=deniedNonNasaAccessMMT" replace />
-      )
-    }
-
-    // If hasNonNasaAccess is null, we're still loading
-    // If hasNonNasaAccess is null, we're still loading
+  if (requiresNonNasaCheck && !hasNonNasaAccess) {
     return (
-      <div className="p-5">
-        <span className="app-loading-screen__text">
-          Checking permissions...
-        </span>
-        <div className="spinner-border text-primary" role="status" />
-      </div>
+      <Navigate to="/unauthorizedAccess?errorType=deniedNonNasaAccessMMT" replace />
     )
   }
 

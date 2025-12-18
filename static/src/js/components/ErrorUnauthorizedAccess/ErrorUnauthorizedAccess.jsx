@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
+import useMMTCookie from '@/js/hooks/useMMTCookie'
+import MMT_COOKIE from 'sharedConstants/mmtCookie'
 import Header from '../Header/Header'
+import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 import './ErrorUnauthorizedAccess.scss'
 
@@ -9,6 +12,18 @@ const ErrorUnauthorizedAccess = () => {
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   const errorType = queryParams.get('errorType') || 'default'
+  const { cookieDomain } = getApplicationConfig()
+  const { removeCookie } = useMMTCookie()
+
+  useEffect(() => {
+    if (errorType !== 'deniedNonNasaAccessMMT') return
+
+    removeCookie(MMT_COOKIE, {
+      domain: cookieDomain,
+      path: '/'
+    })
+  }, [cookieDomain, errorType, removeCookie])
+
   const errorMessages = {
     deniedAccessMMT: 'It appears you are not provisioned with the proper permissions to access MMT.',
     deniedNonNasaAccessMMT: 'It appears you are not provisioned with the proper permissions to access the MMT for Non-NASA Users.',
