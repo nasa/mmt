@@ -6,6 +6,16 @@ import { setContext } from '@apollo/client/link/context'
 import GraphQLProvider from '../GraphQLProvider'
 import AppContextProvider from '../../AppContextProvider/AppContextProvider'
 import AuthContext from '../../../context/AuthContext'
+import { getApplicationConfig } from '../../../../../../sharedUtils/getConfig'
+
+function createDefaultApplicationConfig() {
+  return {
+    env: 'test',
+    graphQlHost: 'http://graphqlhost.com/dev/api'
+  }
+}
+
+const defaultApplicationConfig = createDefaultApplicationConfig()
 
 vi.mock('@apollo/client', async () => {
   const actual = await vi.importActual('@apollo/client')
@@ -38,10 +48,7 @@ vi.mock('../../../context/AuthContext', () => ({
 
 vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
   ...await vi.importActual('../../../../../../sharedUtils/getConfig'),
-  getApplicationConfig: vi.fn(() => ({
-    env: 'test',
-    graphQlHost: 'http://graphqlhost.com/dev/api'
-  }))
+  getApplicationConfig: vi.fn(() => createDefaultApplicationConfig())
 }))
 
 const defaultAuthContext = {
@@ -80,6 +87,7 @@ const setup = (authContextOverride) => {
 describe('GraphQLProvider component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    getApplicationConfig.mockReturnValue(defaultApplicationConfig)
   })
 
   describe('when the token exists', () => {
@@ -134,6 +142,25 @@ describe('GraphQLProvider component', () => {
           }
         }
       )
+    })
+  })
+
+  describe('when running in local development', () => {
+    test('does not prefix the authorization header', () => {
+      getApplicationConfig.mockReturnValue({
+        ...defaultApplicationConfig,
+        env: 'development'
+      })
+
+      setup()
+
+      expect(setContext).toHaveBeenCalledTimes(1)
+      expect(setContext.mock.calls[0][0](null, {})).toEqual({
+        headers: {
+          Authorization: 'edl_token',
+          'Client-Id': 'eed-mmt-development'
+        }
+      })
     })
   })
 
