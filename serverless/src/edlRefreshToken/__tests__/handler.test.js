@@ -30,6 +30,7 @@ describe('edlRefreshToken', () => {
     process.env.JWT_SECRET = 'jwt-secret'
     process.env.COOKIE_DOMAIN = '.example.com'
     delete process.env.IS_OFFLINE
+    delete process.env.JWT_VALID_TIME
 
     vi.spyOn(getConfig, 'getApplicationConfig').mockReturnValue({
       mmtHost: 'https://mmt.example.com'
@@ -201,6 +202,91 @@ describe('edlRefreshToken', () => {
       expect(fetchMock).not.toHaveBeenCalled()
       expect(createJwtSpy).not.toHaveBeenCalled()
       expect(createCookieSpy).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('when JWT_VALID_TIME is set', () => {
+    test('should override token expiration for testing refresh logic', async () => {
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date('2024-01-01T00:00:00Z'))
+      process.env.JWT_VALID_TIME = '300' // 5 minutes
+
+      jwtVerifySpy.mockReturnValue({
+        edlProfile: { uid: 'test-user' },
+        refreshToken: 'old-refresh-token'
+      })
+
+      fetchMock.mockResolvedValue({
+        ok: true,
+        status: 200,
+        text: async () => JSON.stringify({
+          access_token: 'new-access-token',
+          refresh_token: 'new-refresh-token',
+          expires_in: 86400 // 24 hours from EDL
+        })
+      })
+
+      createJwtSpy = vi.spyOn(createJwtModule, 'default').mockReturnValue('new-jwt')
+      createCookieSpy = vi.spyOn(createCookieModule, 'default').mockReturnValue('cookie-string')
+
+      const event = {
+        headers: {
+          Authorization: 'Bearer abc.def'
+        }
+      }
+
+      await edlRefreshToken(event)
+
+      const expectedExpiresAt = new Date(Date.now() + 300 * 1000).toISOString()
+
+      expect(createJwtSpy).toHaveBeenCalledWith(
+        'new-access-token',
+        'new-refresh-token',
+        expectedExpiresAt,
+        { uid: 'test-user' }
+      )
+
+      delete process.env.JWT_VALID_TIME
+    })
+
+    test('should use EDL expiration when JWT_VALID_TIME is not set', async () => {
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date('2024-01-01T00:00:00Z'))
+
+      jwtVerifySpy.mockReturnValue({
+        edlProfile: { uid: 'test-user' },
+        refreshToken: 'old-refresh-token'
+      })
+
+      fetchMock.mockResolvedValue({
+        ok: true,
+        status: 200,
+        text: async () => JSON.stringify({
+          access_token: 'new-access-token',
+          refresh_token: 'new-refresh-token',
+          expires_in: 86400 // 24 hours from EDL
+        })
+      })
+
+      createJwtSpy = vi.spyOn(createJwtModule, 'default').mockReturnValue('new-jwt')
+      createCookieSpy = vi.spyOn(createCookieModule, 'default').mockReturnValue('cookie-string')
+
+      const event = {
+        headers: {
+          Authorization: 'Bearer abc.def'
+        }
+      }
+
+      await edlRefreshToken(event)
+
+      const expectedExpiresAt = new Date(Date.now() + 86400 * 1000).toISOString()
+
+      expect(createJwtSpy).toHaveBeenCalledWith(
+        'new-access-token',
+        'new-refresh-token',
+        expectedExpiresAt,
+        { uid: 'test-user' }
+      )
     })
   })
 })

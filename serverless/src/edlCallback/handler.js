@@ -69,7 +69,16 @@ const edlCallback = async (event) => {
     const { token } = oauthToken
     accessToken = token.access_token
     refreshToken = token.refresh_token
-    expiresAt = token.expires_at
+
+    // Use JWT_VALID_TIME to override JWT expiration if set (for testing refresh logic)
+    // If not set, use EDL's token expiration (default ~28 days)
+    const { JWT_VALID_TIME } = process.env
+    if (JWT_VALID_TIME) {
+      const validTimeSeconds = parseInt(JWT_VALID_TIME, 10)
+      expiresAt = new Date(Date.now() + validTimeSeconds * 1000).toISOString()
+    } else {
+      expiresAt = token.expires_at
+    }
 
     edlProfile = await fetchEdlProfile(oauthToken)
 

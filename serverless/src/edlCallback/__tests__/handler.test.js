@@ -53,6 +53,7 @@ describe('edlCallback', () => {
     process.env.EDL_PASSWORD = 'test-client-secret'
     process.env.COOKIE_DOMAIN = '.example.com'
     delete process.env.IS_OFFLINE
+    delete process.env.JWT_VALID_TIME
 
     getConfig.getApplicationConfig.mockReturnValue({
       apiHost: 'https://api.example.com',
@@ -707,6 +708,88 @@ describe('edlCallback', () => {
         const response = await edlCallback(mockEvent)
 
         expect(response.headers.Location).toBe('https://mmt.example.com/auth-callback?target=%2Funusual%20path%3Fparam%3Dvalue%26other%3D123')
+      })
+    })
+
+    describe('when JWT_VALID_TIME is set', () => {
+      test('should override token expiration for testing refresh logic', async () => {
+        process.env.JWT_VALID_TIME = '300' // 5 minutes
+
+        const mockEvent = {
+          queryStringParameters: {
+            code: 'test-code',
+            state: encodeURIComponent(JSON.stringify({ target: '/' }))
+          }
+        }
+
+        AuthorizationCode.mockImplementation(() => ({
+          getToken: vi.fn().mockResolvedValue({
+            token: {
+              access_token: 'test-access-token',
+              refresh_token: 'test-refresh-token',
+              expires_at: '2023-01-28T00:00:00Z' // 28 days from now
+            }
+          })
+        }))
+
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
+
+        await edlCallback(mockEvent)
+
+        const expectedExpiresAt = new Date(Date.now() + 300 * 1000).toISOString()
+
+        expect(createJwt).toHaveBeenCalledWith(
+          'test-access-token',
+          'test-refresh-token',
+          expectedExpiresAt,
+          {
+            uid: 'test-user',
+            assuranceLevel: 5
+          }
+        )
+
+        delete process.env.JWT_VALID_TIME
+      })
+
+      test('should use EDL expiration when JWT_VALID_TIME is not set', async () => {
+        const mockEvent = {
+          queryStringParameters: {
+            code: 'test-code',
+            state: encodeURIComponent(JSON.stringify({ target: '/' }))
+          }
+        }
+
+        const edlExpiresAt = '2023-01-28T00:00:00Z'
+
+        AuthorizationCode.mockImplementation(() => ({
+          getToken: vi.fn().mockResolvedValue({
+            token: {
+              access_token: 'test-access-token',
+              refresh_token: 'test-refresh-token',
+              expires_at: edlExpiresAt
+            }
+          })
+        }))
+
+        fetchEdlProfile.mockResolvedValue({
+          uid: 'test-user',
+          assuranceLevel: 5
+        })
+
+        await edlCallback(mockEvent)
+
+        expect(createJwt).toHaveBeenCalledWith(
+          'test-access-token',
+          'test-refresh-token',
+          edlExpiresAt,
+          {
+            uid: 'test-user',
+            assuranceLevel: 5
+          }
+        )
       })
     })
   })

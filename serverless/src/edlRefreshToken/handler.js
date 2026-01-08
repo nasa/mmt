@@ -75,10 +75,17 @@ const edlRefreshToken = async (event) => {
 
       newAccessToken = newToken.access_token
       newRefreshToken = newToken.refresh_token
-      const expiresIn = newToken.expires_in
 
-      // Calculate expires_at
-      expiresAt = new Date(Date.now() + expiresIn * 1000).toISOString()
+      // Use JWT_VALID_TIME to override JWT expiration if set (for testing refresh logic)
+      // If not set, use EDL's token expiration (default ~28 days)
+      const { JWT_VALID_TIME } = process.env
+      if (JWT_VALID_TIME) {
+        const validTimeSeconds = parseInt(JWT_VALID_TIME, 10)
+        expiresAt = new Date(Date.now() + validTimeSeconds * 1000).toISOString()
+      } else {
+        const expiresIn = newToken.expires_in
+        expiresAt = new Date(Date.now() + expiresIn * 1000).toISOString()
+      }
     }
 
     // Create a new JWT with the new access token, refresh token, and existing EDL profile
