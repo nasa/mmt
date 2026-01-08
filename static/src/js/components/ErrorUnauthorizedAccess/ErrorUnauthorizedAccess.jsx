@@ -16,13 +16,13 @@ const ErrorUnauthorizedAccess = () => {
   const { removeCookie } = useMMTCookie()
 
   useEffect(() => {
-    if (errorType !== 'deniedNonNasaAccessMMT') return
-
+    // Always clear the authentication cookie when showing an unauthorized error
+    // This ensures users get a fresh authentication flow when they try again
     removeCookie(MMT_COOKIE, {
       domain: cookieDomain,
       path: '/'
     })
-  }, [cookieDomain, errorType, removeCookie])
+  }, [cookieDomain, removeCookie])
 
   const errorMessages = {
     deniedAccessMMT: 'It appears you are not provisioned with the proper permissions to access MMT.',

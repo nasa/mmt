@@ -53,6 +53,15 @@ describe('ErrorUnauthorizedAccess component', () => {
       setup('deniedAccessMMT')
       expect(screen.getByText('It appears you are not provisioned with the proper permissions to access MMT.')).toBeInTheDocument()
     })
+
+    test('clears the auth cookie so the user can log in again', () => {
+      setup('deniedAccessMMT')
+
+      expect(mockRemoveCookie).toHaveBeenCalledWith(MMT_COOKIE, {
+        domain: '.example.com',
+        path: '/'
+      })
+    })
   })
 
   describe('when errorType is "deniedNonNasaAccessMMT"', () => {
@@ -76,6 +85,15 @@ describe('ErrorUnauthorizedAccess component', () => {
       setup('')
       expect(screen.getByText('An unknown error occurred.')).toBeInTheDocument()
     })
+
+    test('clears the auth cookie', () => {
+      setup('')
+
+      expect(mockRemoveCookie).toHaveBeenCalledWith(MMT_COOKIE, {
+        domain: '.example.com',
+        path: '/'
+      })
+    })
   })
 
   describe('common elements', () => {
@@ -94,6 +112,15 @@ describe('ErrorUnauthorizedAccess component', () => {
     test('renders the default error message', () => {
       setup('foo')
       expect(screen.getByText('An unknown error occurred.')).toBeInTheDocument()
+    })
+
+    test('clears the auth cookie', () => {
+      setup('foo')
+
+      expect(mockRemoveCookie).toHaveBeenCalledWith(MMT_COOKIE, {
+        domain: '.example.com',
+        path: '/'
+      })
     })
   })
 })

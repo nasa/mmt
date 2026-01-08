@@ -85,7 +85,7 @@ const edlCallback = async (event) => {
     // If assuranceLevel is undefined, not a valid number or a number smaller than MINIMUM_ASSURANCE_LEVEL
     // then show access denied error page
     if (!Number.isFinite(assuranceLevel) || assuranceLevel < MINIMUM_ASSURANCE_LEVEL) {
-      console.log(`Invalid or insufficient assurance level: ${assuranceLevel}`)
+      console.error(`Invalid or insufficient assurance level: ${assuranceLevel}`)
 
       return {
         statusCode: 303,
