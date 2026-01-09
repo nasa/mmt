@@ -74,6 +74,7 @@ dockerRun() {
         -e "EDL_PASSWORD=$bamboo_EDL_PASSWORD" \
         -e "EDL_CLIENT_ID=$bamboo_EDL_CLIENT_ID" \
         -e "JWT_SECRET=$bamboo_JWT_SECRET" \
+        -e "JWT_VALID_TIME=$bamboo_JWT_VALID_TIME" \
         -e "LAMBDA_TIMEOUT=$bamboo_LAMBDA_TIMEOUT" \
         -e "MMT_HOST=$bamboo_MMT_HOST" \
         -e "NODE_ENV=production" \
