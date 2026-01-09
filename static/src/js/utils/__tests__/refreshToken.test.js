@@ -69,4 +69,34 @@ describe('refreshToken in production mode', () => {
       )
     })
   })
+
+  describe('when the request throws an error', () => {
+    test('calls setToken and navigate to log out the user', async () => {
+      global.fetch.mockRejectedValue(new Error('Network error'))
+
+      const setToken = vi.fn()
+
+      await refreshToken({
+        jwt: 'mock_token',
+        setToken
+      })
+
+      expect(setToken).toHaveBeenCalledTimes(1)
+      expect(setToken).toHaveBeenCalledWith(null)
+
+      expect(window.location.href).toEqual('/')
+
+      expect(fetch).toHaveBeenCalledTimes(1)
+      expect(fetch).toHaveBeenCalledWith(
+        'http://localhost:4001/dev/edl-refresh-token',
+        {
+          credentials: 'include',
+          headers: {
+            Authorization: 'Bearer mock_token'
+          },
+          method: 'POST'
+        }
+      )
+    })
+  })
 })
