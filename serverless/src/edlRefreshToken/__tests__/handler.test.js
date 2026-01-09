@@ -102,7 +102,10 @@ describe('edlRefreshToken', () => {
       expect(response.statusCode).toBe(200)
       expect(createCookieSpy).toHaveBeenCalledWith('new-jwt', 1704070800)
       expect(response.headers['Set-Cookie']).toBe('cookie-string')
-      // CORS headers are added by the serverless framework
+      expect(response.headers['Access-Control-Allow-Origin']).toBe('https://mmt.example.com')
+      expect(response.headers['Access-Control-Allow-Headers']).toBe('*')
+      expect(response.headers['Access-Control-Allow-Methods']).toBe('POST')
+      expect(response.headers['Access-Control-Allow-Credentials']).toBe(true)
     })
   })
 
@@ -172,7 +175,10 @@ describe('edlRefreshToken', () => {
         error: 'Failed to refresh token'
       })
 
-      // CORS headers are added by the serverless framework
+      expect(response.headers['Access-Control-Allow-Origin']).toBe('https://mmt.example.com')
+      expect(response.headers['Access-Control-Allow-Headers']).toBe('*')
+      expect(response.headers['Access-Control-Allow-Methods']).toBe('POST')
+      expect(response.headers['Access-Control-Allow-Credentials']).toBe(true)
     })
   })
 
