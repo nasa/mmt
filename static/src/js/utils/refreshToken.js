@@ -23,10 +23,17 @@ const refreshToken = async ({
   await fetch(`${apiHost}/edl-refresh-token`, (options)).then((response) => {
     // If the refresh token failed, log out the user
     if (!response.ok) {
+      console.error('[Auth] Token refresh failed:', response.status, response.statusText)
       setToken(null)
 
       window.location.href = '/'
+    } else {
+      console.log('[Auth] Token refresh request successful')
     }
+  }).catch((error) => {
+    console.error('[Auth] Token refresh request error:', error)
+    setToken(null)
+    window.location.href = '/'
   })
 }
 

@@ -178,7 +178,7 @@ const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({})
 
   // Parse the new token
-  const saveToken = useCallback(async (newToken) => {
+  const saveToken = useCallback(async (newToken, isRefresh = false) => {
     setAuthLoading(false)
 
     try {
@@ -190,6 +190,18 @@ const AuthContextProvider = ({ children }) => {
           edlToken,
           expiresAt
         } = decodedToken
+
+        if (expiresAt) {
+          const expiresIn = Math.round((expiresAt - Date.now()) / 1000)
+          const expiresAtDate = new Date(expiresAt).toISOString()
+          const refreshIn = Math.max(expiresIn - (REFRESH_THRESHOLD_MS / 1000), 0)
+
+          if (isRefresh) {
+            console.log(`[Auth] Token refreshed successfully. New expiration: ${expiresAtDate} (${expiresIn}s from now). Next refresh in ${refreshIn}s`)
+          } else {
+            console.log(`[Auth] Token loaded. Expires: ${expiresAtDate} (${expiresIn}s from now). Will refresh in ${refreshIn}s`)
+          }
+        }
 
         setTokenExpires(expiresAt)
         setTokenValue(edlToken)
@@ -225,9 +237,10 @@ const AuthContextProvider = ({ children }) => {
       idle,
       tokenExpires
     })) { // 1 minute before expiry and not idle
+      console.log('[Auth] Token is expiring soon, initiating refresh...')
       refreshToken({
         jwt: mmtJwt,
-        setToken: saveToken
+        setToken: (newToken) => saveToken(newToken, true)
       })
     }
   }, [mmtJwt, saveToken, tokenExpires, idle])
