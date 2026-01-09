@@ -95,11 +95,7 @@ const edlRefreshToken = async (event) => {
     return {
       statusCode: 200,
       headers: {
-        'Set-Cookie': createCookie(newJwt, expiresAtInSeconds),
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': '*',
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Credentials': true
+        'Set-Cookie': createCookie(newJwt, expiresAtInSeconds)
       }
     }
   } catch (error) {
@@ -108,12 +104,6 @@ const edlRefreshToken = async (event) => {
 
     return {
       statusCode: 400,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': '*',
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Credentials': true
-      },
       body: JSON.stringify({
         error: 'Failed to refresh token',
         details: error.message
