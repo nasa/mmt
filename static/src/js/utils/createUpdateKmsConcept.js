@@ -30,7 +30,7 @@ export const createUpdateKmsConcept = async ({
       method: 'PUT',
       body: rdfXml,
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     })
 

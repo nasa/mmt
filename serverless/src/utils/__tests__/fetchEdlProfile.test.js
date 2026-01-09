@@ -1,79 +1,103 @@
+import {
+  describe,
+  test,
+  expect,
+  vi,
+  beforeEach,
+  afterEach
+} from 'vitest'
 import fetchEdlProfile from '../fetchEdlProfile'
-import fetchEdlClientToken from '../fetchEdlClientToken'
+import * as getConfig from '../../../../sharedUtils/getConfig'
 
-vi.mock('../fetchEdlClientToken', () => ({ default: vi.fn() }))
-
-beforeEach(() => {
-  vi.clearAllMocks()
-
-  fetchEdlClientToken.mockImplementation(() => ('mock_token'))
-})
+const originalFetch = global.fetch
 
 describe('fetchEdlProfile', () => {
-  describe('when the user exists', () => {
-    test('returns the users profile', async () => {
-      global.fetch = vi.fn(() => Promise.resolve({
-        json: () => Promise.resolve({
+  beforeEach(() => {
+    vi.resetAllMocks()
+    global.fetch = vi.fn()
+    vi.spyOn(getConfig, 'getEdlConfig').mockReturnValue({
+      host: 'https://edl.example.com'
+    })
+  })
+
+  afterEach(() => {
+    global.fetch = originalFetch
+    vi.restoreAllMocks()
+  })
+
+  describe('when access tokens are provided', () => {
+    test('returns a user profile when provided an access token string', async () => {
+      global.fetch.mockResolvedValue({
+        ok: true,
+        json: async () => ({
           nams_auid: 'user.name',
           uid: 'user.name',
           first_name: 'User',
-          last_name: 'Name'
+          last_name: 'Name',
+          assurance_level: 'aal2'
         })
-      }))
+      })
 
       const profile = await fetchEdlProfile('mock-token')
 
       expect(profile).toEqual({
         auid: 'user.name',
+        name: 'User Name',
         uid: 'user.name',
-        name: 'User Name'
+        assuranceLevel: 'aal2'
       })
 
-      expect(fetch).toHaveBeenCalledTimes(1)
-      expect(fetch).toHaveBeenCalledWith('https://sit.urs.earthdata.nasa.gov/api/nams/edl_user', {
-        body: 'token=mock-token',
+      expect(global.fetch).toHaveBeenCalledWith('https://edl.example.com/oauth/userInfo', {
         headers: {
-          Authorization: 'Bearer mock_token',
+          Authorization: 'Bearer mock-token',
           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
         },
-        method: 'POST'
+        method: 'GET'
       })
     })
-  })
 
-  describe('when the user does not have name fields', () => {
-    test('returns the users profile', async () => {
-      global.fetch = vi.fn(() => Promise.resolve({
-        json: () => Promise.resolve({
+    test('builds the users name from uid when name fields are blank', async () => {
+      global.fetch.mockResolvedValue({
+        ok: true,
+        json: async () => ({
           nams_auid: 'user.name',
           uid: 'user.name',
-          first_name: undefined,
-          last_name: undefined
+          first_name: '',
+          last_name: '',
+          assurance_level: 'aal1'
         })
-      }))
+      })
 
       const profile = await fetchEdlProfile('mock-token')
 
-      expect(profile).toEqual({
-        auid: 'user.name',
-        uid: 'user.name',
-        name: 'user.name'
+      expect(profile.name).toBe('user.name')
+    })
+
+    test('supports oauth token objects and extracts access token', async () => {
+      global.fetch.mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          nams_auid: 'user.name',
+          uid: 'user.name'
+        })
       })
 
-      expect(fetch).toHaveBeenCalledTimes(1)
-      expect(fetch).toHaveBeenCalledWith('https://sit.urs.earthdata.nasa.gov/api/nams/edl_user', {
-        body: 'token=mock-token',
-        headers: {
-          Authorization: 'Bearer mock_token',
-          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-        },
-        method: 'POST'
-      })
+      const oauthToken = {
+        token: {
+          access_token: 'object-token'
+        }
+      }
+
+      await fetchEdlProfile(oauthToken)
+
+      expect(global.fetch).toHaveBeenCalledWith('https://edl.example.com/oauth/userInfo', expect.objectContaining({
+        headers: expect.objectContaining({ Authorization: 'Bearer object-token' })
+      }))
     })
   })
 
-  describe('when the token is ABC-1', () => {
-    test('returns the users profile', async () => {
+  describe('when special-cased tokens are provided', () => {
+    test('returns the admin profile when the token is ABC-1 without making a request', async () => {
       const profile = await fetchEdlProfile('ABC-1')
 
       expect(profile).toEqual({
@@ -82,24 +106,34 @@ describe('fetchEdlProfile', () => {
         uid: 'admin'
       })
 
-      expect(fetch).toHaveBeenCalledTimes(0)
+      expect(global.fetch).not.toHaveBeenCalled()
+    })
+
+    test('throws when an invalid token object is provided', async () => {
+      await expect(fetchEdlProfile({})).rejects.toThrow('Invalid token provided')
     })
   })
 
-  describe('when the response from EDL is an error', () => {
-    test('returns undefined', async () => {
-      fetch.mockImplementationOnce(() => Promise.reject(new Error('Error calling EDL')))
-      const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => {})
+  describe('when the upstream request fails', () => {
+    test('throws when the EDL response is not ok', async () => {
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      global.fetch.mockResolvedValue({
+        ok: false,
+        status: 500
+      })
 
-      const token = await fetchEdlProfile('mock-token')
-        .catch((error) => {
-          expect(error.message).toEqual('Error calling EDL')
-        })
+      await expect(fetchEdlProfile('mock-token')).rejects.toThrow('HTTP error! status: 500')
+      expect(consoleSpy).toHaveBeenCalled()
+      consoleSpy.mockRestore()
+    })
 
-      expect(consoleMock).toHaveBeenCalledTimes(1)
-      expect(consoleMock).toHaveBeenCalledWith('fetchEdlProfile Error: ', new Error('Error calling EDL'))
+    test('rethrows fetch failures', async () => {
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      global.fetch.mockRejectedValue(new Error('Network error'))
 
-      expect(token).toEqual(undefined)
+      await expect(fetchEdlProfile('mock-token')).rejects.toThrow('Network error')
+      expect(consoleSpy).toHaveBeenCalledWith('fetchEdlProfile Error: ', expect.any(Error))
+      consoleSpy.mockRestore()
     })
   })
 })

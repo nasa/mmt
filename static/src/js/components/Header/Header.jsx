@@ -69,7 +69,7 @@ const Header = ({ noLogin }) => {
                     onClick={login}
                     variant="blue-light"
                   >
-                    Log in with Launchpad
+                    Log in
                   </Button>
                 </div>
               </Navbar.Collapse>

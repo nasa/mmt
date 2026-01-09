@@ -62,7 +62,7 @@ describe('Header component', () => {
     test('shows the log in button', () => {
       setup()
 
-      const button = screen.getByRole('button', { name: /Log in with Launchpad/ })
+      const button = screen.getByRole('button', { name: /Log in/ })
       expect(button).toBeInTheDocument()
     })
 
@@ -71,7 +71,7 @@ describe('Header component', () => {
         const { context } = setup()
 
         const user = userEvent.setup()
-        const button = screen.getByRole('button', { name: /Log in with Launchpad/ })
+        const button = screen.getByRole('button', { name: /Log in/ })
 
         await user.click(button)
 

@@ -31,13 +31,13 @@ vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
 
 vi.mock('jsonwebtoken', async () => ({
   default: {
-    decode: vi.fn().mockReturnValue({
+    decode: vi.fn(() => ({
       edlProfile: {
         name: 'Test User'
       },
-      exp: (new Date('2024-01-01').getTime() / 1000) + 900,
-      launchpadToken: 'mock-token'
-    })
+      exp: Math.floor(Date.now() / 1000) + (15 * 60),
+      edlToken: 'mock-token'
+    }))
   }
 }))
 
@@ -105,7 +105,7 @@ describe('AuthContextProvider component', () => {
 
         await user.click(button)
 
-        const expectedPath = `http://test.com/dev/saml-login?target=${encodeURIComponent('/')}`
+        const expectedPath = `http://test.com/dev/login?target=${encodeURIComponent('/')}`
         expect(window.location.href).toEqual(expectedPath)
 
         expect(setCookie).toHaveBeenCalledTimes(1)
@@ -145,6 +145,56 @@ describe('AuthContextProvider component', () => {
       })
 
       describe('when the first token\'s timer ends', () => {
+        test('does not refresh immediately after the token is saved', async () => {
+          const setCookie = vi.fn()
+          useCookies.mockImplementation(() => ([
+            {
+              [MMT_COOKIE]: 'mock-jwt'
+            },
+            setCookie,
+            vi.fn()
+          ]))
+
+          refreshToken.mockClear()
+          setup()
+
+          // Flush pending tasks so the initial saveToken completes before asserting
+          await act(async () => { await Promise.resolve() })
+          expect(refreshToken).not.toHaveBeenCalled()
+        })
+
+        test('sets an intermediate timer when token expiry exceeds the max timeout', () => {
+          const setCookie = vi.fn()
+          useCookies.mockImplementation(() => ([
+            {
+              [MMT_COOKIE]: 'mock-jwt'
+            },
+            setCookie,
+            vi.fn()
+          ]))
+
+          const setTimeoutSpy = vi.spyOn(global, 'setTimeout')
+          const maxTimeout = 2147483647
+          const futureExp = Math.floor((Date.now() + maxTimeout + 120000) / 1000)
+          jwt.decode.mockReturnValueOnce({
+            edlProfile: {
+              name: 'Future User'
+            },
+            exp: futureExp,
+            edlToken: 'future-token'
+          })
+
+          setup()
+
+          expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), maxTimeout)
+
+          vi.advanceTimersByTime(maxTimeout)
+
+          expect(setTimeoutSpy).toHaveBeenCalledTimes(2)
+
+          setTimeoutSpy.mockRestore()
+        })
+
         test('refreshes the user token', async () => {
           // The first timer will always refresh the token, because the user loaded the page
           // within the valid timeframe of the token

@@ -127,21 +127,26 @@ const httpLink = createHttpLink({
  */
 const GraphQLProvider = ({ children }) => {
   const { tokenValue } = useAuthContext()
+  const { env } = getApplicationConfig()
 
   const client = useMemo(() => {
-    const authLink = setContext((_, { headers }) => ({
-      headers: {
-        ...headers,
-        'Client-Id': `eed-mmt-${getApplicationConfig().env}`,
-        Authorization: tokenValue
+    const authLink = setContext((_, { headers }) => {
+      const isLocalDev = env === 'development'
+
+      return {
+        headers: {
+          ...headers,
+          'Client-Id': `eed-mmt-${env}`,
+          Authorization: isLocalDev ? tokenValue : `Bearer ${tokenValue}`
+        }
       }
-    }))
+    })
 
     return new ApolloClient({
       cache,
       link: ApolloLink.from([authLink, responseDelayLink, httpLink])
     })
-  }, [tokenValue])
+  }, [tokenValue, env])
 
   return (
     <ApolloProvider client={client}>

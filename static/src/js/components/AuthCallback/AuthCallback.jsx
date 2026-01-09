@@ -6,8 +6,8 @@ import useAuthContext from '@/js/hooks/useAuthContext'
 import isTokenExpired from '@/js/utils/isTokenExpired'
 
 /**
- * This class handles the authenticated redirect from our saml lambda function.
- * We get the launchpad token and redirect to the specified `target` path
+ * This class handles the authenticated redirect from our EDL callback lambda function.
+ * We get the EDL token and redirect to the specified `target` path
  */
 export const AuthCallback = () => {
   const [searchParams] = useSearchParams()
