@@ -199,18 +199,6 @@ const AuthContextProvider = ({ children }) => {
         setTokenValue(edlToken)
         setUser(edlProfile)
 
-        if (expiresAt) {
-          const expiresIn = Math.round((expiresAt - Date.now()) / 1000)
-          const expiresAtDate = new Date(expiresAt).toISOString()
-          const refreshIn = Math.max(expiresIn - (REFRESH_THRESHOLD_MS / 1000), 0)
-
-          if (newToken !== mmtJwt) {
-            console.log(`[Auth] Token refreshed successfully. New expiration: ${expiresAtDate} (${expiresIn}s from now). Next refresh in ${refreshIn}s`)
-          } else {
-            console.log(`[Auth] Token loaded. Expires: ${expiresAtDate} (${expiresIn}s from now). Will refresh in ${refreshIn}s`)
-          }
-        }
-
         return
       }
 
@@ -243,7 +231,6 @@ const AuthContextProvider = ({ children }) => {
       idle,
       tokenExpires
     })) { // 1 minute before expiry and not idle
-      console.log('[Auth] Token is expiring soon, initiating refresh...')
       refreshInProgress.current = true
       refreshToken({
         jwt: mmtJwt,

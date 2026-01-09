@@ -33,7 +33,6 @@ const refreshToken = async ({
     }
 
     // Success - the new token is set as a cookie, signal success
-    console.log('[Auth] Token refresh request successful')
     setToken('refresh_success')
   } catch (error) {
     console.error('[Auth] Token refresh request error:', error)
