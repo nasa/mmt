@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { getEdlConfig, getApplicationConfig } from '../../../sharedUtils/getConfig'
+import { getEdlConfig } from '../../../sharedUtils/getConfig'
 import createJwt from '../utils/createJwt'
 import createCookie from '../utils/createCookie'
 import { downcaseKeys } from '../utils/downcaseKeys'
@@ -14,7 +14,6 @@ import { downcaseKeys } from '../utils/downcaseKeys'
  */
 const edlRefreshToken = async (event) => {
   const { JWT_SECRET, IS_OFFLINE } = process.env
-  const { mmtHost } = getApplicationConfig()
   const { host: tokenHost } = getEdlConfig()
 
   const { headers } = event
@@ -97,7 +96,7 @@ const edlRefreshToken = async (event) => {
       statusCode: 200,
       headers: {
         'Set-Cookie': createCookie(newJwt, expiresAtInSeconds),
-        'Access-Control-Allow-Origin': mmtHost,
+        'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': '*',
         'Access-Control-Allow-Methods': 'POST',
         'Access-Control-Allow-Credentials': true
@@ -110,7 +109,7 @@ const edlRefreshToken = async (event) => {
     return {
       statusCode: 400,
       headers: {
-        'Access-Control-Allow-Origin': mmtHost,
+        'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': '*',
         'Access-Control-Allow-Methods': 'POST',
         'Access-Control-Allow-Credentials': true

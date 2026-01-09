@@ -102,7 +102,7 @@ describe('edlRefreshToken', () => {
       expect(response.statusCode).toBe(200)
       expect(createCookieSpy).toHaveBeenCalledWith('new-jwt', 1704070800)
       expect(response.headers['Set-Cookie']).toBe('cookie-string')
-      expect(response.headers['Access-Control-Allow-Origin']).toBe('https://mmt.example.com')
+      expect(response.headers['Access-Control-Allow-Origin']).toBe('*')
     })
   })
 
@@ -172,7 +172,7 @@ describe('edlRefreshToken', () => {
         error: 'Failed to refresh token'
       })
 
-      expect(response.headers['Access-Control-Allow-Origin']).toBe('https://mmt.example.com')
+      expect(response.headers['Access-Control-Allow-Origin']).toBe('*')
     })
   })
 
