@@ -20,21 +20,26 @@ const refreshToken = async ({
     method: 'POST'
   }
 
-  await fetch(`${apiHost}/edl-refresh-token`, (options)).then((response) => {
+  try {
+    const response = await fetch(`${apiHost}/edl-refresh-token`, (options))
+
     // If the refresh token failed, log out the user
     if (!response.ok) {
       console.error('[Auth] Token refresh failed:', response.status, response.statusText)
       setToken(null)
-
       window.location.href = '/'
-    } else {
-      console.log('[Auth] Token refresh request successful')
+
+      return
     }
-  }).catch((error) => {
+
+    // Success - the new token is set as a cookie, signal success
+    console.log('[Auth] Token refresh request successful')
+    setToken('refresh_success')
+  } catch (error) {
     console.error('[Auth] Token refresh request error:', error)
     setToken(null)
     window.location.href = '/'
-  })
+  }
 }
 
 export default refreshToken

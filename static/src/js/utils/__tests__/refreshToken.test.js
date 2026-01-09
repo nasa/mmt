@@ -8,7 +8,7 @@ beforeEach(() => {
 
 describe('refreshToken in production mode', () => {
   describe('when the request is successful', () => {
-    test('does not call setToken or navigate', async () => {
+    test('calls setToken with success signal', async () => {
       global.fetch.mockResolvedValue(Promise.resolve({
         ok: true,
         status: 200
@@ -21,7 +21,8 @@ describe('refreshToken in production mode', () => {
         setToken
       })
 
-      expect(setToken).toHaveBeenCalledTimes(0)
+      expect(setToken).toHaveBeenCalledTimes(1)
+      expect(setToken).toHaveBeenCalledWith('refresh_success')
 
       expect(fetch).toHaveBeenCalledTimes(1)
       expect(fetch).toHaveBeenCalledWith(

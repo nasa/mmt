@@ -2,6 +2,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState
 } from 'react'
 import PropTypes from 'prop-types'
@@ -177,8 +178,11 @@ const AuthContextProvider = ({ children }) => {
   // The user's name and EDL uid
   const [user, setUser] = useState({})
 
+  // Track if a refresh is already in progress
+  const refreshInProgress = useRef(false)
+
   // Parse the new token
-  const saveToken = useCallback(async (newToken, isRefresh = false) => {
+  const saveToken = useCallback(async (newToken) => {
     setAuthLoading(false)
 
     try {
@@ -191,21 +195,21 @@ const AuthContextProvider = ({ children }) => {
           expiresAt
         } = decodedToken
 
+        setTokenExpires(expiresAt)
+        setTokenValue(edlToken)
+        setUser(edlProfile)
+
         if (expiresAt) {
           const expiresIn = Math.round((expiresAt - Date.now()) / 1000)
           const expiresAtDate = new Date(expiresAt).toISOString()
           const refreshIn = Math.max(expiresIn - (REFRESH_THRESHOLD_MS / 1000), 0)
 
-          if (isRefresh) {
+          if (newToken !== mmtJwt) {
             console.log(`[Auth] Token refreshed successfully. New expiration: ${expiresAtDate} (${expiresIn}s from now). Next refresh in ${refreshIn}s`)
           } else {
             console.log(`[Auth] Token loaded. Expires: ${expiresAtDate} (${expiresIn}s from now). Will refresh in ${refreshIn}s`)
           }
         }
-
-        setTokenExpires(expiresAt)
-        setTokenValue(edlToken)
-        setUser(edlProfile)
 
         return
       }
@@ -233,14 +237,33 @@ const AuthContextProvider = ({ children }) => {
   }, [mmtJwt])
 
   const refreshTokenIfNeeded = useCallback(() => {
+    if (refreshInProgress.current) return // Prevent duplicate refreshes
+
     if (shouldRefreshToken({
       idle,
       tokenExpires
     })) { // 1 minute before expiry and not idle
       console.log('[Auth] Token is expiring soon, initiating refresh...')
+      refreshInProgress.current = true
       refreshToken({
         jwt: mmtJwt,
-        setToken: (newToken) => saveToken(newToken, true)
+        setToken: (result) => {
+          refreshInProgress.current = false
+
+          // When the token refresh succeeds, the server sets a new cookie
+          // The next time mmtJwt changes, our effect will process the new token
+          // If the refresh fails, redirects happen in the refreshToken function
+          if (result === null) {
+            // Handle token reset, but don't redirect (already happening in refreshToken)
+            resetTokenState({
+              setCookie,
+              setTokenExpires,
+              setTokenValue,
+              setUser
+            })
+          }
+          // Result === 'refresh_success' is handled by the cookie change
+        }
       })
     }
   }, [mmtJwt, saveToken, tokenExpires, idle])
@@ -273,7 +296,7 @@ const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (idle) {
-      // Todo: Implement logout warning logic here
+      // Todo: MMT-3750 Implement logout warning logic here
     }
   }, [idle])
 
