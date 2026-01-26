@@ -1,8 +1,34 @@
+/**
+ * Minimal OAuth2 Authorization Code client.
+ *
+ * This is a small, dependency-free subset of `simple-oauth2` used by our
+ * serverless auth flows. It exchanges an authorization code for an access token.
+ */
 class AuthorizationCode {
+  /**
+   * @param {Object} config
+   * @param {Object} config.client
+   * @param {string} config.client.id OAuth client ID.
+   * @param {string} config.client.secret OAuth client secret.
+   * @param {Object} config.auth
+   * @param {string} config.auth.tokenHost Base URL for the OAuth provider (e.g. `https://edl.example.com`).
+   * @param {string} config.auth.tokenPath Token endpoint path (e.g. `/oauth/token`).
+   */
   constructor(config) {
     this.config = config
   }
 
+  /**
+   * Exchanges an authorization code for an access token.
+   *
+   * @param {Object} tokenConfig
+   * @param {string} tokenConfig.grant_type Expected to be `authorization_code`.
+   * @param {string} tokenConfig.code Authorization code from the OAuth provider.
+   * @param {string} tokenConfig.redirect_uri Redirect URI used during authorization.
+   * @returns {Promise<{token: {access_token: string, refresh_token: (string|undefined), expires_at: number}}>}
+   * `expires_at` is returned as a unix timestamp in seconds.
+   * @throws {Error} When the upstream response is non-2xx, invalid JSON is returned, or the request fails.
+   */
   async getToken(tokenConfig) {
     const { client, auth } = this.config
     const { id: clientId, secret: clientSecret } = client
