@@ -5,7 +5,7 @@ import {
   vi,
   beforeEach
 } from 'vitest'
-import { AuthorizationCode } from 'simple-oauth2'
+import AuthorizationCode from '../../utils/AuthorizationCode'
 import edlCallback from '../handler'
 import * as getConfig from '../../../../sharedUtils/getConfig'
 import fetchEdlProfile from '../../utils/fetchEdlProfile'
@@ -21,7 +21,10 @@ afterAll(() => {
 })
 
 const realCreateCookie = createCookieModule.default
-vi.mock('simple-oauth2')
+vi.mock('../../utils/AuthorizationCode', () => ({
+  default: vi.fn()
+}))
+
 vi.mock('../../../../sharedUtils/getConfig', () => {
   const getApplicationConfig = vi.fn(() => ({
     apiHost: 'https://api.example.com',
@@ -70,6 +73,10 @@ describe('edlCallback', () => {
     createCookieSpy = vi
       .spyOn(createCookieModule, 'default')
       .mockImplementation((...args) => realCreateCookie(...args))
+
+    AuthorizationCode.mockImplementation(() => ({
+      getToken: vi.fn().mockResolvedValue(undefined)
+    }))
   })
 
   describe('when handling EDL callback', () => {

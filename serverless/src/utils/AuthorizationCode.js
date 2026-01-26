@@ -61,7 +61,9 @@ class AuthorizationCode {
       }
 
       const token = JSON.parse(responseText)
-      const expiresAt = Math.floor(Date.now() / 1000) + token.expires_in
+      const expiresAt = token.expires_in != null
+        ? new Date(Date.now() + Number(token.expires_in) * 1000).toISOString()
+        : undefined
 
       return {
         token: {

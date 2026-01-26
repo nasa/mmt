@@ -78,7 +78,7 @@ describe('AuthorizationCode', () => {
         token: {
           access_token: 'access-token',
           refresh_token: 'refresh-token',
-          expires_at: 1640998800
+          expires_at: '2022-01-01T01:00:00.000Z'
         }
       })
 
@@ -95,6 +95,44 @@ describe('AuthorizationCode', () => {
           code: 'auth-code',
           redirect_uri: 'https://api.example.com/edl/callback'
         }).toString()
+      })
+    })
+
+    describe('when the upstream response does not include expires_in', () => {
+      test('should return an undefined expires_at value', async () => {
+        const config = {
+          client: {
+            id: 'client-id',
+            secret: 'client-secret'
+          },
+          auth: {
+            tokenHost: 'https://edl.example.com',
+            tokenPath: '/oauth/token'
+          }
+        }
+
+        global.fetch.mockResolvedValue({
+          ok: true,
+          text: async () => JSON.stringify({
+            access_token: 'access-token',
+            refresh_token: 'refresh-token'
+          })
+        })
+
+        const client = new AuthorizationCode(config)
+        const response = await client.getToken({
+          grant_type: 'authorization_code',
+          code: 'auth-code',
+          redirect_uri: 'https://api.example.com/edl/callback'
+        })
+
+        expect(response).toEqual({
+          token: {
+            access_token: 'access-token',
+            refresh_token: 'refresh-token',
+            expires_at: undefined
+          }
+        })
       })
     })
 
