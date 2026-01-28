@@ -1,8 +1,8 @@
-import { AuthorizationCode } from 'simple-oauth2'
 import { getApplicationConfig, getEdlConfig } from '../../../sharedUtils/getConfig'
 import fetchEdlProfile from '../utils/fetchEdlProfile'
 import createJwt from '../utils/createJwt'
 import createCookie from '../utils/createCookie'
+import AuthorizationCode from '../utils/AuthorizationCode'
 
 /**
  * Handles the EDL callback during authentication
