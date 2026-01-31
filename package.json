@@ -94,7 +94,7 @@
     "@vitest/coverage-istanbul": "^1.4.0",
     "aws-sdk-client-mock": "^4.0.0",
     "concurrently": "^9.2.0",
-    "eslint": "^8.45.0",
+    "eslint": "^9.26.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-import": "^2.29.1",
