@@ -19,11 +19,10 @@ const {
   EDL_CLIENT_ID = '',
   EDL_PASSWORD = '',
   GTM_PROPERTY_ID = '',
-  INFRA_EXPORT_PREFIX = '',
+  INFRA_EXPORT_PREFIX = 'cdk',
   JWT_SECRET = 'local-secret',
   JWT_VALID_TIME = '900',
   LAMBDA_TIMEOUT = '30',
-  LOG_DESTINATION_ARN = 'local-arn',
   MANAGE_MMT_BUCKETS,
   MMT_HOST = 'http://localhost:5173',
   STAGE_NAME = 'dev',
@@ -51,13 +50,12 @@ export class MmtStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props: MmtStackProps = {}) {
     super(scope, id, props)
 
-    const importExport = (name: string) => (INFRA_EXPORT_PREFIX
-      ? cdk.Fn.importValue(`${INFRA_EXPORT_PREFIX}-${STAGE_NAME}-${name}`)
-      : cdk.Fn.importValue(`${STAGE_NAME}-${name}`))
+    const importExport = (name: string) => cdk.Fn.importValue(`${INFRA_EXPORT_PREFIX}-${STAGE_NAME}-${name}`)
 
-    // Import from an infrastructure stack (Serverless by default; CDK infra if INFRA_EXPORT_PREFIX is set)
+    // Import from the CDK infrastructure stack (exported with INFRA_EXPORT_PREFIX)
     const applicationRoleArn = importExport('MMTServerlessAppRole')
     const lambdaSecurityGroupId = importExport('LambdaSecurityGroup')
+    const logDestinationArn = cdk.Fn.importValue(`${INFRA_EXPORT_PREFIX}-${STAGE_NAME}-LogDestinationArn`)
 
     const lambdaRole = iam.Role.fromRoleArn(this, 'MmtLambdaRole', applicationRoleArn)
     const lambdaSecurityGroup = ec2.SecurityGroup.fromSecurityGroupId(this, 'MmtLambdaSecurityGroup', lambdaSecurityGroupId)
@@ -116,7 +114,7 @@ export class MmtStack extends cdk.Stack {
       entry: '',
       environment,
       functionName: '',
-      logDestinationArn: LOG_DESTINATION_ARN,
+      logDestinationArn,
       memorySize: 256,
       role: lambdaRole,
       runtime,

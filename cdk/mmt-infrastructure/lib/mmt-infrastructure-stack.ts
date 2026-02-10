@@ -1,5 +1,7 @@
 import * as cdk from 'aws-cdk-lib'
 import * as iam from 'aws-cdk-lib/aws-iam'
+import * as kinesis from 'aws-cdk-lib/aws-kinesis'
+import * as logs from 'aws-cdk-lib/aws-logs'
 
 import { infrastructure } from '@edsc/cdk-utils'
 
@@ -91,5 +93,65 @@ export class MmtInfrastructureStack extends cdk.Stack {
       exportName: `${INFRA_EXPORT_PREFIX}-${STAGE_NAME}-MMTServerlessAppRole`,
       value: this.mmtServerlessAppRoleArn.toString()
     })
+
+    const destinationArn = this.createLogDestination({
+      exportPrefix: INFRA_EXPORT_PREFIX,
+      stageName: STAGE_NAME
+    })
+
+    new cdk.CfnOutput(this, 'CfnOutputLogDestinationArn', {
+      key: 'LogDestinationArn',
+      description: 'CloudWatch Logs Destination ARN used by Lambda subscription filters',
+      exportName: `${INFRA_EXPORT_PREFIX}-${STAGE_NAME}-LogDestinationArn`,
+      value: destinationArn
+    })
+  }
+
+  private createLogDestination(props: {
+    exportPrefix: string;
+    stageName: string;
+  }): string {
+    const { exportPrefix, stageName } = props
+
+    const logStream = new kinesis.Stream(this, 'CentralLogStream', {})
+
+    const cwlogsToKinesisRole = new iam.Role(this, 'CwlogsToKinesisRole', {
+      assumedBy: new iam.ServicePrincipal(`logs.${this.region}.amazonaws.com`)
+    })
+
+    logStream.grantWrite(cwlogsToKinesisRole)
+
+    const destinationName = `${exportPrefix}-${stageName}-log-destination`
+
+    const logDestination = new logs.CfnDestination(this, 'LogDestination', {
+      destinationName,
+      roleArn: cwlogsToKinesisRole.roleArn,
+      targetArn: logStream.streamArn
+    })
+
+    const destinationArn = cdk.Stack.of(this).formatArn({
+      service: 'logs',
+      resource: 'destination',
+      resourceName: destinationName
+    })
+
+    const destinationPolicy = new logs.CfnResourcePolicy(this, 'LogDestinationResourcePolicy', {
+      policyName: `${exportPrefix}-${stageName}-log-destination-policy`,
+      policyDocument: JSON.stringify({
+        Version: '2012-10-17',
+        Statement: [
+          {
+            Sid: 'AllowSubscriptionFilters',
+            Effect: 'Allow',
+            Principal: { AWS: this.account },
+            Action: 'logs:PutSubscriptionFilter',
+            Resource: destinationArn
+          }
+        ]
+      })
+    })
+    destinationPolicy.addDependency(logDestination)
+
+    return destinationArn
   }
 }
