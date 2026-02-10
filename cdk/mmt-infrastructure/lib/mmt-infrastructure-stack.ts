@@ -115,19 +115,51 @@ export class MmtInfrastructureStack extends cdk.Stack {
 
     const logStream = new kinesis.Stream(this, 'CentralLogStream', {})
 
-    const cwlogsToKinesisRole = new iam.Role(this, 'CwlogsToKinesisRole', {
-      assumedBy: new iam.ServicePrincipal(`logs.${this.region}.amazonaws.com`)
+    // Use a CfnRole with inline policy to avoid CloudFormation creating the Logs Destination
+    // before the role policy is attached (which can cause the destination "test message" to fail).
+    const cwlogsToKinesisRole = new iam.CfnRole(this, 'CwlogsToKinesisRole', {
+      assumeRolePolicyDocument: {
+        Version: '2012-10-17',
+        Statement: [
+          {
+            Effect: 'Allow',
+            Principal: {
+              Service: `logs.${this.region}.amazonaws.com`
+            },
+            Action: 'sts:AssumeRole'
+          }
+        ]
+      },
+      policies: [
+        {
+          policyName: `${exportPrefix}-${stageName}-cwlogs-to-kinesis`,
+          policyDocument: {
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Effect: 'Allow',
+                Action: [
+                  'kinesis:PutRecord',
+                  'kinesis:PutRecords'
+                ],
+                Resource: logStream.streamArn
+              }
+            ]
+          }
+        }
+      ]
     })
-
-    logStream.grantWrite(cwlogsToKinesisRole)
 
     const destinationName = `${exportPrefix}-${stageName}-log-destination`
 
     const logDestination = new logs.CfnDestination(this, 'LogDestination', {
       destinationName,
-      roleArn: cwlogsToKinesisRole.roleArn,
+      roleArn: cwlogsToKinesisRole.attrArn,
       targetArn: logStream.streamArn
     })
+
+    logDestination.addDependency(logStream.node.defaultChild as cdk.CfnResource)
+    logDestination.addDependency(cwlogsToKinesisRole)
 
     const destinationArn = cdk.Stack.of(this).formatArn({
       service: 'logs',
