@@ -11,6 +11,7 @@ node_modules
 secret.config.json
 tmp
 .env
+cdk.out
 
 # VSCode Settings
 .vscode
