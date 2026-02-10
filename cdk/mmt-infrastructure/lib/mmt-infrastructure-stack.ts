@@ -152,24 +152,18 @@ export class MmtInfrastructureStack extends cdk.Stack {
 
     const destinationName = `${exportPrefix}-${stageName}-log-destination`
 
-    const logDestination = new logs.CfnDestination(this, 'LogDestination', {
-      destinationName,
-      roleArn: cwlogsToKinesisRole.attrArn,
-      targetArn: logStream.streamArn
-    })
-
-    logDestination.addDependency(logStream.node.defaultChild as cdk.CfnResource)
-    logDestination.addDependency(cwlogsToKinesisRole)
-
     const destinationArn = cdk.Stack.of(this).formatArn({
       service: 'logs',
       resource: 'destination',
-      resourceName: destinationName
+      resourceName: destinationName,
+      arnFormat: cdk.ArnFormat.COLON_RESOURCE_NAME
     })
 
-    const destinationPolicy = new logs.CfnResourcePolicy(this, 'LogDestinationResourcePolicy', {
-      policyName: `${exportPrefix}-${stageName}-log-destination-policy`,
-      policyDocument: JSON.stringify({
+    const logDestination = new logs.CfnDestination(this, 'LogDestination', {
+      destinationName,
+      roleArn: cwlogsToKinesisRole.attrArn,
+      targetArn: logStream.streamArn,
+      destinationPolicy: JSON.stringify({
         Version: '2012-10-17',
         Statement: [
           {
@@ -182,7 +176,9 @@ export class MmtInfrastructureStack extends cdk.Stack {
         ]
       })
     })
-    destinationPolicy.addDependency(logDestination)
+
+    logDestination.addDependency(logStream.node.defaultChild as cdk.CfnResource)
+    logDestination.addDependency(cwlogsToKinesisRole)
 
     return destinationArn
   }
