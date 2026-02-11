@@ -50,6 +50,10 @@ export class MmtStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props: MmtStackProps = {}) {
     super(scope, id, props)
 
+    // Ensure LogGroup/Lambda names don't collide with pre-existing resources from earlier attempts.
+    // Deterministic per-stack so updates are stable, but different from the old unsuffixed naming scheme.
+    const logGroupSuffix = `-${cdk.Names.uniqueId(this).slice(-8)}`
+
     const importExport = (name: string) => cdk.Fn.importValue(`${INFRA_EXPORT_PREFIX}-${STAGE_NAME}-${name}`)
 
     // Import from the CDK infrastructure stack (exported with INFRA_EXPORT_PREFIX)
@@ -115,6 +119,7 @@ export class MmtStack extends cdk.Stack {
       environment,
       functionName: '',
       logDestinationArn,
+      logGroupSuffix,
       memorySize: 256,
       role: lambdaRole,
       runtime,
