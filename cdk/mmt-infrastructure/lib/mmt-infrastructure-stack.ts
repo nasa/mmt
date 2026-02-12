@@ -1,7 +1,5 @@
 import * as cdk from 'aws-cdk-lib'
 import * as iam from 'aws-cdk-lib/aws-iam'
-import * as kinesis from 'aws-cdk-lib/aws-kinesis'
-import * as logs from 'aws-cdk-lib/aws-logs'
 
 import { infrastructure } from '@edsc/cdk-utils'
 
@@ -93,91 +91,5 @@ export class MmtInfrastructureStack extends cdk.Stack {
       exportName: `${INFRA_EXPORT_PREFIX}-${STAGE_NAME}-MMTServerlessAppRole`,
       value: this.mmtServerlessAppRoleArn.toString()
     })
-
-    const destinationArn = this.createLogDestination({
-      exportPrefix: INFRA_EXPORT_PREFIX,
-      stageName: STAGE_NAME
-    })
-
-    new cdk.CfnOutput(this, 'CfnOutputLogDestinationArn', {
-      key: 'LogDestinationArn',
-      description: 'CloudWatch Logs Destination ARN used by Lambda subscription filters',
-      exportName: `${INFRA_EXPORT_PREFIX}-${STAGE_NAME}-LogDestinationArn`,
-      value: destinationArn
-    })
-  }
-
-  private createLogDestination(props: {
-    exportPrefix: string;
-    stageName: string;
-  }): string {
-    const { exportPrefix, stageName } = props
-
-    const logStream = new kinesis.Stream(this, 'CentralLogStream', {})
-
-    // Use a CfnRole with inline policy to avoid CloudFormation creating the Logs Destination
-    // before the role policy is attached (which can cause the destination "test message" to fail).
-    const cwlogsToKinesisRole = new iam.CfnRole(this, 'CwlogsToKinesisRole', {
-      assumeRolePolicyDocument: {
-        Version: '2012-10-17',
-        Statement: [
-          {
-            Effect: 'Allow',
-            Principal: {
-              Service: `logs.${this.region}.amazonaws.com`
-            },
-            Action: 'sts:AssumeRole'
-          }
-        ]
-      },
-      policies: [
-        {
-          policyName: `${exportPrefix}-${stageName}-cwlogs-to-kinesis`,
-          policyDocument: {
-            Version: '2012-10-17',
-            Statement: [
-              {
-                Effect: 'Allow',
-                Action: [
-                  'kinesis:PutRecord',
-                  'kinesis:PutRecords'
-                ],
-                Resource: logStream.streamArn
-              }
-            ]
-          }
-        }
-      ]
-    })
-
-    const destinationName = `${exportPrefix}-${stageName}-log-destination`
-
-    const logDestination = new logs.CfnDestination(this, 'LogDestination', {
-      destinationName,
-      roleArn: cwlogsToKinesisRole.attrArn,
-      targetArn: logStream.streamArn,
-      destinationPolicy: JSON.stringify({
-        Version: '2012-10-17',
-        Statement: [
-          {
-            Sid: 'AllowSubscriptionFilters',
-            Effect: 'Allow',
-            Principal: { AWS: this.account },
-            Action: 'logs:PutSubscriptionFilter',
-            Resource: cdk.Stack.of(this).formatArn({
-              service: 'logs',
-              resource: 'destination',
-              resourceName: destinationName,
-              arnFormat: cdk.ArnFormat.COLON_RESOURCE_NAME
-            })
-          }
-        ]
-      })
-    })
-
-    logDestination.addDependency(logStream.node.defaultChild as cdk.CfnResource)
-    logDestination.addDependency(cwlogsToKinesisRole)
-
-    return logDestination.attrArn
   }
 }

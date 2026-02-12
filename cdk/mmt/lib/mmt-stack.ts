@@ -23,6 +23,7 @@ const {
   JWT_SECRET = 'local-secret',
   JWT_VALID_TIME = '900',
   LAMBDA_TIMEOUT = '30',
+  LOG_DESTINATION_ARN = 'local-arn',
   MANAGE_MMT_BUCKETS,
   MMT_HOST = 'http://localhost:5173',
   STAGE_NAME = 'dev',
@@ -59,7 +60,6 @@ export class MmtStack extends cdk.Stack {
     // Import from the CDK infrastructure stack (exported with INFRA_EXPORT_PREFIX)
     const applicationRoleArn = importExport('MMTServerlessAppRole')
     const lambdaSecurityGroupId = importExport('LambdaSecurityGroup')
-    const logDestinationArn = cdk.Fn.importValue(`${INFRA_EXPORT_PREFIX}-${STAGE_NAME}-LogDestinationArn`)
 
     const lambdaRole = iam.Role.fromRoleArn(this, 'MmtLambdaRole', applicationRoleArn)
     const lambdaSecurityGroup = ec2.SecurityGroup.fromSecurityGroupId(this, 'MmtLambdaSecurityGroup', lambdaSecurityGroupId)
@@ -118,7 +118,7 @@ export class MmtStack extends cdk.Stack {
       entry: '',
       environment,
       functionName: '',
-      logDestinationArn,
+      logDestinationArn: LOG_DESTINATION_ARN,
       logGroupSuffix,
       memorySize: 256,
       role: lambdaRole,
