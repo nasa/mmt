@@ -52,8 +52,11 @@ export class MmtStack extends cdk.Stack {
     super(scope, id, props)
 
     // Ensure LogGroup/Lambda names don't collide with pre-existing resources from earlier attempts.
-    // Deterministic per-stack so updates are stable, but different from the old unsuffixed naming scheme.
-    const logGroupSuffix = `-${cdk.Names.uniqueId(this).slice(-8)}`
+    // Derive a short unique suffix from the CloudFormation StackId GUID (stable for a given stack instance).
+    // This avoids collisions when a failed stack leaves behind log groups, without requiring a manual env var.
+    const stackGuid = cdk.Fn.select(2, cdk.Fn.split('/', cdk.Stack.of(this).stackId))
+    const stackGuidPrefix = cdk.Fn.select(0, cdk.Fn.split('-', stackGuid))
+    const logGroupSuffix = `-${stackGuidPrefix}`
 
     const importExport = (name: string) => cdk.Fn.importValue(`${INFRA_EXPORT_PREFIX}-${STAGE_NAME}-${name}`)
 
