@@ -152,13 +152,6 @@ export class MmtInfrastructureStack extends cdk.Stack {
 
     const destinationName = `${exportPrefix}-${stageName}-log-destination`
 
-    const destinationArn = cdk.Stack.of(this).formatArn({
-      service: 'logs',
-      resource: 'destination',
-      resourceName: destinationName,
-      arnFormat: cdk.ArnFormat.COLON_RESOURCE_NAME
-    })
-
     const logDestination = new logs.CfnDestination(this, 'LogDestination', {
       destinationName,
       roleArn: cwlogsToKinesisRole.attrArn,
@@ -171,7 +164,12 @@ export class MmtInfrastructureStack extends cdk.Stack {
             Effect: 'Allow',
             Principal: { AWS: this.account },
             Action: 'logs:PutSubscriptionFilter',
-            Resource: destinationArn
+            Resource: cdk.Stack.of(this).formatArn({
+              service: 'logs',
+              resource: 'destination',
+              resourceName: destinationName,
+              arnFormat: cdk.ArnFormat.COLON_RESOURCE_NAME
+            })
           }
         ]
       })
@@ -180,6 +178,6 @@ export class MmtInfrastructureStack extends cdk.Stack {
     logDestination.addDependency(logStream.node.defaultChild as cdk.CfnResource)
     logDestination.addDependency(cwlogsToKinesisRole)
 
-    return destinationArn
+    return logDestination.attrArn
   }
 }
