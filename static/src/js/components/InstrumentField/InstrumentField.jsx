@@ -58,6 +58,12 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
     return subtype.length !== 0 ? type.concat('>').concat(subtype) : type
   }
 
+  // Update state when formData changes (for editing existing data)
+  useEffect(() => {
+    setShortName(ShortName || '')
+    setLongName(LongName || '')
+  }, [ShortName, LongName])
+
   useEffect(() => {
     const fetchData = async () => {
       const controlled = uiSchema['ui:controlled']

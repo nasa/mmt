@@ -23,6 +23,13 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
   const [shouldFocus, setShouldFocus] = useState(false)
   const [longNameMap, setLongNameMap] = useState({})
 
+  // Update state when formData changes (for editing existing data)
+  useEffect(() => {
+    setType(Type || '')
+    setShortName(ShortName || '')
+    setLongName(LongName || '')
+  }, [Type, ShortName, LongName])
+
   useEffect(() => {
     const fetchData = async () => {
       const controlled = uiSchema['ui:controlled']

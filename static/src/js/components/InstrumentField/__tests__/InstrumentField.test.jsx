@@ -178,6 +178,111 @@ const setup = (overrideProps = {}) => {
 }
 
 describe('Instrument Field', () => {
+  describe('when formData prop changes', () => {
+    test('updates the state with new formData values', async () => {
+      fetchCmrKeywords.mockReturnValue({
+        category: [{
+          value: 'Earth Remote Sensing Instruments',
+          subfields: ['class'],
+          class: [{
+            value: 'Active Remote Sensing',
+            subfields: ['type'],
+            type: [{
+              value: 'Altimeters',
+              subfields: ['subtype'],
+              subtype: [{
+                value: 'Lidar/Laser Altimeters',
+                subfields: ['short_name'],
+                short_name: [{
+                  value: 'ATM',
+                  subfields: ['long_name'],
+                  long_name: [{
+                    value: 'Airborne Topographic Mapper',
+                    uuid: 'c2428a35-a87c-4ec7-aefd-13ff410b3271'
+                  }]
+                }]
+              }]
+            }]
+          }]
+        }]
+      })
+
+      parseCmrInstrumentsResponse.mockReturnValue([
+        {
+          category: 'Earth Remote Sensing Instruments',
+          class: 'Active Remote Sensing',
+          type: 'Altimeters',
+          subtype: 'Lidar/Laser Altimeters',
+          short_name: 'ATM',
+          long_name: 'Airborne Topographic Mapper'
+        },
+        {
+          category: 'In Situ/Laboratory Instruments',
+          class: 'Chemical Meters/Analyzers',
+          short_name: 'ADS',
+          long_name: 'Automated DNA Sequencer'
+        }
+      ])
+
+      const initialFormData = {
+        ShortName: 'ATM',
+        LongName: 'Airborne Topographic Mapper'
+      }
+
+      const onChange = vi.fn()
+      const formContext = {
+        focusField: '',
+        setFocusField: vi.fn()
+      }
+      const uiSchema = {
+        'ui:controlled': {
+          name: 'instruments',
+          controlName: ['category', 'class', 'type', 'subtype', 'short_name', 'long_name']
+        }
+      }
+
+      const { rerender } = render(
+        <InstrumentField
+          formData={initialFormData}
+          onChange={onChange}
+          registry={{ formContext }}
+          uiSchema={uiSchema}
+        />
+      )
+
+      // Wait for component to finish loading
+      await waitFor(() => {
+        expect(screen.getByText('ATM')).toBeInTheDocument()
+      })
+
+      // Initial values should be displayed
+      expect(screen.getByDisplayValue('Airborne Topographic Mapper')).toBeInTheDocument()
+
+      // Re-render with updated formData
+      rerender(
+        <InstrumentField
+          formData={
+            {
+              ShortName: 'ADS',
+              LongName: 'Automated DNA Sequencer'
+            }
+          }
+          onChange={onChange}
+          registry={{ formContext }}
+          uiSchema={uiSchema}
+        />
+      )
+
+      // Wait for component to update with new values
+      await waitFor(() => {
+        expect(screen.getByText('ADS')).toBeInTheDocument()
+      })
+
+      // Updated values should be displayed
+      expect(screen.getByDisplayValue('Automated DNA Sequencer')).toBeInTheDocument()
+    })
+  })
+
   describe('when a user clicks clicks the down arrow on Short Name', () => {
     test('renders a list of clickable cmr keywords', async () => {
       const { user } = setup()
