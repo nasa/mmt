@@ -3,14 +3,14 @@ const httpProxy = require('http-proxy')
 
 const proxy = httpProxy.createProxyServer({})
 const apiProxyTarget = process.env.MMT_API_PROXY_TARGET || 'https://localhost:8443/cgokey-sit'
+const apiProxyPort = Number(process.env.MMT_API_PROXY_PORT || 4001)
+const cmrProxyPort = Number(process.env.MMT_CMR_PROXY_PORT || 4000)
 
-// Create a proxy server to redirect path based CMR requests to the correct local CMR ports
-const server = http.createServer((req, res) => {
-  // `req.url` here is the path of the requested URL
-  if (req.url.includes('/cgokey-sit')) {
+// Proxy API Gateway-compatible requests on a dedicated port.
+const apiServer = http.createServer((req, res) => {
+  if (req.url.startsWith('/cgokey-sit')) {
     const [, rest] = req.url.split('/cgokey-sit')
 
-    // Replace the url value with everything after /sit
     req.url = rest || '/'
     const proxyOptions = {
       target: apiProxyTarget,
@@ -30,6 +30,13 @@ const server = http.createServer((req, res) => {
     return
   }
 
+  res.statusCode = 404
+  res.end('No API proxy route matched request')
+})
+
+// Create a proxy server to redirect path based CMR requests to the correct local CMR ports
+const cmrServer = http.createServer((req, res) => {
+  // `req.url` here is the path of the requested URL
   if (req.url.includes('/search')) {
     const [, rest] = req.url.split('/search')
 
@@ -70,5 +77,7 @@ const server = http.createServer((req, res) => {
   res.end('No proxy route matched request')
 })
 
-console.log('listening on port 4000')
-server.listen(4000)
+console.log(`CMR proxy listening on port ${cmrProxyPort}`)
+console.log(`API proxy listening on port ${apiProxyPort}`)
+cmrServer.listen(cmrProxyPort)
+apiServer.listen(apiProxyPort)
