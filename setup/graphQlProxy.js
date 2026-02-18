@@ -2,7 +2,8 @@ const http = require('http')
 const httpProxy = require('http-proxy')
 
 const proxy = httpProxy.createProxyServer({})
-const apiProxyTarget = process.env.MMT_API_PROXY_TARGET || 'https://localhost:8443/sit'
+const apiProxyTarget = process.env.MMT_API_PROXY_TARGET || 'https://localhost:8443/cgokey-sit'
+const apiProxyHostHeader = process.env.MMT_API_HOST_HEADER
 
 // Create a proxy server to redirect path based CMR requests to the correct local CMR ports
 const server = http.createServer((req, res) => {
@@ -12,10 +13,20 @@ const server = http.createServer((req, res) => {
 
     // Replace the url value with everything after /sit
     req.url = rest || '/'
-    proxy.web(req, res, {
+    const proxyOptions = {
       target: apiProxyTarget,
       changeOrigin: true,
       secure: false
+    }
+
+    if (apiProxyHostHeader) {
+      proxyOptions.headers = {
+        host: apiProxyHostHeader
+      }
+    }
+
+    proxy.web(req, res, {
+      ...proxyOptions
     })
 
     return
