@@ -110,13 +110,11 @@ export class MmtStack extends cdk.Stack {
 
     const defaultLambdaConfig: application.NodeJsFunctionProps = {
       bundling: {
-        // For this CDK app the lambda sources live outside this package (../../serverless)
-        // and dependencies are not installed here. `packages: 'external'` allows `cdk synth`
-        // without requiring all runtime deps to be present in this folder.
+        // Bundle runtime dependencies into the Lambda artifact.
+        // Externalizing all packages causes Runtime.ImportModuleError in Lambda
+        // (for example: missing `jsonwebtoken`).
         minify: STAGE_NAME !== 'dev',
-        esbuildArgs: {
-          '--packages': 'external'
-        }
+        externalModules: ['@aws-sdk/*']
       },
       entry: '',
       environment,
