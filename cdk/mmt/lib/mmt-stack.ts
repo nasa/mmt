@@ -3,7 +3,6 @@ import * as cdk from 'aws-cdk-lib'
 import * as ec2 from 'aws-cdk-lib/aws-ec2'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import * as lambda from 'aws-cdk-lib/aws-lambda'
-import * as s3 from 'aws-cdk-lib/aws-s3'
 
 import { application } from '@edsc/cdk-utils'
 
@@ -24,7 +23,6 @@ const {
   JWT_VALID_TIME = '900',
   LAMBDA_TIMEOUT = '30',
   LOG_DESTINATION_ARN = 'local-arn',
-  MANAGE_MMT_BUCKETS,
   MMT_HOST = 'http://localhost:5173',
   STAGE_NAME = 'dev',
   SUBNET_ID_A = 'subnetIdA',
@@ -82,23 +80,13 @@ export class MmtStack extends cdk.Stack {
 
     const { apiGatewayDeployment, apiGatewayRestApi } = apiGateway
 
-    const templatesBucketName = COLLECTION_TEMPLATES_BUCKET_NAME || `${this.stackName}-collection-templates`
-    const proposalsBucketName = COLLECTION_PROPOSALS_BUCKET_NAME || `${this.stackName}-collection-proposals`
-
-    const manageBuckets = MANAGE_MMT_BUCKETS === 'true'
-
-    // Serverless created the templates bucket. When migrating in-place, buckets may already exist, so default to importing.
-    const templatesBucket = manageBuckets
-      ? new s3.Bucket(this, 'TemplatesBucket', { bucketName: templatesBucketName })
-      : s3.Bucket.fromBucketName(this, 'TemplatesBucket', templatesBucketName)
-
-    const proposalsBucket = manageBuckets
-      ? new s3.Bucket(this, 'ProposalsBucket', { bucketName: proposalsBucketName })
-      : s3.Bucket.fromBucketName(this, 'ProposalsBucket', proposalsBucketName)
+    if (!COLLECTION_TEMPLATES_BUCKET_NAME || !COLLECTION_PROPOSALS_BUCKET_NAME) {
+      throw new Error('COLLECTION_TEMPLATES_BUCKET_NAME and COLLECTION_PROPOSALS_BUCKET_NAME must be set for MmtStack')
+    }
 
     const environment = {
-      COLLECTION_TEMPLATES_BUCKET_NAME: templatesBucket.bucketName,
-      COLLECTION_PROPOSALS_BUCKET_NAME: proposalsBucket.bucketName,
+      COLLECTION_TEMPLATES_BUCKET_NAME,
+      COLLECTION_PROPOSALS_BUCKET_NAME,
       COOKIE_DOMAIN,
       EDL_CLIENT_ID,
       EDL_PASSWORD,
