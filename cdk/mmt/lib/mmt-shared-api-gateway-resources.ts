@@ -21,13 +21,11 @@ export class MmtApiResources extends Construct {
   public readonly errorLoggerResource: apigateway.CfnResource
   public readonly gkrKeywordRecommendationsResource: apigateway.CfnResource
   public readonly gkrSendFeedbackResource: apigateway.CfnResource
-  public readonly proposalsResource: apigateway.CfnResource
   public readonly providersTemplatesResource: apigateway.CfnResource
   public readonly providersTemplatesIdResource: apigateway.CfnResource
   public readonly templatesResource: apigateway.CfnResource
   public readonly templatesIdResource: apigateway.CfnResource
   public readonly usersResource: apigateway.CfnResource
-  public readonly proposalsIdResource: apigateway.CfnResource
 
   constructor(scope: cdk.Stack, id: string, props: MmtApiResourcesProps) {
     super(scope, id)
@@ -130,30 +128,12 @@ export class MmtApiResources extends Construct {
     })
     this.templatesIdResource = templatesIdResource
 
-    const proposalsResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceProposals', {
-      parentId: apiGatewayRestApi.attrRootResourceId,
-      pathPart: 'proposals',
-      restApiId: apiGatewayRestApi.ref
-    })
-    this.proposalsResource = proposalsResource
-
-    const proposalsIdResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceProposalsIdVar', {
-      parentId: proposalsResource.ref,
-      pathPart: '{id}',
-      restApiId: apiGatewayRestApi.ref
-    })
-    this.proposalsIdResource = proposalsIdResource
-
     // OPTIONS methods for shared resources.
     addOptions('ProvidersProviderIdVarTemplates', providersTemplatesResource, ['POST'])
 
     addOptions('ProvidersProviderIdVarTemplatesIdVar', providersTemplatesIdResource, ['PUT', 'DELETE'])
 
     addOptions('TemplatesIdVar', templatesIdResource, ['GET'])
-
-    addOptions('ProposalsIdVar', proposalsIdResource, ['GET', 'PUT', 'DELETE'])
-
-    addOptions('Proposals', proposalsResource, ['GET', 'POST'])
 
     addOptions('Templates', templatesResource, ['GET'])
   }

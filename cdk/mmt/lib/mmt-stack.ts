@@ -12,7 +12,6 @@ import { MmtFunctions } from './mmt-functions'
 export interface MmtStackProps extends cdk.StackProps {}
 
 const {
-  COLLECTION_PROPOSALS_BUCKET_NAME,
   COLLECTION_TEMPLATES_BUCKET_NAME,
   COOKIE_DOMAIN = '.localhost',
   EDL_CLIENT_ID = '',
@@ -80,13 +79,12 @@ export class MmtStack extends cdk.Stack {
 
     const { apiGatewayDeployment, apiGatewayRestApi } = apiGateway
 
-    if (!COLLECTION_TEMPLATES_BUCKET_NAME || !COLLECTION_PROPOSALS_BUCKET_NAME) {
-      throw new Error('COLLECTION_TEMPLATES_BUCKET_NAME and COLLECTION_PROPOSALS_BUCKET_NAME must be set for MmtStack')
+    if (!COLLECTION_TEMPLATES_BUCKET_NAME) {
+      throw new Error('COLLECTION_TEMPLATES_BUCKET_NAME must be set for MmtStack')
     }
 
     const environment = {
       COLLECTION_TEMPLATES_BUCKET_NAME,
-      COLLECTION_PROPOSALS_BUCKET_NAME,
       COOKIE_DOMAIN,
       EDL_CLIENT_ID,
       EDL_PASSWORD,
