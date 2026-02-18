@@ -2,10 +2,24 @@ const http = require('http')
 const httpProxy = require('http-proxy')
 
 const proxy = httpProxy.createProxyServer({})
+const apiProxyTarget = process.env.MMT_API_PROXY_TARGET || 'https://localhost:8443/sit'
 
 // Create a proxy server to redirect path based CMR requests to the correct local CMR ports
 const server = http.createServer((req, res) => {
   // `req.url` here is the path of the requested URL
+  if (req.url.includes('/sit')) {
+    const [, rest] = req.url.split('/sit')
+
+    // Replace the url value with everything after /sit
+    req.url = rest || '/'
+    proxy.web(req, res, {
+      target: apiProxyTarget,
+      changeOrigin: true,
+      secure: false
+    })
+
+    return
+  }
 
   if (req.url.includes('/search')) {
     const [, rest] = req.url.split('/search')
@@ -15,6 +29,8 @@ const server = http.createServer((req, res) => {
     proxy.web(req, res, {
       target: 'http://localhost:3003'
     })
+
+    return
   }
 
   if (req.url.includes('/ingest')) {
@@ -25,6 +41,8 @@ const server = http.createServer((req, res) => {
     proxy.web(req, res, {
       target: 'http://localhost:3002'
     })
+
+    return
   }
 
   if (req.url.includes('/access-control')) {
@@ -35,7 +53,12 @@ const server = http.createServer((req, res) => {
     proxy.web(req, res, {
       target: 'http://localhost:3011'
     })
+
+    return
   }
+
+  res.statusCode = 404
+  res.end('No proxy route matched request')
 })
 
 console.log('listening on port 4000')
