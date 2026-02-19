@@ -10,6 +10,10 @@ export interface MmtAuthorizersProps {
   defaultLambdaConfig: application.NodeJsFunctionProps;
 }
 
+/**
+ * Defines API Gateway Lambda authorizers used by MMT routes and exposes
+ * generated authorizer resources for downstream API method bindings.
+ */
 export class MmtAuthorizers extends Construct {
   public readonly edlAuthorizer: apigateway.CfnAuthorizer
 
@@ -62,4 +66,3 @@ export class MmtAuthorizers extends Construct {
     })
   }
 }
-

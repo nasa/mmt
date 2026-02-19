@@ -14,6 +14,10 @@ export interface MmtApiResourcesProps {
   };
 }
 
+/**
+ * Creates the shared API Gateway resource tree for MMT and wires CORS
+ * OPTIONS methods so route-specific Lambda constructs can attach methods.
+ */
 export class MmtApiResources extends Construct {
   public readonly edlCallbackResource: apigateway.CfnResource
   public readonly edlLoginResource: apigateway.CfnResource

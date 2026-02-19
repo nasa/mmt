@@ -13,6 +13,10 @@ export interface MmtApiOptionsMethodProps {
   name: string;
 }
 
+/**
+ * Encapsulates creation of a mock API Gateway OPTIONS method that returns
+ * CORS headers for a specific API resource and allowed HTTP methods.
+ */
 export class MmtApiOptionsMethod extends Construct {
   constructor(scope: cdk.Stack, id: string, props: MmtApiOptionsMethodProps) {
     super(scope, id)

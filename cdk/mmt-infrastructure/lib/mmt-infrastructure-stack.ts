@@ -11,6 +11,10 @@ const {
   VPC_ID = 'local-vpc'
 } = process.env
 
+/**
+ * Provisions shared infrastructure consumed by the MMT application stack,
+ * including Lambda networking and the cross-stack execution role exports.
+ */
 export class MmtInfrastructureStack extends cdk.Stack {
   public readonly mmtServerlessAppRoleArn: string
 

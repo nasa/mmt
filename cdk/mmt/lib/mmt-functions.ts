@@ -22,6 +22,10 @@ export interface MmtFunctionsProps {
   s3LambdaRole: iam.IRole;
 }
 
+/**
+ * Provisions MMT API Lambda functions and attaches them to API Gateway
+ * resources/methods, including protected template and provider endpoints.
+ */
 export class MmtFunctions extends Construct {
   constructor(scope: cdk.Stack, id: string, props: MmtFunctionsProps) {
     super(scope, id)

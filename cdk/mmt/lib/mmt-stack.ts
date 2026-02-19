@@ -42,6 +42,10 @@ const allowHeaders = [
   'User-Agent'
 ]
 
+/**
+ * Main MMT application stack that composes the private API Gateway, authorizer,
+ * Lambda handlers, and IAM/VPC wiring used by the API tier.
+ */
 export class MmtStack extends cdk.Stack {
   public readonly serviceEndpoint: string
 
