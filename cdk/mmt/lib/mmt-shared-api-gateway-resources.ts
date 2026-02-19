@@ -2,11 +2,16 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway'
 import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
-import { application } from '@edsc/cdk-utils'
+import { MmtApiOptionsMethod } from './mmt-api-gateway-options-method'
 
 export interface MmtApiResourcesProps {
   apiGatewayDeployment: cdk.aws_apigateway.CfnDeployment;
   apiGatewayRestApi: cdk.aws_apigateway.CfnRestApi;
+  corsConfig: {
+    allowOrigin: string;
+    allowCredentials: boolean;
+    allowHeaders: string[];
+  };
 }
 
 /**
@@ -29,7 +34,7 @@ export class MmtApiResources extends Construct {
   constructor(scope: cdk.Stack, id: string, props: MmtApiResourcesProps) {
     super(scope, id)
 
-    const { apiGatewayDeployment, apiGatewayRestApi } = props
+    const { apiGatewayDeployment, apiGatewayRestApi, corsConfig } = props
 
     const rootId = apiGatewayRestApi.attrRootResourceId
 
@@ -39,11 +44,20 @@ export class MmtApiResources extends Construct {
       restApiId: apiGatewayRestApi.ref
     })
 
+    const {
+      allowCredentials,
+      allowHeaders,
+      allowOrigin
+    } = corsConfig
+
     const addOptions = (optionsId: string, apiGatewayResource: apigateway.CfnResource, methods: string[]) => {
-      new application.ApiOptionsMethod(scope, optionsId, {
+      new MmtApiOptionsMethod(scope, optionsId, {
         apiGatewayDeployment,
         apiGatewayResource,
         apiGatewayRestApi,
+        allowCredentials,
+        allowHeaders,
+        allowOrigin,
         methods,
         name: optionsId.replace(/[^A-Za-z0-9]/g, '')
       })
