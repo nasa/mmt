@@ -13,11 +13,6 @@ export interface MmtFunctionsProps {
   authorizers: {
     edlAuthorizer: apigateway.CfnAuthorizer;
   };
-  corsConfig: {
-    allowOrigin: string;
-    allowCredentials: boolean;
-    allowHeaders: string[];
-  };
   defaultLambdaConfig: application.NodeJsFunctionProps;
   s3LambdaRole: iam.IRole;
 }
@@ -34,7 +29,6 @@ export class MmtFunctions extends Construct {
       apiGatewayDeployment,
       apiGatewayRestApi,
       authorizers,
-      corsConfig,
       defaultLambdaConfig,
       s3LambdaRole
     } = props
@@ -43,8 +37,7 @@ export class MmtFunctions extends Construct {
 
     const resources = new MmtApiResources(scope, 'ApiResources', {
       apiGatewayDeployment,
-      apiGatewayRestApi,
-      corsConfig
+      apiGatewayRestApi
     })
 
     // errorLogger - POST /error-logger

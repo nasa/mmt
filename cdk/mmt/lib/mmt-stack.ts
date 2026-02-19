@@ -22,7 +22,6 @@ const {
   JWT_VALID_TIME = '900',
   LAMBDA_TIMEOUT = '30',
   LOG_DESTINATION_ARN = 'local-arn',
-  MMT_HOST = 'http://localhost:5173',
   STAGE_NAME = 'dev',
   SUBNET_ID_A = 'subnetIdA',
   SUBNET_ID_B = 'subnetIdB',
@@ -31,16 +30,6 @@ const {
 } = process.env
 
 const runtime = lambda.Runtime.NODEJS_20_X
-
-const allowHeaders = [
-  'Access-Control-Allow-Origin',
-  'Access-Control-Allow-Credentials',
-  'Access-Control-Request-Headers',
-  'Access-Control-Request-Methods',
-  'Authorization',
-  'Origin',
-  'User-Agent'
-]
 
 /**
  * Main MMT application stack that composes the private API Gateway, authorizer,
@@ -157,11 +146,6 @@ export class MmtStack extends cdk.Stack {
       apiGatewayRestApi,
       authorizers: {
         edlAuthorizer: authorizers.edlAuthorizer
-      },
-      corsConfig: {
-        allowCredentials: true,
-        allowHeaders,
-        allowOrigin: MMT_HOST
       },
       defaultLambdaConfig,
       s3LambdaRole: iamRoleCustomResourcesLambdaExecution
