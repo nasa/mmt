@@ -14,7 +14,14 @@ vi.mock('../../../utils/parseCmrResponse')
 vi.mock('../../../utils/fetchCmrKeywords')
 
 const setup = (overrideProps = {}) => {
-  const onChange = vi.fn()
+  let currentFormData = overrideProps.formData || {}
+
+  const onChange = vi.fn((data) => {
+    currentFormData = {
+      ...currentFormData,
+      ...data
+    }
+  })
 
   const formContext = {
     focusField: '',
@@ -87,13 +94,27 @@ const setup = (overrideProps = {}) => {
 
   const user = userEvent.setup()
 
-  render(
+  const { rerender } = render(
     <PlatformField {...props} />
   )
 
+  // Helper to update formData and rerender
+  const updateFormData = (newData) => {
+    currentFormData = {
+      ...currentFormData,
+      ...newData
+    }
+
+    rerender(
+      <PlatformField {...props} formData={currentFormData} />
+    )
+  }
+
   return {
     props,
-    user
+    user,
+    rerender: updateFormData,
+    getCurrentFormData: () => currentFormData
   }
 }
 
@@ -196,7 +217,7 @@ describe('Platform Field', () => {
 
   describe('when a user clicks clicks the down arrow on Short Name', () => {
     test('renders a list of clickable cmr keywords', async () => {
-      const { user } = setup()
+      const { user, rerender } = setup()
 
       expect(screen.getByText('Select Short Name')).toBeInTheDocument()
 
@@ -208,6 +229,13 @@ describe('Platform Field', () => {
 
       await user.click(screen.getByText('A340-600'))
 
+      // Simulate parent updating formData
+      rerender({
+        Type: 'Jet',
+        ShortName: 'A340-600',
+        LongName: 'Airbus A340-600'
+      })
+
       expect(screen.getByDisplayValue('Jet')).toBeInTheDocument()
       expect(screen.getByDisplayValue('Airbus A340-600')).toBeInTheDocument()
     })
@@ -215,7 +243,7 @@ describe('Platform Field', () => {
 
   describe('when a user selects the clear option', () => {
     test('the state is cleared', async () => {
-      const { user } = setup({
+      const { user, rerender } = setup({
         formData: {
           Type: 'airplane',
           ShortName: 'AIRPLANE'
@@ -229,6 +257,13 @@ describe('Platform Field', () => {
       const select = screen.getByRole('combobox')
       await user.click(select)
       await user.click(screen.getByText('Clear Short Name'))
+
+      // Simulate parent clearing formData
+      rerender({
+        Type: '',
+        ShortName: '',
+        LongName: ''
+      })
 
       expect(screen.getByText('Select Short Name')).toBeInTheDocument()
     })

@@ -15,9 +15,8 @@ import './InstrumentField.scss'
  * @property {Object} formData Saved Draft
  */
 const InstrumentField = ({ onChange, uiSchema, formData }) => {
-  const { ShortName, LongName } = formData
-  const [shortName, setShortName] = useState(ShortName || '')
-  const [longName, setLongName] = useState(LongName || '')
+  const shortName = formData?.ShortName || ''
+  const longName = formData?.LongName || ''
   const [loading, setLoading] = useState(false)
   const [keyword, setKeyword] = useState([])
   const [showMenu, setShowMenu] = useState(false)
@@ -57,12 +56,6 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
 
     return subtype.length !== 0 ? type.concat('>').concat(subtype) : type
   }
-
-  // Update state when formData changes (for editing existing data)
-  useEffect(() => {
-    setShortName(ShortName || '')
-    setLongName(LongName || '')
-  }, [ShortName, LongName])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -111,8 +104,6 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
   const onHandleMouseDown = (keywordObject) => {
     const valueShortName = keywordObject.short_name
     const valueLongName = longNameMap[getMapKey(keywordObject)] || ''
-    setShortName(valueShortName)
-    setLongName(valueLongName)
     setShowMenu(false)
     setShouldFocus(false)
 
@@ -135,8 +126,6 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
   }
 
   const onHandleClear = () => {
-    setShortName('')
-    setLongName('')
     setShowMenu(false)
     setShouldFocus(false)
 

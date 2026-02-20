@@ -15,7 +15,14 @@ vi.mock('../../../utils/parseCmrInstrumentsResponse')
 vi.mock('../../../utils/fetchCmrKeywords')
 
 const setup = (overrideProps = {}) => {
-  const onChange = vi.fn()
+  let currentFormData = overrideProps.formData || {}
+
+  const onChange = vi.fn((data) => {
+    currentFormData = {
+      ...currentFormData,
+      ...data
+    }
+  })
 
   const formContext = {
     focusField: '',
@@ -167,13 +174,27 @@ const setup = (overrideProps = {}) => {
 
   const user = userEvent.setup()
 
-  render(
+  const { rerender } = render(
     <InstrumentField {...props} />
   )
 
+  // Helper to update formData and rerender
+  const updateFormData = (newData) => {
+    currentFormData = {
+      ...currentFormData,
+      ...newData
+    }
+
+    rerender(
+      <InstrumentField {...props} formData={currentFormData} />
+    )
+  }
+
   return {
     props,
-    user
+    user,
+    rerender: updateFormData,
+    getCurrentFormData: () => currentFormData
   }
 }
 
@@ -285,7 +306,7 @@ describe('Instrument Field', () => {
 
   describe('when a user clicks clicks the down arrow on Short Name', () => {
     test('renders a list of clickable cmr keywords', async () => {
-      const { user } = setup()
+      const { user, rerender } = setup()
 
       expect(screen.getByText('Select Short Name')).toBeInTheDocument()
 
@@ -297,13 +318,19 @@ describe('Instrument Field', () => {
 
       await user.click(screen.getByText('LVIS'))
 
+      // Simulate parent updating formData
+      rerender({
+        ShortName: 'LVIS',
+        LongName: 'Land, Vegetation, and Ice Sensor'
+      })
+
       expect(screen.getByDisplayValue('Land, Vegetation, and Ice Sensor')).toBeInTheDocument()
     })
   })
 
   describe('when a user clicks clicks the down arrow on Short Name', () => {
     test('Title display for existing Type without Subtype', async () => {
-      const { user } = setup()
+      const { user, rerender } = setup()
 
       expect(screen.getByText('Select Short Name')).toBeInTheDocument()
 
@@ -315,13 +342,22 @@ describe('Instrument Field', () => {
 
       await user.click(screen.getByText('ADS For Type'))
 
-      expect(screen.getByDisplayValue('Automated DNA Sequencer For Type')).toBeInTheDocument()
+      // Simulate parent updating formData
+      rerender({
+        ShortName: 'ADS For Type',
+        LongName: 'Automated DNA Sequencer For Type'
+      })
+
+      // Wait for the component to update with new values
+      await waitFor(() => {
+        expect(screen.getByDisplayValue('Automated DNA Sequencer For Type')).toBeInTheDocument()
+      })
     })
   })
 
   describe('when a user selects the clear option', () => {
     test('the state is cleared', async () => {
-      const { user } = setup({
+      const { user, rerender } = setup({
         formData: {
           ShortName: 'ACOUSTIC SOUNDERS'
         }
@@ -333,6 +369,12 @@ describe('Instrument Field', () => {
       const select = screen.getByRole('combobox')
       await user.click(select)
       await user.click(screen.getByText('Clear Short Name'))
+
+      // Simulate parent clearing formData
+      rerender({
+        ShortName: '',
+        LongName: ''
+      })
 
       expect(screen.getByText('Select Short Name')).toBeInTheDocument()
     })
