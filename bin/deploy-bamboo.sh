@@ -52,6 +52,7 @@ coverage
 dist
 node_modules
 tmp
+cdk.out
 EOF
 
 cat <<EOF > Dockerfile
