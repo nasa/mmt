@@ -137,40 +137,6 @@ export class MmtFunctions extends Construct {
       functionNamePrefix
     })
 
-    // templates endpoints (top-level)
-    new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetTemplatesNestedStack'), 'GetTemplatesLambda', {
-      ...defaultLambdaConfig,
-      api: {
-        apiGatewayDeployment,
-        apiGatewayResource: resources.templatesResource,
-        apiGatewayRestApi,
-        authorizer: authorizers.edlAuthorizer,
-        methods: ['GET'],
-        path: 'templates'
-      },
-      entry: '../../serverless/src/getTemplates/handler.js',
-      functionName: 'getTemplates',
-      functionNamePrefix,
-      role: s3LambdaRole
-    })
-
-    new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetTemplateNestedStack'), 'GetTemplateLambda', {
-      ...defaultLambdaConfig,
-      api: {
-        apiGatewayDeployment,
-        apiGatewayResource: resources.templatesIdResource,
-        apiGatewayRestApi,
-        authorizer: authorizers.edlAuthorizer,
-        methods: ['GET'],
-        parentPath: 'templates',
-        path: '{id}'
-      },
-      entry: '../../serverless/src/getTemplate/handler.js',
-      functionName: 'getTemplate',
-      functionNamePrefix,
-      role: s3LambdaRole
-    })
-
     // users - GET /users
     new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetEdlUsersNestedStack'), 'GetEdlUsersLambda', {
       ...defaultLambdaConfig,
@@ -188,7 +154,43 @@ export class MmtFunctions extends Construct {
       role: s3LambdaRole
     })
 
-    // provider templates - POST /providers/{providerId}/templates
+
+    // getTemplates - GET /templates
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetTemplatesNestedStack'), 'GetTemplatesLambda', {
+      ...defaultLambdaConfig,
+      api: {
+        apiGatewayDeployment,
+        apiGatewayResource: resources.templatesResource,
+        apiGatewayRestApi,
+        authorizer: authorizers.edlAuthorizer,
+        methods: ['GET'],
+        path: 'templates'
+      },
+      entry: '../../serverless/src/getTemplates/handler.js',
+      functionName: 'getTemplates',
+      functionNamePrefix,
+      role: s3LambdaRole
+    })
+
+    // getTemplate - GET /templates/{id}
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetTemplateNestedStack'), 'GetTemplateLambda', {
+      ...defaultLambdaConfig,
+      api: {
+        apiGatewayDeployment,
+        apiGatewayResource: resources.templatesIdResource,
+        apiGatewayRestApi,
+        authorizer: authorizers.edlAuthorizer,
+        methods: ['GET'],
+        parentPath: 'templates',
+        path: '{id}'
+      },
+      entry: '../../serverless/src/getTemplate/handler.js',
+      functionName: 'getTemplate',
+      functionNamePrefix,
+      role: s3LambdaRole
+    })
+
+    // createTemplate - POST /providers/{providerId}/templates
     new application.NodeJsFunction(new cdk.NestedStack(scope, 'CreateTemplateNestedStack'), 'CreateTemplateLambda', {
       ...defaultLambdaConfig,
       api: {
@@ -206,7 +208,7 @@ export class MmtFunctions extends Construct {
       role: s3LambdaRole
     })
 
-    // provider templates - PUT/DELETE /providers/{providerId}/templates/{id}
+    // updateTemplate - PUT /providers/{providerId}/templates/{id}
     new application.NodeJsFunction(new cdk.NestedStack(scope, 'UpdateTemplateNestedStack'), 'UpdateTemplateLambda', {
       ...defaultLambdaConfig,
       api: {
@@ -224,6 +226,7 @@ export class MmtFunctions extends Construct {
       role: s3LambdaRole
     })
 
+    // deleteTemplate - DELETE /providers/{providerId}/templates/{id}
     new application.NodeJsFunction(new cdk.NestedStack(scope, 'DeleteTemplateNestedStack'), 'DeleteTemplateLambda', {
       ...defaultLambdaConfig,
       api: {

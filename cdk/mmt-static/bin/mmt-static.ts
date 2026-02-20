@@ -3,6 +3,11 @@ import * as cdk from 'aws-cdk-lib'
 
 import { MmtStaticStack } from '../lib/mmt-static-stack'
 
+/**
+ * CDK app entrypoint for the MMT static asset deployment stack.
+ * Reads target account/region/stage from environment variables and
+ * instantiates the stack with a stage-qualified name.
+ */
 const {
   AWS_ACCOUNT = '1234567890',
   AWS_REGION = 'us-east-1',
