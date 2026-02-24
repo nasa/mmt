@@ -14,14 +14,7 @@ vi.mock('../../../utils/parseCmrResponse')
 vi.mock('../../../utils/fetchCmrKeywords')
 
 const setup = (overrideProps = {}) => {
-  let currentFormData = overrideProps.formData || {}
-
-  const onChange = vi.fn((data) => {
-    currentFormData = {
-      ...currentFormData,
-      ...data
-    }
-  })
+  const onChange = vi.fn()
 
   const formContext = {
     focusField: '',
@@ -98,126 +91,64 @@ const setup = (overrideProps = {}) => {
     <PlatformField {...props} />
   )
 
-  // Helper to update formData and rerender
-  const updateFormData = (newData) => {
-    currentFormData = {
-      ...currentFormData,
-      ...newData
-    }
-
-    rerender(
-      <PlatformField {...props} formData={currentFormData} />
-    )
-  }
-
   return {
     props,
     user,
-    rerender: updateFormData,
-    getCurrentFormData: () => currentFormData
+    rerender: (newFormData) => {
+      rerender(
+        <PlatformField {...props} formData={newFormData} />
+      )
+    }
   }
 }
 
 describe('Platform Field', () => {
-  describe('when formData prop changes', () => {
-    test('updates the state with new formData values', async () => {
-      fetchCmrKeywords.mockReturnValue({
-        basis: [
-          {
-            value: 'Air-based Platforms',
-            subfields: ['category'],
-            category: [
-              {
-                value: 'Jet',
-                subfields: ['short_name'],
-                short_name: [
-                  {
-                    value: 'A340-600',
-                    subfields: ['long_name'],
-                    long_name: [
-                      {
-                        value: 'Airbus A340-600',
-                        uuid: 'bab77f95-aa34-42aa-9a12-922d1c9fae63'
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      })
-
-      parseCmrResponse.mockReturnValue([
-        ['Air-based Platforms', 'Jet', 'A340-600', 'Airbus A340-600'],
-        ['Air-based Platforms', 'AIRPLANE', 'airplane']
-      ])
-
+  describe('when formData already exists', () => {
+    test('form should prepopulate with formData and update when formData changes', async () => {
       const initialFormData = {
         Type: 'Jet',
         ShortName: 'A340-600',
         LongName: 'Airbus A340-600'
       }
 
-      const onChange = vi.fn()
-      const formContext = {
-        focusField: '',
-        setFocusField: vi.fn()
-      }
-      const uiSchema = {
-        'ui:controlled': {
-          name: 'platforms',
-          controlName: ['basis', 'category', 'short_name', 'long_name']
-        }
-      }
+      const { rerender } = setup({ formData: initialFormData })
 
-      const { rerender } = render(
-        <PlatformField
-          formData={initialFormData}
-          onChange={onChange}
-          registry={{ formContext }}
-          uiSchema={uiSchema}
-        />
-      )
-
-      // Wait for component to finish loading
+      // Wait for component to load
       await waitFor(() => {
-        expect(screen.getByText('A340-600')).toBeInTheDocument()
+        expect(screen.queryByText('Select Short Name')).not.toBeInTheDocument()
       })
 
-      // Initial values should be displayed
+      // Verify initial formData is displayed
+      expect(screen.getByText('A340-600')).toBeInTheDocument()
       expect(screen.getByDisplayValue('Jet')).toBeInTheDocument()
       expect(screen.getByDisplayValue('Airbus A340-600')).toBeInTheDocument()
 
-      // Re-render with updated formData
-      rerender(
-        <PlatformField
-          formData={
-            {
-              Type: 'AIRPLANE',
-              ShortName: 'airplane',
-              LongName: ''
-            }
-          }
-          onChange={onChange}
-          registry={{ formContext }}
-          uiSchema={uiSchema}
-        />
-      )
+      // Rerender with new formData (simulating parent component update)
+      const updatedFormData = {
+        Type: 'AIRPLANE',
+        ShortName: 'airplane',
+        LongName: ''
+      }
 
-      // Wait for component to update with new values
+      rerender(updatedFormData)
+
+      // Verify updated formData is displayed
       await waitFor(() => {
         expect(screen.getByText('airplane')).toBeInTheDocument()
       })
 
-      // Updated values should be displayed
       expect(screen.getByDisplayValue('AIRPLANE')).toBeInTheDocument()
+      expect(screen.getByPlaceholderText('No available Long Name')).toBeInTheDocument()
+
+      // Verify old values are no longer displayed
+      expect(screen.queryByText('A340-600')).not.toBeInTheDocument()
+      expect(screen.queryByDisplayValue('Airbus A340-600')).not.toBeInTheDocument()
     })
   })
 
   describe('when a user clicks clicks the down arrow on Short Name', () => {
     test('renders a list of clickable cmr keywords', async () => {
-      const { user, rerender } = setup()
+      const { user, props } = setup()
 
       expect(screen.getByText('Select Short Name')).toBeInTheDocument()
 
@@ -229,21 +160,17 @@ describe('Platform Field', () => {
 
       await user.click(screen.getByText('A340-600'))
 
-      // Simulate parent updating formData
-      rerender({
+      expect(props.onChange).toHaveBeenCalledWith({
         Type: 'Jet',
         ShortName: 'A340-600',
         LongName: 'Airbus A340-600'
       })
-
-      expect(screen.getByDisplayValue('Jet')).toBeInTheDocument()
-      expect(screen.getByDisplayValue('Airbus A340-600')).toBeInTheDocument()
     })
   })
 
   describe('when a user selects the clear option', () => {
-    test('the state is cleared', async () => {
-      const { user, rerender } = setup({
+    test('calls onChange with empty values', async () => {
+      const { user, props } = setup({
         formData: {
           Type: 'airplane',
           ShortName: 'AIRPLANE'
@@ -258,14 +185,11 @@ describe('Platform Field', () => {
       await user.click(select)
       await user.click(screen.getByText('Clear Short Name'))
 
-      // Simulate parent clearing formData
-      rerender({
+      expect(props.onChange).toHaveBeenCalledWith({
         Type: '',
         ShortName: '',
         LongName: ''
       })
-
-      expect(screen.getByText('Select Short Name')).toBeInTheDocument()
     })
   })
 

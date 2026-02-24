@@ -15,14 +15,7 @@ vi.mock('../../../utils/parseCmrInstrumentsResponse')
 vi.mock('../../../utils/fetchCmrKeywords')
 
 const setup = (overrideProps = {}) => {
-  let currentFormData = overrideProps.formData || {}
-
-  const onChange = vi.fn((data) => {
-    currentFormData = {
-      ...currentFormData,
-      ...data
-    }
-  })
+  const onChange = vi.fn()
 
   const formContext = {
     focusField: '',
@@ -178,135 +171,60 @@ const setup = (overrideProps = {}) => {
     <InstrumentField {...props} />
   )
 
-  // Helper to update formData and rerender
-  const updateFormData = (newData) => {
-    currentFormData = {
-      ...currentFormData,
-      ...newData
-    }
-
-    rerender(
-      <InstrumentField {...props} formData={currentFormData} />
-    )
-  }
-
   return {
     props,
     user,
-    rerender: updateFormData,
-    getCurrentFormData: () => currentFormData
+    rerender: (newFormData) => {
+      rerender(
+        <InstrumentField {...props} formData={newFormData} />
+      )
+    }
   }
 }
 
 describe('Instrument Field', () => {
-  describe('when formData prop changes', () => {
-    test('updates the state with new formData values', async () => {
-      fetchCmrKeywords.mockReturnValue({
-        category: [{
-          value: 'Earth Remote Sensing Instruments',
-          subfields: ['class'],
-          class: [{
-            value: 'Active Remote Sensing',
-            subfields: ['type'],
-            type: [{
-              value: 'Altimeters',
-              subfields: ['subtype'],
-              subtype: [{
-                value: 'Lidar/Laser Altimeters',
-                subfields: ['short_name'],
-                short_name: [{
-                  value: 'ATM',
-                  subfields: ['long_name'],
-                  long_name: [{
-                    value: 'Airborne Topographic Mapper',
-                    uuid: 'c2428a35-a87c-4ec7-aefd-13ff410b3271'
-                  }]
-                }]
-              }]
-            }]
-          }]
-        }]
-      })
-
-      parseCmrInstrumentsResponse.mockReturnValue([
-        {
-          category: 'Earth Remote Sensing Instruments',
-          class: 'Active Remote Sensing',
-          type: 'Altimeters',
-          subtype: 'Lidar/Laser Altimeters',
-          short_name: 'ATM',
-          long_name: 'Airborne Topographic Mapper'
-        },
-        {
-          category: 'In Situ/Laboratory Instruments',
-          class: 'Chemical Meters/Analyzers',
-          short_name: 'ADS',
-          long_name: 'Automated DNA Sequencer'
-        }
-      ])
-
+  describe('when formData already exists', () => {
+    test('form should prepopulate with formData and update when formData changes', async () => {
       const initialFormData = {
         ShortName: 'ATM',
         LongName: 'Airborne Topographic Mapper'
       }
 
-      const onChange = vi.fn()
-      const formContext = {
-        focusField: '',
-        setFocusField: vi.fn()
-      }
-      const uiSchema = {
-        'ui:controlled': {
-          name: 'instruments',
-          controlName: ['category', 'class', 'type', 'subtype', 'short_name', 'long_name']
-        }
-      }
+      const { rerender } = setup({ formData: initialFormData })
 
-      const { rerender } = render(
-        <InstrumentField
-          formData={initialFormData}
-          onChange={onChange}
-          registry={{ formContext }}
-          uiSchema={uiSchema}
-        />
-      )
-
-      // Wait for component to finish loading
+      // Wait for component to load
       await waitFor(() => {
-        expect(screen.getByText('ATM')).toBeInTheDocument()
+        expect(screen.queryByText('Select Short Name')).not.toBeInTheDocument()
       })
 
-      // Initial values should be displayed
+      // Verify initial formData is displayed
+      expect(screen.getByText('ATM')).toBeInTheDocument()
       expect(screen.getByDisplayValue('Airborne Topographic Mapper')).toBeInTheDocument()
 
-      // Re-render with updated formData
-      rerender(
-        <InstrumentField
-          formData={
-            {
-              ShortName: 'ADS',
-              LongName: 'Automated DNA Sequencer'
-            }
-          }
-          onChange={onChange}
-          registry={{ formContext }}
-          uiSchema={uiSchema}
-        />
-      )
+      // Rerender with new formData (simulating parent component update)
+      const updatedFormData = {
+        ShortName: 'LVIS',
+        LongName: 'Land, Vegetation, and Ice Sensor'
+      }
 
-      // Wait for component to update with new values
+      rerender(updatedFormData)
+
+      // Verify updated formData is displayed
       await waitFor(() => {
-        expect(screen.getByText('ADS')).toBeInTheDocument()
+        expect(screen.getByText('LVIS')).toBeInTheDocument()
       })
 
-      // Updated values should be displayed
-      expect(screen.getByDisplayValue('Automated DNA Sequencer')).toBeInTheDocument()
+      expect(screen.getByDisplayValue('Land, Vegetation, and Ice Sensor')).toBeInTheDocument()
+
+      // Verify old values are no longer displayed
+      expect(screen.queryByText('ATM')).not.toBeInTheDocument()
+      expect(screen.queryByDisplayValue('Airborne Topographic Mapper')).not.toBeInTheDocument()
     })
   })
 
   describe('when a user clicks clicks the down arrow on Short Name', () => {
     test('renders a list of clickable cmr keywords', async () => {
-      const { user, rerender } = setup()
+      const { user, props } = setup()
 
       expect(screen.getByText('Select Short Name')).toBeInTheDocument()
 
@@ -318,19 +236,16 @@ describe('Instrument Field', () => {
 
       await user.click(screen.getByText('LVIS'))
 
-      // Simulate parent updating formData
-      rerender({
+      expect(props.onChange).toHaveBeenCalledWith({
         ShortName: 'LVIS',
         LongName: 'Land, Vegetation, and Ice Sensor'
       })
-
-      expect(screen.getByDisplayValue('Land, Vegetation, and Ice Sensor')).toBeInTheDocument()
     })
   })
 
   describe('when a user clicks clicks the down arrow on Short Name', () => {
     test('Title display for existing Type without Subtype', async () => {
-      const { user, rerender } = setup()
+      const { user, props } = setup()
 
       expect(screen.getByText('Select Short Name')).toBeInTheDocument()
 
@@ -342,22 +257,16 @@ describe('Instrument Field', () => {
 
       await user.click(screen.getByText('ADS For Type'))
 
-      // Simulate parent updating formData
-      rerender({
+      expect(props.onChange).toHaveBeenCalledWith({
         ShortName: 'ADS For Type',
         LongName: 'Automated DNA Sequencer For Type'
-      })
-
-      // Wait for the component to update with new values
-      await waitFor(() => {
-        expect(screen.getByDisplayValue('Automated DNA Sequencer For Type')).toBeInTheDocument()
       })
     })
   })
 
   describe('when a user selects the clear option', () => {
-    test('the state is cleared', async () => {
-      const { user, rerender } = setup({
+    test('calls onChange with empty values', async () => {
+      const { user, props } = setup({
         formData: {
           ShortName: 'ACOUSTIC SOUNDERS'
         }
@@ -370,13 +279,10 @@ describe('Instrument Field', () => {
       await user.click(select)
       await user.click(screen.getByText('Clear Short Name'))
 
-      // Simulate parent clearing formData
-      rerender({
+      expect(props.onChange).toHaveBeenCalledWith({
         ShortName: '',
         LongName: ''
       })
-
-      expect(screen.getByText('Select Short Name')).toBeInTheDocument()
     })
   })
 
