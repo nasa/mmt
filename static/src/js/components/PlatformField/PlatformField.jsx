@@ -66,7 +66,7 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
     }
 
     fetchData()
-  }, [uiSchema])
+  }, [])
 
   const onHandleMouseDown = (values) => {
     const [valueType, valueShortName] = values
