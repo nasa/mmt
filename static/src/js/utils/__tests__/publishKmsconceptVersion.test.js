@@ -39,7 +39,7 @@ describe('when publishKmsConceptVersion', () => {
       {
         method: 'POST',
         headers: {
-          Authorization: 'test_token'
+          Authorization: 'Bearer test_token'
         }
       }
     )
@@ -74,7 +74,7 @@ describe('when publishKmsConceptVersion', () => {
       {
         method: 'POST',
         headers: {
-          Authorization: 'test_token'
+          Authorization: 'Bearer test_token'
         }
       }
     )

@@ -28,7 +28,7 @@ export const publishKmsConceptVersion = async (version, token) => {
     const options = {
       method: 'POST',
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     }
     const response = await fetch(endPoint, options)
