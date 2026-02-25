@@ -1,5 +1,9 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import parseCmrResponse from '../../../utils/parseCmrResponse'
@@ -83,20 +87,68 @@ const setup = (overrideProps = {}) => {
 
   const user = userEvent.setup()
 
-  render(
+  const { rerender } = render(
     <PlatformField {...props} />
   )
 
   return {
     props,
-    user
+    user,
+    rerender: (newFormData) => {
+      rerender(
+        <PlatformField {...props} formData={newFormData} />
+      )
+    }
   }
 }
 
 describe('Platform Field', () => {
+  describe('when formData already exists', () => {
+    test('form should prepopulate with formData and update when formData changes', async () => {
+      const initialFormData = {
+        Type: 'Jet',
+        ShortName: 'A340-600',
+        LongName: 'Airbus A340-600'
+      }
+
+      const { rerender } = setup({ formData: initialFormData })
+
+      // Wait for component to load
+      await waitFor(() => {
+        expect(screen.queryByText('Select Short Name')).not.toBeInTheDocument()
+      })
+
+      // Verify initial formData is displayed
+      expect(screen.getByText('A340-600')).toBeInTheDocument()
+      expect(screen.getByDisplayValue('Jet')).toBeInTheDocument()
+      expect(screen.getByDisplayValue('Airbus A340-600')).toBeInTheDocument()
+
+      // Rerender with new formData (simulating parent component update)
+      const updatedFormData = {
+        Type: 'AIRPLANE',
+        ShortName: 'airplane',
+        LongName: ''
+      }
+
+      rerender(updatedFormData)
+
+      // Verify updated formData is displayed
+      await waitFor(() => {
+        expect(screen.getByText('airplane')).toBeInTheDocument()
+      })
+
+      expect(screen.getByDisplayValue('AIRPLANE')).toBeInTheDocument()
+      expect(screen.getByPlaceholderText('No available Long Name')).toBeInTheDocument()
+
+      // Verify old values are no longer displayed
+      expect(screen.queryByText('A340-600')).not.toBeInTheDocument()
+      expect(screen.queryByDisplayValue('Airbus A340-600')).not.toBeInTheDocument()
+    })
+  })
+
   describe('when a user clicks clicks the down arrow on Short Name', () => {
     test('renders a list of clickable cmr keywords', async () => {
-      const { user } = setup()
+      const { user, props } = setup()
 
       expect(screen.getByText('Select Short Name')).toBeInTheDocument()
 
@@ -108,14 +160,17 @@ describe('Platform Field', () => {
 
       await user.click(screen.getByText('A340-600'))
 
-      expect(screen.getByDisplayValue('Jet')).toBeInTheDocument()
-      expect(screen.getByDisplayValue('Airbus A340-600')).toBeInTheDocument()
+      expect(props.onChange).toHaveBeenCalledWith({
+        Type: 'Jet',
+        ShortName: 'A340-600',
+        LongName: 'Airbus A340-600'
+      })
     })
   })
 
   describe('when a user selects the clear option', () => {
-    test('the state is cleared', async () => {
-      const { user } = setup({
+    test('calls onChange with empty values', async () => {
+      const { user, props } = setup({
         formData: {
           Type: 'airplane',
           ShortName: 'AIRPLANE'
@@ -130,7 +185,11 @@ describe('Platform Field', () => {
       await user.click(select)
       await user.click(screen.getByText('Clear Short Name'))
 
-      expect(screen.getByText('Select Short Name')).toBeInTheDocument()
+      expect(props.onChange).toHaveBeenCalledWith({
+        Type: '',
+        ShortName: '',
+        LongName: ''
+      })
     })
   })
 

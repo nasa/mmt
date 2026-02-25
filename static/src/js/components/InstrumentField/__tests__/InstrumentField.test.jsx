@@ -167,20 +167,64 @@ const setup = (overrideProps = {}) => {
 
   const user = userEvent.setup()
 
-  render(
+  const { rerender } = render(
     <InstrumentField {...props} />
   )
 
   return {
     props,
-    user
+    user,
+    rerender: (newFormData) => {
+      rerender(
+        <InstrumentField {...props} formData={newFormData} />
+      )
+    }
   }
 }
 
 describe('Instrument Field', () => {
+  describe('when formData already exists', () => {
+    test('form should prepopulate with formData and update when formData changes', async () => {
+      const initialFormData = {
+        ShortName: 'ATM',
+        LongName: 'Airborne Topographic Mapper'
+      }
+
+      const { rerender } = setup({ formData: initialFormData })
+
+      // Wait for component to load
+      await waitFor(() => {
+        expect(screen.queryByText('Select Short Name')).not.toBeInTheDocument()
+      })
+
+      // Verify initial formData is displayed
+      expect(screen.getByText('ATM')).toBeInTheDocument()
+      expect(screen.getByDisplayValue('Airborne Topographic Mapper')).toBeInTheDocument()
+
+      // Rerender with new formData (simulating parent component update)
+      const updatedFormData = {
+        ShortName: 'LVIS',
+        LongName: 'Land, Vegetation, and Ice Sensor'
+      }
+
+      rerender(updatedFormData)
+
+      // Verify updated formData is displayed
+      await waitFor(() => {
+        expect(screen.getByText('LVIS')).toBeInTheDocument()
+      })
+
+      expect(screen.getByDisplayValue('Land, Vegetation, and Ice Sensor')).toBeInTheDocument()
+
+      // Verify old values are no longer displayed
+      expect(screen.queryByText('ATM')).not.toBeInTheDocument()
+      expect(screen.queryByDisplayValue('Airborne Topographic Mapper')).not.toBeInTheDocument()
+    })
+  })
+
   describe('when a user clicks clicks the down arrow on Short Name', () => {
     test('renders a list of clickable cmr keywords', async () => {
-      const { user } = setup()
+      const { user, props } = setup()
 
       expect(screen.getByText('Select Short Name')).toBeInTheDocument()
 
@@ -192,13 +236,16 @@ describe('Instrument Field', () => {
 
       await user.click(screen.getByText('LVIS'))
 
-      expect(screen.getByDisplayValue('Land, Vegetation, and Ice Sensor')).toBeInTheDocument()
+      expect(props.onChange).toHaveBeenCalledWith({
+        ShortName: 'LVIS',
+        LongName: 'Land, Vegetation, and Ice Sensor'
+      })
     })
   })
 
   describe('when a user clicks clicks the down arrow on Short Name', () => {
     test('Title display for existing Type without Subtype', async () => {
-      const { user } = setup()
+      const { user, props } = setup()
 
       expect(screen.getByText('Select Short Name')).toBeInTheDocument()
 
@@ -210,13 +257,16 @@ describe('Instrument Field', () => {
 
       await user.click(screen.getByText('ADS For Type'))
 
-      expect(screen.getByDisplayValue('Automated DNA Sequencer For Type')).toBeInTheDocument()
+      expect(props.onChange).toHaveBeenCalledWith({
+        ShortName: 'ADS For Type',
+        LongName: 'Automated DNA Sequencer For Type'
+      })
     })
   })
 
   describe('when a user selects the clear option', () => {
-    test('the state is cleared', async () => {
-      const { user } = setup({
+    test('calls onChange with empty values', async () => {
+      const { user, props } = setup({
         formData: {
           ShortName: 'ACOUSTIC SOUNDERS'
         }
@@ -229,7 +279,10 @@ describe('Instrument Field', () => {
       await user.click(select)
       await user.click(screen.getByText('Clear Short Name'))
 
-      expect(screen.getByText('Select Short Name')).toBeInTheDocument()
+      expect(props.onChange).toHaveBeenCalledWith({
+        ShortName: '',
+        LongName: ''
+      })
     })
   })
 

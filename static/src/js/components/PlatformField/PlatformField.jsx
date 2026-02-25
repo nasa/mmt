@@ -13,10 +13,9 @@ import './PlatformField.scss'
  * @property {Object} formData Saved Draft
  */
 const PlatformField = ({ onChange, uiSchema, formData }) => {
-  const { Type, ShortName, LongName } = formData
-  const [type, setType] = useState(Type || '')
-  const [shortName, setShortName] = useState(ShortName || '')
-  const [longName, setLongName] = useState(LongName || '')
+  const type = formData?.Type || ''
+  const shortName = formData?.ShortName || ''
+  const longName = formData?.LongName || ''
   const [loading, setLoading] = useState(false)
   const [keyword, setKeyword] = useState([])
   const [showMenu, setShowMenu] = useState(false)
@@ -72,9 +71,6 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
   const onHandleMouseDown = (values) => {
     const [valueType, valueShortName] = values
     const valueLongName = longNameMap[valueShortName] || ''
-    setType(valueType)
-    setShortName(valueShortName)
-    setLongName(valueLongName)
     setShowMenu(false)
     setShouldFocus(false)
 
@@ -98,9 +94,6 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
   }
 
   const onHandleClear = () => {
-    setType('')
-    setShortName('')
-    setLongName('')
     setShowMenu(false)
     setShouldFocus(false)
 
