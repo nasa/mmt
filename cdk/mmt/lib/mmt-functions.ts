@@ -13,6 +13,13 @@ export interface MmtFunctionsProps {
   authorizers: {
     edlAuthorizer: apigateway.CfnAuthorizer;
   };
+  // MMT keeps explicit CORS config so API Gateway OPTIONS responses can control:
+  // - allowOrigin: which browser origin can call the API
+  // - allowCredentials: whether auth/cookie-based requests are allowed
+  // - allowHeaders: which request headers are permitted
+  // EDSC uses cdk-utils defaults, but in MMT these defaults are not currently adjustable
+  // through the consumed library version. Removing this custom config can break browser
+  // auth/cookie and header behavior unless @edsc/cdk-utils is upgraded/patched.
   corsConfig: {
     allowOrigin: string;
     allowCredentials: boolean;

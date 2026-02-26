@@ -72,12 +72,10 @@ dockerRun() {
         -e "AWS_ACCOUNT=$bamboo_AWS_ACCOUNT" \
         -e "AWS_REGION=${bamboo_AWS_REGION:-us-east-1}" \
         -e "AWS_SECRET_ACCESS_KEY=$bamboo_AWS_SECRET_ACCESS_KEY" \
-        -e "COLLECTION_TEMPLATES_BUCKET_NAME=${bamboo_COLLECTION_TEMPLATES_BUCKET_NAME:-mmt-$bamboo_STAGE_NAME-collection-templates}" \
         -e "COOKIE_DOMAIN=$bamboo_COOKIE_DOMAIN" \
         -e "DISPLAY_PROD_WARNING=$bamboo_DISPLAY_PROD_WARNING" \
         -e "EDL_CLIENT_ID=$bamboo_EDL_CLIENT_ID" \
         -e "EDL_PASSWORD=$bamboo_EDL_PASSWORD" \
-        -e "INFRA_EXPORT_PREFIX=${bamboo_INFRA_EXPORT_PREFIX:-cdk}" \
         -e "JWT_SECRET=$bamboo_JWT_SECRET" \
         -e "JWT_VALID_TIME=$bamboo_JWT_VALID_TIME" \
         -e "LAMBDA_TIMEOUT=$bamboo_LAMBDA_TIMEOUT" \
@@ -85,7 +83,7 @@ dockerRun() {
         -e "MMT_HOST=$bamboo_MMT_HOST" \
         -e "NODE_ENV=production" \
         -e "NODE_OPTIONS=--max_old_space_size=4096" \
-        -e "SITE_BUCKET=${bamboo_SITE_BUCKET:-mmt-$bamboo_STAGE_NAME}" \
+        -e "SITE_BUCKET=${bamboo_SITE_BUCKET}" \
         -e "STAGE_NAME=$bamboo_STAGE_NAME" \
         -e "SUBNET_ID_A=$bamboo_SUBNET_ID_A" \
         -e "SUBNET_ID_B=$bamboo_SUBNET_ID_B" \

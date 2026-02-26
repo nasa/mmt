@@ -12,17 +12,16 @@ import { MmtFunctions } from './mmt-functions'
 export interface MmtStackProps extends cdk.StackProps {}
 
 const {
-  COLLECTION_TEMPLATES_BUCKET_NAME,
   COOKIE_DOMAIN = '.localhost',
   EDL_CLIENT_ID = '',
   EDL_PASSWORD = '',
   GTM_PROPERTY_ID = '',
-  INFRA_EXPORT_PREFIX = 'cdk',
   JWT_SECRET = 'local-secret',
   JWT_VALID_TIME = '900',
   LAMBDA_TIMEOUT = '30',
   LOG_DESTINATION_ARN = 'local-arn',
   MMT_HOST = 'http://localhost:5173',
+  NODE_ENV = 'development',
   STAGE_NAME = 'dev',
   SUBNET_ID_A = 'subnetIdA',
   SUBNET_ID_B = 'subnetIdB',
@@ -31,6 +30,7 @@ const {
 } = process.env
 
 const runtime = lambda.Runtime.NODEJS_20_X
+const INFRA_EXPORT_PREFIX = 'cdk'
 
 const allowHeaders = [
   'Access-Control-Allow-Origin',
@@ -83,12 +83,10 @@ export class MmtStack extends cdk.Stack {
 
     const { apiGatewayDeployment, apiGatewayRestApi } = apiGateway
 
-    if (!COLLECTION_TEMPLATES_BUCKET_NAME) {
-      throw new Error('COLLECTION_TEMPLATES_BUCKET_NAME must be set for MmtStack')
-    }
+    const collectionTemplatesBucketName = `mmt-${STAGE_NAME}-collection-templates`
 
     const environment = {
-      COLLECTION_TEMPLATES_BUCKET_NAME,
+      COLLECTION_TEMPLATES_BUCKET_NAME: collectionTemplatesBucketName,
       COOKIE_DOMAIN,
       EDL_CLIENT_ID,
       EDL_PASSWORD,
@@ -103,7 +101,7 @@ export class MmtStack extends cdk.Stack {
         // Bundle runtime dependencies into the Lambda artifact.
         // Externalizing all packages causes Runtime.ImportModuleError in Lambda
         // (for example: missing `jsonwebtoken`).
-        minify: STAGE_NAME !== 'dev',
+        minify: NODE_ENV === 'production',
         externalModules: ['@aws-sdk/*']
       },
       entry: '',

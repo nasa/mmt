@@ -6,10 +6,10 @@ import { infrastructure } from '@edsc/cdk-utils'
 export interface MmtInfrastructureStackProps extends cdk.StackProps {}
 
 const {
-  INFRA_EXPORT_PREFIX = 'cdk',
   STAGE_NAME = 'dev',
   VPC_ID = 'local-vpc'
 } = process.env
+const INFRA_EXPORT_PREFIX = 'cdk'
 
 /**
  * Provisions shared infrastructure consumed by the MMT application stack,
@@ -67,13 +67,6 @@ export class MmtInfrastructureStack extends cdk.Stack {
           policyDocument: {
             Version: '2012-10-17',
             Statement: [
-              {
-                Effect: 'Allow',
-                Action: [
-                  'secretsmanager:GetSecretValue'
-                ],
-                Resource: '*'
-              },
               {
                 Effect: 'Allow',
                 Action: [
