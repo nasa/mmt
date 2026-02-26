@@ -72,6 +72,7 @@ dockerRun() {
         -e "AWS_ACCOUNT=$bamboo_AWS_ACCOUNT" \
         -e "AWS_REGION=${bamboo_AWS_REGION:-us-east-1}" \
         -e "AWS_SECRET_ACCESS_KEY=$bamboo_AWS_SECRET_ACCESS_KEY" \
+        -e "COLLECTION_TEMPLATES_BUCKET_NAME=${bamboo_COLLECTION_TEMPLATES_BUCKET_NAME}" \
         -e "COOKIE_DOMAIN=$bamboo_COOKIE_DOMAIN" \
         -e "DISPLAY_PROD_WARNING=$bamboo_DISPLAY_PROD_WARNING" \
         -e "EDL_CLIENT_ID=$bamboo_EDL_CLIENT_ID" \

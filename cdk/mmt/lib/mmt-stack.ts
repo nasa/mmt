@@ -12,6 +12,8 @@ import { MmtFunctions } from './mmt-functions'
 export interface MmtStackProps extends cdk.StackProps {}
 
 const {
+  STAGE_NAME = 'dev',
+  COLLECTION_TEMPLATES_BUCKET_NAME = `mmt-${STAGE_NAME}-collection-templates`,
   COOKIE_DOMAIN = '.localhost',
   EDL_CLIENT_ID = '',
   EDL_PASSWORD = '',
@@ -22,7 +24,6 @@ const {
   LOG_DESTINATION_ARN = 'local-arn',
   MMT_HOST = 'http://localhost:5173',
   NODE_ENV = 'development',
-  STAGE_NAME = 'dev',
   SUBNET_ID_A = 'subnetIdA',
   SUBNET_ID_B = 'subnetIdB',
   SUBNET_ID_C = 'subnetIdC',
@@ -83,10 +84,8 @@ export class MmtStack extends cdk.Stack {
 
     const { apiGatewayDeployment, apiGatewayRestApi } = apiGateway
 
-    const collectionTemplatesBucketName = `mmt-${STAGE_NAME}-collection-templates`
-
     const environment = {
-      COLLECTION_TEMPLATES_BUCKET_NAME: collectionTemplatesBucketName,
+      COLLECTION_TEMPLATES_BUCKET_NAME,
       COOKIE_DOMAIN,
       EDL_CLIENT_ID,
       EDL_PASSWORD,
