@@ -17,7 +17,10 @@
     "cmr:start_and_setup": "start-server-and-test cmr:start http-get://localhost:3003/collections.json cmr:setup",
     "cmr:stop": "node setup/stopCmr.js",
     "cmr:reset": "node setup/resetCmr.js",
-    "offline": "serverless offline start"
+    "offline": "serverless offline start",
+    "deploy-infrastructure": "cd cdk/mmt-infrastructure && npm ci --include=dev && npm run cdk deploy -- --progress events --require-approval never",
+    "deploy-application": "cd cdk/mmt && npm ci --include=dev && npm run cdk deploy -- --progress events --require-approval never",
+    "deploy-static": "cd cdk/mmt-static && npm ci --include=dev && npm run cdk deploy -- --progress events --require-approval never"
   },
   "dependencies": {
     "@apollo/client": "^3.8.5",
