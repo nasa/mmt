@@ -1,8 +1,12 @@
 import { GraphQLError } from 'graphql'
+import ummCSchema from '@/js/schemas/umm/ummCSchema'
 import { GET_COLLECTIONS } from '../../../../operations/queries/getCollections'
 import { GET_SERVICES } from '../../../../operations/queries/getServices'
 import { GET_VARIABLES } from '../../../../operations/queries/getVariables'
 import { GET_TOOLS } from '../../../../operations/queries/getTools'
+
+// Extract CollectionProgressEnum values from schema to use in mocks
+const COLLECTION_PROGRESS_ENUMS = ummCSchema.definitions.CollectionProgressEnum.enum
 
 export const singlePageCollectionSearch = {
   request: {
@@ -14,7 +18,8 @@ export const singlePageCollectionSearch = {
         offset: 0,
         provider: null,
         sortKey: null,
-        includeTags: '*'
+        includeTags: '*',
+        collectionProgresses: COLLECTION_PROGRESS_ENUMS
       }
     }
   },
@@ -96,7 +101,9 @@ export const multiPageCollectionSearchPage1 = {
         offset: 0,
         provider: null,
         sortKey: null,
-        includeTags: '*'
+
+        includeTags: '*',
+        collectionProgresses: COLLECTION_PROGRESS_ENUMS
       }
     }
   },
@@ -205,7 +212,8 @@ export const multiPageCollectionSearchPage2 = {
         offset: 3,
         provider: null,
         sortKey: null,
-        includeTags: '*'
+        includeTags: '*',
+        collectionProgresses: COLLECTION_PROGRESS_ENUMS
       }
     }
   },
@@ -302,7 +310,8 @@ export const multiPageCollectionSearchPage1Asc = {
         offset: 0,
         provider: null,
         includeTags: '*',
-        sortKey: '-shortName'
+        sortKey: '-shortName',
+        collectionProgresses: COLLECTION_PROGRESS_ENUMS
       }
     }
   },
@@ -411,7 +420,8 @@ export const multiPageCollectionSearchPage1Desc = {
         offset: 0,
         provider: null,
         includeTags: '*',
-        sortKey: 'shortName'
+        sortKey: 'shortName',
+        collectionProgresses: COLLECTION_PROGRESS_ENUMS
       }
     }
   },
@@ -520,7 +530,8 @@ export const multiPageCollectionSearchPage1TitleAsc = {
         offset: 0,
         provider: null,
         includeTags: '*',
-        sortKey: '-entryTitle'
+        sortKey: '-entryTitle',
+        collectionProgresses: COLLECTION_PROGRESS_ENUMS
       }
     }
   },
@@ -629,7 +640,8 @@ export const singlePageCollectionSearchError = {
         offset: 0,
         provider: null,
         sortKey: null,
-        includeTags: '*'
+        includeTags: '*',
+        collectionProgresses: COLLECTION_PROGRESS_ENUMS
       }
     }
   },
