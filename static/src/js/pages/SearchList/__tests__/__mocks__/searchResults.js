@@ -4,6 +4,10 @@ import { GET_TOOLS } from '@/js/operations/queries/getTools'
 import { GET_VARIABLES } from '@/js/operations/queries/getVariables'
 import { GET_VISUALIZATIONS } from '@/js/operations/queries/getVisualizations'
 import { GraphQLError } from 'graphql'
+import ummCSchema from '@/js/schemas/umm/ummCSchema'
+
+// Extract CollectionProgressEnum values from schema to use in mocks
+const COLLECTION_PROGRESS_ENUMS = ummCSchema.definitions.CollectionProgressEnum.enum
 
 export const singlePageCollectionSearch = {
   request: {
@@ -15,7 +19,8 @@ export const singlePageCollectionSearch = {
         offset: 0,
         provider: null,
         sortKey: null,
-        includeTags: '*'
+        includeTags: '*',
+        collectionProgresses: COLLECTION_PROGRESS_ENUMS
       }
     }
   },
@@ -97,7 +102,8 @@ export const multiPageCollectionSearchPage1 = {
         offset: 0,
         provider: null,
         includeTags: '*',
-        sortKey: null
+        sortKey: null,
+        collectionProgresses: COLLECTION_PROGRESS_ENUMS
       }
     }
   },
@@ -206,7 +212,8 @@ export const multiPageCollectionSearchPage2 = {
         offset: 3,
         provider: null,
         sortKey: null,
-        includeTags: '*'
+        includeTags: '*',
+        collectionProgresses: COLLECTION_PROGRESS_ENUMS
       }
     }
   },
@@ -303,7 +310,8 @@ export const multiPageCollectionSearchPage1Asc = {
         offset: 0,
         provider: null,
         includeTags: '*',
-        sortKey: '-shortName'
+        sortKey: '-shortName',
+        collectionProgresses: COLLECTION_PROGRESS_ENUMS
       }
     }
   },
@@ -412,7 +420,8 @@ export const multiPageCollectionSearchPage1Desc = {
         offset: 0,
         provider: null,
         includeTags: '*',
-        sortKey: 'shortName'
+        sortKey: 'shortName',
+        collectionProgresses: COLLECTION_PROGRESS_ENUMS
       }
     }
   },
@@ -521,7 +530,8 @@ export const multiPageCollectionSearchPage1TitleAsc = {
         offset: 0,
         provider: null,
         includeTags: '*',
-        sortKey: '-entryTitle'
+        sortKey: '-entryTitle',
+        collectionProgresses: COLLECTION_PROGRESS_ENUMS
       }
     }
   },
@@ -630,7 +640,8 @@ export const singlePageCollectionSearchError = {
         offset: 0,
         provider: null,
         sortKey: null,
-        includeTags: '*'
+        includeTags: '*',
+        collectionProgresses: COLLECTION_PROGRESS_ENUMS
       }
     }
   },

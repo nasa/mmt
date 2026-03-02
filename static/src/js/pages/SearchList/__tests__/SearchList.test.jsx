@@ -541,4 +541,22 @@ describe('SearchPage component', () => {
       expect(await screen.findByText('404 page')).toBeInTheDocument()
     })
   })
+
+  describe('When query for collections', () => {
+    test('query should include all CollectionProgressEnum values', async () => {
+      const mockWithSpy = {
+        ...singlePageCollectionSearch,
+        newData: vi.fn(() => singlePageCollectionSearch.result)
+      }
+
+      setup([mockWithSpy], {}, ['/collections?keyword=test'])
+
+      await screen.findByRole('table')
+
+      // Verify the request includes collectionProgresses parameter
+      expect(mockWithSpy.request.variables.params.collectionProgresses).toBeDefined()
+      expect(Array.isArray(mockWithSpy.request.variables.params.collectionProgresses)).toBe(true)
+      expect(mockWithSpy.request.variables.params.collectionProgresses.length).toBeGreaterThan(0)
+    })
+  })
 })
