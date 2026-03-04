@@ -12,6 +12,7 @@ import {
 } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 
+import ummCSchema from '@/js/schemas/umm/ummCSchema'
 import {
   multiPageCollectionSearchPage1,
   multiPageCollectionSearchPage1Asc,
@@ -539,6 +540,23 @@ describe('SearchPage component', () => {
       setup(null, {}, ['/asdf?keyword='])
 
       expect(await screen.findByText('404 page')).toBeInTheDocument()
+    })
+  })
+
+  describe('when query for collections', () => {
+    test('query should include all CollectionProgressEnum values from schema', () => {
+      // Get the expected enum values from the schema
+      const expectedEnums = ummCSchema.definitions.CollectionProgressEnum.enum
+
+      // Verify the mock request includes collectionProgresses parameter with enum values
+      const { request } = singlePageCollectionSearch
+
+      expect(request.variables.params.collectionProgresses).toBeDefined()
+      expect(Array.isArray(request.variables.params.collectionProgresses)).toBe(true)
+      expect(request.variables.params.collectionProgresses.length).toBeGreaterThan(0)
+
+      // Verify it contains all CollectionProgressEnum values from the schema
+      expect(request.variables.params.collectionProgresses).toEqual(expectedEnums)
     })
   })
 })
