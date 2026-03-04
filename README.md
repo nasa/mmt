@@ -135,15 +135,15 @@ To run GraphDB in docker, run:
     npm run start:graphdb
 ```
 
-#### Running Serverless Offline (API Gateway/Lambdas)
+#### Running local API (CDK template)
 
-In order to run serverless-offline, which is used for mimicking API Gateway to call lambda functions, run:
+In order to run the API locally from the synthesized CDK template, run:
 
 ```bash
-    EDL_CLIENT_ID=<clientid> EDL_PASSWORD=<password> npm run offline
+    EDL_CLIENT_ID=<clientid> EDL_PASSWORD=<password> npm run start:api
 ```
 
-_Note: The EDL_CLIENT_ID and EDL_PASSWORD environment variable is required for group member queries to function._
+_Note: The EDL_CLIENT_ID and EDL_PASSWORD environment variables are required for group member queries to function._
 
 #### Running MMT
 
