@@ -147,10 +147,25 @@ _Note: The EDL_CLIENT_ID and EDL_PASSWORD environment variables are required for
 
 _Note: `npm run start:api` runs `prestart:api` automatically, which builds the CDK app (`build:cdk:mmt`) and synthesizes the template (`run-synth`). This is the recommended first-time flow on a fresh checkout/machine._
 
+Typical local flow:
+
+```bash
+    npm run prestart:api
+    EDL_CLIENT_ID=<clientid> EDL_PASSWORD=<password> npm run start:api
+```
+
+You do not need to run `run-synth` separately in this flow.
+
 If you only need to rebuild CDK TypeScript output (for example after changing files in `cdk/mmt` or if `cdk/mmt/dist` is missing), run:
 
 ```bash
     npm run build:cdk:mmt
+```
+
+If you only need to regenerate the synthesized CloudFormation template (for example after CDK configuration/stack changes and you do not want to run the API yet), run:
+
+```bash
+    npm run run-synth
 ```
 
 #### Running MMT
