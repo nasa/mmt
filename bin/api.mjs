@@ -91,50 +91,17 @@ app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true }))
 
 /**
- * Wraps a parsed API method definition and invokes its authorizer (if present)
- * and Lambda handler using API Gateway-like event objects.
+ * Wraps a parsed API method definition and invokes its Lambda handler using
+ * API Gateway-like event objects.
  *
- * @param {{ httpMethod: string, authorizer: { functionName?: string, path?: string }, lambdaFunction: { functionName: string, path: string } }} method
+ * @param {{ httpMethod: string, lambdaFunction: { functionName: string, path: string } }} method
  * @returns {(request: import('express').Request, response: import('express').Response) => Promise<void>}
  */
 const lambdaProxyWrapper = (method) => async (request, response) => {
-  const {
-    authorizer,
-    lambdaFunction
-  } = method
-
-  const {
-    path: authorizerHandlerPath
-  } = authorizer
-
+  const { lambdaFunction } = method
   const {
     path: handlerPath
   } = lambdaFunction
-
-  let authorizerResponse = {}
-
-  if (method.authorizer?.functionName) {
-    try {
-      const { default: authorizerHandler } = (await import(authorizerHandlerPath)).default
-      const authEvent = {
-        body: request.body,
-        headers: request.headers,
-        httpMethod: request.method,
-        pathParameters: request.params,
-        queryStringParameters: request.query,
-        requestContext: {
-          resourcePath: request.path
-        }
-      }
-
-      authorizerResponse = await authorizerHandler(authEvent, {})
-    } catch (error) {
-      console.log(`Authorizer error: ${error}`)
-      response.status(401).send({ statusCode: 401 })
-
-      return
-    }
-  }
 
   const event = {
     body: typeof request.body === 'object' ? JSON.stringify(request.body) : request.body,
@@ -143,10 +110,6 @@ const lambdaProxyWrapper = (method) => async (request, response) => {
     pathParameters: request.params,
     queryStringParameters: request.query,
     requestContext: {}
-  }
-
-  if (authorizerResponse?.context) {
-    event.requestContext.authorizer = authorizerResponse.context
   }
 
   const { default: handler } = (await import(handlerPath)).default

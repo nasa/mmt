@@ -179,10 +179,10 @@ const getLambdaHandlerPath = (functionName, template, templateFilePath) => {
 
 /**
  * Reads a synthesized CDK template and returns API Gateway resources mapped to
- * HTTP methods, Lambda handlers, and optional authorizers for local execution.
+ * HTTP methods and Lambda handlers for local execution.
  *
  * @param {string} templateFilePath - Path to the synthesized root template file.
- * @returns {Record<string, { fullPath: string, methods: Array<{ httpMethod: string, authorizer: { functionName?: string, path?: string }, lambdaFunction: { functionName: string, path: string } }> }>}
+ * @returns {Record<string, { fullPath: string, methods: Array<{ httpMethod: string, lambdaFunction: { functionName: string, path: string } }> }>}
  */
 export const getApiResources = (templateFilePath) => {
   const template = JSON.parse(fs.readFileSync(templateFilePath, 'utf8'))
@@ -226,29 +226,12 @@ export const getApiResources = (templateFilePath) => {
 
     const {
       HttpMethod: httpMethod,
-      ResourceId: resourceId,
-      AuthorizerId: authorizerId
+      ResourceId: resourceId
     } = resource.Properties
 
     let apiGatewayResource = resourceId.Ref
     if (apiGatewayResource.startsWith('referenceto')) {
       apiGatewayResource = getReferenceToResource(apiGatewayResource, template, templateFilePath)
-    }
-
-    const authorizer = {}
-    const authorizerRef = authorizerId?.Ref
-    if (authorizerRef) {
-      const authorizerFunctionName = getReferenceToResource(
-        authorizerRef,
-        template,
-        templateFilePath
-      )
-      authorizer.functionName = authorizerFunctionName
-      authorizer.path = getLambdaHandlerPath(
-        authorizerFunctionName,
-        combinedTemplate,
-        templateFilePath
-      )
     }
 
     const lambdaIntegration = resource.Properties.Integration
@@ -267,7 +250,6 @@ export const getApiResources = (templateFilePath) => {
 
     apiResources[name].methods.push({
       httpMethod,
-      authorizer,
       lambdaFunction
     })
   })
