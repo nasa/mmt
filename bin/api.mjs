@@ -39,11 +39,13 @@ const resolveMmtHost = () => {
 
 const localEnvDefaults = {
   COOKIE_DOMAIN: '.localhost',
-  IS_OFFLINE: 'true',
   JWT_SECRET: 'local-secret',
   JWT_VALID_TIME: '900',
   MMT_HOST: resolveMmtHost()
 }
+
+// Local stack always runs in offline mode.
+process.env.IS_OFFLINE = 'true'
 
 Object.entries(localEnvDefaults).forEach(([key, value]) => {
   if (!process.env[key]) {
