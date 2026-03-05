@@ -16,6 +16,8 @@ const stageName = process.env.STAGE_NAME || 'dev'
 const port = parseInt(process.env.API_LOCAL_PORT || '4001', 10)
 
 const localEnvDefaults = {
+  COOKIE_DOMAIN: '.localhost',
+  IS_OFFLINE: 'true',
   JWT_SECRET: 'local-secret',
   JWT_VALID_TIME: '900'
 }
