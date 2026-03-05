@@ -15,6 +15,17 @@ if (!templateFilePath) {
 const stageName = process.env.STAGE_NAME || 'dev'
 const port = parseInt(process.env.API_LOCAL_PORT || '4001', 10)
 
+const localEnvDefaults = {
+  JWT_SECRET: 'local-secret',
+  JWT_VALID_TIME: '900'
+}
+
+Object.entries(localEnvDefaults).forEach(([key, value]) => {
+  if (!process.env[key]) {
+    process.env[key] = value
+  }
+})
+
 const app = express()
 app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true }))
