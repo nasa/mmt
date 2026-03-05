@@ -51,6 +51,7 @@ coverage
 dist
 node_modules
 tmp
+cdk.out
 EOF
 
 cat <<EOF > Dockerfile
@@ -71,10 +72,11 @@ dockerRun() {
         -e "AWS_REGION=${bamboo_AWS_REGION:-us-east-1}" \
         -e "AWS_SECRET_ACCESS_KEY=$bamboo_AWS_SECRET_ACCESS_KEY" \
         -e "AWS_SESSION_TOKEN=$bamboo_AWS_SESSION_TOKEN" \
+        -e "COLLECTION_TEMPLATES_BUCKET_NAME=${bamboo_COLLECTION_TEMPLATES_BUCKET_NAME}" \
         -e "COOKIE_DOMAIN=$bamboo_COOKIE_DOMAIN" \
         -e "DISPLAY_PROD_WARNING=$bamboo_DISPLAY_PROD_WARNING" \
-        -e "EDL_PASSWORD=$bamboo_EDL_PASSWORD" \
         -e "EDL_CLIENT_ID=$bamboo_EDL_CLIENT_ID" \
+        -e "EDL_PASSWORD=$bamboo_EDL_PASSWORD" \
         -e "JWT_SECRET=$bamboo_JWT_SECRET" \
         -e "JWT_VALID_TIME=$bamboo_JWT_VALID_TIME" \
         -e "LAMBDA_TIMEOUT=$bamboo_LAMBDA_TIMEOUT" \
@@ -82,6 +84,7 @@ dockerRun() {
         -e "MMT_HOST=$bamboo_MMT_HOST" \
         -e "NODE_ENV=production" \
         -e "NODE_OPTIONS=--max_old_space_size=4096" \
+        -e "SITE_BUCKET=${bamboo_SITE_BUCKET}" \
         -e "STAGE_NAME=$bamboo_STAGE_NAME" \
         -e "SUBNET_ID_A=$bamboo_SUBNET_ID_A" \
         -e "SUBNET_ID_B=$bamboo_SUBNET_ID_B" \
@@ -91,20 +94,16 @@ dockerRun() {
 }
 
 # Execute CDK commands in Docker
-################################
+#######################################
 
-cdkDeploy() {
-    local cdkDir="$1"
-    local appCommand="$2"
+# Deploy AWS Infrastructure Resources
+echo 'Deploying AWS Infrastructure Resources...'
+dockerRun npm run deploy-infrastructure
 
-    dockerRun bash -lc "cd ${cdkDir} && node_modules/.bin/cdk deploy --app \"${appCommand}\" --require-approval never"
-}
+# Deploy AWS Application Resources
+echo 'Deploying AWS Application Resources...'
+dockerRun npm run deploy-application
 
-echo 'Deploying AWS Infrastructure Resources (CDK)...'
-cdkDeploy "cdk/mmt-infrastructure" "node dist/bin/mmt-infrastructure.js"
-
-echo 'Deploying AWS Application Resources (CDK)...'
-cdkDeploy "cdk/mmt" "node dist/bin/mmt.js"
-
-echo 'Deploying AWS Static Resources (CDK)...'
-cdkDeploy "cdk/mmt-static" "node dist/bin/mmt-static.js"
+# Deploy static assets
+echo 'Deploying static assets to S3...'
+dockerRun npm run deploy-static
