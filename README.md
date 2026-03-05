@@ -145,6 +145,14 @@ In order to run the API locally from the synthesized CDK template, run:
 
 _Note: The EDL_CLIENT_ID and EDL_PASSWORD environment variables are required for group member queries to function._
 
+_Note: `npm run start:api` runs `prestart:api` automatically, which builds the CDK app (`build:cdk:mmt`) and synthesizes the template (`run-synth`). This is the recommended first-time flow on a fresh checkout/machine._
+
+If you only need to rebuild CDK TypeScript output (for example after changing files in `cdk/mmt` or if `cdk/mmt/dist` is missing), run:
+
+```bash
+    npm run build:cdk:mmt
+```
+
 #### Running MMT
 
 After starting the local CMR, cmr-graphql and GraphDB, run:
