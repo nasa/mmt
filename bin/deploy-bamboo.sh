@@ -46,7 +46,6 @@ node_modules
 .DS_Store
 .git
 .github
-.serverless
 cmr
 coverage
 dist
@@ -56,7 +55,7 @@ cdk.out
 EOF
 
 cat <<EOF > Dockerfile
-FROM node:20.18.1
+FROM node:22
 COPY . /build
 WORKDIR /build
 RUN npm ci --omit=dev && npm run build
@@ -68,10 +67,11 @@ docker build -t $dockerTag .
 # Convenience function to invoke `docker run` with appropriate env vars instead of baking them into image
 dockerRun() {
     docker run \
-        -e "AWS_ACCESS_KEY_ID=$bamboo_AWS_ACCESS_KEY_ID" \
         -e "AWS_ACCOUNT=$bamboo_AWS_ACCOUNT" \
+        -e "AWS_ACCESS_KEY_ID=$bamboo_AWS_ACCESS_KEY_ID" \
         -e "AWS_REGION=${bamboo_AWS_REGION:-us-east-1}" \
         -e "AWS_SECRET_ACCESS_KEY=$bamboo_AWS_SECRET_ACCESS_KEY" \
+        -e "AWS_SESSION_TOKEN=$bamboo_AWS_SESSION_TOKEN" \
         -e "COLLECTION_TEMPLATES_BUCKET_NAME=${bamboo_COLLECTION_TEMPLATES_BUCKET_NAME}" \
         -e "COOKIE_DOMAIN=$bamboo_COOKIE_DOMAIN" \
         -e "DISPLAY_PROD_WARNING=$bamboo_DISPLAY_PROD_WARNING" \

@@ -1,7 +1,6 @@
 # Project build files
 .dockerignore
 .DS_Store
-.serverless
 .esbuild
 coverage
 dist
@@ -20,3 +19,4 @@ cdk.out
 junit.xml
 
 cmr
+cdk.out
