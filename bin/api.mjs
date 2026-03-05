@@ -1,4 +1,6 @@
 import express from 'express'
+import fs from 'fs'
+import path from 'path'
 
 import { getApiResources } from './getApiResources.mjs'
 
@@ -14,12 +16,33 @@ if (!templateFilePath) {
 
 const stageName = process.env.STAGE_NAME || 'dev'
 const port = parseInt(process.env.API_LOCAL_PORT || '4001', 10)
+const staticConfigPath = path.resolve(process.cwd(), 'static.config.json')
+
+/**
+ * Resolves a local `MMT_HOST` value from env or `static.config.json`.
+ *
+ * @returns {string}
+ */
+const resolveMmtHost = () => {
+  if (process.env.MMT_HOST) return process.env.MMT_HOST
+
+  try {
+    const file = fs.readFileSync(staticConfigPath, 'utf8')
+    const staticConfig = JSON.parse(file)
+    if (staticConfig?.application?.mmtHost) return staticConfig.application.mmtHost
+  } catch (error) {
+    console.warn(`Unable to read mmtHost from static.config.json: ${error}`)
+  }
+
+  return 'http://localhost:5173'
+}
 
 const localEnvDefaults = {
   COOKIE_DOMAIN: '.localhost',
   IS_OFFLINE: 'true',
   JWT_SECRET: 'local-secret',
-  JWT_VALID_TIME: '900'
+  JWT_VALID_TIME: '900',
+  MMT_HOST: resolveMmtHost()
 }
 
 Object.entries(localEnvDefaults).forEach(([key, value]) => {
@@ -29,6 +52,39 @@ Object.entries(localEnvDefaults).forEach(([key, value]) => {
 })
 
 const app = express()
+
+/**
+ * Adds permissive local CORS behavior for API Gateway emulation.
+ *
+ * In offline mode we mirror the incoming browser origin so localhost and
+ * tunneled origins continue to work with credentials/cookies.
+ */
+app.use((request, response, next) => {
+  if (process.env.IS_OFFLINE !== 'true') {
+    next()
+
+    return
+  }
+
+  const requestOrigin = request.headers.origin
+  const allowOrigin = requestOrigin || process.env.MMT_HOST || 'http://localhost:5173'
+  const requestedHeaders = request.headers['access-control-request-headers']
+
+  response.setHeader('Access-Control-Allow-Origin', allowOrigin)
+  response.setHeader('Vary', 'Origin')
+  response.setHeader('Access-Control-Allow-Credentials', 'true')
+  response.setHeader('Access-Control-Allow-Headers', requestedHeaders || 'Content-Type,Authorization,Origin,User-Agent,Accept')
+  response.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH,OPTIONS')
+
+  if (request.method === 'OPTIONS') {
+    response.status(204).end()
+
+    return
+  }
+
+  next()
+})
+
 app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true }))
 
@@ -141,13 +197,13 @@ const addRoutes = async () => {
     const { fullPath, methods } = apiResources[resourcePath]
 
     methods.forEach((method) => {
-      const path = `/${fullPath.replace(/\/\{(.*?)\}/g, '/:$1')}`
-      const stagePath = `/${stageName}${path}`
+      const routePath = `/${fullPath.replace(/\/\{(.*?)\}/g, '/:$1')}`
+      const stagePath = `/${stageName}${routePath}`
 
-      console.log(`Adding route: ${method.httpMethod.padEnd(6)} - ${path}`)
-      registerRoute(method.httpMethod, path, lambdaProxyWrapper(method))
+      console.log(`Adding route: ${method.httpMethod.padEnd(6)} - ${routePath}`)
+      registerRoute(method.httpMethod, routePath, lambdaProxyWrapper(method))
 
-      if (stagePath !== path) {
+      if (stagePath !== routePath) {
         console.log(`Adding route: ${method.httpMethod.padEnd(6)} - ${stagePath}`)
         registerRoute(method.httpMethod, stagePath, lambdaProxyWrapper(method))
       }
