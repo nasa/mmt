@@ -5,6 +5,8 @@
     "start": "node bin/start.js",
     "start:app-env": "node bin/start-env.js",
     "start:app": "vite",
+    "build:cdk:mmt": "cd cdk/mmt && npm ci --include=dev && npm run build",
+    "prestart:api": "npm run build:cdk:mmt && npm run run-synth",
     "start:api": "node --watch --watch-path=serverless/src --watch-path=cdk/mmt/cdk.out bin/api.mjs cdk/mmt/cdk.out/mmt-cdk-dev.template.json",
     "run-synth": "cd cdk/mmt && node_modules/.bin/cdk synth --app \"node dist/bin/mmt.js\" --quiet",
     "start:proxy": "node setup/graphQlProxy.js",

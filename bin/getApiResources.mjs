@@ -160,6 +160,24 @@ const normalizeApiResourceName = (apiGatewayResource, resources) => {
 }
 
 /**
+ * Resolves a Lambda logical id to the bundled CDK asset handler path.
+ *
+ * @param {string} functionName
+ * @param {Record<string, any>} template
+ * @param {string} templateFilePath
+ * @returns {string}
+ */
+const getLambdaHandlerPath = (functionName, template, templateFilePath) => {
+  const functionResource = template.Resources[functionName]
+  const assetPath = functionResource?.Metadata?.['aws:asset:path']
+  if (assetPath) {
+    return path.resolve(path.dirname(templateFilePath), assetPath, 'index.js')
+  }
+
+  return `../serverless/src/${getLambdaName(functionName)}/handler.js`
+}
+
+/**
  * Reads a synthesized CDK template and returns API Gateway resources mapped to
  * HTTP methods, Lambda handlers, and optional authorizers for local execution.
  *
@@ -226,7 +244,11 @@ export const getApiResources = (templateFilePath) => {
         templateFilePath
       )
       authorizer.functionName = authorizerFunctionName
-      authorizer.path = `../serverless/src/${getLambdaName(authorizerFunctionName)}/handler.js`
+      authorizer.path = getLambdaHandlerPath(
+        authorizerFunctionName,
+        combinedTemplate,
+        templateFilePath
+      )
     }
 
     const lambdaIntegration = resource.Properties.Integration
@@ -237,7 +259,7 @@ export const getApiResources = (templateFilePath) => {
 
     const lambdaFunction = {
       functionName,
-      path: `../serverless/src/${getLambdaName(functionName)}/handler.js`
+      path: getLambdaHandlerPath(functionName, combinedTemplate, templateFilePath)
     }
 
     const name = normalizeApiResourceName(apiGatewayResource, apiResources)
