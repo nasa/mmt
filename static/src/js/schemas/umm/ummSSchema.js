@@ -627,6 +627,7 @@ const ummSSchema = {
         'HDF-EOS5',
         'NETCDF-3',
         'NETCDF-4',
+        'NETCDF-4 (OPeNDAP URL)',
         'GEOTIFF',
         'GEOTIFFINT16',
         'GEOTIFFFLOAT32',
