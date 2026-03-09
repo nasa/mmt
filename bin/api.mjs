@@ -20,6 +20,7 @@ const staticConfigPath = path.resolve(process.cwd(), 'static.config.json')
 
 /**
  * Resolves a local `MMT_HOST` value from env or `static.config.json`.
+ * `MMT_HOST` is used for browser origin (CORS handling)
  *
  * @returns {string}
  */
@@ -118,7 +119,6 @@ const lambdaProxyWrapper = (method) => async (request, response) => {
   const {
     body,
     headers = {},
-    isBase64Encoded,
     statusCode = 200
   } = lambdaResponse || {}
 
@@ -126,12 +126,6 @@ const lambdaProxyWrapper = (method) => async (request, response) => {
   Object.entries(headers).forEach(([headerName, headerValue]) => {
     response.setHeader(headerName, headerValue)
   })
-
-  if (isBase64Encoded) {
-    response.send(Buffer.from(body, 'base64'))
-
-    return
-  }
 
   response.send(body)
 }

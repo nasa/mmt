@@ -1,5 +1,3 @@
 dist
 .eslintrc
 cdk.out
-**/cdk.out
-**/cdk.out/**
