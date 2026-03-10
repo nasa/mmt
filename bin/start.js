@@ -1,4 +1,11 @@
+const fs = require('fs')
+const childProcess = require('child_process')
 const concurrently = require('concurrently')
+
+if (!fs.existsSync('./cdk/mmt/cdk.out/mmt-cdk-dev.template.json')) {
+  console.log('The CDK template file does not exist. Running `npm run run-synth` to generate it...')
+  childProcess.execSync('npm run run-synth', { stdio: 'inherit' })
+}
 
 concurrently([{
   command: 'npm run cmr:start_and_setup',
@@ -8,7 +15,7 @@ concurrently([{
   name: 'vite'
 },
 {
-  command: 'npm run offline',
+  command: 'npm run start:api',
   name: 'api'
 },
 {
