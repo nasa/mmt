@@ -10,7 +10,15 @@ import { getKmsConceptFullPaths } from '@/js/utils/getKmsConceptFullPaths'
 
 // Mock getApplicationConfig
 vi.mock('sharedUtils/getConfig', () => ({
-  getApplicationConfig: vi.fn(() => ({ kmsHost: 'http://example.com' }))
+  getApplicationConfig: vi.fn(() => ({
+    kmsHost: 'http://example.com',
+    kmKmsClientID: 'test-client-id'
+  }))
+}))
+
+// Mock getKmsHeaders
+vi.mock('@/js/utils/getKmsHeaders', () => ({
+  getKmsHeaders: vi.fn(() => ({ 'client-id': 'test-client-id' }))
 }))
 
 // Mocking fetch
@@ -36,7 +44,10 @@ describe('getKmsConceptFullPaths', () => {
     const result = await getKmsConceptFullPaths({ uuid })
 
     expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith('http://example.com/concept_fullpaths/concept_uuid/test-uuid', { method: 'GET' })
+    expect(fetch).toHaveBeenCalledWith('http://example.com/concept_fullpaths/concept_uuid/test-uuid', {
+      method: 'GET',
+      headers: { 'client-id': 'test-client-id' }
+    })
 
     expect(result).toEqual(expectedResult)
   })
@@ -52,7 +63,10 @@ describe('getKmsConceptFullPaths', () => {
     })
 
     expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith('http://example.com/concept_fullpaths/concept_uuid/test-uuid?version=1.0', { method: 'GET' })
+    expect(fetch).toHaveBeenCalledWith('http://example.com/concept_fullpaths/concept_uuid/test-uuid?version=1.0', {
+      method: 'GET',
+      headers: { 'client-id': 'test-client-id' }
+    })
 
     expect(result).toEqual(expectedResult)
   })

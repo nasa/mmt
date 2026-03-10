@@ -15,12 +15,20 @@ vi.mock('sharedUtils/getConfig', () => ({
   getApplicationConfig: vi.fn()
 }))
 
+vi.mock('@/js/utils/getKmsHeaders', () => ({
+  getKmsHeaders: vi.fn(() => ({ 'client-id': 'test-client-id' }))
+}))
+
 global.fetch = vi.fn()
 
 describe('getKmsConceptSchemes', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    getApplicationConfig.mockReturnValue({ kmsHost: 'http://example.com' })
+    getApplicationConfig.mockReturnValue({
+      kmsHost: 'http://example.com',
+      kmKmsClientID: 'test-client-id'
+    })
+
     vi.spyOn(console, 'error').mockImplementation(() => {})
   })
 
@@ -92,7 +100,10 @@ describe('getKmsConceptSchemes', () => {
 
       expect(global.fetch).toHaveBeenCalledWith(
         'http://example.com/concept_schemes/?version=1.0',
-        { method: 'GET' }
+        {
+          method: 'GET',
+          headers: { 'client-id': 'test-client-id' }
+        }
       )
 
       expect(result).toEqual({
@@ -158,7 +169,10 @@ describe('getKmsConceptSchemes', () => {
 
       expect(global.fetch).toHaveBeenCalledWith(
         'http://example.com/concept_schemes/?version=published',
-        { method: 'GET' }
+        {
+          method: 'GET',
+          headers: { 'client-id': 'test-client-id' }
+        }
       )
 
       expect(result).toEqual({

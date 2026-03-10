@@ -1,4 +1,5 @@
 import { getApplicationConfig } from 'sharedUtils/getConfig'
+import { getKmsHeaders } from './getKmsHeaders'
 
 /**
  * Creates or updates a concept in the Knowledge Management System (KMS)
@@ -30,6 +31,7 @@ export const createUpdateKmsConcept = async ({
       method: 'PUT',
       body: rdfXml,
       headers: {
+        ...getKmsHeaders(),
         Authorization: `Bearer ${token}`
       }
     })

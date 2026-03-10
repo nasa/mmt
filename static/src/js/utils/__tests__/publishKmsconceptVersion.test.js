@@ -13,20 +13,27 @@ vi.mock('sharedUtils/getConfig', () => ({
   getApplicationConfig: vi.fn()
 }))
 
+vi.mock('@/js/utils/getKmsHeaders', () => ({
+  getKmsHeaders: vi.fn(() => ({ 'client-id': 'test-client-id' }))
+}))
+
 describe('when publishKmsConceptVersion', () => {
   let consoleErrorSpy
   let fetchMock
 
   beforeEach(() => {
+    vi.clearAllMocks()
     consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
     fetchMock = vi.fn()
     global.fetch = fetchMock
-    vi.mocked(getApplicationConfig).mockReturnValue({ kmsHost: 'http://test-kms-host.com' })
+    vi.mocked(getApplicationConfig).mockReturnValue({
+      kmsHost: 'http://test-kms-host.com',
+      kmKmsClientID: 'test-client-id'
+    })
   })
 
   afterEach(() => {
     consoleErrorSpy.mockRestore()
-    vi.resetAllMocks()
   })
 
   test('should publish a new KMS concept version successfully', async () => {
@@ -39,6 +46,7 @@ describe('when publishKmsConceptVersion', () => {
       {
         method: 'POST',
         headers: {
+          'client-id': 'test-client-id',
           Authorization: 'Bearer test_token'
         }
       }
@@ -74,6 +82,7 @@ describe('when publishKmsConceptVersion', () => {
       {
         method: 'POST',
         headers: {
+          'client-id': 'test-client-id',
           Authorization: 'Bearer test_token'
         }
       }

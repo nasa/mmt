@@ -1,5 +1,6 @@
 import constructDownloadableFile from '@/js/utils/constructDownloadableFile'
 import { getApplicationConfig } from 'sharedUtils/getConfig'
+import { getKmsHeaders } from './getKmsHeaders'
 
 /**
  * Creates a CSV report of changes in Keyword Management System (KMS)
@@ -34,7 +35,8 @@ export const kmsGetConceptUpdatesReport = async ({
     }
 
     await fetch(endpoint, {
-      method: 'GET'
+      method: 'GET',
+      headers: getKmsHeaders()
     }).then(async (responseObject) => {
       const data = await responseObject.text()
       constructDownloadableFile(data, `KeywordUpdateReport-${startDate}-${endDate}`, 'text/csv')

@@ -1,12 +1,14 @@
 import { XMLParser } from 'fast-xml-parser'
 import { getApplicationConfig } from 'sharedUtils/getConfig'
+import { getKmsHeaders } from './getKmsHeaders'
 
 const getKmsConceptVersions = async () => {
   const { kmsHost } = getApplicationConfig()
   try {
     // Fetch data from KMS server
     const response = await fetch(`${kmsHost}/concept_versions/version_type/all`, {
-      method: 'GET'
+      method: 'GET',
+      headers: getKmsHeaders()
     })
 
     if (!response.ok) {
