@@ -58,6 +58,16 @@ export default defineConfig({
       ]
     }
   },
+  server: {
+    proxy: {
+      '/kms-see-vite-config': {
+        target: 'https://cmr.sit.earthdata.nasa.gov',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (urlPath) => urlPath.replace(/^\/kms-see-vite-config/, '/kms')
+      }
+    }
+  },
   css: {
     devSourcemap: true
   },
