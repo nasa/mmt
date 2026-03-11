@@ -143,8 +143,8 @@ const registerRoute = (httpMethod, routePath, handler) => {
 }
 
 /**
- * Discovers API routes from the synthesized template and registers both
- * non-stage-prefixed and stage-prefixed local paths.
+ * Discovers API routes from the synthesized template and registers
+ * stage-prefixed local paths (for example `/dev/users`).
  *
  * @returns {Promise<void>}
  */
@@ -159,13 +159,8 @@ const addRoutes = async () => {
       const routePath = `/${fullPath.replace(/\/\{(.*?)\}/g, '/:$1')}`
       const stagePath = `/${stageName}${routePath}`
 
-      console.log(`Adding route: ${method.httpMethod.padEnd(6)} - ${routePath}`)
-      registerRoute(method.httpMethod, routePath, lambdaProxyWrapper(method))
-
-      if (stagePath !== routePath) {
-        console.log(`Adding route: ${method.httpMethod.padEnd(6)} - ${stagePath}`)
-        registerRoute(method.httpMethod, stagePath, lambdaProxyWrapper(method))
-      }
+      console.log(`Adding route: ${method.httpMethod.padEnd(6)} - ${stagePath}`)
+      registerRoute(method.httpMethod, stagePath, lambdaProxyWrapper(method))
     })
   })
 }
