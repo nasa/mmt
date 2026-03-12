@@ -28,7 +28,7 @@ describe('deleteKmsConcept', () => {
     consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
     getApplicationConfig.mockReturnValue({
       kmsHost: mockKmsHost,
-      kmKmsClientID: 'test-client-id'
+      mmtKeywordManagerClientId: 'test-client-id'
     })
 
     global.fetch = vi.fn()

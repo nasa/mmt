@@ -49,7 +49,7 @@ describe('getKmsConceptVersions', () => {
     global.fetch = vi.fn()
     vi.mocked(getApplicationConfig).mockReturnValue({
       kmsHost: 'http://test-kms-host.com',
-      kmKmsClientID: 'test-client-id'
+      mmtKeywordManagerClientId: 'test-client-id'
     })
   })
 

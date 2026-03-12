@@ -24,7 +24,7 @@ describe('getKmsKeywordTree', () => {
     vi.clearAllMocks()
     getApplicationConfig.mockReturnValue({
       kmsHost: 'http://example.com',
-      kmKmsClientID: 'test-client-id'
+      mmtKeywordManagerClientId: 'test-client-id'
     })
 
     vi.spyOn(console, 'error').mockImplementation(() => {})

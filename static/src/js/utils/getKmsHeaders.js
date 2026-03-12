@@ -12,10 +12,10 @@ import { getApplicationConfig } from 'sharedUtils/getConfig'
  * })
  */
 export const getKmsHeaders = () => {
-  const { kmKmsClientID } = getApplicationConfig()
+  const { mmtKeywordManagerClientId } = getApplicationConfig()
 
   return {
-    'client-id': kmKmsClientID
+    'client-id': mmtKeywordManagerClientId
   }
 }
 

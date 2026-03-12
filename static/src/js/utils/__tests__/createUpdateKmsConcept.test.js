@@ -19,7 +19,7 @@ beforeEach(() => {
   global.fetch = vi.fn()
   vi.mocked(getApplicationConfig).mockReturnValue({
     kmsHost: 'http://kms.example.com',
-    kmKmsClientID: 'test-client-id'
+    mmtKeywordManagerClientId: 'test-client-id'
   })
 })
 

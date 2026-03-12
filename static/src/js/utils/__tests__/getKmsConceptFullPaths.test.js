@@ -12,7 +12,7 @@ import { getKmsConceptFullPaths } from '@/js/utils/getKmsConceptFullPaths'
 vi.mock('sharedUtils/getConfig', () => ({
   getApplicationConfig: vi.fn(() => ({
     kmsHost: 'http://example.com',
-    kmKmsClientID: 'test-client-id'
+    mmtKeywordManagerClientId: 'test-client-id'
   }))
 }))
 

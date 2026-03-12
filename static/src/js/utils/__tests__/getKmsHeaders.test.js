@@ -24,7 +24,7 @@ describe('getKmsHeaders', () => {
 
   test('should return headers object with client-id', () => {
     const mockClientId = 'mmt-keyword-manager-sit'
-    getApplicationConfig.mockReturnValue({ kmKmsClientID: mockClientId })
+    getApplicationConfig.mockReturnValue({ mmtKeywordManagerClientId: mockClientId })
 
     const headers = getKmsHeaders()
 
@@ -34,7 +34,7 @@ describe('getKmsHeaders', () => {
   })
 
   test('should call getApplicationConfig', () => {
-    getApplicationConfig.mockReturnValue({ kmKmsClientID: 'test-client-id' })
+    getApplicationConfig.mockReturnValue({ mmtKeywordManagerClientId: 'test-client-id' })
 
     getKmsHeaders()
 
@@ -50,7 +50,7 @@ describe('getKmsHeaders', () => {
     ]
 
     environments.forEach((clientId) => {
-      getApplicationConfig.mockReturnValue({ kmKmsClientID: clientId })
+      getApplicationConfig.mockReturnValue({ mmtKeywordManagerClientId: clientId })
 
       const headers = getKmsHeaders()
 
@@ -59,7 +59,7 @@ describe('getKmsHeaders', () => {
   })
 
   test('should return headers object structure suitable for fetch API', () => {
-    getApplicationConfig.mockReturnValue({ kmKmsClientID: 'test-client-id' })
+    getApplicationConfig.mockReturnValue({ mmtKeywordManagerClientId: 'test-client-id' })
 
     const headers = getKmsHeaders()
 

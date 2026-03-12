@@ -30,7 +30,7 @@ describe('kmsGetConceptUpdatesReport', () => {
 
     getApplicationConfig.mockReturnValue({
       kmsHost: mockKmsHost,
-      kmKmsClientID: 'test-client-id'
+      mmtKeywordManagerClientId: 'test-client-id'
     })
   })
 
