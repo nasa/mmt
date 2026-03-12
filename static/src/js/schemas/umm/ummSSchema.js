@@ -627,6 +627,7 @@ const ummSSchema = {
         'HDF-EOS5',
         'NETCDF-3',
         'NETCDF-4',
+        'NETCDF-4 (OPeNDAP URL)',
         'GEOTIFF',
         'GEOTIFFINT16',
         'GEOTIFFFLOAT32',
@@ -1767,7 +1768,7 @@ const ummSSchema = {
           description: 'The web address of the metadata schema used to validate the service record.',
           type: 'string',
           enum: [
-            'https://cdn.earthdata.nasa.gov/umm/service/v1.5.3'
+            'https://cdn.earthdata.nasa.gov/umm/service/v1.5.4'
           ]
         },
         Name: {
@@ -1781,7 +1782,7 @@ const ummSSchema = {
           description: 'The version of the metadata schema.',
           type: 'string',
           enum: [
-            '1.5.3'
+            '1.5.4'
           ]
         }
       },
