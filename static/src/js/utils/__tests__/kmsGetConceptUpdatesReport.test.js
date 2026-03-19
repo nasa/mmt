@@ -10,6 +10,10 @@ vi.mock('@/js/utils/constructDownloadableFile', () => ({
   default: vi.fn()
 }))
 
+vi.mock('@/js/utils/getKmsHeaders', () => ({
+  getKmsHeaders: vi.fn(() => ({ 'client-id': 'test-client-id' }))
+}))
+
 describe('kmsGetConceptUpdatesReport', () => {
   const mockVersion = {
     version: 'v1.0',
@@ -24,7 +28,10 @@ describe('kmsGetConceptUpdatesReport', () => {
   beforeEach(() => {
     vi.clearAllMocks()
 
-    getApplicationConfig.mockReturnValue({ kmsHost: mockKmsHost })
+    getApplicationConfig.mockReturnValue({
+      kmsHost: mockKmsHost,
+      mmtKeywordManagerClientId: 'test-client-id'
+    })
   })
 
   test('should make a GET request with correct parameters for draft version', async () => {
@@ -43,7 +50,8 @@ describe('kmsGetConceptUpdatesReport', () => {
     const expectedUrl = `${mockKmsHost}/concepts/operations/update_report?version=${mockVersion.version}&startDate=${mockStartDate}&endDate=${mockEndDate}&userId=${mockUserId}`
 
     expect(fetch).toHaveBeenCalledWith(expectedUrl, {
-      method: 'GET'
+      method: 'GET',
+      headers: { 'client-id': 'test-client-id' }
     })
   })
 
@@ -67,7 +75,8 @@ describe('kmsGetConceptUpdatesReport', () => {
     const expectedUrl = `${mockKmsHost}/concepts/operations/update_report?version=published&startDate=${mockStartDate}&endDate=${mockEndDate}`
 
     expect(fetch).toHaveBeenCalledWith(expectedUrl, {
-      method: 'GET'
+      method: 'GET',
+      headers: { 'client-id': 'test-client-id' }
     })
 
     expect(constructDownloadableFile).toHaveBeenCalledWith(
@@ -141,7 +150,8 @@ describe('kmsGetConceptUpdatesReport', () => {
     const expectedUrl = `${mockKmsHost}/concepts/operations/update_report?version=${mockVersion.version}&startDate=${mockStartDate}&endDate=${mockEndDate}`
 
     expect(fetch).toHaveBeenCalledWith(expectedUrl, {
-      method: 'GET'
+      method: 'GET',
+      headers: { 'client-id': 'test-client-id' }
     })
   })
 
@@ -165,7 +175,8 @@ describe('kmsGetConceptUpdatesReport', () => {
     const expectedUrl = `${mockKmsHost}/concepts/operations/update_report?version=${encodeURIComponent(versionWithSpecialChars.version)}&startDate=${mockStartDate}&endDate=${mockEndDate}`
 
     expect(fetch).toHaveBeenCalledWith(expectedUrl, {
-      method: 'GET'
+      method: 'GET',
+      headers: { 'client-id': 'test-client-id' }
     })
   })
 

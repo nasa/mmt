@@ -1,4 +1,5 @@
 import { getApplicationConfig } from 'sharedUtils/getConfig'
+import { getKmsHeaders } from './getKmsHeaders'
 
 /**
  * Deletes a KMS concept from the server.
@@ -38,6 +39,7 @@ export const deleteKmsConcept = async ({ uuid, version, token }) => {
     const options = {
       method: 'DELETE',
       headers: {
+        ...getKmsHeaders(),
         Authorization: `Bearer ${token}`
       }
     }

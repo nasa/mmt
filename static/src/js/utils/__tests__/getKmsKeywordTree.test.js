@@ -13,12 +13,20 @@ vi.mock('sharedUtils/getConfig', () => ({
   getApplicationConfig: vi.fn()
 }))
 
+vi.mock('@/js/utils/getKmsHeaders', () => ({
+  getKmsHeaders: vi.fn(() => ({ 'client-id': 'test-client-id' }))
+}))
+
 global.fetch = vi.fn()
 
 describe('getKmsKeywordTree', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    getApplicationConfig.mockReturnValue({ kmsHost: 'http://example.com' })
+    getApplicationConfig.mockReturnValue({
+      kmsHost: 'http://example.com',
+      mmtKeywordManagerClientId: 'test-client-id'
+    })
+
     vi.spyOn(console, 'error').mockImplementation(() => {})
   })
 
@@ -77,7 +85,10 @@ describe('getKmsKeywordTree', () => {
 
       expect(global.fetch).toHaveBeenCalledWith(
         'http://example.com/tree/concept_scheme/idnnode?version=published',
-        { method: 'GET' }
+        {
+          method: 'GET',
+          headers: { 'client-id': 'test-client-id' }
+        }
       )
 
       expect(result).toEqual([
@@ -122,7 +133,10 @@ describe('getKmsKeywordTree', () => {
 
       expect(global.fetch).toHaveBeenCalledWith(
         'http://example.com/tree/concept_scheme/idnnode?version=published',
-        { method: 'GET' }
+        {
+          method: 'GET',
+          headers: { 'client-id': 'test-client-id' }
+        }
       )
     })
   })
@@ -259,7 +273,10 @@ describe('getKmsKeywordTree', () => {
 
       expect(global.fetch).toHaveBeenCalledWith(
         'http://example.com/tree/concept_scheme/idnnode?version=21.0',
-        { method: 'GET' }
+        {
+          method: 'GET',
+          headers: { 'client-id': 'test-client-id' }
+        }
       )
     })
   })
@@ -275,7 +292,10 @@ describe('getKmsKeywordTree', () => {
 
       expect(global.fetch).toHaveBeenCalledWith(
         'http://example.com/tree/concept_scheme/Earth%20Science?version=21.0',
-        { method: 'GET' }
+        {
+          method: 'GET',
+          headers: { 'client-id': 'test-client-id' }
+        }
       )
     })
   })
@@ -378,7 +398,10 @@ describe('getKmsKeywordTree', () => {
 
       expect(global.fetch).toHaveBeenCalledWith(
         'http://example.com/tree/concept_scheme/idnnode?version=21.0&filter=someSearchPattern',
-        { method: 'GET' }
+        {
+          method: 'GET',
+          headers: { 'client-id': 'test-client-id' }
+        }
       )
     })
   })

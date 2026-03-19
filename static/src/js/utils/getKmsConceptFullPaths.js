@@ -2,6 +2,7 @@ import { XMLParser } from 'fast-xml-parser'
 import { castArray } from 'lodash-es'
 
 import { getApplicationConfig } from 'sharedUtils/getConfig'
+import { getKmsHeaders } from './getKmsHeaders'
 
 /**
  * Fetches the full path(s) for a given KMS concept UUID and returns them as an array of strings.
@@ -49,7 +50,8 @@ const getKmsConceptFullPaths = async ({ uuid, version }) => {
 
     // Fetch data from KMS server
     const response = await fetch(url, {
-      method: 'GET'
+      method: 'GET',
+      headers: getKmsHeaders()
     })
 
     if (!response.ok) {

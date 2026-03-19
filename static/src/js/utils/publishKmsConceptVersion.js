@@ -1,4 +1,5 @@
 import { getApplicationConfig } from 'sharedUtils/getConfig'
+import { getKmsHeaders } from './getKmsHeaders'
 /**
  * Publishes a new KMS concept version.
  *
@@ -28,6 +29,7 @@ export const publishKmsConceptVersion = async (version, token) => {
     const options = {
       method: 'POST',
       headers: {
+        ...getKmsHeaders(),
         Authorization: `Bearer ${token}`
       }
     }

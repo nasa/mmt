@@ -1,6 +1,7 @@
 import { castArray } from 'lodash-es'
 
 import { getApplicationConfig } from 'sharedUtils/getConfig'
+import { getKmsHeaders } from './getKmsHeaders'
 
 /**
  * Recursively adds unique IDs to each node in the tree.
@@ -59,7 +60,8 @@ const getKmsKeywordTree = async (version, scheme, searchPattern) => {
 
     // Fetch data from KMS server
     const response = await fetch(endpoint, {
-      method: 'GET'
+      method: 'GET',
+      headers: getKmsHeaders()
     })
 
     if (!response.ok) {

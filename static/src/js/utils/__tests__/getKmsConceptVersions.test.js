@@ -15,6 +15,10 @@ vi.mock('sharedUtils/getConfig', () => ({
   getApplicationConfig: vi.fn()
 }))
 
+vi.mock('@/js/utils/getKmsHeaders', () => ({
+  getKmsHeaders: vi.fn(() => ({ 'client-id': 'test-client-id' }))
+}))
+
 let consoleErrorSpy
 
 beforeEach(() => {
@@ -43,7 +47,10 @@ describe('getKmsConceptVersions', () => {
 
   beforeEach(() => {
     global.fetch = vi.fn()
-    vi.mocked(getApplicationConfig).mockReturnValue({ kmsHost: 'http://test-kms-host.com' })
+    vi.mocked(getApplicationConfig).mockReturnValue({
+      kmsHost: 'http://test-kms-host.com',
+      mmtKeywordManagerClientId: 'test-client-id'
+    })
   })
 
   test('fetches and parses KMS concept versions correctly', async () => {
@@ -76,7 +83,10 @@ describe('getKmsConceptVersions', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'http://test-kms-host.com/concept_versions/version_type/all',
-      { method: 'GET' }
+      {
+        method: 'GET',
+        headers: { 'client-id': 'test-client-id' }
+      }
     )
 
     expect(result).toEqual({
@@ -102,7 +112,10 @@ describe('getKmsConceptVersions', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'http://test-kms-host.com/concept_versions/version_type/all',
-      { method: 'GET' }
+      {
+        method: 'GET',
+        headers: { 'client-id': 'test-client-id' }
+      }
     )
   })
 
