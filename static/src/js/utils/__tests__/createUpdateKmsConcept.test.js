@@ -11,9 +11,16 @@ vi.mock('sharedUtils/getConfig', () => ({
   getApplicationConfig: vi.fn()
 }))
 
+vi.mock('@/js/utils/getKmsHeaders', () => ({
+  getKmsHeaders: vi.fn(() => ({ 'client-id': 'test-client-id' }))
+}))
+
 beforeEach(() => {
   global.fetch = vi.fn()
-  vi.mocked(getApplicationConfig).mockReturnValue({ kmsHost: 'http://kms.example.com' })
+  vi.mocked(getApplicationConfig).mockReturnValue({
+    kmsHost: 'http://kms.example.com',
+    mmtKeywordManagerClientId: 'test-client-id'
+  })
 })
 
 const originalConsoleError = console.error
@@ -49,6 +56,7 @@ describe('createUpdateKmsConcept', () => {
           method: 'PUT',
           body: params.rdfXml,
           headers: {
+            'client-id': 'test-client-id',
             Authorization: `Bearer ${defaultToken}`
           }
         })

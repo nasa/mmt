@@ -38,6 +38,7 @@ import { getVersionName } from '@/js/utils/getVersionName'
 import {
   DeleteConfirmationModal
 } from '@/js/components/DeleteConfirmationModal/DeleteConfirmationModal'
+import { getKmsHeaders } from '../../utils/getKmsHeaders'
 
 /**
  * KeywordManagerPage Component
@@ -188,8 +189,12 @@ const KeywordManagerPage = () => {
   const handleShowKeyword = useCallback(async (uuid) => {
     setIsLoading(true)
     setShowError(null)
+
     try {
-      const response = await fetch(`${kmsHost}/concept/${uuid}?version=${getVersionName(selectedVersion)}`)
+      const response = await fetch(
+        `${kmsHost}/concept/${uuid}?version=${getVersionName(selectedVersion)}`,
+        { headers: getKmsHeaders() }
+      )
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }

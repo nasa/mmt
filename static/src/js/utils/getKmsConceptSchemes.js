@@ -1,6 +1,7 @@
 import { XMLParser } from 'fast-xml-parser'
 
 import { getApplicationConfig } from 'sharedUtils/getConfig'
+import { getKmsHeaders } from './getKmsHeaders'
 
 /**
  * Fetches and parses KMS concept schemes from the server.
@@ -48,7 +49,8 @@ const getKmsConceptSchemes = async (version) => {
 
     // Fetch XML data from the server
     const response = await fetch(`${kmsHost}/concept_schemes/?version=${versionName}`, {
-      method: 'GET'
+      method: 'GET',
+      headers: getKmsHeaders()
     })
 
     if (!response.ok) {

@@ -12,6 +12,10 @@ vi.mock('sharedUtils/getConfig', () => ({
   getApplicationConfig: vi.fn()
 }))
 
+vi.mock('@/js/utils/getKmsHeaders', () => ({
+  getKmsHeaders: vi.fn(() => ({ 'client-id': 'test-client-id' }))
+}))
+
 describe('deleteKmsConcept', () => {
   const mockKmsHost = 'https://mock-kms-host.com'
   const mockConceptId = '12345'
@@ -22,7 +26,11 @@ describe('deleteKmsConcept', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-    getApplicationConfig.mockReturnValue({ kmsHost: mockKmsHost })
+    getApplicationConfig.mockReturnValue({
+      kmsHost: mockKmsHost,
+      mmtKeywordManagerClientId: 'test-client-id'
+    })
+
     global.fetch = vi.fn()
   })
 
@@ -60,12 +68,12 @@ describe('deleteKmsConcept', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       `${mockKmsHost}/concept/${mockConceptId}?version=${mockVersion}`,
-      {
+      expect.objectContaining({
         method: 'DELETE',
-        headers: {
+        headers: expect.objectContaining({
           Authorization: `Bearer ${mockToken}`
-        }
-      }
+        })
+      })
     )
   })
 
