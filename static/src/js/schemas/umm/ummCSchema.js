@@ -2635,6 +2635,7 @@ const ummCSchema = {
                 'MISR',
                 'MODIS Tile EASE',
                 'MODIS Tile SIN',
+                'VIIRS Rotated Sinusoidal Tiling System',
                 'WELD Alaska Tile',
                 'WELD CONUS Tile',
                 'WRS-1',
@@ -3814,7 +3815,7 @@ const ummCSchema = {
           description: 'This element represents the URL where the schema lives. The schema can be downloaded.',
           type: 'string',
           enum: [
-            'https://cdn.earthdata.nasa.gov/umm/collection/v1.18.4'
+            'https://cdn.earthdata.nasa.gov/umm/collection/v1.18.5'
           ]
         },
         Name: {
@@ -3828,7 +3829,7 @@ const ummCSchema = {
           description: 'This element represents the version of the schema.',
           type: 'string',
           enum: [
-            '1.18.4'
+            '1.18.5'
           ]
         }
       },
