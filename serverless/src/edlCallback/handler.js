@@ -25,7 +25,7 @@ const edlCallback = async (event) => {
   let expiresAt
   let edlProfile
 
-  if (process.env.IS_OFFLINE) {
+  if (false) {
     // Development mode
     accessToken = 'ABC-1'
     refreshToken = 'ABC-1-refresh'

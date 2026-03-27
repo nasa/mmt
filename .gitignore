@@ -11,6 +11,7 @@ secret.config.json
 tmp
 .env
 cdk.out
+secret.config.json
 
 # VSCode Settings
 .vscode
@@ -18,5 +19,5 @@ cdk.out
 # CI Outputs
 junit.xml
 
+# CMR uberjar dependencies
 cmr
-cdk.out

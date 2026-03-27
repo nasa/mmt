@@ -117,13 +117,13 @@ const PublishPreviewHeader = () => {
     nativeId,
     pageTitle = '<Blank Name>',
     providerId,
-    revisions,
+    // revisions,
     services,
     tagDefinitions,
     ummMetadata
   } = concept
 
-  const { count: revisionCount } = revisions
+  // const { count: revisionCount } = revisions
 
   let granuleCount = 0
   if (granules) {
@@ -234,12 +234,12 @@ const PublishPreviewHeader = () => {
               onClick: handleDownload,
               title: 'Download JSON'
             },
-            {
-              icon: FaEye,
-              to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/revisions`,
-              title: 'View Revisions',
-              count: revisionCount
-            },
+            // {
+            //   icon: FaEye,
+            //   to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/revisions`,
+            //   title: 'View Revisions',
+            //   count: revisionCount
+            // },
             ...(
               derivedConceptType === conceptTypes.Collection
                 ? [
