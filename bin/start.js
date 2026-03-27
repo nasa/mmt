@@ -7,21 +7,30 @@ if (!fs.existsSync('./cdk/mmt/cdk.out/mmt-cdk-dev.template.json')) {
   childProcess.execSync('npm run run-synth', { stdio: 'inherit' })
 }
 
-concurrently([{
-  command: 'npm run cmr:start_and_setup',
-  name: 'cmr'
-}, {
-  command: 'npm run start:app',
-  name: 'vite'
-},
-{
-  command: 'npm run start:api',
-  name: 'api'
-},
-{
-  command: 'npm run start:proxy',
-  name: 'proxy'
-}], {
+const isFastMode = process.argv.includes('--fast')
+
+const commands = [
+  {
+    command: 'npm run cmr:start_and_setup',
+    name: 'cmr',
+    skipInFast: true
+  },
+  {
+    command: 'npm run start:app',
+    name: 'vite'
+  },
+  {
+    command: 'npm run start:api',
+    name: 'api'
+  },
+  {
+    command: 'npm run start:proxy',
+    name: 'proxy',
+    skipInFast: true
+  }
+].filter((cmd) => (isFastMode ? !cmd.skipInFast : true))
+
+concurrently(commands, {
   prefix: 'name',
   padPrefix: true,
   prefixColors: 'auto',

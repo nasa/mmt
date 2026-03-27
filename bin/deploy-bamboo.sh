@@ -3,6 +3,9 @@
 # Bail on unset variables, errors and trace execution
 set -eux
 
+# Create an empty overrideStatic.config.json
+echo {} > overrideStatic.config.json
+
 # Deployment configuration/variables
 ####################################
 

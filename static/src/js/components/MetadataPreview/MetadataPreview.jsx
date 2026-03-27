@@ -48,7 +48,8 @@ const MetadataPreview = ({
   const isDraft = Boolean(draftType)
 
   let params = {
-    conceptId
+    conceptId,
+    revisionId: '2'
   }
 
   let query = conceptTypeQueries[conceptType]
@@ -64,7 +65,9 @@ const MetadataPreview = ({
     }
   }
 
+  // For Umm-var
   const variableParams = (conceptType === 'Collection') ? { limit: 1000 } : null
+  console.log('🚀 ~ file: MetadataPreview.jsx:70 ~ variableParams:', variableParams)
 
   const { data } = useSuspenseQuery(query, {
     variables: {
@@ -72,6 +75,7 @@ const MetadataPreview = ({
       variableParams
     }
   })
+  console.log('🚀 ~ file: MetadataPreview.jsx:75 ~ data:', data)
 
   let { [conceptKey]: concept } = data
 

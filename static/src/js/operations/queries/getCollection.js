@@ -1,15 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const GET_COLLECTION = gql`
-  query GetCollection ($params: CollectionInput, , $variableParams: VariablesInput) {
-    collection (params: $params) {
-      abstract
-      accessConstraints
-      additionalAttributes
-      ancillaryKeywords
-      archiveAndDistributionInformation
-      associationDetails
-      associatedDois
+  query GetCollection($params: CollectionInput, $variableParams: VariablesInput) {
+    collection(params: $params) {
       citations {
         count
         items {
@@ -18,73 +11,7 @@ export const GET_COLLECTION = gql`
           type: identifierType
         }
       }
-      collectionCitations
-      collectionProgress
       conceptId
-      contactGroups
-      contactPersons
-      dataCenters
-      dataDates
-      directDistributionInformation
-      doi
-      granules {
-        count
-      }
-      isoTopicCategories
-      locationKeywords
-      nativeId
-      metadataAssociations
-      metadataDates
-      paleoTemporalCoverages
-      platforms
-      processingLevel
-      projects
-      providerId: provider
-      publicationReferences
-      purpose
-      quality
-      relatedCollections (
-        limit: 10
-      ) {
-        count
-        items {
-          id
-          doi
-          title
-          relationships {
-            relationshipType
-
-            ... on GraphDbRelatedUrl {
-              description
-              subtype
-              type
-              url
-            }
-
-            ... on GraphDbProject {
-              name
-            }
-
-            ... on GraphDbPlatformInstrument {
-              instrument
-              platform
-            }
-          }
-        }
-      }
-      relatedUrls
-      revisionDate
-      revisionId
-      revisions {
-        count
-        items {
-          conceptId
-          revisionDate
-          revisionId
-          userId
-        }
-      }
-      scienceKeywords
       services {
         count
         items {
@@ -97,23 +24,6 @@ export const GET_COLLECTION = gql`
         }
       }
       shortName
-      pageTitle: shortName
-      spatialExtent
-      spatialInformation
-      standardProduct
-      tags
-      tagDefinitions {
-        items {
-          conceptId
-          revisionId
-          tagKey
-          description
-          originatorId
-        }
-      }
-      temporalExtents
-      temporalKeywords
-      tilingIdentificationSystems
       title
       tools {
         count
@@ -125,9 +35,6 @@ export const GET_COLLECTION = gql`
           url
         }
       }
-      ummMetadata
-      useConstraints
-      userId
       variables(params: $variableParams) {
         count
         cursor
@@ -136,8 +43,6 @@ export const GET_COLLECTION = gql`
           name
         }
       }
-      versionDescription
-      versionId
       visualizations {
         count
         items {

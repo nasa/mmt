@@ -5,13 +5,13 @@ import { getEdlConfig } from '../../../sharedUtils/getConfig'
  * @param {Object|string} token - Either an oauthToken object or an accessToken string
  */
 const fetchEdlProfile = async (token) => {
-  if (token === 'ABC-1') {
-    return {
-      auid: 'admin',
-      name: 'Admin User',
-      uid: 'admin'
-    }
-  }
+  // if (token === 'ABC-1') {
+  //   return {
+  //     auid: 'admin',
+  //     name: 'Admin User',
+  //     uid: 'admin'
+  //   }
+  // }
 
   const { host } = getEdlConfig()
 

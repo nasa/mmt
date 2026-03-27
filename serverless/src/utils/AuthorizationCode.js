@@ -32,6 +32,8 @@ class AuthorizationCode {
   async getToken(tokenConfig) {
     const { client, auth } = this.config
     const { id: clientId, secret: clientSecret } = client
+    console.log('🚀 ~ file: AuthorizationCode.js:35 ~ AuthorizationCode ~ clientSecret:', clientSecret)
+    console.log('🚀 ~ file: AuthorizationCode.js:35 ~ AuthorizationCode ~ clientId:', clientId)
     const { tokenHost, tokenPath } = auth
 
     const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
@@ -53,6 +55,7 @@ class AuthorizationCode {
         },
         body: body.toString()
       })
+      console.log('🚀 ~ file: AuthorizationCode.js:56 ~ AuthorizationCode ~ response:', response)
 
       const responseText = await response.text()
 

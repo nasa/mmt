@@ -49,9 +49,10 @@ const usePermissions = ({
     groupPermissions: groupPermissionsResult,
     keywordsPermissions: keywordsPermissionsResult
   } = data
+  console.log('🚀 ~ file: usePermissions.js:52 ~ data:', data)
 
-  const { items: groupItems } = groupPermissionsResult
-  const { items: keywordItems } = keywordsPermissionsResult
+  const { items: groupItems = [] } = groupPermissionsResult || {}
+  const { items: keywordItems = [] } = keywordsPermissionsResult || {}
 
   const groupPermissionsObject = groupItems.find((groupItem) => groupItem.systemObject === 'GROUP')
   const keywordsPermissionsObject = keywordItems.find((keywordItem) => keywordItem.systemObject === 'KEYWORD_MANAGEMENT_SYSTEM')

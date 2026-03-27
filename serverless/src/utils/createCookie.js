@@ -15,10 +15,10 @@ const createCookie = (jwt, tokenExpirationTime) => {
   const now = Math.floor(Date.now() / 1000) // Current time in seconds
   const maxAge = Math.max(tokenExpirationTime - now, 0) // Ensure it's not negative
 
-  let cookie = `${MMT_COOKIE}=${jwt}; SameSite=Strict; Path=/; Domain=${COOKIE_DOMAIN}; Max-Age=${maxAge};`
-  if (!IS_OFFLINE) {
-    cookie += ' Secure;'
-  }
+  const cookie = `${MMT_COOKIE}=${jwt}; SameSite=Strict; Path=/; Domain=${COOKIE_DOMAIN}; Max-Age=${maxAge};`
+  // if (!IS_OFFLINE) {
+  //   cookie += ' Secure;'
+  // }
 
   return cookie
 }

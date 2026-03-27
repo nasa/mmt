@@ -30,7 +30,7 @@ const edlRefreshToken = async (event) => {
     let newAccessToken; let newRefreshToken; let
       expiresAt
 
-    if (IS_OFFLINE) {
+    if (false) {
       // Development mode
       newAccessToken = 'ABC-1'
       newRefreshToken = 'ABC-1-refresh'

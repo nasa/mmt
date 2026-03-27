@@ -49,8 +49,7 @@ const Layout = ({ className, displayNav }) => {
     ummVis
   } = getUmmVersionsConfig()
 
-  // Remove viewCitations in MMT-4059
-  const { env, displayProdWarning, viewCitations } = getApplicationConfig()
+  const { env, displayProdWarning } = getApplicationConfig()
 
   const { user } = useAuthContext()
 
@@ -207,7 +206,7 @@ const Layout = ({ className, displayNav }) => {
                                 ]
                               },
                               // Remove in MMT-4059
-                              ...((viewCitations === 'true') ? [{
+                              {
                                 title: 'Citations',
                                 version: `v${ummCit}`,
                                 children: [
@@ -220,7 +219,7 @@ const Layout = ({ className, displayNav }) => {
                                     title: 'Drafts'
                                   }
                                 ]
-                              }] : []),
+                              },
                               {
                                 title: 'Order Options',
                                 children: [
