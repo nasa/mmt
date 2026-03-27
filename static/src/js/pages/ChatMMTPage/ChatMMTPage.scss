@@ -1,0 +1,95 @@
+// ChatMMT Page Styles
+// Custom styles for the Chat MMT feature integrated into MMT
+
+.chat-mmt-page {
+  // Ensure proper height for the main container
+  height: 100%;
+  
+  // Custom markdown content styling for assistant messages
+  .markdown-content {
+    font-size: 0.875rem;
+    line-height: 1.5;
+
+    // Headings
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.25rem; }
+    h3 { font-size: 1.1rem; }
+    h4, h5, h6 { font-size: 1rem; }
+
+    // Paragraphs
+    p {
+      margin-bottom: 0.75rem;
+    }
+
+    // Lists
+    ul, ol {
+      margin-bottom: 0.75rem;
+      padding-left: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.25rem;
+    }
+
+    // Code blocks
+    pre {
+      margin-bottom: 0.75rem;
+    }
+
+    // Inline code
+    code {
+      font-size: 0.875em;
+    }
+
+    // Links
+    a {
+      color: var(--bs-primary);
+      text-decoration: underline;
+
+      &:hover {
+        color: var(--bs-primary-dark);
+      }
+    }
+
+    // Blockquotes
+    blockquote {
+      border-left: 4px solid var(--bs-gray-300);
+      padding-left: 1rem;
+      margin: 0.75rem 0;
+      color: var(--bs-gray-700);
+    }
+
+    // Tables
+    table {
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  // Prompt suggestion buttons
+  .prompt-suggestion {
+    transition: all 0.2s ease-in-out;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  // Message bubble animations
+  .message-enter {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .message-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 300ms, transform 300ms;
+  }
+}

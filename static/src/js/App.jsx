@@ -27,6 +27,7 @@ import ProvidersPage from '@/js/pages/ProvidersPage/ProvidersPage'
 import RevisionListPage from '@/js/pages/RevisionListPage/RevisionListPage'
 import SearchPage from '@/js/pages/SearchPage/SearchPage'
 import SystemPermissionsPage from '@/js/pages/SystemPermissionsPage/SystemPermissionsPage'
+import ChatMMTPage from '@/js/pages/ChatMMTPage/ChatMMTPage'
 
 import AuthCallback from '@/js/components/AuthCallback/AuthCallback'
 import AuthRequiredLayout from '@/js/components/AuthRequiredLayout/AuthRequiredLayout'
@@ -92,11 +93,16 @@ export const App = () => {
       element: <Layout />,
       children: [
         {
+
           element: <AuthRequiredLayout />,
           children: [
             {
               path: ':type',
               element: <SearchPage />
+            },
+            {
+              path: '/chat-mmt',
+              element: <ChatMMTPage />
             },
             {
               path: ':type/:conceptId',
@@ -115,14 +121,17 @@ export const App = () => {
               element: <ManageCollectionAssociationPage />
             },
             {
+
               path: '/collections/:conceptId/granules',
               element: <GranulesListPage />
             },
             {
+
               path: '/collections/:conceptId/service-associations',
               element: <ManageServiceAssociationsPage />
             },
             {
+
               path: '/collections/:conceptId/citation-associations',
               element: <ManageCitationAssociationsPage />
             },

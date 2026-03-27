@@ -238,6 +238,15 @@ const Layout = ({ className, displayNav }) => {
                                     title: 'All Groups'
                                   }
                                 ]
+                              },
+                              {
+                                title: 'Chat MMT',
+                                children: [
+                                  {
+                                    to: '/chat-mmt',
+                                    title: 'MMT chat'
+                                  }
+                                ]
                               }
                             ],
                             [
