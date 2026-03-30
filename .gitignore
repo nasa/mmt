@@ -1,7 +1,6 @@
 # Project build files
 .dockerignore
 .DS_Store
-.serverless
 .esbuild
 coverage
 dist
@@ -11,6 +10,7 @@ node_modules
 secret.config.json
 tmp
 .env
+cdk.out
 
 # VSCode Settings
 .vscode
