@@ -192,7 +192,7 @@ To run the test suite, run:
 
 ### Styling
 
-CSS should follow the following guidelines:
+CSS should follow these guidelines:
 
 - Prefer [Bootstrap](https://getbootstrap.com/docs/5.0/) styles when writing custom components
 - If the desired look can not be achieved with Bootstrap, additional styling should be accomplished by:
