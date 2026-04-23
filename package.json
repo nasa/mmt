@@ -34,7 +34,7 @@
     "@rjsf/validator-ajv8": "^5.15.0",
     "@uidotdev/usehooks": "^2.4.1",
     "@vitejs/plugin-react": "^4.1.0",
-    "@xmldom/xmldom": "^0.8.10",
+    "@xmldom/xmldom": "^0.8.13",
     "ajv": "8.18.0",
     "ajv-formats": "^3.0.1",
     "bootstrap": "^5.3.2",
