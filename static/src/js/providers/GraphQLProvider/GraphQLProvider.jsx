@@ -137,7 +137,7 @@ const GraphQLProvider = ({ children }) => {
         headers: {
           ...headers,
           'Client-Id': `eed-mmt-${env}`,
-          Authorization: `Bearer ${tokenValue}`
+          Authorization: isLocalDev ? tokenValue : `Bearer ${tokenValue}`
         }
       }
     })
