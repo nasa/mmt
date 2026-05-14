@@ -9,6 +9,8 @@ import {
 import fetchEdlProfile from '../fetchEdlProfile'
 import * as getConfig from '../../../../sharedUtils/getConfig'
 
+vi.mock('../overrideStatic.config.json', () => ({}))
+
 const originalFetch = global.fetch
 
 describe('fetchEdlProfile', () => {

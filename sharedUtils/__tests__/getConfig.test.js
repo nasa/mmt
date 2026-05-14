@@ -1,5 +1,7 @@
 import { getApplicationConfig, getUmmVersionsConfig } from '../getConfig'
 
+vi.mock('../../overrideStatic.config.json', () => ({ default: {} }))
+
 describe('getConfig', () => {
   describe('when applicationConfig is called', () => {
     test('returns a valid json object for applicationConfig', () => {

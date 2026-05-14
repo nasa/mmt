@@ -27,7 +27,6 @@ const Header = ({ noLogin }) => {
   const {
     login
   } = useAuthContext()
-  console.log('🚀 ~ file: Header.jsx:30 ~ login:', login)
 
   return (
     <header className="header bg-primary z-n3 px-4">

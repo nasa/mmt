@@ -61,7 +61,7 @@ describe('edlCallback', () => {
     getConfig.getApplicationConfig.mockReturnValue({
       apiHost: 'https://api.example.com',
       mmtHost: 'https://mmt.example.com',
-      env: 'test'
+      env: 'development'
     })
 
     getConfig.getEdlConfig.mockReturnValue({

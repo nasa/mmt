@@ -6,8 +6,6 @@ import { getEdlConfig } from '../../../sharedUtils/getConfig'
  */
 const fetchEdlClientToken = async () => {
   const { host, uid } = getEdlConfig()
-
-  console.log('🚀 ~ file: fetchEdlClientToken.js:11 ~ process.env:', process.env)
   const { EDL_PASSWORD: password } = process.env
 
   const url = `${host}/oauth/token`
