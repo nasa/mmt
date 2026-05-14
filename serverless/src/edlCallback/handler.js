@@ -17,7 +17,7 @@ const edlCallback = async (event) => {
   const { target = '/' } = JSON.parse(decodeURIComponent(state))
 
   const { host: tokenHost, redirectUriPath } = getEdlConfig()
-  const { apiHost, mmtHost } = getApplicationConfig()
+  const { apiHost, mmtHost, env } = getApplicationConfig()
   const redirectUri = `${apiHost}${redirectUriPath}`
 
   let accessToken
@@ -25,7 +25,7 @@ const edlCallback = async (event) => {
   let expiresAt
   let edlProfile
 
-  if (false) {
+  if (process.env.IS_OFFLINE && env === 'development') {
     // Development mode
     accessToken = 'ABC-1'
     refreshToken = 'ABC-1-refresh'

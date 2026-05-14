@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken'
  */
 const createJwt = (edlToken, refreshToken, expiresAt, edlProfile) => {
   const { env } = process
+  console.log('🚀 ~ file: createJwt.js:11 ~ env:', env)
   const {
     JWT_SECRET
   } = env

@@ -132,7 +132,6 @@ const GraphQLProvider = ({ children }) => {
   const client = useMemo(() => {
     const authLink = setContext((_, { headers }) => {
       const isLocalDev = env === 'development'
-      console.log('🚀 ~ file: GraphQLProvider.jsx:143 ~ tokenValue:', tokenValue)
 
       return {
         headers: {

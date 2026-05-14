@@ -49,7 +49,9 @@ const Layout = ({ className, displayNav }) => {
     ummVis
   } = getUmmVersionsConfig()
 
-  const { env, displayProdWarning } = getApplicationConfig()
+  const { displayProdWarning } = getApplicationConfig()
+  let env = "sit"
+  console.log('🚀 ~ file: Layout.jsx:53 ~ env:', env)
 
   const { user } = useAuthContext()
 
