@@ -33,8 +33,6 @@ jobs:
           ${{ runner.os }}-
     - name: Install dependencies
       run: npm ci
-    - name: prepare unit tests
-      uses: ./.github/workflows/vi-test-prepare-ci
     - name: Run eslint
       run: npm run lint
   stylelint:
@@ -94,6 +92,9 @@ jobs:
           ${{ runner.os }}-
     - name: Install dependencies
       run: npm ci
+    - name: prepare vit tests
+      run: bash bin/vi-test-prepare-ci
+      shell: bash
     - name: Run Vitest tests
       run: npm run test
     - name: Upload coverage to codecov

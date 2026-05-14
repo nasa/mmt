@@ -17,6 +17,7 @@
     "lint:css": "npx stylelint './static/src/**/*.(sc|c)ss'",
     "preview": "vite preview",
     "test": "vitest",
+    "test:prepare-ci": "bin/vi-test-prepare-ci",
     "cmr:setup": "node setup/setupCmr.js",
     "cmr:start": "CMR_URS_PASSWORD=mock-urs-password node setup/startCmr.js",
     "cmr:start_and_setup": "start-server-and-test cmr:start http-get://localhost:3003/collections.json cmr:setup",
