@@ -26,7 +26,7 @@ const edlCallback = async (event) => {
   let edlProfile
 
   if (process.env.IS_OFFLINE && env === 'development') {
-    // Development mode
+    // Development mode but, not using fast mode
     accessToken = 'ABC-1'
     refreshToken = 'ABC-1-refresh'
     expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString() // 30 minutes from now

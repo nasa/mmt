@@ -9,7 +9,7 @@
     "build:cdk:mmt": "cd cdk/mmt && npm ci --include=dev && npm run build",
     "prestart:api": "npm run build:cdk:mmt && npm run run-synth",
     "start:api": "node --watch --watch-path=serverless/src --watch-path=cdk/mmt/cdk.out bin/api.mjs cdk/mmt/cdk.out/mmt-cdk-dev.template.json",
-    "run-synth": "cd cdk/mmt && node_modules/.bin/cdk synth --app \"node dist/bin/mmt.js\" --quiet",
+    "run-synth": "cd cdk/mmt && npm run cdk synth -- --quiet",
     "start:proxy": "node setup/graphQlProxy.js",
     "start:graphdb": "docker run -it -p 8182:8182 tinkerpop/gremlin-server conf/gremlin-server-rest-modern.yaml",
     "build": "vite build",
