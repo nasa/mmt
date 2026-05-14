@@ -25,7 +25,7 @@ vi.mock('../../utils/AuthorizationCode', () => ({
   default: vi.fn()
 }))
 
-vi.mock('../../../../sharedUtils/getConfig', () => {
+vi.mock('@sharedUtils/getConfig', () => {
   const getApplicationConfig = vi.fn(() => ({
     apiHost: 'https://api.example.com',
     mmtHost: 'https://mmt.example.com',

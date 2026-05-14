@@ -1,6 +1,7 @@
 import { getApplicationConfig, getUmmVersionsConfig } from '../getConfig'
 
-vi.mock('../../overrideStatic.config.json', () => ({ default: {} }))
+// File does not exist in CI environment, so we need to mock it to prevent errors
+vi.mock('../../overrideStatic.config.json', () => ({ default: {} }), { virtual: true })
 
 describe('getConfig', () => {
   describe('when applicationConfig is called', () => {

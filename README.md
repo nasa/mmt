@@ -29,6 +29,14 @@ To install the necessary components, run:
     npm install
 ```
 
+#### Override static setup (Non-Secure)
+
+Non-secure values are stored in `static.config.json`. In order to prevent conflicts amongst developers you copy the static config into `overrideStatic.config.json` and change the config values there. Do not commit changes to `static.config.json`.
+
+`cp static.config.json overrideStatic.config.json`
+
+We can configure some of the layouts for MMT and the endpoints it utilizes this is required though the file can simply be an empty object
+
 ### Usage
 
 In order to run MMT locally, you first need to setup a local CMR, cmr-graphql, and GraphDB.

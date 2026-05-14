@@ -1,5 +1,6 @@
 import { merge } from 'lodash-es'
 import staticConfig from '../static.config.json'
+// eslint-disable-next-line import/no-unresolved
 import overrideConfig from '../overrideStatic.config.json'
 
 const getConfig = () => merge({}, staticConfig, overrideConfig)
