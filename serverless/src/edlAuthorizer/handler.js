@@ -10,7 +10,6 @@ import fetchEdlProfile from '../utils/fetchEdlProfile'
  */
 const edlAuthorizer = async (event) => {
   const { env } = process
-  console.log('🚀 ~ file: handler.js:13 ~ env:', env)
   const { JWT_SECRET } = env
 
   const {
