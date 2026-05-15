@@ -33,8 +33,8 @@ import {
 
 vi.mock('@edsc/metadata-preview')
 
-vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
-  ...await vi.importActual('../../../../../../sharedUtils/getConfig'),
+vi.mock('@sharedUtils/getConfig', async () => ({
+  ...await vi.importActual('@sharedUtils/getConfig'),
   getApplicationConfig: vi.fn(() => ({
     cmrHost: 'http://example.com'
   }))
