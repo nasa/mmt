@@ -86,4 +86,25 @@ describe('getTemplates', () => {
       expect(listObjectsMock).toHaveBeenCalledWith(expect.any(Object))
     })
   })
+
+  describe('when running in offline mode', () => {
+    test('returns an empty array without making a fetch request to S3', async () => {
+      process.env.IS_OFFLINE = 'true'
+
+      const listObjectsMock = vi.spyOn(s3ListObjects, 's3ListObjects')
+
+      const event = {
+        pathParameters: {
+          providerId: 'MMT-1'
+        }
+      }
+
+      const response = await getTemplates(event)
+
+      expect(response.statusCode).toBe(200)
+      expect(response.body).toBe(JSON.stringify([]))
+
+      expect(listObjectsMock).not.toHaveBeenCalled()
+    })
+  })
 })

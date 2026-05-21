@@ -8,6 +8,16 @@ import {
 } from 'vitest'
 import createCookie from '../createCookie'
 
+vi.mock('@sharedUtils/getConfig', () => {
+  const getApplicationConfig = vi.fn(() => ({
+    env: 'development'
+  }))
+
+  return {
+    getApplicationConfig
+  }
+})
+
 describe('createCookie', () => {
   const OLD_ENV = process.env
 

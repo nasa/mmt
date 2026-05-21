@@ -18,4 +18,8 @@ cdk.out
 # CI Outputs
 junit.xml
 
+# CMR uberjar dependencies
 cmr
+
+# override with custom setting for local development
+overrideStatic.config.json

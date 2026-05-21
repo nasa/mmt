@@ -73,6 +73,9 @@ export default defineConfig({
   },
   test: {
     globals: true,
+     alias: {
+      '@sharedUtils': path.resolve(__dirname, 'sharedUtils')
+    },
     environment: 'jsdom',
     setupFiles: 'test-setup.js',
     clearMocks: true,

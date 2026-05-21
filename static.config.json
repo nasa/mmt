@@ -9,7 +9,6 @@
     "edscHost": "https://search.sit.earthdata.nasa.gov",
     "kmsHost": "/see-vite-config-proxy",
     "mmtKeywordManagerClientId": "mmt-keyword-manager-development",
-    "viewCitations": "true",
     "version": "development",
     "defaultResponseHeaders": {
       "Access-Control-Allow-Origin": "*",

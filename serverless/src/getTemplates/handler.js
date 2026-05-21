@@ -15,6 +15,15 @@ const getTemplates = async () => {
     s3Client = getS3Client()
   }
 
+  // If we're running offline, return an empty array without making a fetch request to S3
+  if (process.env.IS_OFFLINE) {
+    return {
+      body: JSON.stringify([]),
+      statusCode: 200,
+      headers: defaultResponseHeaders
+    }
+  }
+
   try {
     const objectList = await s3ListObjects(s3Client)
 

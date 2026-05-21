@@ -4,8 +4,8 @@ import userEvent from '@testing-library/user-event'
 
 import PreviewMapTemplate from '../PreviewMapTemplate'
 
-vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
-  ...await vi.importActual('../../../../../../sharedUtils/getConfig'),
+vi.mock('@sharedUtils/getConfig', async () => ({
+  ...await vi.importActual('@sharedUtils/getConfig'),
   getApplicationConfig: vi.fn(() => ({
     edscHost: 'http://example.com'
   }))

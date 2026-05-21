@@ -1,6 +1,5 @@
 # Metadata Management Tool Application
 
-<!-- TODO Change to main branch before merging into main -->
 ![Build Status](https://github.com/nasa/mmt/workflows/CI/badge.svg?branch=main)
 [![codecov](https://codecov.io/gh/nasa/mmt/graph/badge.svg?token=B8Qspgsjou)](https://codecov.io/gh/nasa/mmt)
 
@@ -29,6 +28,24 @@ To install the necessary components, run:
 ```bash
     npm install
 ```
+
+#### Override static setup (Non-Secure)
+
+Non-secure values are stored in `static.config.json`. In order to prevent conflicts amongst developers you copy the static config into `overrideStatic.config.json` and change the config values there. Do not commit changes to `static.config.json`.
+
+`cp static.config.json overrideStatic.config.json`
+
+We can configure some of the layouts for MMT and the endpoints it utilizes this is required though the file can simply be an empty object
+
+## Fast MMT startup mode
+
+1. Note that this workflow does not require any other services such as cmr, graphdn, or graphql.Start the application against the SIT env to start you will need to have EDL_CLIENT_ID, EDL_PASSWORD` var in your PATH
+Note this mode makes startup fast but, if resources in `SIT` are in maintenance or down this won't work
+2. Be cognizant that SIT is a shared env. No "important" data should be used in `SIT` but, we should not unnecessarily start removing data in `SIT` or updating data that seems to be well crafted for a specific purpose. It should not be hard to avoid this problem.
+3. Ensure VPN connection as services are behind `SIT` e.g. `SIT`, URS
+4. Brew install `git secrets`
+5. Do a `git secrets --install` this will add a pre-commit to your local `.git` repo. This should add some guardrails for accidental commits beyond `.gitignore`
+6. use npm run `npm run start:fast`
 
 ### Usage
 

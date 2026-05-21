@@ -6,6 +6,8 @@ beforeEach(() => {
   window.location = {}
 })
 
+vi.mock('../overrideStatic.config.json', () => ({}))
+
 describe('refreshToken in production mode', () => {
   describe('when the request is successful', () => {
     test('calls setToken with success signal', async () => {

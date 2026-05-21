@@ -15,7 +15,7 @@ import { downcaseKeys } from '../utils/downcaseKeys'
 const edlRefreshToken = async (event) => {
   const { JWT_SECRET, IS_OFFLINE } = process.env
   const { host: tokenHost } = getEdlConfig()
-  const { mmtHost } = getApplicationConfig()
+  const { env, mmtHost } = getApplicationConfig()
 
   const { headers } = event
   const { authorization: jwtToken = '' } = downcaseKeys(headers)
@@ -30,8 +30,8 @@ const edlRefreshToken = async (event) => {
     let newAccessToken; let newRefreshToken; let
       expiresAt
 
-    if (IS_OFFLINE) {
-      // Development mode
+    if (IS_OFFLINE && env === 'development') {
+      // Development mode but, not using fast mode
       newAccessToken = 'ABC-1'
       newRefreshToken = 'ABC-1-refresh'
       expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString() // 30 minutes from now

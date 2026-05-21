@@ -4,6 +4,16 @@ beforeEach(() => {
   vi.clearAllMocks()
 })
 
+vi.mock('@sharedUtils/getConfig', () => {
+  const getApplicationConfig = vi.fn(() => ({
+    cmrHost: 'http://localhost:4000'
+  }))
+
+  return {
+    getApplicationConfig
+  }
+})
+
 global.fetch = vi.fn(() => Promise.resolve({
   json: () => Promise.resolve({
     ok: true,

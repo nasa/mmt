@@ -33,7 +33,8 @@ describe('edlRefreshToken', () => {
     delete process.env.JWT_VALID_TIME
 
     vi.spyOn(getConfig, 'getApplicationConfig').mockReturnValue({
-      mmtHost: 'https://mmt.example.com'
+      mmtHost: 'https://mmt.example.com',
+      env: 'development'
     })
 
     vi.spyOn(getConfig, 'getEdlConfig').mockReturnValue({
