@@ -37,6 +37,16 @@ Non-secure values are stored in `static.config.json`. In order to prevent confli
 
 We can configure some of the layouts for MMT and the endpoints it utilizes this is required though the file can simply be an empty object
 
+## Fast MMT startup mode
+
+1. Note that this workflow does not require any other services such as cmr, graphdn, or graphql.Start the application against the SIT env to start you will need to have EDL_CLIENT_ID, EDL_PASSWORD` var in your PATH
+Note this mode makes startup fast but, if resources in `SIT` are in maintenance or down this won't work
+2. Be cognizant that SIT is a shared env. No "important" data should be used in `SIT` but, we should not unnecessarily start removing data in `SIT` or updating data that seems to be well crafted for a specific purpose. It should not be hard to avoid this problem.
+3. Ensure VPN connection as services are behind `SIT` e.g. `SIT`, URS
+4. Brew install `git secrets`
+5. Do a `git secrets --install` this will add a pre-commit to your local `.git` repo. This should add some guardrails for accidental commits beyond `.gitignore`
+6. use npm run `npm run start:fast`
+
 ### Usage
 
 In order to run MMT locally, you first need to setup a local CMR, cmr-graphql, and GraphDB.
@@ -227,13 +237,3 @@ These will help create more maintainable css:
 - [Bootstrap Docs](https://getbootstrap.com/docs/5.0/)
 - [BEM methodology](https://getbem.com/)
 - [Specificity MDN Docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity)
-
-## Fast MMT startup mode
-
-1. Start the application against the SIT env to start you will need to have EDL_CLIENT_ID, EDL_PASSWORD` var in your PATH
-Note this mode makes startup fast but, if resources in `SIT` are in maintenance or down this won't work
-2. Be cognizant that SIT is a shared env. No "important" data should be used in `SIT` but, we should not unnecessarily start removing data in `SIT` or updating data that seems to be well crafted for a specific purpose. It should not be hard to avoid this problem.
-3. Ensure VPN connection as services are behind `SIT` e.g. `SIT`, URS
-4. Brew install `git secrets`
-5. Do a `git secrets --install` this will add a pre-commit to your local `.git` repo. This should add some guardrails for accidental commits beyond `.gitignore`
-6. use npm run `npm run start:fast`

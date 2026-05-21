@@ -204,7 +204,6 @@ const Layout = ({ className, displayNav }) => {
                                   }
                                 ]
                               },
-                              // Remove in MMT-4059
                               {
                                 title: 'Citations',
                                 version: `v${ummCit}`,
