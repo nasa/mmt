@@ -94,7 +94,7 @@ const MetadataPreview = ({
   let { [conceptKey]: concept } = data || {}
 
   // The following variables are needed when we need to fetch extra variables from a collection
-  const { associationDetails = {}, variables: metadata = {} } = concept || {};
+  const { associationDetails = {}, variables: metadata = {} } = concept || {}
   const { count: variableCount } = metadata
   const { variables = [] } = associationDetails || {}
   const variableConceptIds = variables.map((variableTmp) => variableTmp.conceptId)
