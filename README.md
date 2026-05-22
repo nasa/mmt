@@ -39,7 +39,7 @@ We can configure some of the layouts for MMT and the endpoints it utilizes this 
 
 ## Fast MMT startup mode
 
-1. Note that this workflow does not require any other services such as cmr, graphdn, or graphql.Start the application against the SIT env to start you will need to have EDL_CLIENT_ID, EDL_PASSWORD` var in your PATH
+1. Note that this workflow does not require any other services such as cmr, graphdb, or graphql.Start the application against the SIT env to start you will need to have EDL_CLIENT_ID, EDL_PASSWORD` var in your PATH
 Note this mode makes startup fast but, if resources in `SIT` are in maintenance or down this won't work
 2. Be cognizant that SIT is a shared env. No "important" data should be used in `SIT` but, we should not unnecessarily start removing data in `SIT` or updating data that seems to be well crafted for a specific purpose. It should not be hard to avoid this problem.
 3. Ensure VPN connection as services are behind `SIT` e.g. `SIT`, URS
