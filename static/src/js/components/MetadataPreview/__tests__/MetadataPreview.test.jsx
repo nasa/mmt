@@ -48,6 +48,8 @@ vi.mock('@sharedUtils/getConfig', async () => ({
   }))
 }))
 
+const conceptsResultsLimitInt = 20
+
 const setup = ({
   initialEntries,
   mock,
@@ -484,9 +486,9 @@ describe('MetadataPreview', () => {
                 conceptId: 'CD000000-MMT',
                 conceptType: 'Collection'
               },
-              citationParams: { limit: 20 },
-              serviceParams: { limit: 20 },
-              variableParams: { limit: 20 },
+              citationParams: { limit: conceptsResultsLimitInt },
+              serviceParams: { limit: conceptsResultsLimitInt },
+              variableParams: { limit: conceptsResultsLimitInt },
               collectionsParams: null
             }
           },
@@ -606,9 +608,9 @@ describe('MetadataPreview', () => {
             query: conceptTypeQueries.Collection,
             variables: {
               params: { conceptId: 'C1000000-MMT' },
-              citationParams: { limit: 20 },
-              serviceParams: { limit: 20 },
-              variableParams: { limit: 20 },
+              citationParams: { limit: conceptsResultsLimitInt },
+              serviceParams: { limit: conceptsResultsLimitInt },
+              variableParams: { limit: conceptsResultsLimitInt },
               collectionsParams: null
             }
           },
@@ -651,9 +653,9 @@ describe('MetadataPreview', () => {
             query: conceptTypeQueries.Collection,
             variables: {
               params: { conceptId: 'C1000000-MMT' },
-              citationParams: { limit: 20 },
-              serviceParams: { limit: 20 },
-              variableParams: { limit: 20 },
+              citationParams: { limit: conceptsResultsLimitInt },
+              serviceParams: { limit: conceptsResultsLimitInt },
+              variableParams: { limit: conceptsResultsLimitInt },
               collectionsParams: null
             }
           },
@@ -667,7 +669,7 @@ describe('MetadataPreview', () => {
             query: conceptTypeQueries.Variables,
             variables: {
               params: {
-                limit: 20,
+                limit: conceptsResultsLimitInt,
                 cursor: null,
                 conceptId: ['V100000_MMT']
               }
@@ -683,7 +685,7 @@ describe('MetadataPreview', () => {
             query: conceptTypeQueries.Variables,
             variables: {
               params: {
-                limit: 20,
+                limit: conceptsResultsLimitInt,
                 cursor: 'page-1-cursor',
                 conceptId: ['V100000_MMT']
               }
@@ -728,9 +730,9 @@ describe('MetadataPreview', () => {
             query: conceptTypeQueries.Collection,
             variables: {
               params: { conceptId: 'C1000000-MMT' },
-              citationParams: { limit: 20 },
-              serviceParams: { limit: 20 },
-              variableParams: { limit: 20 },
+              citationParams: { limit: conceptsResultsLimitInt },
+              serviceParams: { limit: conceptsResultsLimitInt },
+              variableParams: { limit: conceptsResultsLimitInt },
               collectionsParams: null
             }
           },
@@ -759,9 +761,9 @@ describe('MetadataPreview', () => {
             query: conceptTypeQueries.Collection,
             variables: {
               params: { conceptId: 'C1000000-MMT' },
-              citationParams: { limit: 20 },
-              serviceParams: { limit: 20 },
-              variableParams: { limit: 20 },
+              citationParams: { limit: conceptsResultsLimitInt },
+              serviceParams: { limit: conceptsResultsLimitInt },
+              variableParams: { limit: conceptsResultsLimitInt },
               collectionsParams: null
             }
           },
@@ -775,7 +777,7 @@ describe('MetadataPreview', () => {
             query: conceptTypeQueries.Variables,
             variables: {
               params: {
-                limit: 20,
+                limit: conceptsResultsLimitInt,
                 cursor: null,
                 conceptId: ['V100000_MMT']
               }

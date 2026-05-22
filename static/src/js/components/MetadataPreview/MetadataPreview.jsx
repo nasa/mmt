@@ -45,7 +45,7 @@ const MetadataPreview = ({
 }) => {
   const { cmrHost, conceptsResultLimit } = getApplicationConfig()
 
-  const conceptsResultLimitInt = parseInt(conceptsResultLimit, 10)
+  const conceptsResultLimitInt = parseInt(conceptsResultLimit, 10) || 1000
 
   const { draftType } = useParams()
 
