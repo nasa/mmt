@@ -27,6 +27,7 @@ config="`jq '.application.cookieDomain = $newValue' --arg newValue $bamboo_COOKI
 config="`jq '.application.displayProdWarning = $newValue' --arg newValue $bamboo_DISPLAY_PROD_WARNING <<< $config`"
 config="`jq '.application.tokenValidTime = $newValue' --arg newValue $bamboo_JWT_VALID_TIME <<< $config`"
 config="`jq '.application.analytics.gtmPropertyId = $newValue' --arg newValue $bamboo_GTM_PROPERTY_ID <<< $config`"
+config="`jq '.application.conceptsResultLimit = $newValue' --arg newValue $bamboo_CONCEPTS_RESULT_LIMIT <<< $config`"
 config="`jq '.edl.host = $newValue' --arg newValue $bamboo_EDL_HOST <<< $config`"
 config="`jq '.edl.uid = $newValue' --arg newValue $bamboo_EDL_UID <<< $config`"
 

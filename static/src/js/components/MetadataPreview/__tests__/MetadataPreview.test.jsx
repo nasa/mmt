@@ -6,9 +6,14 @@ import {
   VariablePreview,
   VisualizationPreview
 } from '@edsc/metadata-preview'
-import { render, waitFor } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import React, { Suspense } from 'react'
+import { GraphQLError } from 'graphql'
 import { MockedProvider } from '@apollo/client/testing'
 import {
   MemoryRouter,
@@ -28,6 +33,8 @@ import {
   mockServiceDraft,
   mockToolDraft,
   mockVariableDraft,
+  mockVariableList,
+  mockVariableList2,
   mockVisualizationDraft
 } from './__mocks__/MatadataPreviewMocks'
 
@@ -36,7 +43,8 @@ vi.mock('@edsc/metadata-preview')
 vi.mock('@sharedUtils/getConfig', async () => ({
   ...await vi.importActual('@sharedUtils/getConfig'),
   getApplicationConfig: vi.fn(() => ({
-    cmrHost: 'http://example.com'
+    cmrHost: 'http://example.com',
+    conceptsResultLimit: '20'
   }))
 }))
 
@@ -104,7 +112,10 @@ describe('MetadataPreview', () => {
                 conceptId: 'TD000000-MMT',
                 conceptType: 'Tool'
               },
-              variableParams: null
+              citationParams: null,
+              serviceParams: null,
+              variableParams: null,
+              collectionsParams: null
             }
           },
           result: {
@@ -163,7 +174,7 @@ describe('MetadataPreview', () => {
         }, {})
       })
 
-      expect(ToolPreview).toHaveBeenCalledTimes(1)
+      expect(ToolPreview).toHaveBeenCalledTimes(2)
     })
   })
 
@@ -182,7 +193,10 @@ describe('MetadataPreview', () => {
                 conceptId: 'SD000000-MMT',
                 conceptType: 'Service'
               },
-              variableParams: null
+              citationParams: null,
+              serviceParams: null,
+              variableParams: null,
+              collectionsParams: null
             }
           },
           result: {
@@ -236,7 +250,7 @@ describe('MetadataPreview', () => {
         }, {})
       })
 
-      expect(ServicePreview).toHaveBeenCalledTimes(1)
+      expect(ServicePreview).toHaveBeenCalledTimes(2)
     })
   })
 
@@ -255,7 +269,10 @@ describe('MetadataPreview', () => {
                 conceptId: 'VISD000000-MMT',
                 conceptType: 'Visualization'
               },
-              variableParams: null
+              citationParams: null,
+              serviceParams: null,
+              variableParams: null,
+              collectionsParams: null
             }
           },
           result: {
@@ -303,7 +320,7 @@ describe('MetadataPreview', () => {
         }, {})
       })
 
-      expect(VisualizationPreview).toHaveBeenCalledTimes(1)
+      expect(VisualizationPreview).toHaveBeenCalledTimes(2)
     })
   })
 
@@ -322,7 +339,10 @@ describe('MetadataPreview', () => {
                 conceptId: 'CITD0000000-MMT_1',
                 conceptType: 'Citation'
               },
-              variableParams: null
+              citationParams: null,
+              serviceParams: null,
+              variableParams: null,
+              collectionsParams: null
             }
           },
           result: {
@@ -368,7 +388,7 @@ describe('MetadataPreview', () => {
         }, {})
       })
 
-      expect(CitationPreview).toHaveBeenCalledTimes(1)
+      expect(CitationPreview).toHaveBeenCalledTimes(2)
     })
   })
 
@@ -387,7 +407,10 @@ describe('MetadataPreview', () => {
                 conceptId: 'VD000000-MMT',
                 conceptType: 'Variable'
               },
-              variableParams: null
+              citationParams: null,
+              serviceParams: null,
+              variableParams: null,
+              collectionsParams: null
             }
           },
           result: {
@@ -442,7 +465,7 @@ describe('MetadataPreview', () => {
         }, {})
       })
 
-      expect(VariablePreview).toHaveBeenCalledTimes(1)
+      expect(VariablePreview).toHaveBeenCalledTimes(2)
     })
   })
 
@@ -461,7 +484,10 @@ describe('MetadataPreview', () => {
                 conceptId: 'CD000000-MMT',
                 conceptType: 'Collection'
               },
-              variableParams: { limit: 1000 }
+              citationParams: { limit: 20 },
+              serviceParams: { limit: 20 },
+              variableParams: { limit: 20 },
+              collectionsParams: null
             }
           },
           result: {
@@ -564,7 +590,7 @@ describe('MetadataPreview', () => {
         }, {})
       })
 
-      expect(CollectionPreview).toHaveBeenCalledTimes(1)
+      expect(CollectionPreview).toHaveBeenCalledTimes(2)
     })
   })
 
@@ -580,7 +606,10 @@ describe('MetadataPreview', () => {
             query: conceptTypeQueries.Collection,
             variables: {
               params: { conceptId: 'C1000000-MMT' },
-              variableParams: { limit: 1000 }
+              citationParams: { limit: 20 },
+              serviceParams: { limit: 20 },
+              variableParams: { limit: 20 },
+              collectionsParams: null
             }
           },
           result: {
@@ -606,7 +635,7 @@ describe('MetadataPreview', () => {
         }, {})
       })
 
-      expect(CollectionPreview).toHaveBeenCalledTimes(1)
+      expect(CollectionPreview).toHaveBeenCalledTimes(2)
     })
   })
 
@@ -622,12 +651,47 @@ describe('MetadataPreview', () => {
             query: conceptTypeQueries.Collection,
             variables: {
               params: { conceptId: 'C1000000-MMT' },
-              variableParams: { limit: 1000 }
+              citationParams: { limit: 20 },
+              serviceParams: { limit: 20 },
+              variableParams: { limit: 20 },
+              collectionsParams: null
             }
           },
           result: {
             data: {
               collection: mockCollectionWithAssociatedVariables
+            }
+          }
+        }, {
+          request: {
+            query: conceptTypeQueries.Variables,
+            variables: {
+              params: {
+                limit: 20,
+                cursor: null,
+                conceptId: ['V100000_MMT']
+              }
+            }
+          },
+          result: {
+            data: {
+              variables: mockVariableList
+            }
+          }
+        }, {
+          request: {
+            query: conceptTypeQueries.Variables,
+            variables: {
+              params: {
+                limit: 20,
+                cursor: 'page-1-cursor',
+                conceptId: ['V100000_MMT']
+              }
+            }
+          },
+          result: {
+            data: {
+              variables: mockVariableList2
             }
           }
         }],
@@ -649,6 +713,86 @@ describe('MetadataPreview', () => {
       })
 
       expect(CollectionPreview).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('when a network error is thrown', () => {
+    test('renders an error banner', async () => {
+      setup({
+        overrideProps: {
+          conceptId: 'C1000000-MMT',
+          conceptType: 'Collection'
+        },
+        mock: [{
+          request: {
+            query: conceptTypeQueries.Collection,
+            variables: {
+              params: { conceptId: 'C1000000-MMT' },
+              citationParams: { limit: 20 },
+              serviceParams: { limit: 20 },
+              variableParams: { limit: 20 },
+              collectionsParams: null
+            }
+          },
+          error: new Error('Error!')
+        }],
+        initialEntries: '/C1000000-MMT',
+        overrideRoute: '/:conceptId',
+        overridePath: '/'
+      })
+
+      await waitFor(() => {
+        expect(screen.getByTestId('error-banner__message')).toHaveTextContent('Error!')
+      })
+    })
+  })
+
+  describe('when a graphQL error is thrown', () => {
+    test('renders an error banner', async () => {
+      setup({
+        overrideProps: {
+          conceptId: 'C1000000-MMT',
+          conceptType: 'Collection'
+        },
+        mock: [{
+          request: {
+            query: conceptTypeQueries.Collection,
+            variables: {
+              params: { conceptId: 'C1000000-MMT' },
+              citationParams: { limit: 20 },
+              serviceParams: { limit: 20 },
+              variableParams: { limit: 20 },
+              collectionsParams: null
+            }
+          },
+          result: {
+            data: {
+              collection: mockCollectionWithAssociatedVariables
+            }
+          }
+        }, {
+          request: {
+            query: conceptTypeQueries.Variables,
+            variables: {
+              params: {
+                limit: 20,
+                cursor: null,
+                conceptId: ['V100000_MMT']
+              }
+            }
+          },
+          result: {
+            errors: [new GraphQLError('Error!')]
+          }
+        }],
+        initialEntries: '/C1000000-MMT',
+        overrideRoute: '/:conceptId',
+        overridePath: '/'
+      })
+
+      await waitFor(() => {
+        expect(screen.getByTestId('error-banner__message')).toHaveTextContent('Error!')
+      })
     })
   })
 })

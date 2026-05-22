@@ -38,6 +38,9 @@ export const publishCollectionRecord = {
   associatedDois: [{
     doi: 'TestDOI'
   }],
+  associationDetails: {
+    variables: [{}]
+  },
   collectionCitations: [{
     releaseDate: '2024-01-23T00:00:00.000Z',
     title: 'Testing',
@@ -401,7 +404,11 @@ export const publishCollectionRecord = {
   userId: 'admin',
   variables: null,
   versionDescription: 'Mock Test',
-  versionId: '1'
+  versionId: '1',
+  visualizations: {
+    count: 0,
+    items: []
+  }
 }
 
 export const noTagsOrGranulesOrServicesOrCitationsCollection = {
@@ -444,6 +451,9 @@ export const noTagsOrGranulesOrServicesOrCitationsCollection = {
   associatedDois: [{
     doi: 'TestDOI'
   }],
+  associationDetails: {
+    variables: [{}]
+  },
   citations: {
     __typename: 'CitationList',
     count: 0,
@@ -799,7 +809,11 @@ export const noTagsOrGranulesOrServicesOrCitationsCollection = {
   userId: 'admin',
   variables: null,
   versionDescription: 'Mock Test',
-  versionId: '1'
+  versionId: '1',
+  visualizations: {
+    count: 0,
+    items: []
+  }
 }
 
 export const publishedVariableRecord = {
