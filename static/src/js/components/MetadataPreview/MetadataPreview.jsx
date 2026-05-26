@@ -94,9 +94,9 @@ const MetadataPreview = ({
   let { [conceptKey]: concept } = data || {}
 
   // The following variables are needed when we need to fetch extra variables from a collection
-  const { associationDetails = {}, variables: metadata = {} } = concept || {}
-  const { count: variableCount } = metadata
+  const { associationDetails = {} } = concept || {}
   const { variables = [] } = associationDetails || {}
+  const variableCount = variables.length
   const variableConceptIds = variables.map((variableTmp) => variableTmp.conceptId)
 
   // Returns a conceptsResultLimitInt-limited set of data and resets the variableCursor until there are no newItems left

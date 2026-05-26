@@ -1636,6 +1636,264 @@ export const mockCollection = {
   __typename: 'Collection'
 }
 
+export const mockVariableList = {
+  count: 21,
+  cursor: 'page-1-cursor',
+  items: [{
+    __typename: 'Variable',
+    conceptId: 'V100000_MMT',
+    name: 'Variable_00',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100001_MMT',
+    name: 'Variable_01',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100002_MMT',
+    name: 'Variable_02',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100003_MMT',
+    name: 'Variable_03',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100004_MMT',
+    name: 'Variable_04',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100005_MMT',
+    name: 'Variable_05',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100006_MMT',
+    name: 'Variable_06',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100007_MMT',
+    name: 'Variable_07',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100008_MMT',
+    name: 'Variable_08',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100009_MMT',
+    name: 'Variable_09',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100010_MMT',
+    name: 'Variable_10',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100011_MMT',
+    name: 'Variable_11',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100012_MMT',
+    name: 'Variable_12',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100013_MMT',
+    name: 'Variable_13',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100014_MMT',
+    name: 'Variable_14',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100015_MMT',
+    name: 'Variable_15',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100016_MMT',
+    name: 'Variable_16',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100017_MMT',
+    name: 'Variable_17',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100018_MMT',
+    name: 'Variable_18',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  },
+  {
+    __typename: 'Variable',
+    conceptId: 'V100019_MMT',
+    name: 'Variable_19',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  }]
+}
+
+export const mockVariableList2 = {
+  count: 21,
+  cursor: 'page-1-cursor',
+  items: [{
+    __typename: 'Variable',
+    conceptId: 'V100020_MMT',
+    name: 'Variable_20',
+    type: 'SCIENCE_VARIABLE',
+    longName: 'long',
+    providerId: 'MMT',
+    revisionDate: null,
+    revisionId: 1,
+    userId: 1
+  }]
+}
+
+export const mockVariableList3 = {
+  ...mockVariableList,
+  items: [
+    ...mockVariableList.items,
+    {
+      __typename: 'Variable',
+      conceptId: 'V100020_MMT',
+      name: 'Variable_20',
+      type: 'SCIENCE_VARIABLE',
+      longName: 'long',
+      providerId: 'MMT',
+      revisionDate: null,
+      revisionId: 1,
+      userId: 1
+    }]
+}
+
 export const mockCollectionWithAssociatedVariables = {
   abstract: "The 2012 Environmental Performance Index (EPI) ranks 132 countries on 22 performance indicators in the following 10 policy categories:  environmental burden of disease, water (effects on human health), air pollution (effects on human health), air pollution (ecosystem effects), water resources (ecosystem effects), biodiversity and habitat, forestry, fisheries, agriculture and climate change. These categories track performance and progress on two broad policy objectives, environmental health and ecosystem vitality. Each indicator has an associated environmental public health or ecosystem sustainability target. The EPI's proximity-to-target methodology facilitates cross-country comparisons among economic and regional peer groups.\n\n\n\n\nThe Pilot Trend Environmental Performance Index (Trend EPI) ranks countries on the change in their environmental performance over the last decade. As a complement to the EPI, the Trend EPI shows who is improving and who is declining over time.\n\n\n\n\nThe 2012 EPI and Pilot Trend EPI were formally released in Davos, Switzerland, at the annual meeting of the World Economic Forum on January 27, 2012. These are the result of collaboration between the Yale Center for Environmental Law and Policy (YCELP) and the Columbia University Center for International Earth Science Information Network (CIESIN). The Interactive Website for the 2012 EPI is at http://epi.yale.edu/.",
   accessConstraints: {
@@ -1664,7 +1922,28 @@ export const mockCollectionWithAssociatedVariables = {
   },
   associatedDois: null,
   associationDetails: {
-    variables: [{ conceptId: 'V100000_MMT' }]
+    variables: [
+      { conceptId: 'V100000_MMT' },
+      { conceptId: 'V100001_MMT' },
+      { conceptId: 'V100002_MMT' },
+      { conceptId: 'V100003_MMT' },
+      { conceptId: 'V100004_MMT' },
+      { conceptId: 'V100005_MMT' },
+      { conceptId: 'V100006_MMT' },
+      { conceptId: 'V100007_MMT' },
+      { conceptId: 'V100008_MMT' },
+      { conceptId: 'V100009_MMT' },
+      { conceptId: 'V100010_MMT' },
+      { conceptId: 'V100011_MMT' },
+      { conceptId: 'V100012_MMT' },
+      { conceptId: 'V100013_MMT' },
+      { conceptId: 'V100014_MMT' },
+      { conceptId: 'V100015_MMT' },
+      { conceptId: 'V100016_MMT' },
+      { conceptId: 'V100017_MMT' },
+      { conceptId: 'V100018_MMT' },
+      { conceptId: 'V100019_MMT' },
+      { conceptId: 'V100020_MMT' }]
   },
   citations: {
     count: 0,
@@ -3198,244 +3477,7 @@ export const mockCollectionWithAssociatedVariables = {
     description: 'Users are free to use, copy, distribute, transmit, and adapt the work for commercial and non-commercial purposes, without restriction, as long as clear attribution of the source is provided.'
   },
   userId: 'admin',
-  variables: {
-    count: 21,
-    cursor: '',
-    items: [
-      {
-        conceptId: 'V100000_MMT',
-        name: 'Variable_00',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100001_MMT',
-        name: 'Variable_01',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100002_MMT',
-        name: 'Variable_02',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100003_MMT',
-        name: 'Variable_03',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100004_MMT',
-        name: 'Variable_04',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100005_MMT',
-        name: 'Variable_05',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100006_MMT',
-        name: 'Variable_06',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100007_MMT',
-        name: 'Variable_07',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100008_MMT',
-        name: 'Variable_08',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100009_MMT',
-        name: 'Variable_09',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100010_MMT',
-        name: 'Variable_10',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100011_MMT',
-        name: 'Variable_11',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100012_MMT',
-        name: 'Variable_12',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100013_MMT',
-        name: 'Variable_13',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100014_MMT',
-        name: 'Variable_14',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100015_MMT',
-        name: 'Variable_15',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100016_MMT',
-        name: 'Variable_16',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100017_MMT',
-        name: 'Variable_17',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100018_MMT',
-        name: 'Variable_18',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100019_MMT',
-        name: 'Variable_19',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      },
-      {
-        conceptId: 'V100020_MMT',
-        name: 'Variable_20',
-        type: 'SCIENCE_VARIABLE',
-        __typename: 'Variable',
-        longName: 'long',
-        providerId: 'MMT',
-        revisionDate: null,
-        revisionId: 1,
-        userId: 1
-      }
-    ],
-    __typename: 'VariableList'
-  },
+  variables: mockVariableList,
   versionDescription: null,
   versionId: '2012.00',
   visualizations: {
@@ -3777,248 +3819,6 @@ export const mockVariableDraft = {
     __typename: 'Variable'
   },
   __typename: 'Draft'
-
-}
-
-export const mockVariableList = {
-  count: 21,
-  cursor: 'page-1-cursor',
-  items: [{
-    __typename: 'Variable',
-    conceptId: 'V100000_MMT',
-    name: 'Variable_00',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100001_MMT',
-    name: 'Variable_01',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100002_MMT',
-    name: 'Variable_02',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100003_MMT',
-    name: 'Variable_03',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100004_MMT',
-    name: 'Variable_04',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100005_MMT',
-    name: 'Variable_05',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100006_MMT',
-    name: 'Variable_06',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100007_MMT',
-    name: 'Variable_07',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100008_MMT',
-    name: 'Variable_08',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100009_MMT',
-    name: 'Variable_09',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100010_MMT',
-    name: 'Variable_10',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100011_MMT',
-    name: 'Variable_11',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100012_MMT',
-    name: 'Variable_12',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100013_MMT',
-    name: 'Variable_13',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100014_MMT',
-    name: 'Variable_14',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100015_MMT',
-    name: 'Variable_15',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100016_MMT',
-    name: 'Variable_16',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100017_MMT',
-    name: 'Variable_17',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100018_MMT',
-    name: 'Variable_18',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  },
-  {
-    __typename: 'Variable',
-    conceptId: 'V100019_MMT',
-    name: 'Variable_19',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  }]
-}
-
-export const mockVariableList2 = {
-  count: 21,
-  cursor: 'page-1-cursor',
-  items: [{
-    __typename: 'Variable',
-    conceptId: 'V100020_MMT',
-    name: 'Variable_20',
-    type: 'SCIENCE_VARIABLE',
-    longName: 'long',
-    providerId: 'MMT',
-    revisionDate: null,
-    revisionId: 1,
-    userId: 1
-  }]
 }
 
 export const mockVisualizationDraft = {
