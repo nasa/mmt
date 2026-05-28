@@ -107,7 +107,14 @@ const MetadataPreview = ({
   const excludeVariableConceptIds = variableItems.map((variableTmp) => variableTmp.conceptId)
   const variableConceptIds = allVariableConceptIds
     .filter((variableTmp) => !excludeVariableConceptIds.includes(variableTmp))
-    .slice(0, conceptsResultLimitInt)
+  const variables = concept?.associationDetails?.variables ?? []
+const variableCount = variables.length
+const excludeSet = new Set(variableItems.map((v) => v.conceptId))
+
+const variableConceptIds = variables
+  .map((v) => v.conceptId)
+  .filter((id) => !excludeSet.has(id))
+  .slice(0, conceptsResultLimitInt)
 
   // Returns a conceptsResultLimitInt-limited set of data until there are no newItems left
   const { loading: varLoading, error: varError } = useQuery(conceptTypeQueries.Variables, {
