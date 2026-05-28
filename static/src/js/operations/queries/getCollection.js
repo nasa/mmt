@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_COLLECTION = gql`
-  query GetCollection ($params: CollectionInput, , $variableParams: VariablesInput) {
+  query GetCollection ($params: CollectionInput, $citationParams: CitationsInput, $serviceParams: ServicesInput, $variableParams: VariablesInput) {
     collection (params: $params) {
       abstract
       accessConstraints
@@ -10,7 +10,7 @@ export const GET_COLLECTION = gql`
       archiveAndDistributionInformation
       associationDetails
       associatedDois
-      citations {
+      citations (params: $citationParams) {
         count
         items {
           conceptId
@@ -85,7 +85,7 @@ export const GET_COLLECTION = gql`
         }
       }
       scienceKeywords
-      services {
+      services (params: $serviceParams) {
         count
         items {
           conceptId
@@ -134,6 +134,7 @@ export const GET_COLLECTION = gql`
         items {
           conceptId
           name
+          type: variableType
         }
       }
       versionDescription

@@ -24,7 +24,8 @@
         "enabled": false,
         "propertyId": ""
       }
-    }
+    },
+    "conceptsResultLimit": 1000
   },
   "ummVersions": {
     "ummC": "1.18.5",

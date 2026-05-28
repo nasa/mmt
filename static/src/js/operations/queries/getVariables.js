@@ -7,6 +7,7 @@ export const GET_VARIABLES = gql`
       items {
         conceptId
         name
+        type: variableType
         longName
         providerId
         revisionDate
