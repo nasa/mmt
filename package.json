@@ -94,7 +94,7 @@
     "@testing-library/user-event": "^14.5.1",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
-    "@vitest/coverage-istanbul": "^1.4.0",
+    "@vitest/coverage-istanbul": "^4.1.7",
     "aws-sdk-client-mock": "^4.0.0",
     "concurrently": "^9.2.0",
     "eslint": "^8.45.0",
@@ -115,6 +115,6 @@
     "stylelint-config-idiomatic-order": "^9.0.0",
     "stylelint-config-standard": "^34.0.0",
     "stylelint-scss": "^5.2.1",
-    "vitest": "^1.4.0"
+    "vitest": "^4.1.7"
   }
 }
