@@ -9,6 +9,7 @@ import {
 } from '@edsc/metadata-preview'
 import { useParams } from 'react-router'
 import { useQuery } from '@apollo/client'
+import Alert from 'react-bootstrap/Alert'
 import Col from 'react-bootstrap/Col'
 import PropTypes from 'prop-types'
 import Row from 'react-bootstrap/Row'
@@ -75,7 +76,6 @@ const MetadataPreview = ({
 
   // State variables needed in case we need to fetch more variables for a collection
   const [variableItems, setVariableItems] = useState([])
-  const [variablesCursor, setVariableCursor] = useState(null)
 
   const { loading: conceptLoading, error: conceptError, data } = useQuery(query, {
     variables: {
@@ -85,9 +85,15 @@ const MetadataPreview = ({
       variableParams,
       collectionsParams
     },
-    onCompleted: () => {
-      setVariableItems([])
-      setVariableCursor(null)
+    onCompleted: (responseData) => {
+      if (conceptType === 'Collection' && !isDraft) {
+        const { collection } = responseData
+        const { variables } = collection
+        const { items } = variables
+        setVariableItems(items)
+      } else {
+        setVariableItems([])
+      }
     }
   })
 
@@ -97,36 +103,52 @@ const MetadataPreview = ({
   const { associationDetails = {} } = concept || {}
   const { variables = [] } = associationDetails || {}
   const variableCount = variables.length
-  const variableConceptIds = variables.map((variableTmp) => variableTmp.conceptId)
+  const allVariableConceptIds = variables.map((variableTmp) => variableTmp.conceptId)
+  const excludeVariableConceptIds = variableItems.map((variableTmp) => variableTmp.conceptId)
+  const variableConceptIds = allVariableConceptIds
+    .filter((variableTmp) => !excludeVariableConceptIds.includes(variableTmp))
+    .slice(0, conceptsResultLimitInt)
 
-  // Returns a conceptsResultLimitInt-limited set of data and resets the variableCursor until there are no newItems left
+  // Returns a conceptsResultLimitInt-limited set of data until there are no newItems left
   const { loading: varLoading, error: varError } = useQuery(conceptTypeQueries.Variables, {
-    skip: (!variableConceptIds.length
-      || (variableItems && (variableItems.length >= variableCount)))
+    skip: (variableItems.length === 0)
+      || (variableItems.length >= variableCount)
       || variableCount <= conceptsResultLimitInt,
     variables: {
       params: {
         limit: conceptsResultLimitInt,
-        cursor: variablesCursor,
         conceptId: variableConceptIds
       }
     },
     onCompleted: (responseData) => {
       const { variables: responseVariables } = responseData
-      const { cursor: newCursor, items: newItems } = responseVariables
-      if (newItems && (newItems.length > 0)) {
-        setVariableItems([...variableItems, ...newItems])
-        setVariableCursor(newCursor)
-      }
+      const { items: newItems } = responseVariables
+      setVariableItems([...variableItems, ...newItems])
     }
   })
 
+  // Display loading banner
+  if (conceptLoading) {
+    return (
+      <Row>
+        <LoadingBanner />
+      </Row>
+    )
+  }
+
   // Display loading banner if we need to load additional variables and it hasn't completed yet
-  if (conceptLoading || varLoading
+  if (varLoading
     || ((variableCount > conceptsResultLimitInt)
     && (!varError && variableItems && (variableItems.length < variableCount)))) {
     return (
       <Row>
+        <Alert>
+          <Alert.Heading>Notice:</Alert.Heading>
+
+          <span className="visually-hidden">{' '}</span>
+
+          <p>This collection has a lot of variables and needs some extra time to load.</p>
+        </Alert>
         <LoadingBanner />
       </Row>
     )

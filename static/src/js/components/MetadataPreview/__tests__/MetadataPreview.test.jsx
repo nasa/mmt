@@ -785,7 +785,7 @@ describe('MetadataPreview', () => {
         token: null
       }, {})
 
-      expect(CollectionPreview).toHaveBeenNthCalledWith(1, {
+      expect(CollectionPreview).toHaveBeenNthCalledWith(2, {
         cmrHost: 'http://example.com',
         conceptId: 'CD000000-MMT',
         conceptType: 'collection-draft',
@@ -919,7 +919,7 @@ describe('MetadataPreview', () => {
         token: null
       }, {})
 
-      expect(CollectionPreview).toHaveBeenNthCalledWith(1, {
+      expect(CollectionPreview).toHaveBeenNthCalledWith(2, {
         cmrHost: 'http://example.com',
         conceptId: 'C1000000-MMT',
         conceptType: 'collection',
@@ -960,24 +960,7 @@ describe('MetadataPreview', () => {
             variables: {
               params: {
                 limit: conceptsResultsLimitInt,
-                cursor: null,
-                conceptId: ['V100000_MMT', 'V100001_MMT', 'V100002_MMT', 'V100003_MMT', 'V100004_MMT', 'V100005_MMT', 'V100006_MMT', 'V100007_MMT', 'V100008_MMT', 'V100009_MMT', 'V100010_MMT', 'V100011_MMT', 'V100012_MMT', 'V100013_MMT', 'V100014_MMT', 'V100015_MMT', 'V100016_MMT', 'V100017_MMT', 'V100018_MMT', 'V100019_MMT', 'V100020_MMT']
-              }
-            }
-          },
-          result: {
-            data: {
-              variables: mockVariableList
-            }
-          }
-        }, {
-          request: {
-            query: conceptTypeQueries.Variables,
-            variables: {
-              params: {
-                limit: conceptsResultsLimitInt,
-                cursor: 'page-1-cursor',
-                conceptId: ['V100000_MMT', 'V100001_MMT', 'V100002_MMT', 'V100003_MMT', 'V100004_MMT', 'V100005_MMT', 'V100006_MMT', 'V100007_MMT', 'V100008_MMT', 'V100009_MMT', 'V100010_MMT', 'V100011_MMT', 'V100012_MMT', 'V100013_MMT', 'V100014_MMT', 'V100015_MMT', 'V100016_MMT', 'V100017_MMT', 'V100018_MMT', 'V100019_MMT', 'V100020_MMT']
+                conceptId: ['V100020_MMT']
               }
             }
           },
@@ -1071,8 +1054,7 @@ describe('MetadataPreview', () => {
             variables: {
               params: {
                 limit: conceptsResultsLimitInt,
-                cursor: null,
-                conceptId: ['V100000_MMT', 'V100001_MMT', 'V100002_MMT', 'V100003_MMT', 'V100004_MMT', 'V100005_MMT', 'V100006_MMT', 'V100007_MMT', 'V100008_MMT', 'V100009_MMT', 'V100010_MMT', 'V100011_MMT', 'V100012_MMT', 'V100013_MMT', 'V100014_MMT', 'V100015_MMT', 'V100016_MMT', 'V100017_MMT', 'V100018_MMT', 'V100019_MMT', 'V100020_MMT']
+                conceptId: ['V100020_MMT']
               }
             }
           },
