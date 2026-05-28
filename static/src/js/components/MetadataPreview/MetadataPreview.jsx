@@ -100,21 +100,14 @@ const MetadataPreview = ({
   let { [conceptKey]: concept } = data || {}
 
   // The following variables are needed when we need to fetch extra variables from a collection
-  const { associationDetails = {} } = concept || {}
-  const { variables = [] } = associationDetails || {}
-  const variableCount = variables.length
-  const allVariableConceptIds = variables.map((variableTmp) => variableTmp.conceptId)
-  const excludeVariableConceptIds = variableItems.map((variableTmp) => variableTmp.conceptId)
-  const variableConceptIds = allVariableConceptIds
-    .filter((variableTmp) => !excludeVariableConceptIds.includes(variableTmp))
   const variables = concept?.associationDetails?.variables ?? []
-const variableCount = variables.length
-const excludeSet = new Set(variableItems.map((v) => v.conceptId))
+  const variableCount = variables.length
+  const excludeSet = new Set(variableItems.map((v) => v.conceptId))
 
-const variableConceptIds = variables
-  .map((v) => v.conceptId)
-  .filter((id) => !excludeSet.has(id))
-  .slice(0, conceptsResultLimitInt)
+  const variableConceptIds = variables
+    .map((v) => v.conceptId)
+    .filter((id) => !excludeSet.has(id))
+    .slice(0, conceptsResultLimitInt)
 
   // Returns a conceptsResultLimitInt-limited set of data until there are no newItems left
   const { loading: varLoading, error: varError } = useQuery(conceptTypeQueries.Variables, {
@@ -146,7 +139,7 @@ const variableConceptIds = variables
   // Display loading banner if we need to load additional variables and it hasn't completed yet
   if (varLoading
     || ((variableCount > conceptsResultLimitInt)
-    && (!varError && variableItems && (variableItems.length < variableCount)))) {
+    && (!varError && (variableItems.length < variableCount)))) {
     return (
       <>
         <div>
