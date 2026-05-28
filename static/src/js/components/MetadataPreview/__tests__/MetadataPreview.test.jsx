@@ -33,7 +33,6 @@ import {
   mockServiceDraft,
   mockToolDraft,
   mockVariableDraft,
-  mockVariableList,
   mockVariableList2,
   mockVariableList3,
   mockVisualizationDraft
