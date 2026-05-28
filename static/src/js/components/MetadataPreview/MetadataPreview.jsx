@@ -141,16 +141,18 @@ const MetadataPreview = ({
     || ((variableCount > conceptsResultLimitInt)
     && (!varError && variableItems && (variableItems.length < variableCount)))) {
     return (
-      <Row>
-        <Alert>
-          <Alert.Heading>Notice:</Alert.Heading>
-
-          <span className="visually-hidden">{' '}</span>
-
-          <p>This collection has a lot of variables and needs some extra time to load.</p>
-        </Alert>
-        <LoadingBanner />
-      </Row>
+      <>
+        <div>
+          <Alert className="fst-italic fs-6" variant="warning">
+            <i className="eui-icon eui-fa-info-circle" />
+            {' '}
+            This collection has many associated variables that may require extra load time.
+          </Alert>
+        </div>
+        <Row>
+          <LoadingBanner />
+        </Row>
+      </>
     )
   }
 
