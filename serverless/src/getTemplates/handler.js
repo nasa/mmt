@@ -10,6 +10,8 @@ let s3Client
  * @param {Object} event Details about the HTTP request that it received
  */
 const getTemplates = async (event) => {
+  console.log('Calling getTemplates')
+
   const { defaultResponseHeaders } = getApplicationConfig()
 
   if (s3Client == null) {
@@ -29,6 +31,7 @@ const getTemplates = async (event) => {
     const objectList = await s3ListObjects(s3Client)
 
     const providerIds = await fetchProviders(event)
+    console.log(`providerIds: ${providerIds}`)
 
     const body = objectList.map((object) => {
       const [providerId, guid, hashedName] = object.Key.split('/')

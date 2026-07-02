@@ -14,6 +14,8 @@ import { downcaseKeys } from './downcaseKeys'
  * @param {Object} event Details about the HTTP request that it received
  */
 const fetchProviders = async (event) => {
+  console.log('Calling fetchProviders')
+
   const { env } = process
   const { JWT_SECRET } = env
 
