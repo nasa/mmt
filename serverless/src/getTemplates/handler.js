@@ -1,6 +1,7 @@
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { s3ListObjects } from '../utils/s3ListObjects'
 import { getS3Client } from '../utils/getS3Client'
+import fetchProviders from '../utils/fetchProviders'
 
 let s3Client
 
@@ -8,7 +9,7 @@ let s3Client
  * Retrieve a list of templates from S3
  * @param {Object} event Details about the HTTP request that it received
  */
-const getTemplates = async () => {
+const getTemplates = async (event) => {
   const { defaultResponseHeaders } = getApplicationConfig()
 
   if (s3Client == null) {
@@ -27,6 +28,8 @@ const getTemplates = async () => {
   try {
     const objectList = await s3ListObjects(s3Client)
 
+    const providerIds = await fetchProviders(event)
+
     const body = objectList.map((object) => {
       const [providerId, guid, hashedName] = object.Key.split('/')
 
@@ -38,7 +41,7 @@ const getTemplates = async () => {
         name,
         providerId
       }
-    })
+    }).filter((object) => providerIds.includes(object.providerId))
 
     const sortedBody = body.sort((a, b) => {
       const nameA = a.name.toUpperCase()

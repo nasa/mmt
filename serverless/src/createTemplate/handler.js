@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { getS3Client } from '../utils/getS3Client'
+import fetchProviders from '../utils/fetchProviders'
 
 let s3Client
 
@@ -20,6 +21,15 @@ const createTemplate = async (event) => {
   const { body, pathParameters } = event
   const { providerId } = pathParameters
   const { TemplateName: templateName } = JSON.parse(body)
+
+  const providerIds = await fetchProviders(event)
+
+  if (!providerIds.includes(providerId)) {
+    return {
+      statusCode: 401,
+      headers: defaultResponseHeaders
+    }
+  }
 
   const hashedName = Buffer.from(templateName).toString('base64')
   const guid = uuidv4()

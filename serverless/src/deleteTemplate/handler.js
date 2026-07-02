@@ -3,6 +3,7 @@ import { DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { getS3Client } from '../utils/getS3Client'
 import { s3ListObjects } from '../utils/s3ListObjects'
+import fetchProviders from '../utils/fetchProviders'
 
 let s3Client
 
@@ -12,6 +13,7 @@ let s3Client
  */
 const deleteTemplate = async (event) => {
   const { defaultResponseHeaders } = getApplicationConfig()
+
   const { COLLECTION_TEMPLATES_BUCKET_NAME: collectionTemplatesBucketName } = process.env
 
   if (s3Client == null) {
@@ -21,6 +23,15 @@ const deleteTemplate = async (event) => {
   const { pathParameters } = event
   const { id, providerId } = pathParameters
 
+  const providerIds = await fetchProviders(event)
+
+  if (!providerIds.includes(providerId)) {
+    return {
+      statusCode: 401,
+      headers: defaultResponseHeaders
+    }
+  }
+
   // Find an existing file with the same `id`
   const prefix = `${providerId}/${id}`
   const objectList = await s3ListObjects(s3Client, prefix)
@@ -29,6 +40,8 @@ const deleteTemplate = async (event) => {
   let statusCode = 404
   if (object) {
     const { Key: key } = object
+
+    console.log(`delete object key:${key}`)
 
     // Delete the file
     const deleteCommand = new DeleteObjectCommand({

@@ -3,6 +3,7 @@ import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { s3ListObjects } from '../utils/s3ListObjects'
 import { getS3Client } from '../utils/getS3Client'
+import fetchProviders from '../utils/fetchProviders'
 
 let s3Client
 
@@ -39,6 +40,15 @@ const getTemplate = async (event) => {
 
       return false
     })
+
+    const providerIds = await fetchProviders(event)
+
+    if (!providerIds.includes(providerId)) {
+      return {
+        statusCode: 401,
+        headers: defaultResponseHeaders
+      }
+    }
 
     const { Key: key } = object
 
