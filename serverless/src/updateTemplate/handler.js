@@ -3,6 +3,7 @@ import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { getS3Client } from '../utils/getS3Client'
 import { s3ListObjects } from '../utils/s3ListObjects'
+import fetchProviders from '../utils/fetchProviders'
 
 let s3Client
 
@@ -20,6 +21,16 @@ const updateTemplate = async (event) => {
 
   const { body, pathParameters } = event
   const { id, providerId } = pathParameters
+
+  const providerIds = await fetchProviders(event)
+
+  if (!providerIds.includes(providerId)) {
+    return {
+      statusCode: 401,
+      headers: defaultResponseHeaders
+    }
+  }
+
   const { TemplateName: templateName } = JSON.parse(body)
   const hashedName = Buffer.from(templateName).toString('base64')
 

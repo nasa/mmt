@@ -10,8 +10,6 @@ let s3Client
  * @param {Object} event Details about the HTTP request that it received
  */
 const getTemplates = async (event) => {
-  console.log('Calling getTemplates')
-
   const { defaultResponseHeaders } = getApplicationConfig()
 
   if (s3Client == null) {

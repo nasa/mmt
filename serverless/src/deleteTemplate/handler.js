@@ -41,8 +41,6 @@ const deleteTemplate = async (event) => {
   if (object) {
     const { Key: key } = object
 
-    console.log(`delete object key:${key}`)
-
     // Delete the file
     const deleteCommand = new DeleteObjectCommand({
       Bucket: collectionTemplatesBucketName,

@@ -14,8 +14,6 @@ import { downcaseKeys } from './downcaseKeys'
  * @param {Object} event Details about the HTTP request that it received
  */
 const fetchProviders = async (event) => {
-  console.log('Calling fetchProviders')
-
   const { env } = process
   const { JWT_SECRET } = env
 
@@ -33,8 +31,6 @@ const fetchProviders = async (event) => {
 
   const profile = await fetchEdlProfile(edlToken)
   const { uid } = profile
-
-  console.log(`uid:${uid}`)
 
   const { graphQlHost } = getApplicationConfig()
   const client = new ApolloClient({
