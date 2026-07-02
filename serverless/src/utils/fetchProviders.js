@@ -34,6 +34,8 @@ const fetchProviders = async (event) => {
   const profile = await fetchEdlProfile(edlToken)
   const { uid } = profile
 
+  console.log(`uid:${uid}`)
+
   const { graphQlHost } = getApplicationConfig()
   const client = new ApolloClient({
     link: new HttpLink({
