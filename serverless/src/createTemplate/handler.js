@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { getS3Client } from '../utils/getS3Client'
+import { getCollectionTemplatesBucketName } from '../utils/getCollectionTemplatesBucketName'
 import fetchProviders from '../utils/fetchProviders'
 
 let s3Client
@@ -20,9 +21,32 @@ const createTemplate = async (event) => {
 
   const { body, pathParameters } = event
   const { providerId } = pathParameters
-  const { TemplateName: templateName } = JSON.parse(body)
+
+  let templateName
+  try {
+    ({ TemplateName: templateName } = JSON.parse(body))
+  } catch (error) {
+    console.error('Error parsing body in createTemplate:', error)
+
+    return {
+      statusCode: 400,
+      headers: defaultResponseHeaders,
+      body: JSON.stringify({ error: 'Invalid request body' })
+    }
+  }
+
+  if (!templateName) {
+    console.error('Missing TemplateName in createTemplate request')
+
+    return {
+      statusCode: 400,
+      headers: defaultResponseHeaders,
+      body: JSON.stringify({ error: 'TemplateName is required' })
+    }
+  }
 
   const providerIds = await fetchProviders(event)
+  console.log('🚀 ~ file: handler.js:26 ~ providerIds:', providerIds)
 
   if (!providerIds.includes(providerId)) {
     return {
@@ -34,7 +58,7 @@ const createTemplate = async (event) => {
   const hashedName = Buffer.from(templateName).toString('base64')
   const guid = uuidv4()
 
-  const { COLLECTION_TEMPLATES_BUCKET_NAME: collectionTemplatesBucketName } = process.env
+  const collectionTemplatesBucketName = getCollectionTemplatesBucketName()
   const createCommand = new PutObjectCommand({
     Bucket: collectionTemplatesBucketName,
     Body: body,
@@ -42,6 +66,7 @@ const createTemplate = async (event) => {
   })
 
   const response = await s3Client.send(createCommand)
+  console.log('🚀 ~ file: handler.js:47 ~ response:', response)
 
   const { $metadata: metadata } = response
   const { httpStatusCode: statusCode } = metadata

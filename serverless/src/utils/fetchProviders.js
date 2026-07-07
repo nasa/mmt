@@ -1,16 +1,12 @@
 import jwt from 'jsonwebtoken'
+import { print } from 'graphql'
 import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
-import {
-  ApolloClient,
-  InMemoryCache,
-  HttpLink
-} from '@apollo/client'
 import fetchEdlProfile from './fetchEdlProfile'
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { downcaseKeys } from './downcaseKeys'
 
 /**
- * Returns the user's EDL profile based on the event provided
+ * Returns the list of provider ids the user has access to, based on the event provided
  * @param {Object} event Details about the HTTP request that it received
  */
 const fetchProviders = async (event) => {
@@ -33,15 +29,6 @@ const fetchProviders = async (event) => {
   const { uid } = profile
 
   const { graphQlHost } = getApplicationConfig()
-  const client = new ApolloClient({
-    link: new HttpLink({
-      uri: graphQlHost,
-      headers: {
-        Authorization: `Bearer ${edlToken}`
-      }
-    }),
-    cache: new InMemoryCache()
-  })
 
   const variables = {
     params: {
@@ -51,23 +38,32 @@ const fetchProviders = async (event) => {
     }
   }
 
-  let providerIds = []
-
-  await client.query({
-    query: GET_AVAILABLE_PROVIDERS,
-    variables
+  const response = await fetch(graphQlHost, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${edlToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      query: print(GET_AVAILABLE_PROVIDERS),
+      variables
+    })
   })
-    .then((response) => {
-      const { acls = {} } = response.data
-      const { items = [] } = acls
 
-      providerIds = items.map(
-        (item) => item.providerIdentity.provider_id
-      )
-    })
-    .catch((error) => {
-      console.error('Error fetching GraphQL data:', error)
-    })
+  if (!response.ok) {
+    throw new Error(`GraphQL request failed: ${response.status} ${response.statusText}`)
+  }
+
+  const json = await response.json()
+
+  if (json.errors) {
+    throw new Error(json.errors.map((error) => error.message).join('; '))
+  }
+
+  const { acls = {} } = json.data
+  const { items = [] } = acls
+
+  const providerIds = items.map((item) => item.providerIdentity.provider_id)
 
   return providerIds
 }

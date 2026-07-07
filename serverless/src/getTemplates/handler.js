@@ -11,25 +11,17 @@ let s3Client
  */
 const getTemplates = async (event) => {
   const { defaultResponseHeaders } = getApplicationConfig()
+  console.log('🚀 ~ file: handler.js:14 ~ defaultResponseHeaders:', defaultResponseHeaders)
 
   if (s3Client == null) {
     s3Client = getS3Client()
   }
 
-  // If we're running offline, return an empty array without making a fetch request to S3
-  if (process.env.IS_OFFLINE) {
-    return {
-      body: JSON.stringify([]),
-      statusCode: 200,
-      headers: defaultResponseHeaders
-    }
-  }
+  const providerIds = await fetchProviders(event)
+  console.log(`providerIds: ${providerIds}`)
 
   try {
     const objectList = await s3ListObjects(s3Client)
-
-    const providerIds = await fetchProviders(event)
-    console.log(`providerIds: ${providerIds}`)
 
     const body = objectList.map((object) => {
       const [providerId, guid, hashedName] = object.Key.split('/')

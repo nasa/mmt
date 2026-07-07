@@ -2,6 +2,7 @@ import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
 
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { getS3Client } from '../utils/getS3Client'
+import { getCollectionTemplatesBucketName } from '../utils/getCollectionTemplatesBucketName'
 import { s3ListObjects } from '../utils/s3ListObjects'
 import fetchProviders from '../utils/fetchProviders'
 
@@ -13,7 +14,7 @@ let s3Client
  */
 const updateTemplate = async (event) => {
   const { defaultResponseHeaders } = getApplicationConfig()
-  const { COLLECTION_TEMPLATES_BUCKET_NAME: collectionTemplatesBucketName } = process.env
+  const collectionTemplatesBucketName = getCollectionTemplatesBucketName()
 
   if (s3Client == null) {
     s3Client = getS3Client()
@@ -22,16 +23,30 @@ const updateTemplate = async (event) => {
   const { body, pathParameters } = event
   const { id, providerId } = pathParameters
 
-  const providerIds = await fetchProviders(event)
+  let templateName
+  try {
+    ({ TemplateName: templateName } = JSON.parse(body))
+  } catch (error) {
+    console.error('Error parsing body in updateTemplate:', error)
 
-  if (!providerIds.includes(providerId)) {
     return {
-      statusCode: 401,
-      headers: defaultResponseHeaders
+      statusCode: 400,
+      headers: defaultResponseHeaders,
+      body: JSON.stringify({ error: 'Invalid request body' })
     }
   }
 
-  const { TemplateName: templateName } = JSON.parse(body)
+  if (!templateName) {
+    console.error('Missing TemplateName in updateTemplate request')
+
+    return {
+      statusCode: 400,
+      headers: defaultResponseHeaders,
+      body: JSON.stringify({ error: 'TemplateName is required' })
+    }
+  }
+
+  const providerIds = await fetchProviders(event)
   const hashedName = Buffer.from(templateName).toString('base64')
 
   try {

@@ -8,6 +8,7 @@ export const getS3Client = () => {
     forcePathStyle: true
   }
 
+  // Use S3rver to mock S3 in local mode
   if (process.env.IS_OFFLINE) {
     config.endpoint = 'http://localhost:4569'
     config.credentials = {

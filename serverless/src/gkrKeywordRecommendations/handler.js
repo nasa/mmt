@@ -9,6 +9,7 @@ import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 const gkrKeywordRecommendations = async (event) => {
   const { gkrHost } = getApplicationConfig()
   const { body } = event
+  console.log('🚀 ~ file: handler.js:12 ~ body:', body)
   const url = `${gkrHost}/api/requests/`
   const { defaultResponseHeaders } = getApplicationConfig()
 

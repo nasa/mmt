@@ -2,6 +2,7 @@ import { DeleteObjectCommand } from '@aws-sdk/client-s3'
 
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { getS3Client } from '../utils/getS3Client'
+import { getCollectionTemplatesBucketName } from '../utils/getCollectionTemplatesBucketName'
 import { s3ListObjects } from '../utils/s3ListObjects'
 import fetchProviders from '../utils/fetchProviders'
 
@@ -14,7 +15,7 @@ let s3Client
 const deleteTemplate = async (event) => {
   const { defaultResponseHeaders } = getApplicationConfig()
 
-  const { COLLECTION_TEMPLATES_BUCKET_NAME: collectionTemplatesBucketName } = process.env
+  const collectionTemplatesBucketName = getCollectionTemplatesBucketName()
 
   if (s3Client == null) {
     s3Client = getS3Client()
