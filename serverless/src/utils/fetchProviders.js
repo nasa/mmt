@@ -1,13 +1,7 @@
 import jwt from 'jsonwebtoken'
-import { GET_AVAILABLE_PROVIDERS } from '@/js/operations/queries/getAvailableProviders'
-import {
-  ApolloClient,
-  InMemoryCache,
-  HttpLink
-} from '@apollo/client'
 import fetchEdlProfile from './fetchEdlProfile'
-import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { downcaseKeys } from './downcaseKeys'
+import { getEdlConfig } from '../../../sharedUtils/getConfig'
 
 /**
  * Returns the user's EDL profile based on the event provided
@@ -32,42 +26,28 @@ const fetchProviders = async (event) => {
   const profile = await fetchEdlProfile(edlToken)
   const { uid } = profile
 
-  const { graphQlHost } = getApplicationConfig()
-  const client = new ApolloClient({
-    link: new HttpLink({
-      uri: graphQlHost,
-      headers: {
-        Authorization: `Bearer ${edlToken}`
-      }
-    }),
-    cache: new InMemoryCache()
+  const { host } = getEdlConfig()
+
+  const response = await fetch(`${host}/api/user_groups/groups_for_user/${uid}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${edlToken}`,
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    }
   })
 
-  const variables = {
-    params: {
-      limit: 500,
-      permittedUser: uid,
-      target: 'PROVIDER_CONTEXT'
-    }
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}, body: ${JSON.stringify(data)}`)
   }
 
-  let providerIds = []
-
-  await client.query({
-    query: GET_AVAILABLE_PROVIDERS,
-    variables
-  })
-    .then((response) => {
-      const { acls = {} } = response.data
-      const { items = [] } = acls
-
-      providerIds = items.map(
-        (item) => item.providerIdentity.provider_id
-      )
-    })
-    .catch((error) => {
-      console.error('Error fetching GraphQL data:', error)
-    })
+  // eslint-disable-next-line camelcase
+  const { user_groups } = data
+  // eslint-disable-next-line camelcase
+  const providerIds = user_groups.map(
+    (group) => group.tag
+  )
 
   return providerIds
 }
