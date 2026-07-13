@@ -15,12 +15,14 @@ const fetchProviders = async (event) => {
   const { authorization: authorizationToken = '' } = downcaseKeys(headers)
   const [, token] = authorizationToken.split('Bearer ')
 
-  // If we are working in development mode
-  if (token === 'ABC-1') {
-    return ['MMT_1', 'MMT_2']
+  // To run locally need to use decode instead of verify since we wont have the JWT_SECRET
+  let decodedJwt
+  if (env.IS_OFFLINE) {
+    decodedJwt = jwt.decode(token)
+  } else {
+    decodedJwt = jwt.verify(token, JWT_SECRET)
   }
 
-  const decodedJwt = jwt.verify(token, JWT_SECRET)
   const { edlToken } = decodedJwt
 
   const profile = await fetchEdlProfile(edlToken)
