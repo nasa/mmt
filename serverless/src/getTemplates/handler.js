@@ -11,7 +11,6 @@ let s3Client
  */
 const getTemplates = async (event) => {
   const { defaultResponseHeaders } = getApplicationConfig()
-  console.log('🚀 ~ file: handler.js:14 ~ defaultResponseHeaders:', defaultResponseHeaders)
 
   if (s3Client == null) {
     s3Client = getS3Client()

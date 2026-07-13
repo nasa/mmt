@@ -24,6 +24,10 @@ const commands = [
     name: 'api'
   },
   {
+    command: 'npm run s3:start',
+    name: 's3'
+  },
+  {
     command: 'npm run start:proxy',
     name: 'proxy',
     skipInFast: true

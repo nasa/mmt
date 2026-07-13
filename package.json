@@ -23,6 +23,7 @@
     "cmr:start_and_setup": "start-server-and-test cmr:start http-get://localhost:3003/collections.json cmr:setup",
     "cmr:stop": "node setup/stopCmr.js",
     "cmr:reset": "node setup/resetCmr.js",
+    "s3:start": "node setup/startS3.js",
     "deploy-infrastructure": "cd cdk/mmt-infrastructure && npm ci --include=dev && npm run cdk deploy -- --progress events --require-approval never",
     "deploy-application": "cd cdk/mmt && npm ci --include=dev && npm run cdk deploy -- --progress events --require-approval never",
     "deploy-static": "cd cdk/mmt-static && npm ci --include=dev && npm run cdk deploy -- --progress events --require-approval never"
@@ -110,6 +111,7 @@
     "http-proxy": "^1.18.1",
     "jsdom": "^22.1.0",
     "react-select-event": "^5.5.1",
+    "s3rver": "^3.7.1",
     "start-server-and-test": "^2.0.2",
     "stylelint": "^15.10.3",
     "stylelint-config-idiomatic-order": "^9.0.0",
