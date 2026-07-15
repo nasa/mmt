@@ -42,6 +42,8 @@ const getTemplate = async (event) => {
       return false
     })
 
+    const key = object.Key
+
     const providerIds = await fetchProviders(event)
 
     if (!providerIds.includes(providerId)) {
@@ -52,8 +54,6 @@ const getTemplate = async (event) => {
         headers: defaultResponseHeaders
       }
     }
-
-    const key = object.Key
 
     // Retrieve the file from S3
     const collectionTemplatesBucketName = getCollectionTemplatesBucketName()
