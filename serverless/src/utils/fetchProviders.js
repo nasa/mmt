@@ -46,13 +46,13 @@ const fetchProviders = async (event) => {
   const data = await response.json()
 
   if (!response.ok) {
+    console.error(`HTTP error! status: ${response.status}, body: ${JSON.stringify(data)}`)
+
     throw new Error(`HTTP error! status: ${response.status}, body: ${JSON.stringify(data)}`)
   }
 
-  // eslint-disable-next-line camelcase
-  const { user_groups } = data
-  // eslint-disable-next-line camelcase
-  const providerIds = user_groups.map(
+  const { user_groups: userGroups } = data
+  const providerIds = userGroups.map(
     (group) => group.tag
   )
 

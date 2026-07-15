@@ -34,17 +34,6 @@ const createTemplate = async (event) => {
   }
 
   const { TemplateName: templateName } = JSON.parse(body)
-
-  if (!templateName) {
-    console.error('Missing TemplateName in createTemplate request')
-
-    return {
-      statusCode: 400,
-      headers: defaultResponseHeaders,
-      body: JSON.stringify({ error: 'TemplateName is required' })
-    }
-  }
-
   const hashedName = Buffer.from(templateName).toString('base64')
   const guid = uuidv4()
 
