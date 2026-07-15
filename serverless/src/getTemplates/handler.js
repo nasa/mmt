@@ -16,9 +16,8 @@ const getTemplates = async (event) => {
     s3Client = getS3Client()
   }
 
-  const providerIds = await fetchProviders(event)
-
   try {
+    const providerIds = await fetchProviders(event)
     const objectList = await s3ListObjects(s3Client)
 
     const body = objectList.map((object) => {

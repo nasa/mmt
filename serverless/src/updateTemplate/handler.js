@@ -23,13 +23,22 @@ const updateTemplate = async (event) => {
   const { body, pathParameters } = event
   const { id, providerId } = pathParameters
 
-  const providerIds = await fetchProviders(event)
+  try {
+    const providerIds = await fetchProviders(event)
 
-  if (!providerIds.includes(providerId)) {
-    console.error(`Missing permissions for provider "${providerId}"`)
+    if (!providerIds.includes(providerId)) {
+      console.error(`Missing permissions for provider "${providerId}"`)
+
+      return {
+        statusCode: 401,
+        headers: defaultResponseHeaders
+      }
+    }
+  } catch (error) {
+    console.log('Error fetching providers:', error)
 
     return {
-      statusCode: 401,
+      statusCode: 500,
       headers: defaultResponseHeaders
     }
   }

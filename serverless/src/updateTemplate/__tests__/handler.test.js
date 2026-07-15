@@ -159,4 +159,25 @@ describe('updateTemplate', () => {
       expect(response.statusCode).toBe(401)
     })
   })
+
+  describe('when fetching providers throws an error', () => {
+    test('returns a status code 500', async () => {
+      const event = {
+        headers: {
+          Authorization: 'Bearer test'
+        },
+        body: JSON.stringify({
+          TemplateName: 'Test Template',
+          mock: 'Template Body'
+        }),
+        pathParameters: {
+          providerId: 'MMT_1'
+        }
+      }
+
+      const response = await updateTemplate(event)
+
+      expect(response.statusCode).toBe(500)
+    })
+  })
 })

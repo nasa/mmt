@@ -92,4 +92,25 @@ describe('deleteTemplate', () => {
       expect(listObjectsMock).toHaveBeenCalledTimes(0)
     })
   })
+
+  describe('when fetching providers throws an error', () => {
+    test('returns a status code 500', async () => {
+      const event = {
+        headers: {
+          Authorization: 'Bearer invalid_token'
+        },
+        body: JSON.stringify({
+          TemplateName: 'Test Template',
+          mock: 'Template Body'
+        }),
+        pathParameters: {
+          providerId: 'MMT_1'
+        }
+      }
+
+      const response = await deleteTemplate(event)
+
+      expect(response.statusCode).toBe(500)
+    })
+  })
 })
