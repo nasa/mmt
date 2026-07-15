@@ -22,6 +22,7 @@ global.fetch = vi.fn(() => Promise.resolve({
 
 afterEach(() => {
   delete process.env.JWT_SECRET
+  delete process.env.IS_OFFLINE
 })
 
 describe('Retrieving Providers', () => {

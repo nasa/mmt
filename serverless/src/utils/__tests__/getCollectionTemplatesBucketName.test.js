@@ -5,6 +5,6 @@ describe('getCollectionTemplatesBucketName', () => {
     process.env.IS_OFFLINE = true
     const bucketName = getCollectionTemplatesBucketName()
 
-    expect(bucketName).toMatchObject('mmt-template-bucket-local')
+    expect(bucketName).toBe('mmt-template-bucket-local')
   })
 })
