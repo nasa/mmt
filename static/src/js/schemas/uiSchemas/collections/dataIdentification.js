@@ -263,7 +263,100 @@ const dataIdentificationUiSchema = {
     }
   },
   Quality: {
-    'ui:widget': CustomTextareaWidget
+    'ui:heading-level': 'h4',
+    'ui:field': 'layout',
+    'ui:layout_grid': {
+      'ui:row': [
+        {
+          'ui:group': 'Quality',
+          'ui:group-description': true,
+          'ui:col': {
+            md: 12,
+            children: [
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['Summary']
+                    }
+                  }
+                ]
+              },
+              {
+                'ui:row': [
+                  {
+                    'ui:col': {
+                      md: 12,
+                      children: ['QualityContentDetails']
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    Summary: {
+      'ui:widget': CustomTextareaWidget
+    },
+    QualityContentDetails: {
+      'ui:heading-level': 'h5',
+      'ui:field': 'layout',
+      'ui:fieldReplacesAnyOrOneOf': true,
+      'ui:layout_grid': {
+        'ui:row': [
+          {
+            'ui:col': {
+              md: 12,
+              children: [
+                {
+                  'ui:row': [
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['Strengths']
+                      }
+                    },
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['Limitations']
+                      }
+                    },
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['KnownIssues']
+                      }
+                    },
+                    {
+                      'ui:col': {
+                        md: 12,
+                        children: ['Other']
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      Strengths: {
+        'ui:widget': CustomTextareaWidget
+      },
+      Limitations: {
+        'ui:widget': CustomTextareaWidget
+      },
+      KnownIssues: {
+        'ui:widget': CustomTextareaWidget
+      },
+      Other: {
+        'ui:widget': CustomTextareaWidget
+      }
+    }
   },
   UseConstraints: {
     'ui:widget': CustomSelectWidget,
