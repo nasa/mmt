@@ -151,4 +151,16 @@ describe('Retrieving Providers', () => {
 
     expect(providerIds).toEqual(undefined)
   })
+
+  test('returns an error when no headers are passed in', async () => {
+    process.env.IS_OFFLINE = true
+    const event = {}
+    const providerIds = await fetchProviders(event)
+      .catch((error) => {
+        expect(error.message).toContain('Cannot destructure property \'edlToken\'')
+        expect(error.message).toContain('as it is null.')
+      })
+
+    expect(providerIds).toEqual(undefined)
+  })
 })
