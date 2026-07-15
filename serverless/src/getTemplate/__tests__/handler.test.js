@@ -15,7 +15,7 @@ describe('getTemplate', () => {
   describe('when the object is found', () => {
     test('returns the template from s3', async () => {
       const listObjectsMock = vi.spyOn(s3ListObjects, 's3ListObjects').mockResolvedValue([{
-        Key: 'MMT-1/mock-id'
+        Key: 'MMT_1/mock-id'
       }])
 
       const mockBody = new Blob([JSON.stringify({ Mock: 'Template' })])
@@ -34,21 +34,26 @@ describe('getTemplate', () => {
       })
 
       const event = {
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        },
         pathParameters: {
-          id: 'mock-id'
+          id: 'mock-id',
+          providerId: 'MMT_1'
         }
       }
 
       const response = await getTemplate(event)
-      const result = JSON.parse(response.body)
 
       expect(response.statusCode).toBe(200)
+
+      const result = JSON.parse(response.body)
 
       expect(result.template).toEqual(expect.objectContaining({
         Mock: 'Template'
       }))
 
-      expect(result.providerId).toEqual('MMT-1')
+      expect(result.providerId).toEqual('MMT_1')
 
       expect(listObjectsMock).toHaveBeenCalledTimes(1)
       expect(listObjectsMock).toHaveBeenCalledWith(expect.any(Object))
@@ -75,6 +80,29 @@ describe('getTemplate', () => {
 
       expect(consoleMock).toHaveBeenCalledTimes(1)
       expect(consoleMock).toHaveBeenCalledWith('getTemplate Error:', expect.any(Object))
+    })
+  })
+
+  describe('when you do not have authorization to get', () => {
+    test('returns a status code 401', async () => {
+      const listObjectsMock = vi.spyOn(s3ListObjects, 's3ListObjects').mockResolvedValue([{
+        Key: 'MMT_3/mock-id'
+      }])
+
+      const event = {
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        },
+        pathParameters: {
+          id: 'mock-id'
+        }
+      }
+
+      const response = await getTemplate(event)
+
+      expect(response.statusCode).toBe(401)
+
+      expect(listObjectsMock).toHaveBeenCalledTimes(1)
     })
   })
 })
