@@ -326,4 +326,37 @@ describe('DraftPreview', () => {
       expect(await screen.findByText('This record does not exist in CMR, please contact support@earthdata.nasa.gov if you believe this is an error.')).toBeVisible()
     })
   })
+
+  describe('when a draft was made with outdated schema and deprecated fields/types', () => {
+    test('renders alert banner telling users to delete and recreate draft', async () => {
+      setup({
+        pageUrl: '/drafts/collections/CD1000000-MMT',
+        path: '/drafts/collections',
+        overrideMocks: [{
+          request: {
+            query: conceptTypeDraftQueries.Collection,
+            variables: {
+              params: {
+                conceptId: 'CD1000000-MMT',
+                conceptType: 'Collection'
+              }
+            }
+          },
+          result: {
+            data: {
+              draft: {
+                conceptId: 'CD1000000-MMT',
+                conceptType: 'collection-draft',
+                ummMetadata: {
+                  Quality: 'old quality string'
+                }
+              }
+            }
+          }
+        }]
+      })
+
+      expect(await screen.findByText('This draft contains deprecated data for the field: Quality. Please delete and recreate before proceeding.')).toBeVisible()
+    })
+  })
 })
