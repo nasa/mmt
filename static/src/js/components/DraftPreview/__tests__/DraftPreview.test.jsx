@@ -356,7 +356,7 @@ describe('DraftPreview', () => {
         }]
       })
 
-      expect(await screen.findByText('This draft contains deprecated fields. Please delete and recreate before proceeding.')).toBeVisible()
+      expect(await screen.findByText('This draft contains deprecated data for the field: Quality. Please delete and recreate before proceeding.')).toBeVisible()
     })
   })
 })

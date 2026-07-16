@@ -94,7 +94,7 @@ const DraftPreview = () => {
                         <strong>Caution</strong>
                       </span>
                       <span className="text-center">
-                        This draft contains deprecated fields.
+                        This draft contains deprecated data for the field: Quality.
                         Please delete and recreate before proceeding.
                       </span>
                     </Alert>
