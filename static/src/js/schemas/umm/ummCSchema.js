@@ -132,7 +132,7 @@ const ummCSchema = {
       ]
     },
     Quality: {
-      description: 'Free text description of the quality of the collection data.  Description may include: 1) succinct description of the quality of data in the collection; 2) Any quality assurance procedures followed in producing the data in the collection; 3) indicators of collection quality or quality flags - both validated or invalidated; 4) recognized or potential problems with quality; 5) established quality control mechanisms; and 6) established quantitative quality measurements.',
+      description: "Elements describing quality of the collection data. The description may include: 1) Known issues, specific, identified problems with the dataset that users should be aware of, including sensor degradation, data gaps, retrieval biases, spatial and/or temporal biases; 2) Strengths,  positive attributes of the dataset that describe its utility or scientific rigor, including data product accuracy, reliability, and long-term stability; 3) Limitations, general constraints or weaknesses inherent to the dataset, but not necessarily 'errors', including boundaries of appropriate use due to sensor design, algorithms, or sampling; 4) Other, any additional quality information that does not fall directly in any one of above categories, including descriptions of quality flags.",
       $ref: '#/definitions/QualityType'
     },
     UseConstraints: {
@@ -1736,10 +1736,42 @@ const ummCSchema = {
       pattern: "[\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=,][\\w\\-&'()\\[\\]/.\"#$%\\^@!*+=, ]{0,1023}"
     },
     QualityType: {
-      description: 'Free-text information about the quality of the data in the collection or any quality assurance procedures followed in producing the data described in the metadata. Suggestions for information to include in the Quality field: Description should be succinct. Include indicators of data quality or quality flags. Include recognized or potential problems with quality. Established quality control mechanisms should be included. Established quantitative quality measurements should be included.',
+      type: 'object',
+      additionalProperties: false,
+      description: 'Information about quality of the collection data, including a summary, known issues, strengths, limitations, and other quality-related information.',
+      properties: {
+        Summary: {
+          description: 'Summary, a short description, of the quality element(s) of the data in the collection in the form of a text overview and can be itemized with hyperlinks.',
+          type: 'string',
+          minLength: 1,
+          maxLength: 12000
+        },
+        QualityContentDetails: {
+          description: 'Elements describing information about quality of the collection data, including a summary, known issues, strengths, limitations, and other quality-related information',
+          $ref: '#/definitions/QualityContentDetailsType'
+        }
+      },
+      required: ['Summary']
+    },
+    QualityContentDetailsType: {
+      type: 'object',
+      additionalProperties: false,
+      description: 'Elements describing information about quality of the collection data, including a summary, known issues, strengths, limitations, and other quality-related information',
+      properties: {
+        Strengths: { $ref: '#/definitions/QualityContentDetailStringType' },
+        Limitations: { $ref: '#/definitions/QualityContentDetailStringType' },
+        KnownIssues: { $ref: '#/definitions/QualityContentDetailStringType' },
+        Other: { $ref: '#/definitions/QualityContentDetailStringType' }
+      },
+      anyOf: [{ required: ['Strengths'] },
+        { required: ['Limitations'] },
+        { required: ['KnownIssues'] },
+        { required: ['Other'] }]
+    },
+    QualityContentDetailStringType: {
       type: 'string',
       minLength: 1,
-      maxLength: 12000
+      maxLength: 8000
     },
     MetadataAssociateTypeEnum: {
       description: 'The set of supported values for MetadataAssociationType.Type.',
@@ -3815,7 +3847,7 @@ const ummCSchema = {
           description: 'This element represents the URL where the schema lives. The schema can be downloaded.',
           type: 'string',
           enum: [
-            'https://cdn.earthdata.nasa.gov/umm/collection/v1.18.5'
+            'https://cdn.earthdata.nasa.gov/umm/collection/v1.18.6'
           ]
         },
         Name: {
@@ -3829,7 +3861,7 @@ const ummCSchema = {
           description: 'This element represents the version of the schema.',
           type: 'string',
           enum: [
-            '1.18.5'
+            '1.18.6'
           ]
         }
       },
