@@ -30,9 +30,12 @@ describe('deleteTemplate', () => {
       })
 
       const event = {
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        },
         pathParameters: {
           id: 'mock-id',
-          providerId: 'MMT-1'
+          providerId: 'MMT_1'
         }
       }
 
@@ -41,7 +44,7 @@ describe('deleteTemplate', () => {
       expect(response.statusCode).toBe(200)
 
       expect(listObjectsMock).toHaveBeenCalledTimes(1)
-      expect(listObjectsMock).toHaveBeenCalledWith(expect.any(Object), 'MMT-1/mock-id')
+      expect(listObjectsMock).toHaveBeenCalledWith(expect.any(Object), 'MMT_1/mock-id')
     })
   })
 
@@ -50,9 +53,12 @@ describe('deleteTemplate', () => {
       const listObjectsMock = vi.spyOn(s3ListObjects, 's3ListObjects').mockResolvedValue([])
 
       const event = {
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        },
         pathParameters: {
           id: 'mock-id',
-          providerId: 'MMT-1'
+          providerId: 'MMT_1'
         }
       }
 
@@ -61,7 +67,50 @@ describe('deleteTemplate', () => {
       expect(response.statusCode).toBe(404)
 
       expect(listObjectsMock).toHaveBeenCalledTimes(1)
-      expect(listObjectsMock).toHaveBeenCalledWith(expect.any(Object), 'MMT-1/mock-id')
+      expect(listObjectsMock).toHaveBeenCalledWith(expect.any(Object), 'MMT_1/mock-id')
+    })
+  })
+
+  describe('when you do not have authorization to delete', () => {
+    test('returns a status code 401', async () => {
+      const listObjectsMock = vi.spyOn(s3ListObjects, 's3ListObjects').mockResolvedValue([])
+
+      const event = {
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        },
+        pathParameters: {
+          id: 'mock-id',
+          providerId: 'MMT_3'
+        }
+      }
+
+      const response = await deleteTemplate(event)
+
+      expect(response.statusCode).toBe(401)
+
+      expect(listObjectsMock).toHaveBeenCalledTimes(0)
+    })
+  })
+
+  describe('when fetching providers throws an error', () => {
+    test('returns a status code 500', async () => {
+      const event = {
+        headers: {
+          Authorization: 'Bearer invalid_token'
+        },
+        body: JSON.stringify({
+          TemplateName: 'Test Template',
+          mock: 'Template Body'
+        }),
+        pathParameters: {
+          providerId: 'MMT_1'
+        }
+      }
+
+      const response = await deleteTemplate(event)
+
+      expect(response.statusCode).toBe(500)
     })
   })
 })

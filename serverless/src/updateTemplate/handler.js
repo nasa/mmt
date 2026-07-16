@@ -2,7 +2,9 @@ import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
 
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { getS3Client } from '../utils/getS3Client'
+import { getCollectionTemplatesBucketName } from '../utils/getCollectionTemplatesBucketName'
 import { s3ListObjects } from '../utils/s3ListObjects'
+import fetchProviders from '../utils/fetchProviders'
 
 let s3Client
 
@@ -12,7 +14,7 @@ let s3Client
  */
 const updateTemplate = async (event) => {
   const { defaultResponseHeaders } = getApplicationConfig()
-  const { COLLECTION_TEMPLATES_BUCKET_NAME: collectionTemplatesBucketName } = process.env
+  const collectionTemplatesBucketName = getCollectionTemplatesBucketName()
 
   if (s3Client == null) {
     s3Client = getS3Client()
@@ -20,6 +22,27 @@ const updateTemplate = async (event) => {
 
   const { body, pathParameters } = event
   const { id, providerId } = pathParameters
+
+  try {
+    const providerIds = await fetchProviders(event)
+
+    if (!providerIds.includes(providerId)) {
+      console.error(`Missing permissions for provider "${providerId}"`)
+
+      return {
+        statusCode: 401,
+        headers: defaultResponseHeaders
+      }
+    }
+  } catch (error) {
+    console.log('Error fetching providers:', error)
+
+    return {
+      statusCode: 500,
+      headers: defaultResponseHeaders
+    }
+  }
+
   const { TemplateName: templateName } = JSON.parse(body)
   const hashedName = Buffer.from(templateName).toString('base64')
 

@@ -15,10 +15,10 @@ describe('getTemplates', () => {
   describe('when the objects are found', () => {
     test('returns the template names from s3', async () => {
       const listObjectsMock = vi.spyOn(s3ListObjects, 's3ListObjects').mockResolvedValue([{
-        Key: 'MMT-1/34a25a4d-da4e-4ffd-b374-beae7978f689/VGVzdCBUZW1wbGF0ZSAy',
+        Key: 'MMT_1/34a25a4d-da4e-4ffd-b374-beae7978f689/VGVzdCBUZW1wbGF0ZSAy',
         LastModified: '2024-04-01T19:18:11.000Z'
       }, {
-        Key: 'MMT-1/460bfd33-cad3-46f8-9eee-47664f98038c/VGVzdCBUZW1wbGF0ZSAx',
+        Key: 'MMT_1/460bfd33-cad3-46f8-9eee-47664f98038c/VGVzdCBUZW1wbGF0ZSAx',
         LastModified: '2024-04-02T19:18:11.000Z'
       }])
 
@@ -38,9 +38,12 @@ describe('getTemplates', () => {
       })
 
       const event = {
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        },
         pathParameters: {
           id: 'mock-id',
-          providerId: 'MMT-1'
+          providerId: 'MMT_1'
         }
       }
 
@@ -52,14 +55,14 @@ describe('getTemplates', () => {
         id: '460bfd33-cad3-46f8-9eee-47664f98038c',
         name: 'Test Template 1',
         lastModified: '2024-04-02T19:18:11.000Z',
-        providerId: 'MMT-1'
+        providerId: 'MMT_1'
       }))
 
       expect(JSON.parse(response.body)[1]).toEqual(expect.objectContaining({
         id: '34a25a4d-da4e-4ffd-b374-beae7978f689',
         name: 'Test Template 2',
         lastModified: '2024-04-01T19:18:11.000Z',
-        providerId: 'MMT-1'
+        providerId: 'MMT_1'
       }))
 
       expect(listObjectsMock).toHaveBeenCalledTimes(1)
@@ -72,8 +75,11 @@ describe('getTemplates', () => {
       const listObjectsMock = vi.spyOn(s3ListObjects, 's3ListObjects').mockResolvedValue([])
 
       const event = {
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        },
         pathParameters: {
-          providerId: 'MMT-1'
+          providerId: 'MMT_1'
         }
       }
 
@@ -87,15 +93,37 @@ describe('getTemplates', () => {
     })
   })
 
-  describe('when running in offline mode', () => {
-    test('returns an empty array without making a fetch request to S3', async () => {
-      process.env.IS_OFFLINE = 'true'
+  describe('when you do not have authorization to get', () => {
+    test('returns an empty array', async () => {
+      const listObjectsMock = vi.spyOn(s3ListObjects, 's3ListObjects').mockResolvedValue([{
+        Key: 'MMT_3/34a25a4d-da4e-4ffd-b374-beae7978f689/VGVzdCBUZW1wbGF0ZSAy',
+        LastModified: '2024-04-01T19:18:11.000Z'
+      }, {
+        Key: 'MMT_3/460bfd33-cad3-46f8-9eee-47664f98038c/VGVzdCBUZW1wbGF0ZSAx',
+        LastModified: '2024-04-02T19:18:11.000Z'
+      }])
 
-      const listObjectsMock = vi.spyOn(s3ListObjects, 's3ListObjects')
+      const mockBody = new Blob([JSON.stringify({ Mock: 'Template' })])
+      const body = sdkStreamMixin(mockBody)
+
+      s3ClientMock.on(GetObjectCommand).resolves({
+        $metadata: {
+          httpStatusCode: 200,
+          requestId: undefined,
+          extendedRequestId: undefined,
+          cfId: undefined,
+          attempts: 1,
+          totalRetryDelay: 0
+        },
+        Body: body
+      })
 
       const event = {
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        },
         pathParameters: {
-          providerId: 'MMT-1'
+          id: 'mock-id'
         }
       }
 
@@ -104,7 +132,30 @@ describe('getTemplates', () => {
       expect(response.statusCode).toBe(200)
       expect(response.body).toBe(JSON.stringify([]))
 
-      expect(listObjectsMock).not.toHaveBeenCalled()
+      expect(listObjectsMock).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('when there is an error', () => {
+    test('returns 404', async () => {
+      const listObjectsMock = vi.spyOn(s3ListObjects, 's3ListObjects').mockResolvedValue([{
+        Key: 'MMT_3/mock-id' // Incomplete mock
+      }])
+
+      const event = {
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        },
+        pathParameters: {
+          id: 'mock-id'
+        }
+      }
+
+      const response = await getTemplates(event)
+
+      expect(response.statusCode).toBe(404)
+
+      expect(listObjectsMock).toHaveBeenCalledTimes(1)
     })
   })
 })

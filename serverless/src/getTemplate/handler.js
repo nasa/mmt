@@ -3,6 +3,8 @@ import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { s3ListObjects } from '../utils/s3ListObjects'
 import { getS3Client } from '../utils/getS3Client'
+import { getCollectionTemplatesBucketName } from '../utils/getCollectionTemplatesBucketName'
+import fetchProviders from '../utils/fetchProviders'
 
 let s3Client
 
@@ -40,10 +42,21 @@ const getTemplate = async (event) => {
       return false
     })
 
-    const { Key: key } = object
+    const key = object.Key
+
+    const providerIds = await fetchProviders(event)
+
+    if (!providerIds.includes(providerId)) {
+      console.error(`Missing permissions for provider "${providerId}"`)
+
+      return {
+        statusCode: 401,
+        headers: defaultResponseHeaders
+      }
+    }
 
     // Retrieve the file from S3
-    const { COLLECTION_TEMPLATES_BUCKET_NAME: collectionTemplatesBucketName } = process.env
+    const collectionTemplatesBucketName = getCollectionTemplatesBucketName()
     const getCommand = new GetObjectCommand({
       Bucket: collectionTemplatesBucketName,
       Key: key

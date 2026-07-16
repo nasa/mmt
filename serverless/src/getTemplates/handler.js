@@ -1,6 +1,7 @@
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { s3ListObjects } from '../utils/s3ListObjects'
 import { getS3Client } from '../utils/getS3Client'
+import fetchProviders from '../utils/fetchProviders'
 
 let s3Client
 
@@ -8,23 +9,15 @@ let s3Client
  * Retrieve a list of templates from S3
  * @param {Object} event Details about the HTTP request that it received
  */
-const getTemplates = async () => {
+const getTemplates = async (event) => {
   const { defaultResponseHeaders } = getApplicationConfig()
 
   if (s3Client == null) {
     s3Client = getS3Client()
   }
 
-  // If we're running offline, return an empty array without making a fetch request to S3
-  if (process.env.IS_OFFLINE) {
-    return {
-      body: JSON.stringify([]),
-      statusCode: 200,
-      headers: defaultResponseHeaders
-    }
-  }
-
   try {
+    const providerIds = await fetchProviders(event)
     const objectList = await s3ListObjects(s3Client)
 
     const body = objectList.map((object) => {
@@ -38,7 +31,7 @@ const getTemplates = async () => {
         name,
         providerId
       }
-    })
+    }).filter((object) => providerIds.includes(object.providerId))
 
     const sortedBody = body.sort((a, b) => {
       const nameA = a.name.toUpperCase()
