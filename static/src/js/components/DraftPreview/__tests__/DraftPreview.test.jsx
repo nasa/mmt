@@ -348,7 +348,10 @@ describe('DraftPreview', () => {
                 conceptId: 'CD1000000-MMT',
                 conceptType: 'collection-draft',
                 ummMetadata: {
-                  Quality: 'old quality string'
+                  Quality: {
+                    0: 'a',
+                    1: 'b'
+                  }
                 }
               }
             }

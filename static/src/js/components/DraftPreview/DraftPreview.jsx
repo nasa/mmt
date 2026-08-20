@@ -57,8 +57,17 @@ const DraftPreview = () => {
   } = draft
 
   // If a user has saved a draft with a pervious schema version that is no longer compatible with the current version, let schemaVersionError to true
-  if (derivedConceptType === 'Collection' && (typeof ummMetadata.Quality === 'string')) {
-    schemaVersionError = true
+  if (derivedConceptType === 'Collection' && ummMetadata?.Quality) {
+    const quality = ummMetadata.Quality
+
+    const isString = typeof quality === 'string'
+
+    // Checks to see if the string was spread into an object (ie. {"0": "F", "1": "i"})
+    const isCorruptedObject = typeof quality === 'object' && quality !== null && '0' in quality
+
+    if (isString || isCorruptedObject) {
+      schemaVersionError = true
+    }
   }
 
   // Get the UMM Schema for the draft
