@@ -2,25 +2,26 @@ import React, { useState, useEffect } from 'react'
 import Accordion from 'react-bootstrap/Accordion'
 import JSONPretty from 'react-json-pretty'
 import { cloneDeep } from 'lodash-es'
+import PropTypes from 'prop-types'
+import validator from '@rjsf/validator-ajv8'
 
 import useAppContext from '../../hooks/useAppContext'
 import removeEmpty from '../../utils/removeEmpty'
 import Button from '../Button/Button'
 
-const JsonPreview = () => {
+const JsonPreview = ({ schema }) => {
   const {
     draft = {},
     setDraft
   } = useAppContext()
 
-  // Remove || {} in MMT-4070
   const { ummMetadata = {} } = draft || {}
 
   const data = cloneDeep(removeEmpty(ummMetadata))
 
   const [isEditing, setIsEditing] = useState(false)
   const [jsonText, setJsonText] = useState('')
-  const [error, setError] = useState(null)
+  const [errors, setErrors] = useState([])
 
   // Keep the buffer in sync with the draft whenever we're not actively editing
   // (e.g. the form itself changed a field).
@@ -32,19 +33,19 @@ const JsonPreview = () => {
 
   const handleEditClick = () => {
     setJsonText(JSON.stringify(data, null, 2))
-    setError(null)
+    setErrors([])
     setIsEditing(true)
   }
 
   const handleCancel = () => {
     setJsonText(JSON.stringify(data, null, 2))
-    setError(null)
+    setErrors([])
     setIsEditing(false)
   }
 
   const handleTextChange = (event) => {
     setJsonText(event.target.value)
-    if (error) setError(null)
+    if (errors.length > 0) setErrors([])
   }
 
   const handleSave = () => {
@@ -53,9 +54,41 @@ const JsonPreview = () => {
     try {
       parsed = JSON.parse(jsonText)
     } catch (parseError) {
-      setError(`Invalid JSON: ${parseError.message}`)
+      setErrors([`Invalid JSON: ${parseError.message}`])
 
       return
+    }
+
+    if (schema) {
+      const { errors: schemaErrors = [] } = validator.validateFormData(parsed, schema)
+
+      // Only block on structural problems (an unknown/typo'd field name, or a
+      // value of the wrong type). Missing-required-field errors are ignored
+      // here so saving through the JSON editor stays as permissive as saving
+      // through the form fields, which never blocks on incomplete drafts.
+      const structuralErrors = schemaErrors.filter(({ name }) => name !== 'required')
+
+      if (structuralErrors.length > 0) {
+        setErrors(structuralErrors.map(({
+          name,
+          property,
+          message,
+          params
+        }) => {
+          // AJV puts the actual bad key in params.additionalProperty for this
+          // error type -- `property` here refers to the parent object, and
+          // `message` alone doesn't name the offending field at all.
+          if (name === 'additionalProperties' && params?.additionalProperty) {
+            const location = property ? `${property} ` : ''
+
+            return `${location}must NOT have additional property '${params.additionalProperty}'`
+          }
+
+          return property ? `${property} ${message}` : message
+        }))
+
+        return
+      }
     }
 
     setDraft({
@@ -63,7 +96,7 @@ const JsonPreview = () => {
       ummMetadata: parsed
     })
 
-    setError(null)
+    setErrors([])
     setIsEditing(false)
   }
 
@@ -112,9 +145,21 @@ const JsonPreview = () => {
           </div>
 
           {
-            error && (
+            errors.length > 0 && (
               <div className="text-danger small mb-2" role="alert">
-                {error}
+                {
+                  errors.length === 1
+                    ? errors[0]
+                    : (
+                      <ul className="mb-0 ps-3">
+                        {
+                          errors.map((message) => (
+                            <li key={message}>{message}</li>
+                          ))
+                        }
+                      </ul>
+                    )
+                }
               </div>
             )
           }
@@ -123,7 +168,7 @@ const JsonPreview = () => {
             isEditing
               ? (
                 <textarea
-                  className={`form-control font-monospace ${error ? 'is-invalid' : ''}`}
+                  className={`form-control font-monospace ${errors.length > 0 ? 'is-invalid' : ''}`}
                   rows={20}
                   value={jsonText}
                   onChange={handleTextChange}
@@ -137,6 +182,18 @@ const JsonPreview = () => {
       </Accordion.Item>
     </Accordion>
   )
+}
+
+JsonPreview.defaultProps = {
+  schema: null
+}
+
+JsonPreview.propTypes = {
+  // The full UMM schema (not a section-limited schema) to validate the
+  // edited JSON against on save. If omitted, only JSON-syntax validation
+  // is performed.
+  // eslint-disable-next-line react/forbid-prop-types
+  schema: PropTypes.object
 }
 
 export default JsonPreview

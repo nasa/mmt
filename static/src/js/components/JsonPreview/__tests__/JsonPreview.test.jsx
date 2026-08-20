@@ -8,7 +8,17 @@ import AppContext from '../../../context/AppContext'
 
 vi.mock('react-json-pretty')
 
-const setup = (draft = undefined, overrides = {}) => {
+const mockSchema = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['Name'],
+  properties: {
+    Name: { type: 'string' },
+    Age: { type: 'number' }
+  }
+}
+
+const setup = (draft = undefined, { schema = null } = {}) => {
   const setDraft = vi.fn()
 
   render(
@@ -16,12 +26,11 @@ const setup = (draft = undefined, overrides = {}) => {
       value={
         {
           draft,
-          setDraft,
-          ...overrides
+          setDraft
         }
       }
     >
-      <JsonPreview />
+      <JsonPreview schema={schema} />
     </AppContext.Provider>
   )
 
@@ -227,6 +236,161 @@ describe('JsonPreview Component', () => {
       await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
 
       expect(screen.getByRole('textbox', { name: 'Editable JSON metadata' }).value).toContain('"Name": "Mock Name"')
+    })
+  })
+
+  describe('when a schema prop is provided', () => {
+    describe('when the edited JSON is only missing a required field', () => {
+      test('saves anyway, since missing-required-field errors are ignored', async () => {
+        const user = userEvent.setup()
+
+        const { setDraft } = setup({
+          ummMetadata: {
+            Name: 'Mock Name'
+          }
+        }, { schema: mockSchema })
+
+        await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
+
+        const textarea = screen.getByRole('textbox', { name: 'Editable JSON metadata' })
+
+        // Removes the required `Name` field entirely
+        await user.clear(textarea)
+        await user.type(textarea, '{{}', { skipClick: true })
+
+        await user.click(screen.getByRole('button', { name: 'Save' }))
+
+        expect(setDraft).toHaveBeenCalledTimes(1)
+        expect(setDraft).toHaveBeenCalledWith({
+          ummMetadata: {}
+        })
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(screen.getByRole('button', { name: 'Edit JSON' })).toBeInTheDocument()
+      })
+    })
+
+    describe('when the edited JSON has an unknown/typo\'d field name', () => {
+      test('blocks the save, names the offending field, and stays in edit mode', async () => {
+        const user = userEvent.setup()
+
+        const { setDraft } = setup({
+          ummMetadata: {
+            Name: 'Mock Name'
+          }
+        }, { schema: mockSchema })
+
+        await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
+
+        const textarea = screen.getByRole('textbox', { name: 'Editable JSON metadata' })
+
+        await user.clear(textarea)
+        await user.type(textarea, '{{"Name": "Mock Name", "Nmae": "typo"}', { skipClick: true })
+
+        await user.click(screen.getByRole('button', { name: 'Save' }))
+
+        expect(setDraft).not.toHaveBeenCalled()
+
+        const alert = screen.getByRole('alert')
+
+        expect(alert).toHaveTextContent(/Nmae/)
+        expect(alert).toHaveTextContent(/must NOT have additional property/)
+
+        expect(screen.getByRole('textbox', { name: 'Editable JSON metadata' })).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument()
+      })
+    })
+
+    describe('when the edited JSON has a value of the wrong type', () => {
+      test('blocks the save and shows the type error', async () => {
+        const user = userEvent.setup()
+
+        const { setDraft } = setup({
+          ummMetadata: {
+            Name: 'Mock Name'
+          }
+        }, { schema: mockSchema })
+
+        await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
+
+        const textarea = screen.getByRole('textbox', { name: 'Editable JSON metadata' })
+
+        await user.clear(textarea)
+        await user.type(textarea, '{{"Name": "Mock Name", "Age": "not a number"}', { skipClick: true })
+
+        await user.click(screen.getByRole('button', { name: 'Save' }))
+
+        expect(setDraft).not.toHaveBeenCalled()
+
+        const alert = screen.getByRole('alert')
+
+        expect(alert).toHaveTextContent(/Age/)
+        expect(alert).toHaveTextContent(/must be number/)
+      })
+    })
+
+    describe('when the edited JSON has both a missing required field and a structural error', () => {
+      test('only the structural error is shown, the required error is omitted', async () => {
+        const user = userEvent.setup()
+
+        const { setDraft } = setup({
+          ummMetadata: {
+            Name: 'Mock Name'
+          }
+        }, { schema: mockSchema })
+
+        await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
+
+        const textarea = screen.getByRole('textbox', { name: 'Editable JSON metadata' })
+
+        // Missing required `Name`, and has an unknown field `Nmae`
+        await user.clear(textarea)
+        await user.type(textarea, '{{"Nmae": "typo"}', { skipClick: true })
+
+        await user.click(screen.getByRole('button', { name: 'Save' }))
+
+        expect(setDraft).not.toHaveBeenCalled()
+
+        const alert = screen.getByRole('alert')
+
+        expect(alert).toHaveTextContent(/Nmae/)
+        expect(alert).not.toHaveTextContent(/required/)
+
+        // A single error renders as plain text, not as a list
+        expect(screen.queryByRole('listitem')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when the edited JSON has multiple structural errors', () => {
+      test('renders each error as a separate list item', async () => {
+        const user = userEvent.setup()
+
+        const { setDraft } = setup({
+          ummMetadata: {
+            Name: 'Mock Name'
+          }
+        }, { schema: mockSchema })
+
+        await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
+
+        const textarea = screen.getByRole('textbox', { name: 'Editable JSON metadata' })
+
+        await user.clear(textarea)
+        await user.type(textarea, '{{"Name": "Mock Name", "Nmae": "typo", "Aeg": "typo2"}', { skipClick: true })
+
+        await user.click(screen.getByRole('button', { name: 'Save' }))
+
+        expect(setDraft).not.toHaveBeenCalled()
+
+        const listItems = screen.getAllByRole('listitem')
+
+        expect(listItems).toHaveLength(2)
+
+        const combinedText = listItems.map((item) => item.textContent).join(' ')
+
+        expect(combinedText).toContain('Nmae')
+        expect(combinedText).toContain('Aeg')
+      })
     })
   })
 })

@@ -382,7 +382,7 @@ const TemplateForm = () => {
         </Row>
         <Row className="json-view">
           <Col sm={8}>
-            <JsonPreview />
+            <JsonPreview schema={ummCTemplateSchema} />
           </Col>
         </Row>
       </Container>
