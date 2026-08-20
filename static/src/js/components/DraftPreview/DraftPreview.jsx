@@ -56,9 +56,9 @@ const DraftPreview = () => {
     ummMetadata
   } = draft
 
-  // If a user has saved a draft with a pervious schema version that is no longer compatible with the current version, let schemaVersionError to true
-  if (derivedConceptType === 'Collection' && ummMetadata?.Quality) {
-    const quality = ummMetadata.Quality
+  // If a user has saved a draft with a pervious schema version that is no longer compatible with the current version, set schemaVersionError to true
+  if (derivedConceptType === 'Collection') {
+    const quality = ummMetadata?.Quality
 
     const isString = typeof quality === 'string'
 

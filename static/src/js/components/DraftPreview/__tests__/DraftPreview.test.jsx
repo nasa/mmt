@@ -327,7 +327,40 @@ describe('DraftPreview', () => {
     })
   })
 
-  describe('when a draft was made with outdated schema and deprecated fields/types', () => {
+  describe('when a draft was made with an old quality string', () => {
+    test('renders alert banner telling users to delete and recreate draft', async () => {
+      setup({
+        pageUrl: '/drafts/collections/CD1000000-MMT',
+        path: '/drafts/collections',
+        overrideMocks: [{
+          request: {
+            query: conceptTypeDraftQueries.Collection,
+            variables: {
+              params: {
+                conceptId: 'CD1000000-MMT',
+                conceptType: 'Collection'
+              }
+            }
+          },
+          result: {
+            data: {
+              draft: {
+                conceptId: 'CD1000000-MMT',
+                conceptType: 'collection-draft',
+                ummMetadata: {
+                  Quality: 'old quality string'
+                }
+              }
+            }
+          }
+        }]
+      })
+
+      expect(await screen.findByText('This draft contains deprecated data for the field: Quality. Please delete and recreate before proceeding.')).toBeVisible()
+    })
+  })
+
+  describe('when a draft was made with a malformed quality field', () => {
     test('renders alert banner telling users to delete and recreate draft', async () => {
       setup({
         pageUrl: '/drafts/collections/CD1000000-MMT',
