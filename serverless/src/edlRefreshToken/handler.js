@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { getEdlConfig, getApplicationConfig } from '../../../sharedUtils/getConfig'
 import createJwt from '../utils/createJwt'
-import createCookie from '../utils/createCookie'
 import { downcaseKeys } from '../utils/downcaseKeys'
 
 /**
@@ -91,17 +90,18 @@ const edlRefreshToken = async (event) => {
     // Create a new JWT with the new access token, refresh token, and existing EDL profile
     const newJwt = createJwt(newAccessToken, newRefreshToken, expiresAt, edlProfile)
 
-    const expiresAtInSeconds = Math.floor(new Date(expiresAt).getTime() / 1000)
-
+    // The refreshed token is returned in the body rather than a 'Set-Cookie'
+    // header so MMT can store it against its own host.
     return {
       statusCode: 200,
       headers: {
-        'Set-Cookie': createCookie(newJwt, expiresAtInSeconds),
         'Access-Control-Allow-Origin': mmtHost,
         'Access-Control-Allow-Headers': '*',
         'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Credentials': true
-      }
+        'Access-Control-Allow-Credentials': true,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ token: newJwt })
     }
   } catch (error) {
     console.error('Token refresh error:', error.message)

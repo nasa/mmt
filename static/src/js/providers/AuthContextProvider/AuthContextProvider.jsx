@@ -14,16 +14,14 @@ import AuthContext from '@/js/context/AuthContext'
 import useMMTCookie from '@/js/hooks/useMMTCookie'
 
 import errorLogger from '@/js/utils/errorLogger'
+import getMMTCookieOptions from '@/js/utils/getMMTCookieOptions'
 import refreshToken from '@/js/utils/refreshToken'
 
 import MMT_COOKIE from 'sharedConstants/mmtCookie'
 
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
-const {
-  apiHost,
-  cookieDomain
-} = getApplicationConfig()
+const { apiHost } = getApplicationConfig()
 
 const MAX_IDLE_TIMEOUT = 900000
 const REFRESH_THRESHOLD_MS = 60000
@@ -65,7 +63,6 @@ const resetTokenState = ({
   setUser
 }) => {
   setCookie(MMT_COOKIE, null, {
-    domain: cookieDomain,
     path: '/',
     maxAge: 0,
     expires: new Date(0)
@@ -237,8 +234,6 @@ const AuthContextProvider = ({ children }) => {
         setToken: (result) => {
           refreshInProgress.current = false
 
-          // When the token refresh succeeds, the server sets a new cookie
-          // The next time mmtJwt changes, our effect will process the new token
           // If the refresh fails, redirects happen in the refreshToken function
           if (result === null) {
             // Handle token reset, but don't redirect (already happening in refreshToken)
@@ -248,8 +243,13 @@ const AuthContextProvider = ({ children }) => {
               setTokenValue,
               setUser
             })
+
+            return
           }
-          // Result === 'refresh_success' is handled by the cookie change
+
+          // Storing the refreshed token changes mmtJwt and the effect watching
+          // it parses the new token into state
+          setCookie(MMT_COOKIE, result, getMMTCookieOptions(result))
         }
       })
     }
