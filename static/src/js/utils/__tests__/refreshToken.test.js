@@ -10,10 +10,11 @@ vi.mock('../overrideStatic.config.json', () => ({}))
 
 describe('refreshToken in production mode', () => {
   describe('when the request is successful', () => {
-    test('calls setToken with success signal', async () => {
+    test('calls setToken with refreshed token', async () => {
       global.fetch.mockResolvedValue(Promise.resolve({
         ok: true,
-        status: 200
+        status: 200,
+        json: async () => ({ token: 'refreshed_token' })
       }))
 
       const setToken = vi.fn()
@@ -24,7 +25,7 @@ describe('refreshToken in production mode', () => {
       })
 
       expect(setToken).toHaveBeenCalledTimes(1)
-      expect(setToken).toHaveBeenCalledWith('refresh_success')
+      expect(setToken).toHaveBeenCalledWith('refreshed_token')
 
       expect(fetch).toHaveBeenCalledTimes(1)
       expect(fetch).toHaveBeenCalledWith(

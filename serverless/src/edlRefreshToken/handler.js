@@ -98,8 +98,7 @@ const edlRefreshToken = async (event) => {
         'Access-Control-Allow-Origin': mmtHost,
         'Access-Control-Allow-Headers': '*',
         'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Credentials': true,
-        'Content-Type': 'application/json'
+        'Access-Control-Allow-Credentials': true
       },
       body: JSON.stringify({ token: newJwt })
     }
