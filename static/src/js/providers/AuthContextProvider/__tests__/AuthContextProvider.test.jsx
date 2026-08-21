@@ -24,7 +24,6 @@ vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
   ...await vi.importActual('../../../../../../sharedUtils/getConfig'),
   getApplicationConfig: vi.fn(() => ({
     apiHost: 'http://test.com/dev',
-    cookieDomain: 'example.com',
     tokenValidTime: '900'
   }))
 }))
@@ -110,7 +109,6 @@ describe('AuthContextProvider component', () => {
 
         expect(setCookie).toHaveBeenCalledTimes(1)
         expect(setCookie).toHaveBeenCalledWith(MMT_COOKIE, null, {
-          domain: 'example.com',
           path: '/',
           maxAge: 0,
           expires: new Date(0)

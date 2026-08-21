@@ -7,6 +7,7 @@ import isTokenExpired from '@/js/utils/isTokenExpired'
 
 /**
  * This class handles the authenticated redirect from our EDL callback lambda function.
+ * The token itself is stored before the app renders, see 'consumeAuthToken'
  * We get the EDL token and redirect to the specified `target` path
  */
 export const AuthCallback = () => {
