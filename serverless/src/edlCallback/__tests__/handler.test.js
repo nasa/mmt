@@ -10,7 +10,6 @@ import edlCallback from '../handler'
 import * as getConfig from '../../../../sharedUtils/getConfig'
 import fetchEdlProfile from '../../utils/fetchEdlProfile'
 import createJwt from '../../utils/createJwt'
-import * as createCookieModule from '../../utils/createCookie'
 
 beforeAll(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {})
@@ -20,7 +19,6 @@ afterAll(() => {
   vi.restoreAllMocks()
 })
 
-const realCreateCookie = createCookieModule.default
 vi.mock('../../utils/AuthorizationCode', () => ({
   default: vi.fn()
 }))
@@ -46,15 +44,27 @@ vi.mock('@sharedUtils/getConfig', () => {
 vi.mock('../../utils/fetchEdlProfile')
 vi.mock('../../utils/createJwt')
 
-describe('edlCallback', () => {
-  let createCookieSpy
+/**
+ * The complete set of headers the handler returns when redirecting back to MMT
+ *
+ * COMMENT TO BE REMVOED AFTER PR: Two absenses here: Set-Cookie becakse the token
+ * now travesl in teh URL fragment, and Access Control Allow Credentials because
+ * nothing makes a credentialed request against this endpoing and pairing that
+ * header with a wildcard irigin is invalid per the CORS spec.
+ */
+const redirectHeaders = (location) => ({
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': '*',
+  'Access-Control-Allow-Methods': 'GET, POST',
+  Location: location
+})
 
+describe('edlCallback', () => {
   beforeEach(() => {
     vi.resetAllMocks()
     vi.spyOn(Date, 'now').mockReturnValue(new Date('2022-12-31T23:45:00Z').getTime())
     process.env.EDL_CLIENT_ID = 'test-client-id'
     process.env.EDL_PASSWORD = 'test-client-secret'
-    process.env.COOKIE_DOMAIN = '.example.com'
     delete process.env.IS_OFFLINE
     delete process.env.JWT_VALID_TIME
 
@@ -70,9 +80,6 @@ describe('edlCallback', () => {
     })
 
     createJwt.mockReturnValue('test-jwt')
-    createCookieSpy = vi
-      .spyOn(createCookieModule, 'default')
-      .mockImplementation((...args) => realCreateCookie(...args))
 
     AuthorizationCode.mockImplementation(() => ({
       getToken: vi.fn().mockResolvedValue(undefined)
@@ -81,7 +88,7 @@ describe('edlCallback', () => {
 
   describe('when handling EDL callback', () => {
     describe('when the callback is successful', () => {
-      test('should return a redirect with a JWT cookie', async () => {
+      test('should return a redirect with a JWT in the URL fragment', async () => {
         const mockEvent = {
           queryStringParameters: {
             code: 'test-code',
@@ -107,8 +114,7 @@ describe('edlCallback', () => {
         const response = await edlCallback(mockEvent)
 
         expect(response.statusCode).toBe(303)
-        expect(response.headers.Location).toBe('https://mmt.example.com/auth-callback?target=%2Fdashboard')
-        expect(response.headers['Set-Cookie']).toBe('_mmt_jwt_test=test-jwt; SameSite=Strict; Path=/; Domain=.example.com; Max-Age=900; Secure;')
+        expect(response.headers.Location).toBe('https://mmt.example.com/auth-callback?target=%2Fdashboard#token=test-jwt')
       })
     })
 
@@ -188,7 +194,6 @@ describe('edlCallback', () => {
 
         const response = await edlCallback(mockEvent)
         const offlineExpiration = '2023-01-01T00:15:00.000Z'
-        const expectedExpirationSeconds = Math.floor(new Date(offlineExpiration).getTime() / 1000)
 
         expect(AuthorizationCode).not.toHaveBeenCalled()
         expect(fetchEdlProfile).toHaveBeenCalledWith('ABC-1')
@@ -199,9 +204,8 @@ describe('edlCallback', () => {
           { uid: 'offline-user' }
         )
 
-        expect(createCookieSpy).toHaveBeenCalledWith('test-jwt', expectedExpirationSeconds)
         expect(response.statusCode).toBe(303)
-        expect(response.headers.Location).toBe('https://mmt.example.com/auth-callback?target=%2Fdashboard')
+        expect(response.headers).toEqual(redirectHeaders('https://mmt.example.com/auth-callback?target=%2Fdashboard#token=test-jwt'))
 
         delete process.env.IS_OFFLINE
       })
@@ -278,7 +282,7 @@ describe('edlCallback', () => {
 
         const response = await edlCallback(mockEvent)
 
-        expect(response.headers.Location).toBe('https://mmt.example.com/auth-callback?target=%2F')
+        expect(response.headers).toEqual(redirectHeaders('https://mmt.example.com/auth-callback?target=%2F#token=test-jwt'))
       })
 
       test('should handle custom target in state', async () => {
@@ -306,12 +310,12 @@ describe('edlCallback', () => {
 
         const response = await edlCallback(mockEvent)
 
-        expect(response.headers.Location).toBe('https://mmt.example.com/auth-callback?target=%2Fcustom-page')
+        expect(response.headers).toEqual(redirectHeaders('https://mmt.example.com/auth-callback?target=%2Fcustom-page#token=test-jwt'))
       })
     })
 
-    describe('when creating JWT and cookie', () => {
-      test('should call createJwt and createCookie with correct parameters', async () => {
+    describe('when creating JWT', () => {
+      test('should call createJwt with correct parameters', async () => {
         const mockEvent = {
           queryStringParameters: {
             code: 'test-code',
@@ -335,10 +339,7 @@ describe('edlCallback', () => {
         }
         fetchEdlProfile.mockResolvedValue(mockEdlProfile)
 
-        await edlCallback(mockEvent)
-        const expectedExpirationSeconds = Math.floor(
-          new Date(mockToken.expires_at).getTime() / 1000
-        )
+        const response = await edlCallback(mockEvent)
 
         expect(createJwt).toHaveBeenCalledWith(
           mockToken.access_token,
@@ -347,7 +348,7 @@ describe('edlCallback', () => {
           mockEdlProfile
         )
 
-        expect(createCookieSpy).toHaveBeenCalledWith('test-jwt', expectedExpirationSeconds)
+        expect(response.headers).toEqual(redirectHeaders('https://mmt.example.com/auth-callback?target=%2F#token=test-jwt'))
       })
     })
 
@@ -376,8 +377,8 @@ describe('edlCallback', () => {
       })
     })
 
-    describe('when handling CORS headers', () => {
-      test('should include correct CORS headers in the response', async () => {
+    describe('when handing the token back to MMT', () => {
+      test('should url encode the token in the fragment', async () => {
         const mockEvent = {
           queryStringParameters: {
             code: 'test-code',
@@ -400,42 +401,11 @@ describe('edlCallback', () => {
           assuranceLevel: 5
         })
 
-        const response = await edlCallback(mockEvent)
-
-        expect(response.headers['Access-Control-Allow-Origin']).toBe('*')
-        expect(response.headers['Access-Control-Allow-Headers']).toBe('*')
-        expect(response.headers['Access-Control-Allow-Methods']).toBe('GET, POST')
-        expect(response.headers['Access-Control-Allow-Credentials']).toBe(true)
-      })
-    })
-
-    describe('when handling cookie naming', () => {
-      test('should include the environment name in the cookie prefix', async () => {
-        const mockEvent = {
-          queryStringParameters: {
-            code: 'test-code',
-            state: encodeURIComponent(JSON.stringify({ target: '/' }))
-          }
-        }
-
-        AuthorizationCode.mockImplementation(() => ({
-          getToken: vi.fn().mockResolvedValue({
-            token: {
-              access_token: 'test-access-token',
-              refresh_token: 'test-refresh-token',
-              expires_at: '2023-01-01T00:00:00Z'
-            }
-          })
-        }))
-
-        fetchEdlProfile.mockResolvedValue({
-          uid: 'test-user',
-          assuranceLevel: 5
-        })
+        createJwt.mockReturnValue('jwt/with+reserved=characters')
 
         const response = await edlCallback(mockEvent)
 
-        expect(response.headers['Set-Cookie']).toContain('_mmt_jwt_test=')
+        expect(response.headers).toEqual(redirectHeaders('https://mmt.example.com/auth-callback?target=%2F#token=jwt%2Fwith%2Breserved%3Dcharacters'))
       })
     })
 
@@ -538,8 +508,7 @@ describe('edlCallback', () => {
         const response = await edlCallback(mockEvent)
 
         expect(response.statusCode).toBe(303)
-        expect(response.headers.Location).toBe('https://mmt.example.com/auth-callback?target=%2F')
-        expect(response.headers['Set-Cookie']).toBe('_mmt_jwt_test=test-jwt; SameSite=Strict; Path=/; Domain=.example.com; Max-Age=900; Secure;')
+        expect(response.headers).toEqual(redirectHeaders('https://mmt.example.com/auth-callback?target=%2F#token=test-jwt'))
       })
     })
 
@@ -621,11 +590,11 @@ describe('edlCallback', () => {
           })
         }))
 
-        expect(response.headers.Location).toBe('https://custom-mmt.example.com/auth-callback?target=%2F')
+        expect(response.headers).toEqual(redirectHeaders('https://custom-mmt.example.com/auth-callback?target=%2F#token=test-jwt'))
       })
     })
 
-    describe('when handling errors in createJwt or createCookie', () => {
+    describe('when handling errors in createJwt', () => {
       test('should throw an error if createJwt fails', async () => {
         const mockEvent = {
           queryStringParameters: {
@@ -655,37 +624,6 @@ describe('edlCallback', () => {
 
         await expect(edlCallback(mockEvent)).rejects.toThrow('JWT creation failed')
       })
-
-      test('should throw an error if createCookie fails', async () => {
-        const mockEvent = {
-          queryStringParameters: {
-            code: 'test-code',
-            state: encodeURIComponent(JSON.stringify({ target: '/' }))
-          }
-        }
-
-        AuthorizationCode.mockImplementation(() => ({
-          getToken: vi.fn().mockResolvedValue({
-            token: {
-              access_token: 'test-access-token',
-              refresh_token: 'test-refresh-token',
-              expires_at: '2023-01-01T00:00:00Z'
-            }
-          })
-        }))
-
-        fetchEdlProfile.mockResolvedValue({
-          uid: 'test-user',
-          assuranceLevel: 5
-        })
-
-        createJwt.mockReturnValue('test-jwt')
-        createCookieSpy.mockImplementation(() => {
-          throw new Error('Cookie creation failed')
-        })
-
-        await expect(edlCallback(mockEvent)).rejects.toThrow('Cookie creation failed')
-      })
     })
 
     describe('when handling unusual target URLs', () => {
@@ -714,7 +652,7 @@ describe('edlCallback', () => {
 
         const response = await edlCallback(mockEvent)
 
-        expect(response.headers.Location).toBe('https://mmt.example.com/auth-callback?target=%2Funusual%20path%3Fparam%3Dvalue%26other%3D123')
+        expect(response.headers).toEqual(redirectHeaders('https://mmt.example.com/auth-callback?target=%2Funusual%20path%3Fparam%3Dvalue%26other%3D123#token=test-jwt'))
       })
     })
 

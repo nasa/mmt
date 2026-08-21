@@ -10,9 +10,20 @@ import jwt from 'jsonwebtoken'
 import edlRefreshToken from '../handler'
 import * as getConfig from '../../../../sharedUtils/getConfig'
 import * as createJwtModule from '../../utils/createJwt'
-import * as createCookieModule from '../../utils/createCookie'
 
 const originalFetch = global.fetch
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': 'https://mmt.example.com',
+  'Access-Control-Allow-Headers': '*',
+  'Access-Control-Allow-Methods': 'POST',
+  'Access-Control-Allow-Credentials': true
+}
+
+const successHeaders = {
+  ...corsHeaders,
+  'Content-Type': 'application/json'
+}
 
 describe('edlRefreshToken', () => {
   let fetchMock
