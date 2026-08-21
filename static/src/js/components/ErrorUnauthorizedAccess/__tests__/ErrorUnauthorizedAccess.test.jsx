@@ -10,7 +10,6 @@ import AuthContext from '@/js/context/AuthContext'
 import MMT_COOKIE from 'sharedConstants/mmtCookie'
 
 import ErrorUnauthorizedAccess from '../ErrorUnauthorizedAccess'
-import * as getConfig from '../../../../../../sharedUtils/getConfig'
 
 const mockRemoveCookie = vi.fn()
 vi.mock('@/js/hooks/useMMTCookie', () => ({
@@ -18,10 +17,6 @@ vi.mock('@/js/hooks/useMMTCookie', () => ({
   default: () => ({
     removeCookie: mockRemoveCookie
   })
-}))
-
-vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
-  cookieDomain: '.example.com'
 }))
 
 const setup = (errorType) => {
@@ -58,7 +53,6 @@ describe('ErrorUnauthorizedAccess component', () => {
       setup('deniedAccessMMT')
 
       expect(mockRemoveCookie).toHaveBeenCalledWith(MMT_COOKIE, {
-        domain: '.example.com',
         path: '/'
       })
     })
@@ -74,7 +68,6 @@ describe('ErrorUnauthorizedAccess component', () => {
       setup('deniedNonNasaAccessMMT')
 
       expect(mockRemoveCookie).toHaveBeenCalledWith(MMT_COOKIE, {
-        domain: '.example.com',
         path: '/'
       })
     })
@@ -90,7 +83,6 @@ describe('ErrorUnauthorizedAccess component', () => {
       setup('')
 
       expect(mockRemoveCookie).toHaveBeenCalledWith(MMT_COOKIE, {
-        domain: '.example.com',
         path: '/'
       })
     })
@@ -118,7 +110,6 @@ describe('ErrorUnauthorizedAccess component', () => {
       setup('foo')
 
       expect(mockRemoveCookie).toHaveBeenCalledWith(MMT_COOKIE, {
-        domain: '.example.com',
         path: '/'
       })
     })

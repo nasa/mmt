@@ -62,6 +62,8 @@ const resetTokenState = ({
   setTokenValue,
   setUser
 }) => {
+  // No 'domain' here, mathcing how the cookie was written. Passing one here would
+  // target a different cookie than the host-only one MMT actually stores
   setCookie(MMT_COOKIE, null, {
     path: '/',
     maxAge: 0,
@@ -247,8 +249,9 @@ const AuthContextProvider = ({ children }) => {
             return
           }
 
-          // Storing the refreshed token changes mmtJwt and the effect watching
-          // it parses the new token into state
+          // Sets the cookie. 'useMMTCookie' picks the new value up as 'mmtJWT', which
+          // re-runs the effect that calls 'saveToken', so a refreshed token reaches
+          // state by the same path as one from a fresh login
           setCookie(MMT_COOKIE, result, getMMTCookieOptions(result))
         }
       })
