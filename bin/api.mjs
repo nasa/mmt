@@ -39,7 +39,6 @@ const resolveMmtHost = () => {
 }
 
 const localEnvDefaults = {
-  COOKIE_DOMAIN: '.localhost',
   JWT_SECRET: 'local-secret',
   JWT_VALID_TIME: '900',
   MMT_HOST: resolveMmtHost()

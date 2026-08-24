@@ -32,9 +32,19 @@ const refreshToken = async ({
       return
     }
 
-    // Success - hand the refreshed token back to the caller can store it
     const { token } = await response.json()
 
+    // A 200 without a token is still a failed refresh. Passit on would store
+    // an empty cookie and log the user out without sending them anywhere.
+    if (!token) {
+      console.error('[Auth] Token refresh returned no token')
+      setToken(token)
+      window.location.href = '/'
+
+      return
+    }
+
+    // Success - hand the refreshed token back so the caller can store it
     setToken(token)
   } catch (error) {
     console.error('[Auth] Token refresh request error:', error)
