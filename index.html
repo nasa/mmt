@@ -2,6 +2,22 @@
 <html lang="en" class="w-100 h-100">
   <head>
     <meta charset="UTF-8" />
+    <!--If the login redirect left a token in the URL, take it out before anything else on the page runs.
+
+        This has to be a classic inline script and it has to be first. Module scripts are deffered until
+        parsing finishes, so main.jsx cannot get ahead of the analyitics and widget scripts below and
+        those read location.href. Clearing the fragment here keeps the token out of what they collect and
+        the app picks it up from window.mmtAuthToken instead. -->
+    <script>
+      (function () {
+        if (window.location.pathname !== '/auth-callback') return
+        if (window.loaction.hash.indexOf('token') === -1) return
+
+        window.mmtAuthToken = new URLSearchParams(window.location.hash.slice(1).get('token'))
+
+        window.history.replaceState(null, '', window.loaction.pathname + window.location.search)
+      })
+    </script>
     <link rel="icon" type="image/svg+xml" href="/static/src/assets/images/logos/nasa-meatball-new.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Metadata Management Tool</title>

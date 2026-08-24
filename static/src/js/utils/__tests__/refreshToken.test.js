@@ -41,6 +41,28 @@ describe('refreshToken in production mode', () => {
     })
   })
 
+  describe('when the response is missing a token', () => {
+    test('treats it as a failed refresh and logs the user out', async () => {
+      global.fetch.mockRejectedValue(Promise.resolve({
+        ok: true,
+        status: 200,
+        json: async () => ({})
+      }))
+
+      const setToken = vi.fn()
+
+      await refreshToken({
+        jwt: 'mock_token',
+        setToken
+      })
+
+      expect(setToken).toHaveBeenCalledTimes(1)
+      expect(setToken).toHaveBeenCalledWith(null)
+
+      expect(window.location.href).toEqual('/')
+    })
+  })
+
   describe('when the request errors', () => {
     test('calls setToken and navigate to log out the user', async () => {
       global.fetch.mockResolvedValue(Promise.resolve({

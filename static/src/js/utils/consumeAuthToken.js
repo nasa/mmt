@@ -28,34 +28,31 @@ const serializeCookieOptions = ({
 }
 
 /**
- * Moves the user's token out of the URL an dinto a host-only cookie.
+ * Stores the token from the login redirect in a host-only cookie.
  *
- * `edlCallback` runs on the API host, which sits on a different domain than the application.
- * Any cookie it set would have to be scoped to a domain shared by every environment, so it
- * hands the token back in the URL fragment instead and the application stores it. Framents
- * are never sent to a server and never appeare in a `Referer` header, and the fragment is
- * cleared as soon as it has been read so the token does not sit in the address bar or browser
- * history.
+ * edlCallback runs on the API host, which sits on a different domain than the
+ * application. Any cookie it set would have to be scoped to a domain shared by
+ * every environment and would then be sent on requests to all of them. So it
+ * returns the token in the URL fragment instead and the application sotes it,
+ * which keeps the cookie scoped to this host alone.
  *
- * Runs before the app renders so the cookie is in place the first time `useMMTCookie` reads it.
+ * The fragment is lifted out of the URL by an inline script in index.html,
+ * which runs before any other script on the page and left on window.mmtAuthoken.
+ * Reading it here rather than from window.location keeps that orderining
+ * guarantee in one place.
  */
 
 const consumeAuthToken = () => {
-  const { hash } = window.location
-
-  if (!hash) return
-
-  const token = new URLSearchParams(hash.slice(1)).get('token')
+  const token = window.mmtAuthToken
 
   if (!token) return
+
+  delete window.mmtAuthToken
 
   document.cookie = [
     `${MMT_COOKIE}=${token}`,
     ...serializeCookieOptions(getMMTCookieOptions(token))
   ].join('; ')
-
-  // Drop the fragment, leaving the path and query string untouched
-  window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`)
 }
 
 export default consumeAuthToken

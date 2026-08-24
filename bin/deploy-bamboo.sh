@@ -23,7 +23,6 @@ config="`jq '.application.edscHost = $newValue' --arg newValue $bamboo_EDSC_HOST
 config="`jq '.application.gkrHost = $newValue' --arg newValue $bamboo_GKR_HOST <<< $config`"
 config="`jq '.application.kmsHost = $newValue' --arg newValue $bamboo_KMS_HOST <<< $config`"
 config="`jq '.application.mmtKeywordManagerClientId = $newValue' --arg newValue "mmt-keyword-manager-$bamboo_STAGE_NAME" <<< $config`"
-config="`jq '.application.cookieDomain = $newValue' --arg newValue $bamboo_COOKIE_DOMAIN <<< $config`"
 config="`jq '.application.displayProdWarning = $newValue' --arg newValue $bamboo_DISPLAY_PROD_WARNING <<< $config`"
 config="`jq '.application.tokenValidTime = $newValue' --arg newValue $bamboo_JWT_VALID_TIME <<< $config`"
 config="`jq '.application.analytics.gtmPropertyId = $newValue' --arg newValue $bamboo_GTM_PROPERTY_ID <<< $config`"
@@ -76,7 +75,6 @@ dockerRun() {
         -e "AWS_SECRET_ACCESS_KEY=$bamboo_AWS_SECRET_ACCESS_KEY" \
         -e "AWS_SESSION_TOKEN=$bamboo_AWS_SESSION_TOKEN" \
         -e "COLLECTION_TEMPLATES_BUCKET_NAME=${bamboo_COLLECTION_TEMPLATES_BUCKET_NAME}" \
-        -e "COOKIE_DOMAIN=$bamboo_COOKIE_DOMAIN" \
         -e "DISPLAY_PROD_WARNING=$bamboo_DISPLAY_PROD_WARNING" \
         -e "EDL_CLIENT_ID=$bamboo_EDL_CLIENT_ID" \
         -e "EDL_PASSWORD=$bamboo_EDL_PASSWORD" \
