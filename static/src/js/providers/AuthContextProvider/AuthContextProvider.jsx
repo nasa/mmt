@@ -237,7 +237,7 @@ const AuthContextProvider = ({ children }) => {
           refreshInProgress.current = false
 
           // If the refresh fails, redirects happen in the refreshToken function
-          if (result === null) {
+          if (!result) {
             // Handle token reset, but don't redirect (already happening in refreshToken)
             resetTokenState({
               setCookie,
