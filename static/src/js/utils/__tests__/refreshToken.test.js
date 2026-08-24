@@ -43,7 +43,7 @@ describe('refreshToken in production mode', () => {
 
   describe('when the response is missing a token', () => {
     test('treats it as a failed refresh and logs the user out', async () => {
-      global.fetch.mockRejectedValue(Promise.resolve({
+      global.fetch.mockResolvedValue(Promise.resolve({
         ok: true,
         status: 200,
         json: async () => ({})
