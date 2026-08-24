@@ -18,6 +18,36 @@ const mockSchema = {
   }
 }
 
+// A discriminated-union-style schema: a valid document must satisfy exactly
+// one of the two branches below. Each branch has its own required field, so
+// AJV reports a missing branch field as both a `required` error *and* a
+// wrapping `oneOf` error ("must match a schema in oneOf") at the root.
+const mockOneOfSchema = {
+  type: 'object',
+  additionalProperties: false,
+  oneOf: [
+    {
+      required: ['Name'],
+      properties: {
+        Name: { type: 'string' },
+        Age: { type: 'number' }
+      }
+    },
+    {
+      required: ['Nickname'],
+      properties: {
+        Nickname: { type: 'string' },
+        Age: { type: 'number' }
+      }
+    }
+  ],
+  properties: {
+    Name: { type: 'string' },
+    Nickname: { type: 'string' },
+    Age: { type: 'number' }
+  }
+}
+
 const setup = (draft = undefined, { schema = null } = {}) => {
   const setDraft = vi.fn()
 
@@ -358,6 +388,67 @@ describe('JsonPreview Component', () => {
 
         // A single error renders as plain text, not as a list
         expect(screen.queryByRole('listitem')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when the edited JSON is missing the required field in every oneOf branch', () => {
+      test('saves anyway, since the resulting oneOf wrapper error is ignored along with the required errors', async () => {
+        const user = userEvent.setup()
+
+        const { setDraft } = setup({
+          ummMetadata: {
+            Name: 'Mock Name'
+          }
+        }, { schema: mockOneOfSchema })
+
+        await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
+
+        const textarea = screen.getByRole('textbox', { name: 'Editable JSON metadata' })
+
+        // Satisfies neither branch: no `Name` and no `Nickname`
+        await user.clear(textarea)
+        await user.type(textarea, '{{"Age": 5}', { skipClick: true })
+
+        await user.click(screen.getByRole('button', { name: 'Save' }))
+
+        expect(setDraft).toHaveBeenCalledTimes(1)
+        expect(setDraft).toHaveBeenCalledWith({
+          ummMetadata: {
+            Age: 5
+          }
+        })
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(screen.getByRole('button', { name: 'Edit JSON' })).toBeInTheDocument()
+      })
+    })
+
+    describe('when the edited JSON has an unknown field under a oneOf schema', () => {
+      test('still blocks the save on the structural error, even though the oneOf wrapper error is ignored', async () => {
+        const user = userEvent.setup()
+
+        const { setDraft } = setup({
+          ummMetadata: {
+            Name: 'Mock Name'
+          }
+        }, { schema: mockOneOfSchema })
+
+        await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
+
+        const textarea = screen.getByRole('textbox', { name: 'Editable JSON metadata' })
+
+        // Satisfies the `Name` branch, but also has a typo'd unknown field
+        await user.clear(textarea)
+        await user.type(textarea, '{{"Name": "Mock Name", "Nmae": "typo"}', { skipClick: true })
+
+        await user.click(screen.getByRole('button', { name: 'Save' }))
+
+        expect(setDraft).not.toHaveBeenCalled()
+
+        const alert = screen.getByRole('alert')
+
+        expect(alert).toHaveTextContent(/Nmae/)
+        expect(alert).toHaveTextContent(/must NOT have additional property/)
       })
     })
 

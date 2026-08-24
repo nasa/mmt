@@ -66,7 +66,14 @@ const JsonPreview = ({ schema }) => {
       // value of the wrong type). Missing-required-field errors are ignored
       // here so saving through the JSON editor stays as permissive as saving
       // through the form fields, which never blocks on incomplete drafts.
-      const structuralErrors = schemaErrors.filter(({ name }) => name !== 'required')
+      // A missing required field inside a oneOf/anyOf branch (e.g. a
+      // discriminated union) doesn't just produce a 'required' error -- AJV
+      // also emits a wrapping 'oneOf'/'anyOf' error at the parent level
+      // ("must match a schema in oneOf/anyOf"), so those need to be ignored
+      // too or an otherwise-incomplete-but-valid draft would still be blocked.
+      const structuralErrors = schemaErrors.filter(
+        ({ name }) => !['required', 'oneOf', 'anyOf'].includes(name)
+      )
 
       if (structuralErrors.length > 0) {
         setErrors(structuralErrors.map(({
