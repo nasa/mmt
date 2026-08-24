@@ -12,16 +12,6 @@ const clearCookies = () => {
   })
 }
 
-const setLocation = ({ hash = '', pathname = '/auth-callback', search = '' }) => {
-  delete window.location
-  window.location = {
-    hash,
-    pathname,
-    protocol: 'http:',
-    search
-  }
-}
-
 const buildToken = () => jwt.sign(
   // Always keep the expiration sometime in the future
   { exp: Math.floor(Date.now() / 1000) + 900 },
@@ -29,42 +19,40 @@ const buildToken = () => jwt.sign(
 )
 
 describe('consumeAuthToken', () => {
-  let replaceStateSpy
-
   beforeEach(() => {
     clearCookies()
-    setLocation({})
-    replaceStateSpy = vi.spyOn(window.history, 'replaceState').mockImplementation(() => {})
+    delete window.mmtAuthToken
+
+    delete window.location
+    window.location = { protocol: 'http:' }
   })
 
   afterEach(() => {
     vi.restoreAllMocks()
   })
 
-  describe('when the login redirect includes a token', () => {
+  describe('when the inline script captured a token', () => {
     test('stores the token in a cookie', () => {
       const token = buildToken()
-      setLocation({ hash: `#token=${encodeURIComponent(token)}` })
+      window.mmtAuthToken = token
 
       consumeAuthToken()
 
       expect(document.cookie).toContain(`${MMT_COOKIE}=${token}`)
     })
 
-    test('removes the token from the url, keeping the query string', () => {
-      setLocation({
-        hash: `#token=${encodeURIComponent(buildToken())}`,
-        search: '?target=%2Fdrafts'
-      })
+    test('takes the token babck off the window ince it is stored', () => {
+      const token = buildToken()
+      window.mmtAuthToken = token
 
       consumeAuthToken()
 
-      expect(replaceStateSpy).toHaveBeenCalledWith(null, '', '/auth-callback?target=%2Fdrafts')
+      expect(window.mmtAuthToken).toBeUndefined()
     })
 
     test('writes the cookie with the options from getMMTCookieOptions', () => {
       const cookieSpy = vi.spyOn(document, 'cookie', 'set')
-      setLocation({ hash: `#token=${encodeURIComponent(buildToken())}` })
+      window.mmtAuthToken = buildToken()
 
       consumeAuthToken()
 
@@ -80,27 +68,19 @@ describe('consumeAuthToken', () => {
     })
   })
 
-  describe('when there is no token in the url', () => {
+  describe('when no token was captured', () => {
     test('leaves the url alone', () => {
-      consumeAuthToken()
-
-      expect(replaceStateSpy).not.toHaveBeenCalled()
-    })
-
-    test('does not write a cookie', () => {
       consumeAuthToken()
 
       expect(document.cookie).not.toContain(MMT_COOKIE)
     })
-  })
 
-  describe('when the fragment holds something other than a token', () => {
-    test('leaves the url alone', () => {
-      setLocation({ hash: '#section-two' })
+    test('does not write a cookie', () => {
+      window.mmtAuthCookie = ''
 
       consumeAuthToken()
 
-      expect(replaceStateSpy).not.toHaveBeenCalled()
+      expect(document.cookie).not.toContain(MMT_COOKIE)
     })
   })
 })

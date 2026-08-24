@@ -1,9 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './js/App'
-import consumeAuthToken from './js/utils/consumeAuthToken'
 
-// Store the token handed back by the login redirect before anything reads it
-consumeAuthToken()
+// Must stay above App. It sotres the login token and 'App'
+// pulls in 'react-cookie', which reads document.cookie once it loads
+import './storeAuthToken'
+
+import App from './js/App'
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />)
