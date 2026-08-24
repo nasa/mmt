@@ -41,7 +41,7 @@ describe('consumeAuthToken', () => {
       expect(document.cookie).toContain(`${MMT_COOKIE}=${token}`)
     })
 
-    test('takes the token babck off the window ince it is stored', () => {
+    test('takes the token back off the window once it is stored', () => {
       const token = buildToken()
       window.mmtAuthToken = token
 
@@ -76,7 +76,7 @@ describe('consumeAuthToken', () => {
     })
 
     test('does not write a cookie', () => {
-      window.mmtAuthCookie = ''
+      window.mmtAuthToken = ''
 
       consumeAuthToken()
 

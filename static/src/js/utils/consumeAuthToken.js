@@ -5,8 +5,7 @@ import getMMTCookieOptions from './getMMTCookieOptions'
 /**
  * Serializes cookie options into the attributes `document.cookie` expects.
  *
- * `AuthContextProvider` hands teh same options to `react-cookie`, which does
- * this for us. This runs before React, so it writes the cookie directy.
+ * 'react-cookie' does this elsewhere, but this function runs before React.
  * @param {Object} options Options from `getMMTCookieOptions`
  */
 const serializeCookieOptions = ({
@@ -30,16 +29,10 @@ const serializeCookieOptions = ({
 /**
  * Stores the token from the login redirect in a host-only cookie.
  *
- * edlCallback runs on the API host, which sits on a different domain than the
- * application. Any cookie it set would have to be scoped to a domain shared by
- * every environment and would then be sent on requests to all of them. So it
- * returns the token in the URL fragment instead and the application sotes it,
- * which keeps the cookie scoped to this host alone.
- *
- * The fragment is lifted out of the URL by an inline script in index.html,
- * which runs before any other script on the page and left on window.mmtAuthoken.
- * Reading it here rather than from window.location keeps that orderining
- * guarantee in one place.
+ * The token arrives in the URL fragment rather than a 'Set-Cookie'
+ * header and an inline script in 'index.html' moves it to
+ * 'window.mmtAuthHeader' before any other script runs. See
+ * 'edlCallback' for why.
  */
 
 const consumeAuthToken = () => {
