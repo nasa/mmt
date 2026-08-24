@@ -110,7 +110,7 @@ const edlCallback = async (event) => {
   // The token is handed back in the URL fragment rather than a 'Set-Cookie'
   // header. This handler runs on the API host, which sits on a different domain
   // than MMT, so any cookie set would have to be scoped to a domain shared by
-  // every environment and would then be sent on requets to all of them. MMT
+  // every environment and would then be sent on requests to all of them. MMT
   // stores the token itself, keeping the cookie scoped to its own host.
   const location = `${mmtHost}/auth-callback?target=${encodeURIComponent(target)}#token=${encodeURIComponent(jwt)}`
 

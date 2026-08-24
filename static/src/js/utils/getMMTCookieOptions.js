@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken'
 
 /**
- * Returns the options MMT uses whenever it wrties its auth cookie.
+ * Returns the options MMT uses whenever it writes the auth cookie.
  *
  * `domain` is deliberately omitted so the browser stores a host-only cookie,
- * scopes to the exact host serving MMT. Doing otherwise would lead to needing cookies per env.
+ * scopes to the exact host serving MMT.
  * @param {String} token The MMT JWT being stored, used to expire the cookie alongside the token
  */
 const getMMTCookieOptions = (token) => {

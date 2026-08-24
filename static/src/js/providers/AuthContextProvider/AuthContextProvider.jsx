@@ -62,7 +62,7 @@ const resetTokenState = ({
   setTokenValue,
   setUser
 }) => {
-  // No 'domain' here, mathcing how the cookie was written. Passing one here would
+  // No 'domain' here matching how the cookie was written. Passing one here would
   // target a different cookie than the host-only one MMT actually stores
   setCookie(MMT_COOKIE, null, {
     path: '/',

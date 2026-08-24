@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <!--If the login redirect left a token in the URL, take it out before anything else on the page runs.
 
-        This has to be a classic inline script and it has to be first. Module scripts are defered until
+        This has to be a classic inline script and it has to be first. Module scripts are deferred until
         parsing finishes, so main.jsx cannot get ahead of the analytics and widget scripts below and
         those read location.href. Clearing the fragment here keeps the token out of what they collect and
         the app picks it up from window.mmtAuthToken instead. -->

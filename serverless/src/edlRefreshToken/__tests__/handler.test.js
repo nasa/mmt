@@ -33,7 +33,6 @@ describe('edlRefreshToken', () => {
     process.env.EDL_CLIENT_ID = 'test-client-id'
     process.env.EDL_PASSWORD = 'test-client-secret'
     process.env.JWT_SECRET = 'jwt-secret'
-    process.env.COOKIE_DOMAIN = '.example.com'
     delete process.env.IS_OFFLINE
     delete process.env.JWT_VALID_TIME
 
