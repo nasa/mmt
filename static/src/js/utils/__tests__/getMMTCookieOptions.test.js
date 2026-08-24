@@ -29,7 +29,7 @@ describe('getMMTCookieOptions', () => {
     })
   })
 
-  describe('whem the token can not be decoded', () => {
+  describe('when the token can not be decoded', () => {
     test('still returns usable options', () => {
       const options = getMMTCookieOptions('not-a-jwt')
 

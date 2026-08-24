@@ -47,10 +47,10 @@ vi.mock('../../utils/createJwt')
 /**
  * The complete set of headers the handler returns when redirecting back to MMT
  *
- * COMMENT TO BE REMVOED AFTER PR: Two absenses here: Set-Cookie becakse the token
- * now travesl in teh URL fragment, and Access Control Allow Credentials because
- * nothing makes a credentialed request against this endpoing and pairing that
- * header with a wildcard irigin is invalid per the CORS spec.
+ * COMMENT TO BE REMVOED AFTER PR: Two things missing here: Set-Cookie because the token
+ * now travels in the URL fragment, and Access Control Allow Credentials because
+ * nothing makes a credentialed request against this endpoint and pairing that
+ * header with a wildcard origin is invalid per the CORS spec.
  */
 const redirectHeaders = (location) => ({
   'Access-Control-Allow-Origin': '*',
