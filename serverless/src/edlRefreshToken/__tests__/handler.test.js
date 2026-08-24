@@ -10,15 +10,20 @@ import jwt from 'jsonwebtoken'
 import edlRefreshToken from '../handler'
 import * as getConfig from '../../../../sharedUtils/getConfig'
 import * as createJwtModule from '../../utils/createJwt'
-import * as createCookieModule from '../../utils/createCookie'
 
 const originalFetch = global.fetch
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': 'https://mmt.example.com',
+  'Access-Control-Allow-Headers': '*',
+  'Access-Control-Allow-Methods': 'POST',
+  'Access-Control-Allow-Credentials': true
+}
 
 describe('edlRefreshToken', () => {
   let fetchMock
   let jwtVerifySpy
   let createJwtSpy
-  let createCookieSpy
 
   beforeEach(() => {
     vi.resetAllMocks()
@@ -28,7 +33,6 @@ describe('edlRefreshToken', () => {
     process.env.EDL_CLIENT_ID = 'test-client-id'
     process.env.EDL_PASSWORD = 'test-client-secret'
     process.env.JWT_SECRET = 'jwt-secret'
-    process.env.COOKIE_DOMAIN = '.example.com'
     delete process.env.IS_OFFLINE
     delete process.env.JWT_VALID_TIME
 
@@ -51,7 +55,7 @@ describe('edlRefreshToken', () => {
   })
 
   describe('when refreshing the token succeeds', () => {
-    test('should request a new token and return a cookie response', async () => {
+    test('should request a new token and return it in the response body', async () => {
       vi.useFakeTimers()
       vi.setSystemTime(new Date('2024-01-01T00:00:00Z'))
 
@@ -71,7 +75,6 @@ describe('edlRefreshToken', () => {
       })
 
       createJwtSpy = vi.spyOn(createJwtModule, 'default').mockReturnValue('new-jwt')
-      createCookieSpy = vi.spyOn(createCookieModule, 'default').mockReturnValue('cookie-string')
 
       const event = {
         headers: {
@@ -101,12 +104,8 @@ describe('edlRefreshToken', () => {
       )
 
       expect(response.statusCode).toBe(200)
-      expect(createCookieSpy).toHaveBeenCalledWith('new-jwt', 1704070800)
-      expect(response.headers['Set-Cookie']).toBe('cookie-string')
-      expect(response.headers['Access-Control-Allow-Origin']).toBe('https://mmt.example.com')
-      expect(response.headers['Access-Control-Allow-Headers']).toBe('*')
-      expect(response.headers['Access-Control-Allow-Methods']).toBe('POST')
-      expect(response.headers['Access-Control-Allow-Credentials']).toBe(true)
+      expect(JSON.parse(response.body)).toEqual({ token: 'new-jwt' })
+      expect(response.headers).toEqual(corsHeaders)
     })
   })
 
@@ -122,7 +121,6 @@ describe('edlRefreshToken', () => {
       })
 
       createJwtSpy = vi.spyOn(createJwtModule, 'default').mockReturnValue('offline-jwt')
-      createCookieSpy = vi.spyOn(createCookieModule, 'default').mockReturnValue('offline-cookie')
 
       const event = {
         headers: {
@@ -132,7 +130,6 @@ describe('edlRefreshToken', () => {
 
       const response = await edlRefreshToken(event)
       const offlineExpiration = '2024-02-02T00:30:00.000Z'
-      const expirationSeconds = Math.floor(new Date(offlineExpiration).getTime() / 1000)
 
       expect(fetchMock).not.toHaveBeenCalled()
       expect(createJwtSpy).toHaveBeenCalledWith(
@@ -142,9 +139,8 @@ describe('edlRefreshToken', () => {
         { uid: 'test-user' }
       )
 
-      expect(createCookieSpy).toHaveBeenCalledWith('offline-jwt', expirationSeconds)
       expect(response.statusCode).toBe(200)
-      expect(response.headers['Set-Cookie']).toBe('offline-cookie')
+      expect(JSON.parse(response.body)).toEqual({ token: 'offline-jwt' })
 
       delete process.env.IS_OFFLINE
     })
@@ -176,10 +172,7 @@ describe('edlRefreshToken', () => {
         error: 'Failed to refresh token'
       })
 
-      expect(response.headers['Access-Control-Allow-Origin']).toBe('https://mmt.example.com')
-      expect(response.headers['Access-Control-Allow-Headers']).toBe('*')
-      expect(response.headers['Access-Control-Allow-Methods']).toBe('POST')
-      expect(response.headers['Access-Control-Allow-Credentials']).toBe(true)
+      expect(response.headers).toEqual(corsHeaders)
     })
   })
 
@@ -208,7 +201,6 @@ describe('edlRefreshToken', () => {
 
       expect(fetchMock).not.toHaveBeenCalled()
       expect(createJwtSpy).not.toHaveBeenCalled()
-      expect(createCookieSpy).not.toHaveBeenCalled()
     })
   })
 
@@ -234,7 +226,6 @@ describe('edlRefreshToken', () => {
       })
 
       createJwtSpy = vi.spyOn(createJwtModule, 'default').mockReturnValue('new-jwt')
-      createCookieSpy = vi.spyOn(createCookieModule, 'default').mockReturnValue('cookie-string')
 
       const event = {
         headers: {
@@ -276,7 +267,6 @@ describe('edlRefreshToken', () => {
       })
 
       createJwtSpy = vi.spyOn(createJwtModule, 'default').mockReturnValue('new-jwt')
-      createCookieSpy = vi.spyOn(createCookieModule, 'default').mockReturnValue('cookie-string')
 
       const event = {
         headers: {

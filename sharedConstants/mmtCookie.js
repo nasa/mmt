@@ -1,9 +1,4 @@
-import { getApplicationConfig } from '../sharedUtils/getConfig'
-
-/**
- * This is the name of the cookie that MMT uses.
- */
-const { env } = getApplicationConfig()
-const MMT_COOKIE = `_mmt_jwt_${env}`
+// Cookie name for this app. Stored host-only, so it doesn't need an environment suffix.
+const MMT_COOKIE = '_mmt_jwt'
 
 export default MMT_COOKIE

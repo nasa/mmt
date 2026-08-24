@@ -1,10 +1,10 @@
 import { getApplicationConfig } from '../../../../sharedUtils/getConfig'
 
 /**
- * Calls refreshToken lambda to request a new token since the current one is about to expire. The new token is set as the MMT cookie
+ * Calls refreshToken lambda to request a new token since the current one is about to expire.
  * @param {Object} params
  * @param {String} params.jwt The user's MMT JWT
- * @param {Function} params.setToken Function to update the token
+ * @param {Function} params.setToken Called with the refreshed JWT, or `null` when the refresh failed
  */
 const refreshToken = async ({
   jwt,
@@ -32,8 +32,20 @@ const refreshToken = async ({
       return
     }
 
-    // Success - the new token is set as a cookie, signal success
-    setToken('refresh_success')
+    const { token } = await response.json()
+
+    // A 200 without a token is still a failed refresh. Passing it on would store
+    // an empty cookie and log the user out without sending them anywhere.
+    if (!token) {
+      console.error('[Auth] Token refresh returned no token')
+      setToken(null)
+      window.location.href = '/'
+
+      return
+    }
+
+    // Success - hand the refreshed token back so the caller can store it
+    setToken(token)
   } catch (error) {
     console.error('[Auth] Token refresh request error:', error)
     setToken(null)
