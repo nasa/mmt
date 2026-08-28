@@ -22,17 +22,38 @@ const JsonPreview = ({ schema }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [jsonText, setJsonText] = useState('')
   const [errors, setErrors] = useState([])
+  // Snapshot of `data` (as a JSON string) taken the moment we entered edit
+  // mode. Used to detect if the draft changed out from under us while the
+  // textarea was open (e.g. the UI form was edited concurrently), so we
+  // know our buffer is stale relative to the source of truth.
+  const [editingSnapshot, setEditingSnapshot] = useState(null)
 
-  // Keep the buffer in sync with the draft whenever we're not actively editing
-  // (e.g. the form itself changed a field).
+  // Keep the buffer in sync with the draft whenever we're not actively
+  // editing (e.g. the form itself changed a field). If we ARE editing and
+  // the draft changes anyway (e.g. the UI form was edited/saved
+  // concurrently), our buffer is now stale relative to the source of
+  // truth -- bail out of edit mode rather than let a later Save overwrite
+  // the newer data with our stale copy.
   useEffect(() => {
     if (!isEditing) {
       setJsonText(JSON.stringify(data, null, 2))
+
+      return
     }
-  }, [data, isEditing])
+
+    if (editingSnapshot !== null && JSON.stringify(data) !== editingSnapshot) {
+      setIsEditing(false)
+      setErrors([])
+    }
+  }, [data, isEditing, editingSnapshot])
 
   const handleEditClick = () => {
     setJsonText(JSON.stringify(data, null, 2))
+    // Compact form here, to match the compact JSON.stringify(data) used for
+    // comparison in the effect above -- the two need the same formatting or
+    // they'll never compare equal, even when the underlying data hasn't
+    // changed.
+    setEditingSnapshot(JSON.stringify(data))
     setErrors([])
     setIsEditing(true)
   }

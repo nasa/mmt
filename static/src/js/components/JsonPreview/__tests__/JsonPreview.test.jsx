@@ -51,7 +51,7 @@ const mockOneOfSchema = {
 const setup = (draft = undefined, { schema = null } = {}) => {
   const setDraft = vi.fn()
 
-  render(
+  const { rerender } = render(
     <AppContext.Provider
       value={
         {
@@ -64,7 +64,28 @@ const setup = (draft = undefined, { schema = null } = {}) => {
     </AppContext.Provider>
   )
 
-  return { setDraft }
+  // Allows a test to simulate the draft changing out from under JsonPreview
+  // (e.g. the UI form calling its own setDraft) by re-rendering with a new
+  // draft, without going through JsonPreview's own setDraft mock.
+  const rerenderWithDraft = (nextDraft) => {
+    rerender(
+      <AppContext.Provider
+        value={
+          {
+            draft: nextDraft,
+            setDraft
+          }
+        }
+      >
+        <JsonPreview schema={schema} />
+      </AppContext.Provider>
+    )
+  }
+
+  return {
+    setDraft,
+    rerenderWithDraft
+  }
 }
 
 describe('JsonPreview Component', () => {
@@ -266,6 +287,89 @@ describe('JsonPreview Component', () => {
       await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
 
       expect(screen.getByRole('textbox', { name: 'Editable JSON metadata' }).value).toContain('"Name": "Mock Name"')
+    })
+  })
+
+  describe('when the draft changes externally while editing (e.g. the UI form was saved)', () => {
+    test('exits edit mode, discards the stale buffer, and shows the new data', async () => {
+      const user = userEvent.setup()
+
+      const { setDraft, rerenderWithDraft } = setup({
+        ummMetadata: {
+          Name: 'Mock Name'
+        }
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
+
+      const textarea = screen.getByRole('textbox', { name: 'Editable JSON metadata' })
+
+      // Make an unsaved edit in the JSON textarea
+      await user.clear(textarea)
+      await user.type(textarea, '{{"Name": "Unsaved JSON Edit"}', { skipClick: true })
+
+      expect(screen.getByRole('textbox', { name: 'Editable JSON metadata' })).toBeInTheDocument()
+
+      // Simulate the UI form changing the draft concurrently (its own
+      // onChange -> setDraft), independent of anything JsonPreview did
+      rerenderWithDraft({
+        ummMetadata: {
+          Name: 'Changed From UI Form'
+        }
+      })
+
+      // JsonPreview should have bailed out of edit mode rather than let a
+      // later Save clobber the newer data with the stale JSON buffer
+      expect(screen.queryByRole('textbox', { name: 'Editable JSON metadata' })).not.toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Edit JSON' })).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+      expect(JSONPretty).toHaveBeenLastCalledWith(expect.objectContaining({
+        data: {
+          Name: 'Changed From UI Form'
+        }
+      }), {})
+
+      // JsonPreview's own setDraft should never have been called -- the
+      // change came from elsewhere
+      expect(setDraft).not.toHaveBeenCalled()
+
+      // Re-entering edit mode should now start from the fresh data, not the
+      // discarded buffer
+      await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
+
+      expect(screen.getByRole('textbox', { name: 'Editable JSON metadata' }).value)
+        .toContain('"Name": "Changed From UI Form"')
+    })
+
+    test('does not exit edit mode when the draft is re-rendered with the same data', async () => {
+      const user = userEvent.setup()
+
+      const { rerenderWithDraft } = setup({
+        ummMetadata: {
+          Name: 'Mock Name'
+        }
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
+
+      const textarea = screen.getByRole('textbox', { name: 'Editable JSON metadata' })
+
+      await user.clear(textarea)
+      await user.type(textarea, '{{"Name": "Unsaved JSON Edit"}', { skipClick: true })
+
+      // Re-render with an equivalent (not just equal-by-reference) draft --
+      // this should NOT be treated as an external change
+      rerenderWithDraft({
+        ummMetadata: {
+          Name: 'Mock Name'
+        }
+      })
+
+      const stillTextarea = screen.getByRole('textbox', { name: 'Editable JSON metadata' })
+
+      expect(stillTextarea).toBeInTheDocument()
+      expect(stillTextarea.value).toContain('"Name": "Unsaved JSON Edit"')
     })
   })
 
