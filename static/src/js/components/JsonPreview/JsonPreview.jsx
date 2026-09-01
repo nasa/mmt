@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Accordion from 'react-bootstrap/Accordion'
+import Modal from 'react-bootstrap/Modal'
 import JSONPretty from 'react-json-pretty'
 import { cloneDeep } from 'lodash-es'
 import PropTypes from 'prop-types'
@@ -21,83 +22,105 @@ const JsonPreview = ({ schema }) => {
 
   const [isEditing, setIsEditing] = useState(false)
   const [jsonText, setJsonText] = useState('')
-  const [errors, setErrors] = useState([])
-  // Snapshot of `data` (as a JSON string) taken the moment we entered edit
-  // mode. Used to detect if the draft changed out from under us while the
-  // textarea was open (e.g. the UI form was edited concurrently), so we
-  // know our buffer is stale relative to the source of truth.
-  const [editingSnapshot, setEditingSnapshot] = useState(null)
 
-  // Keep the buffer in sync with the draft whenever we're not actively
-  // editing (e.g. the form itself changed a field). If we ARE editing and
-  // the draft changes anyway (e.g. the UI form was edited/saved
-  // concurrently), our buffer is now stale relative to the source of
-  // truth -- bail out of edit mode rather than let a later Save overwrite
-  // the newer data with our stale copy.
-  useEffect(() => {
-    if (!isEditing) {
-      setJsonText(JSON.stringify(data, null, 2))
+  // Inline, blocking error -- only ever a JSON.parse failure. There's
+  // nothing to save yet, so this can't be resolved with a "save anyway"
+  // confirmation the way schema errors can.
+  const [parseError, setParseError] = useState(null)
 
-      return
-    }
-
-    if (editingSnapshot !== null && JSON.stringify(data) !== editingSnapshot) {
-      setIsEditing(false)
-      setErrors([])
-    }
-  }, [data, isEditing, editingSnapshot])
+  // Schema/structural errors surfaced on Save. These don't block saving --
+  // they open the confirmation modal below instead, and the user decides
+  // whether to save despite them.
+  const [pendingErrors, setPendingErrors] = useState([])
+  const [pendingParsed, setPendingParsed] = useState(null)
+  const [showConfirm, setShowConfirm] = useState(false)
 
   const handleEditClick = () => {
     setJsonText(JSON.stringify(data, null, 2))
-    // Compact form here, to match the compact JSON.stringify(data) used for
-    // comparison in the effect above -- the two need the same formatting or
-    // they'll never compare equal, even when the underlying data hasn't
-    // changed.
-    setEditingSnapshot(JSON.stringify(data))
-    setErrors([])
+    setParseError(null)
+    setPendingErrors([])
+    setPendingParsed(null)
     setIsEditing(true)
   }
 
   const handleCancel = () => {
     setJsonText(JSON.stringify(data, null, 2))
-    setErrors([])
+    setParseError(null)
+    setPendingErrors([])
+    setPendingParsed(null)
+    setShowConfirm(false)
     setIsEditing(false)
   }
 
   const handleTextChange = (event) => {
     setJsonText(event.target.value)
-    if (errors.length > 0) setErrors([])
+    if (parseError) setParseError(null)
   }
 
-  const handleSave = () => {
+  const commitSave = (parsed) => {
+    setDraft({
+      ...draft,
+      ummMetadata: parsed
+    })
+
+    setParseError(null)
+    setPendingErrors([])
+    setPendingParsed(null)
+    setShowConfirm(false)
+    setIsEditing(false)
+  }
+
+  const handleSaveClick = () => {
     let parsed
 
     try {
       parsed = JSON.parse(jsonText)
-    } catch (parseError) {
-      setErrors([`Invalid JSON: ${parseError.message}`])
+    } catch (parseErrorObj) {
+      setParseError(`Invalid JSON: ${parseErrorObj.message}`)
 
       return
     }
 
+    setParseError(null)
+
     if (schema) {
       const { errors: schemaErrors = [] } = validator.validateFormData(parsed, schema)
 
-      // Only block on structural problems (an unknown/typo'd field name, or a
+      // Only surface structural problems (an unknown/typo'd field name, or a
       // value of the wrong type). Missing-required-field errors are ignored
       // here so saving through the JSON editor stays as permissive as saving
       // through the form fields, which never blocks on incomplete drafts.
       // A missing required field inside a oneOf/anyOf branch (e.g. a
       // discriminated union) doesn't just produce a 'required' error -- AJV
-      // also emits a wrapping 'oneOf'/'anyOf' error at the parent level
-      // ("must match a schema in oneOf/anyOf"), so those need to be ignored
-      // too or an otherwise-incomplete-but-valid draft would still be blocked.
-      const structuralErrors = schemaErrors.filter(
-        ({ name }) => !['required', 'oneOf', 'anyOf'].includes(name)
+      // also emits a wrapping 'oneOf'/'anyOf' error at the same instancePath
+      // ("must match a schema in oneOf/anyOf"), so that wrapper needs to be
+      // ignored too or an otherwise-incomplete-but-valid draft would still
+      // trigger a confirmation.
+      //
+      // However, oneOf/anyOf errors aren't ONLY produced by missing-required
+      // noise -- some schemas express a controlled vocabulary (effectively
+      // an enum) as `oneOf: [{ const: 'A' }, { const: 'B' }, ...]` instead of
+      // a plain `enum`. An invalid value for one of those fields fails with
+      // a oneOf/anyOf error too, and a blanket filter would silently let it
+      // through. So only drop a oneOf/anyOf error when a 'required' error
+      // exists at that same instancePath (i.e. it's the wrapper noise) --
+      // keep it when it's the only error at that path, since that means it's
+      // a genuine invalid-value failure.
+      const requiredPaths = new Set(
+        schemaErrors
+          .filter(({ name }) => name === 'required')
+          .map(({ instancePath }) => instancePath)
       )
 
+      const structuralErrors = schemaErrors.filter(({ name, instancePath }) => {
+        if (name === 'required') return false
+        if ((name === 'oneOf' || name === 'anyOf') && requiredPaths.has(instancePath)) return false
+
+        return true
+      })
+
       if (structuralErrors.length > 0) {
-        setErrors(structuralErrors.map(({
+        const messages = structuralErrors.map(({
           name,
           property,
           message,
@@ -113,102 +136,149 @@ const JsonPreview = ({ schema }) => {
           }
 
           return property ? `${property} ${message}` : message
-        }))
+        })
+
+        setPendingErrors(messages)
+        setPendingParsed(parsed)
+        setShowConfirm(true)
 
         return
       }
     }
 
-    setDraft({
-      ...draft,
-      ummMetadata: parsed
-    })
+    commitSave(parsed)
+  }
 
-    setErrors([])
-    setIsEditing(false)
+  const handleConfirmSaveAnyway = () => {
+    commitSave(pendingParsed)
+  }
+
+  const handleConfirmBack = () => {
+    setShowConfirm(false)
+    setPendingErrors([])
+    setPendingParsed(null)
   }
 
   return (
-    <Accordion
-      defaultActiveKey="0"
-      className="mt-5"
-    >
-      <Accordion.Item eventKey="0">
-        <Accordion.Header>
-          JSON
-        </Accordion.Header>
-        <Accordion.Body>
-          <div className="d-flex justify-content-end mb-2">
-            {
-              isEditing
-                ? (
-                  <>
-                    <Button
-                      className="me-2"
-                      variant="secondary"
-                      size="sm"
-                      onClick={handleCancel}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={handleSave}
-                    >
-                      Save
-                    </Button>
-                  </>
-                )
-                : (
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    onClick={handleEditClick}
-                  >
-                    Edit JSON
-                  </Button>
-                )
-            }
-          </div>
+    <>
+      <Accordion
+        defaultActiveKey="0"
+        className="mt-5"
+      >
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>
+            JSON
+          </Accordion.Header>
+          <Accordion.Body>
+            <div className="d-flex justify-content-end mb-2">
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={handleEditClick}
+              >
+                Edit JSON
+              </Button>
+            </div>
 
+            <JSONPretty data={data} />
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+
+      <Modal
+        show={isEditing}
+        onHide={handleCancel}
+        size="lg"
+        animation={false}
+        aria-labelledby="json-preview-edit-modal-title"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="json-preview-edit-modal-title">
+            Edit JSON
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
           {
-            errors.length > 0 && (
+            parseError && (
               <div className="text-danger small mb-2" role="alert">
-                {
-                  errors.length === 1
-                    ? errors[0]
-                    : (
-                      <ul className="mb-0 ps-3">
-                        {
-                          errors.map((message) => (
-                            <li key={message}>{message}</li>
-                          ))
-                        }
-                      </ul>
-                    )
-                }
+                {parseError}
               </div>
             )
           }
 
-          {
-            isEditing
-              ? (
-                <textarea
-                  className={`form-control font-monospace ${errors.length > 0 ? 'is-invalid' : ''}`}
-                  rows={20}
-                  value={jsonText}
-                  onChange={handleTextChange}
-                  spellCheck={false}
-                  aria-label="Editable JSON metadata"
-                />
-              )
-              : <JSONPretty data={data} />
-          }
-        </Accordion.Body>
-      </Accordion.Item>
-    </Accordion>
+          <textarea
+            className={`form-control font-monospace ${parseError ? 'is-invalid' : ''}`}
+            rows={20}
+            value={jsonText}
+            onChange={handleTextChange}
+            spellCheck={false}
+            aria-label="Editable JSON metadata"
+          />
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={handleSaveClick}
+          >
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={showConfirm}
+        onHide={handleConfirmBack}
+        animation={false}
+        aria-labelledby="json-preview-confirm-modal-title"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="json-preview-confirm-modal-title">
+            Confirm Save
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <p>Your record has following errors:</p>
+
+          <ul>
+            {
+              pendingErrors.map((message) => (
+                <li key={message}>{message}</li>
+              ))
+            }
+          </ul>
+
+          <p>Would you like to proceed?</p>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleConfirmBack}
+          >
+            Back
+          </Button>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={handleConfirmSaveAnyway}
+          >
+            Save & Continue
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   )
 }
 
