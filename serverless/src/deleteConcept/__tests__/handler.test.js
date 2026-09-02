@@ -1,7 +1,11 @@
 import { mockClient } from 'aws-sdk-client-mock'
-import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import {
+  DeleteObjectCommand,
+  HeadObjectCommand,
+  S3Client
+} from '@aws-sdk/client-s3'
 
-import getConcept from '../handler'
+import deleteConcept from '../handler'
 
 const s3ClientMock = mockClient(S3Client)
 
@@ -12,21 +16,22 @@ beforeEach(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {})
 })
 
-describe('getConcept', () => {
-  test('retrieves the concept from s3', async () => {
-    const mockConcept = { mock: 'Concept Body' }
-
-    s3ClientMock.on(GetObjectCommand).resolves({
+describe('deleteConcept', () => {
+  test('deletes the concept from s3', async () => {
+    s3ClientMock.on(HeadObjectCommand).resolves({
       $metadata: {
-        httpStatusCode: 200,
+        httpStatusCode: 200
+      }
+    })
+
+    s3ClientMock.on(DeleteObjectCommand).resolves({
+      $metadata: {
+        httpStatusCode: 204,
         requestId: undefined,
         extendedRequestId: undefined,
         cfId: undefined,
         attempts: 1,
         totalRetryDelay: 0
-      },
-      Body: {
-        transformToString: vi.fn().mockResolvedValue(JSON.stringify(mockConcept))
       }
     })
 
@@ -41,16 +46,9 @@ describe('getConcept', () => {
       }
     }
 
-    const response = await getConcept(event)
+    const response = await deleteConcept(event)
 
-    expect(response.statusCode).toBe(200)
-
-    expect(JSON.parse(response.body)).toEqual({
-      concept: mockConcept,
-      conceptType: 'collections',
-      nativeId: 'TestNativeId',
-      providerId: 'MMT_1'
-    })
+    expect(response.statusCode).toBe(204)
   })
 
   describe('when the conceptType is invalid', () => {
@@ -66,13 +64,13 @@ describe('getConcept', () => {
         }
       }
 
-      const response = await getConcept(event)
+      const response = await deleteConcept(event)
 
       expect(response.statusCode).toBe(400)
     })
   })
 
-  describe('when you do not have authorization to retrieve', () => {
+  describe('when you do not have authorization to delete', () => {
     test('returns a status code 401', async () => {
       const event = {
         headers: {
@@ -85,7 +83,7 @@ describe('getConcept', () => {
         }
       }
 
-      const response = await getConcept(event)
+      const response = await deleteConcept(event)
 
       expect(response.statusCode).toBe(401)
     })
@@ -104,15 +102,15 @@ describe('getConcept', () => {
         }
       }
 
-      const response = await getConcept(event)
+      const response = await deleteConcept(event)
 
       expect(response.statusCode).toBe(404)
     })
   })
 
-  describe('when the object does not exist in s3', () => {
-    test('returns a status code 404', async () => {
-      s3ClientMock.on(GetObjectCommand).rejects(new Error('NoSuchKey'))
+  describe('when the concept does not exist in s3', () => {
+    test('returns a status code 404 and does not attempt to delete', async () => {
+      s3ClientMock.on(HeadObjectCommand).rejects(new Error('NotFound'))
 
       const event = {
         headers: {
@@ -125,7 +123,35 @@ describe('getConcept', () => {
         }
       }
 
-      const response = await getConcept(event)
+      const response = await deleteConcept(event)
+
+      expect(response.statusCode).toBe(404)
+      expect(s3ClientMock.commandCalls(DeleteObjectCommand)).toHaveLength(0)
+    })
+  })
+
+  describe('when deleting the object in s3 throws an error', () => {
+    test('returns a status code 404', async () => {
+      s3ClientMock.on(HeadObjectCommand).resolves({
+        $metadata: {
+          httpStatusCode: 200
+        }
+      })
+
+      s3ClientMock.on(DeleteObjectCommand).rejects(new Error('S3 error'))
+
+      const event = {
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        },
+        pathParameters: {
+          conceptType: 'collections',
+          nativeId: 'TestNativeId',
+          providerId: 'MMT_1'
+        }
+      }
+
+      const response = await deleteConcept(event)
 
       expect(response.statusCode).toBe(404)
     })

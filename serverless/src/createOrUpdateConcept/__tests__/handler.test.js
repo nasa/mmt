@@ -1,7 +1,7 @@
 import { mockClient } from 'aws-sdk-client-mock'
-import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 
-import getConcept from '../handler'
+import createOrUpdateConcept from '../handler'
 
 const s3ClientMock = mockClient(S3Client)
 
@@ -12,11 +12,9 @@ beforeEach(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {})
 })
 
-describe('getConcept', () => {
-  test('retrieves the concept from s3', async () => {
-    const mockConcept = { mock: 'Concept Body' }
-
-    s3ClientMock.on(GetObjectCommand).resolves({
+describe('createOrUpdateConcept', () => {
+  test('saves the concept to s3', async () => {
+    s3ClientMock.on(PutObjectCommand).resolves({
       $metadata: {
         httpStatusCode: 200,
         requestId: undefined,
@@ -25,15 +23,14 @@ describe('getConcept', () => {
         attempts: 1,
         totalRetryDelay: 0
       },
-      Body: {
-        transformToString: vi.fn().mockResolvedValue(JSON.stringify(mockConcept))
-      }
+      ETag: '"1a7e08244b933e4fea1f920da4988500"'
     })
 
     const event = {
       headers: {
         Authorization: 'Bearer ABC-1'
       },
+      body: JSON.stringify({ mock: 'Concept Body' }),
       pathParameters: {
         conceptType: 'collections',
         nativeId: 'TestNativeId',
@@ -41,15 +38,28 @@ describe('getConcept', () => {
       }
     }
 
-    const response = await getConcept(event)
+    const response = await createOrUpdateConcept(event)
 
     expect(response.statusCode).toBe(200)
+  })
 
-    expect(JSON.parse(response.body)).toEqual({
-      concept: mockConcept,
-      conceptType: 'collections',
-      nativeId: 'TestNativeId',
-      providerId: 'MMT_1'
+  describe('when the request body is missing', () => {
+    test('returns a status code 400', async () => {
+      const event = {
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        },
+        body: undefined,
+        pathParameters: {
+          conceptType: 'collections',
+          nativeId: 'TestNativeId',
+          providerId: 'MMT_1'
+        }
+      }
+
+      const response = await createOrUpdateConcept(event)
+
+      expect(response.statusCode).toBe(400)
     })
   })
 
@@ -59,6 +69,7 @@ describe('getConcept', () => {
         headers: {
           Authorization: 'Bearer ABC-1'
         },
+        body: JSON.stringify({ mock: 'Concept Body' }),
         pathParameters: {
           conceptType: 'invalid-type',
           nativeId: 'TestNativeId',
@@ -66,18 +77,19 @@ describe('getConcept', () => {
         }
       }
 
-      const response = await getConcept(event)
+      const response = await createOrUpdateConcept(event)
 
       expect(response.statusCode).toBe(400)
     })
   })
 
-  describe('when you do not have authorization to retrieve', () => {
+  describe('when you do not have authorization to create or update', () => {
     test('returns a status code 401', async () => {
       const event = {
         headers: {
           Authorization: 'Bearer ABC-1'
         },
+        body: JSON.stringify({ mock: 'Concept Body' }),
         pathParameters: {
           conceptType: 'collections',
           nativeId: 'TestNativeId',
@@ -85,18 +97,19 @@ describe('getConcept', () => {
         }
       }
 
-      const response = await getConcept(event)
+      const response = await createOrUpdateConcept(event)
 
       expect(response.statusCode).toBe(401)
     })
   })
 
   describe('when fetching providers throws an error', () => {
-    test('returns a status code 404', async () => {
+    test('returns a status code 500', async () => {
       const event = {
         headers: {
           Authorization: 'Bearer invalid_token'
         },
+        body: JSON.stringify({ mock: 'Concept Body' }),
         pathParameters: {
           conceptType: 'collections',
           nativeId: 'TestNativeId',
@@ -104,20 +117,21 @@ describe('getConcept', () => {
         }
       }
 
-      const response = await getConcept(event)
+      const response = await createOrUpdateConcept(event)
 
-      expect(response.statusCode).toBe(404)
+      expect(response.statusCode).toBe(500)
     })
   })
 
-  describe('when the object does not exist in s3', () => {
+  describe('when saving to s3 throws an error', () => {
     test('returns a status code 404', async () => {
-      s3ClientMock.on(GetObjectCommand).rejects(new Error('NoSuchKey'))
+      s3ClientMock.on(PutObjectCommand).rejects(new Error('S3 error'))
 
       const event = {
         headers: {
           Authorization: 'Bearer ABC-1'
         },
+        body: JSON.stringify({ mock: 'Concept Body' }),
         pathParameters: {
           conceptType: 'collections',
           nativeId: 'TestNativeId',
@@ -125,7 +139,7 @@ describe('getConcept', () => {
         }
       }
 
-      const response = await getConcept(event)
+      const response = await createOrUpdateConcept(event)
 
       expect(response.statusCode).toBe(404)
     })
