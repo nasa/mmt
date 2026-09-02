@@ -25,6 +25,8 @@ export class MmtApiResources extends Construct {
   public readonly errorLoggerResource: apigateway.CfnResource
   public readonly gkrKeywordRecommendationsResource: apigateway.CfnResource
   public readonly gkrSendFeedbackResource: apigateway.CfnResource
+  public readonly providersConceptTypeResource: apigateway.CfnResource
+  public readonly providersConceptTypeNativeIdResource: apigateway.CfnResource
   public readonly providersTemplatesResource: apigateway.CfnResource
   public readonly providersTemplatesIdResource: apigateway.CfnResource
   public readonly templatesResource: apigateway.CfnResource
@@ -118,6 +120,20 @@ export class MmtApiResources extends Construct {
     })
     this.providersTemplatesIdResource = providersTemplatesIdResource
 
+    const providersConceptTypeResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceProvidersProviderIdVarConceptTypeVar', {
+      parentId: providerIdResource.ref,
+      pathPart: '{conceptType}',
+      restApiId: apiGatewayRestApi.ref
+    })
+    this.providersConceptTypeResource = providersConceptTypeResource
+
+    const providersConceptTypeNativeIdResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceProvidersProviderIdVarConceptTypeVarNativeIdVar', {
+      parentId: providersConceptTypeResource.ref,
+      pathPart: '{nativeId}',
+      restApiId: apiGatewayRestApi.ref
+    })
+    this.providersConceptTypeNativeIdResource = providersConceptTypeNativeIdResource
+
     const templatesResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceTemplates', {
       parentId: apiGatewayRestApi.attrRootResourceId,
       pathPart: 'templates',
@@ -140,5 +156,9 @@ export class MmtApiResources extends Construct {
     addOptions('TemplatesIdVar', templatesIdResource, ['GET'])
 
     addOptions('Templates', templatesResource, ['GET'])
+
+    addOptions('ProvidersProviderIdVarConceptTypeVar', providersConceptTypeResource, ['GET'])
+
+    addOptions('ProvidersProviderIdVarConceptTypeVarNativeIdVar', providersConceptTypeNativeIdResource, ['GET', 'PUT', 'DELETE'])
   }
 }

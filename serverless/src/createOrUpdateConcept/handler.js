@@ -23,6 +23,15 @@ const createOrUpdateConcept = async (event) => {
   const { body, pathParameters } = event
   const { conceptType, nativeId, providerId } = pathParameters
 
+  if (!body) {
+    console.error('Missing request body')
+
+    return {
+      statusCode: 400,
+      headers: defaultResponseHeaders
+    }
+  }
+
   if (!s3ConceptTypes.includes(conceptType)) {
     console.error(`Invalid conceptType "${conceptType}"`)
 
