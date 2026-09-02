@@ -5,6 +5,6 @@ describe('getConceptsBucketName', () => {
     process.env.IS_OFFLINE = true
     const bucketName = getConceptsBucketName()
 
-    expect(bucketName).toBe('mmt-concepts-bucket-local')
+    expect(bucketName).toBe('mmt-staging-concepts-bucket-local')
   })
 })

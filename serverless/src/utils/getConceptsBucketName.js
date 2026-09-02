@@ -3,8 +3,8 @@
  */
 export const getConceptsBucketName = () => {
   if (process.env.IS_OFFLINE) {
-    return 'mmt-concepts-bucket-local'
+    return 'mmt-staging-concepts-bucket-local'
   }
 
-  return process.env.CONCEPTS_BUCKET_NAME
+  return process.env.STAGING_CONCEPTS_BUCKET_NAME
 }
