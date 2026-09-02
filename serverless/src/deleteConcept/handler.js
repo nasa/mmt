@@ -19,8 +19,24 @@ const deleteConcept = async (event) => {
     s3Client = getS3Client()
   }
 
-  const { pathParameters } = event
+  const { headers, pathParameters } = event
   const { conceptType, nativeId, providerId } = pathParameters
+
+  // Header casing isn't guaranteed by API Gateway/Lambda proxy integration,
+  // so look up 'Staging-Api-Key' case-insensitively
+  const stagingApiKeyHeader = Object.entries(headers || {})
+    .find(([headerName]) => headerName.toLowerCase() === 'staging-api-key')
+
+  const [, stagingApiKey] = stagingApiKeyHeader || []
+
+  if (stagingApiKey !== process.env.STAGING_API_KEY) {
+    console.error('Missing or invalid Staging-Api-Key header')
+
+    return {
+      statusCode: 401,
+      headers: defaultResponseHeaders
+    }
+  }
 
   if (!s3ConceptTypes.includes(conceptType)) {
     console.error(`Invalid conceptType "${conceptType}"`)

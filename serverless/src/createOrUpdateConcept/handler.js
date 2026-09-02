@@ -20,8 +20,24 @@ const createOrUpdateConcept = async (event) => {
     s3Client = getS3Client()
   }
 
-  const { body, pathParameters } = event
+  const { body, headers, pathParameters } = event
   const { conceptType, nativeId, providerId } = pathParameters
+
+  // Header casing isn't guaranteed by API Gateway/Lambda proxy integration,
+  // so look up 'Staging-Api-Key' case-insensitively
+  const stagingApiKeyHeader = Object.entries(headers || {})
+    .find(([headerName]) => headerName.toLowerCase() === 'staging-api-key')
+
+  const [, stagingApiKey] = stagingApiKeyHeader || []
+
+  if (stagingApiKey !== process.env.STAGING_API_KEY) {
+    console.error('Missing or invalid Staging-Api-Key header')
+
+    return {
+      statusCode: 401,
+      headers: defaultResponseHeaders
+    }
+  }
 
   if (!body) {
     console.error('Missing request body')
