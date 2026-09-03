@@ -215,8 +215,9 @@ const JsonPreview = ({ schema }) => {
 
               <ul>
                 {
-                  pendingErrors.map((message) => (
-                    <li key={message}>{message}</li>
+                  pendingErrors.map((message, index) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <li key={`${index}-${message}`}>{message}</li>
                   ))
                 }
               </ul>
