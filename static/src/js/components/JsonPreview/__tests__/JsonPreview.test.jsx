@@ -1,5 +1,9 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  within
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import JSONPretty from 'react-json-pretty'
 
@@ -124,6 +128,10 @@ const openEditorAndType = async (user, jsonText) => {
   return textarea
 }
 
+// Joins the text content of the errors modal's list items, since that's
+// where the structural-error messages themselves are rendered.
+const errorListText = () => screen.getAllByRole('listitem').map((item) => item.textContent).join(' ')
+
 describe('JsonPreview Component', () => {
   describe('when draft is not present in the context', () => {
     test('renders JSONPretty', () => {
@@ -184,7 +192,8 @@ describe('JsonPreview Component', () => {
       })
 
       expect(screen.getByRole('button', { name: 'Edit JSON' })).toBeInTheDocument()
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      expect(screen.queryByText('Editing JSON')).not.toBeInTheDocument()
+      expect(screen.queryByText('Invalid JSON')).not.toBeInTheDocument()
       expect(screen.queryByRole('textbox', { name: 'Editable JSON metadata' })).not.toBeInTheDocument()
     })
   })
@@ -201,19 +210,18 @@ describe('JsonPreview Component', () => {
 
       await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
 
-      const dialog = screen.getByRole('dialog', { name: 'Edit JSON' })
       const textarea = screen.getByRole('textbox', { name: 'Editable JSON metadata' })
 
-      expect(dialog).toBeInTheDocument()
+      expect(screen.getByText('Editing JSON')).toBeInTheDocument()
       expect(textarea).toBeInTheDocument()
       expect(textarea.value).toContain('"Name": "Mock Name"')
 
-      expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Apply' })).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument()
     })
   })
 
-  describe('when the user edits the JSON and clicks Save', () => {
+  describe('when the user edits the JSON and clicks Apply', () => {
     test('calls setDraft with the parsed JSON merged into the draft and closes the modal', async () => {
       const user = userEvent.setup()
 
@@ -226,7 +234,7 @@ describe('JsonPreview Component', () => {
 
       await openEditorAndType(user, '{{"Name": "Updated Name"}')
 
-      await user.click(screen.getByRole('button', { name: 'Save' }))
+      await user.click(screen.getByRole('button', { name: 'Apply' }))
 
       expect(setDraft).toHaveBeenCalledTimes(1)
       expect(setDraft).toHaveBeenCalledWith({
@@ -236,13 +244,13 @@ describe('JsonPreview Component', () => {
         }
       })
 
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      expect(screen.queryByText('Editing JSON')).not.toBeInTheDocument()
       expect(screen.queryByRole('textbox', { name: 'Editable JSON metadata' })).not.toBeInTheDocument()
     })
   })
 
-  describe('when the user enters invalid JSON and clicks Save', () => {
-    test('shows an inline error, does not call setDraft, does not open a confirmation modal, and stays in edit mode', async () => {
+  describe('when the user enters invalid JSON and clicks Apply', () => {
+    test('shows an inline error, does not call setDraft, does not open the errors modal, and stays in edit mode', async () => {
       const user = userEvent.setup()
 
       const { setDraft } = setup({
@@ -253,19 +261,19 @@ describe('JsonPreview Component', () => {
 
       await openEditorAndType(user, '{{ this is not valid json')
 
-      await user.click(screen.getByRole('button', { name: 'Save' }))
+      await user.click(screen.getByRole('button', { name: 'Apply' }))
 
       expect(setDraft).not.toHaveBeenCalled()
       expect(screen.getByRole('alert')).toHaveTextContent(/Invalid JSON/)
 
-      // A parse failure isn't something a "save anyway" confirmation makes
-      // sense for -- there's no parsed data to save.
-      expect(screen.queryByRole('dialog', { name: 'Confirm Save' })).not.toBeInTheDocument()
+      // A parse failure isn't something the errors modal makes sense for --
+      // there's no parsed data to report structural errors about.
+      expect(screen.queryByText('Invalid JSON')).not.toBeInTheDocument()
 
-      // Should remain in the edit modal with Save/Cancel still present
-      expect(screen.getByRole('dialog', { name: 'Edit JSON' })).toBeInTheDocument()
+      // Should remain in the edit modal with Apply/Cancel still present
+      expect(screen.getByText('Editing JSON')).toBeInTheDocument()
       expect(screen.getByRole('textbox', { name: 'Editable JSON metadata' })).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Apply' })).toBeInTheDocument()
     })
 
     test('clears the error once the user starts typing again', async () => {
@@ -279,7 +287,7 @@ describe('JsonPreview Component', () => {
 
       const textarea = await openEditorAndType(user, '{{ not valid')
 
-      await user.click(screen.getByRole('button', { name: 'Save' }))
+      await user.click(screen.getByRole('button', { name: 'Apply' }))
 
       expect(screen.getByRole('alert')).toBeInTheDocument()
 
@@ -304,7 +312,8 @@ describe('JsonPreview Component', () => {
       await user.click(screen.getByRole('button', { name: 'Cancel' }))
 
       expect(setDraft).not.toHaveBeenCalled()
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      expect(screen.queryByText('Editing JSON')).not.toBeInTheDocument()
+      expect(screen.queryByRole('textbox', { name: 'Editable JSON metadata' })).not.toBeInTheDocument()
 
       // Re-opening edit mode should show the original (unsaved-change-free) JSON again
       await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
@@ -315,7 +324,7 @@ describe('JsonPreview Component', () => {
 
   describe('when a schema prop is provided', () => {
     describe('when the edited JSON is only missing a required field', () => {
-      test('saves immediately with no confirmation, since missing-required-field errors are ignored', async () => {
+      test('saves immediately with no errors modal, since missing-required-field errors are ignored', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -327,19 +336,20 @@ describe('JsonPreview Component', () => {
         // Removes the required `Name` field entirely
         await openEditorAndType(user, '{{}')
 
-        await user.click(screen.getByRole('button', { name: 'Save' }))
+        await user.click(screen.getByRole('button', { name: 'Apply' }))
 
         expect(setDraft).toHaveBeenCalledTimes(1)
         expect(setDraft).toHaveBeenCalledWith({
           ummMetadata: {}
         })
 
-        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+        expect(screen.queryByText('Editing JSON')).not.toBeInTheDocument()
+        expect(screen.queryByText('Invalid JSON')).not.toBeInTheDocument()
       })
     })
 
     describe('when the edited JSON has an unknown/typo\'d field name', () => {
-      test('opens a confirmation modal naming the offending field, and does not save yet', async () => {
+      test('opens an errors modal naming the offending field, and does not save', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -350,22 +360,32 @@ describe('JsonPreview Component', () => {
 
         await openEditorAndType(user, '{{"Name": "Mock Name", "Nmae": "typo"}')
 
-        await user.click(screen.getByRole('button', { name: 'Save' }))
+        await user.click(screen.getByRole('button', { name: 'Apply' }))
 
         expect(setDraft).not.toHaveBeenCalled()
 
-        const confirmDialog = screen.getByRole('dialog', { name: 'Confirm Save' })
+        expect(screen.getByText('Invalid JSON')).toBeInTheDocument()
+        expect(errorListText()).toMatch(/Nmae/)
+        expect(errorListText()).toMatch(/must NOT have additional property/)
+        expect(screen.getByText(/must fix these errors before proceeding to save/i)).toBeInTheDocument()
 
-        expect(confirmDialog).toHaveTextContent(/Nmae/)
-        expect(confirmDialog).toHaveTextContent(/must NOT have additional property/)
-        expect(confirmDialog).toHaveTextContent(/would you like to proceed/i)
+        // There's no way to save from here -- only a way back to editing.
+        // The edit modal stays mounted underneath (with Apply still on it),
+        // so this has to be scoped to the errors modal itself.
+        const errorsModal = screen
+          .getAllByRole('dialog')
+          .find((dialog) => within(dialog).queryByText('Invalid JSON'))
+
+        expect(within(errorsModal).queryByRole('button', { name: 'Apply' })).not.toBeInTheDocument()
+        expect(within(errorsModal).queryByRole('button', { name: 'Save & Continue' })).not.toBeInTheDocument()
+        expect(within(errorsModal).getByRole('button', { name: 'Go Back' })).toBeInTheDocument()
 
         // The edit modal stays open underneath, with the unsaved text intact
-        expect(screen.getByRole('dialog', { name: 'Edit JSON' })).toBeInTheDocument()
+        expect(screen.getByText('Editing JSON')).toBeInTheDocument()
         expect(screen.getByRole('textbox', { name: 'Editable JSON metadata' }).value).toContain('Nmae')
       })
 
-      test('clicking "Yes, save anyway" saves the structurally-invalid JSON and closes both modals', async () => {
+      test('clicking "Go Back" closes the errors modal without saving, keeping the edit modal open', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -375,47 +395,20 @@ describe('JsonPreview Component', () => {
         }, { schema: mockSchema })
 
         await openEditorAndType(user, '{{"Name": "Mock Name", "Nmae": "typo"}')
-        await user.click(screen.getByRole('button', { name: 'Save' }))
+        await user.click(screen.getByRole('button', { name: 'Apply' }))
 
-        await user.click(screen.getByRole('button', { name: 'Save & Continue' }))
-
-        expect(setDraft).toHaveBeenCalledTimes(1)
-        expect(setDraft).toHaveBeenCalledWith({
-          ummMetadata: {
-            Name: 'Mock Name',
-            Nmae: 'typo'
-          }
-        })
-
-        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-      })
-
-      test('clicking "No, go back" closes the confirmation modal without saving, keeping the edit modal open', async () => {
-        const user = userEvent.setup()
-
-        const { setDraft } = setup({
-          ummMetadata: {
-            Name: 'Mock Name'
-          }
-        }, { schema: mockSchema })
-
-        await openEditorAndType(user, '{{"Name": "Mock Name", "Nmae": "typo"}')
-        await user.click(screen.getByRole('button', { name: 'Save' }))
-
-        await user.click(screen.getByRole('button', { name: 'Back' }))
+        await user.click(screen.getByRole('button', { name: 'Go Back' }))
 
         expect(setDraft).not.toHaveBeenCalled()
-        expect(screen.queryByRole('dialog', { name: 'Confirm Save' })).not.toBeInTheDocument()
+        expect(screen.queryByText('Invalid JSON')).not.toBeInTheDocument()
 
-        const editDialog = screen.getByRole('dialog', { name: 'Edit JSON' })
-
-        expect(editDialog).toBeInTheDocument()
+        expect(screen.getByText('Editing JSON')).toBeInTheDocument()
         expect(screen.getByRole('textbox', { name: 'Editable JSON metadata' }).value).toContain('Nmae')
       })
     })
 
     describe('when the edited JSON has a value of the wrong type', () => {
-      test('opens a confirmation modal with the type error', async () => {
+      test('opens an errors modal with the type error', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -426,19 +419,18 @@ describe('JsonPreview Component', () => {
 
         await openEditorAndType(user, '{{"Name": "Mock Name", "Age": "not a number"}')
 
-        await user.click(screen.getByRole('button', { name: 'Save' }))
+        await user.click(screen.getByRole('button', { name: 'Apply' }))
 
         expect(setDraft).not.toHaveBeenCalled()
 
-        const confirmDialog = screen.getByRole('dialog', { name: 'Confirm Save' })
-
-        expect(confirmDialog).toHaveTextContent(/Age/)
-        expect(confirmDialog).toHaveTextContent(/must be number/)
+        expect(screen.getByText('Invalid JSON')).toBeInTheDocument()
+        expect(errorListText()).toMatch(/Age/)
+        expect(errorListText()).toMatch(/must be number/)
       })
     })
 
     describe('when the edited JSON has an invalid value for a oneOf/const-style enum field', () => {
-      test('opens a confirmation modal instead of silently saving the invalid value', async () => {
+      test('opens an errors modal instead of silently saving the invalid value', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -451,38 +443,16 @@ describe('JsonPreview Component', () => {
         // required-field error at this path to (correctly) suppress it
         await openEditorAndType(user, '{{"Status": "Bogus"}')
 
-        await user.click(screen.getByRole('button', { name: 'Save' }))
+        await user.click(screen.getByRole('button', { name: 'Apply' }))
 
         expect(setDraft).not.toHaveBeenCalled()
 
-        const confirmDialog = screen.getByRole('dialog', { name: 'Confirm Save' })
-
-        expect(confirmDialog).toHaveTextContent(/Status/)
-        expect(confirmDialog).toHaveTextContent(/would you like to proceed/i)
+        expect(screen.getByText('Invalid JSON')).toBeInTheDocument()
+        expect(errorListText()).toMatch(/Status/)
+        expect(screen.getByText(/must fix these errors before proceeding to save/i)).toBeInTheDocument()
       })
 
-      test('clicking "Save & Continue" saves the invalid enum value', async () => {
-        const user = userEvent.setup()
-
-        const { setDraft } = setup({
-          ummMetadata: {
-            Status: 'Active'
-          }
-        }, { schema: mockEnumAsOneOfSchema })
-
-        await openEditorAndType(user, '{{"Status": "Bogus"}')
-        await user.click(screen.getByRole('button', { name: 'Save' }))
-        await user.click(screen.getByRole('button', { name: 'Save & Continue' }))
-
-        expect(setDraft).toHaveBeenCalledTimes(1)
-        expect(setDraft).toHaveBeenCalledWith({
-          ummMetadata: {
-            Status: 'Bogus'
-          }
-        })
-      })
-
-      test('a valid enum value saves immediately with no confirmation', async () => {
+      test('a valid enum value saves immediately with no errors modal', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -493,7 +463,7 @@ describe('JsonPreview Component', () => {
 
         await openEditorAndType(user, '{{"Status": "Inactive"}')
 
-        await user.click(screen.getByRole('button', { name: 'Save' }))
+        await user.click(screen.getByRole('button', { name: 'Apply' }))
 
         expect(setDraft).toHaveBeenCalledTimes(1)
         expect(setDraft).toHaveBeenCalledWith({
@@ -502,12 +472,13 @@ describe('JsonPreview Component', () => {
           }
         })
 
-        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+        expect(screen.queryByText('Editing JSON')).not.toBeInTheDocument()
+        expect(screen.queryByText('Invalid JSON')).not.toBeInTheDocument()
       })
     })
 
     describe('when the edited JSON has both a missing required field and a structural error', () => {
-      test('the confirmation modal names only the structural error, the required error is omitted', async () => {
+      test('the errors modal names only the structural error, the required error is omitted', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -519,14 +490,12 @@ describe('JsonPreview Component', () => {
         // Missing required `Name`, and has an unknown field `Nmae`
         await openEditorAndType(user, '{{"Nmae": "typo"}')
 
-        await user.click(screen.getByRole('button', { name: 'Save' }))
+        await user.click(screen.getByRole('button', { name: 'Apply' }))
 
         expect(setDraft).not.toHaveBeenCalled()
 
-        const confirmDialog = screen.getByRole('dialog', { name: 'Confirm Save' })
-
-        expect(confirmDialog).toHaveTextContent(/Nmae/)
-        expect(confirmDialog).not.toHaveTextContent(/"required"/)
+        expect(errorListText()).toMatch(/Nmae/)
+        expect(errorListText()).not.toMatch(/"required"/)
 
         // A single structural error still renders as a one-item list
         expect(screen.getAllByRole('listitem')).toHaveLength(1)
@@ -534,7 +503,7 @@ describe('JsonPreview Component', () => {
     })
 
     describe('when the edited JSON is missing the required field in every oneOf branch', () => {
-      test('saves immediately with no confirmation, since the oneOf wrapper error is noise from the required errors', async () => {
+      test('saves immediately with no errors modal, since the oneOf wrapper error is noise from the required errors', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -546,7 +515,7 @@ describe('JsonPreview Component', () => {
         // Satisfies neither branch: no `Name` and no `Nickname`
         await openEditorAndType(user, '{{"Age": 5}')
 
-        await user.click(screen.getByRole('button', { name: 'Save' }))
+        await user.click(screen.getByRole('button', { name: 'Apply' }))
 
         expect(setDraft).toHaveBeenCalledTimes(1)
         expect(setDraft).toHaveBeenCalledWith({
@@ -555,12 +524,13 @@ describe('JsonPreview Component', () => {
           }
         })
 
-        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+        expect(screen.queryByText('Editing JSON')).not.toBeInTheDocument()
+        expect(screen.queryByText('Invalid JSON')).not.toBeInTheDocument()
       })
     })
 
     describe('when the edited JSON has an unknown field under a oneOf schema', () => {
-      test('still opens a confirmation modal for the structural error, even though the oneOf wrapper error is ignored', async () => {
+      test('still opens an errors modal for the structural error, even though the oneOf wrapper error is ignored', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -572,19 +542,18 @@ describe('JsonPreview Component', () => {
         // Satisfies the `Name` branch, but also has a typo'd unknown field
         await openEditorAndType(user, '{{"Name": "Mock Name", "Nmae": "typo"}')
 
-        await user.click(screen.getByRole('button', { name: 'Save' }))
+        await user.click(screen.getByRole('button', { name: 'Apply' }))
 
         expect(setDraft).not.toHaveBeenCalled()
 
-        const confirmDialog = screen.getByRole('dialog', { name: 'Confirm Save' })
-
-        expect(confirmDialog).toHaveTextContent(/Nmae/)
-        expect(confirmDialog).toHaveTextContent(/must NOT have additional property/)
+        expect(screen.getByText('Invalid JSON')).toBeInTheDocument()
+        expect(errorListText()).toMatch(/Nmae/)
+        expect(errorListText()).toMatch(/must NOT have additional property/)
       })
     })
 
     describe('when the edited JSON has multiple structural errors', () => {
-      test('renders each error as a separate list item in the confirmation modal', async () => {
+      test('renders each error as a separate list item in the errors modal', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -595,7 +564,7 @@ describe('JsonPreview Component', () => {
 
         await openEditorAndType(user, '{{"Name": "Mock Name", "Nmae": "typo", "Aeg": "typo2"}')
 
-        await user.click(screen.getByRole('button', { name: 'Save' }))
+        await user.click(screen.getByRole('button', { name: 'Apply' }))
 
         expect(setDraft).not.toHaveBeenCalled()
 

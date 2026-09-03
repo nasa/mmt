@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Accordion from 'react-bootstrap/Accordion'
-import Modal from 'react-bootstrap/Modal'
 import JSONPretty from 'react-json-pretty'
 import { cloneDeep } from 'lodash-es'
 import PropTypes from 'prop-types'
@@ -9,6 +8,7 @@ import validator from '@rjsf/validator-ajv8'
 import useAppContext from '../../hooks/useAppContext'
 import removeEmpty from '../../utils/removeEmpty'
 import Button from '../Button/Button'
+import CustomModal from '../CustomModal/CustomModal'
 
 const JsonPreview = ({ schema }) => {
   const {
@@ -23,23 +23,19 @@ const JsonPreview = ({ schema }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [jsonText, setJsonText] = useState('')
 
-  // Inline, blocking error -- only ever a JSON.parse failure. There's
-  // nothing to save yet, so this can't be resolved with a "save anyway"
-  // confirmation the way schema errors can.
+  // Inline, blocking error -- only ever a JSON.parse failure.
   const [parseError, setParseError] = useState(null)
 
-  // Schema/structural errors surfaced on Save. These don't block saving --
-  // they open the confirmation modal below instead, and the user decides
-  // whether to save despite them.
+  // Schema/structural errors surfaced on Apply. These block saving -- the
+  // errors modal below is a dead end that only lets the user go back and
+  // fix the JSON, it never commits the invalid draft.
   const [pendingErrors, setPendingErrors] = useState([])
-  const [pendingParsed, setPendingParsed] = useState(null)
-  const [showConfirm, setShowConfirm] = useState(false)
+  const [showErrors, setShowErrors] = useState(false)
 
   const handleEditClick = () => {
     setJsonText(JSON.stringify(data, null, 2))
     setParseError(null)
     setPendingErrors([])
-    setPendingParsed(null)
     setIsEditing(true)
   }
 
@@ -47,8 +43,7 @@ const JsonPreview = ({ schema }) => {
     setJsonText(JSON.stringify(data, null, 2))
     setParseError(null)
     setPendingErrors([])
-    setPendingParsed(null)
-    setShowConfirm(false)
+    setShowErrors(false)
     setIsEditing(false)
   }
 
@@ -57,20 +52,7 @@ const JsonPreview = ({ schema }) => {
     if (parseError) setParseError(null)
   }
 
-  const commitSave = (parsed) => {
-    setDraft({
-      ...draft,
-      ummMetadata: parsed
-    })
-
-    setParseError(null)
-    setPendingErrors([])
-    setPendingParsed(null)
-    setShowConfirm(false)
-    setIsEditing(false)
-  }
-
-  const handleSaveClick = () => {
+  const handleApplyClick = () => {
     let parsed
 
     try {
@@ -86,26 +68,12 @@ const JsonPreview = ({ schema }) => {
     if (schema) {
       const { errors: schemaErrors = [] } = validator.validateFormData(parsed, schema)
 
-      // Only surface structural problems (an unknown/typo'd field name, or a
-      // value of the wrong type). Missing-required-field errors are ignored
-      // here so saving through the JSON editor stays as permissive as saving
-      // through the form fields, which never blocks on incomplete drafts.
-      // A missing required field inside a oneOf/anyOf branch (e.g. a
-      // discriminated union) doesn't just produce a 'required' error -- AJV
-      // also emits a wrapping 'oneOf'/'anyOf' error at the same instancePath
-      // ("must match a schema in oneOf/anyOf"), so that wrapper needs to be
-      // ignored too or an otherwise-incomplete-but-valid draft would still
-      // trigger a confirmation.
-      //
-      // However, oneOf/anyOf errors aren't ONLY produced by missing-required
-      // noise -- some schemas express a controlled vocabulary (effectively
-      // an enum) as `oneOf: [{ const: 'A' }, { const: 'B' }, ...]` instead of
-      // a plain `enum`. An invalid value for one of those fields fails with
-      // a oneOf/anyOf error too, and a blanket filter would silently let it
-      // through. So only drop a oneOf/anyOf error when a 'required' error
-      // exists at that same instancePath (i.e. it's the wrapper noise) --
-      // keep it when it's the only error at that path, since that means it's
-      // a genuine invalid-value failure.
+      // Only surface structural errors (unknown field, wrong type). 'required'
+      // errors are ignored so the JSON editor stays as permissive as the form.
+      // A missing required field inside oneOf/anyOf also emits a wrapping
+      // oneOf/anyOf error at the same path -- drop that too, but only when a
+      // 'required' error exists at that path, since oneOf/anyOf is also how
+      // const-based enums fail on an invalid value (a real error to keep).
       const requiredPaths = new Set(
         schemaErrors
           .filter(({ name }) => name === 'required')
@@ -126,9 +94,7 @@ const JsonPreview = ({ schema }) => {
           message,
           params
         }) => {
-          // AJV puts the actual bad key in params.additionalProperty for this
-          // error type -- `property` here refers to the parent object, and
-          // `message` alone doesn't name the offending field at all.
+          // AJV reports the bad key in params.additionalProperty, not in `message`
           if (name === 'additionalProperties' && params?.additionalProperty) {
             const location = property ? `${property} ` : ''
 
@@ -139,24 +105,26 @@ const JsonPreview = ({ schema }) => {
         })
 
         setPendingErrors(messages)
-        setPendingParsed(parsed)
-        setShowConfirm(true)
+        setShowErrors(true)
 
         return
       }
     }
 
-    commitSave(parsed)
-  }
+    setDraft({
+      ...draft,
+      ummMetadata: parsed
+    })
 
-  const handleConfirmSaveAnyway = () => {
-    commitSave(pendingParsed)
-  }
-
-  const handleConfirmBack = () => {
-    setShowConfirm(false)
+    setParseError(null)
     setPendingErrors([])
-    setPendingParsed(null)
+    setShowErrors(false)
+    setIsEditing(false)
+  }
+
+  const handleErrorsBack = () => {
+    setShowErrors(false)
+    setPendingErrors([])
   }
 
   return (
@@ -185,99 +153,88 @@ const JsonPreview = ({ schema }) => {
         </Accordion.Item>
       </Accordion>
 
-      <Modal
+      <CustomModal
         show={isEditing}
-        onHide={handleCancel}
-        size="lg"
-        animation={false}
-        aria-labelledby="json-preview-edit-modal-title"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="json-preview-edit-modal-title">
-            Edit JSON
-          </Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          {
-            parseError && (
-              <div className="text-danger small mb-2" role="alert">
-                {parseError}
-              </div>
-            )
+        toggleModal={
+          (nextShow) => {
+            if (!nextShow) handleCancel()
           }
+        }
+        size="lg"
+        header="Editing JSON"
+        message={
+          (
+            <>
+              {
+                parseError && (
+                  <div className="text-danger small mb-2" role="alert">
+                    {parseError}
+                  </div>
+                )
+              }
 
-          <textarea
-            className={`form-control font-monospace ${parseError ? 'is-invalid' : ''}`}
-            rows={20}
-            value={jsonText}
-            onChange={handleTextChange}
-            spellCheck={false}
-            aria-label="Editable JSON metadata"
-          />
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={handleCancel}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={handleSaveClick}
-          >
-            Save
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      <Modal
-        show={showConfirm}
-        onHide={handleConfirmBack}
-        animation={false}
-        aria-labelledby="json-preview-confirm-modal-title"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="json-preview-confirm-modal-title">
-            Confirm Save
-          </Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          <p>Your record has following errors:</p>
-
-          <ul>
+              <textarea
+                className={`form-control font-monospace ${parseError ? 'is-invalid' : ''}`}
+                rows={20}
+                value={jsonText}
+                onChange={handleTextChange}
+                spellCheck={false}
+                aria-label="Editable JSON metadata"
+              />
+            </>
+          )
+        }
+        actions={
+          [
             {
-              pendingErrors.map((message) => (
-                <li key={message}>{message}</li>
-              ))
+              label: 'Cancel',
+              variant: 'secondary',
+              onClick: handleCancel
+            },
+            {
+              label: 'Apply',
+              variant: 'primary',
+              onClick: handleApplyClick
             }
-          </ul>
+          ]
+        }
+      />
 
-          <p>Would you like to proceed?</p>
-        </Modal.Body>
+      <CustomModal
+        show={showErrors}
+        toggleModal={
+          (nextShow) => {
+            if (!nextShow) handleErrorsBack()
+          }
+        }
+        header="Invalid JSON"
+        message={
+          (
+            <>
+              <p>Your record has following errors:</p>
 
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={handleConfirmBack}
-          >
-            Back
-          </Button>
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={handleConfirmSaveAnyway}
-          >
-            Save & Continue
-          </Button>
-        </Modal.Footer>
-      </Modal>
+              <ul>
+                {
+                  pendingErrors.map((message) => (
+                    <li key={message}>{message}</li>
+                  ))
+                }
+              </ul>
+
+              <p>You must fix these errors before proceeding to save.</p>
+            </>
+          )
+        }
+        actions={
+          [
+            {
+              label: 'Go Back',
+              variant: 'primary',
+              onClick: handleErrorsBack
+            }
+          ]
+        }
+      />
     </>
   )
 }
