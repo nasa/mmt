@@ -14,6 +14,8 @@ export interface MmtStackProps extends cdk.StackProps {}
 const {
   STAGE_NAME = 'dev',
   COLLECTION_TEMPLATES_BUCKET_NAME = `mmt-${STAGE_NAME}-collection-templates`,
+  STAGING_CONCEPTS_BUCKET_NAME = `mmt-${STAGE_NAME}-staging-concepts`,
+  STAGING_API_KEY = 'local-staging-api-key',
   COOKIE_DOMAIN = '.localhost',
   EDL_CLIENT_ID = '',
   EDL_PASSWORD = '',
@@ -80,6 +82,8 @@ export class MmtStack extends cdk.Stack {
 
     const environment = {
       COLLECTION_TEMPLATES_BUCKET_NAME,
+      STAGING_CONCEPTS_BUCKET_NAME,
+      STAGING_API_KEY,
       COOKIE_DOMAIN,
       EDL_CLIENT_ID,
       EDL_PASSWORD,

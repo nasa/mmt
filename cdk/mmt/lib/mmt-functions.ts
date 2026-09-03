@@ -250,5 +250,77 @@ export class MmtFunctions extends Construct {
       functionNamePrefix,
       role: s3LambdaRole
     })
+
+    // getConcepts - GET /providers/{providerId}/{conceptType}
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetConceptsNestedStack'), 'GetConceptsLambda', {
+      ...defaultLambdaConfig,
+      api: {
+        apiGatewayDeployment,
+        apiGatewayResource: resources.providersConceptTypeResource,
+        apiGatewayRestApi,
+        authorizer: authorizers.edlAuthorizer,
+        methods: ['GET'],
+        parentPath: 'providersProviderIdVar',
+        path: '{conceptType}'
+      },
+      entry: '../../serverless/src/getConcepts/handler.js',
+      functionName: 'getConcepts',
+      functionNamePrefix,
+      role: s3LambdaRole
+    })
+
+    // getConcept - GET /providers/{providerId}/{conceptType}/{nativeId}
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetConceptNestedStack'), 'GetConceptLambda', {
+      ...defaultLambdaConfig,
+      api: {
+        apiGatewayDeployment,
+        apiGatewayResource: resources.providersConceptTypeNativeIdResource,
+        apiGatewayRestApi,
+        authorizer: authorizers.edlAuthorizer,
+        methods: ['GET'],
+        parentPath: 'providersProviderIdVarConceptTypeVar',
+        path: '{nativeId}'
+      },
+      entry: '../../serverless/src/getConcept/handler.js',
+      functionName: 'getConcept',
+      functionNamePrefix,
+      role: s3LambdaRole
+    })
+
+    // createOrUpdateConcept - PUT /providers/{providerId}/{conceptType}/{nativeId}
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'CreateOrUpdateConceptNestedStack'), 'CreateOrUpdateConceptLambda', {
+      ...defaultLambdaConfig,
+      api: {
+        apiGatewayDeployment,
+        apiGatewayResource: resources.providersConceptTypeNativeIdResource,
+        apiGatewayRestApi,
+        authorizer: authorizers.edlAuthorizer,
+        methods: ['PUT'],
+        parentPath: 'providersProviderIdVarConceptTypeVar',
+        path: '{nativeId}'
+      },
+      entry: '../../serverless/src/createOrUpdateConcept/handler.js',
+      functionName: 'createOrUpdateConcept',
+      functionNamePrefix,
+      role: s3LambdaRole
+    })
+
+    // deleteConcept - DELETE /providers/{providerId}/{conceptType}/{nativeId}
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'DeleteConceptNestedStack'), 'DeleteConceptLambda', {
+      ...defaultLambdaConfig,
+      api: {
+        apiGatewayDeployment,
+        apiGatewayResource: resources.providersConceptTypeNativeIdResource,
+        apiGatewayRestApi,
+        authorizer: authorizers.edlAuthorizer,
+        methods: ['DELETE'],
+        parentPath: 'providersProviderIdVarConceptTypeVar',
+        path: '{nativeId}'
+      },
+      entry: '../../serverless/src/deleteConcept/handler.js',
+      functionName: 'deleteConcept',
+      functionNamePrefix,
+      role: s3LambdaRole
+    })
   }
 }
