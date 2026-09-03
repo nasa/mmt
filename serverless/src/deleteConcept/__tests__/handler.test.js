@@ -56,7 +56,31 @@ describe('deleteConcept', () => {
     expect(response.statusCode).toBe(204)
   })
 
-  describe('when the Prod-Staging-Api-Key header is missing', () => {
+  describe('when STAGING_API_KEY is not configured in the environment', () => {
+    test('returns a status code 401 even when no header is sent', async () => {
+      delete process.env.STAGING_API_KEY
+
+      const event = {
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        // No Staging-Api-Key header sent at all
+        },
+        pathParameters: {
+          conceptType: 'collections',
+          nativeId: 'TestNativeId',
+          providerId: 'MMT_1'
+        }
+      }
+
+      const response = await deleteConcept(event)
+
+      expect(response.statusCode).toBe(401)
+      expect(s3ClientMock.commandCalls(HeadObjectCommand)).toHaveLength(0)
+      expect(s3ClientMock.commandCalls(DeleteObjectCommand)).toHaveLength(0)
+    })
+  })
+
+  describe('when the Staging-Api-Key header is missing', () => {
     test('returns a status code 401', async () => {
       const event = {
         headers: {
@@ -76,7 +100,7 @@ describe('deleteConcept', () => {
     })
   })
 
-  describe('when the Prod-Staging-Api-Key header does not match', () => {
+  describe('when the Staging-Api-Key header does not match', () => {
     test('returns a status code 401', async () => {
       const event = {
         headers: {
@@ -97,7 +121,7 @@ describe('deleteConcept', () => {
     })
   })
 
-  describe('when the Prod-Staging-Api-Key header has different casing', () => {
+  describe('when the Staging-Api-Key header has different casing', () => {
     test('is still accepted (case-insensitive lookup)', async () => {
       s3ClientMock.on(HeadObjectCommand).resolves({
         $metadata: {

@@ -29,7 +29,7 @@ const deleteConcept = async (event) => {
 
   const [, stagingApiKey] = stagingApiKeyHeader || []
 
-  if (stagingApiKey !== process.env.STAGING_API_KEY) {
+  if (!process.env.STAGING_API_KEY || stagingApiKey !== process.env.STAGING_API_KEY) {
     console.error('Missing or invalid Staging-Api-Key header')
 
     return {
