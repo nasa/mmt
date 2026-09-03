@@ -1,9 +1,5 @@
 import { mockClient } from 'aws-sdk-client-mock'
-import {
-  DeleteObjectCommand,
-  HeadObjectCommand,
-  S3Client
-} from '@aws-sdk/client-s3'
+import { DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3'
 
 import deleteConcept from '../handler'
 
@@ -25,12 +21,6 @@ beforeEach(() => {
 
 describe('deleteConcept', () => {
   test('deletes the concept from s3', async () => {
-    s3ClientMock.on(HeadObjectCommand).resolves({
-      $metadata: {
-        httpStatusCode: 200
-      }
-    })
-
     s3ClientMock.on(DeleteObjectCommand).resolves({
       $metadata: {
         httpStatusCode: 204,
@@ -75,7 +65,6 @@ describe('deleteConcept', () => {
       const response = await deleteConcept(event)
 
       expect(response.statusCode).toBe(401)
-      expect(s3ClientMock.commandCalls(HeadObjectCommand)).toHaveLength(0)
       expect(s3ClientMock.commandCalls(DeleteObjectCommand)).toHaveLength(0)
     })
   })
@@ -96,7 +85,7 @@ describe('deleteConcept', () => {
       const response = await deleteConcept(event)
 
       expect(response.statusCode).toBe(401)
-      expect(s3ClientMock.commandCalls(HeadObjectCommand)).toHaveLength(0)
+      expect(s3ClientMock.commandCalls(DeleteObjectCommand)).toHaveLength(0)
     })
   })
 
@@ -117,18 +106,12 @@ describe('deleteConcept', () => {
       const response = await deleteConcept(event)
 
       expect(response.statusCode).toBe(401)
-      expect(s3ClientMock.commandCalls(HeadObjectCommand)).toHaveLength(0)
+      expect(s3ClientMock.commandCalls(DeleteObjectCommand)).toHaveLength(0)
     })
   })
 
   describe('when the Staging-Api-Key header has different casing', () => {
     test('is still accepted (case-insensitive lookup)', async () => {
-      s3ClientMock.on(HeadObjectCommand).resolves({
-        $metadata: {
-          httpStatusCode: 200
-        }
-      })
-
       s3ClientMock.on(DeleteObjectCommand).resolves({
         $metadata: {
           httpStatusCode: 204,
@@ -172,6 +155,7 @@ describe('deleteConcept', () => {
       const response = await deleteConcept(event)
 
       expect(response.statusCode).toBe(400)
+      expect(s3ClientMock.commandCalls(DeleteObjectCommand)).toHaveLength(0)
     })
   })
 
@@ -189,6 +173,7 @@ describe('deleteConcept', () => {
       const response = await deleteConcept(event)
 
       expect(response.statusCode).toBe(401)
+      expect(s3ClientMock.commandCalls(DeleteObjectCommand)).toHaveLength(0)
     })
   })
 
@@ -212,34 +197,39 @@ describe('deleteConcept', () => {
     })
   })
 
-  describe('when the concept does not exist in s3', () => {
-    test('returns a status code 404 and does not attempt to delete', async () => {
-      s3ClientMock.on(HeadObjectCommand).rejects(new Error('NotFound'))
+  describe('when deleting a concept that does not exist in s3', () => {
+    test('is treated as a successful, idempotent delete (no preflight check)', async () => {
+      // DeleteObject does not error on a missing key - this is the whole
+      // point of the idempotent-delete approach, so there's no
+      // HeadObjectCommand mock/check possible anymore
+      s3ClientMock.on(DeleteObjectCommand).resolves({
+        $metadata: {
+          httpStatusCode: 204,
+          requestId: undefined,
+          extendedRequestId: undefined,
+          cfId: undefined,
+          attempts: 1,
+          totalRetryDelay: 0
+        }
+      })
 
       const event = {
         headers: validStagingHeaders,
         pathParameters: {
           conceptType: 'collections',
-          nativeId: 'TestNativeId',
+          nativeId: 'NonExistentNativeId',
           providerId: 'MMT_1'
         }
       }
 
       const response = await deleteConcept(event)
 
-      expect(response.statusCode).toBe(404)
-      expect(s3ClientMock.commandCalls(DeleteObjectCommand)).toHaveLength(0)
+      expect(response.statusCode).toBe(204)
     })
   })
 
   describe('when deleting the object in s3 throws an error', () => {
     test('returns a status code 404', async () => {
-      s3ClientMock.on(HeadObjectCommand).resolves({
-        $metadata: {
-          httpStatusCode: 200
-        }
-      })
-
       s3ClientMock.on(DeleteObjectCommand).rejects(new Error('S3 error'))
 
       const event = {

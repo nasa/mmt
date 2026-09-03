@@ -1,4 +1,4 @@
-import { DeleteObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3'
+import { DeleteObjectCommand } from '@aws-sdk/client-s3'
 
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { getS3Client } from '../utils/getS3Client'
@@ -63,22 +63,6 @@ const deleteConcept = async (event) => {
     const key = `${providerId}/${conceptType}/${nativeId}.json`
     const conceptsBucketName = getConceptsBucketName()
 
-    // DeleteObject is idempotent and won't error on a missing key, so check existence first
-    try {
-      await s3Client.send(new HeadObjectCommand({
-        Bucket: conceptsBucketName,
-        Key: key
-      }))
-    } catch (headError) {
-      console.error(`Concept not found for key "${key}"`, headError)
-
-      return {
-        statusCode: 404,
-        headers: defaultResponseHeaders
-      }
-    }
-
-    // Delete the file from S3
     const deleteCommand = new DeleteObjectCommand({
       Bucket: conceptsBucketName,
       Key: key
