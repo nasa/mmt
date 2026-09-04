@@ -406,7 +406,7 @@ const MetadataForm = () => {
 
       <Row className="json-view">
         <Col sm={8}>
-          <JsonPreview />
+          <JsonPreview schema={schema} />
         </Col>
       </Row>
     </Container>
