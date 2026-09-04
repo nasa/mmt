@@ -68,24 +68,10 @@ const JsonPreview = ({ schema }) => {
     if (schema) {
       const { errors: schemaErrors = [] } = validator.validateFormData(parsed, schema)
 
-      // Only surface structural errors (unknown field, wrong type). 'required'
-      // errors are ignored so the JSON editor stays as permissive as the form.
-      // A missing required field inside oneOf/anyOf also emits a wrapping
-      // oneOf/anyOf error at the same path -- drop that too, but only when a
-      // 'required' error exists at that path, since oneOf/anyOf is also how
-      // const-based enums fail on an invalid value (a real error to keep).
-      const requiredPaths = new Set(
-        schemaErrors
-          .filter(({ name }) => name === 'required')
-          .map(({ instancePath }) => instancePath)
-      )
-
-      const structuralErrors = schemaErrors.filter(({ name, instancePath }) => {
-        if (name === 'required') return false
-        if ((name === 'oneOf' || name === 'anyOf') && requiredPaths.has(instancePath)) return false
-
-        return true
-      })
+      // Only surface structural errors (unknown field, wrong type, oneOf/anyOf
+      // mismatches). 'required' errors are ignored so the JSON editor stays as
+      // permissive as the form.
+      const structuralErrors = schemaErrors.filter(({ name }) => name !== 'required')
 
       if (structuralErrors.length > 0) {
         const messages = structuralErrors.map(({
@@ -160,7 +146,7 @@ const JsonPreview = ({ schema }) => {
             if (!nextShow) handleCancel()
           }
         }
-        size="lg"
+        size="xl"
         header="Editing JSON"
         message={
           (
@@ -175,7 +161,7 @@ const JsonPreview = ({ schema }) => {
 
               <textarea
                 className={`form-control font-monospace ${parseError ? 'is-invalid' : ''}`}
-                rows={20}
+                rows={32}
                 value={jsonText}
                 onChange={handleTextChange}
                 spellCheck={false}

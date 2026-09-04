@@ -25,7 +25,8 @@ const mockSchema = {
 // A discriminated-union-style schema: a valid document must satisfy exactly
 // one of the two branches below. Each branch has its own required field, so
 // AJV reports a missing branch field as both a `required` error *and* a
-// wrapping `oneOf` error ("must match a schema in oneOf") at the root.
+// wrapping `oneOf` error ("must match a schema in oneOf") at the root. Only
+// the `required` error is filtered -- the `oneOf` error is now surfaced too.
 const mockOneOfSchema = {
   type: 'object',
   additionalProperties: false,
@@ -53,10 +54,8 @@ const mockOneOfSchema = {
 }
 
 // A controlled-vocabulary field expressed as `oneOf: [{ const: ... }]`
-// rather than a plain `enum`. This is the pattern that was silently passing
-// validation before the fix: the blanket oneOf/anyOf filter was dropping
-// this error along with the legitimate required-field noise, even though
-// there's no missing-required-field involved here at all.
+// rather than a plain `enum`. There's no missing-required-field involved
+// here, so this exercises the oneOf error path independent of `required`.
 const mockEnumAsOneOfSchema = {
   type: 'object',
   additionalProperties: false,
@@ -503,7 +502,7 @@ describe('JsonPreview Component', () => {
     })
 
     describe('when the edited JSON is missing the required field in every oneOf branch', () => {
-      test('saves immediately with no errors modal, since the oneOf wrapper error is noise from the required errors', async () => {
+      test('opens an errors modal for the oneOf wrapper error and does not save', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -512,20 +511,20 @@ describe('JsonPreview Component', () => {
           }
         }, { schema: mockOneOfSchema })
 
-        // Satisfies neither branch: no `Name` and no `Nickname`
+        // Satisfies neither branch: no `Name` and no `Nickname`. The
+        // `required` errors for each branch are filtered, but the wrapping
+        // `oneOf` error at the root is not, so it should still be reported.
         await openEditorAndType(user, '{{"Age": 5}')
 
         await user.click(screen.getByRole('button', { name: 'Apply' }))
 
-        expect(setDraft).toHaveBeenCalledTimes(1)
-        expect(setDraft).toHaveBeenCalledWith({
-          ummMetadata: {
-            Age: 5
-          }
-        })
+        expect(setDraft).not.toHaveBeenCalled()
 
-        expect(screen.queryByText('Editing JSON')).not.toBeInTheDocument()
-        expect(screen.queryByText('Invalid JSON')).not.toBeInTheDocument()
+        expect(screen.getByText('Invalid JSON')).toBeInTheDocument()
+        expect(errorListText()).not.toMatch(/"required"/)
+        expect(screen.getByText(/must fix these errors before proceeding to save/i)).toBeInTheDocument()
+
+        expect(screen.getByText('Editing JSON')).toBeInTheDocument()
       })
     })
 
