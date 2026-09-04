@@ -84,7 +84,7 @@ const JsonPreview = ({ schema }) => {
           if (name === 'additionalProperties' && params?.additionalProperty) {
             const location = property ? `${property} ` : ''
 
-            return `${location}must NOT have additional property '${params.additionalProperty}'`
+            return `${location} must NOT have additional property '${params.additionalProperty}'`
           }
 
           return property ? `${property} ${message}` : message
@@ -198,7 +198,7 @@ const JsonPreview = ({ schema }) => {
         message={
           (
             <>
-              <p>Your record has following errors:</p>
+              <p>Your record has the following errors:</p>
 
               <ul>
                 {
