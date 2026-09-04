@@ -193,6 +193,7 @@ const JsonPreview = ({ schema }) => {
             if (!nextShow) handleErrorsBack()
           }
         }
+        size="lg"
         header="Invalid JSON"
         message={
           (
