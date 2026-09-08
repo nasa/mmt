@@ -12,6 +12,7 @@ export interface MmtFunctionsProps {
   apiGatewayRestApi: cdk.aws_apigateway.CfnRestApi;
   authorizers: {
     edlAuthorizer: apigateway.CfnAuthorizer;
+    stagingApiKeyAuthorizer: apigateway.CfnAuthorizer;
   };
   // MMT keeps explicit CORS config so API Gateway OPTIONS responses can control:
   // - allowOrigin: which browser origin can call the API
@@ -26,7 +27,17 @@ export interface MmtFunctionsProps {
     allowHeaders: string[];
   };
   defaultLambdaConfig: application.NodeJsFunctionProps;
+  // UAT-only config for the `stageConceptForProduction` forwarding Lambda.
+  // Injected only into that handler, not the shared Lambda environment.
+  productionForwardingConfig: {
+    PRODUCTION_API_HOST: string;
+    PRODUCTION_MMT_HOST: string;
+    PRODUCTION_STAGING_API_KEY: string;
+  };
   s3LambdaRole: iam.IRole;
+  // Shared secret re-checked in `createOrUpdateConcept`. Injected only into that
+  // handler, not the shared Lambda environment.
+  stagingApiKey: string;
 }
 
 /**
@@ -43,7 +54,9 @@ export class MmtFunctions extends Construct {
       authorizers,
       corsConfig,
       defaultLambdaConfig,
-      s3LambdaRole
+      productionForwardingConfig,
+      s3LambdaRole,
+      stagingApiKey
     } = props
 
     const functionNamePrefix = scope.stackName
@@ -288,18 +301,27 @@ export class MmtFunctions extends Construct {
     })
 
     // createOrUpdateConcept - PUT /providers/{providerId}/{conceptType}/{nativeId}
+    // The only machine-to-machine concept route: it is called cross-environment
+    // by the UAT `stageConceptForProduction` Lambda using the shared staging API
+    // key, so it sits behind `stagingApiKeyAuthorizer` rather than the EDL
+    // authorizer. The read/list/delete routes above stay EDL-authenticated
+    // (real browser users) and keep their per-user `fetchProviders` check.
     new application.NodeJsFunction(new cdk.NestedStack(scope, 'CreateOrUpdateConceptNestedStack'), 'CreateOrUpdateConceptLambda', {
       ...defaultLambdaConfig,
       api: {
         apiGatewayDeployment,
         apiGatewayResource: resources.providersConceptTypeNativeIdResource,
         apiGatewayRestApi,
-        authorizer: authorizers.edlAuthorizer,
+        authorizer: authorizers.stagingApiKeyAuthorizer,
         methods: ['PUT'],
         parentPath: 'providersProviderIdVarConceptTypeVar',
         path: '{nativeId}'
       },
       entry: '../../serverless/src/createOrUpdateConcept/handler.js',
+      environment: {
+        ...defaultLambdaConfig.environment,
+        STAGING_API_KEY: stagingApiKey
+      },
       functionName: 'createOrUpdateConcept',
       functionNamePrefix,
       role: s3LambdaRole
@@ -321,6 +343,29 @@ export class MmtFunctions extends Construct {
       functionName: 'deleteConcept',
       functionNamePrefix,
       role: s3LambdaRole
+    })
+
+    // stageConceptForProduction - POST /providers/{providerId}/{conceptType}/{nativeId}/stage-for-production
+    // UAT-only: forwards collection metadata to the Production API Gateway using
+    // the Production staging API key held in an environment variable.
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'StageConceptForProductionNestedStack'), 'StageConceptForProductionLambda', {
+      ...defaultLambdaConfig,
+      api: {
+        apiGatewayDeployment,
+        apiGatewayResource: resources.providersConceptTypeNativeIdStageForProductionResource,
+        apiGatewayRestApi,
+        authorizer: authorizers.edlAuthorizer,
+        methods: ['POST'],
+        parentPath: 'providersProviderIdVarConceptTypeVarNativeIdVar',
+        path: 'stage-for-production'
+      },
+      entry: '../../serverless/src/stageConceptForProduction/handler.js',
+      environment: {
+        ...defaultLambdaConfig.environment,
+        ...productionForwardingConfig
+      },
+      functionName: 'stageConceptForProduction',
+      functionNamePrefix
     })
   }
 }

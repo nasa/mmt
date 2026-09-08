@@ -4,12 +4,19 @@ import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { getS3Client } from '../utils/getS3Client'
 import { getConceptsBucketName } from '../utils/getConceptsBucketName'
 import { s3ConceptTypes } from '../../../sharedConstants/s3ConceptTypes'
-import fetchProviders from '../utils/fetchProviders'
+import { safeCompareSecret } from '../utils/safeCompareSecret'
 
 let s3Client
 
 /**
  * Update (overwrite) a concept in S3
+ *
+ * This is a machine-to-machine endpoint. In deployed environments API Gateway
+ * runs the `stagingApiKeyAuthorizer` in front of it; the in-handler
+ * `Staging-Api-Key` check below is kept because the local API runner
+ * (bin/api.mjs) does not invoke authorizers, so it is the only auth layer
+ * locally. Callers are trusted to be authorized for `providerId` (the MMT UAT
+ * forwarding Lambda performs the per-user provider check before forwarding).
  * @param {Object} event Details about the HTTP request that it received
  */
 const createOrUpdateConcept = async (event) => {
@@ -30,7 +37,7 @@ const createOrUpdateConcept = async (event) => {
 
   const [, stagingApiKey] = stagingApiKeyHeader || []
 
-  if (!process.env.STAGING_API_KEY || stagingApiKey !== process.env.STAGING_API_KEY) {
+  if (!safeCompareSecret(stagingApiKey, process.env.STAGING_API_KEY)) {
     console.error('Missing or invalid Staging-Api-Key header')
 
     return {
@@ -58,26 +65,6 @@ const createOrUpdateConcept = async (event) => {
   }
 
   try {
-    const providerIds = await fetchProviders(event)
-
-    if (!providerIds.includes(providerId)) {
-      console.error(`Missing permissions for provider "${providerId}"`)
-
-      return {
-        statusCode: 401,
-        headers: defaultResponseHeaders
-      }
-    }
-  } catch (error) {
-    console.log('Error fetching providers:', error)
-
-    return {
-      statusCode: 500,
-      headers: defaultResponseHeaders
-    }
-  }
-
-  try {
     // S3 directory structure: s3BucketName/providerId/conceptType/nativeId.json
     const key = `${providerId}/${conceptType}/${nativeId}.json`
 
@@ -95,7 +82,13 @@ const createOrUpdateConcept = async (event) => {
 
     return {
       statusCode,
-      headers: defaultResponseHeaders
+      headers: defaultResponseHeaders,
+      // Return the identifying tuple so the caller can build a deep link
+      body: JSON.stringify({
+        conceptType,
+        nativeId,
+        providerId
+      })
     }
   } catch (error) {
     console.log('updateConcept Error:', error)

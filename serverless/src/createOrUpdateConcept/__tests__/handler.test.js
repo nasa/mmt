@@ -46,6 +46,11 @@ describe('createOrUpdateConcept', () => {
     const response = await createOrUpdateConcept(event)
 
     expect(response.statusCode).toBe(200)
+    expect(JSON.parse(response.body)).toEqual({
+      conceptType: 'collections',
+      nativeId: 'TestNativeId',
+      providerId: 'MMT_1'
+    })
   })
 
   describe('when STAGING_API_KEY is not configured in the environment', () => {
@@ -179,45 +184,6 @@ describe('createOrUpdateConcept', () => {
       const response = await createOrUpdateConcept(event)
 
       expect(response.statusCode).toBe(400)
-    })
-  })
-
-  describe('when you do not have authorization to create or update', () => {
-    test('returns a status code 401', async () => {
-      const event = {
-        headers: validStagingHeaders,
-        body: JSON.stringify({ mock: 'Concept Body' }),
-        pathParameters: {
-          conceptType: 'collections',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_3'
-        }
-      }
-
-      const response = await createOrUpdateConcept(event)
-
-      expect(response.statusCode).toBe(401)
-    })
-  })
-
-  describe('when fetching providers throws an error', () => {
-    test('returns a status code 500', async () => {
-      const event = {
-        headers: {
-          ...validStagingHeaders,
-          Authorization: 'Bearer invalid_token'
-        },
-        body: JSON.stringify({ mock: 'Concept Body' }),
-        pathParameters: {
-          conceptType: 'collections',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_1'
-        }
-      }
-
-      const response = await createOrUpdateConcept(event)
-
-      expect(response.statusCode).toBe(500)
     })
   })
 

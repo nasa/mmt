@@ -19,19 +19,29 @@ export NODE_ENV="${NODE_ENV:-development}"
 
 # S3 buckets (local S3 server via s3rver, see startS3.js)
 export COLLECTION_TEMPLATES_BUCKET_NAME="${COLLECTION_TEMPLATES_BUCKET_NAME:-mmt-template-bucket-local}"
-export CONCEPTS_BUCKET_NAME="${CONCEPTS_BUCKET_NAME:-mmt-concepts-bucket-local}"
-# mmt-stack.ts currently reads this name for the concepts bucket - keep both
-# in sync until/unless the stack is updated to use CONCEPTS_BUCKET_NAME
+# Offline, getConceptsBucketName() hardcodes 'mmt-staging-concepts-bucket-local'
+# regardless of env, and startS3.js creates STAGING_CONCEPTS_BUCKET_NAME (falling
+# back to the same literal). Keep every name below equal to that literal so the
+# bucket s3rver creates is exactly the one the handlers read/write locally.
+export CONCEPTS_BUCKET_NAME="${CONCEPTS_BUCKET_NAME:-mmt-staging-concepts-bucket-local}"
 export STAGING_CONCEPTS_BUCKET_NAME="${STAGING_CONCEPTS_BUCKET_NAME:-$CONCEPTS_BUCKET_NAME}"
 
 # Local API Gateway endpoint (serverless-offline), used by test/seed scripts
 export API_BASE_URL="${API_BASE_URL:-http://localhost:4001}"
 
 # Auth
-# 'local-staging-api-key' must match the Staging-Api-Key header sent by
-# test/seed scripts (test-get-concepts-endpoint.sh, seed-concepts.sh, etc.)
+# 'local-staging-api-key' must match the Staging-Api-Key header sent by the
+# machine-to-machine seed script (postConcepts.sh) and used server-side by the
+# forwarding Lambda in stageForProduction.sh.
 export STAGING_API_KEY="${STAGING_API_KEY:-local-staging-api-key}"
 export JWT_SECRET="${JWT_SECRET:-local-secret}"
+
+# Cross-environment "Stage for Production" promotion. Locally these loop the
+# forwarding Lambda back to the same local API so the round trip can be tested
+# end to end (the record lands in the local S3 concepts bucket).
+export PRODUCTION_API_HOST="${PRODUCTION_API_HOST:-http://localhost:4001/dev}"
+export PRODUCTION_MMT_HOST="${PRODUCTION_MMT_HOST:-http://localhost:5173}"
+export PRODUCTION_STAGING_API_KEY="${PRODUCTION_STAGING_API_KEY:-local-staging-api-key}"
 export JWT_VALID_TIME="${JWT_VALID_TIME:-900}"
 export EDL_CLIENT_ID="${EDL_CLIENT_ID:-}"
 export EDL_PASSWORD="${EDL_PASSWORD:-}"
@@ -59,4 +69,5 @@ echo "  CONCEPTS_BUCKET_NAME=$CONCEPTS_BUCKET_NAME"
 echo "  STAGING_CONCEPTS_BUCKET_NAME=$STAGING_CONCEPTS_BUCKET_NAME"
 echo "  API_BASE_URL=$API_BASE_URL"
 echo "  STAGING_API_KEY=$STAGING_API_KEY"
+echo "  PRODUCTION_API_HOST=$PRODUCTION_API_HOST"
 echo "  MMT_HOST=$MMT_HOST"

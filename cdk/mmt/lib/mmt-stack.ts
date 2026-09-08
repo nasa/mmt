@@ -3,6 +3,7 @@ import * as cdk from 'aws-cdk-lib'
 import * as ec2 from 'aws-cdk-lib/aws-ec2'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import * as lambda from 'aws-cdk-lib/aws-lambda'
+import * as s3 from 'aws-cdk-lib/aws-s3'
 
 import { application } from '@edsc/cdk-utils'
 
@@ -16,6 +17,11 @@ const {
   COLLECTION_TEMPLATES_BUCKET_NAME = `mmt-${STAGE_NAME}-collection-templates`,
   STAGING_CONCEPTS_BUCKET_NAME = `mmt-${STAGE_NAME}-staging-concepts`,
   STAGING_API_KEY = 'local-staging-api-key',
+  // Cross-environment "Stage for Production" promotion. Only set for the UAT
+  // deployment; empty elsewhere (the forwarding Lambda returns 500 if invoked).
+  PRODUCTION_API_HOST = '',
+  PRODUCTION_MMT_HOST = '',
+  PRODUCTION_STAGING_API_KEY = 'local-staging-api-key',
   COOKIE_DOMAIN = '.localhost',
   EDL_CLIENT_ID = '',
   EDL_PASSWORD = '',
@@ -35,6 +41,31 @@ const {
 const runtime = lambda.Runtime.NODEJS_20_X
 const INFRA_EXPORT_PREFIX = 'cdk'
 
+// Well-known placeholder shared by local dev (see scripts/localStagingConceptsTesting/local-env.sh).
+// It is committed to the repo, so it must never reach a deployed environment.
+const LOCAL_STAGING_API_KEY_PLACEHOLDER = 'local-staging-api-key'
+
+// bin/deploy-bamboo.sh sets NODE_ENV=production for every deployed stage; local
+// `run-synth` (prestart:api) does not, so this only fails real deployments.
+const isDeployedEnvironment = NODE_ENV === 'production'
+
+const isMissingOrPlaceholder = (value: string) => !value || value === LOCAL_STAGING_API_KEY_PLACEHOLDER
+
+if (isDeployedEnvironment) {
+  // The staging API key is the only credential in front of the
+  // machine-to-machine createOrUpdateConcept route. Fail the synth rather than
+  // ship the source-controlled placeholder if the Bamboo variable is missing.
+  if (isMissingOrPlaceholder(STAGING_API_KEY)) {
+    throw new Error('STAGING_API_KEY must be set to a non-placeholder value for deployed environments')
+  }
+
+  // PRODUCTION_STAGING_API_KEY is only used by the UAT "stage for production"
+  // forwarding Lambda, i.e. when PRODUCTION_API_HOST is configured.
+  if (PRODUCTION_API_HOST && isMissingOrPlaceholder(PRODUCTION_STAGING_API_KEY)) {
+    throw new Error('PRODUCTION_STAGING_API_KEY must be set to a non-placeholder value when PRODUCTION_API_HOST is configured')
+  }
+}
+
 const allowHeaders = [
   'Access-Control-Allow-Origin',
   'Access-Control-Allow-Credentials',
@@ -42,6 +73,7 @@ const allowHeaders = [
   'Access-Control-Request-Methods',
   'Authorization',
   'Origin',
+  'Staging-Api-Key',
   'User-Agent'
 ]
 
@@ -80,10 +112,13 @@ export class MmtStack extends cdk.Stack {
 
     const { apiGatewayDeployment, apiGatewayRestApi } = apiGateway
 
+    // Shared environment for every Lambda. The staging API keys are deliberately
+    // NOT here - they are the credentials guarding the machine-to-machine
+    // concept routes, so they are passed only to the handlers that need them
+    // (see `stagingApiKey` and `productionForwardingConfig` below).
     const environment = {
       COLLECTION_TEMPLATES_BUCKET_NAME,
       STAGING_CONCEPTS_BUCKET_NAME,
-      STAGING_API_KEY,
       COOKIE_DOMAIN,
       EDL_CLIENT_ID,
       EDL_PASSWORD,
@@ -91,6 +126,17 @@ export class MmtStack extends cdk.Stack {
       JWT_SECRET,
       JWT_VALID_TIME,
       NODE_OPTIONS: '--enable-source-maps'
+    }
+
+    // Secret used by `stagingApiKeyAuthorizer` and re-checked in
+    // `createOrUpdateConcept`.
+    const stagingApiKey = STAGING_API_KEY
+
+    // UAT-only config for the `stageConceptForProduction` forwarding Lambda.
+    const productionForwardingConfig = {
+      PRODUCTION_API_HOST,
+      PRODUCTION_MMT_HOST,
+      PRODUCTION_STAGING_API_KEY
     }
 
     const defaultLambdaConfig: application.NodeJsFunctionProps = {
@@ -140,9 +186,26 @@ export class MmtStack extends cdk.Stack {
       resources: ['*']
     }))
 
+    // Staging concepts bucket. Objects are transient promotion artifacts, so
+    // they expire 30 days after creation. RETAIN keeps staged data if the stack
+    // is ever destroyed.
+    // eslint-disable-next-line no-new
+    new s3.Bucket(this, 'StagingConceptsBucket', {
+      bucketName: STAGING_CONCEPTS_BUCKET_NAME,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      encryption: s3.BucketEncryption.S3_MANAGED,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
+      lifecycleRules: [{
+        id: 'expire-staged-concepts',
+        enabled: true,
+        expiration: cdk.Duration.days(30)
+      }]
+    })
+
     const authorizers = new MmtAuthorizers(this, 'Authorizers', {
       apiGatewayRestApi,
-      defaultLambdaConfig
+      defaultLambdaConfig,
+      stagingApiKey
     })
 
     // eslint-disable-next-line no-new
@@ -150,7 +213,8 @@ export class MmtStack extends cdk.Stack {
       apiGatewayDeployment,
       apiGatewayRestApi,
       authorizers: {
-        edlAuthorizer: authorizers.edlAuthorizer
+        edlAuthorizer: authorizers.edlAuthorizer,
+        stagingApiKeyAuthorizer: authorizers.stagingApiKeyAuthorizer
       },
       corsConfig: {
         allowCredentials: true,
@@ -158,7 +222,9 @@ export class MmtStack extends cdk.Stack {
         allowOrigin: MMT_HOST
       },
       defaultLambdaConfig,
-      s3LambdaRole: iamRoleCustomResourcesLambdaExecution
+      productionForwardingConfig,
+      s3LambdaRole: iamRoleCustomResourcesLambdaExecution,
+      stagingApiKey
     })
 
     this.serviceEndpoint = [

@@ -1,11 +1,20 @@
 #!/bin/bash
 
-# Seeds sample concepts into local S3 via the createOrUpdateConcept endpoint,
-# so there's data available to list/retrieve/delete when testing locally
-# (e.g. with test-get-concepts-endpoint.sh).
+# Seeds sample concepts into local S3 by calling the createOrUpdateConcept
+# endpoint directly, so there's data available for getConcepts.sh, getConcept.sh
+# and deleteConcept.sh to list/retrieve/delete. getConcepts.sh in particular
+# needs several records to verify sort order; deleteConcept.sh seeds its own
+# throwaway record and does not depend on this script.
 #
 # Route (confirmed from local server startup log):
 #   PUT {BASE_URL}/dev/providers/:providerId/:conceptType/:nativeId
+#
+# This is a direct exercise of the machine-to-machine PUT route, authenticated
+# with the Staging-Api-Key header. It is NOT stageForProduction.sh: that script
+# POSTs to /stage-for-production, which runs the UAT forwarding Lambda (EDL auth
+# + a server-side call back to this same PUT route). Both end up writing to local
+# S3, but use this one when you just want fixture data without involving the
+# forwarding Lambda or the PRODUCTION_* config.
 #
 # Sources local-env.sh (if present) for shared local dev config
 # (STAGE_NAME, API_BASE_URL, STAGING_API_KEY, etc). Override any of these by

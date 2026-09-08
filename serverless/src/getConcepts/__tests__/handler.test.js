@@ -5,17 +5,10 @@ vi.mock('../../utils/s3ListObjects', () => ({
   s3ListObjects: vi.fn()
 }))
 
-const validStagingHeaders = {
-  Authorization: 'Bearer ABC-1',
-  'Staging-Api-Key': 'test-staging-key'
-}
-
 beforeEach(() => {
   vi.clearAllMocks()
   vi.spyOn(console, 'log').mockImplementation(() => {})
   vi.spyOn(console, 'error').mockImplementation(() => {})
-
-  process.env.STAGING_API_KEY = 'test-staging-key'
 })
 
 describe('getConcepts', () => {
@@ -32,7 +25,9 @@ describe('getConcepts', () => {
     ])
 
     const event = {
-      headers: validStagingHeaders,
+      headers: {
+        Authorization: 'Bearer ABC-1'
+      },
       pathParameters: {
         conceptType: 'collections',
         providerId: 'MMT_1'
@@ -59,92 +54,12 @@ describe('getConcepts', () => {
     ])
   })
 
-  describe('when STAGING_API_KEY is not configured in the environment', () => {
-    test('returns a status code 401 even when no header is sent', async () => {
-      delete process.env.STAGING_API_KEY
-
-      const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1'
-        // No Staging-Api-Key header sent at all
-        },
-        pathParameters: {
-          conceptType: 'collections',
-          providerId: 'MMT_1'
-        }
-      }
-
-      const response = await getConcepts(event)
-
-      expect(response.statusCode).toBe(401)
-      expect(s3ListObjects).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('when the Staging-Api-Key header is missing', () => {
-    test('returns a status code 401', async () => {
-      const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1'
-        },
-        pathParameters: {
-          conceptType: 'collections',
-          providerId: 'MMT_1'
-        }
-      }
-
-      const response = await getConcepts(event)
-
-      expect(response.statusCode).toBe(401)
-      expect(s3ListObjects).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('when the Prod-Staging-Api-Key header does not match', () => {
-    test('returns a status code 401', async () => {
-      const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1',
-          'Staging-Api-Key': 'wrong-key'
-        },
-        pathParameters: {
-          conceptType: 'collections',
-          providerId: 'MMT_1'
-        }
-      }
-
-      const response = await getConcepts(event)
-
-      expect(response.statusCode).toBe(401)
-      expect(s3ListObjects).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('when the Prod-Staging-Api-Key header has different casing', () => {
-    test('is still accepted (case-insensitive lookup)', async () => {
-      s3ListObjects.mockResolvedValue([])
-
-      const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1',
-          'staging-api-key': 'test-staging-key'
-        },
-        pathParameters: {
-          conceptType: 'collections',
-          providerId: 'MMT_1'
-        }
-      }
-
-      const response = await getConcepts(event)
-
-      expect(response.statusCode).toBe(200)
-    })
-  })
-
   describe('when pathParameters is missing', () => {
     test('returns a status code 400', async () => {
       const event = {
-        headers: validStagingHeaders
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        }
       }
 
       const response = await getConcepts(event)
@@ -156,7 +71,9 @@ describe('getConcepts', () => {
   describe('when the conceptType is invalid', () => {
     test('returns a status code 400', async () => {
       const event = {
-        headers: validStagingHeaders,
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        },
         pathParameters: {
           conceptType: 'invalid-type',
           providerId: 'MMT_1'
@@ -172,7 +89,9 @@ describe('getConcepts', () => {
   describe('when you do not have authorization to list', () => {
     test('returns a status code 404', async () => {
       const event = {
-        headers: validStagingHeaders,
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        },
         pathParameters: {
           conceptType: 'collections',
           providerId: 'MMT_3'
@@ -190,7 +109,6 @@ describe('getConcepts', () => {
     test('returns a status code 404', async () => {
       const event = {
         headers: {
-          ...validStagingHeaders,
           Authorization: 'Bearer invalid_token'
         },
         pathParameters: {
@@ -210,7 +128,9 @@ describe('getConcepts', () => {
       s3ListObjects.mockRejectedValue(new Error('S3 error'))
 
       const event = {
-        headers: validStagingHeaders,
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        },
         pathParameters: {
           conceptType: 'collections',
           providerId: 'MMT_1'
@@ -228,7 +148,9 @@ describe('getConcepts', () => {
       s3ListObjects.mockResolvedValue([])
 
       const event = {
-        headers: validStagingHeaders,
+        headers: {
+          Authorization: 'Bearer ABC-1'
+        },
         pathParameters: {
           conceptType: 'collections',
           providerId: 'MMT_1'

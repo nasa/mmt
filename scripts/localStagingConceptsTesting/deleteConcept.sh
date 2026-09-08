@@ -6,6 +6,11 @@
 # Route:
 #   DELETE {BASE_URL}/dev/providers/:providerId/:conceptType/:nativeId
 #
+# This route is EDL-authenticated (real browser user) and runs a per-user
+# `fetchProviders` provider-permission check in the handler. It does NOT use
+# the Staging-Api-Key. The seed step below uses PUT createOrUpdateConcept,
+# which IS the machine-to-machine route and still needs the Staging-Api-Key.
+#
 # Sources local-env.sh (if present) for shared local dev config
 # (STAGE_NAME, API_BASE_URL, STAGING_API_KEY, etc). Override any of these by
 # exporting them yourself before running this script.
@@ -40,7 +45,8 @@ NATIVE_ID="${NATIVE_ID:-TestDeleteMe}"
 PASS_COUNT=0
 FAIL_COUNT=0
 
-# Seeds the throwaway concept used by the delete tests below.
+# Seeds the throwaway concept used by the delete tests below via the
+# machine-to-machine PUT route (Staging-Api-Key required).
 seed_concept() {
   local url="${BASE_URL}/${STAGE}/providers/${PROVIDER_ID}/${CONCEPT_TYPE}/${NATIVE_ID}"
   local body
@@ -59,7 +65,6 @@ EOF
     curl -s -o /tmp/delete_concept_seed_body.json -w '%{http_code}' \
       -X PUT "$url" \
       -H "Staging-Api-Key: $STAGING_API_KEY" \
-      -H "Authorization: $AUTH_TOKEN" \
       -H "Content-Type: application/json" \
       -d "$body"
   )"
@@ -76,28 +81,21 @@ EOF
 }
 
 # Runs a curl DELETE request and asserts the response status code.
-# Args: description, expected_status, provider_id, concept_type, native_id, [staging_key_override], [auth_header_override]
+# Args: description, expected_status, provider_id, concept_type, native_id, [auth_header_override]
 #
-# staging_key/auth_header default to the env vars (STAGING_API_KEY/AUTH_TOKEN,
-# normally set via local-env.sh) when the arg is omitted entirely.
-# Pass "" explicitly to omit the header (e.g. to test a missing-header case),
-# or pass a specific string to test a wrong/overridden value.
+# auth_header defaults to $AUTH_TOKEN when the arg is omitted entirely.
+# Pass "" explicitly to omit the Authorization header (missing-auth case).
 run_test() {
   local description="$1"
   local expected_status="$2"
   local provider_id="$3"
   local concept_type="$4"
   local native_id="$5"
-  local staging_key="${6-$STAGING_API_KEY}"
-  local auth_header="${7-$AUTH_TOKEN}"
+  local auth_header="${6-$AUTH_TOKEN}"
 
   local url="${BASE_URL}/${STAGE}/providers/${provider_id}/${concept_type}/${native_id}"
 
   local curl_args=(-s -o /tmp/delete_concept_response_body.json -w '%{http_code}' -X DELETE "$url")
-
-  if [ -n "$staging_key" ]; then
-    curl_args+=(-H "Staging-Api-Key: $staging_key")
-  fi
 
   if [ -n "$auth_header" ]; then
     curl_args+=(-H "Authorization: $auth_header")
@@ -127,29 +125,24 @@ echo
 # Negative-path tests first: these must NOT actually delete the concept, so
 # the final successful-delete test below still has something to delete.
 
+# fetchProviders throws when no token is present, and the handler maps that to 404.
 run_test \
-  "missing Staging-Api-Key header" \
-  "401" \
+  "missing Authorization header" \
+  "404" \
   "$PROVIDER_ID" "$CONCEPT_TYPE" "$NATIVE_ID" \
   ""
 
+# 'Bearer ABC-1' only grants MMT_1 / MMT_2, so any other provider fails the
+# per-user provider-permission check with 401.
 run_test \
-  "wrong Staging-Api-Key header" \
+  "unauthorized provider (outside test-mode allowlist MMT_1/MMT_2)" \
   "401" \
-  "$PROVIDER_ID" "$CONCEPT_TYPE" "$NATIVE_ID" \
-  "wrong-key"
+  "MMT_UNAUTHORIZED" "$CONCEPT_TYPE" "$NATIVE_ID"
 
 run_test \
   "invalid conceptType" \
   "400" \
   "$PROVIDER_ID" "invalid-type" "$NATIVE_ID"
-
-# The 'Bearer ABC-1' test-mode auth check runs before any provider-existence
-# check, so a provider outside the allowlist fails auth (401), not 404.
-run_test \
-  "unauthorized provider (outside test-mode allowlist MMT_1/MMT_2)" \
-  "401" \
-  "MMT_UNAUTHORIZED" "$CONCEPT_TYPE" "$NATIVE_ID"
 
 # S3's DeleteObject doesn't error on a missing key, so deleteConcept is
 # idempotent - deleting a nativeId that was never seeded (or was already
@@ -162,7 +155,7 @@ run_test \
 # Successful delete, then confirm re-deleting is still a 204 (idempotent).
 
 run_test \
-  "successful delete with valid headers" \
+  "successful delete with valid EDL token" \
   "204" \
   "$PROVIDER_ID" "$CONCEPT_TYPE" "$NATIVE_ID"
 

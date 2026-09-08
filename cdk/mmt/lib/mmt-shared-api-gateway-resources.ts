@@ -27,6 +27,7 @@ export class MmtApiResources extends Construct {
   public readonly gkrSendFeedbackResource: apigateway.CfnResource
   public readonly providersConceptTypeResource: apigateway.CfnResource
   public readonly providersConceptTypeNativeIdResource: apigateway.CfnResource
+  public readonly providersConceptTypeNativeIdStageForProductionResource: apigateway.CfnResource
   public readonly providersTemplatesResource: apigateway.CfnResource
   public readonly providersTemplatesIdResource: apigateway.CfnResource
   public readonly templatesResource: apigateway.CfnResource
@@ -134,6 +135,13 @@ export class MmtApiResources extends Construct {
     })
     this.providersConceptTypeNativeIdResource = providersConceptTypeNativeIdResource
 
+    const providersConceptTypeNativeIdStageForProductionResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceProvidersProviderIdVarConceptTypeVarNativeIdVarStageForProduction', {
+      parentId: providersConceptTypeNativeIdResource.ref,
+      pathPart: 'stage-for-production',
+      restApiId: apiGatewayRestApi.ref
+    })
+    this.providersConceptTypeNativeIdStageForProductionResource = providersConceptTypeNativeIdStageForProductionResource
+
     const templatesResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceTemplates', {
       parentId: apiGatewayRestApi.attrRootResourceId,
       pathPart: 'templates',
@@ -159,6 +167,12 @@ export class MmtApiResources extends Construct {
 
     addOptions('ProvidersProviderIdVarConceptTypeVar', providersConceptTypeResource, ['GET'])
 
-    addOptions('ProvidersProviderIdVarConceptTypeVarNativeIdVar', providersConceptTypeNativeIdResource, ['GET', 'PUT', 'DELETE'])
+    // PUT (createOrUpdateConcept) is deliberately omitted: it is a
+    // machine-to-machine route behind `stagingApiKeyAuthorizer`, called only by
+    // the UAT forwarding Lambda (server-to-server, no CORS preflight). Leaving
+    // PUT out of the CORS allow-list makes a browser preflight for it fail.
+    addOptions('ProvidersProviderIdVarConceptTypeVarNativeIdVar', providersConceptTypeNativeIdResource, ['GET', 'DELETE'])
+
+    addOptions('ProvidersProviderIdVarConceptTypeVarNativeIdVarStageForProduction', providersConceptTypeNativeIdStageForProductionResource, ['POST'])
   }
 }
