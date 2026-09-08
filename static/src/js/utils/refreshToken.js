@@ -13,7 +13,6 @@ const refreshToken = async ({
   const { apiHost } = getApplicationConfig()
 
   const options = {
-    credentials: 'include',
     headers: {
       Authorization: `Bearer ${jwt}`
     },
