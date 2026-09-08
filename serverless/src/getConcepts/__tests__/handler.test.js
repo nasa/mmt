@@ -15,12 +15,16 @@ describe('getConcepts', () => {
   test('retrieves a sorted list of concepts from s3', async () => {
     s3ListObjects.mockResolvedValue([
       {
-        Key: 'MMT_1/collections/Zebra.json',
-        LastModified: '2024-01-02T00:00:00.000Z'
+        Key: 'MMT_1/collections/Mango.json',
+        LastModified: '2024-01-03T00:00:00.000Z'
       },
       {
         Key: 'MMT_1/collections/Apple.json',
         LastModified: '2024-01-01T00:00:00.000Z'
+      },
+      {
+        Key: 'MMT_1/collections/Zebra.json',
+        LastModified: '2024-01-02T00:00:00.000Z'
       }
     ])
 
@@ -47,10 +51,50 @@ describe('getConcepts', () => {
       },
       {
         conceptType: 'collections',
+        lastModified: '2024-01-03T00:00:00.000Z',
+        nativeId: 'Mango',
+        providerId: 'MMT_1'
+      },
+      {
+        conceptType: 'collections',
         lastModified: '2024-01-02T00:00:00.000Z',
         nativeId: 'Zebra',
         providerId: 'MMT_1'
       }
+    ])
+  })
+
+  test('keeps input order for concepts whose nativeIds differ only in case', async () => {
+    s3ListObjects.mockResolvedValue([
+      {
+        Key: 'MMT_1/collections/test.json',
+        LastModified: '2024-01-02T00:00:00.000Z'
+      },
+      {
+        Key: 'MMT_1/collections/Test.json',
+        LastModified: '2024-01-01T00:00:00.000Z'
+      }
+    ])
+
+    const event = {
+      headers: {
+        Authorization: 'Bearer ABC-1'
+      },
+      pathParameters: {
+        conceptType: 'collections',
+        providerId: 'MMT_1'
+      }
+    }
+
+    const response = await getConcepts(event)
+
+    expect(response.statusCode).toBe(200)
+
+    // `TEST` === `TEST`, so the comparator returns 0; Array.prototype.sort is
+    // stable, so the two entries stay in the order S3 returned them.
+    expect(JSON.parse(response.body).map(({ nativeId }) => nativeId)).toEqual([
+      'test',
+      'Test'
     ])
   })
 
