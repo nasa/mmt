@@ -301,11 +301,6 @@ export class MmtFunctions extends Construct {
     })
 
     // createOrUpdateConcept - PUT /providers/{providerId}/{conceptType}/{nativeId}
-    // The only machine-to-machine concept route: it is called cross-environment
-    // by the UAT `stageConceptForProduction` Lambda using the shared staging API
-    // key, so it sits behind `stagingApiKeyAuthorizer` rather than the EDL
-    // authorizer. The read/list/delete routes above stay EDL-authenticated
-    // (real browser users) and keep their per-user `fetchProviders` check.
     new application.NodeJsFunction(new cdk.NestedStack(scope, 'CreateOrUpdateConceptNestedStack'), 'CreateOrUpdateConceptLambda', {
       ...defaultLambdaConfig,
       api: {
@@ -346,8 +341,6 @@ export class MmtFunctions extends Construct {
     })
 
     // stageConceptForProduction - POST /providers/{providerId}/{conceptType}/{nativeId}/stage-for-production
-    // UAT-only: forwards collection metadata to the Production API Gateway using
-    // the Production staging API key held in an environment variable.
     new application.NodeJsFunction(new cdk.NestedStack(scope, 'StageConceptForProductionNestedStack'), 'StageConceptForProductionLambda', {
       ...defaultLambdaConfig,
       api: {
