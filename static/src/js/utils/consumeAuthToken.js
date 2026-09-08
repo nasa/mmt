@@ -31,7 +31,7 @@ const serializeCookieOptions = ({
  *
  * The token arrives in the URL fragment rather than a 'Set-Cookie'
  * header and an inline script in 'index.html' moves it to
- * 'window.mmtAuthHeader' before any other script runs. See
+ * 'window.mmtAuthToken' before any other script runs. See
  * 'edlCallback' for why.
  */
 

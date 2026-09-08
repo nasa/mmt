@@ -218,6 +218,35 @@ describe('AuthContextProvider component', () => {
         })
       })
 
+      test('stores the refreshed token in a host-only cookie', async () => {
+        const setCookie = vi.fn()
+        useCookies.mockImplementation(() => ([
+          {
+            [MMT_COOKIE]: 'mock-jwt'
+          },
+          setCookie,
+          vi.fn()
+        ]))
+
+        refreshToken.mockImplementation(({ setToken }) => setToken('refreshed-jwt'))
+
+        setup()
+
+        await act(() => {
+          vi.advanceTimersByTime(14.5 * 60 * 1000) // 14.5 minutes
+        })
+
+        const [cookieName, cookieValue, cookieOptions] = setCookie.mock.calls.at(-1)
+
+        expect(cookieName).toBe(MMT_COOKIE)
+        expect(cookieValue).toBe('refreshed-jwt')
+        expect(cookieOptions.path).toBe('/')
+        expect(cookieOptions.sameSite).toBe('strict')
+
+        // Expected behavior. See line 65 in file for details.
+        expect(cookieOptions.domain).toBeUndefined()
+      })
+
       describe('when the user has not been active during the token valid time', () => {
         // TODO MMT-3750 check warning
         test('warns the user they will be logged out', async () => {

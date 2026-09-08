@@ -69,12 +69,6 @@ describe('consumeAuthToken', () => {
   })
 
   describe('when no token was captured', () => {
-    test('leaves the url alone', () => {
-      consumeAuthToken()
-
-      expect(document.cookie).not.toContain(MMT_COOKIE)
-    })
-
     test('does not write a cookie', () => {
       window.mmtAuthToken = ''
 

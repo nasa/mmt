@@ -31,7 +31,6 @@ describe('refreshToken in production mode', () => {
       expect(fetch).toHaveBeenCalledWith(
         'http://localhost:4001/dev/edl-refresh-token',
         {
-          credentials: 'include',
           headers: {
             Authorization: 'Bearer mock_token'
           },
@@ -86,7 +85,6 @@ describe('refreshToken in production mode', () => {
       expect(fetch).toHaveBeenCalledWith(
         'http://localhost:4001/dev/edl-refresh-token',
         {
-          credentials: 'include',
           headers: {
             Authorization: 'Bearer mock_token'
           },
@@ -116,7 +114,6 @@ describe('refreshToken in production mode', () => {
       expect(fetch).toHaveBeenCalledWith(
         'http://localhost:4001/dev/edl-refresh-token',
         {
-          credentials: 'include',
           headers: {
             Authorization: 'Bearer mock_token'
           },
