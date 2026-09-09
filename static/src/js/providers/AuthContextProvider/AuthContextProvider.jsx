@@ -14,16 +14,14 @@ import AuthContext from '@/js/context/AuthContext'
 import useMMTCookie from '@/js/hooks/useMMTCookie'
 
 import errorLogger from '@/js/utils/errorLogger'
+import getMMTCookieOptions from '@/js/utils/getMMTCookieOptions'
 import refreshToken from '@/js/utils/refreshToken'
 
 import MMT_COOKIE from 'sharedConstants/mmtCookie'
 
 import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
-const {
-  apiHost,
-  cookieDomain
-} = getApplicationConfig()
+const { apiHost } = getApplicationConfig()
 
 const MAX_IDLE_TIMEOUT = 900000
 const REFRESH_THRESHOLD_MS = 60000
@@ -64,8 +62,9 @@ const resetTokenState = ({
   setTokenValue,
   setUser
 }) => {
+  // No 'domain' here matching how the cookie was written. Passing one here would
+  // target a different cookie than the host-only one MMT actually stores
   setCookie(MMT_COOKIE, null, {
-    domain: cookieDomain,
     path: '/',
     maxAge: 0,
     expires: new Date(0)
@@ -237,10 +236,8 @@ const AuthContextProvider = ({ children }) => {
         setToken: (result) => {
           refreshInProgress.current = false
 
-          // When the token refresh succeeds, the server sets a new cookie
-          // The next time mmtJwt changes, our effect will process the new token
           // If the refresh fails, redirects happen in the refreshToken function
-          if (result === null) {
+          if (!result) {
             // Handle token reset, but don't redirect (already happening in refreshToken)
             resetTokenState({
               setCookie,
@@ -248,8 +245,14 @@ const AuthContextProvider = ({ children }) => {
               setTokenValue,
               setUser
             })
+
+            return
           }
-          // Result === 'refresh_success' is handled by the cookie change
+
+          // Sets the cookie. 'useMMTCookie' picks the new value up as 'mmtJWT', which
+          // re-runs the effect that calls 'saveToken', so a refreshed token reaches
+          // state by the same path as one from a fresh login
+          setCookie(MMT_COOKIE, result, getMMTCookieOptions(result))
         }
       })
     }

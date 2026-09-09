@@ -14,7 +14,6 @@ export interface MmtStackProps extends cdk.StackProps {}
 const {
   STAGE_NAME = 'dev',
   COLLECTION_TEMPLATES_BUCKET_NAME = `mmt-${STAGE_NAME}-collection-templates`,
-  COOKIE_DOMAIN = '.localhost',
   EDL_CLIENT_ID = '',
   EDL_PASSWORD = '',
   GTM_PROPERTY_ID = '',
@@ -80,7 +79,6 @@ export class MmtStack extends cdk.Stack {
 
     const environment = {
       COLLECTION_TEMPLATES_BUCKET_NAME,
-      COOKIE_DOMAIN,
       EDL_CLIENT_ID,
       EDL_PASSWORD,
       GTM_PROPERTY_ID,

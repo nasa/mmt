@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom'
 import useMMTCookie from '@/js/hooks/useMMTCookie'
 import MMT_COOKIE from 'sharedConstants/mmtCookie'
 import Header from '../Header/Header'
-import { getApplicationConfig } from '../../../../../sharedUtils/getConfig'
 
 import './ErrorUnauthorizedAccess.scss'
 
@@ -12,17 +11,16 @@ const ErrorUnauthorizedAccess = () => {
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   const errorType = queryParams.get('errorType') || 'default'
-  const { cookieDomain } = getApplicationConfig()
   const { removeCookie } = useMMTCookie()
 
   useEffect(() => {
     // Always clear the authentication cookie when showing an unauthorized error
     // This ensures users get a fresh authentication flow when they try again
+    // No 'domain' here, matching how the cookie was written
     removeCookie(MMT_COOKIE, {
-      domain: cookieDomain,
       path: '/'
     })
-  }, [cookieDomain, removeCookie])
+  }, [removeCookie])
 
   const errorMessages = {
     deniedAccessMMT: 'It appears you are not provisioned with the proper permissions to access MMT.',

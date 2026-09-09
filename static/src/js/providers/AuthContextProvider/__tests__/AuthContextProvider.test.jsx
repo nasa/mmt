@@ -24,7 +24,6 @@ vi.mock('../../../../../../sharedUtils/getConfig', async () => ({
   ...await vi.importActual('../../../../../../sharedUtils/getConfig'),
   getApplicationConfig: vi.fn(() => ({
     apiHost: 'http://test.com/dev',
-    cookieDomain: 'example.com',
     tokenValidTime: '900'
   }))
 }))
@@ -110,7 +109,6 @@ describe('AuthContextProvider component', () => {
 
         expect(setCookie).toHaveBeenCalledTimes(1)
         expect(setCookie).toHaveBeenCalledWith(MMT_COOKIE, null, {
-          domain: 'example.com',
           path: '/',
           maxAge: 0,
           expires: new Date(0)
@@ -217,6 +215,35 @@ describe('AuthContextProvider component', () => {
           expect(refreshToken).toHaveBeenCalledWith(expect.objectContaining({
             jwt: 'mock-jwt'
           }))
+        })
+
+        test('stores the refreshed token in a host-only cookie', async () => {
+          const setCookie = vi.fn()
+          useCookies.mockImplementation(() => ([
+            {
+              [MMT_COOKIE]: 'mock-jwt'
+            },
+            setCookie,
+            vi.fn()
+          ]))
+
+          refreshToken.mockImplementation(({ setToken }) => setToken('refreshed-jwt'))
+
+          setup()
+
+          await act(() => {
+            vi.advanceTimersByTime(14.5 * 60 * 1000) // 14.5 minutes
+          })
+
+          const [cookieName, cookieValue, cookieOptions] = setCookie.mock.calls.at(-1)
+
+          expect(cookieName).toBe(MMT_COOKIE)
+          expect(cookieValue).toBe('refreshed-jwt')
+          expect(cookieOptions.path).toBe('/')
+          expect(cookieOptions.sameSite).toBe('strict')
+
+          // Expected behavior. See first setCookie function
+          expect(cookieOptions.domain).toBeUndefined()
         })
       })
 
