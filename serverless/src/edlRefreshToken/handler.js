@@ -97,8 +97,7 @@ const edlRefreshToken = async (event) => {
       headers: {
         'Access-Control-Allow-Origin': mmtHost,
         'Access-Control-Allow-Headers': '*',
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Credentials': true
+        'Access-Control-Allow-Methods': 'POST'
       },
       body: JSON.stringify({ token: newJwt })
     }
@@ -111,8 +110,7 @@ const edlRefreshToken = async (event) => {
       headers: {
         'Access-Control-Allow-Origin': mmtHost,
         'Access-Control-Allow-Headers': '*',
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Credentials': true
+        'Access-Control-Allow-Methods': 'POST'
       },
       body: JSON.stringify({
         error: 'Failed to refresh token',

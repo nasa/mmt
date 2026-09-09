@@ -6,9 +6,9 @@ import useAuthContext from '@/js/hooks/useAuthContext'
 import isTokenExpired from '@/js/utils/isTokenExpired'
 
 /**
- * This class handles the authenticated redirect from our EDL callback lambda function.
- * The token itself is stored before the app renders, see 'consumeAuthToken'
- * We get the EDL token and redirect to the specified `target` path
+ * Handles the authenticaed redirect from our EDL callback lambda function.
+ * The token is already stored byt he time this renders, see 'consumeAuthToken'
+ * This only sends the user on to the target path.
  */
 export const AuthCallback = () => {
   const [searchParams] = useSearchParams()
