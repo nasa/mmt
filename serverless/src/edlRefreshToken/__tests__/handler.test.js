@@ -13,11 +13,10 @@ import * as createJwtModule from '../../utils/createJwt'
 
 const originalFetch = global.fetch
 
-const corsHeaders = {
+const responseHeaders = {
   'Access-Control-Allow-Origin': 'https://mmt.example.com',
   'Access-Control-Allow-Headers': '*',
-  'Access-Control-Allow-Methods': 'POST',
-  'Access-Control-Allow-Credentials': true
+  'Access-Control-Allow-Methods': 'POST'
 }
 
 describe('edlRefreshToken', () => {
@@ -105,7 +104,7 @@ describe('edlRefreshToken', () => {
 
       expect(response.statusCode).toBe(200)
       expect(JSON.parse(response.body)).toEqual({ token: 'new-jwt' })
-      expect(response.headers).toEqual(corsHeaders)
+      expect(response.headers).toEqual(responseHeaders)
     })
   })
 
@@ -172,7 +171,7 @@ describe('edlRefreshToken', () => {
         error: 'Failed to refresh token'
       })
 
-      expect(response.headers).toEqual(corsHeaders)
+      expect(response.headers).toEqual(responseHeaders)
     })
   })
 
