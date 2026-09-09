@@ -34,7 +34,6 @@ const serializeCookieOptions = ({
  * 'window.mmtAuthToken' before any other script runs. See
  * 'edlCallback' for why.
  */
-
 const consumeAuthToken = () => {
   const token = window.mmtAuthToken
 
@@ -42,8 +41,9 @@ const consumeAuthToken = () => {
 
   delete window.mmtAuthToken
 
+  // Encoded so a cookie cannot carry its own cookie attributes.
   document.cookie = [
-    `${MMT_COOKIE}=${token}`,
+    `${MMT_COOKIE}=${encodeURIComponent(token)}`,
     ...serializeCookieOptions(getMMTCookieOptions(token))
   ].join('; ')
 }

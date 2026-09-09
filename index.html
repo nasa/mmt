@@ -7,11 +7,10 @@
         This has to be a classic inline script and it has to be first. Module scripts are deferred until
         parsing finishes, so main.jsx cannot get ahead of the analytics and widget scripts below. Those scripts
         collect location.href so the token must be cleared from the URL here before any of them load. The app
-        reads the token from window.mmtAuthToken istead.-->
+        reads the token from window.mmtAuthToken instead.-->
     <script>
       (function () {
         if (window.location.pathname !== '/auth-callback') return
-        
         const token = new URLSearchParams(window.location.hash.slice(1)).get('token')
 
         if (!token) return 
