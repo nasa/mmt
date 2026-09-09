@@ -68,6 +68,29 @@ describe('consumeAuthToken', () => {
     })
   })
 
+  describe('when the captured token carries cookie attributes of its own', () => {
+    const craftedToken = 'crafted; Domain=nasa.gov'
+
+    test('does not let the token widen the cookie past this host', () => {
+      const cookieSpy = vi.spyOn(document, 'cookie', 'set')
+      window.mmtAuthToken = craftedToken
+
+      consumeAuthToken()
+
+      const [written] = cookieSpy.mock.calls.at(-1)
+
+      expect(written).not.toContain('Domain=')
+    })
+
+    test('keeps the whole value inside the cookie', () => {
+      window.mmtAuthToken = craftedToken
+
+      consumeAuthToken()
+
+      expect(document.cookie).toContain(`${MMT_COOKIE}=${encodeURIComponent(craftedToken)}`)
+    })
+  })
+
   describe('when no token was captured', () => {
     test('does not write a cookie', () => {
       window.mmtAuthToken = ''
