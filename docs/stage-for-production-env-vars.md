@@ -18,17 +18,19 @@ API Gateway authorizer.
 
 ## The variables
 
-| Variable | Role | Set via (Bamboo) |
-|---|---|---|
-| `STAGING_API_KEY` | **Inbound** secret this environment accepts on the `Staging-Api-Key` header | `bamboo_STAGING_API_KEY` (secret) |
-| `STAGING_CONCEPTS_BUCKET_NAME` | This environment's concepts bucket | `bamboo_STAGING_CONCEPTS_BUCKET_NAME` — leave at the `mmt-${STAGE_NAME}-staging-concepts` default |
-| `STAGING_TARGET_API_HOST` | **Outbound** — API Gateway base URL the `stageConceptForProduction` Lambda `PUT`s to. Empty ⇒ the handler returns `500` (promotion disabled) | `bamboo_STAGING_TARGET_API_HOST` |
-| `STAGING_TARGET_MMT_HOST` | UI host used to build the deep link returned to the browser (`productionUrl` in the response) | `bamboo_STAGING_TARGET_MMT_HOST` |
-| `STAGING_TARGET_API_KEY` | **Outbound** secret sent to the target environment; must equal the target's `STAGING_API_KEY` | `bamboo_STAGING_TARGET_API_KEY` (secret) |
+| Variable | Role | Bamboo plan variable | Required? |
+|---|---|---|---|
+| `STAGING_API_KEY` | **Inbound** secret this environment accepts on the `Staging-Api-Key` header | `bamboo_STAGING_API_KEY` (secret) | **required** (deployed) |
+| `STAGING_CONCEPTS_BUCKET_NAME` | This environment's concepts bucket — leave at the `mmt-${STAGE_NAME}-staging-concepts` default | `bamboo_STAGING_CONCEPTS_BUCKET_NAME` | required |
+| `STAGING_TARGET_API_HOST` | **Outbound** — API Gateway base URL the `stageConceptForProduction` Lambda `PUT`s to. Empty ⇒ the handler returns `500` (forwarding disabled) | `bamboo_STAGING_TARGET_API_HOST` | optional |
+| `STAGING_TARGET_MMT_HOST` | UI host used to build the deep link returned to the browser (`productionUrl` in the response) | `bamboo_STAGING_TARGET_MMT_HOST` | optional |
+| `STAGING_TARGET_API_KEY` | **Outbound** secret sent to the target environment; must equal the target's `STAGING_API_KEY` | `bamboo_STAGING_TARGET_API_KEY` (secret) | optional |
 
-`deploy-bamboo.sh` already forwards all five `bamboo_*` variables through
-Docker → CDK → Lambda, so the only work is defining the plan variables in each
-environment's Bamboo deploy plan (mark the two key variables as secret).
+`deploy-bamboo.sh` passes all of these through Docker → CDK → Lambda. The three
+`STAGING_TARGET_*` values are **optional**: the script defaults them to empty
+(`${bamboo_STAGING_TARGET_*:-}`), so only environments that actually forward staged
+concepts need to define the `bamboo_STAGING_TARGET_*` plan variables (and mark
+`bamboo_STAGING_TARGET_API_KEY` secret). Every other environment can leave them undefined.
 
 ## Per environment
 
@@ -38,9 +40,9 @@ environment's Bamboo deploy plan (mark the two key variables as secret).
 |---|---|
 | `STAGING_API_KEY` | `<prod-secret>` — real, unique, non-placeholder. This is the key UAT uses to push in. |
 | `STAGING_CONCEPTS_BUCKET_NAME` | default (`mmt-prod-staging-concepts`) |
-| `STAGING_TARGET_API_HOST` | **unset / empty** |
-| `STAGING_TARGET_MMT_HOST` | **unset / empty** |
-| `STAGING_TARGET_API_KEY` | leave unset — the synth guard only fires when `STAGING_TARGET_API_HOST` is also set |
+| `STAGING_TARGET_API_HOST` | leave the `bamboo_*` plan variable undefined |
+| `STAGING_TARGET_MMT_HOST` | leave undefined |
+| `STAGING_TARGET_API_KEY` | leave undefined — the synth guard only fires when `STAGING_TARGET_API_HOST` is also set |
 
 ### UAT — real promotion source → PROD
 
