@@ -17,10 +17,6 @@ const {
   COLLECTION_TEMPLATES_BUCKET_NAME = `mmt-${STAGE_NAME}-collection-templates`,
   STAGING_CONCEPTS_BUCKET_NAME = `mmt-${STAGE_NAME}-staging-concepts`,
   STAGING_API_KEY = 'local-staging-api-key',
-  // Cross-environment "stage for production" forwarding: where this environment's
-  // `stageConceptForProduction` Lambda forwards staged concepts to. The typical
-  // target is Production (set for the UAT deployment), but it can be any MMT
-  // environment. Empty elsewhere (the forwarding Lambda returns 500 if invoked).
   STAGING_TARGET_API_HOST = '',
   STAGING_TARGET_MMT_HOST = '',
   STAGING_TARGET_API_KEY = 'local-staging-api-key',
@@ -43,26 +39,19 @@ const {
 const runtime = lambda.Runtime.NODEJS_20_X
 const INFRA_EXPORT_PREFIX = 'cdk'
 
-// Well-known placeholder used for local dev / offline runs. It is committed to
-// the repo, so it must never reach a deployed environment.
 const LOCAL_STAGING_API_KEY_PLACEHOLDER = 'local-staging-api-key'
 
-// bin/deploy-bamboo.sh sets NODE_ENV=production for every deployed stage; local
-// `run-synth` (prestart:api) does not, so this only fails real deployments.
+// deploy-bamboo.sh forces NODE_ENV=production for every deployed stage (not just
+// PROD); local synth never sets it. So this is "is this a real deployment?".
 const isDeployedEnvironment = NODE_ENV === 'production'
 
 const isMissingOrPlaceholder = (value: string) => !value || value === LOCAL_STAGING_API_KEY_PLACEHOLDER
 
 if (isDeployedEnvironment) {
-  // The staging API key is the only credential in front of the
-  // machine-to-machine createOrUpdateStagedConcept route. Fail the synth rather than
-  // ship the source-controlled placeholder if the Bamboo variable is missing.
   if (isMissingOrPlaceholder(STAGING_API_KEY)) {
     throw new Error('STAGING_API_KEY must be set to a non-placeholder value for deployed environments')
   }
 
-  // STAGING_TARGET_API_KEY is only used by the "stage for production" forwarding
-  // Lambda, i.e. when STAGING_TARGET_API_HOST is configured.
   if (STAGING_TARGET_API_HOST && isMissingOrPlaceholder(STAGING_TARGET_API_KEY)) {
     throw new Error('STAGING_TARGET_API_KEY must be set to a non-placeholder value when STAGING_TARGET_API_HOST is configured')
   }
@@ -130,13 +119,8 @@ export class MmtStack extends cdk.Stack {
       NODE_OPTIONS: '--enable-source-maps'
     }
 
-    // Secret the `stagingApiKeyAuthorizer` compares the inbound `Staging-Api-Key`
-    // header against. Not in the shared Lambda environment.
     const stagingApiKey = STAGING_API_KEY
 
-    // Config for the `stageConceptForProduction` forwarding Lambda: the MMT
-    // environment it forwards staged concepts to. Typically only set for the UAT
-    // deployment (target = Production).
     const stagingTargetConfig = {
       STAGING_TARGET_API_HOST,
       STAGING_TARGET_MMT_HOST,
@@ -190,9 +174,6 @@ export class MmtStack extends cdk.Stack {
       resources: ['*']
     }))
 
-    // Staging concepts bucket. Objects are transient promotion artifacts, so
-    // they expire 30 days after creation. RETAIN keeps staged data if the stack
-    // is ever destroyed.
     // eslint-disable-next-line no-new
     new s3.Bucket(this, 'StagingConceptsBucket', {
       bucketName: STAGING_CONCEPTS_BUCKET_NAME,

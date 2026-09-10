@@ -27,9 +27,6 @@ export interface MmtFunctionsProps {
     allowHeaders: string[];
   };
   defaultLambdaConfig: application.NodeJsFunctionProps;
-  // Config for the `stageConceptForProduction` forwarding Lambda: the MMT
-  // environment it forwards staged concepts to (typically only set for UAT).
-  // Injected only into that handler, not the shared Lambda environment.
   stagingTargetConfig: {
     STAGING_TARGET_API_HOST: string;
     STAGING_TARGET_MMT_HOST: string;

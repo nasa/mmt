@@ -8,8 +8,6 @@ import { application } from '@edsc/cdk-utils'
 export interface MmtAuthorizersProps {
   apiGatewayRestApi: cdk.aws_apigateway.CfnRestApi;
   defaultLambdaConfig: application.NodeJsFunctionProps;
-  // Shared secret for the machine-to-machine concept routes. Injected only into
-  // `stagingApiKeyAuthorizer`, not the shared Lambda environment.
   stagingApiKey: string;
 }
 
@@ -28,8 +26,6 @@ export class MmtAuthorizers extends Construct {
     const { apiGatewayRestApi, defaultLambdaConfig, stagingApiKey } = props
     const functionNamePrefix = scope.stackName
 
-    // Creates a REQUEST authorizer backed by a serverless handler, plus the
-    // API Gateway invoke permission for its Lambda.
     const makeRequestAuthorizer = (
       nestedStackId: string,
       lambdaId: string,
@@ -96,9 +92,6 @@ export class MmtAuthorizers extends Construct {
       'method.request.header.Authorization'
     )
 
-    // API-key authorizer for the machine-to-machine "staging concepts" routes.
-    // The caller (the MMT UAT forwarding Lambda) authenticates with a shared
-    // secret in the Staging-Api-Key header.
     this.stagingApiKeyAuthorizer = makeRequestAuthorizer(
       'StagingApiKeyAuthorizerNestedStack',
       'StagingApiKeyAuthorizerLambda',
