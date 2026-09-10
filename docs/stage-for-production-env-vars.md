@@ -5,17 +5,6 @@ five environment variables. This document describes how to set them across the
 three deployed environments — **SIT**, **UAT**, and **PROD** — where SIT is a test
 bed and UAT → PROD is the real promotion path.
 
-## The one invariant
-
-The flow is a one-directional "push upward" chain. The single rule that must hold:
-
-> **The sender's `STAGING_TARGET_API_KEY` must be byte-for-byte equal to the
-> receiver's `STAGING_API_KEY`.**
-
-That shared secret is the only credential in front of the machine-to-machine
-`PUT /staged/{conceptType}` route — it is verified by the `stagingApiKeyAuthorizer`
-API Gateway authorizer.
-
 ## The variables
 
 | Variable | Role | Bamboo plan variable | Required? |
@@ -83,24 +72,3 @@ environment's API Gateway.
 | `STAGING_TARGET_MMT_HOST` | SIT's own MMT UI host |
 | `STAGING_TARGET_API_KEY` | SIT's own `STAGING_API_KEY` (same value) |
 
-## Notes and gotchas
-
-- **Synth guard** (`cdk/mmt/lib/mmt-stack.ts`): when `NODE_ENV=production` (every
-  Bamboo deploy sets this), `cdk synth` **throws** if:
-  - `STAGING_API_KEY` is missing or still the source-controlled placeholder
-    `local-staging-api-key`; or
-  - `STAGING_TARGET_API_HOST` is set while `STAGING_TARGET_API_KEY` is missing or
-    the placeholder.
-
-  So each deployed plan must define real secrets or the deploy fails fast.
-- Use **three distinct random secrets**, one per environment's `STAGING_API_KEY`.
-  UAT's `STAGING_TARGET_API_KEY` is a copy of PROD's secret; SIT's (Option A)
-  is a copy of UAT's — the same secret under two names, not a fourth secret.
-- **Networking is not code.** The UAT Lambda is in-VPC and must be able to reach
-  PROD's private API Gateway — this likely needs PrivateLink / VPC peering / a
-  regional endpoint. The same applies to SIT → UAT (Option A). Option B
-  (SIT → SIT) still calls SIT's own API Gateway but stays within one account.
-- `STAGING_CONCEPTS_BUCKET_NAME` normally needs no override — the CDK stack
-  creates `mmt-${STAGE_NAME}-staging-concepts` (30-day object expiration,
-  `RemovalPolicy: RETAIN`, public access blocked, SSE-S3). If that bucket was
-  ever pre-created manually, `cdk import` or delete it before the first deploy.
