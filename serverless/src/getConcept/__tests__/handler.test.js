@@ -31,13 +31,9 @@ describe('getConcept', () => {
     })
 
     const event = {
-      headers: {
-        Authorization: 'Bearer ABC-1'
-      },
       pathParameters: {
         conceptType: 'collections',
-        nativeId: 'TestNativeId',
-        providerId: 'MMT_1'
+        recordId: 'mock-uuid'
       }
     }
 
@@ -48,21 +44,20 @@ describe('getConcept', () => {
     expect(JSON.parse(response.body)).toEqual({
       concept: mockConcept,
       conceptType: 'collections',
-      nativeId: 'TestNativeId',
-      providerId: 'MMT_1'
+      recordId: 'mock-uuid'
     })
+
+    const getCalls = s3ClientMock.commandCalls(GetObjectCommand)
+    expect(getCalls).toHaveLength(1)
+    expect(getCalls[0].args[0].input.Key).toBe('collections/mock-uuid')
   })
 
   describe('when the conceptType is invalid', () => {
     test('returns a status code 400', async () => {
       const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1'
-        },
         pathParameters: {
           conceptType: 'invalid-type',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_1'
+          recordId: 'mock-uuid'
         }
       }
 
@@ -72,56 +67,14 @@ describe('getConcept', () => {
     })
   })
 
-  describe('when you do not have authorization to retrieve', () => {
-    test('returns a status code 401', async () => {
-      const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1'
-        },
-        pathParameters: {
-          conceptType: 'collections',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_3'
-        }
-      }
-
-      const response = await getConcept(event)
-
-      expect(response.statusCode).toBe(401)
-    })
-  })
-
-  describe('when fetching providers throws an error', () => {
-    test('returns a status code 404', async () => {
-      const event = {
-        headers: {
-          Authorization: 'Bearer invalid_token'
-        },
-        pathParameters: {
-          conceptType: 'collections',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_1'
-        }
-      }
-
-      const response = await getConcept(event)
-
-      expect(response.statusCode).toBe(404)
-    })
-  })
-
   describe('when the object does not exist in s3', () => {
     test('returns a status code 404', async () => {
       s3ClientMock.on(GetObjectCommand).rejects(new Error('NoSuchKey'))
 
       const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1'
-        },
         pathParameters: {
           conceptType: 'collections',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_1'
+          recordId: 'mock-uuid'
         }
       }
 

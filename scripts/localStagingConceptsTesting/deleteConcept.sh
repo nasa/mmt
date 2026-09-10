@@ -4,10 +4,10 @@
 # (serverless-offline).
 #
 # Route:
-#   DELETE {BASE_URL}/dev/providers/:providerId/:conceptType/:nativeId
+#   DELETE {BASE_URL}/dev/staged/:conceptType/:recordId
 #
-# This route is EDL-authenticated (real browser user) and runs a per-user
-# `fetchProviders` provider-permission check in the handler. It does NOT use
+# This route is EDL-authenticated (real browser user). Staged concepts have no
+# provider dimension, so there is no per-user provider check. It does NOT use
 # the Staging-Api-Key. The seed step below uses PUT createOrUpdateConcept,
 # which IS the machine-to-machine route and still needs the Staging-Api-Key.
 #
@@ -15,13 +15,13 @@
 # (STAGE_NAME, API_BASE_URL, STAGING_API_KEY, etc). Override any of these by
 # exporting them yourself before running this script.
 #
-# This script seeds its own throwaway concept (NATIVE_ID below) via PUT
-# before testing delete, so it doesn't consume/remove data seeded by
-# postConcepts.sh (e.g. TestCollection1/2/3) that other scripts may rely on.
+# This script seeds its own throwaway concept via PUT (capturing the generated
+# recordId) before testing delete, so it doesn't consume data other scripts
+# may rely on.
 #
 # Usage:
 #   ./deleteConcept.sh
-#   PROVIDER_ID=MMT_2 CONCEPT_TYPE=collections ./deleteConcept.sh
+#   CONCEPT_TYPE=collections ./deleteConcept.sh
 
 set -u
 
@@ -35,30 +35,16 @@ fi
 BASE_URL="${BASE_URL:-${API_BASE_URL:-http://localhost:4001}}"
 STAGE="${STAGE:-${STAGE_NAME:-dev}}"
 STAGING_API_KEY="${STAGING_API_KEY:-local-staging-api-key}"
-# 'Bearer ABC-1' is a special test-mode token hardcoded in fetchProviders.js
-# that grants access to MMT_1 and MMT_2 without needing real EDL/JWT auth.
 AUTH_TOKEN="${AUTH_TOKEN:-Bearer ABC-1}"
-PROVIDER_ID="${PROVIDER_ID:-MMT_1}"
 CONCEPT_TYPE="${CONCEPT_TYPE:-collections}"
-NATIVE_ID="${NATIVE_ID:-TestDeleteMe}"
 
 PASS_COUNT=0
 FAIL_COUNT=0
 
-# Seeds the throwaway concept used by the delete tests below via the
-# machine-to-machine PUT route (Staging-Api-Key required).
+# Seeds a throwaway concept via the machine-to-machine PUT route and echoes the
+# generated recordId.
 seed_concept() {
-  local url="${BASE_URL}/${STAGE}/providers/${PROVIDER_ID}/${CONCEPT_TYPE}/${NATIVE_ID}"
-  local body
-  body=$(cat <<EOF
-{
-  "ShortName": "$NATIVE_ID",
-  "Version": "1",
-  "EntryTitle": "Throwaway concept for deleteConcept.sh",
-  "Description": "Seeded by deleteConcept.sh; expected to be deleted by this script"
-}
-EOF
-)
+  local url="${BASE_URL}/${STAGE}/staged/${CONCEPT_TYPE}"
 
   local actual_status
   actual_status="$(
@@ -66,43 +52,36 @@ EOF
       -X PUT "$url" \
       -H "Staging-Api-Key: $STAGING_API_KEY" \
       -H "Content-Type: application/json" \
-      -d "$body"
+      -d '{"ShortName":"deleteConcept.sh seed","Version":"1"}'
   )"
 
   if [ "$actual_status" != "200" ]; then
-    echo "FAIL: setup - could not seed $NATIVE_ID (got $actual_status)"
+    echo "FAIL: setup - could not seed a concept (got $actual_status)"
     echo "  Response body:"
     sed 's/^/    /' /tmp/delete_concept_seed_body.json
     rm -f /tmp/delete_concept_seed_body.json
     exit 1
   fi
 
+  jq -r '.recordId' /tmp/delete_concept_seed_body.json
   rm -f /tmp/delete_concept_seed_body.json
 }
 
 # Runs a curl DELETE request and asserts the response status code.
-# Args: description, expected_status, provider_id, concept_type, native_id, [auth_header_override]
-#
-# auth_header defaults to $AUTH_TOKEN when the arg is omitted entirely.
-# Pass "" explicitly to omit the Authorization header (missing-auth case).
+# Args: description, expected_status, concept_type, record_id
 run_test() {
   local description="$1"
   local expected_status="$2"
-  local provider_id="$3"
-  local concept_type="$4"
-  local native_id="$5"
-  local auth_header="${6-$AUTH_TOKEN}"
+  local concept_type="$3"
+  local record_id="$4"
 
-  local url="${BASE_URL}/${STAGE}/providers/${provider_id}/${concept_type}/${native_id}"
-
-  local curl_args=(-s -o /tmp/delete_concept_response_body.json -w '%{http_code}' -X DELETE "$url")
-
-  if [ -n "$auth_header" ]; then
-    curl_args+=(-H "Authorization: $auth_header")
-  fi
+  local url="${BASE_URL}/${STAGE}/staged/${concept_type}/${record_id}"
 
   local actual_status
-  actual_status="$(curl "${curl_args[@]}")"
+  actual_status="$(
+    curl -s -o /tmp/delete_concept_response_body.json -w '%{http_code}' \
+      -X DELETE "$url" -H "Authorization: $AUTH_TOKEN"
+  )"
 
   if [ "$actual_status" = "$expected_status" ]; then
     echo "PASS: $description (got $actual_status)"
@@ -115,54 +94,37 @@ run_test() {
   fi
 }
 
-echo "== Testing deleteConcept endpoint at ${BASE_URL}/${STAGE}/providers/... =="
+echo "== Testing deleteConcept endpoint at ${BASE_URL}/${STAGE}/staged/... =="
 echo
 
-echo "-- seeding throwaway concept ($NATIVE_ID) for delete tests --"
-seed_concept
+echo "-- seeding throwaway concept for delete tests --"
+RECORD_ID="$(seed_concept)"
+echo "  seeded recordId: $RECORD_ID"
 echo
 
-# Negative-path tests first: these must NOT actually delete the concept, so
-# the final successful-delete test below still has something to delete.
-
-# fetchProviders throws when no token is present, and the handler maps that to 404.
-run_test \
-  "missing Authorization header" \
-  "404" \
-  "$PROVIDER_ID" "$CONCEPT_TYPE" "$NATIVE_ID" \
-  ""
-
-# 'Bearer ABC-1' only grants MMT_1 / MMT_2, so any other provider fails the
-# per-user provider-permission check with 401.
-run_test \
-  "unauthorized provider (outside test-mode allowlist MMT_1/MMT_2)" \
-  "401" \
-  "MMT_UNAUTHORIZED" "$CONCEPT_TYPE" "$NATIVE_ID"
-
+# Negative-path tests first: these must NOT delete the seeded concept.
 run_test \
   "invalid conceptType" \
   "400" \
-  "$PROVIDER_ID" "invalid-type" "$NATIVE_ID"
+  "invalid-type" "$RECORD_ID"
 
 # S3's DeleteObject doesn't error on a missing key, so deleteConcept is
-# idempotent - deleting a nativeId that was never seeded (or was already
-# deleted) still returns 204, same as a real delete.
+# idempotent - deleting a recordId that was never seeded still returns 204.
 run_test \
-  "nonexistent nativeId (delete is idempotent via S3)" \
+  "nonexistent recordId (delete is idempotent via S3)" \
   "204" \
-  "$PROVIDER_ID" "$CONCEPT_TYPE" "NativeIdThatDoesNotExist"
+  "$CONCEPT_TYPE" "record-that-does-not-exist"
 
 # Successful delete, then confirm re-deleting is still a 204 (idempotent).
-
 run_test \
-  "successful delete with valid EDL token" \
+  "successful delete" \
   "204" \
-  "$PROVIDER_ID" "$CONCEPT_TYPE" "$NATIVE_ID"
+  "$CONCEPT_TYPE" "$RECORD_ID"
 
 run_test \
   "delete again after already deleted (still 204, idempotent)" \
   "204" \
-  "$PROVIDER_ID" "$CONCEPT_TYPE" "$NATIVE_ID"
+  "$CONCEPT_TYPE" "$RECORD_ID"
 
 echo
 echo "== Results: $PASS_COUNT passed, $FAIL_COUNT failed =="

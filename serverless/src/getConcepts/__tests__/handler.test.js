@@ -12,29 +12,25 @@ beforeEach(() => {
 })
 
 describe('getConcepts', () => {
-  test('retrieves a sorted list of concepts from s3', async () => {
+  test('retrieves a list of concepts from s3, most recently staged first', async () => {
     s3ListObjects.mockResolvedValue([
       {
-        Key: 'MMT_1/collections/Mango.json',
-        LastModified: '2024-01-03T00:00:00.000Z'
-      },
-      {
-        Key: 'MMT_1/collections/Apple.json',
+        Key: 'collections/record-a',
         LastModified: '2024-01-01T00:00:00.000Z'
       },
       {
-        Key: 'MMT_1/collections/Zebra.json',
+        Key: 'collections/record-c',
+        LastModified: '2024-01-03T00:00:00.000Z'
+      },
+      {
+        Key: 'collections/record-b',
         LastModified: '2024-01-02T00:00:00.000Z'
       }
     ])
 
     const event = {
-      headers: {
-        Authorization: 'Bearer ABC-1'
-      },
       pathParameters: {
-        conceptType: 'collections',
-        providerId: 'MMT_1'
+        conceptType: 'collections'
       }
     }
 
@@ -45,68 +41,27 @@ describe('getConcepts', () => {
     expect(JSON.parse(response.body)).toEqual([
       {
         conceptType: 'collections',
-        lastModified: '2024-01-01T00:00:00.000Z',
-        nativeId: 'Apple',
-        providerId: 'MMT_1'
-      },
-      {
-        conceptType: 'collections',
         lastModified: '2024-01-03T00:00:00.000Z',
-        nativeId: 'Mango',
-        providerId: 'MMT_1'
+        recordId: 'record-c'
       },
       {
         conceptType: 'collections',
         lastModified: '2024-01-02T00:00:00.000Z',
-        nativeId: 'Zebra',
-        providerId: 'MMT_1'
-      }
-    ])
-  })
-
-  test('keeps input order for concepts whose nativeIds differ only in case', async () => {
-    s3ListObjects.mockResolvedValue([
-      {
-        Key: 'MMT_1/collections/test.json',
-        LastModified: '2024-01-02T00:00:00.000Z'
+        recordId: 'record-b'
       },
       {
-        Key: 'MMT_1/collections/Test.json',
-        LastModified: '2024-01-01T00:00:00.000Z'
-      }
-    ])
-
-    const event = {
-      headers: {
-        Authorization: 'Bearer ABC-1'
-      },
-      pathParameters: {
         conceptType: 'collections',
-        providerId: 'MMT_1'
+        lastModified: '2024-01-01T00:00:00.000Z',
+        recordId: 'record-a'
       }
-    }
-
-    const response = await getConcepts(event)
-
-    expect(response.statusCode).toBe(200)
-
-    // `TEST` === `TEST`, so the comparator returns 0; Array.prototype.sort is
-    // stable, so the two entries stay in the order S3 returned them.
-    expect(JSON.parse(response.body).map(({ nativeId }) => nativeId)).toEqual([
-      'test',
-      'Test'
     ])
+
+    expect(s3ListObjects.mock.calls[0][1]).toBe('collections/')
   })
 
   describe('when pathParameters is missing', () => {
     test('returns a status code 400', async () => {
-      const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1'
-        }
-      }
-
-      const response = await getConcepts(event)
+      const response = await getConcepts({})
 
       expect(response.statusCode).toBe(400)
     })
@@ -115,12 +70,8 @@ describe('getConcepts', () => {
   describe('when the conceptType is invalid', () => {
     test('returns a status code 400', async () => {
       const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1'
-        },
         pathParameters: {
-          conceptType: 'invalid-type',
-          providerId: 'MMT_1'
+          conceptType: 'invalid-type'
         }
       }
 
@@ -130,54 +81,13 @@ describe('getConcepts', () => {
     })
   })
 
-  describe('when you do not have authorization to list', () => {
-    test('returns a status code 404', async () => {
-      const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1'
-        },
-        pathParameters: {
-          conceptType: 'collections',
-          providerId: 'MMT_3'
-        }
-      }
-
-      const response = await getConcepts(event)
-
-      expect(response.statusCode).toBe(404)
-      expect(s3ListObjects).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('when fetching providers throws an error', () => {
-    test('returns a status code 404', async () => {
-      const event = {
-        headers: {
-          Authorization: 'Bearer invalid_token'
-        },
-        pathParameters: {
-          conceptType: 'collections',
-          providerId: 'MMT_1'
-        }
-      }
-
-      const response = await getConcepts(event)
-
-      expect(response.statusCode).toBe(404)
-    })
-  })
-
   describe('when listing objects in s3 throws an error', () => {
     test('returns a status code 404', async () => {
       s3ListObjects.mockRejectedValue(new Error('S3 error'))
 
       const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1'
-        },
         pathParameters: {
-          conceptType: 'collections',
-          providerId: 'MMT_1'
+          conceptType: 'collections'
         }
       }
 
@@ -187,17 +97,13 @@ describe('getConcepts', () => {
     })
   })
 
-  describe('when there are no concepts for the provider', () => {
+  describe('when there are no staged concepts', () => {
     test('returns an empty array', async () => {
       s3ListObjects.mockResolvedValue([])
 
       const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1'
-        },
         pathParameters: {
-          conceptType: 'collections',
-          providerId: 'MMT_1'
+          conceptType: 'collections'
         }
       }
 

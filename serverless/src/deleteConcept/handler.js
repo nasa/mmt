@@ -4,12 +4,15 @@ import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { getS3Client } from '../utils/getS3Client'
 import { getConceptsBucketName } from '../utils/getConceptsBucketName'
 import { s3ConceptTypes } from '../../../sharedConstants/s3ConceptTypes'
-import fetchProviders from '../utils/fetchProviders'
 
 let s3Client
 
 /**
- * Delete a concept from S3
+ * Delete a staged concept from S3
+ *
+ * Staged concepts are opaque promotion artifacts keyed by a generated
+ * `recordId`; there is no provider/native identity to authorize against, so
+ * this route only requires an authenticated MMT user (the EDL authorizer).
  * @param {Object} event Details about the HTTP request that it received
  */
 const deleteConcept = async (event) => {
@@ -20,7 +23,7 @@ const deleteConcept = async (event) => {
   }
 
   const { pathParameters } = event
-  const { conceptType, nativeId, providerId } = pathParameters
+  const { conceptType, recordId } = pathParameters || {}
 
   if (!s3ConceptTypes.includes(conceptType)) {
     console.error(`Invalid conceptType "${conceptType}"`)
@@ -32,19 +35,8 @@ const deleteConcept = async (event) => {
   }
 
   try {
-    const providerIds = await fetchProviders(event)
-
-    if (!providerIds.includes(providerId)) {
-      console.error(`Missing permissions for provider "${providerId}"`)
-
-      return {
-        statusCode: 401,
-        headers: defaultResponseHeaders
-      }
-    }
-
-    // S3 directory structure: s3BucketName/providerId/conceptType/nativeId.json
-    const key = `${providerId}/${conceptType}/${nativeId}.json`
+    // S3 directory structure: s3BucketName/conceptType/recordId
+    const key = `${conceptType}/${recordId}`
     const conceptsBucketName = getConceptsBucketName()
 
     const deleteCommand = new DeleteObjectCommand({

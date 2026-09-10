@@ -2,19 +2,20 @@
 
 # Seeds sample concepts into local S3 by calling the createOrUpdateConcept
 # endpoint directly, so there's data available for getConcepts.sh, getConcept.sh
-# and deleteConcept.sh to list/retrieve/delete. getConcepts.sh in particular
-# needs several records to verify sort order; deleteConcept.sh seeds its own
-# throwaway record and does not depend on this script.
+# and deleteConcept.sh to list/retrieve/delete.
 #
 # Route (confirmed from local server startup log):
-#   PUT {BASE_URL}/dev/providers/:providerId/:conceptType/:nativeId
+#   PUT {BASE_URL}/dev/staged/:conceptType
+#
+# A staged concept has no caller-supplied identity: createOrUpdateConcept
+# generates a `recordId` (UUID) and returns `{ conceptType, recordId }`. This
+# script prints each generated recordId so you can feed one to getConcept.sh /
+# deleteConcept.sh.
 #
 # This is a direct exercise of the machine-to-machine PUT route, authenticated
 # with the Staging-Api-Key header. It is NOT stageForProduction.sh: that script
 # POSTs to /stage-for-production, which runs the UAT forwarding Lambda (EDL auth
-# + a server-side call back to this same PUT route). Both end up writing to local
-# S3, but use this one when you just want fixture data without involving the
-# forwarding Lambda or the PRODUCTION_* config.
+# + a server-side call back to this same PUT route).
 #
 # Sources local-env.sh (if present) for shared local dev config
 # (STAGE_NAME, API_BASE_URL, STAGING_API_KEY, etc). Override any of these by
@@ -22,15 +23,15 @@
 #
 # Usage:
 #   ./postConcepts.sh
-#       Seeds the default sample concepts (TestCollection1/2/3) defined below.
+#       Seeds three sample concepts and prints their recordIds.
 #
-#   ./postConcepts.sh <nativeId> <path-to-json-file>
-#       Seeds a single concept using <nativeId> and the JSON body read from
-#       <path-to-json-file>, e.g.:
+#   ./postConcepts.sh <label> <path-to-json-file>
+#       Seeds a single concept from <path-to-json-file> (<label> is only used in
+#       log output), e.g.:
 #
-#         ./postConcepts.sh TestCollection1 ./record.json
+#         ./postConcepts.sh MyCollection ./record.json
 #
-#   PROVIDER_ID=MMT_2 CONCEPT_TYPE=collections ./postConcepts.sh TestCollection1 ./record.json
+#   CONCEPT_TYPE=collections ./postConcepts.sh MyCollection ./record.json
 
 set -u
 
@@ -44,16 +45,10 @@ fi
 BASE_URL="${BASE_URL:-${API_BASE_URL:-http://localhost:4001}}"
 STAGE="${STAGE:-${STAGE_NAME:-dev}}"
 STAGING_API_KEY="${STAGING_API_KEY:-local-staging-api-key}"
-# 'Bearer ABC-1' is a special test-mode token hardcoded in fetchProviders.js
-# that grants access to MMT_1 and MMT_2 without needing real EDL/JWT auth.
-AUTH_TOKEN="${AUTH_TOKEN:-Bearer ABC-1}"
-PROVIDER_ID="${PROVIDER_ID:-MMT_1}"
 CONCEPT_TYPE="${CONCEPT_TYPE:-collections}"
 
-# nativeId:JSON-body pairs to seed. Add/edit as needed.
-# The handler doesn't schema-validate the body, so any valid JSON works here -
-# these are just enough to look like plausible concepts.
-NATIVE_IDS=(
+# Labels to seed (only used for log output / the sample body). Add/edit as needed.
+LABELS=(
   "TestCollection1"
   "TestCollection2"
   "TestCollection3"
@@ -63,39 +58,40 @@ SUCCESS_COUNT=0
 FAIL_COUNT=0
 
 seed_concept() {
-  local native_id="$1"
+  local label="$1"
   local body="$2"
 
-  local url="${BASE_URL}/${STAGE}/providers/${PROVIDER_ID}/${CONCEPT_TYPE}/${native_id}"
+  local url="${BASE_URL}/${STAGE}/staged/${CONCEPT_TYPE}"
 
   local actual_status
   actual_status="$(
     curl -s -o /tmp/seed_concept_response_body.json -w '%{http_code}' \
       -X PUT "$url" \
       -H "Staging-Api-Key: $STAGING_API_KEY" \
-      -H "Authorization: $AUTH_TOKEN" \
       -H "Content-Type: application/json" \
       -d "$body"
   )"
 
   if [ "$actual_status" = "200" ]; then
-    echo "OK   ($actual_status): $native_id"
+    local record_id
+    record_id="$(jq -r '.recordId' /tmp/seed_concept_response_body.json)"
+    echo "OK   ($actual_status): $label -> recordId $record_id"
     SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
   else
-    echo "FAIL ($actual_status): $native_id"
+    echo "FAIL ($actual_status): $label"
     echo "  Response body:"
     sed 's/^/    /' /tmp/seed_concept_response_body.json
     FAIL_COUNT=$((FAIL_COUNT + 1))
   fi
 }
 
-echo "== Seeding concepts at ${BASE_URL}/${STAGE}/providers/${PROVIDER_ID}/${CONCEPT_TYPE}/... =="
+echo "== Seeding concepts at ${BASE_URL}/${STAGE}/staged/${CONCEPT_TYPE} =="
 echo
 
-# If a nativeId and a JSON file path are given as positional args, seed just
-# that one concept from the file instead of the default sample list.
+# If a label and a JSON file path are given as positional args, seed just that
+# one concept from the file instead of the default sample list.
 if [ "$#" -ge 2 ]; then
-  NATIVE_ID_ARG="$1"
+  LABEL_ARG="$1"
   RECORD_FILE_ARG="$2"
 
   if [ ! -f "$RECORD_FILE_ARG" ]; then
@@ -104,7 +100,7 @@ if [ "$#" -ge 2 ]; then
   fi
 
   body="$(cat "$RECORD_FILE_ARG")"
-  seed_concept "$NATIVE_ID_ARG" "$body"
+  seed_concept "$LABEL_ARG" "$body"
 
   echo
   echo "== Results: $SUCCESS_COUNT seeded, $FAIL_COUNT failed =="
@@ -118,17 +114,17 @@ if [ "$#" -ge 2 ]; then
   exit 0
 fi
 
-for native_id in "${NATIVE_IDS[@]}"; do
+for label in "${LABELS[@]}"; do
   body=$(cat <<EOF
 {
-  "ShortName": "$native_id",
+  "ShortName": "$label",
   "Version": "1",
-  "EntryTitle": "Sample concept for $native_id",
+  "EntryTitle": "Sample concept for $label",
   "Description": "Seeded locally by postConcepts.sh for testing"
 }
 EOF
 )
-  seed_concept "$native_id" "$body"
+  seed_concept "$label" "$body"
 done
 
 echo

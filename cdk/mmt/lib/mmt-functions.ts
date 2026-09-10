@@ -264,16 +264,16 @@ export class MmtFunctions extends Construct {
       role: s3LambdaRole
     })
 
-    // getConcepts - GET /providers/{providerId}/{conceptType}
+    // getConcepts - GET /staged/{conceptType}
     new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetConceptsNestedStack'), 'GetConceptsLambda', {
       ...defaultLambdaConfig,
       api: {
         apiGatewayDeployment,
-        apiGatewayResource: resources.providersConceptTypeResource,
+        apiGatewayResource: resources.stagedConceptTypeResource,
         apiGatewayRestApi,
         authorizer: authorizers.edlAuthorizer,
         methods: ['GET'],
-        parentPath: 'providersProviderIdVar',
+        parentPath: 'staged',
         path: '{conceptType}'
       },
       entry: '../../serverless/src/getConcepts/handler.js',
@@ -282,17 +282,17 @@ export class MmtFunctions extends Construct {
       role: s3LambdaRole
     })
 
-    // getConcept - GET /providers/{providerId}/{conceptType}/{nativeId}
+    // getConcept - GET /staged/{conceptType}/{recordId}
     new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetConceptNestedStack'), 'GetConceptLambda', {
       ...defaultLambdaConfig,
       api: {
         apiGatewayDeployment,
-        apiGatewayResource: resources.providersConceptTypeNativeIdResource,
+        apiGatewayResource: resources.stagedConceptTypeRecordIdResource,
         apiGatewayRestApi,
         authorizer: authorizers.edlAuthorizer,
         methods: ['GET'],
-        parentPath: 'providersProviderIdVarConceptTypeVar',
-        path: '{nativeId}'
+        parentPath: 'stagedConceptTypeVar',
+        path: '{recordId}'
       },
       entry: '../../serverless/src/getConcept/handler.js',
       functionName: 'getConcept',
@@ -300,17 +300,17 @@ export class MmtFunctions extends Construct {
       role: s3LambdaRole
     })
 
-    // createOrUpdateConcept - PUT /providers/{providerId}/{conceptType}/{nativeId}
+    // createOrUpdateConcept - PUT /staged/{conceptType}
     new application.NodeJsFunction(new cdk.NestedStack(scope, 'CreateOrUpdateConceptNestedStack'), 'CreateOrUpdateConceptLambda', {
       ...defaultLambdaConfig,
       api: {
         apiGatewayDeployment,
-        apiGatewayResource: resources.providersConceptTypeNativeIdResource,
+        apiGatewayResource: resources.stagedConceptTypeResource,
         apiGatewayRestApi,
         authorizer: authorizers.stagingApiKeyAuthorizer,
         methods: ['PUT'],
-        parentPath: 'providersProviderIdVarConceptTypeVar',
-        path: '{nativeId}'
+        parentPath: 'staged',
+        path: '{conceptType}'
       },
       entry: '../../serverless/src/createOrUpdateConcept/handler.js',
       environment: {
@@ -322,17 +322,17 @@ export class MmtFunctions extends Construct {
       role: s3LambdaRole
     })
 
-    // deleteConcept - DELETE /providers/{providerId}/{conceptType}/{nativeId}
+    // deleteConcept - DELETE /staged/{conceptType}/{recordId}
     new application.NodeJsFunction(new cdk.NestedStack(scope, 'DeleteConceptNestedStack'), 'DeleteConceptLambda', {
       ...defaultLambdaConfig,
       api: {
         apiGatewayDeployment,
-        apiGatewayResource: resources.providersConceptTypeNativeIdResource,
+        apiGatewayResource: resources.stagedConceptTypeRecordIdResource,
         apiGatewayRestApi,
         authorizer: authorizers.edlAuthorizer,
         methods: ['DELETE'],
-        parentPath: 'providersProviderIdVarConceptTypeVar',
-        path: '{nativeId}'
+        parentPath: 'stagedConceptTypeVar',
+        path: '{recordId}'
       },
       entry: '../../serverless/src/deleteConcept/handler.js',
       functionName: 'deleteConcept',
@@ -340,16 +340,16 @@ export class MmtFunctions extends Construct {
       role: s3LambdaRole
     })
 
-    // stageConceptForProduction - POST /providers/{providerId}/{conceptType}/{nativeId}/stage-for-production
+    // stageConceptForProduction - POST /providers/{providerId}/{conceptType}/stage-for-production
     new application.NodeJsFunction(new cdk.NestedStack(scope, 'StageConceptForProductionNestedStack'), 'StageConceptForProductionLambda', {
       ...defaultLambdaConfig,
       api: {
         apiGatewayDeployment,
-        apiGatewayResource: resources.providersConceptTypeNativeIdStageForProductionResource,
+        apiGatewayResource: resources.providersConceptTypeStageForProductionResource,
         apiGatewayRestApi,
         authorizer: authorizers.edlAuthorizer,
         methods: ['POST'],
-        parentPath: 'providersProviderIdVarConceptTypeVarNativeIdVar',
+        parentPath: 'providersProviderIdVarConceptTypeVar',
         path: 'stage-for-production'
       },
       entry: '../../serverless/src/stageConceptForProduction/handler.js',

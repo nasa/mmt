@@ -10,10 +10,19 @@ const validEvent = {
   },
   pathParameters: {
     conceptType: 'collections',
-    nativeId: 'TestNativeId',
     providerId: 'MMT_1'
   }
 }
+
+const mockProductionResponse = (overrides = {}) => ({
+  ok: true,
+  status: 200,
+  json: () => Promise.resolve({
+    conceptType: 'collections',
+    recordId: 'prod-record-1'
+  }),
+  ...overrides
+})
 
 beforeEach(() => {
   vi.clearAllMocks()
@@ -27,23 +36,19 @@ beforeEach(() => {
 
 describe('stageConceptForProduction', () => {
   test('forwards the metadata to production and returns a production link', async () => {
-    global.fetch = vi.fn(() => Promise.resolve({
-      ok: true,
-      status: 200
-    }))
+    global.fetch = vi.fn(() => Promise.resolve(mockProductionResponse()))
 
     const response = await stageConceptForProduction(validEvent)
 
     expect(response.statusCode).toBe(200)
     expect(JSON.parse(response.body)).toEqual({
       conceptType: 'collections',
-      nativeId: 'TestNativeId',
-      providerId: 'MMT_1',
-      productionUrl: 'https://mmt.example.com/providers/MMT_1/collections/TestNativeId'
+      recordId: 'prod-record-1',
+      productionUrl: 'https://mmt.example.com/staged/collections/prod-record-1'
     })
 
     expect(global.fetch).toHaveBeenCalledWith(
-      'https://prod.example.com/prod/providers/MMT_1/collections/TestNativeId',
+      'https://prod.example.com/prod/staged/collections',
       expect.objectContaining({
         method: 'PUT',
         headers: expect.objectContaining({ 'Staging-Api-Key': 'prod-staging-key' }),
@@ -114,10 +119,10 @@ describe('stageConceptForProduction', () => {
 
   describe('when production rejects the request', () => {
     test('returns a status code 502', async () => {
-      global.fetch = vi.fn(() => Promise.resolve({
+      global.fetch = vi.fn(() => Promise.resolve(mockProductionResponse({
         ok: false,
         status: 401
-      }))
+      })))
 
       const response = await stageConceptForProduction(validEvent)
 

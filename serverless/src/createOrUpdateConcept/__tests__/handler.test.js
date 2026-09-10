@@ -10,6 +10,9 @@ const validStagingHeaders = {
   'Staging-Api-Key': 'test-staging-key'
 }
 
+// `uuid` is globally mocked to return 'mock-uuid' (see test-setup.js)
+const mockRecordId = 'mock-uuid'
+
 beforeEach(() => {
   vi.clearAllMocks()
   s3ClientMock.reset()
@@ -20,7 +23,7 @@ beforeEach(() => {
 })
 
 describe('createOrUpdateConcept', () => {
-  test('saves the concept to s3', async () => {
+  test('saves the concept to s3 under a generated recordId', async () => {
     s3ClientMock.on(PutObjectCommand).resolves({
       $metadata: {
         httpStatusCode: 200,
@@ -37,20 +40,22 @@ describe('createOrUpdateConcept', () => {
       headers: validStagingHeaders,
       body: JSON.stringify({ mock: 'Concept Body' }),
       pathParameters: {
-        conceptType: 'collections',
-        nativeId: 'TestNativeId',
-        providerId: 'MMT_1'
+        conceptType: 'collections'
       }
     }
 
     const response = await createOrUpdateConcept(event)
 
     expect(response.statusCode).toBe(200)
+
     expect(JSON.parse(response.body)).toEqual({
       conceptType: 'collections',
-      nativeId: 'TestNativeId',
-      providerId: 'MMT_1'
+      recordId: mockRecordId
     })
+
+    const putCalls = s3ClientMock.commandCalls(PutObjectCommand)
+    expect(putCalls).toHaveLength(1)
+    expect(putCalls[0].args[0].input.Key).toBe(`collections/${mockRecordId}`)
   })
 
   describe('when STAGING_API_KEY is not configured in the environment', () => {
@@ -64,9 +69,7 @@ describe('createOrUpdateConcept', () => {
         },
         body: JSON.stringify({ mock: 'Concept Body' }),
         pathParameters: {
-          conceptType: 'collections',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_1'
+          conceptType: 'collections'
         }
       }
 
@@ -85,9 +88,7 @@ describe('createOrUpdateConcept', () => {
         },
         body: JSON.stringify({ mock: 'Concept Body' }),
         pathParameters: {
-          conceptType: 'collections',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_1'
+          conceptType: 'collections'
         }
       }
 
@@ -106,9 +107,7 @@ describe('createOrUpdateConcept', () => {
         },
         body: JSON.stringify({ mock: 'Concept Body' }),
         pathParameters: {
-          conceptType: 'collections',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_1'
+          conceptType: 'collections'
         }
       }
 
@@ -139,9 +138,7 @@ describe('createOrUpdateConcept', () => {
         },
         body: JSON.stringify({ mock: 'Concept Body' }),
         pathParameters: {
-          conceptType: 'collections',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_1'
+          conceptType: 'collections'
         }
       }
 
@@ -157,9 +154,7 @@ describe('createOrUpdateConcept', () => {
         headers: validStagingHeaders,
         body: undefined,
         pathParameters: {
-          conceptType: 'collections',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_1'
+          conceptType: 'collections'
         }
       }
 
@@ -175,9 +170,7 @@ describe('createOrUpdateConcept', () => {
         headers: validStagingHeaders,
         body: JSON.stringify({ mock: 'Concept Body' }),
         pathParameters: {
-          conceptType: 'invalid-type',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_1'
+          conceptType: 'invalid-type'
         }
       }
 
@@ -195,9 +188,7 @@ describe('createOrUpdateConcept', () => {
         headers: validStagingHeaders,
         body: JSON.stringify({ mock: 'Concept Body' }),
         pathParameters: {
-          conceptType: 'collections',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_1'
+          conceptType: 'collections'
         }
       }
 

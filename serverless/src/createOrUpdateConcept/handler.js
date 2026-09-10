@@ -1,4 +1,5 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3'
+import { v4 as uuidv4 } from 'uuid'
 
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { getS3Client } from '../utils/getS3Client'
@@ -9,14 +10,17 @@ import { safeCompareSecret } from '../utils/safeCompareSecret'
 let s3Client
 
 /**
- * Update (overwrite) a concept in S3
+ * Create a concept in S3
+ *
+ * The caller supplies only `conceptType`; a `recordId` (UUID) is generated
+ * here and used as the S3 key. `conceptType` and `recordId` are returned so
+ * the caller can reference the stored record.
  *
  * This is a machine-to-machine endpoint. In deployed environments API Gateway
  * runs the `stagingApiKeyAuthorizer` in front of it; the in-handler
  * `Staging-Api-Key` check below is kept because the local API runner
  * (bin/api.mjs) does not invoke authorizers, so it is the only auth layer
- * locally. Callers are trusted to be authorized for `providerId` (the MMT UAT
- * forwarding Lambda performs the per-user provider check before forwarding).
+ * locally.
  * @param {Object} event Details about the HTTP request that it received
  */
 const createOrUpdateConcept = async (event) => {
@@ -28,7 +32,7 @@ const createOrUpdateConcept = async (event) => {
   }
 
   const { body, headers, pathParameters } = event
-  const { conceptType, nativeId, providerId } = pathParameters
+  const { conceptType } = pathParameters
 
   // Header casing isn't guaranteed by API Gateway/Lambda proxy integration,
   // so look up 'Staging-Api-Key' case-insensitively
@@ -65,10 +69,12 @@ const createOrUpdateConcept = async (event) => {
   }
 
   try {
-    // S3 directory structure: s3BucketName/providerId/conceptType/nativeId.json
-    const key = `${providerId}/${conceptType}/${nativeId}.json`
+    // The caller does not supply an identifier; generate one for this record
+    const recordId = uuidv4()
 
-    // PutObject overwrites any existing object at this key
+    // S3 directory structure: s3BucketName/conceptType/recordId
+    const key = `${conceptType}/${recordId}`
+
     const putCommand = new PutObjectCommand({
       Bucket: conceptsBucketName,
       Body: body,
@@ -83,11 +89,10 @@ const createOrUpdateConcept = async (event) => {
     return {
       statusCode,
       headers: defaultResponseHeaders,
-      // Return the identifying tuple so the caller can build a deep link
+      // Return the identifying tuple so the caller can reference the record
       body: JSON.stringify({
         conceptType,
-        nativeId,
-        providerId
+        recordId
       })
     }
   } catch (error) {

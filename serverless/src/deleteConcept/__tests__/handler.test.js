@@ -26,77 +26,33 @@ describe('deleteConcept', () => {
     })
 
     const event = {
-      headers: {
-        Authorization: 'Bearer ABC-1'
-      },
       pathParameters: {
         conceptType: 'collections',
-        nativeId: 'TestNativeId',
-        providerId: 'MMT_1'
+        recordId: 'mock-uuid'
       }
     }
 
     const response = await deleteConcept(event)
 
     expect(response.statusCode).toBe(204)
+
+    const deleteCalls = s3ClientMock.commandCalls(DeleteObjectCommand)
+    expect(deleteCalls).toHaveLength(1)
+    expect(deleteCalls[0].args[0].input.Key).toBe('collections/mock-uuid')
   })
 
   describe('when the conceptType is invalid', () => {
     test('returns a status code 400', async () => {
       const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1'
-        },
         pathParameters: {
           conceptType: 'invalid-type',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_1'
+          recordId: 'mock-uuid'
         }
       }
 
       const response = await deleteConcept(event)
 
       expect(response.statusCode).toBe(400)
-      expect(s3ClientMock.commandCalls(DeleteObjectCommand)).toHaveLength(0)
-    })
-  })
-
-  describe('when you do not have authorization to delete', () => {
-    test('returns a status code 401', async () => {
-      const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1'
-        },
-        pathParameters: {
-          conceptType: 'collections',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_3'
-        }
-      }
-
-      const response = await deleteConcept(event)
-
-      expect(response.statusCode).toBe(401)
-      expect(s3ClientMock.commandCalls(DeleteObjectCommand)).toHaveLength(0)
-    })
-  })
-
-  describe('when fetching providers throws an error', () => {
-    test('returns a status code 404', async () => {
-      const event = {
-        headers: {
-          Authorization: 'Bearer invalid_token'
-        },
-        pathParameters: {
-          conceptType: 'collections',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_1'
-        }
-      }
-
-      const response = await deleteConcept(event)
-
-      expect(response.statusCode).toBe(404)
       expect(s3ClientMock.commandCalls(DeleteObjectCommand)).toHaveLength(0)
     })
   })
@@ -118,13 +74,9 @@ describe('deleteConcept', () => {
       })
 
       const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1'
-        },
         pathParameters: {
           conceptType: 'collections',
-          nativeId: 'NonExistentNativeId',
-          providerId: 'MMT_1'
+          recordId: 'does-not-exist'
         }
       }
 
@@ -139,13 +91,9 @@ describe('deleteConcept', () => {
       s3ClientMock.on(DeleteObjectCommand).rejects(new Error('S3 error'))
 
       const event = {
-        headers: {
-          Authorization: 'Bearer ABC-1'
-        },
         pathParameters: {
           conceptType: 'collections',
-          nativeId: 'TestNativeId',
-          providerId: 'MMT_1'
+          recordId: 'mock-uuid'
         }
       }
 

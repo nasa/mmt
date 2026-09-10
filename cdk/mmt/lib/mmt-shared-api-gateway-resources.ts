@@ -26,8 +26,9 @@ export class MmtApiResources extends Construct {
   public readonly gkrKeywordRecommendationsResource: apigateway.CfnResource
   public readonly gkrSendFeedbackResource: apigateway.CfnResource
   public readonly providersConceptTypeResource: apigateway.CfnResource
-  public readonly providersConceptTypeNativeIdResource: apigateway.CfnResource
-  public readonly providersConceptTypeNativeIdStageForProductionResource: apigateway.CfnResource
+  public readonly providersConceptTypeStageForProductionResource: apigateway.CfnResource
+  public readonly stagedConceptTypeResource: apigateway.CfnResource
+  public readonly stagedConceptTypeRecordIdResource: apigateway.CfnResource
   public readonly providersTemplatesResource: apigateway.CfnResource
   public readonly providersTemplatesIdResource: apigateway.CfnResource
   public readonly templatesResource: apigateway.CfnResource
@@ -121,6 +122,9 @@ export class MmtApiResources extends Construct {
     })
     this.providersTemplatesIdResource = providersTemplatesIdResource
 
+    // `/providers/{providerId}/{conceptType}` now exists only as the parent of
+    // the `stage-for-production` action route. The S3-backed concept routes
+    // (create/list/get/delete) live under `/staged/...` instead.
     const providersConceptTypeResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceProvidersProviderIdVarConceptTypeVar', {
       parentId: providerIdResource.ref,
       pathPart: '{conceptType}',
@@ -128,19 +132,31 @@ export class MmtApiResources extends Construct {
     })
     this.providersConceptTypeResource = providersConceptTypeResource
 
-    const providersConceptTypeNativeIdResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceProvidersProviderIdVarConceptTypeVarNativeIdVar', {
+    const providersConceptTypeStageForProductionResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceProvidersProviderIdVarConceptTypeVarStageForProduction', {
       parentId: providersConceptTypeResource.ref,
-      pathPart: '{nativeId}',
-      restApiId: apiGatewayRestApi.ref
-    })
-    this.providersConceptTypeNativeIdResource = providersConceptTypeNativeIdResource
-
-    const providersConceptTypeNativeIdStageForProductionResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceProvidersProviderIdVarConceptTypeVarNativeIdVarStageForProduction', {
-      parentId: providersConceptTypeNativeIdResource.ref,
       pathPart: 'stage-for-production',
       restApiId: apiGatewayRestApi.ref
     })
-    this.providersConceptTypeNativeIdStageForProductionResource = providersConceptTypeNativeIdStageForProductionResource
+    this.providersConceptTypeStageForProductionResource = providersConceptTypeStageForProductionResource
+
+    // Staged concepts are opaque promotion artifacts keyed by a generated
+    // `recordId`; they carry no provider/native identity, so they route under a
+    // dedicated `/staged/{conceptType}` tree rather than under `/providers`.
+    const stagedResource = makeRootResource('Staged', 'staged')
+
+    const stagedConceptTypeResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceStagedConceptTypeVar', {
+      parentId: stagedResource.ref,
+      pathPart: '{conceptType}',
+      restApiId: apiGatewayRestApi.ref
+    })
+    this.stagedConceptTypeResource = stagedConceptTypeResource
+
+    const stagedConceptTypeRecordIdResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceStagedConceptTypeVarRecordIdVar', {
+      parentId: stagedConceptTypeResource.ref,
+      pathPart: '{recordId}',
+      restApiId: apiGatewayRestApi.ref
+    })
+    this.stagedConceptTypeRecordIdResource = stagedConceptTypeRecordIdResource
 
     const templatesResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceTemplates', {
       parentId: apiGatewayRestApi.attrRootResourceId,
@@ -165,14 +181,14 @@ export class MmtApiResources extends Construct {
 
     addOptions('Templates', templatesResource, ['GET'])
 
-    addOptions('ProvidersProviderIdVarConceptTypeVar', providersConceptTypeResource, ['GET'])
+    addOptions('ProvidersProviderIdVarConceptTypeVarStageForProduction', providersConceptTypeStageForProductionResource, ['POST'])
 
     // PUT (createOrUpdateConcept) is deliberately omitted: it is a
     // machine-to-machine route behind `stagingApiKeyAuthorizer`, called only by
     // the UAT forwarding Lambda (server-to-server, no CORS preflight). Leaving
     // PUT out of the CORS allow-list makes a browser preflight for it fail.
-    addOptions('ProvidersProviderIdVarConceptTypeVarNativeIdVar', providersConceptTypeNativeIdResource, ['GET', 'DELETE'])
+    addOptions('StagedConceptTypeVar', stagedConceptTypeResource, ['GET'])
 
-    addOptions('ProvidersProviderIdVarConceptTypeVarNativeIdVarStageForProduction', providersConceptTypeNativeIdStageForProductionResource, ['POST'])
+    addOptions('StagedConceptTypeVarRecordIdVar', stagedConceptTypeRecordIdResource, ['GET', 'DELETE'])
   }
 }

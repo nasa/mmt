@@ -9,15 +9,20 @@ import fetchProviders from '../utils/fetchProviders'
  * This Lambda runs in UAT behind the EDL authorizer (a real browser user). It
  * verifies the user may act for the given provider, then calls the Production
  * `createOrUpdateConcept` endpoint using the Production staging API key held in
- * an environment variable (so the key never reaches the browser). On success it
- * returns a link the user can follow to continue the workflow in Production.
+ * an environment variable (so the key never reaches the browser). Production
+ * stores the metadata under a generated `recordId` and returns it; this Lambda
+ * turns that into a Production deep link the user can follow to continue the
+ * workflow.
+ *
+ * `providerId` is used only for the per-user permission check; it is not part
+ * of the Production request (staged concepts have no provider identity).
  * @param {Object} event Details about the HTTP request that it received
  */
 const stageConceptForProduction = async (event) => {
   const { defaultResponseHeaders } = getApplicationConfig()
 
   const { body, pathParameters } = event
-  const { conceptType, nativeId, providerId } = pathParameters || {}
+  const { conceptType, providerId } = pathParameters || {}
 
   if (!s3ConceptTypes.includes(conceptType)) {
     console.error(`Invalid conceptType "${conceptType}"`)
@@ -72,7 +77,7 @@ const stageConceptForProduction = async (event) => {
     }
   }
 
-  const productionUrl = `${productionApiHost}/providers/${providerId}/${conceptType}/${nativeId}`
+  const productionUrl = `${productionApiHost}/staged/${conceptType}`
 
   try {
     const response = await fetch(productionUrl, {
@@ -85,7 +90,7 @@ const stageConceptForProduction = async (event) => {
     })
 
     if (!response.ok) {
-      console.error(`Production responded with status ${response.status} staging "${providerId}/${conceptType}/${nativeId}"`)
+      console.error(`Production responded with status ${response.status} staging a "${conceptType}" concept`)
 
       return {
         statusCode: 502,
@@ -96,14 +101,15 @@ const stageConceptForProduction = async (event) => {
       }
     }
 
+    const { recordId } = await response.json()
+
     return {
       statusCode: 200,
       headers: defaultResponseHeaders,
       body: JSON.stringify({
         conceptType,
-        nativeId,
-        providerId,
-        productionUrl: `${productionMmtHost}/providers/${providerId}/${conceptType}/${nativeId}`
+        recordId,
+        productionUrl: `${productionMmtHost}/staged/${conceptType}/${recordId}`
       })
     }
   } catch (error) {
