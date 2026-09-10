@@ -9,13 +9,12 @@ bed and UAT → PROD is the real promotion path.
 
 The flow is a one-directional "push upward" chain. The single rule that must hold:
 
-> **The sender's `PRODUCTION_STAGING_API_KEY` must be byte-for-byte equal to the
+> **The sender's `STAGING_TARGET_API_KEY` must be byte-for-byte equal to the
 > receiver's `STAGING_API_KEY`.**
 
 That shared secret is the only credential in front of the machine-to-machine
-`PUT /providers/{providerId}/{conceptType}/{nativeId}` route — it is verified by the
-`stagingApiKeyAuthorizer` API Gateway authorizer and re-checked inside the
-`createOrUpdateStagedConcept` handler.
+`PUT /staged/{conceptType}` route — it is verified by the `stagingApiKeyAuthorizer`
+API Gateway authorizer.
 
 ## The variables
 
@@ -23,9 +22,9 @@ That shared secret is the only credential in front of the machine-to-machine
 |---|---|---|
 | `STAGING_API_KEY` | **Inbound** secret this environment accepts on the `Staging-Api-Key` header | `bamboo_STAGING_API_KEY` (secret) |
 | `STAGING_CONCEPTS_BUCKET_NAME` | This environment's concepts bucket | `bamboo_STAGING_CONCEPTS_BUCKET_NAME` — leave at the `mmt-${STAGE_NAME}-staging-concepts` default |
-| `PRODUCTION_API_HOST` | **Outbound** — API Gateway base URL the `stageConceptForProduction` Lambda `PUT`s to. Empty ⇒ the handler returns `500` (promotion disabled) | `bamboo_PRODUCTION_API_HOST` |
-| `PRODUCTION_MMT_HOST` | UI host used to build the deep link returned to the browser (`productionUrl` in the response) | `bamboo_PRODUCTION_MMT_HOST` |
-| `PRODUCTION_STAGING_API_KEY` | **Outbound** secret sent to the target environment; must equal the target's `STAGING_API_KEY` | `bamboo_PRODUCTION_STAGING_API_KEY` (secret) |
+| `STAGING_TARGET_API_HOST` | **Outbound** — API Gateway base URL the `stageConceptForProduction` Lambda `PUT`s to. Empty ⇒ the handler returns `500` (promotion disabled) | `bamboo_STAGING_TARGET_API_HOST` |
+| `STAGING_TARGET_MMT_HOST` | UI host used to build the deep link returned to the browser (`productionUrl` in the response) | `bamboo_STAGING_TARGET_MMT_HOST` |
+| `STAGING_TARGET_API_KEY` | **Outbound** secret sent to the target environment; must equal the target's `STAGING_API_KEY` | `bamboo_STAGING_TARGET_API_KEY` (secret) |
 
 `deploy-bamboo.sh` already forwards all five `bamboo_*` variables through
 Docker → CDK → Lambda, so the only work is defining the plan variables in each
@@ -39,9 +38,9 @@ environment's Bamboo deploy plan (mark the two key variables as secret).
 |---|---|
 | `STAGING_API_KEY` | `<prod-secret>` — real, unique, non-placeholder. This is the key UAT uses to push in. |
 | `STAGING_CONCEPTS_BUCKET_NAME` | default (`mmt-prod-staging-concepts`) |
-| `PRODUCTION_API_HOST` | **unset / empty** |
-| `PRODUCTION_MMT_HOST` | **unset / empty** |
-| `PRODUCTION_STAGING_API_KEY` | leave unset — the synth guard only fires when `PRODUCTION_API_HOST` is also set |
+| `STAGING_TARGET_API_HOST` | **unset / empty** |
+| `STAGING_TARGET_MMT_HOST` | **unset / empty** |
+| `STAGING_TARGET_API_KEY` | leave unset — the synth guard only fires when `STAGING_TARGET_API_HOST` is also set |
 
 ### UAT — real promotion source → PROD
 
@@ -49,9 +48,9 @@ environment's Bamboo deploy plan (mark the two key variables as secret).
 |---|---|
 | `STAGING_API_KEY` | `<uat-secret>` — real, unique. Used if you also test SIT → UAT, and good hygiene regardless. |
 | `STAGING_CONCEPTS_BUCKET_NAME` | default (`mmt-uat-staging-concepts`) |
-| `PRODUCTION_API_HOST` | PROD's API Gateway base URL |
-| `PRODUCTION_MMT_HOST` | PROD's MMT UI host |
-| `PRODUCTION_STAGING_API_KEY` | **exactly** PROD's `STAGING_API_KEY` |
+| `STAGING_TARGET_API_HOST` | PROD's API Gateway base URL |
+| `STAGING_TARGET_MMT_HOST` | PROD's MMT UI host |
+| `STAGING_TARGET_API_KEY` | **exactly** PROD's `STAGING_API_KEY` |
 
 ### SIT — test bed
 
@@ -66,22 +65,21 @@ self-expire after 30 days).
 |---|---|
 | `STAGING_API_KEY` | `<sit-secret>` — real, unique |
 | `STAGING_CONCEPTS_BUCKET_NAME` | default (`mmt-sit-staging-concepts`) |
-| `PRODUCTION_API_HOST` | UAT's API Gateway base URL |
-| `PRODUCTION_MMT_HOST` | UAT's MMT UI host |
-| `PRODUCTION_STAGING_API_KEY` | **exactly** UAT's `STAGING_API_KEY` |
+| `STAGING_TARGET_API_HOST` | UAT's API Gateway base URL |
+| `STAGING_TARGET_MMT_HOST` | UAT's MMT UI host |
+| `STAGING_TARGET_API_KEY` | **exactly** UAT's `STAGING_API_KEY` |
 
 **Option B — SIT → SIT loopback.** Self-contained, does not touch UAT, but does
-**not** test cross-account networking. This is what
-`scripts/localStagingConceptsTesting/local-env.sh` does locally, so it is a
-known-good configuration.
+**not** test cross-account networking — the forwarding Lambda calls its own
+environment's API Gateway.
 
 | Variable | Value |
 |---|---|
 | `STAGING_API_KEY` | `<sit-secret>` |
 | `STAGING_CONCEPTS_BUCKET_NAME` | default (`mmt-sit-staging-concepts`) |
-| `PRODUCTION_API_HOST` | SIT's own API Gateway base URL |
-| `PRODUCTION_MMT_HOST` | SIT's own MMT UI host |
-| `PRODUCTION_STAGING_API_KEY` | SIT's own `STAGING_API_KEY` (same value) |
+| `STAGING_TARGET_API_HOST` | SIT's own API Gateway base URL |
+| `STAGING_TARGET_MMT_HOST` | SIT's own MMT UI host |
+| `STAGING_TARGET_API_KEY` | SIT's own `STAGING_API_KEY` (same value) |
 
 ## Notes and gotchas
 
@@ -89,12 +87,12 @@ known-good configuration.
   Bamboo deploy sets this), `cdk synth` **throws** if:
   - `STAGING_API_KEY` is missing or still the source-controlled placeholder
     `local-staging-api-key`; or
-  - `PRODUCTION_API_HOST` is set while `PRODUCTION_STAGING_API_KEY` is missing or
+  - `STAGING_TARGET_API_HOST` is set while `STAGING_TARGET_API_KEY` is missing or
     the placeholder.
 
   So each deployed plan must define real secrets or the deploy fails fast.
 - Use **three distinct random secrets**, one per environment's `STAGING_API_KEY`.
-  UAT's `PRODUCTION_STAGING_API_KEY` is a copy of PROD's secret; SIT's (Option A)
+  UAT's `STAGING_TARGET_API_KEY` is a copy of PROD's secret; SIT's (Option A)
   is a copy of UAT's — the same secret under two names, not a fourth secret.
 - **Networking is not code.** The UAT Lambda is in-VPC and must be able to reach
   PROD's private API Gateway — this likely needs PrivateLink / VPC peering / a

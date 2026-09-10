@@ -3,19 +3,21 @@ import { s3ConceptTypes } from '../../../sharedConstants/s3ConceptTypes'
 import fetchProviders from '../utils/fetchProviders'
 
 /**
- * Forwards a collection's metadata from MMT UAT to the Production API Gateway so
- * it can be staged for production.
+ * Forwards a collection's metadata from this MMT environment to another MMT
+ * environment's API Gateway so it can be staged there. The typical use is
+ * UAT → Production, but the target is whatever `STAGING_TARGET_*` points at
+ * (SIT → UAT, a same-environment loopback for local testing, etc.).
  *
- * This Lambda runs in UAT behind the EDL authorizer (a real browser user). It
- * verifies the user may act for the given provider, then calls the Production
- * `createOrUpdateStagedConcept` endpoint using the Production staging API key held in
- * an environment variable (so the key never reaches the browser). Production
+ * This Lambda runs behind the EDL authorizer (a real browser user). It verifies
+ * the user may act for the given provider, then calls the staging target's
+ * `createOrUpdateStagedConcept` endpoint using the target's staging API key held
+ * in an environment variable (so the key never reaches the browser). The target
  * stores the metadata under a generated `recordId` and returns it; this Lambda
- * turns that into a Production deep link the user can follow to continue the
- * workflow.
+ * turns that into a deep link the user can follow to continue the workflow
+ * there.
  *
  * `providerId` is used only for the per-user permission check; it is not part
- * of the Production request (staged concepts have no provider identity).
+ * of the forwarded request (staged concepts have no provider identity).
  * @param {Object} event Details about the HTTP request that it received
  */
 const stageConceptForProduction = async (event) => {
@@ -63,13 +65,13 @@ const stageConceptForProduction = async (event) => {
   }
 
   const {
-    PRODUCTION_API_HOST: productionApiHost,
-    PRODUCTION_MMT_HOST: productionMmtHost,
-    PRODUCTION_STAGING_API_KEY: productionStagingApiKey
+    STAGING_TARGET_API_HOST: stagingTargetApiHost,
+    STAGING_TARGET_MMT_HOST: stagingTargetMmtHost,
+    STAGING_TARGET_API_KEY: stagingTargetApiKey
   } = process.env
 
-  if (!productionApiHost || !productionStagingApiKey) {
-    console.error('Production promotion is not configured for this environment')
+  if (!stagingTargetApiHost || !stagingTargetApiKey) {
+    console.error('No staging target is configured for this environment')
 
     return {
       statusCode: 500,
@@ -77,26 +79,26 @@ const stageConceptForProduction = async (event) => {
     }
   }
 
-  const productionUrl = `${productionApiHost}/staged/${conceptType}`
+  const stagingTargetUrl = `${stagingTargetApiHost}/staged/${conceptType}`
 
   try {
-    const response = await fetch(productionUrl, {
+    const response = await fetch(stagingTargetUrl, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Staging-Api-Key': productionStagingApiKey
+        'Staging-Api-Key': stagingTargetApiKey
       },
       body
     })
 
     if (!response.ok) {
-      console.error(`Production responded with status ${response.status} staging a "${conceptType}" concept`)
+      console.error(`Staging target responded with status ${response.status} staging a "${conceptType}" concept`)
 
       return {
         statusCode: 502,
         headers: defaultResponseHeaders,
         body: JSON.stringify({
-          error: `Production rejected the request with status ${response.status}`
+          error: `Staging target rejected the request with status ${response.status}`
         })
       }
     }
@@ -109,7 +111,7 @@ const stageConceptForProduction = async (event) => {
       body: JSON.stringify({
         conceptType,
         recordId,
-        productionUrl: `${productionMmtHost}/staged/${conceptType}/${recordId}`
+        productionUrl: `${stagingTargetMmtHost}/staged/${conceptType}/${recordId}`
       })
     }
   } catch (error) {

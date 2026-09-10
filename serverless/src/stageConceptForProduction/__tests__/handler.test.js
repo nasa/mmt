@@ -29,9 +29,9 @@ beforeEach(() => {
   vi.spyOn(console, 'log').mockImplementation(() => {})
   vi.spyOn(console, 'error').mockImplementation(() => {})
 
-  process.env.PRODUCTION_API_HOST = 'https://prod.example.com/prod'
-  process.env.PRODUCTION_MMT_HOST = 'https://mmt.example.com'
-  process.env.PRODUCTION_STAGING_API_KEY = 'prod-staging-key'
+  process.env.STAGING_TARGET_API_HOST = 'https://prod.example.com/prod'
+  process.env.STAGING_TARGET_MMT_HOST = 'https://mmt.example.com'
+  process.env.STAGING_TARGET_API_KEY = 'prod-staging-key'
 })
 
 describe('stageConceptForProduction', () => {
@@ -107,9 +107,9 @@ describe('stageConceptForProduction', () => {
     })
   })
 
-  describe('when production promotion is not configured', () => {
+  describe('when no staging target is configured', () => {
     test('returns a status code 500', async () => {
-      delete process.env.PRODUCTION_API_HOST
+      delete process.env.STAGING_TARGET_API_HOST
 
       const response = await stageConceptForProduction(validEvent)
 
@@ -117,7 +117,7 @@ describe('stageConceptForProduction', () => {
     })
   })
 
-  describe('when production rejects the request', () => {
+  describe('when the staging target rejects the request', () => {
     test('returns a status code 502', async () => {
       global.fetch = vi.fn(() => Promise.resolve(mockProductionResponse({
         ok: false,
@@ -128,7 +128,7 @@ describe('stageConceptForProduction', () => {
 
       expect(response.statusCode).toBe(502)
       expect(JSON.parse(response.body)).toEqual({
-        error: 'Production rejected the request with status 401'
+        error: 'Staging target rejected the request with status 401'
       })
     })
   })

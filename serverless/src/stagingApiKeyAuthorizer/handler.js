@@ -1,6 +1,5 @@
 import { generatePolicy } from '../utils/authorizer/generatePolicy'
 import { downcaseKeys } from '../utils/downcaseKeys'
-import { safeCompareSecret } from '../utils/safeCompareSecret'
 
 /**
  * Custom API Gateway authorizer for the machine-to-machine "staging concepts"
@@ -22,9 +21,10 @@ const stagingApiKeyAuthorizer = async (event) => {
   }
 
   const { 'staging-api-key': stagingApiKey } = downcaseKeys(headers)
+  const expectedApiKey = process.env.STAGING_API_KEY
 
   // Fail closed when the expected key is not configured in the environment.
-  if (!safeCompareSecret(stagingApiKey, process.env.STAGING_API_KEY)) {
+  if (!expectedApiKey || stagingApiKey !== expectedApiKey) {
     console.error('Missing or invalid Staging-Api-Key header')
 
     throw new Error('Unauthorized')

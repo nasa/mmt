@@ -87,9 +87,9 @@ dockerRun() {
         -e "LOG_DESTINATION_ARN=$bamboo_LOG_DESTINATION_ARN" \
         -e "MMT_HOST=$bamboo_MMT_HOST" \
         -e "NODE_ENV=production" \
-        -e "PRODUCTION_API_HOST=$bamboo_PRODUCTION_API_HOST" \
-        -e "PRODUCTION_MMT_HOST=$bamboo_PRODUCTION_MMT_HOST" \
-        -e "PRODUCTION_STAGING_API_KEY=$bamboo_PRODUCTION_STAGING_API_KEY" \
+        -e "STAGING_TARGET_API_HOST=$bamboo_STAGING_TARGET_API_HOST" \
+        -e "STAGING_TARGET_MMT_HOST=$bamboo_STAGING_TARGET_MMT_HOST" \
+        -e "STAGING_TARGET_API_KEY=$bamboo_STAGING_TARGET_API_KEY" \
         -e "NODE_OPTIONS=--max_old_space_size=4096" \
         -e "SITE_BUCKET=${bamboo_SITE_BUCKET}" \
         -e "STAGE_NAME=$bamboo_STAGE_NAME" \

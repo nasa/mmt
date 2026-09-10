@@ -1,6 +1,6 @@
 import stagingApiKeyAuthorizer from '../handler'
 
-const methodArn = 'arn:aws:execute-api:us-east-1:123456789012:api-id/stage/PUT/providers/MMT_1/collections/TestNativeId'
+const methodArn = 'arn:aws:execute-api:us-east-1:123456789012:api-id/stage/PUT/staged/collections'
 
 describe('stagingApiKeyAuthorizer', () => {
   const OLD_ENV = process.env

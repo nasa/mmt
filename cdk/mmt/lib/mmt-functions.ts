@@ -27,17 +27,15 @@ export interface MmtFunctionsProps {
     allowHeaders: string[];
   };
   defaultLambdaConfig: application.NodeJsFunctionProps;
-  // UAT-only config for the `stageConceptForProduction` forwarding Lambda.
+  // Config for the `stageConceptForProduction` forwarding Lambda: the MMT
+  // environment it forwards staged concepts to (typically only set for UAT).
   // Injected only into that handler, not the shared Lambda environment.
-  productionForwardingConfig: {
-    PRODUCTION_API_HOST: string;
-    PRODUCTION_MMT_HOST: string;
-    PRODUCTION_STAGING_API_KEY: string;
+  stagingTargetConfig: {
+    STAGING_TARGET_API_HOST: string;
+    STAGING_TARGET_MMT_HOST: string;
+    STAGING_TARGET_API_KEY: string;
   };
   s3LambdaRole: iam.IRole;
-  // Shared secret re-checked in `createOrUpdateStagedConcept`. Injected only into that
-  // handler, not the shared Lambda environment.
-  stagingApiKey: string;
 }
 
 /**
@@ -54,9 +52,8 @@ export class MmtFunctions extends Construct {
       authorizers,
       corsConfig,
       defaultLambdaConfig,
-      productionForwardingConfig,
-      s3LambdaRole,
-      stagingApiKey
+      stagingTargetConfig,
+      s3LambdaRole
     } = props
 
     const functionNamePrefix = scope.stackName
@@ -264,24 +261,6 @@ export class MmtFunctions extends Construct {
       role: s3LambdaRole
     })
 
-    // getStagedConcepts - GET /staged/{conceptType}
-    new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetStagedConceptsNestedStack'), 'GetStagedConceptsLambda', {
-      ...defaultLambdaConfig,
-      api: {
-        apiGatewayDeployment,
-        apiGatewayResource: resources.stagedConceptTypeResource,
-        apiGatewayRestApi,
-        authorizer: authorizers.edlAuthorizer,
-        methods: ['GET'],
-        parentPath: 'staged',
-        path: '{conceptType}'
-      },
-      entry: '../../serverless/src/getStagedConcepts/handler.js',
-      functionName: 'getStagedConcepts',
-      functionNamePrefix,
-      role: s3LambdaRole
-    })
-
     // getStagedConcept - GET /staged/{conceptType}/{recordId}
     new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetStagedConceptNestedStack'), 'GetStagedConceptLambda', {
       ...defaultLambdaConfig,
@@ -313,10 +292,6 @@ export class MmtFunctions extends Construct {
         path: '{conceptType}'
       },
       entry: '../../serverless/src/createOrUpdateStagedConcept/handler.js',
-      environment: {
-        ...defaultLambdaConfig.environment,
-        STAGING_API_KEY: stagingApiKey
-      },
       functionName: 'createOrUpdateStagedConcept',
       functionNamePrefix,
       role: s3LambdaRole
@@ -355,7 +330,7 @@ export class MmtFunctions extends Construct {
       entry: '../../serverless/src/stageConceptForProduction/handler.js',
       environment: {
         ...defaultLambdaConfig.environment,
-        ...productionForwardingConfig
+        ...stagingTargetConfig
       },
       functionName: 'stageConceptForProduction',
       functionNamePrefix

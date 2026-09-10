@@ -183,12 +183,10 @@ export class MmtApiResources extends Construct {
 
     addOptions('ProvidersProviderIdVarConceptTypeVarStageForProduction', providersConceptTypeStageForProductionResource, ['POST'])
 
-    // PUT (createOrUpdateStagedConcept) is deliberately omitted: it is a
-    // machine-to-machine route behind `stagingApiKeyAuthorizer`, called only by
-    // the UAT forwarding Lambda (server-to-server, no CORS preflight). Leaving
-    // PUT out of the CORS allow-list makes a browser preflight for it fail.
-    addOptions('StagedConceptTypeVar', stagedConceptTypeResource, ['GET'])
-
+    // `/staged/{conceptType}` gets no CORS OPTIONS: its only method is the
+    // machine-to-machine PUT (createOrUpdateStagedConcept) behind
+    // `stagingApiKeyAuthorizer`, called only by the UAT forwarding Lambda
+    // (server-to-server, no browser preflight).
     addOptions('StagedConceptTypeVarRecordIdVar', stagedConceptTypeRecordIdResource, ['GET', 'DELETE'])
   }
 }
