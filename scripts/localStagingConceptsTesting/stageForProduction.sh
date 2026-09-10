@@ -15,7 +15,7 @@
 #
 # Locally, local-env.sh points PRODUCTION_API_HOST back at the same local API,
 # so a successful run writes the posted metadata into the local S3 concepts
-# bucket (via the createOrUpdateConcept route) and returns a productionUrl built
+# bucket (via the createOrUpdateStagedConcept route) and returns a productionUrl built
 # from PRODUCTION_MMT_HOST.
 #
 # Sources local-env.sh (if present) for shared local dev config.

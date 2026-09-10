@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Seeds sample concepts into local S3 by calling the createOrUpdateConcept
+# Seeds sample concepts into local S3 by calling the createOrUpdateStagedConcept
 # endpoint directly, so there's data available for getConcepts.sh, getConcept.sh
 # and deleteConcept.sh to list/retrieve/delete.
 #
 # Route (confirmed from local server startup log):
 #   PUT {BASE_URL}/dev/staged/:conceptType
 #
-# A staged concept has no caller-supplied identity: createOrUpdateConcept
+# A staged concept has no caller-supplied identity: createOrUpdateStagedConcept
 # generates a `recordId` (UUID) and returns `{ conceptType, recordId }`. This
 # script prints each generated recordId so you can feed one to getConcept.sh /
 # deleteConcept.sh.

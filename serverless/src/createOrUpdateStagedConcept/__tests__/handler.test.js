@@ -1,7 +1,7 @@
 import { mockClient } from 'aws-sdk-client-mock'
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 
-import createOrUpdateConcept from '../handler'
+import createOrUpdateStagedConcept from '../handler'
 
 const s3ClientMock = mockClient(S3Client)
 
@@ -22,7 +22,7 @@ beforeEach(() => {
   process.env.STAGING_API_KEY = 'test-staging-key'
 })
 
-describe('createOrUpdateConcept', () => {
+describe('createOrUpdateStagedConcept', () => {
   test('saves the concept to s3 under a generated recordId', async () => {
     s3ClientMock.on(PutObjectCommand).resolves({
       $metadata: {
@@ -44,7 +44,7 @@ describe('createOrUpdateConcept', () => {
       }
     }
 
-    const response = await createOrUpdateConcept(event)
+    const response = await createOrUpdateStagedConcept(event)
 
     expect(response.statusCode).toBe(200)
 
@@ -73,7 +73,7 @@ describe('createOrUpdateConcept', () => {
         }
       }
 
-      const response = await createOrUpdateConcept(event)
+      const response = await createOrUpdateStagedConcept(event)
 
       expect(response.statusCode).toBe(401)
       expect(s3ClientMock.commandCalls(PutObjectCommand)).toHaveLength(0)
@@ -92,7 +92,7 @@ describe('createOrUpdateConcept', () => {
         }
       }
 
-      const response = await createOrUpdateConcept(event)
+      const response = await createOrUpdateStagedConcept(event)
 
       expect(response.statusCode).toBe(401)
     })
@@ -111,7 +111,7 @@ describe('createOrUpdateConcept', () => {
         }
       }
 
-      const response = await createOrUpdateConcept(event)
+      const response = await createOrUpdateStagedConcept(event)
 
       expect(response.statusCode).toBe(401)
     })
@@ -142,7 +142,7 @@ describe('createOrUpdateConcept', () => {
         }
       }
 
-      const response = await createOrUpdateConcept(event)
+      const response = await createOrUpdateStagedConcept(event)
 
       expect(response.statusCode).toBe(200)
     })
@@ -158,7 +158,7 @@ describe('createOrUpdateConcept', () => {
         }
       }
 
-      const response = await createOrUpdateConcept(event)
+      const response = await createOrUpdateStagedConcept(event)
 
       expect(response.statusCode).toBe(400)
     })
@@ -174,7 +174,7 @@ describe('createOrUpdateConcept', () => {
         }
       }
 
-      const response = await createOrUpdateConcept(event)
+      const response = await createOrUpdateStagedConcept(event)
 
       expect(response.statusCode).toBe(400)
     })
@@ -192,7 +192,7 @@ describe('createOrUpdateConcept', () => {
         }
       }
 
-      const response = await createOrUpdateConcept(event)
+      const response = await createOrUpdateStagedConcept(event)
 
       expect(response.statusCode).toBe(404)
     })

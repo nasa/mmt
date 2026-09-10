@@ -8,7 +8,7 @@
 #
 # This route is EDL-authenticated (real browser user). Staged concepts have no
 # provider dimension, so there is no per-user provider check. It does NOT use
-# the Staging-Api-Key - only createOrUpdateConcept (PUT) does.
+# the Staging-Api-Key - only createOrUpdateStagedConcept (PUT) does.
 #
 # The script seeds one concept via the machine-to-machine PUT route, captures
 # the generated recordId, then exercises the GET route against it.

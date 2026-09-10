@@ -1,7 +1,7 @@
 import { mockClient } from 'aws-sdk-client-mock'
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
 
-import getConcept from '../handler'
+import getStagedConcept from '../handler'
 
 const s3ClientMock = mockClient(S3Client)
 
@@ -12,7 +12,7 @@ beforeEach(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {})
 })
 
-describe('getConcept', () => {
+describe('getStagedConcept', () => {
   test('retrieves the concept from s3', async () => {
     const mockConcept = { mock: 'Concept Body' }
 
@@ -37,7 +37,7 @@ describe('getConcept', () => {
       }
     }
 
-    const response = await getConcept(event)
+    const response = await getStagedConcept(event)
 
     expect(response.statusCode).toBe(200)
 
@@ -61,7 +61,7 @@ describe('getConcept', () => {
         }
       }
 
-      const response = await getConcept(event)
+      const response = await getStagedConcept(event)
 
       expect(response.statusCode).toBe(400)
     })
@@ -78,7 +78,7 @@ describe('getConcept', () => {
         }
       }
 
-      const response = await getConcept(event)
+      const response = await getStagedConcept(event)
 
       expect(response.statusCode).toBe(404)
     })

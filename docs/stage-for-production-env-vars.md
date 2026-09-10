@@ -15,7 +15,7 @@ The flow is a one-directional "push upward" chain. The single rule that must hol
 That shared secret is the only credential in front of the machine-to-machine
 `PUT /providers/{providerId}/{conceptType}/{nativeId}` route — it is verified by the
 `stagingApiKeyAuthorizer` API Gateway authorizer and re-checked inside the
-`createOrUpdateConcept` handler.
+`createOrUpdateStagedConcept` handler.
 
 ## The variables
 

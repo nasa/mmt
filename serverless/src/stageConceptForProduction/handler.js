@@ -8,7 +8,7 @@ import fetchProviders from '../utils/fetchProviders'
  *
  * This Lambda runs in UAT behind the EDL authorizer (a real browser user). It
  * verifies the user may act for the given provider, then calls the Production
- * `createOrUpdateConcept` endpoint using the Production staging API key held in
+ * `createOrUpdateStagedConcept` endpoint using the Production staging API key held in
  * an environment variable (so the key never reaches the browser). Production
  * stores the metadata under a generated `recordId` and returns it; this Lambda
  * turns that into a Production deep link the user can follow to continue the

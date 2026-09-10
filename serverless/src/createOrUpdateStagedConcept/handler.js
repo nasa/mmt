@@ -23,7 +23,7 @@ let s3Client
  * locally.
  * @param {Object} event Details about the HTTP request that it received
  */
-const createOrUpdateConcept = async (event) => {
+const createOrUpdateStagedConcept = async (event) => {
   const { defaultResponseHeaders } = getApplicationConfig()
   const conceptsBucketName = getConceptsBucketName()
 
@@ -96,7 +96,7 @@ const createOrUpdateConcept = async (event) => {
       })
     }
   } catch (error) {
-    console.log('updateConcept Error:', error)
+    console.log('createOrUpdateStagedConcept Error:', error)
 
     return {
       statusCode: 404,
@@ -105,4 +105,4 @@ const createOrUpdateConcept = async (event) => {
   }
 }
 
-export default createOrUpdateConcept
+export default createOrUpdateStagedConcept

@@ -14,7 +14,7 @@ let s3Client
  * authenticated MMT user (the EDL authorizer).
  * @param {Object} event Details about the HTTP request that it received
  */
-const getConcepts = async (event) => {
+const getStagedConcepts = async (event) => {
   const { defaultResponseHeaders } = getApplicationConfig()
 
   if (s3Client == null) {
@@ -59,7 +59,7 @@ const getConcepts = async (event) => {
       headers: defaultResponseHeaders
     }
   } catch (error) {
-    console.log('getConcepts Error:', error)
+    console.log('getStagedConcepts Error:', error)
 
     return {
       statusCode: 404,
@@ -68,4 +68,4 @@ const getConcepts = async (event) => {
   }
 }
 
-export default getConcepts
+export default getStagedConcepts

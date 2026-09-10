@@ -8,7 +8,7 @@
 #
 # This route is EDL-authenticated (real browser user). Staged concepts have no
 # provider dimension, so there is no per-user provider check. It does NOT use
-# the Staging-Api-Key. The seed step below uses PUT createOrUpdateConcept,
+# the Staging-Api-Key. The seed step below uses PUT createOrUpdateStagedConcept,
 # which IS the machine-to-machine route and still needs the Staging-Api-Key.
 #
 # Sources local-env.sh (if present) for shared local dev config

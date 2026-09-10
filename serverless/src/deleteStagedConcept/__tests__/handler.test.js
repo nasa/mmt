@@ -1,7 +1,7 @@
 import { mockClient } from 'aws-sdk-client-mock'
 import { DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3'
 
-import deleteConcept from '../handler'
+import deleteStagedConcept from '../handler'
 
 const s3ClientMock = mockClient(S3Client)
 
@@ -12,7 +12,7 @@ beforeEach(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {})
 })
 
-describe('deleteConcept', () => {
+describe('deleteStagedConcept', () => {
   test('deletes the concept from s3', async () => {
     s3ClientMock.on(DeleteObjectCommand).resolves({
       $metadata: {
@@ -32,7 +32,7 @@ describe('deleteConcept', () => {
       }
     }
 
-    const response = await deleteConcept(event)
+    const response = await deleteStagedConcept(event)
 
     expect(response.statusCode).toBe(204)
 
@@ -50,7 +50,7 @@ describe('deleteConcept', () => {
         }
       }
 
-      const response = await deleteConcept(event)
+      const response = await deleteStagedConcept(event)
 
       expect(response.statusCode).toBe(400)
       expect(s3ClientMock.commandCalls(DeleteObjectCommand)).toHaveLength(0)
@@ -80,7 +80,7 @@ describe('deleteConcept', () => {
         }
       }
 
-      const response = await deleteConcept(event)
+      const response = await deleteStagedConcept(event)
 
       expect(response.statusCode).toBe(204)
     })
@@ -97,7 +97,7 @@ describe('deleteConcept', () => {
         }
       }
 
-      const response = await deleteConcept(event)
+      const response = await deleteStagedConcept(event)
 
       expect(response.statusCode).toBe(404)
     })

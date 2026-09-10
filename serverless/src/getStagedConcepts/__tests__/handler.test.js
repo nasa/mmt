@@ -1,5 +1,5 @@
 import { s3ListObjects } from '../../utils/s3ListObjects'
-import getConcepts from '../handler'
+import getStagedConcepts from '../handler'
 
 vi.mock('../../utils/s3ListObjects', () => ({
   s3ListObjects: vi.fn()
@@ -11,7 +11,7 @@ beforeEach(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {})
 })
 
-describe('getConcepts', () => {
+describe('getStagedConcepts', () => {
   test('retrieves a list of concepts from s3, most recently staged first', async () => {
     s3ListObjects.mockResolvedValue([
       {
@@ -34,7 +34,7 @@ describe('getConcepts', () => {
       }
     }
 
-    const response = await getConcepts(event)
+    const response = await getStagedConcepts(event)
 
     expect(response.statusCode).toBe(200)
 
@@ -61,7 +61,7 @@ describe('getConcepts', () => {
 
   describe('when pathParameters is missing', () => {
     test('returns a status code 400', async () => {
-      const response = await getConcepts({})
+      const response = await getStagedConcepts({})
 
       expect(response.statusCode).toBe(400)
     })
@@ -75,7 +75,7 @@ describe('getConcepts', () => {
         }
       }
 
-      const response = await getConcepts(event)
+      const response = await getStagedConcepts(event)
 
       expect(response.statusCode).toBe(400)
     })
@@ -91,7 +91,7 @@ describe('getConcepts', () => {
         }
       }
 
-      const response = await getConcepts(event)
+      const response = await getStagedConcepts(event)
 
       expect(response.statusCode).toBe(404)
     })
@@ -107,7 +107,7 @@ describe('getConcepts', () => {
         }
       }
 
-      const response = await getConcepts(event)
+      const response = await getStagedConcepts(event)
 
       expect(response.statusCode).toBe(200)
       expect(JSON.parse(response.body)).toEqual([])

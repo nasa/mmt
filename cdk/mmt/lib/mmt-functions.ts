@@ -35,7 +35,7 @@ export interface MmtFunctionsProps {
     PRODUCTION_STAGING_API_KEY: string;
   };
   s3LambdaRole: iam.IRole;
-  // Shared secret re-checked in `createOrUpdateConcept`. Injected only into that
+  // Shared secret re-checked in `createOrUpdateStagedConcept`. Injected only into that
   // handler, not the shared Lambda environment.
   stagingApiKey: string;
 }
@@ -264,8 +264,8 @@ export class MmtFunctions extends Construct {
       role: s3LambdaRole
     })
 
-    // getConcepts - GET /staged/{conceptType}
-    new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetConceptsNestedStack'), 'GetConceptsLambda', {
+    // getStagedConcepts - GET /staged/{conceptType}
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetStagedConceptsNestedStack'), 'GetStagedConceptsLambda', {
       ...defaultLambdaConfig,
       api: {
         apiGatewayDeployment,
@@ -276,14 +276,14 @@ export class MmtFunctions extends Construct {
         parentPath: 'staged',
         path: '{conceptType}'
       },
-      entry: '../../serverless/src/getConcepts/handler.js',
-      functionName: 'getConcepts',
+      entry: '../../serverless/src/getStagedConcepts/handler.js',
+      functionName: 'getStagedConcepts',
       functionNamePrefix,
       role: s3LambdaRole
     })
 
-    // getConcept - GET /staged/{conceptType}/{recordId}
-    new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetConceptNestedStack'), 'GetConceptLambda', {
+    // getStagedConcept - GET /staged/{conceptType}/{recordId}
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetStagedConceptNestedStack'), 'GetStagedConceptLambda', {
       ...defaultLambdaConfig,
       api: {
         apiGatewayDeployment,
@@ -294,14 +294,14 @@ export class MmtFunctions extends Construct {
         parentPath: 'stagedConceptTypeVar',
         path: '{recordId}'
       },
-      entry: '../../serverless/src/getConcept/handler.js',
-      functionName: 'getConcept',
+      entry: '../../serverless/src/getStagedConcept/handler.js',
+      functionName: 'getStagedConcept',
       functionNamePrefix,
       role: s3LambdaRole
     })
 
-    // createOrUpdateConcept - PUT /staged/{conceptType}
-    new application.NodeJsFunction(new cdk.NestedStack(scope, 'CreateOrUpdateConceptNestedStack'), 'CreateOrUpdateConceptLambda', {
+    // createOrUpdateStagedConcept - PUT /staged/{conceptType}
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'CreateOrUpdateStagedConceptNestedStack'), 'CreateOrUpdateStagedConceptLambda', {
       ...defaultLambdaConfig,
       api: {
         apiGatewayDeployment,
@@ -312,18 +312,18 @@ export class MmtFunctions extends Construct {
         parentPath: 'staged',
         path: '{conceptType}'
       },
-      entry: '../../serverless/src/createOrUpdateConcept/handler.js',
+      entry: '../../serverless/src/createOrUpdateStagedConcept/handler.js',
       environment: {
         ...defaultLambdaConfig.environment,
         STAGING_API_KEY: stagingApiKey
       },
-      functionName: 'createOrUpdateConcept',
+      functionName: 'createOrUpdateStagedConcept',
       functionNamePrefix,
       role: s3LambdaRole
     })
 
-    // deleteConcept - DELETE /staged/{conceptType}/{recordId}
-    new application.NodeJsFunction(new cdk.NestedStack(scope, 'DeleteConceptNestedStack'), 'DeleteConceptLambda', {
+    // deleteStagedConcept - DELETE /staged/{conceptType}/{recordId}
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'DeleteStagedConceptNestedStack'), 'DeleteStagedConceptLambda', {
       ...defaultLambdaConfig,
       api: {
         apiGatewayDeployment,
@@ -334,8 +334,8 @@ export class MmtFunctions extends Construct {
         parentPath: 'stagedConceptTypeVar',
         path: '{recordId}'
       },
-      entry: '../../serverless/src/deleteConcept/handler.js',
-      functionName: 'deleteConcept',
+      entry: '../../serverless/src/deleteStagedConcept/handler.js',
+      functionName: 'deleteStagedConcept',
       functionNamePrefix,
       role: s3LambdaRole
     })

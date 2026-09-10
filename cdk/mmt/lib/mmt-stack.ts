@@ -53,7 +53,7 @@ const isMissingOrPlaceholder = (value: string) => !value || value === LOCAL_STAG
 
 if (isDeployedEnvironment) {
   // The staging API key is the only credential in front of the
-  // machine-to-machine createOrUpdateConcept route. Fail the synth rather than
+  // machine-to-machine createOrUpdateStagedConcept route. Fail the synth rather than
   // ship the source-controlled placeholder if the Bamboo variable is missing.
   if (isMissingOrPlaceholder(STAGING_API_KEY)) {
     throw new Error('STAGING_API_KEY must be set to a non-placeholder value for deployed environments')
@@ -129,7 +129,7 @@ export class MmtStack extends cdk.Stack {
     }
 
     // Secret used by `stagingApiKeyAuthorizer` and re-checked in
-    // `createOrUpdateConcept`.
+    // `createOrUpdateStagedConcept`.
     const stagingApiKey = STAGING_API_KEY
 
     // UAT-only config for the `stageConceptForProduction` forwarding Lambda.
