@@ -30,7 +30,7 @@ beforeEach(() => {
 
   process.env.STAGING_TARGET_API_HOST = 'https://prod.example.com/prod'
   process.env.STAGING_TARGET_MMT_HOST = 'https://mmt.example.com'
-  process.env.STAGING_TARGET_API_KEY = 'prod-staging-key'
+  process.env.STAGING_TARGET_SECRET_API_KEY = 'prod-staging-key'
 })
 
 describe('stageConceptForProduction', () => {
@@ -122,8 +122,8 @@ describe('stageConceptForProduction', () => {
       expect(global.fetch).not.toHaveBeenCalled()
     })
 
-    test('returns a status code 500 when STAGING_TARGET_API_KEY is missing', async () => {
-      delete process.env.STAGING_TARGET_API_KEY
+    test('returns a status code 500 when STAGING_TARGET_SECRET_API_KEY is missing', async () => {
+      delete process.env.STAGING_TARGET_SECRET_API_KEY
 
       const response = await stageConceptForProduction(validEvent)
 
