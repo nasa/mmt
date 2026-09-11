@@ -12,6 +12,7 @@ export interface MmtFunctionsProps {
   apiGatewayRestApi: cdk.aws_apigateway.CfnRestApi;
   authorizers: {
     edlAuthorizer: apigateway.CfnAuthorizer;
+    stagingApiKeyAuthorizer: apigateway.CfnAuthorizer;
   };
   // MMT keeps explicit CORS config so API Gateway OPTIONS responses can control:
   // - allowOrigin: which browser origin can call the API
@@ -26,6 +27,11 @@ export interface MmtFunctionsProps {
     allowHeaders: string[];
   };
   defaultLambdaConfig: application.NodeJsFunctionProps;
+  stagingTargetConfig: {
+    STAGING_TARGET_API_HOST: string;
+    STAGING_TARGET_MMT_HOST: string;
+    STAGING_TARGET_API_KEY: string;
+  };
   s3LambdaRole: iam.IRole;
 }
 
@@ -43,6 +49,7 @@ export class MmtFunctions extends Construct {
       authorizers,
       corsConfig,
       defaultLambdaConfig,
+      stagingTargetConfig,
       s3LambdaRole
     } = props
 
@@ -249,6 +256,81 @@ export class MmtFunctions extends Construct {
       functionName: 'deleteTemplate',
       functionNamePrefix,
       role: s3LambdaRole
+    })
+
+    // getStagedConcept - GET /staged/{conceptType}/{recordId}
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'GetStagedConceptNestedStack'), 'GetStagedConceptLambda', {
+      ...defaultLambdaConfig,
+      api: {
+        apiGatewayDeployment,
+        apiGatewayResource: resources.stagedConceptTypeRecordIdResource,
+        apiGatewayRestApi,
+        authorizer: authorizers.edlAuthorizer,
+        methods: ['GET'],
+        parentPath: 'stagedConceptTypeVar',
+        path: '{recordId}'
+      },
+      entry: '../../serverless/src/getStagedConcept/handler.js',
+      functionName: 'getStagedConcept',
+      functionNamePrefix,
+      role: s3LambdaRole
+    })
+
+    // createStagedConcept - PUT /staged/{conceptType}
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'CreateStagedConceptNestedStack'), 'CreateStagedConceptLambda', {
+      ...defaultLambdaConfig,
+      api: {
+        apiGatewayDeployment,
+        apiGatewayResource: resources.stagedConceptTypeResource,
+        apiGatewayRestApi,
+        authorizer: authorizers.stagingApiKeyAuthorizer,
+        methods: ['PUT'],
+        parentPath: 'staged',
+        path: '{conceptType}'
+      },
+      entry: '../../serverless/src/createStagedConcept/handler.js',
+      functionName: 'createStagedConcept',
+      functionNamePrefix,
+      role: s3LambdaRole
+    })
+
+    // deleteStagedConcept - DELETE /staged/{conceptType}/{recordId}
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'DeleteStagedConceptNestedStack'), 'DeleteStagedConceptLambda', {
+      ...defaultLambdaConfig,
+      api: {
+        apiGatewayDeployment,
+        apiGatewayResource: resources.stagedConceptTypeRecordIdResource,
+        apiGatewayRestApi,
+        authorizer: authorizers.edlAuthorizer,
+        methods: ['DELETE'],
+        parentPath: 'stagedConceptTypeVar',
+        path: '{recordId}'
+      },
+      entry: '../../serverless/src/deleteStagedConcept/handler.js',
+      functionName: 'deleteStagedConcept',
+      functionNamePrefix,
+      role: s3LambdaRole
+    })
+
+    // stageConceptForProduction - POST /providers/{providerId}/{conceptType}/stage-for-production
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'StageConceptForProductionNestedStack'), 'StageConceptForProductionLambda', {
+      ...defaultLambdaConfig,
+      api: {
+        apiGatewayDeployment,
+        apiGatewayResource: resources.providersConceptTypeStageForProductionResource,
+        apiGatewayRestApi,
+        authorizer: authorizers.edlAuthorizer,
+        methods: ['POST'],
+        parentPath: 'providersProviderIdVarConceptTypeVar',
+        path: 'stage-for-production'
+      },
+      entry: '../../serverless/src/stageConceptForProduction/handler.js',
+      environment: {
+        ...defaultLambdaConfig.environment,
+        ...stagingTargetConfig
+      },
+      functionName: 'stageConceptForProduction',
+      functionNamePrefix
     })
   }
 }

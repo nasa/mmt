@@ -8,6 +8,7 @@ import { application } from '@edsc/cdk-utils'
 export interface MmtAuthorizersProps {
   apiGatewayRestApi: cdk.aws_apigateway.CfnRestApi;
   defaultLambdaConfig: application.NodeJsFunctionProps;
+  stagingApiKey: string;
 }
 
 /**
@@ -17,52 +18,88 @@ export interface MmtAuthorizersProps {
 export class MmtAuthorizers extends Construct {
   public readonly edlAuthorizer: apigateway.CfnAuthorizer
 
+  public readonly stagingApiKeyAuthorizer: apigateway.CfnAuthorizer
+
   constructor(scope: cdk.Stack, id: string, props: MmtAuthorizersProps) {
     super(scope, id)
 
-    const { apiGatewayRestApi, defaultLambdaConfig } = props
+    const { apiGatewayRestApi, defaultLambdaConfig, stagingApiKey } = props
     const functionNamePrefix = scope.stackName
 
-    const edlAuthorizerNestedStack = new cdk.NestedStack(scope, 'EdlAuthorizerNestedStack')
-    const { lambdaFunction: edlAuthorizerLambda } = new application.NodeJsFunction(edlAuthorizerNestedStack, 'EdlAuthorizerLambda', {
-      ...defaultLambdaConfig,
-      entry: '../../serverless/src/edlAuthorizer/handler.js',
-      functionName: 'edlAuthorizer',
-      functionNamePrefix
-    })
+    const makeRequestAuthorizer = (
+      nestedStackId: string,
+      lambdaId: string,
+      authorizerId: string,
+      functionName: string,
+      entry: string,
+      identitySource: string,
+      extraEnvironment: { [key: string]: string } = {}
+    ) => {
+      const nestedStack = new cdk.NestedStack(scope, nestedStackId)
 
-    new lambda.CfnPermission(scope, 'EdlAuthorizerLambdaPermissionApiGateway', {
-      functionName: edlAuthorizerLambda.functionName,
-      action: 'lambda:InvokeFunction',
-      principal: 'apigateway.amazonaws.com',
-      sourceArn: [
-        'arn:',
-        scope.partition,
-        ':execute-api:',
-        scope.region,
-        ':',
-        scope.account,
-        ':',
-        apiGatewayRestApi.ref,
-        '/*/*'
-      ].join('')
-    })
+      const { lambdaFunction } = new application.NodeJsFunction(nestedStack, lambdaId, {
+        ...defaultLambdaConfig,
+        entry,
+        environment: {
+          ...defaultLambdaConfig.environment,
+          ...extraEnvironment
+        },
+        functionName,
+        functionNamePrefix
+      })
 
-    this.edlAuthorizer = new apigateway.CfnAuthorizer(edlAuthorizerNestedStack, 'EdlAuthorizer', {
-      authorizerResultTtlInSeconds: 0,
-      authorizerUri: cdk.Fn.join('', [
-        'arn:',
-        cdk.Aws.PARTITION,
-        ':apigateway:',
-        cdk.Aws.REGION,
-        ':lambda:path/2015-03-31/functions/',
-        edlAuthorizerLambda.functionArn,
-        '/invocations'
-      ]),
-      identitySource: 'method.request.header.Authorization',
-      name: 'edlAuthorizer',
-      restApiId: apiGatewayRestApi.ref,
-      type: 'REQUEST'
-    })
+      new lambda.CfnPermission(scope, `${lambdaId}PermissionApiGateway`, {
+        functionName: lambdaFunction.functionName,
+        action: 'lambda:InvokeFunction',
+        principal: 'apigateway.amazonaws.com',
+        sourceArn: [
+          'arn:',
+          scope.partition,
+          ':execute-api:',
+          scope.region,
+          ':',
+          scope.account,
+          ':',
+          apiGatewayRestApi.ref,
+          '/*/*'
+        ].join('')
+      })
+
+      return new apigateway.CfnAuthorizer(nestedStack, authorizerId, {
+        authorizerResultTtlInSeconds: 0,
+        authorizerUri: cdk.Fn.join('', [
+          'arn:',
+          cdk.Aws.PARTITION,
+          ':apigateway:',
+          cdk.Aws.REGION,
+          ':lambda:path/2015-03-31/functions/',
+          lambdaFunction.functionArn,
+          '/invocations'
+        ]),
+        identitySource,
+        name: functionName,
+        restApiId: apiGatewayRestApi.ref,
+        type: 'REQUEST'
+      })
+    }
+
+    this.edlAuthorizer = makeRequestAuthorizer(
+      'EdlAuthorizerNestedStack',
+      'EdlAuthorizerLambda',
+      'EdlAuthorizer',
+      'edlAuthorizer',
+      '../../serverless/src/edlAuthorizer/handler.js',
+      'method.request.header.Authorization'
+    )
+
+    this.stagingApiKeyAuthorizer = makeRequestAuthorizer(
+      'StagingApiKeyAuthorizerNestedStack',
+      'StagingApiKeyAuthorizerLambda',
+      'StagingApiKeyAuthorizer',
+      'stagingApiKeyAuthorizer',
+      '../../serverless/src/stagingApiKeyAuthorizer/handler.js',
+      'method.request.header.Staging-Api-Key',
+      { STAGING_API_KEY: stagingApiKey }
+    )
   }
 }

@@ -67,7 +67,10 @@ EOF
 dockerTag=mmt-$bamboo_STAGE_NAME
 docker build -t $dockerTag .
 
-# Convenience function to invoke `docker run` with appropriate env vars instead of baking them into image
+# Convenience function to invoke `docker run` with appropriate env vars instead of baking them into image.
+# The STAGING_TARGET_* vars are optional (the script runs under `set -u`): only define the
+# bamboo_STAGING_TARGET_* plan variables in environments that forward staged concepts to
+# another environment; they default to empty everywhere else, which disables forwarding.
 dockerRun() {
     docker run \
         -e "AWS_ACCOUNT=$bamboo_AWS_ACCOUNT" \
@@ -76,6 +79,7 @@ dockerRun() {
         -e "AWS_SECRET_ACCESS_KEY=$bamboo_AWS_SECRET_ACCESS_KEY" \
         -e "AWS_SESSION_TOKEN=$bamboo_AWS_SESSION_TOKEN" \
         -e "COLLECTION_TEMPLATES_BUCKET_NAME=${bamboo_COLLECTION_TEMPLATES_BUCKET_NAME}" \
+        -e "STAGING_CONCEPTS_BUCKET_NAME=${bamboo_STAGING_CONCEPTS_BUCKET_NAME}" \
         -e "COOKIE_DOMAIN=$bamboo_COOKIE_DOMAIN" \
         -e "DISPLAY_PROD_WARNING=$bamboo_DISPLAY_PROD_WARNING" \
         -e "EDL_CLIENT_ID=$bamboo_EDL_CLIENT_ID" \
@@ -86,9 +90,13 @@ dockerRun() {
         -e "LOG_DESTINATION_ARN=$bamboo_LOG_DESTINATION_ARN" \
         -e "MMT_HOST=$bamboo_MMT_HOST" \
         -e "NODE_ENV=production" \
+        -e "STAGING_TARGET_API_HOST=${bamboo_STAGING_TARGET_API_HOST:-}" \
+        -e "STAGING_TARGET_MMT_HOST=${bamboo_STAGING_TARGET_MMT_HOST:-}" \
+        -e "STAGING_TARGET_API_KEY=${bamboo_STAGING_TARGET_API_KEY:-}" \
         -e "NODE_OPTIONS=--max_old_space_size=4096" \
         -e "SITE_BUCKET=${bamboo_SITE_BUCKET}" \
         -e "STAGE_NAME=$bamboo_STAGE_NAME" \
+        -e "STAGING_API_KEY=$bamboo_STAGING_API_KEY" \
         -e "SUBNET_ID_A=$bamboo_SUBNET_ID_A" \
         -e "SUBNET_ID_B=$bamboo_SUBNET_ID_B" \
         -e "SUBNET_ID_C=$bamboo_SUBNET_ID_C" \

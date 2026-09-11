@@ -25,6 +25,10 @@ export class MmtApiResources extends Construct {
   public readonly errorLoggerResource: apigateway.CfnResource
   public readonly gkrKeywordRecommendationsResource: apigateway.CfnResource
   public readonly gkrSendFeedbackResource: apigateway.CfnResource
+  public readonly providersConceptTypeResource: apigateway.CfnResource
+  public readonly providersConceptTypeStageForProductionResource: apigateway.CfnResource
+  public readonly stagedConceptTypeResource: apigateway.CfnResource
+  public readonly stagedConceptTypeRecordIdResource: apigateway.CfnResource
   public readonly providersTemplatesResource: apigateway.CfnResource
   public readonly providersTemplatesIdResource: apigateway.CfnResource
   public readonly templatesResource: apigateway.CfnResource
@@ -118,6 +122,42 @@ export class MmtApiResources extends Construct {
     })
     this.providersTemplatesIdResource = providersTemplatesIdResource
 
+    // `/providers/{providerId}/{conceptType}` now exists only as the parent of
+    // the `stage-for-production` action route. The S3-backed concept routes
+    // (create/list/get/delete) live under `/staged/...` instead.
+    const providersConceptTypeResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceProvidersProviderIdVarConceptTypeVar', {
+      parentId: providerIdResource.ref,
+      pathPart: '{conceptType}',
+      restApiId: apiGatewayRestApi.ref
+    })
+    this.providersConceptTypeResource = providersConceptTypeResource
+
+    const providersConceptTypeStageForProductionResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceProvidersProviderIdVarConceptTypeVarStageForProduction', {
+      parentId: providersConceptTypeResource.ref,
+      pathPart: 'stage-for-production',
+      restApiId: apiGatewayRestApi.ref
+    })
+    this.providersConceptTypeStageForProductionResource = providersConceptTypeStageForProductionResource
+
+    // Staged concepts are opaque promotion artifacts keyed by a generated
+    // `recordId`; they carry no provider/native identity, so they route under a
+    // dedicated `/staged/{conceptType}` tree rather than under `/providers`.
+    const stagedResource = makeRootResource('Staged', 'staged')
+
+    const stagedConceptTypeResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceStagedConceptTypeVar', {
+      parentId: stagedResource.ref,
+      pathPart: '{conceptType}',
+      restApiId: apiGatewayRestApi.ref
+    })
+    this.stagedConceptTypeResource = stagedConceptTypeResource
+
+    const stagedConceptTypeRecordIdResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceStagedConceptTypeVarRecordIdVar', {
+      parentId: stagedConceptTypeResource.ref,
+      pathPart: '{recordId}',
+      restApiId: apiGatewayRestApi.ref
+    })
+    this.stagedConceptTypeRecordIdResource = stagedConceptTypeRecordIdResource
+
     const templatesResource = new apigateway.CfnResource(scope, 'ApiGatewayResourceTemplates', {
       parentId: apiGatewayRestApi.attrRootResourceId,
       pathPart: 'templates',
@@ -140,5 +180,13 @@ export class MmtApiResources extends Construct {
     addOptions('TemplatesIdVar', templatesIdResource, ['GET'])
 
     addOptions('Templates', templatesResource, ['GET'])
+
+    addOptions('ProvidersProviderIdVarConceptTypeVarStageForProduction', providersConceptTypeStageForProductionResource, ['POST'])
+
+    // `/staged/{conceptType}/{recordId}` — the browser-facing GET/DELETE routes.
+    addOptions('StagedConceptTypeVarRecordIdVar', stagedConceptTypeRecordIdResource, ['GET', 'DELETE'])
+
+    // No OPTIONS for `/staged/{conceptType}` on purpose: its only method is the
+    // server-to-server PUT (createStagedConcept), which no browser calls.
   }
 }
