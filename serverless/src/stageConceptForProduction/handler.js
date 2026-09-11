@@ -10,7 +10,7 @@ import fetchProviders from '../utils/fetchProviders'
  *
  * This Lambda runs behind the EDL authorizer (a real browser user). It verifies
  * the user may act for the given provider, then calls the staging target's
- * `createOrUpdateStagedConcept` endpoint using the target's staging API key held
+ * `createStagedConcept` endpoint using the target's staging API key held
  * in an environment variable (so the key never reaches the browser). The target
  * stores the metadata under a generated `recordId` and returns it; this Lambda
  * turns that into a deep link the user can follow to continue the workflow
@@ -70,8 +70,8 @@ const stageConceptForProduction = async (event) => {
     STAGING_TARGET_API_KEY: stagingTargetApiKey
   } = process.env
 
-  if (!stagingTargetApiHost || !stagingTargetApiKey) {
-    console.error('No staging target is configured for this environment')
+  if (!stagingTargetApiHost || !stagingTargetMmtHost || !stagingTargetApiKey) {
+    console.error('Staging target is not fully configured for this environment')
 
     return {
       statusCode: 500,
@@ -109,7 +109,7 @@ const stageConceptForProduction = async (event) => {
       statusCode: 200,
       headers: defaultResponseHeaders,
       body: JSON.stringify({
-        stagedConceptLink: `${stagingTargetMmtHost}/staged/${conceptType}/${recordId}`
+        stagedConceptLink: `${stagingTargetMmtHost}/${conceptType}/staged/${recordId}`
       })
     }
   } catch (error) {

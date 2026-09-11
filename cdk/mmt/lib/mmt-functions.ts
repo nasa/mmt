@@ -276,8 +276,8 @@ export class MmtFunctions extends Construct {
       role: s3LambdaRole
     })
 
-    // createOrUpdateStagedConcept - PUT /staged/{conceptType}
-    new application.NodeJsFunction(new cdk.NestedStack(scope, 'CreateOrUpdateStagedConceptNestedStack'), 'CreateOrUpdateStagedConceptLambda', {
+    // createStagedConcept - PUT /staged/{conceptType}
+    new application.NodeJsFunction(new cdk.NestedStack(scope, 'CreateStagedConceptNestedStack'), 'CreateStagedConceptLambda', {
       ...defaultLambdaConfig,
       api: {
         apiGatewayDeployment,
@@ -288,8 +288,8 @@ export class MmtFunctions extends Construct {
         parentPath: 'staged',
         path: '{conceptType}'
       },
-      entry: '../../serverless/src/createOrUpdateStagedConcept/handler.js',
-      functionName: 'createOrUpdateStagedConcept',
+      entry: '../../serverless/src/createStagedConcept/handler.js',
+      functionName: 'createStagedConcept',
       functionNamePrefix,
       role: s3LambdaRole
     })

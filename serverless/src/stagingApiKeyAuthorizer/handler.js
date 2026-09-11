@@ -2,7 +2,7 @@ import { generatePolicy } from '../utils/authorizer/generatePolicy'
 import { downcaseKeys } from '../utils/downcaseKeys'
 
 /**
- * Custom API Gateway authorizer for the machine-to-machine `createOrUpdateStagedConcept`
+ * Custom API Gateway authorizer for the machine-to-machine `createStagedConcept`
  * route (`PUT /staged/{conceptType}`). It authenticates the caller solely by a shared
  * secret sent in the `Staging-Api-Key` header (compared against
  * `process.env.STAGING_API_KEY`).

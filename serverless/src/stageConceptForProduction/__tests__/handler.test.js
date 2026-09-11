@@ -41,7 +41,7 @@ describe('stageConceptForProduction', () => {
 
     expect(response.statusCode).toBe(200)
     expect(JSON.parse(response.body)).toEqual({
-      stagedConceptLink: 'https://mmt.example.com/staged/collections/prod-record-1'
+      stagedConceptLink: 'https://mmt.example.com/collections/staged/prod-record-1'
     })
 
     expect(global.fetch).toHaveBeenCalledWith(
@@ -105,8 +105,25 @@ describe('stageConceptForProduction', () => {
   })
 
   describe('when no staging target is configured', () => {
-    test('returns a status code 500', async () => {
+    test('returns a status code 500 when STAGING_TARGET_API_HOST is missing', async () => {
       delete process.env.STAGING_TARGET_API_HOST
+
+      const response = await stageConceptForProduction(validEvent)
+
+      expect(response.statusCode).toBe(500)
+    })
+
+    test('returns a status code 500 when STAGING_TARGET_MMT_HOST is missing', async () => {
+      delete process.env.STAGING_TARGET_MMT_HOST
+
+      const response = await stageConceptForProduction(validEvent)
+
+      expect(response.statusCode).toBe(500)
+      expect(global.fetch).not.toHaveBeenCalled()
+    })
+
+    test('returns a status code 500 when STAGING_TARGET_API_KEY is missing', async () => {
+      delete process.env.STAGING_TARGET_API_KEY
 
       const response = await stageConceptForProduction(validEvent)
 

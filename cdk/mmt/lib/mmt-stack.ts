@@ -55,6 +55,10 @@ if (isDeployedEnvironment) {
   if (STAGING_TARGET_API_HOST && isMissingOrPlaceholder(STAGING_TARGET_API_KEY)) {
     throw new Error('STAGING_TARGET_API_KEY must be set to a non-placeholder value when STAGING_TARGET_API_HOST is configured')
   }
+
+  if (STAGING_TARGET_API_HOST && !STAGING_TARGET_MMT_HOST) {
+    throw new Error('STAGING_TARGET_MMT_HOST must be set when STAGING_TARGET_API_HOST is configured')
+  }
 }
 
 const allowHeaders = [

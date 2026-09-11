@@ -1,7 +1,7 @@
 import { mockClient } from 'aws-sdk-client-mock'
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 
-import createOrUpdateStagedConcept from '../handler'
+import createStagedConcept from '../handler'
 
 const s3ClientMock = mockClient(S3Client)
 
@@ -15,7 +15,7 @@ beforeEach(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {})
 })
 
-describe('createOrUpdateStagedConcept', () => {
+describe('createStagedConcept', () => {
   test('saves the concept to s3 under a generated recordId', async () => {
     s3ClientMock.on(PutObjectCommand).resolves({
       $metadata: {
@@ -36,7 +36,7 @@ describe('createOrUpdateStagedConcept', () => {
       }
     }
 
-    const response = await createOrUpdateStagedConcept(event)
+    const response = await createStagedConcept(event)
 
     expect(response.statusCode).toBe(200)
 
@@ -58,7 +58,7 @@ describe('createOrUpdateStagedConcept', () => {
         }
       }
 
-      const response = await createOrUpdateStagedConcept(event)
+      const response = await createStagedConcept(event)
 
       expect(response.statusCode).toBe(400)
     })
@@ -73,7 +73,7 @@ describe('createOrUpdateStagedConcept', () => {
         }
       }
 
-      const response = await createOrUpdateStagedConcept(event)
+      const response = await createStagedConcept(event)
 
       expect(response.statusCode).toBe(400)
     })
@@ -90,7 +90,7 @@ describe('createOrUpdateStagedConcept', () => {
         }
       }
 
-      const response = await createOrUpdateStagedConcept(event)
+      const response = await createStagedConcept(event)
 
       expect(response.statusCode).toBe(404)
     })

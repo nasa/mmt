@@ -22,7 +22,7 @@ let s3Client
  * unauthenticated locally, consistent with every other local route.
  * @param {Object} event Details about the HTTP request that it received
  */
-const createOrUpdateStagedConcept = async (event) => {
+const createStagedConcept = async (event) => {
   const { defaultResponseHeaders } = getApplicationConfig()
   const conceptsBucketName = getConceptsBucketName()
 
@@ -78,7 +78,7 @@ const createOrUpdateStagedConcept = async (event) => {
       })
     }
   } catch (error) {
-    console.log('createOrUpdateStagedConcept Error:', error)
+    console.log('createStagedConcept Error:', error)
 
     return {
       statusCode: 404,
@@ -87,4 +87,4 @@ const createOrUpdateStagedConcept = async (event) => {
   }
 }
 
-export default createOrUpdateStagedConcept
+export default createStagedConcept

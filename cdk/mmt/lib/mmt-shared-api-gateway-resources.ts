@@ -187,6 +187,6 @@ export class MmtApiResources extends Construct {
     addOptions('StagedConceptTypeVarRecordIdVar', stagedConceptTypeRecordIdResource, ['GET', 'DELETE'])
 
     // No OPTIONS for `/staged/{conceptType}` on purpose: its only method is the
-    // server-to-server PUT (createOrUpdateStagedConcept), which no browser calls.
+    // server-to-server PUT (createStagedConcept), which no browser calls.
   }
 }

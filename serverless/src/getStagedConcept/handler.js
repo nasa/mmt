@@ -11,7 +11,7 @@ let s3Client
  * Retrieve a staged concept from S3
  *
  * Staged concepts are opaque promotion artifacts keyed by a generated
- * `recordId` (see `createOrUpdateStagedConcept`); there is no provider/native
+ * `recordId` (see `createStagedConcept`); there is no provider/native
  * identity to authorize against, so this route only requires an authenticated
  * MMT user (the EDL authorizer).
  * @param {Object} event Details about the HTTP request that it received
