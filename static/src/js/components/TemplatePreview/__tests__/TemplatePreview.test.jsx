@@ -22,19 +22,23 @@ import ErrorBanner from '../../ErrorBanner/ErrorBanner'
 import deleteTemplate from '../../../utils/deleteTemplate'
 import errorLogger from '../../../utils/errorLogger'
 import getTemplate from '../../../utils/getTemplate'
+import getUmmVersion from '../../../utils/getUmmVersion'
 import { INGEST_DRAFT } from '../../../operations/mutations/ingestDraft'
-
-import staticConfig from '../../../../../../static.config.json'
 
 vi.mock('../../../utils/getTemplate')
 vi.mock('../../ErrorBanner/ErrorBanner')
 vi.mock('../../PreviewProgress/PreviewProgress')
 vi.mock('../../../utils/errorLogger')
 vi.mock('../../../utils/deleteTemplate')
+vi.mock('../../../utils/getUmmVersion')
 
-const getConfig = () => staticConfig
+// The actual UMM-C version number is irrelevant to these tests - they only
+// care that whatever version getUmmVersion resolves to is threaded through
+// to the mutation correctly. Using a fixed, fake value keeps this test from
+// breaking every time the real UMM version is bumped in config.
+const mockUmmVersion = 'mock-umm-c-version'
 
-const ummCVersion = getConfig().ummVersions.ummC
+getUmmVersion.mockReturnValue(mockUmmVersion)
 
 const setup = () => {
   const user = userEvent.setup()
@@ -371,7 +375,7 @@ describe('TemplatePreview', () => {
                 },
                 nativeId: 'MMT_mock-uuid',
                 providerId: 'MMT_2',
-                ummVersion: `${ummCVersion}`
+                ummVersion: mockUmmVersion
               }
             },
             result: {
@@ -413,7 +417,7 @@ describe('TemplatePreview', () => {
                 },
                 nativeId: 'MMT_mock-uuid',
                 providerId: 'MMT_2',
-                ummVersion: `${ummCVersion}`
+                ummVersion: mockUmmVersion
               }
             },
             error: new Error('An error occurred')

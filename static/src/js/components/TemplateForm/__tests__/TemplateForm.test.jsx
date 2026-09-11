@@ -38,6 +38,7 @@ import StreetAddressField from '@/js/components/StreetAddressField/StreetAddress
 import createTemplate from '@/js/utils/createTemplate'
 import errorLogger from '@/js/utils/errorLogger'
 import getTemplate from '@/js/utils/getTemplate'
+import getUmmVersion from '@/js/utils/getUmmVersion'
 import updateTemplate from '@/js/utils/updateTemplate'
 
 import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
@@ -46,18 +47,21 @@ import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 import TemplateForm from '../TemplateForm'
 
-import staticConfig from '../../../../../../static.config.json'
-
 vi.mock('@/js/utils/createTemplate')
 vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/utils/getTemplate')
+vi.mock('@/js/utils/getUmmVersion')
 vi.mock('@/js/utils/updateTemplate')
 vi.mock('@/js/components/ErrorBanner/ErrorBanner')
 vi.mock('@/js/components/FormNavigation/FormNavigation')
 
-const getConfig = () => staticConfig
+// The actual UMM-C version number is irrelevant to these tests - they only
+// care that whatever version getUmmVersion resolves to is threaded through
+// to the mutation correctly. Using a fixed, fake value keeps this test from
+// breaking every time the real UMM version is bumped in config.
+const mockUmmVersion = 'mock-umm-c-version'
 
-const ummCVersion = getConfig().ummVersions.ummC
+getUmmVersion.mockReturnValue(mockUmmVersion)
 
 vi.mock('@/js/hooks/useAvailableProviders')
 useAvailableProviders.mockReturnValue({
@@ -509,7 +513,7 @@ describe('TemplateForm', () => {
                   },
                   nativeId: 'MMT_mock-uuid',
                   providerId: 'MMT_2',
-                  ummVersion: `${ummCVersion}`
+                  ummVersion: mockUmmVersion
                 }
               },
               result: {
@@ -563,7 +567,7 @@ describe('TemplateForm', () => {
                   },
                   nativeId: 'MMT_mock-uuid',
                   providerId: 'MMT_2',
-                  ummVersion: `${ummCVersion}`
+                  ummVersion: mockUmmVersion
                 }
               },
               error: new Error('An error occurred')
