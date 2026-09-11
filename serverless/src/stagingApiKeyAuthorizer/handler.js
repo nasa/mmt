@@ -5,7 +5,7 @@ import { downcaseKeys } from '../utils/downcaseKeys'
  * Custom API Gateway authorizer for the machine-to-machine `createStagedConcept`
  * route (`PUT /staged/{conceptType}`). It authenticates the caller solely by a shared
  * secret sent in the `Staging-Api-Key` header (compared against
- * `process.env.STAGING_API_KEY`).
+ * `process.env.STAGING_SECRET_API_KEY`).
  *
  * That route is called server-to-server by another environment's
  * `stageConceptForProduction` forwarding Lambda, not by a browser user with an EDL token,
@@ -23,7 +23,7 @@ const stagingApiKeyAuthorizer = async (event) => {
   }
 
   const { 'staging-api-key': stagingApiKey } = downcaseKeys(headers)
-  const expectedApiKey = process.env.STAGING_API_KEY
+  const expectedApiKey = process.env.STAGING_SECRET_API_KEY
 
   // Fail closed when the expected key is not configured in the environment.
   if (!expectedApiKey || stagingApiKey !== expectedApiKey) {

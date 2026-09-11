@@ -11,7 +11,7 @@ describe('stagingApiKeyAuthorizer', () => {
 
     vi.spyOn(console, 'error').mockImplementation(() => {})
 
-    process.env.STAGING_API_KEY = 'test-staging-key'
+    process.env.STAGING_SECRET_API_KEY = 'test-staging-key'
   })
 
   afterEach(() => {
@@ -21,7 +21,7 @@ describe('stagingApiKeyAuthorizer', () => {
   describe('when running offline', () => {
     test('returns an Allow policy without checking the key', async () => {
       process.env.IS_OFFLINE = 'true'
-      delete process.env.STAGING_API_KEY
+      delete process.env.STAGING_SECRET_API_KEY
 
       const response = await stagingApiKeyAuthorizer({
         headers: {},
@@ -98,9 +98,9 @@ describe('stagingApiKeyAuthorizer', () => {
     })
   })
 
-  describe('when STAGING_API_KEY is not configured in the environment', () => {
+  describe('when STAGING_SECRET_API_KEY is not configured in the environment', () => {
     test('throws Unauthorized even when the header matches an empty value', async () => {
-      delete process.env.STAGING_API_KEY
+      delete process.env.STAGING_SECRET_API_KEY
 
       await expect(
         stagingApiKeyAuthorizer({

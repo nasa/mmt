@@ -16,10 +16,10 @@ const {
   STAGE_NAME = 'dev',
   COLLECTION_TEMPLATES_BUCKET_NAME = `mmt-${STAGE_NAME}-collection-templates`,
   STAGING_CONCEPTS_BUCKET_NAME = `mmt-${STAGE_NAME}-staging-concepts`,
-  STAGING_API_KEY = 'local-staging-api-key',
+  STAGING_SECRET_API_KEY = 'local-staging-api-key',
   STAGING_TARGET_API_HOST = '',
   STAGING_TARGET_MMT_HOST = '',
-  STAGING_TARGET_API_KEY = 'local-staging-api-key',
+  STAGING_TARGET_SECRET_API_KEY = 'local-staging-api-key',
   COOKIE_DOMAIN = '.localhost',
   EDL_CLIENT_ID = '',
   EDL_PASSWORD = '',
@@ -39,21 +39,21 @@ const {
 const runtime = lambda.Runtime.NODEJS_20_X
 const INFRA_EXPORT_PREFIX = 'cdk'
 
-const LOCAL_STAGING_API_KEY_PLACEHOLDER = 'local-staging-api-key'
+const LOCAL_STAGING_SECRET_API_KEY_PLACEHOLDER = 'local-staging-api-key'
 
 // deploy-bamboo.sh forces NODE_ENV=production for every deployed stage (not just
 // PROD); local synth never sets it. So this is "is this a real deployment?".
 const isDeployedEnvironment = NODE_ENV === 'production'
 
-const isMissingOrPlaceholder = (value: string) => !value || value === LOCAL_STAGING_API_KEY_PLACEHOLDER
+const isMissingOrPlaceholder = (value: string) => !value || value === LOCAL_STAGING_SECRET_API_KEY_PLACEHOLDER
 
 if (isDeployedEnvironment) {
-  if (isMissingOrPlaceholder(STAGING_API_KEY)) {
-    throw new Error('STAGING_API_KEY must be set to a non-placeholder value for deployed environments')
+  if (isMissingOrPlaceholder(STAGING_SECRET_API_KEY)) {
+    throw new Error('STAGING_SECRET_API_KEY must be set to a non-placeholder value for deployed environments')
   }
 
-  if (STAGING_TARGET_API_HOST && isMissingOrPlaceholder(STAGING_TARGET_API_KEY)) {
-    throw new Error('STAGING_TARGET_API_KEY must be set to a non-placeholder value when STAGING_TARGET_API_HOST is configured')
+  if (STAGING_TARGET_API_HOST && isMissingOrPlaceholder(STAGING_TARGET_SECRET_API_KEY)) {
+    throw new Error('STAGING_TARGET_SECRET_API_KEY must be set to a non-placeholder value when STAGING_TARGET_API_HOST is configured')
   }
 
   if (STAGING_TARGET_API_HOST && !STAGING_TARGET_MMT_HOST) {
@@ -110,7 +110,7 @@ export class MmtStack extends cdk.Stack {
     // Shared environment for every Lambda. The staging API keys are deliberately
     // NOT here - they are the credentials guarding the machine-to-machine
     // concept routes, so they are passed only to the handlers that need them
-    // (see `stagingApiKey` and `stagingTargetConfig` below).
+    // (see `stagingSecretApiKey` and `stagingTargetConfig` below).
     const environment = {
       COLLECTION_TEMPLATES_BUCKET_NAME,
       STAGING_CONCEPTS_BUCKET_NAME,
@@ -123,12 +123,12 @@ export class MmtStack extends cdk.Stack {
       NODE_OPTIONS: '--enable-source-maps'
     }
 
-    const stagingApiKey = STAGING_API_KEY
+    const stagingSecretApiKey = STAGING_SECRET_API_KEY
 
     const stagingTargetConfig = {
       STAGING_TARGET_API_HOST,
       STAGING_TARGET_MMT_HOST,
-      STAGING_TARGET_API_KEY
+      STAGING_TARGET_SECRET_API_KEY
     }
 
     const defaultLambdaConfig: application.NodeJsFunctionProps = {
@@ -194,7 +194,7 @@ export class MmtStack extends cdk.Stack {
     const authorizers = new MmtAuthorizers(this, 'Authorizers', {
       apiGatewayRestApi,
       defaultLambdaConfig,
-      stagingApiKey
+      stagingSecretApiKey
     })
 
     // eslint-disable-next-line no-new
