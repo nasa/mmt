@@ -9,11 +9,11 @@ bed and UAT → PROD is the real promotion path.
 
 | Variable | Role | Bamboo plan variable | Required? |
 |---|---|---|---|
-| `STAGING_SECRET_API_KEY` | **Inbound** secret this environment accepts on the `Staging-Api-Key` header | `bamboo_STAGING_API_KEY` (secret) | **always required** (deployed environments) |
+| `STAGING_SECRET_API_KEY` | **Inbound** secret this environment accepts on the `Staging-Api-Key` header | `bamboo_STAGING_SECRET_API_KEY` (secret) | **always required** (deployed environments) |
 | `STAGING_CONCEPTS_BUCKET_NAME` | This environment's concepts bucket — leave at the `mmt-${STAGE_NAME}-staging-concepts` default | `bamboo_STAGING_CONCEPTS_BUCKET_NAME` | **always required** |
 | `STAGING_TARGET_API_HOST` | **Outbound** — API Gateway base URL the `stageConceptForProduction` Lambda `PUT`s to | `bamboo_STAGING_TARGET_API_HOST` | optional — **the on/off switch.** Leave undefined to disable forwarding from this environment; empty ⇒ the handler returns `500` |
 | `STAGING_TARGET_MMT_HOST` | UI host used to build the deep link returned to the browser (`stagedConceptLink` in the response) | `bamboo_STAGING_TARGET_MMT_HOST` | required *only if* `STAGING_TARGET_API_HOST` is set — otherwise leave undefined too |
-| `STAGING_TARGET_SECRET_API_KEY` | **Outbound** secret sent to the target environment; must equal the target's `STAGING_SECRET_API_KEY` | `bamboo_STAGING_TARGET_API_KEY` (secret) | required *only if* `STAGING_TARGET_API_HOST` is set — otherwise leave undefined too |
+| `STAGING_TARGET_SECRET_API_KEY` | **Outbound** secret sent to the target environment; must equal the target's `STAGING_SECRET_API_KEY` | `bamboo_STAGING_TARGET_SECRET_API_KEY` (secret) | required *only if* `STAGING_TARGET_API_HOST` is set — otherwise leave undefined too |
 
 **The three `STAGING_TARGET_*` variables are optional only as a group, not
 individually.** Leave all three undefined to disable forwarding from this environment —
