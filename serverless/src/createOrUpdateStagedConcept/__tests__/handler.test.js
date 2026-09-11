@@ -41,7 +41,6 @@ describe('createOrUpdateStagedConcept', () => {
     expect(response.statusCode).toBe(200)
 
     expect(JSON.parse(response.body)).toEqual({
-      conceptType: 'collections',
       recordId: mockRecordId
     })
 

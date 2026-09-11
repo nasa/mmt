@@ -109,9 +109,7 @@ const stageConceptForProduction = async (event) => {
       statusCode: 200,
       headers: defaultResponseHeaders,
       body: JSON.stringify({
-        conceptType,
-        recordId,
-        productionUrl: `${stagingTargetMmtHost}/staged/${conceptType}/${recordId}`
+        stagedConceptLink: `${stagingTargetMmtHost}/staged/${conceptType}/${recordId}`
       })
     }
   } catch (error) {

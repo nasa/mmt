@@ -12,8 +12,8 @@ let s3Client
  * Create a concept in S3
  *
  * The caller supplies only `conceptType`; a `recordId` (UUID) is generated
- * here and used as the S3 key. `conceptType` and `recordId` are returned so
- * the caller can reference the stored record.
+ * here and used as the S3 key. `recordId` is returned so the caller can
+ * reference the stored record.
  *
  * This is a machine-to-machine endpoint. Authentication is handled entirely by
  * the `stagingApiKeyAuthorizer` API Gateway authorizer (it verifies the
@@ -72,9 +72,8 @@ const createOrUpdateStagedConcept = async (event) => {
     return {
       statusCode,
       headers: defaultResponseHeaders,
-      // Return the identifying tuple so the caller can reference the record
+      // Return the generated id so the caller can reference the record
       body: JSON.stringify({
-        conceptType,
         recordId
       })
     }

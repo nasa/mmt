@@ -2,12 +2,14 @@ import { generatePolicy } from '../utils/authorizer/generatePolicy'
 import { downcaseKeys } from '../utils/downcaseKeys'
 
 /**
- * Custom API Gateway authorizer for the machine-to-machine "staging concepts"
- * endpoints. It authenticates the caller solely by a shared secret sent in the
- * `Staging-Api-Key` header (compared against `process.env.STAGING_API_KEY`).
+ * Custom API Gateway authorizer for the machine-to-machine `createOrUpdateStagedConcept`
+ * route (`PUT /staged/{conceptType}`). It authenticates the caller solely by a shared
+ * secret sent in the `Staging-Api-Key` header (compared against
+ * `process.env.STAGING_API_KEY`).
  *
- * This replaces the EDL authorizer on the concept routes: those requests come
- * from the MMT UAT forwarding Lambda, not from a browser user with an EDL token.
+ * That route is called server-to-server by another environment's
+ * `stageConceptForProduction` forwarding Lambda, not by a browser user with an EDL token,
+ * so it uses this authorizer instead of the EDL one.
  * @param {Object} event Details about the HTTP request that it received
  */
 const stagingApiKeyAuthorizer = async (event) => {

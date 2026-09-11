@@ -12,7 +12,7 @@ bed and UAT → PROD is the real promotion path.
 | `STAGING_API_KEY` | **Inbound** secret this environment accepts on the `Staging-Api-Key` header | `bamboo_STAGING_API_KEY` (secret) | **required** (deployed) |
 | `STAGING_CONCEPTS_BUCKET_NAME` | This environment's concepts bucket — leave at the `mmt-${STAGE_NAME}-staging-concepts` default | `bamboo_STAGING_CONCEPTS_BUCKET_NAME` | required |
 | `STAGING_TARGET_API_HOST` | **Outbound** — API Gateway base URL the `stageConceptForProduction` Lambda `PUT`s to. Empty ⇒ the handler returns `500` (forwarding disabled) | `bamboo_STAGING_TARGET_API_HOST` | optional |
-| `STAGING_TARGET_MMT_HOST` | UI host used to build the deep link returned to the browser (`productionUrl` in the response) | `bamboo_STAGING_TARGET_MMT_HOST` | optional |
+| `STAGING_TARGET_MMT_HOST` | UI host used to build the deep link returned to the browser (`stagedConceptLink` in the response) | `bamboo_STAGING_TARGET_MMT_HOST` | optional |
 | `STAGING_TARGET_API_KEY` | **Outbound** secret sent to the target environment; must equal the target's `STAGING_API_KEY` | `bamboo_STAGING_TARGET_API_KEY` (secret) | optional |
 
 `deploy-bamboo.sh` passes all of these through Docker → CDK → Lambda. The three

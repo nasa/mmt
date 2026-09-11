@@ -18,7 +18,6 @@ const mockProductionResponse = (overrides = {}) => ({
   ok: true,
   status: 200,
   json: () => Promise.resolve({
-    conceptType: 'collections',
     recordId: 'prod-record-1'
   }),
   ...overrides
@@ -35,16 +34,14 @@ beforeEach(() => {
 })
 
 describe('stageConceptForProduction', () => {
-  test('forwards the metadata to production and returns a production link', async () => {
+  test('forwards the metadata to the staging target and returns a staged concept link', async () => {
     global.fetch = vi.fn(() => Promise.resolve(mockProductionResponse()))
 
     const response = await stageConceptForProduction(validEvent)
 
     expect(response.statusCode).toBe(200)
     expect(JSON.parse(response.body)).toEqual({
-      conceptType: 'collections',
-      recordId: 'prod-record-1',
-      productionUrl: 'https://mmt.example.com/staged/collections/prod-record-1'
+      stagedConceptLink: 'https://mmt.example.com/staged/collections/prod-record-1'
     })
 
     expect(global.fetch).toHaveBeenCalledWith(
