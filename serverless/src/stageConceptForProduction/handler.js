@@ -67,10 +67,10 @@ const stageConceptForProduction = async (event) => {
   const {
     STAGING_TARGET_API_HOST: stagingTargetApiHost,
     STAGING_TARGET_MMT_HOST: stagingTargetMmtHost,
-    STAGING_TARGET_API_KEY: stagingTargetApiKey
+    STAGING_TARGET_SECRET_API_KEY: stagingTargetSecretApiKey
   } = process.env
 
-  if (!stagingTargetApiHost || !stagingTargetMmtHost || !stagingTargetApiKey) {
+  if (!stagingTargetApiHost || !stagingTargetMmtHost || !stagingTargetSecretApiKey) {
     console.error('Staging target is not fully configured for this environment')
 
     return {
@@ -86,7 +86,7 @@ const stageConceptForProduction = async (event) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Staging-Api-Key': stagingTargetApiKey
+        'Staging-Api-Key': stagingTargetSecretApiKey
       },
       body
     })

@@ -30,7 +30,7 @@ export interface MmtFunctionsProps {
   stagingTargetConfig: {
     STAGING_TARGET_API_HOST: string;
     STAGING_TARGET_MMT_HOST: string;
-    STAGING_TARGET_API_KEY: string;
+    STAGING_TARGET_SECRET_API_KEY: string;
   };
   s3LambdaRole: iam.IRole;
 }

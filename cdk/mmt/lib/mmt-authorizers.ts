@@ -8,7 +8,7 @@ import { application } from '@edsc/cdk-utils'
 export interface MmtAuthorizersProps {
   apiGatewayRestApi: cdk.aws_apigateway.CfnRestApi;
   defaultLambdaConfig: application.NodeJsFunctionProps;
-  stagingApiKey: string;
+  stagingSecretApiKey: string;
 }
 
 /**
@@ -23,7 +23,7 @@ export class MmtAuthorizers extends Construct {
   constructor(scope: cdk.Stack, id: string, props: MmtAuthorizersProps) {
     super(scope, id)
 
-    const { apiGatewayRestApi, defaultLambdaConfig, stagingApiKey } = props
+    const { apiGatewayRestApi, defaultLambdaConfig, stagingSecretApiKey } = props
     const functionNamePrefix = scope.stackName
 
     const makeRequestAuthorizer = (
@@ -99,7 +99,7 @@ export class MmtAuthorizers extends Construct {
       'stagingApiKeyAuthorizer',
       '../../serverless/src/stagingApiKeyAuthorizer/handler.js',
       'method.request.header.Staging-Api-Key',
-      { STAGING_API_KEY: stagingApiKey }
+      { STAGING_SECRET_API_KEY: stagingSecretApiKey }
     )
   }
 }
