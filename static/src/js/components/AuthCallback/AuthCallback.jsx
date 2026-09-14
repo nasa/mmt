@@ -6,8 +6,8 @@ import useAuthContext from '@/js/hooks/useAuthContext'
 import isTokenExpired from '@/js/utils/isTokenExpired'
 
 /**
- * Handles the authenticaed redirect from our EDL callback lambda function.
- * The token is already stored byt he time this renders, see 'consumeAuthToken'
+ * Handles the authenticated redirect from our EDL callback lambda function.
+ * The token is already stored by the time this renders, see 'consumeAuthToken'
  * This only sends the user on to the target path.
  */
 export const AuthCallback = () => {

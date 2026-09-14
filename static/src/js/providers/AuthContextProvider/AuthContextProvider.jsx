@@ -249,7 +249,7 @@ const AuthContextProvider = ({ children }) => {
             return
           }
 
-          // Sets the cookie. 'useMMTCookie' picks the new value up as 'mmtJWT', which
+          // Sets the cookie. 'useMMTCookie' picks the new value up as 'mmtJwt', which
           // re-runs the effect that calls 'saveToken', so a refreshed token reaches
           // state by the same path as one from a fresh login
           setCookie(MMT_COOKIE, result, getMMTCookieOptions(result))

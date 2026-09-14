@@ -9,7 +9,6 @@ import getMMTCookieOptions from './getMMTCookieOptions'
  * @param {Object} options Options from `getMMTCookieOptions`
  */
 const serializeCookieOptions = ({
-  domain,
   expires,
   path,
   sameSite,
@@ -18,7 +17,6 @@ const serializeCookieOptions = ({
   const attributes = []
 
   if (path) attributes.push(`Path=${path}`)
-  if (domain) attributes.push(`Domain=${domain}`)
   if (expires) attributes.push(`Expires=${expires.toUTCString()}`)
   if (sameSite) attributes.push(`SameSite=${sameSite}`)
   if (secure) attributes.push('Secure')
