@@ -12,9 +12,11 @@ import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import Row from 'react-bootstrap/Row'
+import Spinner from 'react-bootstrap/Spinner'
 import { useNavigate, useParams } from 'react-router'
 import {
   FaClone,
+  FaCloudUploadAlt,
   FaDownload,
   FaEdit,
   FaEye,
@@ -26,7 +28,9 @@ import conceptTypeQueries from '@/js//constants/conceptTypeQueries'
 import deleteMutationTypes from '@/js//constants/deleteMutationTypes'
 import conceptTypes from '@/js//constants/conceptTypes'
 
+import useAvailableProviders from '@/js//hooks/useAvailableProviders'
 import useIngestDraftMutation from '@/js//hooks/useIngestDraftMutation'
+import useMMTCookie from '@/js//hooks/useMMTCookie'
 import useNotificationsContext from '@/js//hooks/useNotificationsContext'
 
 import CustomModal from '@/js/components/CustomModal/CustomModal'
@@ -42,6 +46,7 @@ import getConceptTypeByConceptId from '@/js//utils/getConceptTypeByConceptId'
 import removeMetadataKeys from '@/js//utils/removeMetadataKeys'
 import constructDownloadableFile from '@/js//utils/constructDownloadableFile'
 import getConceptTypeByDraftConceptId from '@/js//utils/getConceptTypeByDraftConceptId'
+import stageConceptForProduction from '@/js//utils/stageConceptForProduction'
 
 import './PublishPreview.scss'
 
@@ -63,6 +68,13 @@ const PublishPreviewHeader = () => {
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showTagModal, setShowTagModal] = useState(false)
+  const [showStageModal, setShowStageModal] = useState(false)
+  const [stagingStatus, setStagingStatus] = useState('confirm')
+  const [stagedConceptLink, setStagedConceptLink] = useState(null)
+  const [stagingErrorMessage, setStagingErrorMessage] = useState(null)
+
+  const { mmtJwt } = useMMTCookie()
+  const { providerIds } = useAvailableProviders()
 
   const toggleShowDeleteModal = (nextState) => {
     setShowDeleteModal(nextState)
@@ -70,6 +82,17 @@ const PublishPreviewHeader = () => {
 
   const toggleTagModal = (nextState) => {
     setShowTagModal(nextState)
+  }
+
+  // Resets the modal back to the confirmation step each time it is opened
+  const toggleShowStageModal = (nextState) => {
+    setShowStageModal(nextState)
+
+    if (nextState) {
+      setStagingStatus('confirm')
+      setStagedConceptLink(null)
+      setStagingErrorMessage(null)
+    }
   }
 
   const navigateToCitations = () => {
@@ -224,6 +247,127 @@ const PublishPreviewHeader = () => {
     })
   }
 
+  // Sends the concept's metadata to the staging target and shows the result in the modal
+  const handleStageForProduction = async () => {
+    setStagingStatus('loading')
+
+    try {
+      const { stagedConceptLink: link } = await stageConceptForProduction(
+        providerId,
+        mmtJwt,
+        pluralize(derivedConceptType).toLowerCase(),
+        ummMetadata
+      )
+
+      setStagedConceptLink(link)
+      setStagingStatus('success')
+    } catch (stagingError) {
+      errorLogger(stagingError, 'PublishPreview: stageConceptForProduction')
+      setStagingErrorMessage(stagingError.message)
+      setStagingStatus('error')
+    }
+  }
+
+  const handleCopyStagedConceptLink = () => {
+    navigator.clipboard.writeText(stagedConceptLink)
+
+    addNotification({
+      message: 'Link copied to clipboard',
+      variant: 'success'
+    })
+  }
+
+  const renderStageModalMessage = () => {
+    if (stagingStatus === 'loading') {
+      return (
+        <div className="d-flex align-items-center justify-content-center py-4">
+          <Spinner
+            animation="border"
+            role="status"
+            className="me-2"
+          />
+          Staging metadata for production&hellip;
+        </div>
+      )
+    }
+
+    if (stagingStatus === 'success') {
+      return (
+        <>
+          <p>
+            The collection metadata has been staged. Use the link below to
+            continue this workflow in production.
+          </p>
+          <div className="d-flex align-items-center mb-3">
+            <code className="flex-grow-1 text-break me-2">{stagedConceptLink}</code>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleCopyStagedConceptLink}
+            >
+              Copy Link
+            </Button>
+          </div>
+          <Alert variant="warning">
+            Do not lose this link or you will have to start over. Staged
+            metadata is retained for 30 days. Do not share this link.
+          </Alert>
+        </>
+      )
+    }
+
+    if (stagingStatus === 'error') {
+      return (
+        <Alert variant="danger">
+          {stagingErrorMessage || 'An error occurred while staging this record for production.'}
+        </Alert>
+      )
+    }
+
+    return (
+      <>
+        <p>Are you sure you want to stage this collection&apos;s metadata for production?</p>
+        <ul>
+          <li>Nothing is published to production by this action</li>
+          <li>
+            Only collection metadata is copied &mdash; associations,
+            collection permissions, tags, and granules are not
+          </li>
+          <li>Staged metadata is retained for 30 days</li>
+        </ul>
+      </>
+    )
+  }
+
+  const getStageModalActions = () => {
+    if (stagingStatus === 'confirm') {
+      return [
+        {
+          label: 'No',
+          variant: 'secondary',
+          onClick: () => toggleShowStageModal(false)
+        },
+        {
+          label: 'Yes',
+          variant: 'primary',
+          onClick: handleStageForProduction
+        }
+      ]
+    }
+
+    if (stagingStatus === 'loading') {
+      return null
+    }
+
+    return [
+      {
+        label: 'Close',
+        variant: 'primary',
+        onClick: () => toggleShowStageModal(false)
+      }
+    ]
+  }
+
   return (
     <>
       <PageHeader
@@ -234,6 +378,17 @@ const PublishPreviewHeader = () => {
               onClick: handleDownload,
               title: 'Download JSON'
             },
+            ...(
+              derivedConceptType === conceptTypes.Collection && providerIds.includes(providerId)
+                ? [
+                  {
+                    icon: FaCloudUploadAlt,
+                    onClick: () => toggleShowStageModal(true),
+                    title: 'Stage for Production'
+                  }
+                ]
+                : []
+            ),
             {
               icon: FaEye,
               to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/revisions`,
@@ -376,6 +531,15 @@ const PublishPreviewHeader = () => {
             )
             : 'There are no tags associated with this collection'
         }
+      />
+      <CustomModal
+        header="Stage for Production"
+        show={showStageModal}
+        showCloseButton={stagingStatus !== 'loading'}
+        size="lg"
+        toggleModal={toggleShowStageModal}
+        message={renderStageModalMessage()}
+        actions={getStageModalActions()}
       />
     </>
   )

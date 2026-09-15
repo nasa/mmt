@@ -22,6 +22,8 @@ import NotificationsContextProvider from '@/js/providers/NotificationsContextPro
 
 import errorLogger from '@/js/utils/errorLogger'
 import constructDownloadableFile from '@/js/utils/constructDownloadableFile'
+import stageConceptForProduction from '@/js/utils/stageConceptForProduction'
+import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 import { DELETE_TOOL } from '@/js/operations/mutations/deleteTool'
 import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
@@ -42,6 +44,19 @@ vi.mock('@/js/utils/constructDownloadableFile')
 vi.mock('@/js/components/MetadataPreview/MetadataPreview')
 vi.mock('@/js/components/ErrorBanner/ErrorBanner')
 vi.mock('@/js/utils/errorLogger')
+vi.mock('@/js/utils/stageConceptForProduction')
+vi.mock('@/js/hooks/useAvailableProviders')
+
+vi.mock('@/js/hooks/useMMTCookie', () => ({
+  __esModule: true,
+  default: () => ({
+    mmtJwt: 'mock-jwt'
+  })
+}))
+
+beforeEach(() => {
+  useAvailableProviders.mockReturnValue({ providerIds: ['MMT_2'] })
+})
 
 const mockedUsedNavigate = vi.fn()
 
@@ -1029,6 +1044,138 @@ describe('PublishPreview', () => {
         await user.click(moreActionsButton)
 
         expect(screen.getByRole('button', { name: 'View Citations 0' }))
+      })
+    })
+  })
+
+  describe('Stage for Production', () => {
+    const collectionSetup = (overrideMocks) => setup({
+      overrideInitialEntries: ['/collections/C1000000-MMT/1'],
+      overridePath: '/collections',
+      overrideMocks: overrideMocks || [
+        {
+          request: {
+            query: conceptTypeQueries.Collection,
+            variables: {
+              params: {
+                conceptId: 'C1000000-MMT'
+              }
+            }
+          },
+          result: {
+            data: {
+              collection: publishCollectionRecord
+            }
+          }
+        }
+      ]
+    })
+
+    describe('when the collection\'s provider is not in the user\'s available providers', () => {
+      test('does not render the Stage for Production button', async () => {
+        useAvailableProviders.mockReturnValue({ providerIds: ['SOME_OTHER_PROVIDER'] })
+
+        const { user } = collectionSetup()
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        expect(screen.queryByRole('button', { name: 'Stage for Production' })).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when clicking the Stage for Production button', () => {
+      test('shows the confirmation modal explaining what staging does', async () => {
+        const { user } = collectionSetup()
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        const stageButton = screen.getByRole('button', { name: 'Stage for Production' })
+        await user.click(stageButton)
+
+        expect(screen.getByText('Nothing is published to production by this action')).toBeInTheDocument()
+        expect(screen.getByText(/Only collection metadata is copied/)).toBeInTheDocument()
+        expect(screen.getByText('Staged metadata is retained for 30 days')).toBeInTheDocument()
+      })
+    })
+
+    describe('when clicking No in the confirmation modal', () => {
+      test('closes the modal without staging the concept', async () => {
+        const { user } = collectionSetup()
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        const stageButton = screen.getByRole('button', { name: 'Stage for Production' })
+        await user.click(stageButton)
+
+        const noButton = screen.getByRole('button', { name: 'No' })
+        await user.click(noButton)
+
+        expect(stageConceptForProduction).toHaveBeenCalledTimes(0)
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when clicking Yes in the confirmation modal', () => {
+      test('stages the concept and shows a copyable success link', async () => {
+        stageConceptForProduction.mockResolvedValue({
+          stagedConceptLink: 'http://prod.example.com/collections/staged/mock-record-id'
+        })
+
+        const { user } = collectionSetup()
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        const stageButton = screen.getByRole('button', { name: 'Stage for Production' })
+        await user.click(stageButton)
+
+        const yesButton = screen.getByRole('button', { name: 'Yes' })
+        await user.click(yesButton)
+
+        expect(stageConceptForProduction).toHaveBeenCalledTimes(1)
+        expect(stageConceptForProduction).toHaveBeenCalledWith(
+          'MMT_2',
+          'mock-jwt',
+          'collections',
+          publishCollectionRecord.ummMetadata
+        )
+
+        expect(await screen.findByText('http://prod.example.com/collections/staged/mock-record-id')).toBeInTheDocument()
+        expect(screen.getByText(/Do not lose this link/)).toBeInTheDocument()
+
+        const writeText = vi.fn()
+        Object.defineProperty(navigator, 'clipboard', {
+          value: { writeText },
+          configurable: true
+        })
+
+        const copyButton = screen.getByRole('button', { name: 'Copy Link' })
+        await user.click(copyButton)
+
+        expect(writeText).toHaveBeenCalledWith('http://prod.example.com/collections/staged/mock-record-id')
+      })
+    })
+
+    describe('when staging the concept results in an error', () => {
+      test('shows an error message and calls errorLogger', async () => {
+        stageConceptForProduction.mockRejectedValue(new Error('An error occurred'))
+
+        const { user } = collectionSetup()
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        const stageButton = screen.getByRole('button', { name: 'Stage for Production' })
+        await user.click(stageButton)
+
+        const yesButton = screen.getByRole('button', { name: 'Yes' })
+        await user.click(yesButton)
+
+        expect(await screen.findByText('An error occurred')).toBeInTheDocument()
+        expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'PublishPreview: stageConceptForProduction')
       })
     })
   })
