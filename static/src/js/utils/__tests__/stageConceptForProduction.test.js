@@ -59,4 +59,24 @@ describe('stageConceptForProduction', () => {
       ).rejects.toThrow('Staging target rejected the request with status 502')
     })
   })
+
+  describe('when the response is not ok and has no body', () => {
+    test('throws the fallback staging-failure message instead of a JSON parse error', async () => {
+      global.fetch.mockResolvedValue({
+        ok: false,
+        json: () => Promise.reject(new SyntaxError('Unexpected end of JSON input'))
+      })
+
+      const providerId = 'mock-provider-id'
+      const token = 'mock-jwt'
+      const conceptType = 'collections'
+      const ummMetadata = {
+        mock: 'mock ummMetadata'
+      }
+
+      await expect(
+        stageConceptForProduction(providerId, token, conceptType, ummMetadata)
+      ).rejects.toThrow('Failed to stage concept for production')
+    })
+  })
 })

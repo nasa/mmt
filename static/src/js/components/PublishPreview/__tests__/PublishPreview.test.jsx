@@ -2,6 +2,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
@@ -1049,9 +1050,10 @@ describe('PublishPreview', () => {
   })
 
   describe('Stage for Production', () => {
-    const collectionSetup = (overrideMocks) => setup({
+    const collectionSetup = ({ overrideMocks, overrideProps } = {}) => setup({
       overrideInitialEntries: ['/collections/C1000000-MMT/1'],
       overridePath: '/collections',
+      overrideProps,
       overrideMocks: overrideMocks || [
         {
           request: {
@@ -1076,6 +1078,17 @@ describe('PublishPreview', () => {
         useAvailableProviders.mockReturnValue({ providerIds: ['SOME_OTHER_PROVIDER'] })
 
         const { user } = collectionSetup()
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        expect(screen.queryByRole('button', { name: 'Stage for Production' })).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when viewing an older revision of the collection', () => {
+      test('does not render the Stage for Production button', async () => {
+        const { user } = collectionSetup({ overrideProps: { isRevision: true } })
 
         const moreActionsButton = await screen.findByText(/More Actions/)
         await user.click(moreActionsButton)
@@ -1118,6 +1131,39 @@ describe('PublishPreview', () => {
       })
     })
 
+    describe('when staging is in progress', () => {
+      test('ignores an Escape key dismissal until the request settles', async () => {
+        let resolveStaging
+        stageConceptForProduction.mockReturnValue(new Promise((resolve) => {
+          resolveStaging = resolve
+        }))
+
+        const { user } = collectionSetup()
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        const stageButton = screen.getByRole('button', { name: 'Stage for Production' })
+        await user.click(stageButton)
+
+        const yesButton = screen.getByRole('button', { name: 'Yes' })
+        await user.click(yesButton)
+
+        // The request is still pending, so the modal should ignore an Escape
+        // key press (and, by the same guard, a backdrop click) rather than closing
+        await user.keyboard('{Escape}')
+
+        expect(screen.getByRole('dialog')).toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument()
+
+        resolveStaging({
+          stagedConceptLink: 'http://prod.example.com/collections/staged/mock-record-id'
+        })
+
+        expect(await screen.findByRole('button', { name: 'Close' })).toBeInTheDocument()
+      })
+    })
+
     describe('when clicking Yes in the confirmation modal', () => {
       test('stages the concept and shows a copyable success link', async () => {
         stageConceptForProduction.mockResolvedValue({
@@ -1146,7 +1192,7 @@ describe('PublishPreview', () => {
         expect(await screen.findByText('http://prod.example.com/collections/staged/mock-record-id')).toBeInTheDocument()
         expect(screen.getByText(/Do not lose this link/)).toBeInTheDocument()
 
-        const writeText = vi.fn()
+        const writeText = vi.fn().mockResolvedValue()
         Object.defineProperty(navigator, 'clipboard', {
           value: { writeText },
           configurable: true
@@ -1155,7 +1201,43 @@ describe('PublishPreview', () => {
         const copyButton = screen.getByRole('button', { name: 'Copy Link' })
         await user.click(copyButton)
 
-        expect(writeText).toHaveBeenCalledWith('http://prod.example.com/collections/staged/mock-record-id')
+        await waitFor(() => {
+          expect(writeText).toHaveBeenCalledWith('http://prod.example.com/collections/staged/mock-record-id')
+        })
+      })
+    })
+
+    describe('when clicking Copy Link results in an error', () => {
+      test('shows an error notification and calls errorLogger', async () => {
+        stageConceptForProduction.mockResolvedValue({
+          stagedConceptLink: 'http://prod.example.com/collections/staged/mock-record-id'
+        })
+
+        const { user } = collectionSetup()
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        const stageButton = screen.getByRole('button', { name: 'Stage for Production' })
+        await user.click(stageButton)
+
+        const yesButton = screen.getByRole('button', { name: 'Yes' })
+        await user.click(yesButton)
+
+        expect(await screen.findByText('http://prod.example.com/collections/staged/mock-record-id')).toBeInTheDocument()
+
+        const writeText = vi.fn().mockRejectedValue(new Error('Clipboard write denied'))
+        Object.defineProperty(navigator, 'clipboard', {
+          value: { writeText },
+          configurable: true
+        })
+
+        const copyButton = screen.getByRole('button', { name: 'Copy Link' })
+        await user.click(copyButton)
+
+        await waitFor(() => {
+          expect(errorLogger).toHaveBeenCalledWith(new Error('Clipboard write denied'), 'PublishPreview: handleCopyStagedConceptLink')
+        })
       })
     })
 

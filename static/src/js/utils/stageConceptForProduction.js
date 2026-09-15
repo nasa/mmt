@@ -20,7 +20,13 @@ const stageConceptForProduction = async (providerId, token, conceptType, ummMeta
     body: JSON.stringify(ummMetadata)
   })
 
-  const data = await response.json()
+  let data
+
+  try {
+    data = await response.json()
+  } catch (jsonError) {
+    data = null
+  }
 
   if (!response.ok) {
     const { error } = data || {}

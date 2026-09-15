@@ -71,6 +71,10 @@ const StagedConceptPreview = () => {
       try {
         const { concept } = await getStagedConcept(mmtJwt, STAGED_CONCEPT_TYPE, id)
 
+        if (!concept) {
+          throw new Error('Staged metadata not found. It may have expired or already been saved as new draft.')
+        }
+
         setMetadata(concept)
       } catch (fetchError) {
         errorLogger(fetchError, 'StagedConceptPreview: getStagedConcept')

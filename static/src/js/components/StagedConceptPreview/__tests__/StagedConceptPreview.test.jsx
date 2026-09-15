@@ -97,6 +97,20 @@ describe('StagedConceptPreview', () => {
     })
   })
 
+  describe('when the response resolves without a concept', () => {
+    test('renders an error banner instead of crashing', async () => {
+      getStagedConcept.mockResolvedValue({ concept: null })
+
+      setup()
+
+      expect(await screen.findByText('Staged metadata not found. It may have expired or already been saved as new draft.')).toBeInTheDocument()
+      expect(errorLogger).toHaveBeenCalledWith(
+        new Error('Staged metadata not found. It may have expired or already been saved as new draft.'),
+        'StagedConceptPreview: getStagedConcept'
+      )
+    })
+  })
+
   describe('Delete', () => {
     beforeEach(() => {
       getStagedConcept.mockResolvedValue({ concept: mockMetadata })

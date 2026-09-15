@@ -59,7 +59,7 @@ import './PublishPreview.scss'
  *   <PublishPreviewHeader />
  * )
  */
-const PublishPreviewHeader = () => {
+const PublishPreviewHeader = ({ isRevision }) => {
   const { conceptId } = useParams()
 
   const navigate = useNavigate()
@@ -84,8 +84,14 @@ const PublishPreviewHeader = () => {
     setShowTagModal(nextState)
   }
 
-  // Resets the modal back to the confirmation step each time it is opened
+  // Resets the modal back to the confirmation step each time it is opened.
+  // Ignores close requests (the X button, backdrop clicks, Escape) while a
+  // staging request is in flight.
   const toggleShowStageModal = (nextState) => {
+    if (!nextState && stagingStatus === 'loading') {
+      return
+    }
+
     setShowStageModal(nextState)
 
     if (nextState) {
@@ -268,13 +274,21 @@ const PublishPreviewHeader = () => {
     }
   }
 
-  const handleCopyStagedConceptLink = () => {
-    navigator.clipboard.writeText(stagedConceptLink)
+  const handleCopyStagedConceptLink = async () => {
+    try {
+      await navigator.clipboard.writeText(stagedConceptLink)
 
-    addNotification({
-      message: 'Link copied to clipboard',
-      variant: 'success'
-    })
+      addNotification({
+        message: 'Link copied to clipboard',
+        variant: 'success'
+      })
+    } catch (copyError) {
+      errorLogger(copyError, 'PublishPreview: handleCopyStagedConceptLink')
+      addNotification({
+        message: 'Error copying link to clipboard',
+        variant: 'danger'
+      })
+    }
   }
 
   const renderStageModalMessage = () => {
@@ -368,6 +382,10 @@ const PublishPreviewHeader = () => {
     ]
   }
 
+  const canStageForProduction = !isRevision
+    && derivedConceptType === conceptTypes.Collection
+    && providerIds.includes(providerId)
+
   return (
     <>
       <PageHeader
@@ -379,7 +397,7 @@ const PublishPreviewHeader = () => {
               title: 'Download JSON'
             },
             ...(
-              derivedConceptType === conceptTypes.Collection && providerIds.includes(providerId)
+              canStageForProduction
                 ? [
                   {
                     icon: FaCloudUploadAlt,
@@ -545,6 +563,14 @@ const PublishPreviewHeader = () => {
   )
 }
 
+PublishPreviewHeader.defaultProps = {
+  isRevision: false
+}
+
+PublishPreviewHeader.propTypes = {
+  isRevision: PropTypes.bool
+}
+
 /**
  * Renders a PublishPreviewPlaceholder component
  *
@@ -583,7 +609,7 @@ const PublishPreview = ({ isRevision }) => {
   return (
     <Page
       pageType="secondary"
-      header={<PublishPreviewHeader />}
+      header={<PublishPreviewHeader isRevision={isRevision} />}
     >
       {
         isRevision && (
