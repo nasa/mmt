@@ -1258,6 +1258,11 @@ describe('PublishPreview', () => {
 
         expect(await screen.findByText('An error occurred')).toBeInTheDocument()
         expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'PublishPreview: stageConceptForProduction')
+
+        const closeButton = screen.getByRole('button', { name: 'Close' })
+        await user.click(closeButton)
+
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
       })
     })
   })
