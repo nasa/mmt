@@ -1,7 +1,6 @@
 import { getApplicationConfig, getEdlConfig } from '../../../sharedUtils/getConfig'
 import fetchEdlProfile from '../utils/fetchEdlProfile'
 import createJwt from '../utils/createJwt'
-import createCookie from '../utils/createCookie'
 import AuthorizationCode from '../utils/AuthorizationCode'
 
 /**
@@ -108,18 +107,19 @@ const edlCallback = async (event) => {
   // Create JWT with EDL token and edl profile
   const jwt = createJwt(accessToken, refreshToken, expiresAt, edlProfile)
 
-  const location = `${mmtHost}/auth-callback?target=${encodeURIComponent(target)}`
-
-  const expiresAtInSeconds = Math.floor(new Date(expiresAt).getTime() / 1000)
+  // The token is handed back in the URL fragment rather than a 'Set-Cookie'
+  // header. This handler runs on the API host, which sits on a different domain
+  // than MMT, so any cookie set would have to be scoped to a domain shared by
+  // every environment and would then be sent on requests to all of them. MMT
+  // stores the token itself, keeping the cookie scoped to its own host.
+  const location = `${mmtHost}/auth-callback?target=${encodeURIComponent(target)}#token=${encodeURIComponent(jwt)}`
 
   const response = {
     statusCode: 303,
     headers: {
-      'Set-Cookie': createCookie(jwt, expiresAtInSeconds),
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': '*',
       'Access-Control-Allow-Methods': 'GET, POST',
-      'Access-Control-Allow-Credentials': true,
       Location: location
     }
   }
