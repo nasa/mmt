@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useNavigate } from 'react-router'
-import { useSearchParams } from 'react-router'
+import { useNavigate, useSearchParams } from 'react-router'
 import { useSuspenseQuery } from '@apollo/client'
 import { isNil, omitBy } from 'lodash-es'
 import Button from 'react-bootstrap/Button'

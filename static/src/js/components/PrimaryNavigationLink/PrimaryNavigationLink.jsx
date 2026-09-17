@@ -1,8 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { useLocation } from 'react-router'
-import { NavLink } from 'react-router'
+import { NavLink, useLocation } from 'react-router'
 import NavItem from 'react-bootstrap/NavItem'
 
 import './PrimaryNavigationLink.scss'
