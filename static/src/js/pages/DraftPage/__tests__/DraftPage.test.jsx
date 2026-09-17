@@ -10,7 +10,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 import * as router from 'react-router'
 
 import { DELETE_DRAFT } from '@/js/operations/mutations/deleteDraft'

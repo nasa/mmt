@@ -7,7 +7,7 @@ import {
 import userEvent from '@testing-library/user-event'
 
 import { MockedProvider } from '@apollo/client/testing'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 
 import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 

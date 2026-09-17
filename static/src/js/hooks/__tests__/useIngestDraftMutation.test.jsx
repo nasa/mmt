@@ -10,7 +10,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 
 import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
 import getUmmVersion from '@/js/utils/getUmmVersion'

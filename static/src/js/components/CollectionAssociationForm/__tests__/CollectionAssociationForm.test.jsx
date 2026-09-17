@@ -10,7 +10,7 @@ import {
   MemoryRouter,
   Routes,
   Route
-} from 'react-router-dom'
+} from 'react-router'
 import * as router from 'react-router'
 import { MockedProvider } from '@apollo/client/testing'
 import userEvent from '@testing-library/user-event'
