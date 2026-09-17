@@ -4,7 +4,7 @@ import {
   screen,
   waitFor
 } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 import userEvent from '@testing-library/user-event'
 
 import CustomTextWidget from '../CustomTextWidget'

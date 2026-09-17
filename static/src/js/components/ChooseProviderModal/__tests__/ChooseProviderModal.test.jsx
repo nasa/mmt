@@ -12,8 +12,8 @@ import AppContext from '../../../context/AppContext'
 import ChooseProviderModal from '../ChooseProviderModal'
 import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary'
 
-vi.mock('react-router-dom', async () => ({
-  ...await vi.importActual('react-router-dom'),
+vi.mock('react-router', async () => ({
+  ...await vi.importActual('react-router'),
   useNavigate: vi.fn()
 }))
 

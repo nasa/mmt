@@ -3,7 +3,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 import {
   render,
   screen,
@@ -43,8 +43,8 @@ const setMockDraftType = (draftType) => {
 
 vi.mock('@/js/components/DraftList/DraftList')
 
-vi.mock('react-router-dom', async () => ({
-  ...await vi.importActual('react-router-dom'),
+vi.mock('react-router', async () => ({
+  ...await vi.importActual('react-router'),
   useParams: vi.fn().mockImplementation(() => ({ draftType: mockDraftType }))
 }))
 

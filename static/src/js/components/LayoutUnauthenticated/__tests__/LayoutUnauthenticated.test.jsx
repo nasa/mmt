@@ -4,7 +4,7 @@ import {
   BrowserRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 
 import AuthContext from '@/js/context/AuthContext'
 import userEvent from '@testing-library/user-event'

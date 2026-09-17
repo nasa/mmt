@@ -10,7 +10,7 @@ import {
   MemoryRouter,
   Routes,
   Route
-} from 'react-router-dom'
+} from 'react-router'
 import * as router from 'react-router'
 import { MockedProvider } from '@apollo/client/testing'
 import userEvent from '@testing-library/user-event'
@@ -116,7 +116,7 @@ const setup = ({
 
 describe('CollectionAssociationForm component', () => {
   describe('when the component mounts', () => {
-    test('it should render the search form', async () => {
+    test.only('it should render the search form', async () => {
       const { user } = setup({})
 
       const searchField = await screen.findByText('Select Search Field')

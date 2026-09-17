@@ -10,7 +10,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 
 import conceptTypeDraftQueries from '@/js/constants/conceptTypeDraftQueries'
 
@@ -25,8 +25,8 @@ vi.mock('@/js/utils/errorLogger')
 
 const mockedUsedNavigate = vi.fn()
 
-vi.mock('react-router-dom', async () => ({
-  ...await vi.importActual('react-router-dom'),
+vi.mock('react-router', async () => ({
+  ...await vi.importActual('react-router'),
   useNavigate: () => mockedUsedNavigate
 }))
 

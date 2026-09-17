@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 
 import { useParams } from 'react-router'
 
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 
 import { useSuspenseQuery } from '@apollo/client'
 

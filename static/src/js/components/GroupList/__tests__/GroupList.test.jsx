@@ -11,7 +11,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 
 import { DELETE_GROUP } from '@/js/operations/mutations/deleteGroup'
 import { GET_GROUPS } from '@/js/operations/queries/getGroups'

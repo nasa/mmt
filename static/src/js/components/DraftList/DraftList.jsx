@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 
 import { FaFileDownload } from 'react-icons/fa'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import { useSuspenseQuery } from '@apollo/client'
 import moment from 'moment'
 import pluralize from 'pluralize'
