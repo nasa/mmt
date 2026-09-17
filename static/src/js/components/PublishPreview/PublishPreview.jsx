@@ -28,7 +28,6 @@ import conceptTypeQueries from '@/js//constants/conceptTypeQueries'
 import deleteMutationTypes from '@/js//constants/deleteMutationTypes'
 import conceptTypes from '@/js//constants/conceptTypes'
 
-import useAvailableProviders from '@/js//hooks/useAvailableProviders'
 import useIngestDraftMutation from '@/js//hooks/useIngestDraftMutation'
 import useMMTCookie from '@/js//hooks/useMMTCookie'
 import useNotificationsContext from '@/js//hooks/useNotificationsContext'
@@ -74,7 +73,6 @@ const PublishPreviewHeader = ({ isRevision }) => {
   const [stagingErrorMessage, setStagingErrorMessage] = useState(null)
 
   const { mmtJwt } = useMMTCookie()
-  const { providerIds } = useAvailableProviders()
 
   const toggleShowDeleteModal = (nextState) => {
     setShowDeleteModal(nextState)
@@ -382,9 +380,7 @@ const PublishPreviewHeader = ({ isRevision }) => {
     ]
   }
 
-  const canStageForProduction = !isRevision
-    && derivedConceptType === conceptTypes.Collection
-    && providerIds.includes(providerId)
+  const canStageForProduction = !isRevision && derivedConceptType === conceptTypes.Collection
 
   return (
     <>

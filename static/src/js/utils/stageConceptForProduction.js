@@ -29,6 +29,10 @@ const stageConceptForProduction = async (providerId, token, conceptType, ummMeta
   }
 
   if (!response.ok) {
+    if (response.status === 403) {
+      throw new Error('You do not have permission to stage this provider\'s collections.')
+    }
+
     const { error } = data || {}
 
     throw new Error(error || 'Failed to stage concept for production')

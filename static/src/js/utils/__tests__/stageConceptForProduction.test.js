@@ -60,6 +60,27 @@ describe('stageConceptForProduction', () => {
     })
   })
 
+  describe('when the response is a 403', () => {
+    test('throws a permission-denied message regardless of the response body', async () => {
+      global.fetch.mockResolvedValue({
+        ok: false,
+        status: 403,
+        json: () => Promise.resolve({})
+      })
+
+      const providerId = 'mock-provider-id'
+      const token = 'mock-jwt'
+      const conceptType = 'collections'
+      const ummMetadata = {
+        mock: 'mock ummMetadata'
+      }
+
+      await expect(
+        stageConceptForProduction(providerId, token, conceptType, ummMetadata)
+      ).rejects.toThrow('You do not have permission to stage this provider\'s collections.')
+    })
+  })
+
   describe('when the response is not ok and has no body', () => {
     test('throws the fallback staging-failure message instead of a JSON parse error', async () => {
       global.fetch.mockResolvedValue({

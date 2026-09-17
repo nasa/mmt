@@ -24,7 +24,6 @@ import NotificationsContextProvider from '@/js/providers/NotificationsContextPro
 import errorLogger from '@/js/utils/errorLogger'
 import constructDownloadableFile from '@/js/utils/constructDownloadableFile'
 import stageConceptForProduction from '@/js/utils/stageConceptForProduction'
-import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
 import { DELETE_TOOL } from '@/js/operations/mutations/deleteTool'
 import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
@@ -46,7 +45,6 @@ vi.mock('@/js/components/MetadataPreview/MetadataPreview')
 vi.mock('@/js/components/ErrorBanner/ErrorBanner')
 vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/utils/stageConceptForProduction')
-vi.mock('@/js/hooks/useAvailableProviders')
 
 vi.mock('@/js/hooks/useMMTCookie', () => ({
   __esModule: true,
@@ -54,10 +52,6 @@ vi.mock('@/js/hooks/useMMTCookie', () => ({
     mmtJwt: 'mock-jwt'
   })
 }))
-
-beforeEach(() => {
-  useAvailableProviders.mockReturnValue({ providerIds: ['MMT_2'] })
-})
 
 const mockedUsedNavigate = vi.fn()
 
@@ -1071,19 +1065,6 @@ describe('PublishPreview', () => {
           }
         }
       ]
-    })
-
-    describe('when the collection\'s provider is not in the user\'s available providers', () => {
-      test('does not render the Stage for Production button', async () => {
-        useAvailableProviders.mockReturnValue({ providerIds: ['SOME_OTHER_PROVIDER'] })
-
-        const { user } = collectionSetup()
-
-        const moreActionsButton = await screen.findByText(/More Actions/)
-        await user.click(moreActionsButton)
-
-        expect(screen.queryByRole('button', { name: 'Stage for Production' })).not.toBeInTheDocument()
-      })
     })
 
     describe('when viewing an older revision of the collection', () => {
