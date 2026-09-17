@@ -116,7 +116,7 @@ const setup = ({
 
 describe('CollectionAssociationForm component', () => {
   describe('when the component mounts', () => {
-    test.only('it should render the search form', async () => {
+    test('it should render the search form', async () => {
       const { user } = setup({})
 
       const searchField = await screen.findByText('Select Search Field')
