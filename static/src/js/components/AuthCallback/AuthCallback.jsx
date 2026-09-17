@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navigate } from 'react-router'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 
 import useAuthContext from '@/js/hooks/useAuthContext'
 import isTokenExpired from '@/js/utils/isTokenExpired'

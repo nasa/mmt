@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { MemoryRouter, Navigate } from 'react-router'
-import { createSearchParams } from 'react-router-dom'
+import { createSearchParams } from 'react-router'
 
 import AuthContext from '@/js/context/AuthContext'
 

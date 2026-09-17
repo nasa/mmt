@@ -10,7 +10,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 
 import ummTSchema from '@/js/schemas/umm/ummTSchema'
 import toolsConfiguration from '@/js/schemas/uiForms/toolsConfiguration'
@@ -33,8 +33,8 @@ vi.mock('@/js/components/MetadataPreview/MetadataPreview')
 
 const mockedUsedNavigate = vi.fn()
 
-vi.mock('react-router-dom', async () => ({
-  ...await vi.importActual('react-router-dom'),
+vi.mock('react-router', async () => ({
+  ...await vi.importActual('react-router'),
   useNavigate: () => mockedUsedNavigate
 }))
 

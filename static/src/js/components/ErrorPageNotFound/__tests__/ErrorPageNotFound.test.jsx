@@ -2,7 +2,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 
