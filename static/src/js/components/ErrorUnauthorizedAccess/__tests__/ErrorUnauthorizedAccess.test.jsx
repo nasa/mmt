@@ -3,7 +3,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 import { render, screen } from '@testing-library/react'
 
 import AuthContext from '@/js/context/AuthContext'

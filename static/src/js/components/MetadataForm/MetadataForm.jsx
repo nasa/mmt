@@ -1,7 +1,7 @@
 import { kebabCase } from 'lodash-es'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { useNavigate, useParams } from 'react-router'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Form from '@rjsf/core'

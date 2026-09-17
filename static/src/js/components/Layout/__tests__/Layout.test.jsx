@@ -4,7 +4,7 @@ import {
   BrowserRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 import * as router from 'react-router'
 
 import usePermissions from '@/js/hooks/usePermissions'

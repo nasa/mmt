@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'

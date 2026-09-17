@@ -4,7 +4,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 
 import usePermissions from '@/js/hooks/usePermissions'
 

@@ -5,7 +5,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 import userEvent from '@testing-library/user-event'
 
 import { GET_GROUP } from '@/js/operations/queries/getGroup'

@@ -4,7 +4,7 @@ import {
   MemoryRouter,
   Routes,
   Route
-} from 'react-router-dom'
+} from 'react-router'
 
 import userEvent from '@testing-library/user-event'
 import PrimaryNavigationGroup from '../PrimaryNavigationGroup'

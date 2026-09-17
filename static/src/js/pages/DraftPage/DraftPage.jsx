@@ -3,7 +3,7 @@ import React, {
   useEffect,
   useState
 } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import validator from '@rjsf/validator-ajv8'
 import pluralize from 'pluralize'
