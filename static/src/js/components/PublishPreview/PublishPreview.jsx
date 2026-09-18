@@ -12,9 +12,11 @@ import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import Row from 'react-bootstrap/Row'
+import Spinner from 'react-bootstrap/Spinner'
 import { useNavigate, useParams } from 'react-router'
 import {
   FaClone,
+  FaCloudUploadAlt,
   FaDownload,
   FaEdit,
   FaEye,
@@ -27,6 +29,7 @@ import deleteMutationTypes from '@/js//constants/deleteMutationTypes'
 import conceptTypes from '@/js//constants/conceptTypes'
 
 import useIngestDraftMutation from '@/js//hooks/useIngestDraftMutation'
+import useMMTCookie from '@/js//hooks/useMMTCookie'
 import useNotificationsContext from '@/js//hooks/useNotificationsContext'
 
 import CustomModal from '@/js/components/CustomModal/CustomModal'
@@ -42,11 +45,27 @@ import getConceptTypeByConceptId from '@/js//utils/getConceptTypeByConceptId'
 import removeMetadataKeys from '@/js//utils/removeMetadataKeys'
 import constructDownloadableFile from '@/js//utils/constructDownloadableFile'
 import getConceptTypeByDraftConceptId from '@/js//utils/getConceptTypeByDraftConceptId'
+import stageConceptForProduction from '@/js//utils/stageConceptForProduction'
+
+import { getApplicationConfig } from 'sharedUtils/getConfig'
 
 import './PublishPreview.scss'
 
+// Maps the current deployment environment to the environment `stage-for-production` forwards to
+const stagingTargetEnvLabel = {
+  sit: 'UAT',
+  uat: 'Production'
+}
+
+/**
+ * @typedef {Object} PublishPreviewHeaderProps
+ * @property {Boolean} isRevision Whether the concept being viewed is an older revision rather than the published record, which hides revision-only actions such as Delete and Stage to UAT/Production.
+ */
+
 /**
  * Renders a PublishPreviewHeader component
+ *
+ * @param {PublishPreviewHeaderProps} props
  *
  * @component
  * @example <caption>Render a PublishPreviewHeader</caption>
@@ -54,15 +73,24 @@ import './PublishPreview.scss'
  *   <PublishPreviewHeader />
  * )
  */
-const PublishPreviewHeader = () => {
+const PublishPreviewHeader = ({ isRevision }) => {
   const { conceptId } = useParams()
 
   const navigate = useNavigate()
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
 
+  const { env } = getApplicationConfig()
+  const stagingTargetLabel = stagingTargetEnvLabel[env]
+
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showTagModal, setShowTagModal] = useState(false)
+  const [showStageModal, setShowStageModal] = useState(false)
+  const [stagingStatus, setStagingStatus] = useState('confirm')
+  const [stagedConceptLink, setStagedConceptLink] = useState(null)
+  const [stagingErrorMessage, setStagingErrorMessage] = useState(null)
+
+  const { mmtJwt } = useMMTCookie()
 
   const toggleShowDeleteModal = (nextState) => {
     setShowDeleteModal(nextState)
@@ -70,6 +98,23 @@ const PublishPreviewHeader = () => {
 
   const toggleTagModal = (nextState) => {
     setShowTagModal(nextState)
+  }
+
+  // Resets the modal back to the confirmation step each time it is opened.
+  // Ignores close requests (the X button, backdrop clicks, Escape) while a
+  // staging request is in flight.
+  const toggleShowStageModal = (nextState) => {
+    if (!nextState && stagingStatus === 'loading') {
+      return
+    }
+
+    setShowStageModal(nextState)
+
+    if (nextState) {
+      setStagingStatus('confirm')
+      setStagedConceptLink(null)
+      setStagingErrorMessage(null)
+    }
   }
 
   const navigateToCitations = () => {
@@ -224,6 +269,139 @@ const PublishPreviewHeader = () => {
     })
   }
 
+  // Sends the concept's metadata to the staging target and shows the result in the modal
+  const handleStageForProduction = async () => {
+    setStagingStatus('loading')
+
+    try {
+      const { stagedConceptLink: link } = await stageConceptForProduction(
+        providerId,
+        mmtJwt,
+        pluralize(derivedConceptType).toLowerCase(),
+        ummMetadata
+      )
+
+      setStagedConceptLink(link)
+      setStagingStatus('success')
+    } catch (stagingError) {
+      errorLogger(stagingError, 'PublishPreview: stageConceptForProduction')
+      setStagingErrorMessage(stagingError.message)
+      setStagingStatus('error')
+    }
+  }
+
+  const handleCopyStagedConceptLink = async () => {
+    try {
+      await navigator.clipboard.writeText(stagedConceptLink)
+
+      addNotification({
+        message: 'Link copied to clipboard',
+        variant: 'success'
+      })
+    } catch (copyError) {
+      errorLogger(copyError, 'PublishPreview: handleCopyStagedConceptLink')
+      addNotification({
+        message: 'Error copying link to clipboard',
+        variant: 'danger'
+      })
+    }
+  }
+
+  const renderStageModalMessage = () => {
+    if (stagingStatus === 'loading') {
+      return (
+        <div className="d-flex align-items-center justify-content-center py-4">
+          <Spinner
+            animation="border"
+            role="status"
+            className="me-2"
+          />
+          Staging metadata for production&hellip;
+        </div>
+      )
+    }
+
+    if (stagingStatus === 'success') {
+      return (
+        <>
+          <p>
+            The collection metadata has been staged. Use the link below to
+            continue this workflow in production.
+          </p>
+          <div className="d-flex align-items-center mb-3">
+            <code className="flex-grow-1 text-break me-2">{stagedConceptLink}</code>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleCopyStagedConceptLink}
+            >
+              Copy Link
+            </Button>
+          </div>
+          <Alert variant="warning">
+            Do not lose this link or you will have to start over. Staged
+            metadata is retained for 30 days. Do not share this link.
+          </Alert>
+        </>
+      )
+    }
+
+    if (stagingStatus === 'error') {
+      return (
+        <Alert variant="danger">
+          {stagingErrorMessage || 'An error occurred while staging this record for production.'}
+        </Alert>
+      )
+    }
+
+    return (
+      <>
+        <p>{`Are you sure you want to stage this collection's metadata to ${stagingTargetLabel}?`}</p>
+        <ul>
+          <li>{`Nothing is published to ${stagingTargetLabel} by this action`}</li>
+          <li>
+            Only collection metadata is copied &mdash; associations,
+            collection permissions, tags, and granules are not
+          </li>
+          <li>Staged metadata is retained for 30 days</li>
+        </ul>
+      </>
+    )
+  }
+
+  const getStageModalActions = () => {
+    if (stagingStatus === 'confirm') {
+      return [
+        {
+          label: 'No',
+          variant: 'secondary',
+          onClick: () => toggleShowStageModal(false)
+        },
+        {
+          label: 'Yes',
+          variant: 'primary',
+          onClick: handleStageForProduction
+        }
+      ]
+    }
+
+    if (stagingStatus === 'loading') {
+      return null
+    }
+
+    return [
+      {
+        label: 'Close',
+        variant: 'primary',
+        onClick: () => toggleShowStageModal(false)
+      }
+    ]
+  }
+
+  const canStageForProduction = !isRevision
+    && derivedConceptType === conceptTypes.Collection
+    && !!stagingTargetLabel
+
   return (
     <>
       <PageHeader
@@ -234,6 +412,17 @@ const PublishPreviewHeader = () => {
               onClick: handleDownload,
               title: 'Download JSON'
             },
+            ...(
+              canStageForProduction
+                ? [
+                  {
+                    icon: FaCloudUploadAlt,
+                    onClick: () => toggleShowStageModal(true),
+                    title: `Stage to ${stagingTargetLabel}`
+                  }
+                ]
+                : []
+            ),
             {
               icon: FaEye,
               to: `/${pluralize(derivedConceptType).toLowerCase()}/${conceptId}/revisions`,
@@ -377,8 +566,25 @@ const PublishPreviewHeader = () => {
             : 'There are no tags associated with this collection'
         }
       />
+      <CustomModal
+        header={`Stage to ${stagingTargetLabel}`}
+        show={showStageModal}
+        showCloseButton={stagingStatus !== 'loading'}
+        size="lg"
+        toggleModal={toggleShowStageModal}
+        message={renderStageModalMessage()}
+        actions={getStageModalActions()}
+      />
     </>
   )
+}
+
+PublishPreviewHeader.defaultProps = {
+  isRevision: false
+}
+
+PublishPreviewHeader.propTypes = {
+  isRevision: PropTypes.bool
 }
 
 /**
@@ -395,7 +601,14 @@ const PublishPreviewPlaceholder = () => (
 )
 
 /**
+ * @typedef {Object} PublishPreviewProps
+ * @property {Boolean} isRevision Whether the concept being viewed is an older revision rather than the published record. Shows a warning banner and a link back to the published record, and is forwarded to PublishPreviewHeader to hide revision-only actions.
+ */
+
+/**
  * Renders a PublishPreview component
+ *
+ * @param {PublishPreviewProps} props
  *
  * @component
  * @example <caption>Render a PublishPreview</caption>
@@ -419,7 +632,7 @@ const PublishPreview = ({ isRevision }) => {
   return (
     <Page
       pageType="secondary"
-      header={<PublishPreviewHeader />}
+      header={<PublishPreviewHeader isRevision={isRevision} />}
     >
       {
         isRevision && (

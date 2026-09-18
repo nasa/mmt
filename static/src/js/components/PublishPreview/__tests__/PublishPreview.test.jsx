@@ -2,6 +2,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
@@ -22,6 +23,9 @@ import NotificationsContextProvider from '@/js/providers/NotificationsContextPro
 
 import errorLogger from '@/js/utils/errorLogger'
 import constructDownloadableFile from '@/js/utils/constructDownloadableFile'
+import stageConceptForProduction from '@/js/utils/stageConceptForProduction'
+
+import { getApplicationConfig } from 'sharedUtils/getConfig'
 
 import { DELETE_TOOL } from '@/js/operations/mutations/deleteTool'
 import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
@@ -42,6 +46,19 @@ vi.mock('@/js/utils/constructDownloadableFile')
 vi.mock('@/js/components/MetadataPreview/MetadataPreview')
 vi.mock('@/js/components/ErrorBanner/ErrorBanner')
 vi.mock('@/js/utils/errorLogger')
+vi.mock('@/js/utils/stageConceptForProduction')
+
+vi.mock('sharedUtils/getConfig', async (importOriginal) => ({
+  ...await importOriginal(),
+  getApplicationConfig: vi.fn()
+}))
+
+vi.mock('@/js/hooks/useMMTCookie', () => ({
+  __esModule: true,
+  default: () => ({
+    mmtJwt: 'mock-jwt'
+  })
+}))
 
 const mockedUsedNavigate = vi.fn()
 
@@ -204,6 +221,11 @@ const setup = ({
 }
 
 describe('PublishPreview', () => {
+  beforeEach(() => {
+    // Staging is only offered in sit/uat, where it forwards to the next environment
+    getApplicationConfig.mockReturnValue({ env: 'sit' })
+  })
+
   describe('when the publish page is called', () => {
     test('renders a Publish Preview with a Published Tool Preview', async () => {
       setup({})
@@ -1029,6 +1051,219 @@ describe('PublishPreview', () => {
         await user.click(moreActionsButton)
 
         expect(screen.getByRole('button', { name: 'View Citations 0' }))
+      })
+    })
+  })
+
+  describe('Stage to UAT', () => {
+    const collectionSetup = ({ overrideMocks, overrideProps } = {}) => setup({
+      overrideInitialEntries: ['/collections/C1000000-MMT/1'],
+      overridePath: '/collections',
+      overrideProps,
+      overrideMocks: overrideMocks || [
+        {
+          request: {
+            query: conceptTypeQueries.Collection,
+            variables: {
+              params: {
+                conceptId: 'C1000000-MMT'
+              }
+            }
+          },
+          result: {
+            data: {
+              collection: publishCollectionRecord
+            }
+          }
+        }
+      ]
+    })
+
+    describe('when viewing an older revision of the collection', () => {
+      test('does not render the Stage to UAT button', async () => {
+        const { user } = collectionSetup({ overrideProps: { isRevision: true } })
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        expect(screen.queryByRole('button', { name: 'Stage to UAT' })).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when clicking the Stage to UAT button', () => {
+      test('shows the confirmation modal explaining what staging does', async () => {
+        const { user } = collectionSetup()
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        const stageButton = screen.getByRole('button', { name: 'Stage to UAT' })
+        await user.click(stageButton)
+
+        expect(screen.getByText('Nothing is published to UAT by this action')).toBeInTheDocument()
+        expect(screen.getByText(/Only collection metadata is copied/)).toBeInTheDocument()
+        expect(screen.getByText('Staged metadata is retained for 30 days')).toBeInTheDocument()
+      })
+    })
+
+    describe('when clicking No in the confirmation modal', () => {
+      test('closes the modal without staging the concept', async () => {
+        const { user } = collectionSetup()
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        const stageButton = screen.getByRole('button', { name: 'Stage to UAT' })
+        await user.click(stageButton)
+
+        const noButton = screen.getByRole('button', { name: 'No' })
+        await user.click(noButton)
+
+        expect(stageConceptForProduction).toHaveBeenCalledTimes(0)
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when staging is in progress', () => {
+      test('ignores an Escape key dismissal until the request settles', async () => {
+        let resolveStaging
+        stageConceptForProduction.mockReturnValue(new Promise((resolve) => {
+          resolveStaging = resolve
+        }))
+
+        const { user } = collectionSetup()
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        const stageButton = screen.getByRole('button', { name: 'Stage to UAT' })
+        await user.click(stageButton)
+
+        const yesButton = screen.getByRole('button', { name: 'Yes' })
+        await user.click(yesButton)
+
+        // The request is still pending, so the modal should ignore an Escape
+        // key press (and, by the same guard, a backdrop click) rather than closing
+        await user.keyboard('{Escape}')
+
+        expect(screen.getByRole('dialog')).toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument()
+
+        resolveStaging({
+          stagedConceptLink: 'http://prod.example.com/collections/staged/mock-record-id'
+        })
+
+        expect(await screen.findByRole('button', { name: 'Close' })).toBeInTheDocument()
+      })
+    })
+
+    describe('when clicking Yes in the confirmation modal', () => {
+      test('stages the concept and shows a copyable success link', async () => {
+        stageConceptForProduction.mockResolvedValue({
+          stagedConceptLink: 'http://prod.example.com/collections/staged/mock-record-id'
+        })
+
+        const { user } = collectionSetup()
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        const stageButton = screen.getByRole('button', { name: 'Stage to UAT' })
+        await user.click(stageButton)
+
+        const yesButton = screen.getByRole('button', { name: 'Yes' })
+        await user.click(yesButton)
+
+        expect(stageConceptForProduction).toHaveBeenCalledTimes(1)
+        expect(stageConceptForProduction).toHaveBeenCalledWith(
+          'MMT_2',
+          'mock-jwt',
+          'collections',
+          publishCollectionRecord.ummMetadata
+        )
+
+        expect(await screen.findByText('http://prod.example.com/collections/staged/mock-record-id')).toBeInTheDocument()
+        expect(screen.getByText(/Do not lose this link/)).toBeInTheDocument()
+      })
+    })
+
+    describe('when clicking Copy Link', () => {
+      let user
+
+      beforeEach(async () => {
+        stageConceptForProduction.mockResolvedValue({
+          stagedConceptLink: 'http://prod.example.com/collections/staged/mock-record-id'
+        })
+
+        user = collectionSetup().user
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        const stageButton = screen.getByRole('button', { name: 'Stage to UAT' })
+        await user.click(stageButton)
+
+        const yesButton = screen.getByRole('button', { name: 'Yes' })
+        await user.click(yesButton)
+
+        expect(await screen.findByText('http://prod.example.com/collections/staged/mock-record-id')).toBeInTheDocument()
+      })
+
+      test('copies the link to the clipboard', async () => {
+        const writeText = vi.fn().mockResolvedValue()
+        Object.defineProperty(navigator, 'clipboard', {
+          value: { writeText },
+          configurable: true
+        })
+
+        const copyButton = screen.getByRole('button', { name: 'Copy Link' })
+        await user.click(copyButton)
+
+        await waitFor(() => {
+          expect(writeText).toHaveBeenCalledWith('http://prod.example.com/collections/staged/mock-record-id')
+        })
+      })
+
+      describe('when clicking Copy Link results in an error', () => {
+        test('shows an error notification and calls errorLogger', async () => {
+          const writeText = vi.fn().mockRejectedValue(new Error('Clipboard write denied'))
+          Object.defineProperty(navigator, 'clipboard', {
+            value: { writeText },
+            configurable: true
+          })
+
+          const copyButton = screen.getByRole('button', { name: 'Copy Link' })
+          await user.click(copyButton)
+
+          await waitFor(() => {
+            expect(errorLogger).toHaveBeenCalledWith(new Error('Clipboard write denied'), 'PublishPreview: handleCopyStagedConceptLink')
+          })
+        })
+      })
+    })
+
+    describe('when staging the concept results in an error', () => {
+      test('shows an error message and calls errorLogger', async () => {
+        stageConceptForProduction.mockRejectedValue(new Error('An error occurred'))
+
+        const { user } = collectionSetup()
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        const stageButton = screen.getByRole('button', { name: 'Stage to UAT' })
+        await user.click(stageButton)
+
+        const yesButton = screen.getByRole('button', { name: 'Yes' })
+        await user.click(yesButton)
+
+        expect(await screen.findByText('An error occurred')).toBeInTheDocument()
+        expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'PublishPreview: stageConceptForProduction')
+
+        const closeButton = screen.getByRole('button', { name: 'Close' })
+        await user.click(closeButton)
+
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
       })
     })
   })

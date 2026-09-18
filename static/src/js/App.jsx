@@ -36,6 +36,7 @@ import Layout from '@/js/components/Layout/Layout'
 import LayoutUnauthenticated from '@/js/components/LayoutUnauthenticated/LayoutUnauthenticated'
 import Notifications from '@/js/components/Notifications/Notifications'
 import PublishPreview from '@/js/components/PublishPreview/PublishPreview'
+import StagedConceptPreview from '@/js/components/StagedConceptPreview/StagedConceptPreview'
 import TemplateForm from '@/js/components/TemplateForm/TemplateForm'
 import TemplateList from '@/js/components/TemplateList/TemplateList'
 import TemplatePreview from '@/js/components/TemplatePreview/TemplatePreview'
@@ -97,6 +98,10 @@ export const App = () => {
             {
               path: ':type',
               element: <SearchPage />
+            },
+            {
+              path: '/collections/staged/:id',
+              element: <StagedConceptPreview />
             },
             {
               path: ':type/:conceptId',

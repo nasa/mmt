@@ -20,6 +20,14 @@ describe('errorLogger', () => {
       await errorLogger(error, action)
 
       expect(fetch).toHaveBeenCalledTimes(1)
+      expect(fetch).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+      )
     })
   })
 
