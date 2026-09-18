@@ -25,6 +25,8 @@ import errorLogger from '@/js/utils/errorLogger'
 import constructDownloadableFile from '@/js/utils/constructDownloadableFile'
 import stageConceptForProduction from '@/js/utils/stageConceptForProduction'
 
+import { getApplicationConfig } from 'sharedUtils/getConfig'
+
 import { DELETE_TOOL } from '@/js/operations/mutations/deleteTool'
 import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
 import { GET_TOOLS } from '@/js/operations/queries/getTools'
@@ -45,6 +47,11 @@ vi.mock('@/js/components/MetadataPreview/MetadataPreview')
 vi.mock('@/js/components/ErrorBanner/ErrorBanner')
 vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/utils/stageConceptForProduction')
+
+vi.mock('sharedUtils/getConfig', async (importOriginal) => ({
+  ...await importOriginal(),
+  getApplicationConfig: vi.fn()
+}))
 
 vi.mock('@/js/hooks/useMMTCookie', () => ({
   __esModule: true,
@@ -214,6 +221,11 @@ const setup = ({
 }
 
 describe('PublishPreview', () => {
+  beforeEach(() => {
+    // Staging is only offered in sit/uat, where it forwards to the next environment
+    getApplicationConfig.mockReturnValue({ env: 'sit' })
+  })
+
   describe('when the publish page is called', () => {
     test('renders a Publish Preview with a Published Tool Preview', async () => {
       setup({})
@@ -1043,7 +1055,7 @@ describe('PublishPreview', () => {
     })
   })
 
-  describe('Stage for Production', () => {
+  describe('Stage to UAT', () => {
     const collectionSetup = ({ overrideMocks, overrideProps } = {}) => setup({
       overrideInitialEntries: ['/collections/C1000000-MMT/1'],
       overridePath: '/collections',
@@ -1068,27 +1080,27 @@ describe('PublishPreview', () => {
     })
 
     describe('when viewing an older revision of the collection', () => {
-      test('does not render the Stage for Production button', async () => {
+      test('does not render the Stage to UAT button', async () => {
         const { user } = collectionSetup({ overrideProps: { isRevision: true } })
 
         const moreActionsButton = await screen.findByText(/More Actions/)
         await user.click(moreActionsButton)
 
-        expect(screen.queryByRole('button', { name: 'Stage for Production' })).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: 'Stage to UAT' })).not.toBeInTheDocument()
       })
     })
 
-    describe('when clicking the Stage for Production button', () => {
+    describe('when clicking the Stage to UAT button', () => {
       test('shows the confirmation modal explaining what staging does', async () => {
         const { user } = collectionSetup()
 
         const moreActionsButton = await screen.findByText(/More Actions/)
         await user.click(moreActionsButton)
 
-        const stageButton = screen.getByRole('button', { name: 'Stage for Production' })
+        const stageButton = screen.getByRole('button', { name: 'Stage to UAT' })
         await user.click(stageButton)
 
-        expect(screen.getByText('Nothing is published to production by this action')).toBeInTheDocument()
+        expect(screen.getByText('Nothing is published to UAT by this action')).toBeInTheDocument()
         expect(screen.getByText(/Only collection metadata is copied/)).toBeInTheDocument()
         expect(screen.getByText('Staged metadata is retained for 30 days')).toBeInTheDocument()
       })
@@ -1101,7 +1113,7 @@ describe('PublishPreview', () => {
         const moreActionsButton = await screen.findByText(/More Actions/)
         await user.click(moreActionsButton)
 
-        const stageButton = screen.getByRole('button', { name: 'Stage for Production' })
+        const stageButton = screen.getByRole('button', { name: 'Stage to UAT' })
         await user.click(stageButton)
 
         const noButton = screen.getByRole('button', { name: 'No' })
@@ -1124,7 +1136,7 @@ describe('PublishPreview', () => {
         const moreActionsButton = await screen.findByText(/More Actions/)
         await user.click(moreActionsButton)
 
-        const stageButton = screen.getByRole('button', { name: 'Stage for Production' })
+        const stageButton = screen.getByRole('button', { name: 'Stage to UAT' })
         await user.click(stageButton)
 
         const yesButton = screen.getByRole('button', { name: 'Yes' })
@@ -1156,7 +1168,7 @@ describe('PublishPreview', () => {
         const moreActionsButton = await screen.findByText(/More Actions/)
         await user.click(moreActionsButton)
 
-        const stageButton = screen.getByRole('button', { name: 'Stage for Production' })
+        const stageButton = screen.getByRole('button', { name: 'Stage to UAT' })
         await user.click(stageButton)
 
         const yesButton = screen.getByRole('button', { name: 'Yes' })
@@ -1172,7 +1184,32 @@ describe('PublishPreview', () => {
 
         expect(await screen.findByText('http://prod.example.com/collections/staged/mock-record-id')).toBeInTheDocument()
         expect(screen.getByText(/Do not lose this link/)).toBeInTheDocument()
+      })
+    })
 
+    describe('when clicking Copy Link', () => {
+      let user
+
+      beforeEach(async () => {
+        stageConceptForProduction.mockResolvedValue({
+          stagedConceptLink: 'http://prod.example.com/collections/staged/mock-record-id'
+        })
+
+        user = collectionSetup().user
+
+        const moreActionsButton = await screen.findByText(/More Actions/)
+        await user.click(moreActionsButton)
+
+        const stageButton = screen.getByRole('button', { name: 'Stage to UAT' })
+        await user.click(stageButton)
+
+        const yesButton = screen.getByRole('button', { name: 'Yes' })
+        await user.click(yesButton)
+
+        expect(await screen.findByText('http://prod.example.com/collections/staged/mock-record-id')).toBeInTheDocument()
+      })
+
+      test('copies the link to the clipboard', async () => {
         const writeText = vi.fn().mockResolvedValue()
         Object.defineProperty(navigator, 'clipboard', {
           value: { writeText },
@@ -1186,38 +1223,21 @@ describe('PublishPreview', () => {
           expect(writeText).toHaveBeenCalledWith('http://prod.example.com/collections/staged/mock-record-id')
         })
       })
-    })
 
-    describe('when clicking Copy Link results in an error', () => {
-      test('shows an error notification and calls errorLogger', async () => {
-        stageConceptForProduction.mockResolvedValue({
-          stagedConceptLink: 'http://prod.example.com/collections/staged/mock-record-id'
-        })
+      describe('when clicking Copy Link results in an error', () => {
+        test('shows an error notification and calls errorLogger', async () => {
+          const writeText = vi.fn().mockRejectedValue(new Error('Clipboard write denied'))
+          Object.defineProperty(navigator, 'clipboard', {
+            value: { writeText },
+            configurable: true
+          })
 
-        const { user } = collectionSetup()
+          const copyButton = screen.getByRole('button', { name: 'Copy Link' })
+          await user.click(copyButton)
 
-        const moreActionsButton = await screen.findByText(/More Actions/)
-        await user.click(moreActionsButton)
-
-        const stageButton = screen.getByRole('button', { name: 'Stage for Production' })
-        await user.click(stageButton)
-
-        const yesButton = screen.getByRole('button', { name: 'Yes' })
-        await user.click(yesButton)
-
-        expect(await screen.findByText('http://prod.example.com/collections/staged/mock-record-id')).toBeInTheDocument()
-
-        const writeText = vi.fn().mockRejectedValue(new Error('Clipboard write denied'))
-        Object.defineProperty(navigator, 'clipboard', {
-          value: { writeText },
-          configurable: true
-        })
-
-        const copyButton = screen.getByRole('button', { name: 'Copy Link' })
-        await user.click(copyButton)
-
-        await waitFor(() => {
-          expect(errorLogger).toHaveBeenCalledWith(new Error('Clipboard write denied'), 'PublishPreview: handleCopyStagedConceptLink')
+          await waitFor(() => {
+            expect(errorLogger).toHaveBeenCalledWith(new Error('Clipboard write denied'), 'PublishPreview: handleCopyStagedConceptLink')
+          })
         })
       })
     })
@@ -1231,7 +1251,7 @@ describe('PublishPreview', () => {
         const moreActionsButton = await screen.findByText(/More Actions/)
         await user.click(moreActionsButton)
 
-        const stageButton = screen.getByRole('button', { name: 'Stage for Production' })
+        const stageButton = screen.getByRole('button', { name: 'Stage to UAT' })
         await user.click(stageButton)
 
         const yesButton = screen.getByRole('button', { name: 'Yes' })

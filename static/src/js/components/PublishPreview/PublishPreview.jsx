@@ -47,10 +47,25 @@ import constructDownloadableFile from '@/js//utils/constructDownloadableFile'
 import getConceptTypeByDraftConceptId from '@/js//utils/getConceptTypeByDraftConceptId'
 import stageConceptForProduction from '@/js//utils/stageConceptForProduction'
 
+import { getApplicationConfig } from 'sharedUtils/getConfig'
+
 import './PublishPreview.scss'
+
+// Maps the current deployment environment to the environment `stage-for-production` forwards to
+const stagingTargetEnvLabel = {
+  sit: 'UAT',
+  uat: 'Production'
+}
+
+/**
+ * @typedef {Object} PublishPreviewHeaderProps
+ * @property {Boolean} isRevision Whether the concept being viewed is an older revision rather than the published record, which hides revision-only actions such as Delete and Stage to UAT/Production.
+ */
 
 /**
  * Renders a PublishPreviewHeader component
+ *
+ * @param {PublishPreviewHeaderProps} props
  *
  * @component
  * @example <caption>Render a PublishPreviewHeader</caption>
@@ -64,6 +79,9 @@ const PublishPreviewHeader = ({ isRevision }) => {
   const navigate = useNavigate()
 
   const derivedConceptType = getConceptTypeByConceptId(conceptId)
+
+  const { env } = getApplicationConfig()
+  const stagingTargetLabel = stagingTargetEnvLabel[env]
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showTagModal, setShowTagModal] = useState(false)
@@ -338,9 +356,9 @@ const PublishPreviewHeader = ({ isRevision }) => {
 
     return (
       <>
-        <p>Are you sure you want to stage this collection&apos;s metadata for production?</p>
+        <p>{`Are you sure you want to stage this collection's metadata to ${stagingTargetLabel}?`}</p>
         <ul>
-          <li>Nothing is published to production by this action</li>
+          <li>{`Nothing is published to ${stagingTargetLabel} by this action`}</li>
           <li>
             Only collection metadata is copied &mdash; associations,
             collection permissions, tags, and granules are not
@@ -380,7 +398,9 @@ const PublishPreviewHeader = ({ isRevision }) => {
     ]
   }
 
-  const canStageForProduction = !isRevision && derivedConceptType === conceptTypes.Collection
+  const canStageForProduction = !isRevision
+    && derivedConceptType === conceptTypes.Collection
+    && !!stagingTargetLabel
 
   return (
     <>
@@ -398,7 +418,7 @@ const PublishPreviewHeader = ({ isRevision }) => {
                   {
                     icon: FaCloudUploadAlt,
                     onClick: () => toggleShowStageModal(true),
-                    title: 'Stage for Production'
+                    title: `Stage to ${stagingTargetLabel}`
                   }
                 ]
                 : []
@@ -547,7 +567,7 @@ const PublishPreviewHeader = ({ isRevision }) => {
         }
       />
       <CustomModal
-        header="Stage for Production"
+        header={`Stage to ${stagingTargetLabel}`}
         show={showStageModal}
         showCloseButton={stagingStatus !== 'loading'}
         size="lg"
@@ -581,7 +601,14 @@ const PublishPreviewPlaceholder = () => (
 )
 
 /**
+ * @typedef {Object} PublishPreviewProps
+ * @property {Boolean} isRevision Whether the concept being viewed is an older revision rather than the published record. Shows a warning banner and a link back to the published record, and is forwarded to PublishPreviewHeader to hide revision-only actions.
+ */
+
+/**
  * Renders a PublishPreview component
+ *
+ * @param {PublishPreviewProps} props
  *
  * @component
  * @example <caption>Render a PublishPreview</caption>

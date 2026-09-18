@@ -119,8 +119,7 @@ const StagedConceptPreview = () => {
       const { ingestDraft: fetchedIngestDraft } = ingestDraft
       const { conceptId } = fetchedIngestDraft
 
-      // Best-effort cleanup — the draft is already created, so don't block
-      // navigation or bother the user if the staged record fails to delete
+      // Delete staged concept
       deleteStagedConcept(mmtJwt, STAGED_CONCEPT_TYPE, id).catch((deleteError) => {
         errorLogger(deleteError, 'StagedConceptPreview: deleteStagedConcept')
       })

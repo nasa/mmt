@@ -67,6 +67,7 @@ const allowHeaders = [
   'Access-Control-Request-Headers',
   'Access-Control-Request-Methods',
   'Authorization',
+  'Content-Type',
   'Origin',
   'Staging-Api-Key',
   'User-Agent'
