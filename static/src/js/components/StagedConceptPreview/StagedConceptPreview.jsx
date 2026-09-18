@@ -183,7 +183,9 @@ const StagedConceptPreview = () => {
 
   if (error) {
     return (
-      <ErrorBanner message={error.message} />
+      <div className="m-4">
+        <ErrorBanner message={error.message} />
+      </div>
     )
   }
 
