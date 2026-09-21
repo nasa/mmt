@@ -14,6 +14,16 @@ import GroupSearchForm from '../GroupSearchForm'
 
 import Providers from '../../../providers/Providers/Providers'
 
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 const setup = (initialPath = '/groups') => {
   const mocks = [{
     request: {

@@ -23,6 +23,16 @@ import PermissionPage from '../PermissionPage'
 
 vi.mock('../../../components/Permission/Permission')
 vi.mock('../../../utils/errorLogger')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 
 const setup = ({
   additionalMocks = [],

@@ -25,6 +25,16 @@ import { GET_ORDER_OPTION } from '../../../operations/queries/getOrderOption'
 import { GET_ORDER_OPTIONS } from '../../../operations/queries/getOrderOptions'
 
 vi.mock('../../../utils/errorLogger')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 
 const setup = ({
   additionalMocks = [],

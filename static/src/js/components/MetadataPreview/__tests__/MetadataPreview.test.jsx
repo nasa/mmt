@@ -48,6 +48,16 @@ vi.mock('@sharedUtils/getConfig', async () => ({
   }))
 }))
 
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 const conceptsResultsLimitInt = 20
 
 const setup = ({

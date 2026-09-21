@@ -20,6 +20,16 @@ vi.mock('@/js/hooks/useMMTCookie', () => ({
   })
 }))
 
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
   cookieDomain: '.example.com'
 }))

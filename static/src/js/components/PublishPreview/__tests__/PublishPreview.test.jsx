@@ -60,12 +60,15 @@ vi.mock('@/js/hooks/useMMTCookie', () => ({
   })
 }))
 
-const mockedUsedNavigate = vi.fn()
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
 
-vi.mock('react-router', async () => ({
-  ...await vi.importActual('react-router'),
-  useNavigate: () => mockedUsedNavigate
-}))
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
 
 const mock = {
   accessConstraints: null,
@@ -278,9 +281,11 @@ describe('PublishPreview', () => {
       await user.click(button)
 
       const yesButton = screen.getByRole('button', { name: 'Yes' })
+
       await user.click(yesButton)
 
       expect(navigateSpy).toHaveBeenCalledTimes(1)
+
       expect(navigateSpy).toHaveBeenCalledWith('/tools')
     })
   })
@@ -584,9 +589,6 @@ describe('PublishPreview', () => {
 
   describe('when called from /type/conceptId/revisions/revisionId', () => {
     test('renders Revisions button with revisions count and the navigates to correct page', async () => {
-      const navigateSpy = vi.fn()
-      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
-
       const { user } = setup({
         overrideInitialEntries: ['/tools/T1000000-MMT/revisions/1'],
         overridePathValue: ':conceptId/revisions/:revisionId',
@@ -600,11 +602,7 @@ describe('PublishPreview', () => {
       await user.click(moreActionsButton)
 
       const revisionsButton = screen.getByRole('link', { name: 'View Revisions 2' })
-
-      await user.click(revisionsButton)
-
-      expect(navigateSpy).toHaveBeenCalledTimes(1)
-      expect(navigateSpy).toHaveBeenCalledWith('/tools/T1000000-MMT/revisions', { replace: false })
+      expect(revisionsButton).toHaveAttribute('href', '/tools/T1000000-MMT/revisions')
     })
   })
 

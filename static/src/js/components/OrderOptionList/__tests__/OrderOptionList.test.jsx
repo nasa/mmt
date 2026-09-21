@@ -19,6 +19,16 @@ import { GET_ORDER_OPTIONS } from '../../../operations/queries/getOrderOptions'
 
 vi.mock('../../../utils/errorLogger')
 vi.mock('@/js/hooks/useAvailableProviders')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 useAvailableProviders.mockReturnValue({
   providerIds: ['MMT_2']
 })

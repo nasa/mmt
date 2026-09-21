@@ -28,6 +28,16 @@ import DraftPage from '@/js/pages/DraftPage/DraftPage'
 vi.mock('@/js/components/MetadataPreview/MetadataPreview')
 vi.mock('@/js/utils/createTemplate')
 vi.mock('@/js/utils/errorLogger')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 
 const ummMetadata = {
   Description: 'Mock Description',

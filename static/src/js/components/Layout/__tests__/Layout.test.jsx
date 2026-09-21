@@ -21,7 +21,37 @@ vi.mock('../../Footer/Footer')
 vi.mock('../../Header/Header')
 vi.mock('../../PrimaryNavigation/PrimaryNavigation')
 
-const setup = (loggedIn) => {
+// `vi.mock` factories are hoisted above imports/module scope, so to
+// hang on to the *real* useNavigate for restoring between tests we
+// need to stash it on a `vi.hoisted` object rather than a plain
+// module-level variable.
+const mocks = vi.hoisted(() => ({
+  actualUseNavigate: undefined
+}))
+
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  mocks.actualUseNavigate = actual.useNavigate
+
+  return {
+    ...actual,
+    // Defaults to the real implementation so every test that
+    // doesn't care about navigation keeps working normally.
+    // Individual tests can override via
+    // router.useNavigate.mockImplementation(...), and the afterEach
+    // below restores the real implementation afterward.
+    useNavigate: vi.fn(actual.useNavigate)
+  }
+})
+
+const setup = ({
+  loggedIn = false,
+  hasSystemGroup = true,
+  hasSystemKeywords = true
+} = {}) => {
+  usePermissions.mockReturnValue({ hasSystemGroup, hasSystemKeywords })
+
   vi.spyOn(getConfig, 'getUmmVersionsConfig').mockImplementation(() => ({
     ummC: 'mock-umm-c',
     ummCit: 'mock-umm-cit',
@@ -74,13 +104,16 @@ const setup = (loggedIn) => {
 }
 
 describe('Layout component', () => {
-  test('renders the content to the React Router Outlet', async () => {
-    usePermissions.mockReturnValue({
-      hasSystemGroup: true,
-      hasSystemKeywords: true
-    })
+  afterEach(() => {
+    // Restore the real useNavigate implementation and wipe call
+    // history so a mockImplementation override set in one test
+    // never leaks into the next.
+    router.useNavigate.mockReset()
+    router.useNavigate.mockImplementation(mocks.actualUseNavigate)
+  })
 
-    setup()
+  test('renders the content to the React Router Outlet', async () => {
+    setup({ hasSystemGroup: true, hasSystemKeywords: true })
 
     expect(screen.getByText('This is some content')).toBeInTheDocument()
 
@@ -229,12 +262,11 @@ describe('Layout component', () => {
 
   describe('when the user does not have system group or system keywords permissions', () => {
     test('does not render the admin links', async () => {
-      usePermissions.mockReturnValue({
+      setup({
+        loggedIn: true,
         hasSystemGroup: false,
         hasSystemKeywords: false
       })
-
-      setup()
 
       expect(screen.getByText('This is some content')).toBeInTheDocument()
 
@@ -379,7 +411,7 @@ describe('Layout component', () => {
   describe('when clicking the My Providers button', () => {
     test('navigates to /providers', async () => {
       const navigateSpy = vi.fn()
-      vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+      router.useNavigate.mockImplementation(() => navigateSpy)
 
       const { user } = setup()
 
@@ -466,7 +498,6 @@ describe('Layout component', () => {
       }))
 
       setup()
-
       expect(screen.getByText('DEV')).toBeInTheDocument()
     })
   })

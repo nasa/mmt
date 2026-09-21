@@ -39,6 +39,15 @@ import NotificationsContext from '@/js/context/NotificationsContext'
 
 vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/hooks/useAvailableProviders')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams) // Keep default behavior unless overridden
+  }
+})
 
 useAvailableProviders.mockReturnValue({
   providerIds: ['MMT_1', 'MMT_2']

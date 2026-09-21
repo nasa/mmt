@@ -21,6 +21,16 @@ vi.mock('../utils/getHumanizedNameFromTypeParam', () => ({
   default: () => 'humanizedName'
 }))
 
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 // eslint-disable-next-line react/prop-types
 const TestComponent = ({ queryName, customNativeId }) => {
   const {

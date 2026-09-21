@@ -7,6 +7,15 @@ import AuthContext from '@/js/context/AuthContext'
 
 import HomePage from '../HomePage'
 
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn()
+  }
+})
+
 const setup = ({
   overrideContext = {}
 } = {}) => {
