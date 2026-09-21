@@ -23,7 +23,6 @@ vi.mock('react-router', async (importOriginal) => {
   }
 })
 
-
 const mockTool = {
   accessConstraints: null,
   ancillaryKeywords: null,

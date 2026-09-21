@@ -41,7 +41,6 @@ vi.mock('react-router', async (importOriginal) => {
   }
 })
 
-
 // The actual UMM-C version number is irrelevant to these tests - they only
 // care that whatever version getUmmVersion resolves to is threaded through
 // to the mutation correctly. Using a fixed, fake value keeps this test from

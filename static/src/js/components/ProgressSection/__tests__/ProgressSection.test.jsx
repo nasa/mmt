@@ -20,7 +20,6 @@ vi.mock('react-router', async (importOriginal) => {
   }
 })
 
-
 const setup = (overrideProps = {}) => {
   const props = {
     displayName: 'Test Section',

@@ -25,7 +25,6 @@ vi.mock('react-router', async (importOriginal) => {
   }
 })
 
-
 const setup = (
   pageUrl = '/groups',
   hasSystemGroup = true

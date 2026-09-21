@@ -21,7 +21,6 @@ vi.mock('react-router', async (importOriginal) => {
   }
 })
 
-
 const setup = (overrideProps = {}) => {
   const onBlur = vi.fn()
   const onChange = vi.fn()

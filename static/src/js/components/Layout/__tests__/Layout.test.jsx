@@ -50,7 +50,10 @@ const setup = ({
   hasSystemGroup = true,
   hasSystemKeywords = true
 } = {}) => {
-  usePermissions.mockReturnValue({ hasSystemGroup, hasSystemKeywords })
+  usePermissions.mockReturnValue({
+    hasSystemGroup,
+    hasSystemKeywords
+  })
 
   vi.spyOn(getConfig, 'getUmmVersionsConfig').mockImplementation(() => ({
     ummC: 'mock-umm-c',
@@ -113,7 +116,10 @@ describe('Layout component', () => {
   })
 
   test('renders the content to the React Router Outlet', async () => {
-    setup({ hasSystemGroup: true, hasSystemKeywords: true })
+    setup({
+      hasSystemGroup: true,
+      hasSystemKeywords: true
+    })
 
     expect(screen.getByText('This is some content')).toBeInTheDocument()
 

@@ -21,7 +21,6 @@ vi.mock('react-router', async (importOriginal) => {
   }
 })
 
-
 const setup = () => {
   const context = {
     login: vi.fn()

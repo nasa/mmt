@@ -30,7 +30,6 @@ vi.mock('react-router', async (importOriginal) => {
   }
 })
 
-
 const setup = ({
   overrideMocks = false
 }) => {
