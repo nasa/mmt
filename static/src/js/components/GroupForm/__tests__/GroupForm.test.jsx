@@ -26,6 +26,16 @@ import { UPDATE_GROUP } from '@/js/operations/mutations/updateGroup'
 import GroupForm from '../GroupForm'
 
 vi.mock('@/js/utils/errorLogger')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 
 const setup = ({
   mocks = [],

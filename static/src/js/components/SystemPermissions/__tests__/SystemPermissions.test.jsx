@@ -31,6 +31,16 @@ import { UPDATE_ACL } from '@/js/operations/mutations/updateAcl'
 import errorLogger from '@/js/utils/errorLogger'
 
 vi.mock('@/js/utils/errorLogger')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 
 const setup = ({
   additionalMocks = [],

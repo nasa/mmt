@@ -13,6 +13,16 @@ import { GET_GROUP } from '@/js/operations/queries/getGroup'
 import Group from '../Group'
 
 vi.mock('../../AssociatedCollectionPermissionsTable/AssociatedCollectionPermissionsTable')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 
 const setup = ({
   overrideMocks = false

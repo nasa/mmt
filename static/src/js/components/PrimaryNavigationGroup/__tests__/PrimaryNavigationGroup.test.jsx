@@ -17,6 +17,16 @@ vi.mock('../../PrimaryNavigationLink/PrimaryNavigationLink', () => ({
   ))
 }))
 
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 const setup = ({
   overrideInitialEntries,
   overrideProps = {}

@@ -20,6 +20,16 @@ import { MemoryRouter } from 'react-router'
 import PermissionList from '../PermissionList'
 
 vi.mock('../../../utils/errorLogger')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 
 const setup = ({
   overrideMocks = false

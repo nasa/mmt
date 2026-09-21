@@ -10,6 +10,16 @@ import CustomTextareaWidget from '../CustomTextareaWidget'
 import CustomWidgetWrapper from '../../CustomWidgetWrapper/CustomWidgetWrapper'
 
 vi.mock('../../CustomWidgetWrapper/CustomWidgetWrapper')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 
 const setup = (overrideProps = {}) => {
   const onBlur = vi.fn()

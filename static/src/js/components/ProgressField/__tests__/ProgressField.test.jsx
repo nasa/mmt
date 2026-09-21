@@ -8,6 +8,16 @@ import ProgressField from '../ProgressField'
 
 import progressCircleTypes from '../../../constants/progressCircleTypes'
 
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 const setup = (fieldInfo) => {
   const user = userEvent.setup()
 
