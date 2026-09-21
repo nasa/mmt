@@ -38,7 +38,6 @@ vi.mock('react-router', async (importOriginal) => {
   }
 })
 
-
 const ummMetadata = {
   Description: 'Mock Description',
   LongName: 'Long Name',

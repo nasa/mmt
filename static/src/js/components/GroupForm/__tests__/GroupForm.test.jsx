@@ -36,7 +36,6 @@ vi.mock('react-router', async (importOriginal) => {
   }
 })
 
-
 const setup = ({
   mocks = [],
   pageUrl
