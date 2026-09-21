@@ -1,6 +1,7 @@
 import MMT_COOKIE from 'sharedConstants/mmtCookie'
 
 import getMMTCookieOptions from './getMMTCookieOptions'
+import isValidMMTToken from './isValidMMTToken'
 
 /**
  * Serializes cookie options into the attributes `document.cookie` expects.
@@ -35,9 +36,10 @@ const serializeCookieOptions = ({
 const consumeAuthToken = () => {
   const token = window.mmtAuthToken
 
-  if (!token) return
-
+  // Delete regardless of whether or not it's a valid token
   delete window.mmtAuthToken
+
+  if (!isValidMMTToken(token)) return
 
   // Encoded so a cookie cannot carry its own cookie attributes.
   document.cookie = [

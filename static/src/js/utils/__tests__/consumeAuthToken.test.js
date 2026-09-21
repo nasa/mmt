@@ -12,9 +12,15 @@ const clearCookies = () => {
   })
 }
 
-const buildToken = () => jwt.sign(
-  // Always keep the expiration sometime in the future
-  { exp: Math.floor(Date.now() / 1000) + 900 },
+const buildToken = (overrides = {}) => jwt.sign(
+  {
+    edlToken: 'mock-edl-token',
+    refreshToken: 'mock-refresh-token',
+    edlProfile: { uid: 'mock-user' },
+    // Always keep the expiration sometime in the future
+    exp: Math.floor(Date.now() / 1000) + 900,
+    ...overrides
+  },
   'mock-secret'
 )
 
@@ -68,26 +74,40 @@ describe('consumeAuthToken', () => {
     })
   })
 
-  describe('when the captured token carries cookie attributes of its own', () => {
-    const craftedToken = 'crafted; Domain=nasa.gov'
-
-    test('does not let the token widen the cookie past this host', () => {
-      const cookieSpy = vi.spyOn(document, 'cookie', 'set')
-      window.mmtAuthToken = craftedToken
+  describe('when the captured value is not an MMT Tokencons', () => {
+    test('does not store a value carrying cookie attributes of its own', () => {
+      window.mmtAuthToken = 'crafted; Domain=nasa.gov'
 
       consumeAuthToken()
 
-      const [written] = cookieSpy.mock.calls.at(-1)
-
-      expect(written).not.toContain('Domain=')
+      expect(document.cookie).not.toContain(MMT_COOKIE)
     })
 
-    test('keeps the whole value inside the cookie', () => {
-      window.mmtAuthToken = craftedToken
+    test('does not store a token that is missing MMT attributes', () => {
+      window.mmtAuthToken = jwt.sign(
+        { exp: Math.floor(Date.now() / 1000) + 900 },
+        'mock-secret'
+      )
 
       consumeAuthToken()
 
-      expect(document.cookie).toContain(`${MMT_COOKIE}=${encodeURIComponent(craftedToken)}`)
+      expect(document.cookie).not.toContain(MMT_COOKIE)
+    })
+
+    test('does not store an expired token', () => {
+      window.mmtAuthToken = buildToken({ exp: Math.floor(Date.now() / 1000) - 60 })
+
+      consumeAuthToken()
+
+      expect(document.cookie).not.toContain(MMT_COOKIE)
+    })
+
+    test('takes the rejected value back off the window', () => {
+      window.mmtAuthToken = 'crafted; Domain=nasa.gov'
+
+      consumeAuthToken()
+
+      expect(window.mmtAuthToken).toBeUndefined()
     })
   })
 
