@@ -58,8 +58,7 @@ const StagedConceptPreview = () => {
   const {
     ingestMutation,
     ingestDraft,
-    error: ingestDraftError,
-    loading: ingestLoading
+    error: ingestDraftError
   } = useIngestDraftMutation()
 
   const toggleShowDeleteModal = (nextState) => {
@@ -101,7 +100,7 @@ const StagedConceptPreview = () => {
         variant: 'success'
       })
 
-      navigate('/')
+      navigate('/collections')
     } catch (deleteError) {
       addNotification({
         message: 'Error deleting staged metadata',
@@ -129,9 +128,7 @@ const StagedConceptPreview = () => {
         message: 'Draft created successfully',
         variant: 'success'
       })
-    }
-
-    if (ingestDraftError) {
+    } else if (ingestDraftError) {
       const { message } = ingestDraftError
       errorLogger(ingestDraftError, 'StagedConceptPreview: ingestDraftMutation')
       addNotification({
@@ -139,7 +136,7 @@ const StagedConceptPreview = () => {
         variant: 'danger'
       })
     }
-  }, [ingestLoading])
+  }, [ingestDraft, ingestDraftError])
 
   const { ShortName: pageTitle = '<Blank Name>' } = metadata || {}
 
@@ -151,6 +148,8 @@ const StagedConceptPreview = () => {
       primaryActions={
         [
           {
+            disabled: loading || !metadata,
+            disabledTooltipText: 'Waiting for staged metadata to load',
             icon: FaSave,
             iconTitle: 'A save icon',
             onClick: () => setShowProviderModal(true),
@@ -158,6 +157,8 @@ const StagedConceptPreview = () => {
             variant: 'success'
           },
           {
+            disabled: loading || !metadata,
+            disabledTooltipText: 'Waiting for staged metadata to load',
             icon: FaTrash,
             iconTitle: 'A trash can icon',
             onClick: () => toggleShowDeleteModal(true),

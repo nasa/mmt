@@ -316,7 +316,7 @@ const PublishPreviewHeader = ({ isRevision }) => {
             role="status"
             className="me-2"
           />
-          Staging metadata for production&hellip;
+          {`Staging metadata for ${stagingTargetLabel}…`}
         </div>
       )
     }
@@ -325,8 +325,7 @@ const PublishPreviewHeader = ({ isRevision }) => {
       return (
         <>
           <p>
-            The collection metadata has been staged. Use the link below to
-            continue this workflow in production.
+            {`The collection metadata has been staged. Use the link below to continue this workflow in ${stagingTargetLabel}.`}
           </p>
           <div className="d-flex align-items-center mb-3">
             <code className="flex-grow-1 text-break me-2">{stagedConceptLink}</code>

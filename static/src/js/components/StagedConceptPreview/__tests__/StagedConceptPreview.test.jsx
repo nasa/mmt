@@ -86,6 +86,31 @@ describe('StagedConceptPreview', () => {
     })
   })
 
+  describe('while the staged concept is still loading', () => {
+    test('disables the Save as New Draft and Delete actions', async () => {
+      let resolveGetStagedConcept
+      getStagedConcept.mockReturnValue(new Promise((resolve) => {
+        resolveGetStagedConcept = resolve
+      }))
+
+      setup()
+
+      const saveButton = await screen.findByRole('button', { name: /Save as New Draft/ })
+      const deleteButton = screen.getByRole('button', { name: /Delete/ })
+
+      expect(saveButton).toBeDisabled()
+      expect(deleteButton).toBeDisabled()
+
+      resolveGetStagedConcept({ concept: mockMetadata })
+
+      await waitFor(() => {
+        expect(saveButton).toBeEnabled()
+      })
+
+      expect(deleteButton).toBeEnabled()
+    })
+  })
+
   describe('when retrieving the staged concept results in an error', () => {
     test('renders an error banner', async () => {
       getStagedConcept.mockRejectedValue(new Error('Staged metadata not found.'))
@@ -117,7 +142,7 @@ describe('StagedConceptPreview', () => {
     })
 
     describe('when clicking Delete and confirming', () => {
-      test('deletes the staged concept and navigates home', async () => {
+      test('deletes the staged concept and navigates to the collections list', async () => {
         const navigateSpy = vi.fn()
         vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
 
@@ -141,7 +166,7 @@ describe('StagedConceptPreview', () => {
         expect(conceptType).toBe('collections')
         expect(recordId).toBe('mock-record-id')
 
-        expect(navigateSpy).toHaveBeenCalledWith('/')
+        expect(navigateSpy).toHaveBeenCalledWith('/collections')
       })
     })
 
@@ -314,6 +339,74 @@ describe('StagedConceptPreview', () => {
         await waitFor(() => {
           expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'StagedConceptPreview: ingestDraftMutation')
         })
+      })
+    })
+
+    describe('when retrying after the ingest mutation results in an error', () => {
+      test('ingests a collection draft and navigates to the new draft', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const request = {
+          query: INGEST_DRAFT,
+          variables: {
+            conceptType: 'Collection',
+            metadata: mockMetadata,
+            nativeId: 'MMT_mock-uuid',
+            providerId: 'MMT_2',
+            ummVersion: mockUmmVersion
+          }
+        }
+
+        const { user } = setup({
+          mocks: [
+            {
+              request,
+              error: new Error('An error occurred')
+            },
+            {
+              request,
+              result: {
+                data: {
+                  ingestDraft: {
+                    conceptId: 'C1000000-MMT',
+                    revisionId: '1'
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        const saveButton = await screen.findByRole('button', { name: /Save as New Draft/ })
+        await user.click(saveButton)
+
+        const providerSelect = screen.getByLabelText('Select a provider')
+        await user.selectOptions(providerSelect, 'MMT_2')
+
+        const submitButton = screen.getByRole('button', { name: 'Save & Create Draft' })
+        await user.click(submitButton)
+
+        await waitFor(() => {
+          expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'StagedConceptPreview: ingestDraftMutation')
+        })
+
+        const retrySaveButton = await screen.findByRole('button', { name: /Save as New Draft/ })
+        await user.click(retrySaveButton)
+
+        const retryProviderSelect = screen.getByLabelText('Select a provider')
+        await user.selectOptions(retryProviderSelect, 'MMT_2')
+
+        const retrySubmitButton = screen.getByRole('button', { name: 'Save & Create Draft' })
+        await user.click(retrySubmitButton)
+
+        await waitFor(() => {
+          expect(navigateSpy).toHaveBeenCalledWith('/drafts/collections/C1000000-MMT')
+        })
+
+        // The stale error from the first attempt should not be logged again
+        // alongside the successful retry
+        expect(errorLogger).toHaveBeenCalledTimes(1)
       })
     })
   })
