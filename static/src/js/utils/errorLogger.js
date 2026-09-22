@@ -17,6 +17,9 @@ const errorLogger = async (error, action) => {
 
   const options = {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify(errorObj)
   }
 

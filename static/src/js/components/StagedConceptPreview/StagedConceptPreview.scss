@@ -1,0 +1,14 @@
+.staged-concept-preview {
+  &__preview {
+    & > .container {
+      max-width: initial;
+      padding: 0;
+    }
+
+    // A staged record has no real CMR version yet; CollectionPreview always
+    // renders a version badge next to the short name, so hide it here.
+    & > .container > .row:first-child .badge {
+      display: none;
+    }
+  }
+}
