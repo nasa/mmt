@@ -419,7 +419,7 @@ describe('Layout component', () => {
   })
 
   describe('when clicking the My Providers button', () => {
-    test.only('navigates to /providers', async () => {
+    test('navigates to /providers', async () => {
       const { user } = setup()
 
       const userDropdown = await screen.findByRole('button', { name: /User Name/ })
