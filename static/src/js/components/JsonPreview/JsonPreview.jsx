@@ -15,6 +15,8 @@ import removeEmpty from '../../utils/removeEmpty'
 import Button from '../Button/Button'
 import CustomModal from '../CustomModal/CustomModal'
 
+import './JsonPreview.scss'
+
 const { Original, Modified } = CodeMirrorMerge
 
 const JsonPreview = ({ schema }) => {
@@ -175,6 +177,7 @@ const JsonPreview = ({ schema }) => {
             </div>
 
             <CodeMirror
+              className="json-editor-font"
               value={JSON.stringify(data, null, 2)}
               theme="light"
               editable={false}
@@ -182,11 +185,6 @@ const JsonPreview = ({ schema }) => {
                 [
                   json()
                 ]
-              }
-              style={
-                {
-                  fontFamily: 'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace'
-                }
               }
             />
 
@@ -236,6 +234,7 @@ const JsonPreview = ({ schema }) => {
                 }
                 >
                   <CodeMirror
+                    className="json-editor-font"
                     value={jsonText}
                     height="400px"
                     onChange={handleTextChange}
@@ -247,11 +246,6 @@ const JsonPreview = ({ schema }) => {
                         linter(jsonParseLinter()),
                         ...(schema ? [jsonSchema(schema)] : [])
                       ]
-                    }
-                    style={
-                      {
-                        fontFamily: 'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace'
-                      }
                     }
                   />
                 </div>
@@ -337,6 +331,7 @@ const JsonPreview = ({ schema }) => {
               }
               >
                 <CodeMirrorMerge
+                  cclassName="diff-editor-container json-editor-font" 
                   orientation="a-b"
                   autoFocus
                   collapseUnchanged={

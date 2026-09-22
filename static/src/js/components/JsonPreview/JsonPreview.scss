@@ -1,0 +1,15 @@
+.json-editor-font {
+  .cm-editor {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+}
+
+.diff-editor-container {
+  .cm-mergeView {
+    height: 400px;
+  }
+  
+  .cm-editor {
+    height: 100%;
+  }
+}
