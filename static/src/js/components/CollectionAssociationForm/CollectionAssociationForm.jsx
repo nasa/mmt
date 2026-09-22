@@ -223,18 +223,27 @@ const CollectionAssociationForm = () => {
     let searchFieldKey
 
     if (Object.keys(searchField).includes('rangeStart')) {
-      const rangeStart = moment.utc(Object.values(searchField).at(0)).format('YYYY-MM-DDTHH:mm:ss.SSS')
-      const rangeEnd = moment.utc(Object.values(searchField).at(1)).format('YYYY-MM-DDTHH:mm:ss.SSS')
+      const [start, end] = Object.values(searchField)
+      const rangeStart = moment.utc(start).format('YYYY-MM-DDTHH:mm:ss.SSS')
+      const rangeEnd = moment.utc(end).format('YYYY-MM-DDTHH:mm:ss.SSS')
       searchFieldValue = `${rangeStart},${rangeEnd}`
       searchFieldKey = 'temporal'
     } else {
-      searchFieldKey = Object.keys(searchField)[0]
-      searchFieldValue = Object.values(searchField)[0]
+      // eslint-disable-next-line prefer-destructuring
+      [searchFieldKey, searchFieldValue] = Object.entries(searchField)[0]
     }
 
     setSearchParams((currentParams) => {
       currentParams.set('searchField', searchFieldKey)
       currentParams.set('searchFieldValue', searchFieldValue)
+
+      return Object.fromEntries(currentParams)
+    })
+
+    setSearchParams((currentParams) => {
+      currentParams.set('searchField', searchFieldKey)
+      currentParams.set('searchFieldValue', searchFieldValue)
+
       return Object.fromEntries(currentParams)
     })
 
