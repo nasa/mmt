@@ -47,14 +47,14 @@ import {
 
 vi.mock('../../../utils/errorLogger')
 
-const mocks = vi.hoisted(() => ({
+const mockActuaUseNavigate = vi.hoisted(() => ({
   actualUseNavigate: undefined
 }))
 
 vi.mock('react-router', async (importOriginal) => {
   const actual = await importOriginal()
 
-  mocks.actualUseNavigate = actual.useNavigate
+  mockActuaUseNavigate.actualUseNavigate = actual.useNavigate
 
   return {
     ...actual,
@@ -131,7 +131,7 @@ const setup = ({
 
 describe('CollectionAssociationForm component', () => {
   afterEach(() => {
-    router.useNavigate.mockImplementation(mocks.actualUseNavigate)
+    router.useNavigate.mockImplementation(mockActuaUseNavigate.actualUseNavigate)
   })
 
   describe('when the component mounts', () => {
