@@ -1,11 +1,18 @@
 import jwt from 'jsonwebtoken'
 
+const allowedProperties = [
+  'edlProfile',
+  'edlToken',
+  'exp',
+  'iat',
+  'refreshToken'
+]
 /**
- * Checks that a value looks like an MMT JWT issue by this deployment.
+ * Checks that a value contains the appropriate MMT Token shape.
  * @param {String} token The string being checked
- * @returns {Boolean} 'true' when the string supplied is a valid, non-expired JWT token
+ * @returns {Boolean} 'true' when the string supplied has the appropriate token shape and is not expired
  */
-const isValidMMTToken = (token) => {
+const hasValidMMTTokenShape = (token) => {
   if (typeof token !== 'string' || token.length === 0) return false
 
   let decodedToken
@@ -18,6 +25,12 @@ const isValidMMTToken = (token) => {
   }
 
   if (!decodedToken || typeof decodedToken !== 'object') return false
+
+  // Check to see that token doesn't contain any properties we don't expect
+  const hasUnexpectedProperty = Object.keys(decodedToken)
+    .some((property) => !allowedProperties.includes(property))
+
+  if (hasUnexpectedProperty) return false
 
   const {
     edlProfile,
@@ -34,4 +47,4 @@ const isValidMMTToken = (token) => {
   return exp * 1000 > Date.now()
 }
 
-export default isValidMMTToken
+export default hasValidMMTTokenShape

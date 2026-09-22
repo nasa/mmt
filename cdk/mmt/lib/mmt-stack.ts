@@ -112,7 +112,6 @@ export class MmtStack extends cdk.Stack {
     // (see `stagingSecretApiKey` and `stagingTargetConfig` below).
     const environment = {
       COLLECTION_TEMPLATES_BUCKET_NAME,
-      COOKIE_DOMAIN,
       EDL_CLIENT_ID,
       EDL_PASSWORD,
       GTM_PROPERTY_ID,
