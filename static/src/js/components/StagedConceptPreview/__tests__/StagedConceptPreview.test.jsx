@@ -23,6 +23,8 @@ import getStagedConcept from '@/js/utils/getStagedConcept'
 import getUmmVersion from '@/js/utils/getUmmVersion'
 
 import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
+import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
+import { GET_COLLECTION } from '@/js/operations/queries/getCollection'
 
 import StagedConceptPreview from '../StagedConceptPreview'
 
@@ -407,6 +409,265 @@ describe('StagedConceptPreview', () => {
         // The stale error from the first attempt should not be logged again
         // alongside the successful retry
         expect(errorLogger).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  describe('Save as Draft to Existing Collection', () => {
+    beforeEach(() => {
+      getStagedConcept.mockResolvedValue({ concept: mockMetadata })
+      deleteStagedConcept.mockResolvedValue()
+    })
+
+    describe('when exactly one matching collection is found', () => {
+      test('shows a diff and ingests a draft under the existing nativeId/providerId on confirm', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          mocks: [
+            {
+              request: {
+                query: GET_COLLECTIONS,
+                variables: { params: { shortName: 'Mock Short Name' } }
+              },
+              result: {
+                data: {
+                  collections: {
+                    count: 1,
+                    items: [{
+                      conceptId: 'C1000000-MMT_2',
+                      shortName: 'Mock Short Name',
+                      version: '1',
+                      title: 'Existing Published Collection',
+                      provider: 'MMT_2',
+                      entryTitle: 'Existing Published Collection',
+                      revisionId: '3',
+                      granules: null,
+                      tagDefinitions: null,
+                      tags: null,
+                      revisionDate: '2024-01-01T00:00:00.000Z'
+                    }]
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_COLLECTION,
+                variables: { params: { conceptId: 'C1000000-MMT_2' } }
+              },
+              result: {
+                data: {
+                  collection: {
+                    nativeId: 'existing-native-id',
+                    providerId: 'MMT_2',
+                    ummMetadata: {
+                      EntryTitle: 'Existing Published Collection',
+                      ShortName: 'Mock Short Name',
+                      Version: '1'
+                    }
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: INGEST_DRAFT,
+                variables: {
+                  conceptType: 'Collection',
+                  metadata: mockMetadata,
+                  nativeId: 'existing-native-id',
+                  providerId: 'MMT_2',
+                  ummVersion: mockUmmVersion
+                }
+              },
+              result: {
+                data: {
+                  ingestDraft: {
+                    conceptId: 'C1000000-MMT',
+                    revisionId: '2'
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
+        await user.click(saveToExistingButton)
+
+        const confirmButton = await screen.findByRole('button', { name: 'Save as Draft' })
+        await user.click(confirmButton)
+
+        await waitFor(() => {
+          expect(navigateSpy).toHaveBeenCalledWith('/drafts/collections/C1000000-MMT')
+        })
+
+        await waitFor(() => {
+          expect(deleteStagedConcept).toHaveBeenCalledTimes(1)
+        })
+      })
+    })
+
+    describe('when no matching collection is found', () => {
+      test('shows a message explaining no match was found', async () => {
+        const { user } = setup({
+          mocks: [
+            {
+              request: {
+                query: GET_COLLECTIONS,
+                variables: { params: { shortName: 'Mock Short Name' } }
+              },
+              result: {
+                data: {
+                  collections: {
+                    count: 0,
+                    items: []
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
+        await user.click(saveToExistingButton)
+
+        expect(await screen.findByText(/No published collection was found with ShortName "Mock Short Name"/)).toBeInTheDocument()
+      })
+    })
+
+    describe('when more than one matching collection is found', () => {
+      test('lets the user choose which collection to target before showing the diff', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          mocks: [
+            {
+              request: {
+                query: GET_COLLECTIONS,
+                variables: { params: { shortName: 'Mock Short Name' } }
+              },
+              result: {
+                data: {
+                  collections: {
+                    count: 2,
+                    items: [
+                      {
+                        conceptId: 'C1000000-MMT_1',
+                        shortName: 'Mock Short Name',
+                        version: '1',
+                        title: 'First Provider Collection',
+                        provider: 'MMT_1',
+                        entryTitle: 'First Provider Collection',
+                        revisionId: '1',
+                        granules: null,
+                        tagDefinitions: null,
+                        tags: null,
+                        revisionDate: '2024-01-01T00:00:00.000Z'
+                      },
+                      {
+                        conceptId: 'C1000000-MMT_2',
+                        shortName: 'Mock Short Name',
+                        version: '1',
+                        title: 'Second Provider Collection',
+                        provider: 'MMT_2',
+                        entryTitle: 'Second Provider Collection',
+                        revisionId: '1',
+                        granules: null,
+                        tagDefinitions: null,
+                        tags: null,
+                        revisionDate: '2024-01-01T00:00:00.000Z'
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_COLLECTION,
+                variables: { params: { conceptId: 'C1000000-MMT_2' } }
+              },
+              result: {
+                data: {
+                  collection: {
+                    nativeId: 'second-native-id',
+                    providerId: 'MMT_2',
+                    ummMetadata: {
+                      EntryTitle: 'Second Provider Collection',
+                      ShortName: 'Mock Short Name',
+                      Version: '1'
+                    }
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: INGEST_DRAFT,
+                variables: {
+                  conceptType: 'Collection',
+                  metadata: mockMetadata,
+                  nativeId: 'second-native-id',
+                  providerId: 'MMT_2',
+                  ummVersion: mockUmmVersion
+                }
+              },
+              result: {
+                data: {
+                  ingestDraft: {
+                    conceptId: 'C1000000-MMT',
+                    revisionId: '2'
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
+        await user.click(saveToExistingButton)
+
+        const secondMatch = await screen.findByLabelText(/Second Provider Collection/)
+        await user.click(secondMatch)
+
+        const continueButton = screen.getByRole('button', { name: 'Continue' })
+        await user.click(continueButton)
+
+        const confirmButton = await screen.findByRole('button', { name: 'Save as Draft' })
+        await user.click(confirmButton)
+
+        await waitFor(() => {
+          expect(navigateSpy).toHaveBeenCalledWith('/drafts/collections/C1000000-MMT')
+        })
+      })
+    })
+
+    describe('when searching for a matching collection results in an error', () => {
+      test('shows an error message and calls errorLogger', async () => {
+        const { user } = setup({
+          mocks: [
+            {
+              request: {
+                query: GET_COLLECTIONS,
+                variables: { params: { shortName: 'Mock Short Name' } }
+              },
+              error: new Error('An error occurred')
+            }
+          ]
+        })
+
+        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
+        await user.click(saveToExistingButton)
+
+        await waitFor(() => {
+          expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'SaveAsDraftToExistingCollectionModal: getCollections')
+        })
+
+        expect(await screen.findByText('An error occurred')).toBeInTheDocument()
       })
     })
   })

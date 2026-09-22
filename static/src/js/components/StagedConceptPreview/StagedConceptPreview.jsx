@@ -4,7 +4,11 @@ import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import camelcaseKeys from 'camelcase-keys'
-import { FaSave, FaTrash } from 'react-icons/fa'
+import {
+  FaFileImport,
+  FaSave,
+  FaTrash
+} from 'react-icons/fa'
 import { CollectionPreview } from '@edsc/metadata-preview'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -21,6 +25,7 @@ import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
+import SaveAsDraftToExistingCollectionModal from '@/js/components/StagedConceptPreview/SaveAsDraftToExistingCollectionModal'
 
 import deleteStagedConcept from '@/js/utils/deleteStagedConcept'
 import errorLogger from '@/js/utils/errorLogger'
@@ -54,6 +59,7 @@ const StagedConceptPreview = () => {
   const [metadata, setMetadata] = useState()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showProviderModal, setShowProviderModal] = useState(false)
+  const [showSaveToExistingModal, setShowSaveToExistingModal] = useState(false)
 
   const {
     ingestMutation,
@@ -89,6 +95,10 @@ const StagedConceptPreview = () => {
 
   const handleCreateDraft = () => {
     ingestMutation('Collection', metadata, `MMT_${uuidv4()}`, providerId)
+  }
+
+  const handleSaveToExistingCollection = (nativeId, existingProviderId) => {
+    ingestMutation('Collection', metadata, nativeId, existingProviderId)
   }
 
   const handleDelete = async () => {
@@ -159,6 +169,15 @@ const StagedConceptPreview = () => {
           {
             disabled: loading || !metadata,
             disabledTooltipText: 'Waiting for staged metadata to load',
+            icon: FaFileImport,
+            iconTitle: 'A file import icon',
+            onClick: () => setShowSaveToExistingModal(true),
+            title: 'Save as Draft to Existing Collection',
+            variant: 'primary'
+          },
+          {
+            disabled: loading || !metadata,
+            disabledTooltipText: 'Waiting for staged metadata to load',
             icon: FaTrash,
             iconTitle: 'A trash can icon',
             onClick: () => toggleShowDeleteModal(true),
@@ -220,6 +239,12 @@ const StagedConceptPreview = () => {
           type="draft"
           onSubmit={handleCreateDraft}
           primaryActionType={saveTypes.saveAndCreateDraft}
+        />
+        <SaveAsDraftToExistingCollectionModal
+          show={showSaveToExistingModal}
+          toggleModal={setShowSaveToExistingModal}
+          metadata={metadata}
+          onConfirm={handleSaveToExistingCollection}
         />
         <Row>
           <Col md={12} className="staged-concept-preview__preview">
