@@ -26,8 +26,8 @@ vi.mock('@uiw/react-codemirror', () => ({
 vi.mock('react-codemirror-merge', () => {
   /* eslint-disable react/prop-types, react/display-name */
   const CodeMirrorMerge = ({ children }) => <div data-testid="diff-viewer">{children}</div>
-  CodeMirrorMerge.Original = () => <div data-testid="diff-original" />
-  CodeMirrorMerge.Modified = () => <div data-testid="diff-modified" />
+  CodeMirrorMerge.Original = ({ value }) => <div data-testid="diff-original" data-value={value} />
+  CodeMirrorMerge.Modified = ({ value }) => <div data-testid="diff-modified" data-value={value} />
 
   return {
     __esModule: true,
@@ -261,6 +261,11 @@ describe('JsonPreview Component', () => {
 
       expect(screen.getByText('Review Changes')).toBeInTheDocument()
       expect(screen.getByTestId('diff-viewer')).toBeInTheDocument()
+
+      const originalDiv = screen.getByTestId('diff-original')
+      const modifiedDiv = screen.getByTestId('diff-modified')
+      expect(originalDiv).toHaveAttribute('data-value', JSON.stringify({ Name: 'Mock Name' }, null, 2))
+      expect(modifiedDiv).toHaveAttribute('data-value', '{"Name": "Updated Name"}')
 
       // Confirm & Save actually saves the draft
       await user.click(screen.getByRole('button', { name: 'Confirm & Save' }))

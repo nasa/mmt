@@ -1,4 +1,8 @@
-import React, { useState } from 'react'
+import React, {
+  useState,
+  useCallback,
+  useMemo
+} from 'react'
 import Accordion from 'react-bootstrap/Accordion'
 import { cloneDeep } from 'lodash-es'
 import PropTypes from 'prop-types'
@@ -44,6 +48,22 @@ const JsonPreview = ({ schema }) => {
   const [originalJson, setOriginalJson] = useState('')
   const [showDiff, setShowDiff] = useState(false)
 
+  const handleTextChange = useCallback((value) => {
+    setJsonText(value)
+    if (parseError) setParseError(null)
+  }, [parseError]) // SetJsonText and setParseError are stable, but parseError is checked here
+
+  // Memoize the extensions for the main editor so they don't re-initialize on every keystroke
+  const editorExtensions = useMemo(() => [
+    json(),
+    lintGutter(),
+    linter(jsonParseLinter()),
+    ...(schema ? [jsonSchema(schema)] : [])
+  ], [schema])
+
+  // Memoize the read-only extensions used in the Diff/View modes
+  const readOnlyExtensions = useMemo(() => [json()], [])
+
   const handleEditClick = () => {
     const stringified = JSON.stringify(data, null, 2)
     setJsonText(stringified)
@@ -59,11 +79,6 @@ const JsonPreview = ({ schema }) => {
     setPendingErrors([])
     setShowErrors(false)
     setIsEditing(false)
-  }
-
-  const handleTextChange = (value) => {
-    setJsonText(value)
-    if (parseError) setParseError(null)
   }
 
   const handleApplyClick = () => {
@@ -127,6 +142,7 @@ const JsonPreview = ({ schema }) => {
     }
 
     // If no errors, open the Diff Modal so the user can review their changes.
+    setIsEditing(false)
     setShowDiff(true)
   }
 
@@ -181,11 +197,7 @@ const JsonPreview = ({ schema }) => {
               value={JSON.stringify(data, null, 2)}
               theme="light"
               editable={false}
-              extensions={
-                [
-                  json()
-                ]
-              }
+              extensions={readOnlyExtensions}
             />
 
           </Accordion.Body>
@@ -239,14 +251,7 @@ const JsonPreview = ({ schema }) => {
                     height="400px"
                     onChange={handleTextChange}
                     theme="light"
-                    extensions={
-                      [
-                        json(),
-                        lintGutter(),
-                        linter(jsonParseLinter()),
-                        ...(schema ? [jsonSchema(schema)] : [])
-                      ]
-                    }
+                    extensions={editorExtensions}
                   />
                 </div>
               </div>
@@ -331,7 +336,7 @@ const JsonPreview = ({ schema }) => {
               }
               >
                 <CodeMirrorMerge
-                  cclassName="diff-editor-container json-editor-font" 
+                  cclassName="diff-editor-container json-editor-font"
                   orientation="a-b"
                   autoFocus
                   collapseUnchanged={
@@ -343,13 +348,13 @@ const JsonPreview = ({ schema }) => {
                 >
                   <Original
                     value={originalJson}
-                    extensions={[json()]}
+                    extensions={readOnlyExtensions}
                     editable={false}
 
                   />
                   <Modified
                     value={jsonText}
-                    extensions={[json()]}
+                    extensions={editorExtensions}
                     editable={false}
                   />
                 </CodeMirrorMerge>
@@ -362,7 +367,10 @@ const JsonPreview = ({ schema }) => {
             {
               label: 'Back to Edit',
               variant: 'secondary',
-              onClick: () => setShowDiff(false)
+              onClick: () => {
+                setShowDiff(false)
+                setIsEditing(true)
+              }
             },
             {
               label: 'Confirm & Save',
