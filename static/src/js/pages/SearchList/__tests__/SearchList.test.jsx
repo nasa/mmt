@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
@@ -233,7 +234,11 @@ describe('SearchPage component', () => {
 
         await user.click(paginationButton)
 
-        const paginationCells = await screen.findAllByRole('cell')
+        await waitFor(() => {
+          expect(screen.getAllByRole('cell').length).toBeGreaterThan(0)
+        })
+
+        const paginationCells = screen.getAllByRole('cell')
 
         expect(paginationCells[0].textContent).toContain('Collection Short Name 4')
 

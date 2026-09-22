@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -465,7 +466,13 @@ describe('OrderOptionList', () => {
 
       await user.click(paginationButton)
 
-      expect((await screen.findAllByRole('cell'))[0].textContent).toContain('Test order option 1')
+      await waitFor(() => {
+        expect(screen.getAllByRole('cell').length).toBeGreaterThan(0)
+      })
+
+      const paginationCells = screen.getAllByRole('cell')
+
+      expect(paginationCells[0].textContent).toContain('Test order option 1')
     })
   })
 })

@@ -3,6 +3,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 
@@ -295,7 +296,11 @@ describe('AssociatedCollectionPermissionTable', () => {
 
       await user.click(paginationButton)
 
-      const paginationCells = await screen.findAllByRole('cell')
+      await waitFor(() => {
+        expect(screen.getAllByRole('cell').length).toBeGreaterThan(0)
+      })
+
+      const paginationCells = screen.getAllByRole('cell')
 
       expect(paginationCells[0].textContent).toContain('Collection Permission 1, Page 2')
     })

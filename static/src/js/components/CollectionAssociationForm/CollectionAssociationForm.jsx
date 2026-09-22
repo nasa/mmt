@@ -181,10 +181,14 @@ const CollectionAssociationForm = () => {
     }
   })
 
-  const collectionSearch = () => {
-    const searchField = searchParams.get('searchField')
-    const searchFieldValue = searchParams.get('searchFieldValue')
+  const collectionSearch = (overrideSearchField, overrideSearchFieldValue) => {
+    const searchField = overrideSearchField !== undefined ? overrideSearchField : searchParams.get('searchField')
+    const searchFieldValue = overrideSearchFieldValue !== undefined ? overrideSearchFieldValue : searchParams.get('searchFieldValue')
     const provider = searchParams.get('provider')
+
+    if (!searchField || !searchFieldValue) {
+      return
+    }
 
     const params = collectionAssociationSearch(searchField, searchFieldValue)
 
@@ -215,21 +219,22 @@ const CollectionAssociationForm = () => {
     const formattedFormData = camelcaseKeys(searchFormData, { deep: true })
     const { searchField } = formattedFormData
 
+    let searchFieldValue
+    let searchFieldKey
+
+    if (Object.keys(searchField).includes('rangeStart')) {
+      const rangeStart = moment.utc(Object.values(searchField).at(0)).format('YYYY-MM-DDTHH:mm:ss.SSS')
+      const rangeEnd = moment.utc(Object.values(searchField).at(1)).format('YYYY-MM-DDTHH:mm:ss.SSS')
+      searchFieldValue = `${rangeStart},${rangeEnd}`
+      searchFieldKey = 'temporal'
+    } else {
+      searchFieldKey = Object.keys(searchField)[0]
+      searchFieldValue = Object.values(searchField)[0]
+    }
+
     setSearchParams((currentParams) => {
-      if (Object.keys(searchField).includes('rangeStart')) {
-        const rangeStart = moment.utc(Object.values(searchField).at(0)).format('YYYY-MM-DDTHH:mm:ss.SSS')
-        const rangeEnd = moment.utc(Object.values(searchField).at(1)).format('YYYY-MM-DDTHH:mm:ss.SSS')
-        const range = `${rangeStart},${rangeEnd}`
-
-        currentParams.set('searchField', 'temporal')
-        currentParams.set('searchFieldValue', range)
-
-        return Object.fromEntries(currentParams)
-      }
-
-      currentParams.set('searchField', Object.keys(searchField))
-      currentParams.set('searchFieldValue', Object.values(searchField))
-
+      currentParams.set('searchField', searchFieldKey)
+      currentParams.set('searchFieldValue', searchFieldValue)
       return Object.fromEntries(currentParams)
     })
 
@@ -241,7 +246,7 @@ const CollectionAssociationForm = () => {
       }
     })
 
-    collectionSearch()
+    collectionSearch(searchFieldKey, searchFieldValue)
   }
 
   const handleCheckbox = (event) => {
