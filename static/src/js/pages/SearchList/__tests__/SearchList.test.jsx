@@ -235,12 +235,8 @@ describe('SearchPage component', () => {
         await user.click(paginationButton)
 
         await waitFor(() => {
-          expect(screen.getAllByRole('cell').length).toBeGreaterThan(0)
+          expect(screen.getAllByRole('cell')[0].textContent).toContain('Collection Short Name 4')
         })
-
-        const paginationCells = screen.getAllByRole('cell')
-
-        expect(paginationCells[0].textContent).toContain('Collection Short Name 4')
 
         expect(within(paginationNavigation).getByLabelText('Current Page, Page 2')).toBeInTheDocument()
       })
@@ -308,8 +304,13 @@ describe('SearchPage component', () => {
 
       expect(within(dataRow1[1]).getAllByRole('cell')[0].textContent).toContain('Collection Short Name 1')
 
-      expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in descending order/ })).not.toHaveClass('table__sort-button--inactive')
-      expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('table__sort-button--inactive')
+      await waitFor(() => {
+        expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in descending order/ })).not.toHaveClass('table__sort-button--inactive')
+      })
+
+      await waitFor(() => {
+        expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in ascending order/ })).toHaveClass('table__sort-button--inactive')
+      })
     })
   })
 
@@ -333,11 +334,15 @@ describe('SearchPage component', () => {
 
       await user.click(descendingButton)
 
-      const dataRow1 = await within(table).findAllByRole('row')
+      await waitFor(() => {
+        const dataRow1 = within(table).getAllByRole('row')
+        expect(within(dataRow1[1]).getAllByRole('cell')[2].textContent).toContain('Collection Title 3')
+      })
 
-      expect(within(dataRow1[1]).getAllByRole('cell')[2].textContent).toContain('Collection Title 3')
+      await waitFor(() => {
+        expect(within(entryTitleHeader).getByRole('button', { name: /Sort Entry Title in descending order/ })).toHaveClass('table__sort-button--inactive')
+      })
 
-      expect(within(entryTitleHeader).getByRole('button', { name: /Sort Entry Title in descending order/ })).toHaveClass('table__sort-button--inactive')
       expect(within(entryTitleHeader).getByRole('button', { name: /Sort Entry Title in ascending order/ })).not.toHaveClass('table__sort-button--inactive')
     })
   })

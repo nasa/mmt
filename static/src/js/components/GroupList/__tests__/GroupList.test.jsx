@@ -485,12 +485,8 @@ describe('GroupList', () => {
       await user.click(paginationButton)
 
       await waitFor(() => {
-        expect(screen.getAllByRole('cell').length).toBeGreaterThan(0)
+        expect(screen.getAllByRole('cell')[0].textContent).toContain('Test group 21')
       })
-
-      const paginationCells = screen.getAllByRole('cell')
-      const firstCell = paginationCells[0]
-      expect(firstCell.textContent).toContain('Test group 21')
     })
   })
 
