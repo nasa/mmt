@@ -54,6 +54,10 @@ vi.mock('@/js/utils/getUmmVersion')
 vi.mock('@/js/utils/updateTemplate')
 vi.mock('@/js/components/ErrorBanner/ErrorBanner')
 vi.mock('@/js/components/FormNavigation/FormNavigation')
+vi.mock('@/js/components/JsonPreview/JsonPreview', () => ({
+  __esModule: true,
+  default: () => <div data-testid="mock-json-preview" />
+}))
 
 // The actual UMM-C version number is irrelevant to these tests - they only
 // care that whatever version getUmmVersion resolves to is threaded through

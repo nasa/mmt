@@ -5,12 +5,35 @@ import {
   within
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import JSONPretty from 'react-json-pretty'
 
 import JsonPreview from '../JsonPreview'
 import AppContext from '../../../context/AppContext'
 
-vi.mock('react-json-pretty')
+// Mock CodeMirror to render a standard textarea so userEvent.type works easily
+vi.mock('@uiw/react-codemirror', () => ({
+  __esModule: true,
+  default: ({ value, onChange, editable }) => (
+    <textarea
+      aria-label={editable === false ? 'Read-only JSON metadata' : 'Editable JSON metadata'}
+      value={value || ''}
+      onChange={onChange ? (e) => onChange(e.target.value) : undefined}
+      readOnly={editable === false}
+    />
+  )
+}))
+
+// Mock the diff viewer
+vi.mock('react-codemirror-merge', () => {
+  /* eslint-disable react/prop-types, react/display-name */
+  const CodeMirrorMerge = ({ children }) => <div data-testid="diff-viewer">{children}</div>
+  CodeMirrorMerge.Original = () => <div data-testid="diff-original" />
+  CodeMirrorMerge.Modified = () => <div data-testid="diff-modified" />
+
+  return {
+    __esModule: true,
+    default: CodeMirrorMerge
+  }
+})
 
 const mockSchema = {
   type: 'object',
@@ -133,52 +156,36 @@ const errorListText = () => screen.getAllByRole('listitem').map((item) => item.t
 
 describe('JsonPreview Component', () => {
   describe('when draft is not present in the context', () => {
-    test('renders JSONPretty', () => {
+    test('renders a read-only CodeMirror with an empty object', () => {
       setup()
-
-      expect(JSONPretty).toHaveBeenCalledTimes(1)
-      expect(JSONPretty).toHaveBeenCalledWith(expect.objectContaining({
-        data: {}
-      }), {})
+      expect(screen.getByRole('textbox', { name: 'Read-only JSON metadata' })).toHaveValue('{}')
     })
   })
 
   describe('when draft is null', () => {
-    test('renders JSONPretty with empty object', () => {
+    test('renders a read-only CodeMirror with an empty object', () => {
       setup(null)
-
-      expect(JSONPretty).toHaveBeenCalledTimes(1)
-      expect(JSONPretty).toHaveBeenCalledWith(expect.objectContaining({
-        data: {}
-      }), {})
+      expect(screen.getByRole('textbox', { name: 'Read-only JSON metadata' })).toHaveValue('{}')
     })
   })
 
   describe('when ummMetadata is not present in draft', () => {
-    test('renders JSONPretty', () => {
+    test('renders a read-only CodeMirror with an empty object', () => {
       setup({})
-
-      expect(JSONPretty).toHaveBeenCalledTimes(1)
-      expect(JSONPretty).toHaveBeenCalledWith(expect.objectContaining({
-        data: {}
-      }), {})
+      expect(screen.getByRole('textbox', { name: 'Read-only JSON metadata' })).toHaveValue('{}')
     })
   })
 
   describe('when draft metadata exists', () => {
-    test('renders JSONPretty', () => {
+    test('renders a read-only CodeMirror with the formatted JSON', () => {
       setup({
         ummMetadata: {
           Name: 'Mock Name'
         }
       })
 
-      expect(JSONPretty).toHaveBeenCalledTimes(1)
-      expect(JSONPretty).toHaveBeenCalledWith(expect.objectContaining({
-        data: {
-          Name: 'Mock Name'
-        }
-      }), {})
+      const expectedJson = JSON.stringify({ Name: 'Mock Name' }, null, 2)
+      expect(screen.getByRole('textbox', { name: 'Read-only JSON metadata' })).toHaveValue(expectedJson)
     })
   })
 
@@ -220,8 +227,24 @@ describe('JsonPreview Component', () => {
     })
   })
 
+  describe('when the user clicks Copy JSON', () => {
+    test('copies the current JSON to the clipboard', async () => {
+      const user = userEvent.setup()
+      setup({ ummMetadata: { Name: 'Mock Name' } })
+
+      await openEditorAndType(user, '{{"Name": "Updated"}')
+      await user.click(screen.getByRole('button', { name: 'Copy JSON' }))
+
+      const clipboardText = await window.navigator.clipboard.readText()
+
+      expect(clipboardText).toBe('{"Name": "Updated"}')
+
+      expect(screen.getByRole('button', { name: 'Copied!' })).toBeInTheDocument()
+    })
+  })
+
   describe('when the user edits the JSON and clicks Apply', () => {
-    test('calls setDraft with the parsed JSON merged into the draft and closes the modal', async () => {
+    test('opens the diff modal, and confirming saves to draft and closes all modals', async () => {
       const user = userEvent.setup()
 
       const { setDraft } = setup({
@@ -233,7 +256,14 @@ describe('JsonPreview Component', () => {
 
       await openEditorAndType(user, '{{"Name": "Updated Name"}')
 
+      // Click apply opens the Diff Viewer
       await user.click(screen.getByRole('button', { name: 'Apply' }))
+
+      expect(screen.getByText('Review Changes')).toBeInTheDocument()
+      expect(screen.getByTestId('diff-viewer')).toBeInTheDocument()
+
+      // Confirm & Save actually saves the draft
+      await user.click(screen.getByRole('button', { name: 'Confirm & Save' }))
 
       expect(setDraft).toHaveBeenCalledTimes(1)
       expect(setDraft).toHaveBeenCalledWith({
@@ -244,12 +274,30 @@ describe('JsonPreview Component', () => {
       })
 
       expect(screen.queryByText('Editing JSON')).not.toBeInTheDocument()
-      expect(screen.queryByRole('textbox', { name: 'Editable JSON metadata' })).not.toBeInTheDocument()
+      expect(screen.queryByText('Review Changes')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('when the user clicks Back to Edit from the review changes modal', () => {
+    test('closes the diff modal and returns to the editor', async () => {
+      const user = userEvent.setup()
+
+      setup({ ummMetadata: { Name: 'Mock Name' } })
+
+      await openEditorAndType(user, '{{"Name": "Updated Name"}')
+      await user.click(screen.getByRole('button', { name: 'Apply' }))
+
+      expect(screen.getByText('Review Changes')).toBeInTheDocument()
+
+      await user.click(screen.getByRole('button', { name: 'Back to Edit' }))
+
+      expect(screen.queryByText('Review Changes')).not.toBeInTheDocument()
+      expect(screen.getByText('Editing JSON')).toBeInTheDocument()
     })
   })
 
   describe('when the user enters invalid JSON and clicks Apply', () => {
-    test('shows an inline error, does not call setDraft, does not open the errors modal, and stays in edit mode', async () => {
+    test('shows an inline error, does not show diff modal, does not call setDraft, does not open the errors modal, and stays in edit mode', async () => {
       const user = userEvent.setup()
 
       const { setDraft } = setup({
@@ -259,10 +307,10 @@ describe('JsonPreview Component', () => {
       })
 
       await openEditorAndType(user, '{{ this is not valid json')
-
       await user.click(screen.getByRole('button', { name: 'Apply' }))
 
       expect(setDraft).not.toHaveBeenCalled()
+      expect(screen.queryByText('Review Changes')).not.toBeInTheDocument()
       expect(screen.getByRole('alert')).toHaveTextContent(/Invalid JSON/)
 
       // A parse failure isn't something the errors modal makes sense for --
@@ -323,7 +371,7 @@ describe('JsonPreview Component', () => {
 
   describe('when a schema prop is provided', () => {
     describe('when the edited JSON is only missing a required field', () => {
-      test('saves immediately with no errors modal, since missing-required-field errors are ignored', async () => {
+      test('proceeds to review changes and saves with no errors modal, since missing-required-field errors are ignored', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -333,9 +381,13 @@ describe('JsonPreview Component', () => {
         }, { schema: mockSchema })
 
         // Removes the required `Name` field entirely
+
         await openEditorAndType(user, '{{}')
 
         await user.click(screen.getByRole('button', { name: 'Apply' }))
+
+        expect(screen.getByText('Review Changes')).toBeInTheDocument()
+        await user.click(screen.getByRole('button', { name: 'Confirm & Save' }))
 
         expect(setDraft).toHaveBeenCalledTimes(1)
         expect(setDraft).toHaveBeenCalledWith({
@@ -348,7 +400,7 @@ describe('JsonPreview Component', () => {
     })
 
     describe('when the edited JSON has an unknown/typo\'d field name', () => {
-      test('opens an errors modal naming the offending field, and does not save', async () => {
+      test('opens an errors modal naming the offending field, and does not open diff viewer', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -362,6 +414,7 @@ describe('JsonPreview Component', () => {
         await user.click(screen.getByRole('button', { name: 'Apply' }))
 
         expect(setDraft).not.toHaveBeenCalled()
+        expect(screen.queryByText('Review Changes')).not.toBeInTheDocument()
 
         expect(screen.getByText('Invalid JSON')).toBeInTheDocument()
         expect(errorListText()).toMatch(/Nmae/)
@@ -429,7 +482,7 @@ describe('JsonPreview Component', () => {
     })
 
     describe('when the edited JSON has an invalid value for a oneOf/const-style enum field', () => {
-      test('opens an errors modal instead of silently saving the invalid value', async () => {
+      test('opens an errors modal instead of proceeding to diff viewer', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -451,7 +504,7 @@ describe('JsonPreview Component', () => {
         expect(screen.getByText(/must fix these errors before proceeding to save/i)).toBeInTheDocument()
       })
 
-      test('a valid enum value saves immediately with no errors modal', async () => {
+      test('a valid enum value proceeds to review changes with no errors modal', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -463,6 +516,8 @@ describe('JsonPreview Component', () => {
         await openEditorAndType(user, '{{"Status": "Inactive"}')
 
         await user.click(screen.getByRole('button', { name: 'Apply' }))
+
+        await user.click(screen.getByRole('button', { name: 'Confirm & Save' }))
 
         expect(setDraft).toHaveBeenCalledTimes(1)
         expect(setDraft).toHaveBeenCalledWith({
@@ -495,14 +550,13 @@ describe('JsonPreview Component', () => {
 
         expect(errorListText()).toMatch(/Nmae/)
         expect(errorListText()).not.toMatch(/"required"/)
-
         // A single structural error still renders as a one-item list
         expect(screen.getAllByRole('listitem')).toHaveLength(1)
       })
     })
 
     describe('when the edited JSON is missing the required field in every oneOf branch', () => {
-      test('opens an errors modal for the oneOf wrapper error and does not save', async () => {
+      test('opens an errors modal for the oneOf wrapper error and does not open diff viewer', async () => {
         const user = userEvent.setup()
 
         const { setDraft } = setup({
@@ -519,6 +573,7 @@ describe('JsonPreview Component', () => {
         await user.click(screen.getByRole('button', { name: 'Apply' }))
 
         expect(setDraft).not.toHaveBeenCalled()
+        expect(screen.queryByText('Review Changes')).not.toBeInTheDocument()
 
         expect(screen.getByText('Invalid JSON')).toBeInTheDocument()
         expect(errorListText()).not.toMatch(/"required"/)
