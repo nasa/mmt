@@ -336,7 +336,7 @@ const JsonPreview = ({ schema }) => {
               }
               >
                 <CodeMirrorMerge
-                  cclassName="diff-editor-container json-editor-font"
+                  className="diff-editor-container json-editor-font"
                   orientation="a-b"
                   autoFocus
                   collapseUnchanged={
