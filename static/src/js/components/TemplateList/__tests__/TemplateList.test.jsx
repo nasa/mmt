@@ -124,6 +124,7 @@ describe('TemplateList', () => {
         setup()
 
         const button = screen.getByRole('button', { name: /New Template/ })
+        // This is a relative path under templates
         expect(button).toHaveAttribute('href', '/new')
       })
     })

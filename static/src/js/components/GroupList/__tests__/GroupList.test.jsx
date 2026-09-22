@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -483,7 +484,11 @@ describe('GroupList', () => {
 
       await user.click(paginationButton)
 
-      const paginationCells = await screen.findAllByRole('cell')
+      await waitFor(() => {
+        expect(screen.getAllByRole('cell').length).toBeGreaterThan(0)
+      })
+
+      const paginationCells = screen.getAllByRole('cell')
       const firstCell = paginationCells[0]
       expect(firstCell.textContent).toContain('Test group 21')
     })
