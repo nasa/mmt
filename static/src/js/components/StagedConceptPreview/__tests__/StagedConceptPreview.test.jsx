@@ -56,7 +56,7 @@ const setup = ({ mocks = [] } = {}) => {
           <Routes>
             <Route
               element={<StagedConceptPreview />}
-              path="/collections/staged/:id"
+              path="/:type/staged/:id"
             />
           </Routes>
         </MemoryRouter>

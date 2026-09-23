@@ -18,6 +18,7 @@ import useMMTCookie from '@/js/hooks/useMMTCookie'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import saveTypes from '@/js/constants/saveTypes'
+import urlValueTypeToConceptTypeStringMap from '@/js/constants/urlValueToConceptStringMap'
 
 import ChooseProviderModal from '@/js/components/ChooseProviderModal/ChooseProviderModal'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
@@ -34,9 +35,6 @@ import getStagedConcept from '@/js/utils/getStagedConcept'
 import '@edsc/metadata-preview/dist/style.min.css'
 import './StagedConceptPreview.scss'
 
-// Staged concepts only support collections for now (see sharedConstants/s3ConceptTypes)
-const STAGED_CONCEPT_TYPE = 'collections'
-
 /**
  * Renders a StagedConceptPreview component
  *
@@ -52,7 +50,12 @@ const StagedConceptPreview = () => {
 
   const navigate = useNavigate()
   const { addNotification } = useNotificationsContext()
-  const { id } = useParams()
+  const { id, type } = useParams()
+
+  // `type` is the plural, lowercase URL segment (e.g. "collections") that PublishPreview
+  // used to build the staged concept link; `conceptType` is the singular form (e.g.
+  // "Collection") used by GraphQL operations and the metadata preview.
+  const conceptType = urlValueTypeToConceptTypeStringMap[type]
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState()
@@ -74,7 +77,7 @@ const StagedConceptPreview = () => {
   useEffect(() => {
     const fetchStagedConcept = async () => {
       try {
-        const { concept } = await getStagedConcept(mmtJwt, STAGED_CONCEPT_TYPE, id)
+        const { concept } = await getStagedConcept(mmtJwt, type, id)
 
         if (!concept) {
           throw new Error('Staged metadata not found. It may have expired or already been saved as new draft.')
@@ -91,26 +94,26 @@ const StagedConceptPreview = () => {
 
     setLoading(true)
     fetchStagedConcept()
-  }, [id])
+  }, [id, type])
 
   const handleCreateDraft = () => {
-    ingestMutation('Collection', metadata, `MMT_${uuidv4()}`, providerId)
+    ingestMutation(conceptType, metadata, `MMT_${uuidv4()}`, providerId)
   }
 
   const handleSaveToExistingCollection = (nativeId, existingProviderId) => {
-    ingestMutation('Collection', metadata, nativeId, existingProviderId)
+    ingestMutation(conceptType, metadata, nativeId, existingProviderId)
   }
 
   const handleDelete = async () => {
     try {
-      await deleteStagedConcept(mmtJwt, STAGED_CONCEPT_TYPE, id)
+      await deleteStagedConcept(mmtJwt, type, id)
 
       addNotification({
         message: 'Staged metadata deleted successfully',
         variant: 'success'
       })
 
-      navigate('/collections')
+      navigate(`/${type}`)
     } catch (deleteError) {
       addNotification({
         message: 'Error deleting staged metadata',
@@ -129,11 +132,11 @@ const StagedConceptPreview = () => {
       const { conceptId } = fetchedIngestDraft
 
       // Delete staged concept
-      deleteStagedConcept(mmtJwt, STAGED_CONCEPT_TYPE, id).catch((deleteError) => {
+      deleteStagedConcept(mmtJwt, type, id).catch((deleteError) => {
         errorLogger(deleteError, 'StagedConceptPreview: deleteStagedConcept')
       })
 
-      navigate(`/drafts/collections/${conceptId}`)
+      navigate(`/drafts/${type}/${conceptId}`)
       addNotification({
         message: 'Draft created successfully',
         variant: 'success'
@@ -256,7 +259,7 @@ const StagedConceptPreview = () => {
                 }
               }
               conceptId={id}
-              conceptType="Collection"
+              conceptType={conceptType}
             />
           </Col>
         </Row>
