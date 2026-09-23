@@ -510,6 +510,92 @@ describe('StagedConceptPreview', () => {
       })
     })
 
+    describe('when the existing published collection matches the staged metadata exactly', () => {
+      test('shows a no differences message instead of the diff viewer and still allows confirming', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          mocks: [
+            {
+              request: {
+                query: GET_COLLECTIONS,
+                variables: { params: { shortName: 'Mock Short Name' } }
+              },
+              result: {
+                data: {
+                  collections: {
+                    count: 1,
+                    items: [{
+                      conceptId: 'C1000000-MMT_2',
+                      shortName: 'Mock Short Name',
+                      version: '1',
+                      title: 'Mock Staged Collection',
+                      provider: 'MMT_2',
+                      entryTitle: 'Mock Staged Collection',
+                      revisionId: '3',
+                      granules: null,
+                      tagDefinitions: null,
+                      tags: null,
+                      revisionDate: '2024-01-01T00:00:00.000Z'
+                    }]
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_COLLECTION,
+                variables: { params: { conceptId: 'C1000000-MMT_2' } }
+              },
+              result: {
+                data: {
+                  collection: {
+                    nativeId: 'existing-native-id',
+                    providerId: 'MMT_2',
+                    ummMetadata: mockMetadata
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: INGEST_DRAFT,
+                variables: {
+                  conceptType: 'Collection',
+                  metadata: mockMetadata,
+                  nativeId: 'existing-native-id',
+                  providerId: 'MMT_2',
+                  ummVersion: mockUmmVersion
+                }
+              },
+              result: {
+                data: {
+                  ingestDraft: {
+                    conceptId: 'C1000000-MMT',
+                    revisionId: '2'
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
+        await user.click(saveToExistingButton)
+
+        expect(await screen.findByText(/No differences were found between the existing published collection and the staged metadata/)).toBeInTheDocument()
+        expect(screen.queryByText(/Review the differences between/)).not.toBeInTheDocument()
+
+        const confirmButton = screen.getByRole('button', { name: 'Save as Draft' })
+        await user.click(confirmButton)
+
+        await waitFor(() => {
+          expect(navigateSpy).toHaveBeenCalledWith('/drafts/collections/C1000000-MMT')
+        })
+      })
+    })
+
     describe('when no matching collection is found', () => {
       test('shows a message explaining no match was found', async () => {
         const { user } = setup({

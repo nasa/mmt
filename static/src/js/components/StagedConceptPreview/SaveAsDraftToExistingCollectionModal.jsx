@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useLazyQuery } from '@apollo/client'
+import { isEqual } from 'lodash-es'
 import Alert from 'react-bootstrap/Alert'
 import Form from 'react-bootstrap/Form'
 import ListGroup from 'react-bootstrap/ListGroup'
@@ -206,24 +207,40 @@ const SaveAsDraftToExistingCollectionModal = ({
 
     if (status === 'diff-confirm') {
       const { ummMetadata } = targetCollection
+      const hasNoDifferences = isEqual(ummMetadata, metadata)
 
       return (
         <>
           <p>
-            Review the differences between the existing published collection (left) and the
+            {
+              hasNoDifferences
+                ? 'Confirming will save the staged metadata as a draft under the existing collection, so publishing it will update this collection instead of creating a duplicate.'
+                : `Review the differences between the existing published collection (left) and the
             staged metadata (right). Confirming will save the staged metadata as a draft under
             the existing collection, so publishing it will update this collection instead of
-            creating a duplicate.
+            creating a duplicate.`
+            }
           </p>
-          <div className="save-as-draft-to-existing-collection-modal__diff">
-            <ReactDiffViewer
-              oldValue={JSON.stringify(ummMetadata, null, 2)}
-              newValue={JSON.stringify(metadata, null, 2)}
-              splitView
-              leftTitle="Existing published collection"
-              rightTitle="Staged metadata"
-            />
-          </div>
+          {
+            hasNoDifferences
+              ? (
+                <Alert variant="info">
+                  No differences were found between the existing published collection and the
+                  staged metadata.
+                </Alert>
+              )
+              : (
+                <div className="save-as-draft-to-existing-collection-modal__diff">
+                  <ReactDiffViewer
+                    oldValue={JSON.stringify(ummMetadata, null, 2)}
+                    newValue={JSON.stringify(metadata, null, 2)}
+                    splitView
+                    leftTitle="Existing published collection"
+                    rightTitle="Staged metadata"
+                  />
+                </div>
+              )
+          }
         </>
       )
     }
