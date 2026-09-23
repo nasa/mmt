@@ -29,7 +29,7 @@ import './SaveAsDraftToExistingCollectionModal.scss'
 /**
  * Renders a SaveAsDraftToExistingCollectionModal component.
  *
- * Searches the current environment's CMR for a published collection with a matching
+ * Searches CMR for a published collection with a matching
  * ShortName. If exactly one is found it is used as the target automatically; if more
  * than one is found the user is asked to choose which one is the intended target. Once
  * a target is chosen, its published metadata is compared against the staged metadata in
@@ -53,7 +53,7 @@ const SaveAsDraftToExistingCollectionModal = ({
   metadata,
   onConfirm
 }) => {
-  // 'searching' | 'no-match' | 'select-match' | 'loading-target' | 'diff-confirm' | 'error'
+  // Status: 'searching' | 'no-match' | 'select-match' | 'loading-target' | 'diff-confirm' | 'error'
   const [status, setStatus] = useState('searching')
   const [errorMessage, setErrorMessage] = useState(null)
   const [matches, setMatches] = useState([])
