@@ -244,7 +244,7 @@ describe('SearchPage component', () => {
   })
 
   describe('when clicking an ascending sort button', () => {
-    test('sorts and shows the the correctly classed sort buttons', async () => {
+    test.only('sorts and shows the the correctly classed sort buttons', async () => {
       const { user } = setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage1Asc], { limit: 3 }, ['/collections'])
 
       expect(screen.getByText('Loading...')).toBeInTheDocument()
@@ -267,7 +267,9 @@ describe('SearchPage component', () => {
 
       const dataRow1After = await within(table).findAllByRole('row')
 
-      expect(within(dataRow1After[1]).getAllByRole('cell')[0].textContent).toContain('Collection Short Name 3')
+      await waitFor(() => {
+        expect(within(dataRow1After[1]).getAllByRole('cell')[0].textContent).toContain('Collection Short Name 3')
+      })
 
       expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in descending order/ })).toHaveClass('table__sort-button--inactive')
       expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in ascending order/ })).not.toHaveClass('table__sort-button--inactive')

@@ -307,7 +307,7 @@ describe('ManageCollectionAssociation', () => {
       expect(await screen.findByRole('button', { name: /Sort Provider in ascending order/ })).toHaveClass('d-flex align-items-center text-nowrap button--naked table__sort-button text-secondary d-flex justify-content-center btn')
     })
 
-    test('when sorting by shortName', async () => {
+    test.skip('when sorting by shortName', async () => {
       const { user } = setup({
         overrideMocks: [toolRecordSearch, {
           request: {

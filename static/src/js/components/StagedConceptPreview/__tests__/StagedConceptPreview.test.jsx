@@ -6,7 +6,6 @@ import {
 } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import userEvent from '@testing-library/user-event'
-import * as router from 'react-router'
 import {
   MemoryRouter,
   Route,
@@ -31,6 +30,15 @@ vi.mock('@/js/utils/deleteStagedConcept')
 vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/utils/getUmmVersion')
 vi.mock('@/js/hooks/useAvailableProviders')
+
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn()
+  }
+})
 
 const mockUmmVersion = 'mock-umm-c-version'
 
@@ -144,7 +152,8 @@ describe('StagedConceptPreview', () => {
     describe('when clicking Delete and confirming', () => {
       test('deletes the staged concept and navigates to the collections list', async () => {
         const navigateSpy = vi.fn()
-        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+        const { useNavigate } = await import('react-router')
+        useNavigate.mockImplementation(() => navigateSpy)
 
         deleteStagedConcept.mockResolvedValue()
 
@@ -212,7 +221,8 @@ describe('StagedConceptPreview', () => {
     describe('when choosing a provider and submitting results in a success', () => {
       test('ingests a collection draft and navigates to the new draft', async () => {
         const navigateSpy = vi.fn()
-        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+        const { useNavigate } = await import('react-router')
+        useNavigate.mockImplementation(() => navigateSpy)
 
         const { user } = setup({
           mocks: [{
@@ -263,7 +273,8 @@ describe('StagedConceptPreview', () => {
     describe('when the staged record fails to delete after the draft is created', () => {
       test('still navigates to the new draft and logs the error', async () => {
         const navigateSpy = vi.fn()
-        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+        const { useNavigate } = await import('react-router')
+        useNavigate.mockImplementation(() => navigateSpy)
 
         deleteStagedConcept.mockRejectedValue(new Error('Failed to delete staged metadata'))
 
@@ -345,7 +356,8 @@ describe('StagedConceptPreview', () => {
     describe('when retrying after the ingest mutation results in an error', () => {
       test('ingests a collection draft and navigates to the new draft', async () => {
         const navigateSpy = vi.fn()
-        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+        const { useNavigate } = await import('react-router')
+        useNavigate.mockImplementation(() => navigateSpy)
 
         const request = {
           query: INGEST_DRAFT,
