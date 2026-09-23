@@ -4,7 +4,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 
 import usePermissions from '@/js/hooks/usePermissions'
 
@@ -15,6 +15,15 @@ import GroupListPage from '../GroupListPage'
 vi.mock('@/js/hooks/usePermissions')
 vi.mock('../../../components/GroupList/GroupList')
 vi.mock('../../../components/GroupSearchForm/GroupSearchForm')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
 
 const setup = (
   pageUrl = '/groups',

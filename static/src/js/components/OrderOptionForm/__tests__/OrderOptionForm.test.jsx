@@ -37,6 +37,16 @@ vi.mock('jsonwebtoken', async () => ({
   }
 }))
 
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 const setup = ({
   mocks = [],
   pageUrl

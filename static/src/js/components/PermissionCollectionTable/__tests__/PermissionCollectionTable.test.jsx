@@ -3,6 +3,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -114,7 +115,9 @@ describe('PermissionCollectionTable', () => {
 
       await user.click(ascendingButton)
 
-      expect(await within(row1).findByRole('button', { name: /Sort Short Name in ascending order/ })).not.toHaveClass('table__sort-button--inactive')
+      await waitFor(() => {
+        expect(within(row1).getByRole('button', { name: /Sort Short Name in ascending order/ })).not.toHaveClass('table__sort-button--inactive')
+      })
     })
   })
 

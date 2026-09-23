@@ -10,7 +10,7 @@ import {
   MemoryRouter,
   Routes,
   Route
-} from 'react-router-dom'
+} from 'react-router'
 import * as router from 'react-router'
 import { MockedProvider } from '@apollo/client/testing'
 import userEvent from '@testing-library/user-event'
@@ -47,6 +47,21 @@ import {
 
 vi.mock('../../../utils/errorLogger')
 
+const mockActuaUseNavigate = vi.hoisted(() => ({
+  actualUseNavigate: undefined
+}))
+
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  mockActuaUseNavigate.actualUseNavigate = actual.useNavigate
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(actual.useNavigate)
+  }
+})
+
 const setup = ({
   additionalMocks = [],
   overrideInitialEntries,
@@ -79,7 +94,7 @@ const setup = ({
           <MockedProvider mocks={overrideMocks || mocks}>
             <Routes>
               <Route
-                path={overridePath || 'tools/:conceptId/collection-association-search'}
+                path={overridePath || '/tools/:conceptId/collection-association-search'}
                 element={
                   (
                     <ErrorBoundary>
@@ -91,7 +106,7 @@ const setup = ({
                 }
               />
               <Route
-                path={overridePath || 'order-options/:conceptId/collection-association-search'}
+                path={overridePath || '/order-options/:conceptId/collection-association-search'}
                 element={
                   (
                     <ErrorBoundary>
@@ -115,6 +130,10 @@ const setup = ({
 }
 
 describe('CollectionAssociationForm component', () => {
+  afterEach(() => {
+    router.useNavigate.mockImplementation(mockActuaUseNavigate.actualUseNavigate)
+  })
+
   describe('when the component mounts', () => {
     test('it should render the search form', async () => {
       const { user } = setup({})
@@ -385,9 +404,8 @@ describe('CollectionAssociationForm component', () => {
 
       await user.click(createSelectedAssociationButton)
 
-      expect(navigateSpy).toHaveBeenCalledTimes(2)
-      expect(navigateSpy).toHaveBeenNthCalledWith(1, '?searchField=entryTitle&searchFieldValue=*', undefined)
-      expect(navigateSpy).toHaveBeenNthCalledWith(2, '/tools/T1200000098-MMT_2/collection-association')
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
+      expect(navigateSpy).toHaveBeenCalledWith('/tools/T1200000098-MMT_2/collection-association')
     })
   })
 
@@ -430,7 +448,7 @@ describe('CollectionAssociationForm component', () => {
 
       await user.click(createSelectedAssociationButton)
 
-      expect(navigateSpy).toHaveBeenCalledTimes(2)
+      expect(navigateSpy).toHaveBeenCalledTimes(1)
       expect(navigateSpy).toHaveBeenCalledWith('/order-options/OO1257381321-EDF_OPS')
     })
   })

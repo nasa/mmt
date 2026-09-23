@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react'
 import pluralize from 'pluralize'
 import { useSuspenseQuery } from '@apollo/client'
-import { useParams } from 'react-router'
-import { useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router'
 
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'

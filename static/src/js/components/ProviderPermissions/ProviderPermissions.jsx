@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useLazyQuery, useMutation } from '@apollo/client'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import { isEqual } from 'lodash-es'
 
 import Col from 'react-bootstrap/Col'

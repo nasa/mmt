@@ -13,6 +13,15 @@ import { GET_ORDER_OPTION } from '@/js/operations/queries/getOrderOption'
 import CollectionAssociationFormPage from '../CollectionAssociationFormPage'
 
 vi.mock('@/js/components/CollectionAssociationForm/CollectionAssociationForm')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
 
 const mockTool = {
   accessConstraints: null,

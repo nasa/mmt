@@ -10,7 +10,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 
 import { PUBLISH_DRAFT } from '@/js/operations/mutations/publishDraft'
 import getUmmVersion from '@/js/utils/getUmmVersion'
@@ -20,6 +20,16 @@ import usePublishMutation from '../usePublishMutation'
 vi.mock('../utils/getHumanizedNameFromTypeParam', () => ({
   default: () => 'humanizedName'
 }))
+
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
 
 // eslint-disable-next-line react/prop-types
 const TestComponent = ({ queryName, customNativeId }) => {

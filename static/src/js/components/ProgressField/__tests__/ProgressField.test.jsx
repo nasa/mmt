@@ -1,12 +1,22 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 import userEvent from '@testing-library/user-event'
 import * as router from 'react-router'
 
 import ProgressField from '../ProgressField'
 
 import progressCircleTypes from '../../../constants/progressCircleTypes'
+
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
 
 const setup = (fieldInfo) => {
   const user = userEvent.setup()

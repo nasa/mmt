@@ -4,7 +4,7 @@ import {
   MemoryRouter,
   Routes,
   Route
-} from 'react-router-dom'
+} from 'react-router'
 
 import userEvent from '@testing-library/user-event'
 import PrimaryNavigationGroup from '../PrimaryNavigationGroup'
@@ -16,6 +16,16 @@ vi.mock('../../PrimaryNavigationLink/PrimaryNavigationLink', () => ({
     <div data-testid="mock-primary-navigation-link">Mock Link</div>
   ))
 }))
+
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
 
 const setup = ({
   overrideInitialEntries,

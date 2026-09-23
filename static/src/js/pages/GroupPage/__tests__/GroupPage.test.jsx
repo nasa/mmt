@@ -28,6 +28,15 @@ import { GET_GROUPS } from '../../../operations/queries/getGroups'
 vi.mock('@/js/hooks/usePermissions')
 vi.mock('../../../utils/errorLogger')
 vi.mock('@/js/components/AssociatedCollectionPermissionsTable/AssociatedCollectionPermissionsTable')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
 
 const setup = ({
   additionalMocks = [],

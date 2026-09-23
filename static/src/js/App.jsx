@@ -1,6 +1,9 @@
 import React, { useLayoutEffect } from 'react'
-import { RouterProvider } from 'react-router'
-import { Navigate, createBrowserRouter } from 'react-router-dom'
+import {
+  RouterProvider,
+  Navigate,
+  createBrowserRouter
+} from 'react-router'
 
 import CollectionAssociationFormPage from '@/js/pages/CollectionAssociationFormPage/CollectionAssociationFormPage'
 import DraftListPage from '@/js/pages/DraftListPage/DraftListPage'

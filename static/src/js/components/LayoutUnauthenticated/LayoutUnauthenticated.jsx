@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router'
 import classNames from 'classnames'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import Footer from '../Footer/Footer'

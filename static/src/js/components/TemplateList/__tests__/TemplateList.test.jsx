@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import * as router from 'react-router'
@@ -27,6 +27,16 @@ vi.mock('react-cookie', async () => ({
     vi.fn()
   ]))
 }))
+
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
 
 const setup = () => {
   const props = {
@@ -109,15 +119,13 @@ describe('TemplateList', () => {
           }
         )
 
-        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+        router.useNavigate.mockImplementation(() => navigateSpy)
 
-        const { user } = setup()
+        setup()
 
         const button = screen.getByRole('button', { name: /New Template/ })
-        await user.click(button)
-
-        expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('new', { replace: false })
+        // This is a relative path under templates
+        expect(button).toHaveAttribute('href', '/new')
       })
     })
 
@@ -137,15 +145,10 @@ describe('TemplateList', () => {
           }
         )
 
-        const { user } = setup()
-
+        setup()
         const editLink = await screen.findByRole('link', { name: 'Edit' })
-        await user.click(editLink)
 
-        expect(navigateSpy).toHaveBeenCalledTimes(1)
-        expect(navigateSpy).toHaveBeenCalledWith('/templates/collections/c23b6d55-b1de-4843-b828-32de2a0bd109/collection-information', {
-          replace: false
-        })
+        expect(editLink).toHaveAttribute('href', '/templates/collections/c23b6d55-b1de-4843-b828-32de2a0bd109/collection-information')
       })
     })
 

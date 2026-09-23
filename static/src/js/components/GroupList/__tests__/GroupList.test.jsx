@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -11,7 +12,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 
 import { DELETE_GROUP } from '@/js/operations/mutations/deleteGroup'
 import { GET_GROUPS } from '@/js/operations/queries/getGroups'
@@ -23,7 +24,19 @@ import usePermissions from '@/js/hooks/usePermissions'
 import GroupList from '../GroupList'
 
 vi.mock('@/js/utils/errorLogger')
-vi.mock('@/js/hooks/usePermissions').mockReturnValue({ hasSystemGroup: true })
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
+vi.mock('@/js/hooks/usePermissions')
+
+usePermissions.mockReturnValue({ hasSystemGroup: true })
 
 const mockGroups = {
   count: 2,
@@ -471,9 +484,9 @@ describe('GroupList', () => {
 
       await user.click(paginationButton)
 
-      const paginationCells = await screen.findAllByRole('cell')
-      const firstCell = paginationCells[0]
-      expect(firstCell.textContent).toContain('Test group 21')
+      await waitFor(() => {
+        expect(screen.getAllByRole('cell')[0].textContent).toContain('Test group 21')
+      })
     })
   })
 

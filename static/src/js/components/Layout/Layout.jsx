@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router'
 import classNames from 'classnames'
 import Alert from 'react-bootstrap/Alert'
 import Badge from 'react-bootstrap/Badge'

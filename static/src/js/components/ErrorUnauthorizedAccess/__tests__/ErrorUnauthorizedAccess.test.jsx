@@ -3,7 +3,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 import { render, screen } from '@testing-library/react'
 
 import AuthContext from '@/js/context/AuthContext'
@@ -19,6 +19,16 @@ vi.mock('@/js/hooks/useMMTCookie', () => ({
     removeCookie: mockRemoveCookie
   })
 }))
+
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
 
 vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
   cookieDomain: '.example.com'

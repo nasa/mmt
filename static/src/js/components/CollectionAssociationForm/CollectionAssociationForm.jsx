@@ -11,7 +11,7 @@ import {
   useNavigate,
   useParams,
   useSearchParams
-} from 'react-router-dom'
+} from 'react-router'
 import {
   useLazyQuery,
   useMutation,
@@ -181,10 +181,14 @@ const CollectionAssociationForm = () => {
     }
   })
 
-  const collectionSearch = () => {
-    const searchField = searchParams.get('searchField')
-    const searchFieldValue = searchParams.get('searchFieldValue')
+  const collectionSearch = (overrideSearchField, overrideSearchFieldValue) => {
+    const searchField = overrideSearchField !== undefined ? overrideSearchField : searchParams.get('searchField')
+    const searchFieldValue = overrideSearchFieldValue !== undefined ? overrideSearchFieldValue : searchParams.get('searchFieldValue')
     const provider = searchParams.get('provider')
+
+    if (!searchField || !searchFieldValue) {
+      return
+    }
 
     const params = collectionAssociationSearch(searchField, searchFieldValue)
 
@@ -215,20 +219,30 @@ const CollectionAssociationForm = () => {
     const formattedFormData = camelcaseKeys(searchFormData, { deep: true })
     const { searchField } = formattedFormData
 
+    let searchFieldValue
+    let searchFieldKey
+
+    if (Object.keys(searchField).includes('rangeStart')) {
+      const [start, end] = Object.values(searchField)
+      const rangeStart = moment.utc(start).format('YYYY-MM-DDTHH:mm:ss.SSS')
+      const rangeEnd = moment.utc(end).format('YYYY-MM-DDTHH:mm:ss.SSS')
+      searchFieldValue = `${rangeStart},${rangeEnd}`
+      searchFieldKey = 'temporal'
+    } else {
+      // eslint-disable-next-line prefer-destructuring
+      [searchFieldKey, searchFieldValue] = Object.entries(searchField)[0]
+    }
+
     setSearchParams((currentParams) => {
-      if (Object.keys(searchField).includes('rangeStart')) {
-        const rangeStart = moment.utc(Object.values(searchField).at(0)).format('YYYY-MM-DDTHH:mm:ss.SSS')
-        const rangeEnd = moment.utc(Object.values(searchField).at(1)).format('YYYY-MM-DDTHH:mm:ss.SSS')
-        const range = `${rangeStart},${rangeEnd}`
+      currentParams.set('searchField', searchFieldKey)
+      currentParams.set('searchFieldValue', searchFieldValue)
 
-        currentParams.set('searchField', 'temporal')
-        currentParams.set('searchFieldValue', range)
+      return Object.fromEntries(currentParams)
+    })
 
-        return Object.fromEntries(currentParams)
-      }
-
-      currentParams.set('searchField', Object.keys(searchField))
-      currentParams.set('searchFieldValue', Object.values(searchField))
+    setSearchParams((currentParams) => {
+      currentParams.set('searchField', searchFieldKey)
+      currentParams.set('searchFieldValue', searchFieldValue)
 
       return Object.fromEntries(currentParams)
     })
@@ -241,7 +255,7 @@ const CollectionAssociationForm = () => {
       }
     })
 
-    collectionSearch()
+    collectionSearch(searchFieldKey, searchFieldValue)
   }
 
   const handleCheckbox = (event) => {

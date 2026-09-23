@@ -17,6 +17,16 @@ import PermissionForm from '../../../components/PermissionForm/PermissionForm'
 vi.mock('../../../components/PermissionForm/PermissionForm')
 
 vi.mock('@/js/hooks/useAvailableProviders')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 useAvailableProviders.mockReturnValue({
   providerIds: ['MMT_1', 'MMT_2']
 })

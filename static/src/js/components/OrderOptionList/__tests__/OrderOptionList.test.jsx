@@ -2,12 +2,13 @@ import React, { Suspense } from 'react'
 import {
   render,
   screen,
+  waitFor,
   within
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { MockedProvider } from '@apollo/client/testing'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 
 import useAvailableProviders from '@/js/hooks/useAvailableProviders'
 
@@ -19,6 +20,16 @@ import { GET_ORDER_OPTIONS } from '../../../operations/queries/getOrderOptions'
 
 vi.mock('../../../utils/errorLogger')
 vi.mock('@/js/hooks/useAvailableProviders')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 useAvailableProviders.mockReturnValue({
   providerIds: ['MMT_2']
 })
@@ -455,7 +466,13 @@ describe('OrderOptionList', () => {
 
       await user.click(paginationButton)
 
-      expect((await screen.findAllByRole('cell'))[0].textContent).toContain('Test order option 1')
+      await waitFor(() => {
+        expect(screen.getAllByRole('cell').length).toBeGreaterThan(0)
+      })
+
+      const paginationCells = screen.getAllByRole('cell')
+
+      expect(paginationCells[0].textContent).toContain('Test order option 1')
     })
   })
 })
