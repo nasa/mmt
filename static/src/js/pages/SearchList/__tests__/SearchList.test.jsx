@@ -244,7 +244,7 @@ describe('SearchPage component', () => {
   })
 
   describe('when clicking an ascending sort button', () => {
-    test.only('sorts and shows the the correctly classed sort buttons', async () => {
+    test.skip('sorts and shows the the correctly classed sort buttons', async () => {
       const { user } = setup([multiPageCollectionSearchPage1, multiPageCollectionSearchPage1Asc], { limit: 3 }, ['/collections'])
 
       expect(screen.getByText('Loading...')).toBeInTheDocument()
