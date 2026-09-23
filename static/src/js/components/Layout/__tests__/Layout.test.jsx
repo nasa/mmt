@@ -427,10 +427,6 @@ describe('Layout component', () => {
 
       const link = await screen.findByRole('link', { name: /My Providers/ })
       expect(link).toHaveAttribute('href', '/providers')
-
-      // Await user.click(link)
-      // screen.debug()
-      // expect(await screen.findByText('This is some content')).toBeInTheDocument()
     })
   })
 
