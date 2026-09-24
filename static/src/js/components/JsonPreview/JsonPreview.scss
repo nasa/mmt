@@ -13,3 +13,33 @@
     height: 100%;
   }
 }
+
+// Tooltips showing the JSON Schema property types
+.cm-tooltip.cm-tooltip-hover {
+  padding: 12px 16px 0px 16px !important;
+}
+
+// Tooltips showing the Linting Errors
+.cm-tooltip.cm-tooltip-lint {
+  .cm-diagnostic {
+    padding: 12px 16px !important;
+  }
+}
+
+.diff-editor-container {
+
+  // Highlight the entire line for Deletions
+  .cm-merge-a .cm-changedLine {
+    background-color: rgb(238 68 51 / 25%) !important; // GitHub-style red
+  }
+
+  // Highlight the entire line for Insertions 
+  .cm-merge-b .cm-changedLine {
+    background-color: rgb(34 187 34 / 25%) !important; // GitHub-style green
+  }
+
+  // Remove the "word-level" highlights so the line looks completely uniform
+  .cm-changedText {
+    background-color: transparent !important;
+  }
+}

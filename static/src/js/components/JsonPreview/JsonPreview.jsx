@@ -1,7 +1,8 @@
 import React, {
   useState,
   useCallback,
-  useMemo
+  useMemo,
+  useEffect
 } from 'react'
 import Accordion from 'react-bootstrap/Accordion'
 import { cloneDeep } from 'lodash-es'
@@ -35,23 +36,75 @@ const JsonPreview = ({ schema }) => {
 
   const [isEditing, setIsEditing] = useState(false)
   const [jsonText, setJsonText] = useState('')
-
-  // Inline, blocking error -- only ever a JSON.parse failure.
-  const [parseError, setParseError] = useState(null)
-
-  // Schema/structural errors surfaced on Apply. These block saving -- the
-  // errors modal below is a dead end that only lets the user go back and
-  // fix the JSON, it never commits the invalid draft.
-  const [pendingErrors, setPendingErrors] = useState([])
-  const [showErrors, setShowErrors] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
   const [originalJson, setOriginalJson] = useState('')
   const [showDiff, setShowDiff] = useState(false)
+  const [activeErrors, setActiveErrors] = useState([])
 
   const handleTextChange = useCallback((value) => {
     setJsonText(value)
-    if (parseError) setParseError(null)
-  }, [parseError]) // SetJsonText and setParseError are stable, but parseError is checked here
+  }, [])
+
+  // Debounced background validation
+  useEffect(() => {
+    let validateTimer
+
+    if (isEditing) {
+      validateTimer = setTimeout(() => {
+        try {
+          const parsed = JSON.parse(jsonText)
+
+          if (schema) {
+            const { errors: schemaErrors = [] } = validator.validateFormData(parsed, schema)
+
+            let structuralErrors = schemaErrors.filter(({ name }) => name !== 'required')
+
+            structuralErrors = structuralErrors.filter((err) => {
+              if (err.name === 'additionalProperties') {
+                const parentPath = err.property === '.' ? '' : (err.property || '')
+                const hasSpecificChildError = structuralErrors.some((e) => e.name !== 'additionalProperties'
+                  && e.name !== 'oneOf'
+                  && e.name !== 'anyOf'
+                  && (e.property || '').startsWith(parentPath === '' ? '.' : `${parentPath}.`))
+
+                return !hasSpecificChildError
+              }
+
+              return true
+            })
+
+            if (structuralErrors.length > 0) {
+              const messages = structuralErrors.map(({
+                name, property, message, params
+              }) => {
+                if (name === 'additionalProperties' && params?.additionalProperty) {
+                  const location = property ? `${property} ` : ''
+
+                  return `${location} must NOT have additional property '${params.additionalProperty}'`
+                }
+
+                return property ? `${property} ${message}` : message
+              })
+
+              setActiveErrors([...new Set(messages)])
+            } else {
+              setActiveErrors([]) // No schema errors
+            }
+          } else {
+            setActiveErrors([]) // No schema provided, and it parsed successfully
+          }
+        } catch (e) {
+          // JSON parse failed (e.g. missing comma)
+          setActiveErrors([`Invalid JSON: ${e.message}`])
+        }
+      }, 300) // 300ms debounce
+    }
+
+    // Always return a cleanup function to satisfy ESLint
+    return () => {
+      if (validateTimer) clearTimeout(validateTimer)
+    }
+  }, [jsonText, schema, isEditing])
 
   // Memoize the extensions for the main editor so they don't re-initialize on every keystroke
   const editorExtensions = useMemo(() => [
@@ -68,90 +121,23 @@ const JsonPreview = ({ schema }) => {
     const stringified = JSON.stringify(data, null, 2)
     setJsonText(stringified)
     setOriginalJson(stringified)
-    setParseError(null)
-    setPendingErrors([])
+    setActiveErrors([])
     setIsEditing(true)
   }
 
   const handleCancel = () => {
     setJsonText(JSON.stringify(data, null, 2))
-    setParseError(null)
-    setPendingErrors([])
-    setShowErrors(false)
+    setActiveErrors([])
     setIsEditing(false)
   }
 
-  const handleApplyClick = () => {
-    let parsed
-
-    try {
-      parsed = JSON.parse(jsonText)
-    } catch (parseErrorObj) {
-      setParseError(`Invalid JSON: ${parseErrorObj.message}`)
-
-      return
-    }
-
-    setParseError(null)
-
-    if (schema) {
-      const { errors: schemaErrors = [] } = validator.validateFormData(parsed, schema)
-
-      // Only surface structural errors.
-      // 'required' errors are ignored so the JSON editor stays as permissive as the form.
-      let structuralErrors = schemaErrors.filter(({ name }) => name !== 'required')
-
-      // Hide "additionalProperties" ghost errors for an object if
-      // that object has a more specific structural error inside it.
-      structuralErrors = structuralErrors.filter((err) => {
-        if (err.name === 'additionalProperties') {
-          const parentPath = err.property === '.' ? '' : (err.property || '')
-          const hasSpecificChildError = structuralErrors.some((e) => e.name !== 'additionalProperties'
-            && e.name !== 'oneOf'
-            && e.name !== 'anyOf'
-            && (e.property || '').startsWith(parentPath === '' ? '.' : `${parentPath}.`))
-
-          return !hasSpecificChildError
-        }
-
-        return true
-      })
-
-      // Format remaining errors
-      // AJV reports the bad key in params.additionalProperty, not in `message`
-      if (structuralErrors.length > 0) {
-        const messages = structuralErrors.map(({
-          name, property, message, params
-        }) => {
-          if (name === 'additionalProperties' && params?.additionalProperty) {
-            const location = property ? `${property} ` : ''
-
-            return `${location} must NOT have additional property '${params.additionalProperty}'`
-          }
-
-          return property ? `${property} ${message}` : message
-        })
-
-        const uniqueMessages = [...new Set(messages)]
-
-        setPendingErrors(uniqueMessages)
-        setShowErrors(true)
-
-        return
-      }
-    }
-
-    // If no errors, open the Diff Modal so the user can review their changes.
+  const handleContinueClick = () => {
+    // If the button is clicked, there are zero errors so proceed to diff
     setIsEditing(false)
     setShowDiff(true)
   }
 
-  const handleErrorsBack = () => {
-    setShowErrors(false)
-    setPendingErrors([])
-  }
-
-  const handleConfirmSave = () => {
+  const handleConfirm = () => {
     setDraft({
       ...draft,
       ummMetadata: JSON.parse(jsonText)
@@ -217,9 +203,16 @@ const JsonPreview = ({ schema }) => {
           (
             <>
               {
-                parseError && (
-                  <div className="text-danger small mb-2" role="alert">
-                    {parseError}
+                activeErrors.length > 0 && (
+                  <div className="alert alert-danger p-2 mb-3" role="alert" style={{ marginLeft: '40px' }}>
+                    <div className="fw-bold mb-1">Please fix the following errors to continue:</div>
+                    <ul className="mb-0 ps-3">
+                      {
+                        activeErrors.map((err) => (
+                          <li key={err} className="small">{err}</li>
+                        ))
+                      }
+                    </ul>
                   </div>
                 )
               }
@@ -266,51 +259,15 @@ const JsonPreview = ({ schema }) => {
               onClick: handleCancel
             },
             {
-              label: 'Apply',
+              label: 'Continue',
               variant: 'primary',
-              onClick: handleApplyClick
+              onClick: handleContinueClick,
+              disabled: activeErrors.length > 0
             }
           ]
         }
       />
 
-      <CustomModal
-        show={showErrors}
-        toggleModal={
-          (nextShow) => {
-            if (!nextShow) handleErrorsBack()
-          }
-        }
-        size="lg"
-        header="Invalid JSON"
-        message={
-          (
-            <>
-              <p>Your record has the following errors:</p>
-
-              <ul>
-                {
-                  pendingErrors.map((message, index) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <li key={`${index}-${message}`}>{message}</li>
-                  ))
-                }
-              </ul>
-
-              <p>You must fix these errors before proceeding to save.</p>
-            </>
-          )
-        }
-        actions={
-          [
-            {
-              label: 'Go Back',
-              variant: 'primary',
-              onClick: handleErrorsBack
-            }
-          ]
-        }
-      />
       <CustomModal
         show={showDiff}
         toggleModal={
@@ -350,11 +307,10 @@ const JsonPreview = ({ schema }) => {
                     value={originalJson}
                     extensions={readOnlyExtensions}
                     editable={false}
-
                   />
                   <Modified
                     value={jsonText}
-                    extensions={editorExtensions}
+                    extensions={readOnlyExtensions}
                     editable={false}
                   />
                 </CodeMirrorMerge>
@@ -373,9 +329,9 @@ const JsonPreview = ({ schema }) => {
               }
             },
             {
-              label: 'Confirm & Save',
+              label: 'Apply',
               variant: 'primary',
-              onClick: handleConfirmSave
+              onClick: handleConfirm
             }
           ]
         }
