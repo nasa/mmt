@@ -757,6 +757,27 @@ describe('StagedConceptPreview', () => {
       })
     })
 
+    describe('when the staged metadata has no ShortName', () => {
+      test('shows an error message without searching for a matching collection', async () => {
+        getStagedConcept.mockResolvedValue({
+          concept: {
+            EntryTitle: 'Mock Staged Collection',
+            Version: '1'
+          }
+        })
+
+        // No GET_COLLECTIONS mock is registered -- searching without a ShortName
+        // filter would throw an "unmatched mock" error, so registering none here
+        // also proves the guard prevents the query from ever being made.
+        const { user } = setup()
+
+        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
+        await user.click(saveToExistingButton)
+
+        expect(await screen.findByText('The staged metadata is missing a ShortName, so a matching collection could not be searched for.')).toBeInTheDocument()
+      })
+    })
+
     describe('when fetching the matching collection results in an error', () => {
       test('shows an error message and calls errorLogger', async () => {
         const { user } = setup({

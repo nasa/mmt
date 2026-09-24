@@ -114,6 +114,13 @@ const SaveAsDraftToExistingCollectionModal = ({
     setSelectedConceptId(null)
     setTargetCollection(null)
 
+    if (!shortName) {
+      setErrorMessage('The staged metadata is missing a ShortName, so a matching collection could not be searched for.')
+      setStatus('error')
+
+      return
+    }
+
     searchCollections({
       variables: {
         params: { shortName }
