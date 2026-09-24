@@ -1,7 +1,30 @@
 .save-as-draft-to-existing-collection-modal {
   &__diff {
-    max-height: 60vh;
-    font-size: 0.8rem;
-    overflow-y: auto;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    .cm-mergeView {
+      height: 60vh;
+    }
+
+    .cm-editor {
+      height: 100%;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.8rem;
+    }
+
+    // @codemirror/merge underlines changed/deleted text by default (a bottom-anchored
+    // gradient background); highlight the whole span's background instead.
+    .cm-changedText {
+      background-color: rgb(34 187 34 / 25%) !important;
+      background-image: none !important;
+    }
+
+    .cm-merge-a .cm-changedText,
+    .cm-deletedText {
+      background-color: rgb(238 68 51 / 25%) !important;
+      background-image: none !important;
+    }
   }
 }

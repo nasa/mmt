@@ -1,4 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, {
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
 import PropTypes from 'prop-types'
 import { useLazyQuery } from '@apollo/client'
 import { isEqual } from 'lodash-es'
@@ -7,7 +11,8 @@ import Form from 'react-bootstrap/Form'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import Spinner from 'react-bootstrap/Spinner'
-import ReactDiffViewer from 'react-diff-viewer-continued'
+import { json } from '@codemirror/lang-json'
+import CodeMirrorMerge from 'react-codemirror-merge'
 
 import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
 import { GET_COLLECTION } from '@/js/operations/queries/getCollection'
@@ -18,6 +23,8 @@ import For from '@/js/components/For/For'
 import errorLogger from '@/js/utils/errorLogger'
 
 import './SaveAsDraftToExistingCollectionModal.scss'
+
+const { Original, Modified } = CodeMirrorMerge
 
 /**
  * @typedef {Object} SaveAsDraftToExistingCollectionModalProps
@@ -65,6 +72,9 @@ const SaveAsDraftToExistingCollectionModal = ({
 
   const [searchCollections] = useLazyQuery(GET_COLLECTIONS)
   const [getCollection] = useLazyQuery(GET_COLLECTION)
+
+  // Memoized so CodeMirrorMerge doesn't re-initialize its editors on every render
+  const readOnlyExtensions = useMemo(() => [json()], [])
 
   const fetchTargetCollection = (conceptId) => {
     setStatus('loading-target')
@@ -231,13 +241,30 @@ const SaveAsDraftToExistingCollectionModal = ({
               )
               : (
                 <div className="save-as-draft-to-existing-collection-modal__diff">
-                  <ReactDiffViewer
-                    oldValue={JSON.stringify(ummMetadata, null, 2)}
-                    newValue={JSON.stringify(metadata, null, 2)}
-                    splitView
-                    leftTitle="Existing published collection"
-                    rightTitle="Staged metadata"
-                  />
+                  <div className="save-as-draft-to-existing-collection-modal__diff-labels d-flex justify-content-between small text-muted mb-1">
+                    <span>Existing published collection</span>
+                    <span>Staged metadata</span>
+                  </div>
+                  <CodeMirrorMerge
+                    orientation="a-b"
+                    collapseUnchanged={
+                      {
+                        margin: 3,
+                        minSize: 10
+                      }
+                    }
+                  >
+                    <Original
+                      value={JSON.stringify(ummMetadata, null, 2)}
+                      extensions={readOnlyExtensions}
+                      editable={false}
+                    />
+                    <Modified
+                      value={JSON.stringify(metadata, null, 2)}
+                      extensions={readOnlyExtensions}
+                      editable={false}
+                    />
+                  </CodeMirrorMerge>
                 </div>
               )
           }
