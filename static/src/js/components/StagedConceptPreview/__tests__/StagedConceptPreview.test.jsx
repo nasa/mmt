@@ -756,5 +756,360 @@ describe('StagedConceptPreview', () => {
         expect(await screen.findByText('An error occurred')).toBeInTheDocument()
       })
     })
+
+    describe('when fetching the matching collection results in an error', () => {
+      test('shows an error message and calls errorLogger', async () => {
+        const { user } = setup({
+          mocks: [
+            {
+              request: {
+                query: GET_COLLECTIONS,
+                variables: { params: { shortName: 'Mock Short Name' } }
+              },
+              result: {
+                data: {
+                  collections: {
+                    count: 1,
+                    items: [{
+                      conceptId: 'C1000000-MMT_2',
+                      shortName: 'Mock Short Name',
+                      version: '1',
+                      title: 'Existing Published Collection',
+                      provider: 'MMT_2',
+                      entryTitle: 'Existing Published Collection',
+                      revisionId: '3',
+                      granules: null,
+                      tagDefinitions: null,
+                      tags: null,
+                      revisionDate: '2024-01-01T00:00:00.000Z'
+                    }]
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_COLLECTION,
+                variables: { params: { conceptId: 'C1000000-MMT_2' } }
+              },
+              error: new Error('An error occurred')
+            }
+          ]
+        })
+
+        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
+        await user.click(saveToExistingButton)
+
+        await waitFor(() => {
+          expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'SaveAsDraftToExistingCollectionModal: getCollection')
+        })
+
+        expect(await screen.findByText('An error occurred')).toBeInTheDocument()
+      })
+    })
+
+    describe('when the matching collection cannot be retrieved', () => {
+      test('shows an error message', async () => {
+        const { user } = setup({
+          mocks: [
+            {
+              request: {
+                query: GET_COLLECTIONS,
+                variables: { params: { shortName: 'Mock Short Name' } }
+              },
+              result: {
+                data: {
+                  collections: {
+                    count: 1,
+                    items: [{
+                      conceptId: 'C1000000-MMT_2',
+                      shortName: 'Mock Short Name',
+                      version: '1',
+                      title: 'Existing Published Collection',
+                      provider: 'MMT_2',
+                      entryTitle: 'Existing Published Collection',
+                      revisionId: '3',
+                      granules: null,
+                      tagDefinitions: null,
+                      tags: null,
+                      revisionDate: '2024-01-01T00:00:00.000Z'
+                    }]
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_COLLECTION,
+                variables: { params: { conceptId: 'C1000000-MMT_2' } }
+              },
+              result: {
+                data: {
+                  collection: null
+                }
+              }
+            }
+          ]
+        })
+
+        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
+        await user.click(saveToExistingButton)
+
+        expect(await screen.findByText('The matching collection could not be retrieved.')).toBeInTheDocument()
+      })
+    })
+
+    describe('when clicking Close after no match is found', () => {
+      test('closes the modal', async () => {
+        const { user } = setup({
+          mocks: [
+            {
+              request: {
+                query: GET_COLLECTIONS,
+                variables: { params: { shortName: 'Mock Short Name' } }
+              },
+              result: {
+                data: {
+                  collections: {
+                    count: 0,
+                    items: []
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
+        await user.click(saveToExistingButton)
+
+        await screen.findByText(/No published collection was found with ShortName "Mock Short Name"/)
+
+        const closeButton = screen.getByRole('button', { name: 'Close' })
+        await user.click(closeButton)
+
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when clicking Cancel while choosing among multiple matches', () => {
+      test('closes the modal', async () => {
+        const { user } = setup({
+          mocks: [
+            {
+              request: {
+                query: GET_COLLECTIONS,
+                variables: { params: { shortName: 'Mock Short Name' } }
+              },
+              result: {
+                data: {
+                  collections: {
+                    count: 2,
+                    items: [
+                      {
+                        conceptId: 'C1000000-MMT_1',
+                        shortName: 'Mock Short Name',
+                        version: '1',
+                        title: 'First Provider Collection',
+                        provider: 'MMT_1',
+                        entryTitle: 'First Provider Collection',
+                        revisionId: '1',
+                        granules: null,
+                        tagDefinitions: null,
+                        tags: null,
+                        revisionDate: '2024-01-01T00:00:00.000Z'
+                      },
+                      {
+                        conceptId: 'C1000000-MMT_2',
+                        shortName: 'Mock Short Name',
+                        version: '1',
+                        title: 'Second Provider Collection',
+                        provider: 'MMT_2',
+                        entryTitle: 'Second Provider Collection',
+                        revisionId: '1',
+                        granules: null,
+                        tagDefinitions: null,
+                        tags: null,
+                        revisionDate: '2024-01-01T00:00:00.000Z'
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
+        await user.click(saveToExistingButton)
+
+        await screen.findByLabelText(/Second Provider Collection/)
+
+        const cancelButton = screen.getByRole('button', { name: 'Cancel' })
+        await user.click(cancelButton)
+
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when clicking Cancel on the diff view', () => {
+      test('closes the modal without confirming', async () => {
+        const { user } = setup({
+          mocks: [
+            {
+              request: {
+                query: GET_COLLECTIONS,
+                variables: { params: { shortName: 'Mock Short Name' } }
+              },
+              result: {
+                data: {
+                  collections: {
+                    count: 1,
+                    items: [{
+                      conceptId: 'C1000000-MMT_2',
+                      shortName: 'Mock Short Name',
+                      version: '1',
+                      title: 'Existing Published Collection',
+                      provider: 'MMT_2',
+                      entryTitle: 'Existing Published Collection',
+                      revisionId: '3',
+                      granules: null,
+                      tagDefinitions: null,
+                      tags: null,
+                      revisionDate: '2024-01-01T00:00:00.000Z'
+                    }]
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_COLLECTION,
+                variables: { params: { conceptId: 'C1000000-MMT_2' } }
+              },
+              result: {
+                data: {
+                  collection: {
+                    nativeId: 'existing-native-id',
+                    providerId: 'MMT_2',
+                    ummMetadata: {
+                      EntryTitle: 'Existing Published Collection',
+                      ShortName: 'Mock Short Name',
+                      Version: '1'
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
+        await user.click(saveToExistingButton)
+
+        const cancelButton = await screen.findByRole('button', { name: 'Cancel' })
+        await user.click(cancelButton)
+
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when closing the modal via the X button once a match is loaded', () => {
+      test('closes the modal', async () => {
+        const { user } = setup({
+          mocks: [
+            {
+              request: {
+                query: GET_COLLECTIONS,
+                variables: { params: { shortName: 'Mock Short Name' } }
+              },
+              result: {
+                data: {
+                  collections: {
+                    count: 1,
+                    items: [{
+                      conceptId: 'C1000000-MMT_2',
+                      shortName: 'Mock Short Name',
+                      version: '1',
+                      title: 'Existing Published Collection',
+                      provider: 'MMT_2',
+                      entryTitle: 'Existing Published Collection',
+                      revisionId: '3',
+                      granules: null,
+                      tagDefinitions: null,
+                      tags: null,
+                      revisionDate: '2024-01-01T00:00:00.000Z'
+                    }]
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_COLLECTION,
+                variables: { params: { conceptId: 'C1000000-MMT_2' } }
+              },
+              result: {
+                data: {
+                  collection: {
+                    nativeId: 'existing-native-id',
+                    providerId: 'MMT_2',
+                    ummMetadata: {
+                      EntryTitle: 'Existing Published Collection',
+                      ShortName: 'Mock Short Name',
+                      Version: '1'
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
+        await user.click(saveToExistingButton)
+
+        await screen.findByRole('button', { name: 'Save as Draft' })
+
+        const closeIconButton = screen.getByRole('button', { name: 'X icon Close' })
+        await user.click(closeIconButton)
+
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when pressing Escape while still searching for a match', () => {
+      test('does not close the modal', async () => {
+        const { user } = setup({
+          mocks: [
+            {
+              request: {
+                query: GET_COLLECTIONS,
+                variables: { params: { shortName: 'Mock Short Name' } }
+              },
+              result: {
+                data: {
+                  collections: {
+                    count: 0,
+                    items: []
+                  }
+                }
+              },
+              // Delays resolution so the modal is still in the 'searching' status when Escape is pressed
+              delay: 50
+            }
+          ]
+        })
+
+        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
+        await user.click(saveToExistingButton)
+
+        expect(await screen.findByRole('dialog')).toBeInTheDocument()
+
+        await user.keyboard('{Escape}')
+
+        expect(screen.getByRole('dialog')).toBeInTheDocument()
+      })
+    })
   })
 })
