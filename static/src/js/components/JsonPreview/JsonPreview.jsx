@@ -24,6 +24,53 @@ import './JsonPreview.scss'
 
 const { Original, Modified } = CodeMirrorMerge
 
+const getValidationErrors = (text, schema) => {
+  try {
+    const parsed = JSON.parse(text)
+
+    if (schema) {
+      const { errors: schemaErrors = [] } = validator.validateFormData(parsed, schema)
+
+      let structuralErrors = schemaErrors.filter(({ name }) => name !== 'required')
+
+      structuralErrors = structuralErrors.filter((err) => {
+        if (err.name === 'additionalProperties') {
+          const parentPath = err.property === '.' ? '' : (err.property || '')
+          const hasSpecificChildError = structuralErrors.some((e) => e.name !== 'additionalProperties'
+            && e.name !== 'oneOf'
+            && e.name !== 'anyOf'
+            && (e.property || '').startsWith(parentPath === '' ? '.' : `${parentPath}.`))
+
+          return !hasSpecificChildError
+        }
+
+        return true
+      })
+
+      if (structuralErrors.length > 0) {
+        const messages = structuralErrors.map(({
+          name, property, message, params
+        }) => {
+          if (name === 'additionalProperties' && params?.additionalProperty) {
+            const location = property ? `${property} ` : ''
+
+            return `${location} must NOT have additional property '${params.additionalProperty}'`
+          }
+
+          return property ? `${property} ${message}` : message
+        })
+
+        return [...new Set(messages)]
+      }
+    }
+
+    return [] // No schema errors, or no schema provided
+  } catch (e) {
+    // JSON parse failed (e.g. missing comma)
+    return [`Invalid JSON: ${e.message}`]
+  }
+}
+
 const JsonPreview = ({ schema }) => {
   const {
     draft = {},
@@ -51,56 +98,10 @@ const JsonPreview = ({ schema }) => {
 
     if (isEditing) {
       validateTimer = setTimeout(() => {
-        try {
-          const parsed = JSON.parse(jsonText)
-
-          if (schema) {
-            const { errors: schemaErrors = [] } = validator.validateFormData(parsed, schema)
-
-            let structuralErrors = schemaErrors.filter(({ name }) => name !== 'required')
-
-            structuralErrors = structuralErrors.filter((err) => {
-              if (err.name === 'additionalProperties') {
-                const parentPath = err.property === '.' ? '' : (err.property || '')
-                const hasSpecificChildError = structuralErrors.some((e) => e.name !== 'additionalProperties'
-                  && e.name !== 'oneOf'
-                  && e.name !== 'anyOf'
-                  && (e.property || '').startsWith(parentPath === '' ? '.' : `${parentPath}.`))
-
-                return !hasSpecificChildError
-              }
-
-              return true
-            })
-
-            if (structuralErrors.length > 0) {
-              const messages = structuralErrors.map(({
-                name, property, message, params
-              }) => {
-                if (name === 'additionalProperties' && params?.additionalProperty) {
-                  const location = property ? `${property} ` : ''
-
-                  return `${location} must NOT have additional property '${params.additionalProperty}'`
-                }
-
-                return property ? `${property} ${message}` : message
-              })
-
-              setActiveErrors([...new Set(messages)])
-            } else {
-              setActiveErrors([]) // No schema errors
-            }
-          } else {
-            setActiveErrors([]) // No schema provided, and it parsed successfully
-          }
-        } catch (e) {
-          // JSON parse failed (e.g. missing comma)
-          setActiveErrors([`Invalid JSON: ${e.message}`])
-        }
+        setActiveErrors(getValidationErrors(jsonText, schema))
       }, 300) // 300ms debounce
     }
 
-    // Always return a cleanup function to satisfy ESLint
     return () => {
       if (validateTimer) clearTimeout(validateTimer)
     }
@@ -132,7 +133,15 @@ const JsonPreview = ({ schema }) => {
   }
 
   const handleContinueClick = () => {
-    // If the button is clicked, there are zero errors so proceed to diff
+    // Synchronously validate to catch any race conditions before the debounce finishes
+    const currentErrors = getValidationErrors(jsonText, schema)
+
+    if (currentErrors.length > 0) {
+      setActiveErrors(currentErrors)
+
+      return
+    }
+
     setIsEditing(false)
     setShowDiff(true)
   }
@@ -204,7 +213,7 @@ const JsonPreview = ({ schema }) => {
             <>
               {
                 activeErrors.length > 0 && (
-                  <div className="alert alert-danger p-2 mb-3" role="alert" style={{ marginLeft: '40px' }}>
+                  <div className="alert alert-danger p-2 mb-3 ms-4" role="alert">
                     <div className="fw-bold mb-1">Please fix the following errors to continue:</div>
                     <ul className="mb-0 ps-3">
                       {
@@ -217,7 +226,7 @@ const JsonPreview = ({ schema }) => {
                 )
               }
 
-              <div style={{ marginLeft: '40px' }}>
+              <div className="ms-4">
                 <div className="d-flex justify-content-end mb-2">
                   <Button
                     icon={FaCopy}
@@ -230,18 +239,11 @@ const JsonPreview = ({ schema }) => {
                     {isCopied ? 'Copied!' : 'Copy JSON'}
                   </Button>
                 </div>
-                <div style={
-                  {
-                    border: '1px solid #ccc',
-                    borderRadius: '4px',
-                    overflow: 'hidden'
-                  }
-                }
-                >
+                <div className="border rounded overflow-hidden">
                   <CodeMirror
                     className="json-editor-font"
                     value={jsonText}
-                    height="400px"
+                    height="25rem"
                     onChange={handleTextChange}
                     theme="light"
                     extensions={editorExtensions}
@@ -284,14 +286,7 @@ const JsonPreview = ({ schema }) => {
                 Review your changes before saving.
                 The original metadata is on the left, and your edits are on the right.
               </p>
-              <div style={
-                {
-                  border: '1px solid #ccc',
-                  borderRadius: '4px',
-                  overflow: 'hidden'
-                }
-              }
-              >
+              <div className="border rounded overflow-hidden">
                 <CodeMirrorMerge
                   className="diff-editor-container json-editor-font"
                   orientation="a-b"
