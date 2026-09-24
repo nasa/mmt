@@ -17,11 +17,6 @@
     background-color: rgba(var(--bs-success-rgb), 0.15); 
   }
 
-  // Remove the "word-level" highlights so the line looks completely uniform
-  .cm-changedText {
-    background-color: transparent;
-  }
-
   .cm-mergeView {
     height: 25rem;
   }
