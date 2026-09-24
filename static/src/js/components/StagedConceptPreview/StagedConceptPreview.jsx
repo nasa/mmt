@@ -52,9 +52,6 @@ const StagedConceptPreview = () => {
   const { addNotification } = useNotificationsContext()
   const { id, type } = useParams()
 
-  // `type` is the plural, lowercase URL segment (e.g. "collections") that PublishPreview
-  // used to build the staged concept link; `conceptType` is the singular form (e.g.
-  // "Collection") used by GraphQL operations and the metadata preview.
   const conceptType = urlValueTypeToConceptTypeStringMap[type]
 
   const [loading, setLoading] = useState(true)
