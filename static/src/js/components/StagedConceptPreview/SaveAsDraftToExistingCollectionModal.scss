@@ -13,16 +13,5 @@
       font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
       font-size: 0.8rem;
     }
-
-    .cm-changedText {
-      background-color: rgb(34 187 34 / 25%) !important;
-      background-image: none !important;
-    }
-
-    .cm-merge-a .cm-changedText,
-    .cm-deletedText {
-      background-color: rgb(238 68 51 / 25%) !important;
-      background-image: none !important;
-    }
   }
 }
