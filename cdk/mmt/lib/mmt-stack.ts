@@ -20,7 +20,6 @@ const {
   STAGING_TARGET_API_HOST = '',
   STAGING_TARGET_MMT_HOST = '',
   STAGING_TARGET_SECRET_API_KEY = 'local-staging-api-key',
-  COOKIE_DOMAIN = '.localhost',
   EDL_CLIENT_ID = '',
   EDL_PASSWORD = '',
   GTM_PROPERTY_ID = '',
@@ -114,8 +113,6 @@ export class MmtStack extends cdk.Stack {
     // (see `stagingSecretApiKey` and `stagingTargetConfig` below).
     const environment = {
       COLLECTION_TEMPLATES_BUCKET_NAME,
-      STAGING_CONCEPTS_BUCKET_NAME,
-      COOKIE_DOMAIN,
       EDL_CLIENT_ID,
       EDL_PASSWORD,
       GTM_PROPERTY_ID,
