@@ -5,22 +5,10 @@
 }
 
 .diff-editor-container {
-  // Highlight the entire line for Deletions
-  .cm-merge-a .cm-changedLine {
-    /* stylelint-disable-next-line color-function-notation */
-    background-color: rgba(var(--bs-danger-rgb), 0.15); 
-  }
-
-  // Highlight the entire line for Insertions
-  .cm-merge-b .cm-changedLine {
-    /* stylelint-disable-next-line color-function-notation */
-    background-color: rgba(var(--bs-success-rgb), 0.15); 
-  }
-
   .cm-mergeView {
     height: 25rem;
   }
-  
+
   .cm-editor {
     height: 100%;
   }

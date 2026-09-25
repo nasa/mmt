@@ -4,9 +4,15 @@ import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import camelcaseKeys from 'camelcase-keys'
-import { FaSave, FaTrash } from 'react-icons/fa'
+import {
+  FaFileImport,
+  FaSave,
+  FaTrash
+} from 'react-icons/fa'
 import { CollectionPreview } from '@edsc/metadata-preview'
 import { v4 as uuidv4 } from 'uuid'
+
+import { s3ConceptTypes } from 'sharedConstants/s3ConceptTypes'
 
 import useAppContext from '@/js/hooks/useAppContext'
 import useIngestDraftMutation from '@/js/hooks/useIngestDraftMutation'
@@ -14,6 +20,7 @@ import useMMTCookie from '@/js/hooks/useMMTCookie'
 import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import saveTypes from '@/js/constants/saveTypes'
+import urlValueTypeToConceptTypeStringMap from '@/js/constants/urlValueToConceptStringMap'
 
 import ChooseProviderModal from '@/js/components/ChooseProviderModal/ChooseProviderModal'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
@@ -21,6 +28,7 @@ import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
+import SaveAsDraftToExistingCollectionModal from '@/js/components/StagedConceptPreview/SaveAsDraftToExistingCollectionModal'
 
 import deleteStagedConcept from '@/js/utils/deleteStagedConcept'
 import errorLogger from '@/js/utils/errorLogger'
@@ -28,9 +36,6 @@ import getStagedConcept from '@/js/utils/getStagedConcept'
 
 import '@edsc/metadata-preview/dist/style.min.css'
 import './StagedConceptPreview.scss'
-
-// Staged concepts only support collections for now (see sharedConstants/s3ConceptTypes)
-const STAGED_CONCEPT_TYPE = 'collections'
 
 /**
  * Renders a StagedConceptPreview component
@@ -47,13 +52,16 @@ const StagedConceptPreview = () => {
 
   const navigate = useNavigate()
   const { addNotification } = useNotificationsContext()
-  const { id } = useParams()
+  const { id, type } = useParams()
+
+  const conceptType = urlValueTypeToConceptTypeStringMap[type]
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState()
   const [metadata, setMetadata] = useState()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showProviderModal, setShowProviderModal] = useState(false)
+  const [showSaveToExistingModal, setShowSaveToExistingModal] = useState(false)
 
   const {
     ingestMutation,
@@ -68,7 +76,7 @@ const StagedConceptPreview = () => {
   useEffect(() => {
     const fetchStagedConcept = async () => {
       try {
-        const { concept } = await getStagedConcept(mmtJwt, STAGED_CONCEPT_TYPE, id)
+        const { concept } = await getStagedConcept(mmtJwt, type, id)
 
         if (!concept) {
           throw new Error('Staged metadata not found. It may have expired or already been saved as new draft.')
@@ -84,23 +92,35 @@ const StagedConceptPreview = () => {
     }
 
     setLoading(true)
+
+    if (!s3ConceptTypes.includes(type)) {
+      setError(new Error(`Unsupported staged concept type: ${type}`))
+      setLoading(false)
+
+      return
+    }
+
     fetchStagedConcept()
-  }, [id])
+  }, [id, type])
 
   const handleCreateDraft = () => {
-    ingestMutation('Collection', metadata, `MMT_${uuidv4()}`, providerId)
+    ingestMutation(conceptType, metadata, `MMT_${uuidv4()}`, providerId)
+  }
+
+  const handleSaveToExistingCollection = (nativeId, existingProviderId) => {
+    ingestMutation(conceptType, metadata, nativeId, existingProviderId)
   }
 
   const handleDelete = async () => {
     try {
-      await deleteStagedConcept(mmtJwt, STAGED_CONCEPT_TYPE, id)
+      await deleteStagedConcept(mmtJwt, type, id)
 
       addNotification({
         message: 'Staged metadata deleted successfully',
         variant: 'success'
       })
 
-      navigate('/collections')
+      navigate(`/${type}`)
     } catch (deleteError) {
       addNotification({
         message: 'Error deleting staged metadata',
@@ -119,11 +139,11 @@ const StagedConceptPreview = () => {
       const { conceptId } = fetchedIngestDraft
 
       // Delete staged concept
-      deleteStagedConcept(mmtJwt, STAGED_CONCEPT_TYPE, id).catch((deleteError) => {
+      deleteStagedConcept(mmtJwt, type, id).catch((deleteError) => {
         errorLogger(deleteError, 'StagedConceptPreview: deleteStagedConcept')
       })
 
-      navigate(`/drafts/collections/${conceptId}`)
+      navigate(`/drafts/${type}/${conceptId}`)
       addNotification({
         message: 'Draft created successfully',
         variant: 'success'
@@ -154,6 +174,15 @@ const StagedConceptPreview = () => {
             iconTitle: 'A save icon',
             onClick: () => setShowProviderModal(true),
             title: 'Save as New Draft',
+            variant: 'primary'
+          },
+          {
+            disabled: loading || !metadata,
+            disabledTooltipText: 'Waiting for staged metadata to load',
+            icon: FaFileImport,
+            iconTitle: 'A file import icon',
+            onClick: () => setShowSaveToExistingModal(true),
+            title: `Save as Draft to Existing ${conceptType}`,
             variant: 'success'
           },
           {
@@ -221,6 +250,13 @@ const StagedConceptPreview = () => {
           onSubmit={handleCreateDraft}
           primaryActionType={saveTypes.saveAndCreateDraft}
         />
+        <SaveAsDraftToExistingCollectionModal
+          show={showSaveToExistingModal}
+          toggleModal={setShowSaveToExistingModal}
+          metadata={metadata}
+          conceptType={conceptType}
+          onConfirm={handleSaveToExistingCollection}
+        />
         <Row>
           <Col md={12} className="staged-concept-preview__preview">
             <CollectionPreview
@@ -231,7 +267,7 @@ const StagedConceptPreview = () => {
                 }
               }
               conceptId={id}
-              conceptType="Collection"
+              conceptType={conceptType}
             />
           </Col>
         </Row>

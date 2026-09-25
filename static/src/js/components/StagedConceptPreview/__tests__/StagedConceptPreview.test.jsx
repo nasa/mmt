@@ -23,6 +23,8 @@ import getStagedConcept from '@/js/utils/getStagedConcept'
 import getUmmVersion from '@/js/utils/getUmmVersion'
 
 import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
+import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
+import { GET_TARGET_COLLECTION } from '@/js/operations/queries/getTargetCollection'
 
 import StagedConceptPreview from '../StagedConceptPreview'
 
@@ -42,7 +44,10 @@ const mockMetadata = {
   Version: '1'
 }
 
-const setup = ({ mocks = [] } = {}) => {
+const setup = ({
+  mocks = [],
+  initialEntry = '/collections/staged/mock-record-id'
+} = {}) => {
   useAvailableProviders.mockReturnValue({ providerIds: ['MMT_2'] })
 
   const user = userEvent.setup()
@@ -50,11 +55,11 @@ const setup = ({ mocks = [] } = {}) => {
   render(
     <Providers>
       <MockedProvider mocks={mocks}>
-        <MemoryRouter initialEntries={['/collections/staged/mock-record-id']}>
+        <MemoryRouter initialEntries={[initialEntry]}>
           <Routes>
             <Route
               element={<StagedConceptPreview />}
-              path="/collections/staged/:id"
+              path="/:type/staged/:id"
             />
           </Routes>
         </MemoryRouter>
@@ -133,6 +138,15 @@ describe('StagedConceptPreview', () => {
         new Error('Staged metadata not found. It may have expired or already been saved as new draft.'),
         'StagedConceptPreview: getStagedConcept'
       )
+    })
+  })
+
+  describe('when the URL type is not a supported staged concept type', () => {
+    test('renders an error banner without calling getStagedConcept', async () => {
+      setup({ initialEntry: '/services/staged/mock-record-id' })
+
+      expect(await screen.findByText('Unsupported staged concept type: services')).toBeInTheDocument()
+      expect(getStagedConcept).not.toHaveBeenCalled()
     })
   })
 
@@ -407,6 +421,110 @@ describe('StagedConceptPreview', () => {
         // The stale error from the first attempt should not be logged again
         // alongside the successful retry
         expect(errorLogger).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  // SaveAsDraftToExistingCollectionModal's own behavior (search results, diffing,
+  // error states, cancel/close handling) is covered independently in
+  // SaveAsDraftToExistingCollectionModal.test.jsx. This only verifies the wiring
+  // between this page and the modal: the button opens it, and confirming ingests
+  // a draft under the existing nativeId/providerId, then navigates and cleans up
+  // the staged record the same way "Save as New Draft" does.
+  describe('Save as Draft to Existing Collection', () => {
+    beforeEach(() => {
+      getStagedConcept.mockResolvedValue({ concept: mockMetadata })
+      deleteStagedConcept.mockResolvedValue()
+    })
+
+    describe('when exactly one matching collection is found', () => {
+      test('shows a diff and ingests a draft under the existing nativeId/providerId on confirm', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          mocks: [
+            {
+              request: {
+                query: GET_COLLECTIONS,
+                variables: { params: { shortName: 'Mock Short Name' } }
+              },
+              result: {
+                data: {
+                  collections: {
+                    count: 1,
+                    items: [{
+                      conceptId: 'C1000000-MMT_2',
+                      shortName: 'Mock Short Name',
+                      version: '1',
+                      title: 'Existing Published Collection',
+                      provider: 'MMT_2',
+                      entryTitle: 'Existing Published Collection',
+                      revisionId: '3',
+                      granules: null,
+                      tagDefinitions: null,
+                      tags: null,
+                      revisionDate: '2024-01-01T00:00:00.000Z'
+                    }]
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: GET_TARGET_COLLECTION,
+                variables: { params: { conceptId: 'C1000000-MMT_2' } }
+              },
+              result: {
+                data: {
+                  collection: {
+                    nativeId: 'existing-native-id',
+                    providerId: 'MMT_2',
+                    ummMetadata: {
+                      EntryTitle: 'Existing Published Collection',
+                      ShortName: 'Mock Short Name',
+                      Version: '1'
+                    }
+                  }
+                }
+              }
+            },
+            {
+              request: {
+                query: INGEST_DRAFT,
+                variables: {
+                  conceptType: 'Collection',
+                  metadata: mockMetadata,
+                  nativeId: 'existing-native-id',
+                  providerId: 'MMT_2',
+                  ummVersion: mockUmmVersion
+                }
+              },
+              result: {
+                data: {
+                  ingestDraft: {
+                    conceptId: 'C1000000-MMT',
+                    revisionId: '2'
+                  }
+                }
+              }
+            }
+          ]
+        })
+
+        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
+        await user.click(saveToExistingButton)
+
+        const confirmButton = await screen.findByRole('button', { name: 'Save as Draft' })
+        await user.click(confirmButton)
+
+        await waitFor(() => {
+          expect(navigateSpy).toHaveBeenCalledWith('/drafts/collections/C1000000-MMT')
+        })
+
+        await waitFor(() => {
+          expect(deleteStagedConcept).toHaveBeenCalledTimes(1)
+        })
       })
     })
   })
