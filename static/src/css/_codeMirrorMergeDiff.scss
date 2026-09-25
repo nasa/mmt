@@ -1,0 +1,15 @@
+// Shared diff-highlight styling for `react-codemirror-merge` views: Currently
+// JsonPreview and SaveAsDraftToExistingCollectionModal
+.cm-merge-a .cm-changedLine {
+  /* stylelint-disable-next-line color-function-notation */
+  background-color: rgba(var(--bs-danger-rgb), 0.15) !important;
+}
+
+.cm-merge-b .cm-changedLine {
+  /* stylelint-disable-next-line color-function-notation */
+  background-color: rgba(var(--bs-success-rgb), 0.15) !important;
+}
+
+.cm-changedText {
+  background-image: none !important;
+}
