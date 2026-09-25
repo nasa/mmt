@@ -13,7 +13,11 @@ import getKmsConceptVersions from '@/js/utils/getKmsConceptVersions'
  * @param {Object} props - Component props
  * @param {Function} props.onVersionSelect - Callback function called when a version is selected
  */
-const KmsConceptVersionSelector = ({ onVersionSelect }) => {
+const KmsConceptVersionSelector = ({
+  onVersionSelect,
+  version: currentVersion,
+  onDraftVersionLoaded
+}) => {
   const [versions, setVersions] = useState([])
   const [selectedVersion, setSelectedVersion] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -54,16 +58,17 @@ const KmsConceptVersionSelector = ({ onVersionSelect }) => {
         options.sort((a, b) => sortOrder.indexOf(a.type) - sortOrder.indexOf(b.type))
 
         setVersions(options)
+        const draftOption = options.find((option) => option.type === 'draft')
+        const draftVersion = draftOption ? {
+          version: draftOption.value,
+          version_type: draftOption.type
+        } : null
+        onDraftVersionLoaded(draftVersion)
+
         // Automatically select the draft version
-        if (options.length > 0) {
-          const draftVersion = options.find((option) => option.type === 'draft')
-          if (draftVersion) {
-            setSelectedVersion(draftVersion)
-            onVersionSelect({
-              version: draftVersion.value,
-              version_type: draftVersion.type
-            })
-          }
+        if (draftOption) {
+          setSelectedVersion(draftOption)
+          onVersionSelect(draftVersion)
         }
 
         setLoading(false)
@@ -93,14 +98,28 @@ const KmsConceptVersionSelector = ({ onVersionSelect }) => {
       id="version-selector"
       isLoading={loading}
       options={versions}
-      value={selectedVersion}
+      value={
+        currentVersion ? versions.find((option) => (
+          option.value === currentVersion.version && option.type === currentVersion.version_type
+        )) : selectedVersion
+      }
       onChange={handleChange}
       placeholder="Loading versions..."
     />
   )
 }
 
+KmsConceptVersionSelector.defaultProps = {
+  version: null,
+  onDraftVersionLoaded: () => {}
+}
+
 KmsConceptVersionSelector.propTypes = {
+  version: PropTypes.shape({
+    version: PropTypes.string,
+    version_type: PropTypes.string
+  }),
+  onDraftVersionLoaded: PropTypes.func,
   onVersionSelect: PropTypes.func.isRequired
 }
 

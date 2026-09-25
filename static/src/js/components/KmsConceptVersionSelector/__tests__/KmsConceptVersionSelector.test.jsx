@@ -152,6 +152,51 @@ describe('KmsConceptVersionSelector', () => {
     })
   })
 
+  test('should report the available draft and reflect externally selected versions', async () => {
+    const draft = {
+      version: 'draft',
+      version_type: 'draft'
+    }
+    const production = {
+      version: '1.0',
+      version_type: 'published'
+    }
+    const onDraftVersionLoaded = vi.fn()
+    getKmsConceptVersions.mockResolvedValue({
+      versions: [
+        {
+          version: 'draft',
+          type: 'draft'
+        },
+        {
+          version: '1.0',
+          type: 'published'
+        }
+      ]
+    })
+
+    const { rerender } = render(
+      <KmsConceptVersionSelector
+        onVersionSelect={mockOnVersionSelect}
+        onDraftVersionLoaded={onDraftVersionLoaded}
+        version={production}
+      />
+    )
+
+    expect(await screen.findByText('1.0 (PRODUCTION)')).toBeInTheDocument()
+    expect(onDraftVersionLoaded).toHaveBeenCalledWith(draft)
+    rerender(
+      <KmsConceptVersionSelector
+        onVersionSelect={mockOnVersionSelect}
+        onDraftVersionLoaded={onDraftVersionLoaded}
+        version={draft}
+      />
+    )
+
+    expect(screen.getByText('draft (DRAFT-NEXT RELEASE)')).toBeInTheDocument()
+    expect(getKmsConceptVersions).toHaveBeenCalledTimes(1)
+  })
+
   describe('when fetching versions fails', () => {
     test('should handle the error and log it', async () => {
       console.error = vi.fn()
@@ -251,7 +296,15 @@ describe('KmsConceptVersionSelector', () => {
       ]
       getKmsConceptVersions.mockResolvedValue({ versions: mockVersions })
 
-      render(<KmsConceptVersionSelector onVersionSelect={mockOnVersionSelect} />)
+      const onDraftVersionLoaded = vi.fn()
+      render(
+        <KmsConceptVersionSelector
+          onVersionSelect={mockOnVersionSelect}
+          onDraftVersionLoaded={onDraftVersionLoaded}
+        />
+      )
+
+      await waitFor(() => expect(onDraftVersionLoaded).toHaveBeenCalledWith(null))
 
       expect(mockOnVersionSelect).not.toHaveBeenCalled()
     })

@@ -22,6 +22,7 @@ import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/K
 import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import { publishKmsConceptVersion } from '@/js/utils/publishKmsConceptVersion'
+import ReadOnlyVersionNotice from '@/js/components/ReadOnlyVersionNotice/ReadOnlyVersionNotice'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import { KeywordTree } from '@/js/components/KeywordTree/KeywordTree'
@@ -75,6 +76,7 @@ const KeywordManagerPage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [selectedKeywordData, setSelectedKeywordData] = useState(null)
   const [selectedVersion, setSelectedVersion] = useState(null)
+  const [draftVersion, setDraftVersion] = useState(null)
   const [selectedScheme, setSelectedScheme] = useState(null)
   const [showWarning, setShowWarning] = useState(false)
   const { kmsHost } = getApplicationConfig()
@@ -95,9 +97,13 @@ const KeywordManagerPage = () => {
   const { tokenValue, user } = useAuthContext()
   const { uid } = user || {}
 
+  const readOnly = selectedVersion?.version_type === 'published' || selectedVersion?.version_type === 'past_published'
+
   const keywordTreeRef = useRef(null)
 
   const handleDelete = (node) => {
+    if (readOnly) return
+
     setNodeToDelete(node)
     setShowDeleteConfirmation(true)
   }
@@ -109,7 +115,7 @@ const KeywordManagerPage = () => {
   }
 
   const handleDeleteConfirmation = async () => {
-    if (nodeToDelete) {
+    if (!readOnly && nodeToDelete) {
       setIsDeleting(true)
       setDeleteError(null)
       try {
@@ -247,6 +253,9 @@ const KeywordManagerPage = () => {
    * @param {object} versionInfo - The selected version information
    */
   const onVersionSelect = useCallback((versionInfo) => {
+    closeDeleteModal()
+    setShowWarning(false)
+    setSelectedKeywordId(null)
     setSelectedVersion(versionInfo)
     setSelectedScheme(null)
     setSelectedKeywordData(null)
@@ -390,6 +399,8 @@ const KeywordManagerPage = () => {
               <div className="rounded p-3">
                 <KmsConceptVersionSelector
                   onVersionSelect={onVersionSelect}
+                  version={selectedVersion}
+                  onDraftVersionLoaded={setDraftVersion}
                   key={versionSelectorKey}
                 />
               </div>
@@ -417,6 +428,13 @@ const KeywordManagerPage = () => {
           </div>
         </div>
       </ErrorBoundary>
+      {
+        readOnly && (
+          <ReadOnlyVersionNotice
+            onSwitchToDraft={draftVersion ? () => onVersionSelect(draftVersion) : null}
+          />
+        )
+      }
       <div className="keyword-manager-page__content">
         <ErrorBoundary>
           <div className="keyword-manager-page__tree-container">
@@ -434,7 +452,7 @@ const KeywordManagerPage = () => {
         show={showWarning}
         toggleModal={() => setShowWarning(false)}
         header="Warning"
-        message="You are now viewing the live published keyword version. Changes made to this version will show up on the website right away."
+        message="You are viewing the production keyword version, which is read-only. Select the DRAFT-NEXT RELEASE version to make changes, then publish a new keyword version to update production."
         actions={warningModalActions}
       />
       <CustomModal

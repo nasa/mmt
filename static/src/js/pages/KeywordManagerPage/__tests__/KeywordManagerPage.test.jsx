@@ -200,7 +200,7 @@ vi.mock('@/js/components/KeywordForm/KeywordForm', () => ({
 
 vi.mock('@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector', () => ({
   __esModule: true,
-  default: ({ onVersionSelect }) => {
+  default: ({ onVersionSelect, version: selectedVersion, onDraftVersionLoaded }) => {
     const versions = [
       {
         version: '1.0',
@@ -216,9 +216,17 @@ vi.mock('@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector', (
       }
     ]
 
+    useEffect(() => {
+      onDraftVersionLoaded({
+        version: '1.0',
+        version_type: 'draft'
+      })
+    }, [])
+
     return (
       <select
         data-testid="version-selector"
+        value={selectedVersion?.version || ''}
         onChange={
           (e) => {
             const selected = versions.find((v) => v.version === e.target.value)
@@ -446,7 +454,7 @@ describe('KeywordManagerPage component', () => {
         expect(screen.getByText('Warning')).toBeVisible()
       })
 
-      expect(screen.getByText('You are now viewing the live published keyword version. Changes made to this version will show up on the website right away.')).toBeInTheDocument()
+      expect(screen.getByText('You are viewing the production keyword version, which is read-only. Select the DRAFT-NEXT RELEASE version to make changes, then publish a new keyword version to update production.')).toBeInTheDocument()
 
       // Close the modal
       fireEvent.click(screen.getByText('OK'))
@@ -950,13 +958,40 @@ describe('KeywordManagerPage component', () => {
     })
   })
 
+  test('should switch to the draft from the read-only notice', async () => {
+    const { user } = setup()
+    await user.selectOptions(await screen.findByTestId('version-selector'), '3.0')
+    await user.click(screen.getByRole('button', { name: 'OK' }))
+    await user.selectOptions(await screen.findByTestId('scheme-selector'), 'scheme1')
+    await user.click(screen.getByRole('button', { name: 'Switch To Draft' }))
+
+    expect(screen.getByTestId('version-selector')).toHaveValue('1.0')
+    expect(screen.queryByText(/This keyword version is read-only/)).not.toBeInTheDocument()
+    expect(screen.queryByTestId('keyword-form')).not.toBeInTheDocument()
+    expect(screen.queryByText('Warning')).not.toBeInTheDocument()
+  })
+
+  test('should prevent production deletion and direct users to a draft', async () => {
+    const { user } = setup()
+    await user.selectOptions(await screen.findByTestId('version-selector'), '3.0')
+    await user.selectOptions(await screen.findByTestId('scheme-selector'), 'scheme1')
+    await user.click(screen.getByTestId('delete-node-button'))
+
+    expect(screen.queryByTestId('delete-confirmation-modal')).not.toBeInTheDocument()
+    expect(mockDeleteKmsConcept).not.toHaveBeenCalled()
+    expect(screen.getByText(/This keyword version is read-only/)).toBeInTheDocument()
+
+    await user.selectOptions(screen.getByTestId('version-selector'), '1.0')
+    expect(screen.queryByText(/This keyword version is read-only/)).not.toBeInTheDocument()
+  })
+
   describe('Delete functionality', () => {
     test('should open delete confirmation modal when delete is triggered', async () => {
       const { user } = setup()
 
       // Select version and scheme
       const versionSelector = await screen.findByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
+      await user.selectOptions(versionSelector, '1.0')
 
       const schemeSelector = await screen.findByTestId('scheme-selector')
       await user.selectOptions(schemeSelector, 'scheme1')
@@ -984,7 +1019,7 @@ describe('KeywordManagerPage component', () => {
 
       // Select version and scheme
       const versionSelector = await screen.findByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
+      await user.selectOptions(versionSelector, '1.0')
 
       const schemeSelector = await screen.findByTestId('scheme-selector')
       await user.selectOptions(schemeSelector, 'scheme1')
@@ -1009,7 +1044,7 @@ describe('KeywordManagerPage component', () => {
 
       // Select version and scheme
       const versionSelector = await screen.findByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
+      await user.selectOptions(versionSelector, '1.0')
 
       const schemeSelector = await screen.findByTestId('scheme-selector')
       await user.selectOptions(schemeSelector, 'scheme1')
@@ -1030,7 +1065,7 @@ describe('KeywordManagerPage component', () => {
       // Check if deleteKmsConcept was called with the correct arguments
       expect(mockDeleteKmsConcept).toHaveBeenCalledWith(expect.objectContaining({
         uuid: 'mock-node-id',
-        version: 'published',
+        version: '1.0',
         token: 'mock-token-value'
       }))
 
@@ -1052,7 +1087,7 @@ describe('KeywordManagerPage component', () => {
 
       // Select version and scheme
       const versionSelector = await screen.findByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
+      await user.selectOptions(versionSelector, '1.0')
 
       const schemeSelector = await screen.findByTestId('scheme-selector')
       await user.selectOptions(schemeSelector, 'scheme1')
@@ -1094,7 +1129,7 @@ describe('KeywordManagerPage component', () => {
 
       // Select version and scheme
       const versionSelector = await screen.findByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
+      await user.selectOptions(versionSelector, '1.0')
 
       const schemeSelector = await screen.findByTestId('scheme-selector')
       await user.selectOptions(schemeSelector, 'scheme1')
@@ -1134,7 +1169,7 @@ describe('KeywordManagerPage component', () => {
 
       // Select version and scheme
       const versionSelector = await screen.findByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
+      await user.selectOptions(versionSelector, '1.0')
 
       const schemeSelector = await screen.findByTestId('scheme-selector')
       await user.selectOptions(schemeSelector, 'scheme1')

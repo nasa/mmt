@@ -862,3 +862,52 @@ describe('KeywordTree component', () => {
     })
   })
 })
+
+describe('when viewing a read-only keyword version', () => {
+  test('should allow browsing the production version without an editing menu', async () => {
+    getKmsKeywordTree.mockResolvedValue(mockData)
+    const onNodeClick = vi.fn()
+    render(
+      <KeywordTree
+        onNodeClick={onNodeClick}
+        selectedVersion={
+          {
+            version: '1.0',
+            version_type: 'published'
+          }
+        }
+        selectedScheme={{ name: 'sciencekeywords' }}
+      />
+    )
+
+    const root = await screen.findByRole('button', { name: 'Keyword: Root' })
+    fireEvent.click(root)
+    expect(onNodeClick).toHaveBeenCalledWith('1')
+    fireEvent.contextMenu(root)
+    expect(screen.queryByText('Edit')).not.toBeInTheDocument()
+    expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
+    expect(screen.queryByText('Delete')).not.toBeInTheDocument()
+  })
+
+  test('should also hide the editing menu for historical versions', async () => {
+    getKmsKeywordTree.mockResolvedValue(mockData)
+    render(
+      <KeywordTree
+        onNodeClick={vi.fn()}
+        selectedVersion={
+          {
+            version: '1.0',
+            version_type: 'past_published'
+          }
+        }
+        selectedScheme={{ name: 'sciencekeywords' }}
+      />
+    )
+
+    const root = await screen.findByRole('button', { name: 'Keyword: Root' })
+    fireEvent.contextMenu(root)
+    expect(screen.queryByText('Edit')).not.toBeInTheDocument()
+    expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
+    expect(screen.queryByText('Delete')).not.toBeInTheDocument()
+  })
+})
