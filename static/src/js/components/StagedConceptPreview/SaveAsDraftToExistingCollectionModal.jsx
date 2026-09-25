@@ -1,6 +1,7 @@
 import React, {
   useEffect,
   useMemo,
+  useRef,
   useState
 } from 'react'
 import PropTypes from 'prop-types'
@@ -15,7 +16,7 @@ import { json } from '@codemirror/lang-json'
 import CodeMirrorMerge from 'react-codemirror-merge'
 
 import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
-import { GET_COLLECTION } from '@/js/operations/queries/getCollection'
+import { GET_TARGET_COLLECTION } from '@/js/operations/queries/getTargetCollection'
 
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 import For from '@/js/components/For/For'
@@ -31,6 +32,7 @@ const { Original, Modified } = CodeMirrorMerge
  * @property {Boolean} show Should the modal be open.
  * @property {Function} toggleModal A callback function called when the modal is closed with a boolean representing its next state.
  * @property {Object} metadata The staged UMM-C metadata being saved.
+ * @property {String} conceptType The concept type of the staged metadata, used for display labels only. The underlying search still only matches against published collections.
  * @property {Function} onConfirm A callback function called with the existing collection's (nativeId, providerId) once the user confirms the diff.
  */
 
@@ -59,6 +61,7 @@ const SaveAsDraftToExistingCollectionModal = ({
   show,
   toggleModal,
   metadata,
+  conceptType,
   onConfirm
 }) => {
   // Status: 'searching' | 'no-match' | 'select-match' | 'loading-target' | 'diff-confirm' | 'error'
@@ -71,19 +74,37 @@ const SaveAsDraftToExistingCollectionModal = ({
   const { ShortName: shortName } = metadata || {}
 
   const [searchCollections] = useLazyQuery(GET_COLLECTIONS)
-  const [getCollection] = useLazyQuery(GET_COLLECTION)
+  const [getCollection] = useLazyQuery(GET_TARGET_COLLECTION)
 
   // Memoized so CodeMirrorMerge doesn't re-initialize its editors on every render
   const readOnlyExtensions = useMemo(() => [json()], [])
 
+  // Bumped whenever the modal is closed or a new search/fetch starts, so a
+  // query that resolves after the user has already closed the modal (or
+  // kicked off a newer request) is recognized as stale and ignored instead
+  // of updating state for a modal the user can no longer see.
+  const requestIdRef = useRef(0)
+
+  const handleClose = (nextState) => {
+    if (!nextState) {
+      requestIdRef.current += 1
+    }
+
+    toggleModal(nextState)
+  }
+
   const fetchTargetCollection = (conceptId) => {
     setStatus('loading-target')
+
+    const requestId = requestIdRef.current
 
     getCollection({
       variables: {
         params: { conceptId }
       },
       onCompleted: (data) => {
+        if (requestId !== requestIdRef.current) return
+
         const { collection } = data
 
         if (!collection) {
@@ -97,6 +118,8 @@ const SaveAsDraftToExistingCollectionModal = ({
         setStatus('diff-confirm')
       },
       onError: (fetchError) => {
+        if (requestId !== requestIdRef.current) return
+
         errorLogger(fetchError, 'SaveAsDraftToExistingCollectionModal: getCollection')
         setErrorMessage(fetchError.message)
         setStatus('error')
@@ -107,6 +130,9 @@ const SaveAsDraftToExistingCollectionModal = ({
   // Resets state and kicks off the ShortName search each time the modal is opened
   useEffect(() => {
     if (!show) return
+
+    requestIdRef.current += 1
+    const requestId = requestIdRef.current
 
     setStatus('searching')
     setErrorMessage(null)
@@ -126,6 +152,8 @@ const SaveAsDraftToExistingCollectionModal = ({
         params: { shortName }
       },
       onCompleted: (data) => {
+        if (requestId !== requestIdRef.current) return
+
         const { collections } = data
         const { items } = collections
 
@@ -145,6 +173,8 @@ const SaveAsDraftToExistingCollectionModal = ({
         setStatus('select-match')
       },
       onError: (searchError) => {
+        if (requestId !== requestIdRef.current) return
+
         errorLogger(searchError, 'SaveAsDraftToExistingCollectionModal: getCollections')
         setErrorMessage(searchError.message)
         setStatus('error')
@@ -156,7 +186,7 @@ const SaveAsDraftToExistingCollectionModal = ({
     const { nativeId, providerId } = targetCollection
 
     onConfirm(nativeId, providerId)
-    toggleModal(false)
+    handleClose(false)
   }
 
   const renderMessage = () => {
@@ -288,7 +318,13 @@ const SaveAsDraftToExistingCollectionModal = ({
 
   const getActions = () => {
     if (status === 'searching' || status === 'loading-target') {
-      return null
+      return [
+        {
+          label: 'Cancel',
+          variant: 'secondary',
+          onClick: () => handleClose(false)
+        }
+      ]
     }
 
     if (status === 'select-match') {
@@ -296,7 +332,7 @@ const SaveAsDraftToExistingCollectionModal = ({
         {
           label: 'Cancel',
           variant: 'secondary',
-          onClick: () => toggleModal(false)
+          onClick: () => handleClose(false)
         },
         {
           label: 'Continue',
@@ -312,7 +348,7 @@ const SaveAsDraftToExistingCollectionModal = ({
         {
           label: 'Cancel',
           variant: 'secondary',
-          onClick: () => toggleModal(false)
+          onClick: () => handleClose(false)
         },
         {
           label: 'Save as Draft',
@@ -326,24 +362,17 @@ const SaveAsDraftToExistingCollectionModal = ({
       {
         label: 'Close',
         variant: 'primary',
-        onClick: () => toggleModal(false)
+        onClick: () => handleClose(false)
       }
     ]
   }
 
   return (
     <CustomModal
-      header="Save as Draft to Existing Collection"
+      header={`Save as Draft to Existing ${conceptType}`}
       show={show}
-      showCloseButton={status !== 'searching' && status !== 'loading-target'}
       size="xl"
-      toggleModal={
-        (nextState) => {
-          if (!nextState && (status === 'searching' || status === 'loading-target')) return
-
-          toggleModal(nextState)
-        }
-      }
+      toggleModal={handleClose}
       message={renderMessage()}
       actions={getActions()}
     />
@@ -355,11 +384,13 @@ SaveAsDraftToExistingCollectionModal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   metadata: PropTypes.object,
+  conceptType: PropTypes.string,
   onConfirm: PropTypes.func.isRequired
 }
 
 SaveAsDraftToExistingCollectionModal.defaultProps = {
-  metadata: null
+  metadata: null,
+  conceptType: 'Collection'
 }
 
 export default SaveAsDraftToExistingCollectionModal

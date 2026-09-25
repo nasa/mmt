@@ -1,8 +1,8 @@
 .save-as-draft-to-existing-collection-modal {
   &__diff {
     overflow: hidden;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 0.0625rem solid var(--bs-border-color);
+    border-radius: 0.25rem;
 
     .cm-mergeView {
       height: 60vh;

@@ -24,7 +24,7 @@ import getUmmVersion from '@/js/utils/getUmmVersion'
 
 import { INGEST_DRAFT } from '@/js/operations/mutations/ingestDraft'
 import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
-import { GET_COLLECTION } from '@/js/operations/queries/getCollection'
+import { GET_TARGET_COLLECTION } from '@/js/operations/queries/getTargetCollection'
 
 import StagedConceptPreview from '../StagedConceptPreview'
 
@@ -44,7 +44,10 @@ const mockMetadata = {
   Version: '1'
 }
 
-const setup = ({ mocks = [] } = {}) => {
+const setup = ({
+  mocks = [],
+  initialEntry = '/collections/staged/mock-record-id'
+} = {}) => {
   useAvailableProviders.mockReturnValue({ providerIds: ['MMT_2'] })
 
   const user = userEvent.setup()
@@ -52,7 +55,7 @@ const setup = ({ mocks = [] } = {}) => {
   render(
     <Providers>
       <MockedProvider mocks={mocks}>
-        <MemoryRouter initialEntries={['/collections/staged/mock-record-id']}>
+        <MemoryRouter initialEntries={[initialEntry]}>
           <Routes>
             <Route
               element={<StagedConceptPreview />}
@@ -135,6 +138,15 @@ describe('StagedConceptPreview', () => {
         new Error('Staged metadata not found. It may have expired or already been saved as new draft.'),
         'StagedConceptPreview: getStagedConcept'
       )
+    })
+  })
+
+  describe('when the URL type is not a supported staged concept type', () => {
+    test('renders an error banner without calling getStagedConcept', async () => {
+      setup({ initialEntry: '/services/staged/mock-record-id' })
+
+      expect(await screen.findByText('Unsupported staged concept type: services')).toBeInTheDocument()
+      expect(getStagedConcept).not.toHaveBeenCalled()
     })
   })
 
@@ -413,6 +425,12 @@ describe('StagedConceptPreview', () => {
     })
   })
 
+  // SaveAsDraftToExistingCollectionModal's own behavior (search results, diffing,
+  // error states, cancel/close handling) is covered independently in
+  // SaveAsDraftToExistingCollectionModal.test.jsx. This only verifies the wiring
+  // between this page and the modal: the button opens it, and confirming ingests
+  // a draft under the existing nativeId/providerId, then navigates and cleans up
+  // the staged record the same way "Save as New Draft" does.
   describe('Save as Draft to Existing Collection', () => {
     beforeEach(() => {
       getStagedConcept.mockResolvedValue({ concept: mockMetadata })
@@ -454,7 +472,7 @@ describe('StagedConceptPreview', () => {
             },
             {
               request: {
-                query: GET_COLLECTION,
+                query: GET_TARGET_COLLECTION,
                 variables: { params: { conceptId: 'C1000000-MMT_2' } }
               },
               result: {
@@ -507,629 +525,6 @@ describe('StagedConceptPreview', () => {
         await waitFor(() => {
           expect(deleteStagedConcept).toHaveBeenCalledTimes(1)
         })
-      })
-    })
-
-    describe('when the existing published collection matches the staged metadata exactly', () => {
-      test('shows a no differences message instead of the diff viewer and still allows confirming', async () => {
-        const navigateSpy = vi.fn()
-        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
-
-        const { user } = setup({
-          mocks: [
-            {
-              request: {
-                query: GET_COLLECTIONS,
-                variables: { params: { shortName: 'Mock Short Name' } }
-              },
-              result: {
-                data: {
-                  collections: {
-                    count: 1,
-                    items: [{
-                      conceptId: 'C1000000-MMT_2',
-                      shortName: 'Mock Short Name',
-                      version: '1',
-                      title: 'Mock Staged Collection',
-                      provider: 'MMT_2',
-                      entryTitle: 'Mock Staged Collection',
-                      revisionId: '3',
-                      granules: null,
-                      tagDefinitions: null,
-                      tags: null,
-                      revisionDate: '2024-01-01T00:00:00.000Z'
-                    }]
-                  }
-                }
-              }
-            },
-            {
-              request: {
-                query: GET_COLLECTION,
-                variables: { params: { conceptId: 'C1000000-MMT_2' } }
-              },
-              result: {
-                data: {
-                  collection: {
-                    nativeId: 'existing-native-id',
-                    providerId: 'MMT_2',
-                    ummMetadata: mockMetadata
-                  }
-                }
-              }
-            },
-            {
-              request: {
-                query: INGEST_DRAFT,
-                variables: {
-                  conceptType: 'Collection',
-                  metadata: mockMetadata,
-                  nativeId: 'existing-native-id',
-                  providerId: 'MMT_2',
-                  ummVersion: mockUmmVersion
-                }
-              },
-              result: {
-                data: {
-                  ingestDraft: {
-                    conceptId: 'C1000000-MMT',
-                    revisionId: '2'
-                  }
-                }
-              }
-            }
-          ]
-        })
-
-        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
-        await user.click(saveToExistingButton)
-
-        expect(await screen.findByText(/No differences were found between the existing published collection and the staged metadata/)).toBeInTheDocument()
-        expect(screen.queryByText(/Review the differences between/)).not.toBeInTheDocument()
-
-        const confirmButton = screen.getByRole('button', { name: 'Save as Draft' })
-        await user.click(confirmButton)
-
-        await waitFor(() => {
-          expect(navigateSpy).toHaveBeenCalledWith('/drafts/collections/C1000000-MMT')
-        })
-      })
-    })
-
-    describe('when no matching collection is found', () => {
-      test('shows a message explaining no match was found', async () => {
-        const { user } = setup({
-          mocks: [
-            {
-              request: {
-                query: GET_COLLECTIONS,
-                variables: { params: { shortName: 'Mock Short Name' } }
-              },
-              result: {
-                data: {
-                  collections: {
-                    count: 0,
-                    items: []
-                  }
-                }
-              }
-            }
-          ]
-        })
-
-        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
-        await user.click(saveToExistingButton)
-
-        expect(await screen.findByText(/No published collection was found with ShortName "Mock Short Name"/)).toBeInTheDocument()
-      })
-    })
-
-    describe('when more than one matching collection is found', () => {
-      test('lets the user choose which collection to target before showing the diff', async () => {
-        const navigateSpy = vi.fn()
-        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
-
-        const { user } = setup({
-          mocks: [
-            {
-              request: {
-                query: GET_COLLECTIONS,
-                variables: { params: { shortName: 'Mock Short Name' } }
-              },
-              result: {
-                data: {
-                  collections: {
-                    count: 2,
-                    items: [
-                      {
-                        conceptId: 'C1000000-MMT_1',
-                        shortName: 'Mock Short Name',
-                        version: '1',
-                        title: 'First Provider Collection',
-                        provider: 'MMT_1',
-                        entryTitle: 'First Provider Collection',
-                        revisionId: '1',
-                        granules: null,
-                        tagDefinitions: null,
-                        tags: null,
-                        revisionDate: '2024-01-01T00:00:00.000Z'
-                      },
-                      {
-                        conceptId: 'C1000000-MMT_2',
-                        shortName: 'Mock Short Name',
-                        version: '1',
-                        title: 'Second Provider Collection',
-                        provider: 'MMT_2',
-                        entryTitle: 'Second Provider Collection',
-                        revisionId: '1',
-                        granules: null,
-                        tagDefinitions: null,
-                        tags: null,
-                        revisionDate: '2024-01-01T00:00:00.000Z'
-                      }
-                    ]
-                  }
-                }
-              }
-            },
-            {
-              request: {
-                query: GET_COLLECTION,
-                variables: { params: { conceptId: 'C1000000-MMT_2' } }
-              },
-              result: {
-                data: {
-                  collection: {
-                    nativeId: 'second-native-id',
-                    providerId: 'MMT_2',
-                    ummMetadata: {
-                      EntryTitle: 'Second Provider Collection',
-                      ShortName: 'Mock Short Name',
-                      Version: '1'
-                    }
-                  }
-                }
-              }
-            },
-            {
-              request: {
-                query: INGEST_DRAFT,
-                variables: {
-                  conceptType: 'Collection',
-                  metadata: mockMetadata,
-                  nativeId: 'second-native-id',
-                  providerId: 'MMT_2',
-                  ummVersion: mockUmmVersion
-                }
-              },
-              result: {
-                data: {
-                  ingestDraft: {
-                    conceptId: 'C1000000-MMT',
-                    revisionId: '2'
-                  }
-                }
-              }
-            }
-          ]
-        })
-
-        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
-        await user.click(saveToExistingButton)
-
-        const secondMatch = await screen.findByLabelText(/Second Provider Collection/)
-        await user.click(secondMatch)
-
-        const continueButton = screen.getByRole('button', { name: 'Continue' })
-        await user.click(continueButton)
-
-        const confirmButton = await screen.findByRole('button', { name: 'Save as Draft' })
-        await user.click(confirmButton)
-
-        await waitFor(() => {
-          expect(navigateSpy).toHaveBeenCalledWith('/drafts/collections/C1000000-MMT')
-        })
-      })
-    })
-
-    describe('when searching for a matching collection results in an error', () => {
-      test('shows an error message and calls errorLogger', async () => {
-        const { user } = setup({
-          mocks: [
-            {
-              request: {
-                query: GET_COLLECTIONS,
-                variables: { params: { shortName: 'Mock Short Name' } }
-              },
-              error: new Error('An error occurred')
-            }
-          ]
-        })
-
-        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
-        await user.click(saveToExistingButton)
-
-        await waitFor(() => {
-          expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'SaveAsDraftToExistingCollectionModal: getCollections')
-        })
-
-        expect(await screen.findByText('An error occurred')).toBeInTheDocument()
-      })
-    })
-
-    describe('when the staged metadata has no ShortName', () => {
-      test('shows an error message without searching for a matching collection', async () => {
-        getStagedConcept.mockResolvedValue({
-          concept: {
-            EntryTitle: 'Mock Staged Collection',
-            Version: '1'
-          }
-        })
-
-        // No GET_COLLECTIONS mock is registered -- searching without a ShortName
-        // filter would throw an "unmatched mock" error, so registering none here
-        // also proves the guard prevents the query from ever being made.
-        const { user } = setup()
-
-        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
-        await user.click(saveToExistingButton)
-
-        expect(await screen.findByText('The staged metadata is missing a ShortName, so a matching collection could not be searched for.')).toBeInTheDocument()
-      })
-    })
-
-    describe('when fetching the matching collection results in an error', () => {
-      test('shows an error message and calls errorLogger', async () => {
-        const { user } = setup({
-          mocks: [
-            {
-              request: {
-                query: GET_COLLECTIONS,
-                variables: { params: { shortName: 'Mock Short Name' } }
-              },
-              result: {
-                data: {
-                  collections: {
-                    count: 1,
-                    items: [{
-                      conceptId: 'C1000000-MMT_2',
-                      shortName: 'Mock Short Name',
-                      version: '1',
-                      title: 'Existing Published Collection',
-                      provider: 'MMT_2',
-                      entryTitle: 'Existing Published Collection',
-                      revisionId: '3',
-                      granules: null,
-                      tagDefinitions: null,
-                      tags: null,
-                      revisionDate: '2024-01-01T00:00:00.000Z'
-                    }]
-                  }
-                }
-              }
-            },
-            {
-              request: {
-                query: GET_COLLECTION,
-                variables: { params: { conceptId: 'C1000000-MMT_2' } }
-              },
-              error: new Error('An error occurred')
-            }
-          ]
-        })
-
-        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
-        await user.click(saveToExistingButton)
-
-        await waitFor(() => {
-          expect(errorLogger).toHaveBeenCalledWith(new Error('An error occurred'), 'SaveAsDraftToExistingCollectionModal: getCollection')
-        })
-
-        expect(await screen.findByText('An error occurred')).toBeInTheDocument()
-      })
-    })
-
-    describe('when the matching collection cannot be retrieved', () => {
-      test('shows an error message', async () => {
-        const { user } = setup({
-          mocks: [
-            {
-              request: {
-                query: GET_COLLECTIONS,
-                variables: { params: { shortName: 'Mock Short Name' } }
-              },
-              result: {
-                data: {
-                  collections: {
-                    count: 1,
-                    items: [{
-                      conceptId: 'C1000000-MMT_2',
-                      shortName: 'Mock Short Name',
-                      version: '1',
-                      title: 'Existing Published Collection',
-                      provider: 'MMT_2',
-                      entryTitle: 'Existing Published Collection',
-                      revisionId: '3',
-                      granules: null,
-                      tagDefinitions: null,
-                      tags: null,
-                      revisionDate: '2024-01-01T00:00:00.000Z'
-                    }]
-                  }
-                }
-              }
-            },
-            {
-              request: {
-                query: GET_COLLECTION,
-                variables: { params: { conceptId: 'C1000000-MMT_2' } }
-              },
-              result: {
-                data: {
-                  collection: null
-                }
-              }
-            }
-          ]
-        })
-
-        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
-        await user.click(saveToExistingButton)
-
-        expect(await screen.findByText('The matching collection could not be retrieved.')).toBeInTheDocument()
-      })
-    })
-
-    describe('when clicking Close after no match is found', () => {
-      test('closes the modal', async () => {
-        const { user } = setup({
-          mocks: [
-            {
-              request: {
-                query: GET_COLLECTIONS,
-                variables: { params: { shortName: 'Mock Short Name' } }
-              },
-              result: {
-                data: {
-                  collections: {
-                    count: 0,
-                    items: []
-                  }
-                }
-              }
-            }
-          ]
-        })
-
-        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
-        await user.click(saveToExistingButton)
-
-        await screen.findByText(/No published collection was found with ShortName "Mock Short Name"/)
-
-        const closeButton = screen.getByRole('button', { name: 'Close' })
-        await user.click(closeButton)
-
-        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-      })
-    })
-
-    describe('when clicking Cancel while choosing among multiple matches', () => {
-      test('closes the modal', async () => {
-        const { user } = setup({
-          mocks: [
-            {
-              request: {
-                query: GET_COLLECTIONS,
-                variables: { params: { shortName: 'Mock Short Name' } }
-              },
-              result: {
-                data: {
-                  collections: {
-                    count: 2,
-                    items: [
-                      {
-                        conceptId: 'C1000000-MMT_1',
-                        shortName: 'Mock Short Name',
-                        version: '1',
-                        title: 'First Provider Collection',
-                        provider: 'MMT_1',
-                        entryTitle: 'First Provider Collection',
-                        revisionId: '1',
-                        granules: null,
-                        tagDefinitions: null,
-                        tags: null,
-                        revisionDate: '2024-01-01T00:00:00.000Z'
-                      },
-                      {
-                        conceptId: 'C1000000-MMT_2',
-                        shortName: 'Mock Short Name',
-                        version: '1',
-                        title: 'Second Provider Collection',
-                        provider: 'MMT_2',
-                        entryTitle: 'Second Provider Collection',
-                        revisionId: '1',
-                        granules: null,
-                        tagDefinitions: null,
-                        tags: null,
-                        revisionDate: '2024-01-01T00:00:00.000Z'
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          ]
-        })
-
-        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
-        await user.click(saveToExistingButton)
-
-        await screen.findByLabelText(/Second Provider Collection/)
-
-        const cancelButton = screen.getByRole('button', { name: 'Cancel' })
-        await user.click(cancelButton)
-
-        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-      })
-    })
-
-    describe('when clicking Cancel on the diff view', () => {
-      test('closes the modal without confirming', async () => {
-        const { user } = setup({
-          mocks: [
-            {
-              request: {
-                query: GET_COLLECTIONS,
-                variables: { params: { shortName: 'Mock Short Name' } }
-              },
-              result: {
-                data: {
-                  collections: {
-                    count: 1,
-                    items: [{
-                      conceptId: 'C1000000-MMT_2',
-                      shortName: 'Mock Short Name',
-                      version: '1',
-                      title: 'Existing Published Collection',
-                      provider: 'MMT_2',
-                      entryTitle: 'Existing Published Collection',
-                      revisionId: '3',
-                      granules: null,
-                      tagDefinitions: null,
-                      tags: null,
-                      revisionDate: '2024-01-01T00:00:00.000Z'
-                    }]
-                  }
-                }
-              }
-            },
-            {
-              request: {
-                query: GET_COLLECTION,
-                variables: { params: { conceptId: 'C1000000-MMT_2' } }
-              },
-              result: {
-                data: {
-                  collection: {
-                    nativeId: 'existing-native-id',
-                    providerId: 'MMT_2',
-                    ummMetadata: {
-                      EntryTitle: 'Existing Published Collection',
-                      ShortName: 'Mock Short Name',
-                      Version: '1'
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        })
-
-        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
-        await user.click(saveToExistingButton)
-
-        const cancelButton = await screen.findByRole('button', { name: 'Cancel' })
-        await user.click(cancelButton)
-
-        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-      })
-    })
-
-    describe('when closing the modal via the X button once a match is loaded', () => {
-      test('closes the modal', async () => {
-        const { user } = setup({
-          mocks: [
-            {
-              request: {
-                query: GET_COLLECTIONS,
-                variables: { params: { shortName: 'Mock Short Name' } }
-              },
-              result: {
-                data: {
-                  collections: {
-                    count: 1,
-                    items: [{
-                      conceptId: 'C1000000-MMT_2',
-                      shortName: 'Mock Short Name',
-                      version: '1',
-                      title: 'Existing Published Collection',
-                      provider: 'MMT_2',
-                      entryTitle: 'Existing Published Collection',
-                      revisionId: '3',
-                      granules: null,
-                      tagDefinitions: null,
-                      tags: null,
-                      revisionDate: '2024-01-01T00:00:00.000Z'
-                    }]
-                  }
-                }
-              }
-            },
-            {
-              request: {
-                query: GET_COLLECTION,
-                variables: { params: { conceptId: 'C1000000-MMT_2' } }
-              },
-              result: {
-                data: {
-                  collection: {
-                    nativeId: 'existing-native-id',
-                    providerId: 'MMT_2',
-                    ummMetadata: {
-                      EntryTitle: 'Existing Published Collection',
-                      ShortName: 'Mock Short Name',
-                      Version: '1'
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        })
-
-        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
-        await user.click(saveToExistingButton)
-
-        await screen.findByRole('button', { name: 'Save as Draft' })
-
-        const closeIconButton = screen.getByRole('button', { name: 'X icon Close' })
-        await user.click(closeIconButton)
-
-        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-      })
-    })
-
-    describe('when pressing Escape while still searching for a match', () => {
-      test('does not close the modal', async () => {
-        const { user } = setup({
-          mocks: [
-            {
-              request: {
-                query: GET_COLLECTIONS,
-                variables: { params: { shortName: 'Mock Short Name' } }
-              },
-              result: {
-                data: {
-                  collections: {
-                    count: 0,
-                    items: []
-                  }
-                }
-              },
-              // Delays resolution so the modal is still in the 'searching' status when Escape is pressed
-              delay: 50
-            }
-          ]
-        })
-
-        const saveToExistingButton = await screen.findByRole('button', { name: /Save as Draft to Existing Collection/ })
-        await user.click(saveToExistingButton)
-
-        expect(await screen.findByRole('dialog')).toBeInTheDocument()
-
-        await user.keyboard('{Escape}')
-
-        expect(screen.getByRole('dialog')).toBeInTheDocument()
       })
     })
   })

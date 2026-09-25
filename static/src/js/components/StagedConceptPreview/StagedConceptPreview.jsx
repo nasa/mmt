@@ -12,6 +12,8 @@ import {
 import { CollectionPreview } from '@edsc/metadata-preview'
 import { v4 as uuidv4 } from 'uuid'
 
+import { s3ConceptTypes } from 'sharedConstants/s3ConceptTypes'
+
 import useAppContext from '@/js/hooks/useAppContext'
 import useIngestDraftMutation from '@/js/hooks/useIngestDraftMutation'
 import useMMTCookie from '@/js/hooks/useMMTCookie'
@@ -90,6 +92,14 @@ const StagedConceptPreview = () => {
     }
 
     setLoading(true)
+
+    if (!s3ConceptTypes.includes(type)) {
+      setError(new Error(`Unsupported staged concept type: ${type}`))
+      setLoading(false)
+
+      return
+    }
+
     fetchStagedConcept()
   }, [id, type])
 
@@ -164,7 +174,7 @@ const StagedConceptPreview = () => {
             iconTitle: 'A save icon',
             onClick: () => setShowProviderModal(true),
             title: 'Save as New Draft',
-            variant: 'success'
+            variant: 'primary'
           },
           {
             disabled: loading || !metadata,
@@ -172,8 +182,8 @@ const StagedConceptPreview = () => {
             icon: FaFileImport,
             iconTitle: 'A file import icon',
             onClick: () => setShowSaveToExistingModal(true),
-            title: 'Save as Draft to Existing Collection',
-            variant: 'primary'
+            title: `Save as Draft to Existing ${conceptType}`,
+            variant: 'success'
           },
           {
             disabled: loading || !metadata,
@@ -244,6 +254,7 @@ const StagedConceptPreview = () => {
           show={showSaveToExistingModal}
           toggleModal={setShowSaveToExistingModal}
           metadata={metadata}
+          conceptType={conceptType}
           onConfirm={handleSaveToExistingCollection}
         />
         <Row>
