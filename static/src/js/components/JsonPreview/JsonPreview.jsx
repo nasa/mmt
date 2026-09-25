@@ -1,14 +1,84 @@
-import React, { useState } from 'react'
-import Accordion from 'react-bootstrap/Accordion'
-import JSONPretty from 'react-json-pretty'
-import { cloneDeep } from 'lodash-es'
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect
+} from 'react'
 import PropTypes from 'prop-types'
+import { cloneDeep } from 'lodash-es'
+
+import Accordion from 'react-bootstrap/Accordion'
+import { FaCopy } from 'react-icons/fa'
+
+import CodeMirror from '@uiw/react-codemirror'
+import CodeMirrorMerge from 'react-codemirror-merge'
+import { json, jsonParseLinter } from '@codemirror/lang-json'
+import { linter, lintGutter } from '@codemirror/lint'
+import { jsonSchema } from 'codemirror-json-schema'
 import validator from '@rjsf/validator-ajv8'
 
 import useAppContext from '../../hooks/useAppContext'
 import removeEmpty from '../../utils/removeEmpty'
 import Button from '../Button/Button'
 import CustomModal from '../CustomModal/CustomModal'
+
+import './JsonPreview.scss'
+
+const { Original, Modified } = CodeMirrorMerge
+
+const getValidationErrors = (text, schema) => {
+  try {
+    const parsed = JSON.parse(text)
+
+    if (schema) {
+      const { errors: schemaErrors = [] } = validator.validateFormData(parsed, schema)
+
+      let structuralErrors = schemaErrors.filter(({ name }) => name !== 'required')
+
+      structuralErrors = structuralErrors.filter((err) => {
+        if (err.name === 'additionalProperties') {
+          const parentPath = err.property === '.' ? '' : (err.property || '')
+
+          // Construct the exact path of the offending property (e.g., ".DOI.MissingReason")
+          const additionalPropPath = `${parentPath}.${err.params?.additionalProperty}`
+
+          // Check if there is a more specific error (like 'type' or 'enum')
+          // exactly on this property, or deeper inside of it.
+          // If true, we hide this generic "additional property" error to reduce noise.
+          const hasSpecificChildError = structuralErrors.some((e) => e.name !== 'additionalProperties'
+            && e.name !== 'oneOf'
+            && e.name !== 'anyOf'
+            && ((e.property || '') === additionalPropPath || (e.property || '').startsWith(`${additionalPropPath}.`)))
+
+          return !hasSpecificChildError
+        }
+
+        return true
+      })
+
+      if (structuralErrors.length > 0) {
+        const messages = structuralErrors.map(({
+          name, property, message, params
+        }) => {
+          if (name === 'additionalProperties' && params?.additionalProperty) {
+            const location = property ? `${property} ` : ''
+
+            return `${location} must NOT have additional property '${params.additionalProperty}'`
+          }
+
+          return property ? `${property} ${message}` : message
+        })
+
+        return [...new Set(messages)]
+      }
+    }
+
+    return [] // No schema errors, or no schema provided
+  } catch (e) {
+    // JSON parse failed (e.g. missing comma)
+    return [`Invalid JSON: ${e.message}`]
+  }
+}
 
 const JsonPreview = ({ schema }) => {
   const {
@@ -22,95 +92,87 @@ const JsonPreview = ({ schema }) => {
 
   const [isEditing, setIsEditing] = useState(false)
   const [jsonText, setJsonText] = useState('')
+  const [isCopied, setIsCopied] = useState(false)
+  const [originalJson, setOriginalJson] = useState('')
+  const [showDiff, setShowDiff] = useState(false)
+  const [activeErrors, setActiveErrors] = useState([])
 
-  // Inline, blocking error -- only ever a JSON.parse failure.
-  const [parseError, setParseError] = useState(null)
+  const handleTextChange = useCallback((value) => {
+    setJsonText(value)
+  }, [])
 
-  // Schema/structural errors surfaced on Apply. These block saving -- the
-  // errors modal below is a dead end that only lets the user go back and
-  // fix the JSON, it never commits the invalid draft.
-  const [pendingErrors, setPendingErrors] = useState([])
-  const [showErrors, setShowErrors] = useState(false)
+  // Debounced background validation
+  useEffect(() => {
+    let validateTimer
+
+    if (isEditing) {
+      validateTimer = setTimeout(() => {
+        setActiveErrors(getValidationErrors(jsonText, schema))
+      }, 250) // 250ms debounce
+    }
+
+    return () => {
+      if (validateTimer) clearTimeout(validateTimer)
+    }
+  }, [jsonText, schema, isEditing])
+
+  // Memoize the extensions for the main editor so they don't re-initialize on every keystroke
+  const editorExtensions = useMemo(() => [
+    json(),
+    lintGutter(),
+    linter(jsonParseLinter()),
+    ...(schema ? [jsonSchema(schema)] : [])
+  ], [schema])
+
+  // Memoize the read-only extensions used in the Diff/View modes
+  const readOnlyExtensions = useMemo(() => [json()], [])
 
   const handleEditClick = () => {
-    setJsonText(JSON.stringify(data, null, 2))
-    setParseError(null)
-    setPendingErrors([])
+    const stringified = JSON.stringify(data, null, 2)
+    setJsonText(stringified)
+    setOriginalJson(stringified)
+    setActiveErrors([])
     setIsEditing(true)
   }
 
   const handleCancel = () => {
     setJsonText(JSON.stringify(data, null, 2))
-    setParseError(null)
-    setPendingErrors([])
-    setShowErrors(false)
+    setActiveErrors([])
     setIsEditing(false)
   }
 
-  const handleTextChange = (event) => {
-    setJsonText(event.target.value)
-    if (parseError) setParseError(null)
-  }
+  const handleContinueClick = () => {
+    // Synchronously validate to catch any race conditions before the debounce finishes
+    const currentErrors = getValidationErrors(jsonText, schema)
 
-  const handleApplyClick = () => {
-    let parsed
-
-    try {
-      parsed = JSON.parse(jsonText)
-    } catch (parseErrorObj) {
-      setParseError(`Invalid JSON: ${parseErrorObj.message}`)
+    if (currentErrors.length > 0) {
+      setActiveErrors(currentErrors)
 
       return
     }
 
-    setParseError(null)
-
-    if (schema) {
-      const { errors: schemaErrors = [] } = validator.validateFormData(parsed, schema)
-
-      // Only surface structural errors (unknown field, wrong type, oneOf/anyOf
-      // mismatches). 'required' errors are ignored so the JSON editor stays as
-      // permissive as the form.
-      const structuralErrors = schemaErrors.filter(({ name }) => name !== 'required')
-
-      if (structuralErrors.length > 0) {
-        const messages = structuralErrors.map(({
-          name,
-          property,
-          message,
-          params
-        }) => {
-          // AJV reports the bad key in params.additionalProperty, not in `message`
-          if (name === 'additionalProperties' && params?.additionalProperty) {
-            const location = property ? `${property} ` : ''
-
-            return `${location} must NOT have additional property '${params.additionalProperty}'`
-          }
-
-          return property ? `${property} ${message}` : message
-        })
-
-        setPendingErrors(messages)
-        setShowErrors(true)
-
-        return
-      }
-    }
-
-    setDraft({
-      ...draft,
-      ummMetadata: parsed
-    })
-
-    setParseError(null)
-    setPendingErrors([])
-    setShowErrors(false)
     setIsEditing(false)
+    setShowDiff(true)
   }
 
-  const handleErrorsBack = () => {
-    setShowErrors(false)
-    setPendingErrors([])
+  const handleConfirm = () => {
+    setDraft({
+      ...draft,
+      ummMetadata: JSON.parse(jsonText)
+    })
+
+    setShowDiff(false)
+    setIsEditing(false) // Closes both modals
+  }
+
+  const handleCopyClick = async () => {
+    try {
+      await navigator.clipboard.writeText(jsonText)
+      setIsCopied(true)
+      setTimeout(() => setIsCopied(false), 2000) // Reset after 2 seconds
+    } catch (err) {
+      console.error('Failed to copy text: ', err)
+    }
   }
 
   return (
@@ -134,7 +196,14 @@ const JsonPreview = ({ schema }) => {
               </Button>
             </div>
 
-            <JSONPretty data={data} />
+            <CodeMirror
+              className="json-editor-font"
+              value={JSON.stringify(data, null, 2)}
+              theme="light"
+              editable={false}
+              extensions={readOnlyExtensions}
+            />
+
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
@@ -152,21 +221,44 @@ const JsonPreview = ({ schema }) => {
           (
             <>
               {
-                parseError && (
-                  <div className="text-danger small mb-2" role="alert">
-                    {parseError}
+                activeErrors.length > 0 && (
+                  <div className="alert alert-danger p-2 mb-3 ms-4" role="alert">
+                    <div className="fw-bold mb-1">Please fix the following errors to continue:</div>
+                    <ul className="mb-0 ps-3">
+                      {
+                        activeErrors.map((err) => (
+                          <li key={err} className="small">{err}</li>
+                        ))
+                      }
+                    </ul>
                   </div>
                 )
               }
 
-              <textarea
-                className={`form-control font-monospace ${parseError ? 'is-invalid' : ''}`}
-                rows={32}
-                value={jsonText}
-                onChange={handleTextChange}
-                spellCheck={false}
-                aria-label="Editable JSON metadata"
-              />
+              <div className="ms-4">
+                <div className="d-flex justify-content-end mb-2">
+                  <Button
+                    icon={FaCopy}
+                    iconTitle="A copy icon"
+                    onClick={handleCopyClick}
+                    title="Copy JSON"
+                    variant="light-dark"
+                    size="sm"
+                  >
+                    {isCopied ? 'Copied!' : 'Copy JSON'}
+                  </Button>
+                </div>
+                <div className="border rounded overflow-hidden">
+                  <CodeMirror
+                    className="json-editor-font"
+                    value={jsonText}
+                    height="25rem"
+                    onChange={handleTextChange}
+                    theme="light"
+                    extensions={editorExtensions}
+                  />
+                </div>
+              </div>
             </>
           )
         }
@@ -178,47 +270,73 @@ const JsonPreview = ({ schema }) => {
               onClick: handleCancel
             },
             {
-              label: 'Apply',
+              label: 'Continue',
               variant: 'primary',
-              onClick: handleApplyClick
+              onClick: handleContinueClick,
+              // Disable if there are validation errors, or if no changes were made
+              disabled: activeErrors.length > 0 || jsonText === originalJson
             }
           ]
         }
       />
 
       <CustomModal
-        show={showErrors}
+        show={showDiff}
         toggleModal={
           (nextShow) => {
-            if (!nextShow) handleErrorsBack()
+            if (!nextShow) setShowDiff(false)
           }
         }
-        size="lg"
-        header="Invalid JSON"
+        size="xl"
+        header="Review Changes"
         message={
           (
             <>
-              <p>Your record has the following errors:</p>
-
-              <ul>
-                {
-                  pendingErrors.map((message, index) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <li key={`${index}-${message}`}>{message}</li>
-                  ))
-                }
-              </ul>
-
-              <p>You must fix these errors before proceeding to save.</p>
+              <p className="mb-3 text-muted">
+                Review your changes before saving.
+                The original metadata is on the left, and your edits are on the right.
+              </p>
+              <div className="border rounded overflow-hidden">
+                <CodeMirrorMerge
+                  className="diff-editor-container json-editor-font"
+                  orientation="a-b"
+                  autoFocus
+                  collapseUnchanged={
+                    {
+                      margin: 3, // Number of unchanged lines to show around the changes
+                      minSize: 10 // Minimum number of unchanged lines required before it decides to hide them
+                    }
+                  }
+                >
+                  <Original
+                    value={originalJson}
+                    extensions={readOnlyExtensions}
+                    editable={false}
+                  />
+                  <Modified
+                    value={jsonText}
+                    extensions={readOnlyExtensions}
+                    editable={false}
+                  />
+                </CodeMirrorMerge>
+              </div>
             </>
           )
         }
         actions={
           [
             {
-              label: 'Go Back',
+              label: 'Back to Edit',
+              variant: 'secondary',
+              onClick: () => {
+                setShowDiff(false)
+                setIsEditing(true)
+              }
+            },
+            {
+              label: 'Apply',
               variant: 'primary',
-              onClick: handleErrorsBack
+              onClick: handleConfirm
             }
           ]
         }

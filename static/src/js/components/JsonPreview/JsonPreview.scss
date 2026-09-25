@@ -1,0 +1,39 @@
+.json-editor-font {
+  .cm-editor {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+}
+
+.diff-editor-container {
+  // Highlight the entire line for Deletions
+  .cm-merge-a .cm-changedLine {
+    /* stylelint-disable-next-line color-function-notation */
+    background-color: rgba(var(--bs-danger-rgb), 0.15); 
+  }
+
+  // Highlight the entire line for Insertions
+  .cm-merge-b .cm-changedLine {
+    /* stylelint-disable-next-line color-function-notation */
+    background-color: rgba(var(--bs-success-rgb), 0.15); 
+  }
+
+  .cm-mergeView {
+    height: 25rem;
+  }
+  
+  .cm-editor {
+    height: 100%;
+  }
+}
+
+// Tooltips showing the JSON Schema property types
+.cm-tooltip.cm-tooltip-hover {
+  padding: 0.75rem 1rem 0;
+}
+
+// Tooltips showing the Linting Errors
+.cm-tooltip.cm-tooltip-lint {
+  .cm-diagnostic {
+    padding: 0.75rem 1rem 0;
+  }
+}

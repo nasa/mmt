@@ -20,6 +20,10 @@ vi.mock('uuid', () => ({
   v4: () => 'mock-uuid'
 }))
 
+vi.mock('codemirror-json-schema', () => ({
+  jsonSchema: () => []
+}))
+
 Object.defineProperty(globalThis, 'uuid', {
   value: {
     v4: () => 'mock-uuid'
