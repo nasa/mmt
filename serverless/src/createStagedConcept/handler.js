@@ -5,8 +5,17 @@ import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { getS3Client } from '../utils/getS3Client'
 import { getConceptsBucketName } from '../utils/getConceptsBucketName'
 import { s3ConceptTypes } from '../../../sharedConstants/s3ConceptTypes'
+import { downcaseKeys } from '../utils/downcaseKeys'
 
 let s3Client
+
+// Temporary tracing for MMT-4195 (tracking down the "staging target rejected
+// with status 403" issue). Paired with the same marker/correlationId logged
+// by stageConceptForProduction (source) and stagingApiKeyAuthorizer (target).
+// Reaching this log for a given correlationId proves the authorizer returned
+// Allow -- API Gateway never invokes this handler otherwise. Safe to delete
+// once MMT-4195 is resolved.
+const DEBUG_MARKER = '[MMT-4195-STAGE-DEBUG]'
 
 /**
  * Create a concept in S3
@@ -30,8 +39,13 @@ const createStagedConcept = async (event) => {
     s3Client = getS3Client()
   }
 
-  const { body, pathParameters } = event
+  const {
+    body, headers = {}, pathParameters
+  } = event
   const { conceptType } = pathParameters
+
+  const { 'x-mmt-debug-correlation-id': correlationId } = downcaseKeys(headers)
+  console.log(`${DEBUG_MARKER} target-handler: invoked correlationId=${correlationId} conceptType=${conceptType}`)
 
   if (!body) {
     console.error('Missing request body')

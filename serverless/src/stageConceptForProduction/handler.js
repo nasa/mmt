@@ -1,6 +1,16 @@
+import { randomUUID } from 'node:crypto'
+
 import { getApplicationConfig } from '../../../sharedUtils/getConfig'
 import { s3ConceptTypes } from '../../../sharedConstants/s3ConceptTypes'
 import fetchProviders from '../utils/fetchProviders'
+
+// Temporary tracing for MMT-4195 (tracking down the "staging target rejected
+// with status 403" issue). Every log line on both the source (this handler)
+// and target (stagingApiKeyAuthorizer, createStagedConcept) sides is prefixed
+// with this marker and carries the same `correlationId`, so a single request
+// can be followed across both environments' log groups in Splunk. Never logs
+// the actual Staging-Api-Key value. Safe to delete once MMT-4195 is resolved.
+const DEBUG_MARKER = '[MMT-4195-STAGE-DEBUG]'
 
 /**
  * Forwards a collection's metadata from this MMT environment to another MMT
@@ -25,6 +35,9 @@ const stageConceptForProduction = async (event) => {
 
   const { body, pathParameters } = event
   const { conceptType, providerId } = pathParameters || {}
+
+  const correlationId = randomUUID()
+  console.log(`${DEBUG_MARKER} source: invoked correlationId=${correlationId} conceptType=${conceptType}`)
 
   if (!s3ConceptTypes.includes(conceptType)) {
     console.error(`Invalid conceptType "${conceptType}"`)
@@ -81,17 +94,29 @@ const stageConceptForProduction = async (event) => {
 
   const stagingTargetUrl = `${stagingTargetApiHost}/staged/${conceptType}`
 
+  console.log(`${DEBUG_MARKER} source: about to PUT ${stagingTargetUrl} correlationId=${correlationId}`)
+
   try {
     const response = await fetch(stagingTargetUrl, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Staging-Api-Key': stagingTargetSecretApiKey
+        'Staging-Api-Key': stagingTargetSecretApiKey,
+        'X-MMT-Debug-Correlation-Id': correlationId
       },
       body
     })
 
+    console.log(`${DEBUG_MARKER} source: response received correlationId=${correlationId} status=${response.status} ok=${response.ok}`)
+
     if (!response.ok) {
+      // Logged (not returned to the client) so CloudWatch shows *why* the
+      // target rejected the request -- e.g. an explicit Deny from
+      // stagingApiKeyAuthorizer vs. an execute-api resource-policy/VPC
+      // endpoint denial, which look identical as just a bare status code.
+      const responseBody = await response.text().catch(() => '<unable to read response body>')
+
+      console.error(`${DEBUG_MARKER} source: rejected correlationId=${correlationId} status=${response.status} body=${responseBody}`)
       console.error(`Staging target responded with status ${response.status} staging a "${conceptType}" concept`)
 
       return {

@@ -20,6 +20,7 @@ const mockProductionResponse = (overrides = {}) => ({
   json: () => Promise.resolve({
     recordId: 'prod-record-1'
   }),
+  text: () => Promise.resolve(''),
   ...overrides
 })
 
