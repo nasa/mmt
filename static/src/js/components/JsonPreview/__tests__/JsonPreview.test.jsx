@@ -243,15 +243,27 @@ describe('JsonPreview Component', () => {
 
       expect(continueButton).toBeDisabled()
 
+      await user.clear(textarea)
       await user.type(textarea, '{{"Name": "Updated"}', { skipClick: true })
+
+      // Wait for the debounced validation to finish
+      await waitFor(() => {
+        expect(screen.queryByText(/Please fix the following errors to continue/i)).not.toBeInTheDocument()
+      })
+
       expect(continueButton).toBeEnabled()
 
-      // Revert the change. Button should disable again
+      // Revert the change back to the original JSON
       await user.clear(textarea)
-      
-      const originalFormattedText = '{\n  "Name": "Mock Name"\n}'
+
+      const originalFormattedText = '{{\n  "Name": "Mock Name"\n}'
       await user.type(textarea, originalFormattedText, { skipClick: true })
-      
+
+      // Wait for validation to pass again
+      await waitFor(() => {
+        expect(screen.queryByText(/Please fix the following errors to continue/i)).not.toBeInTheDocument()
+      })
+
       expect(continueButton).toBeDisabled()
     })
   })
@@ -579,6 +591,31 @@ describe('JsonPreview Component', () => {
         const combinedText = listItems.map((item) => item.textContent).join(' ')
         expect(combinedText).toContain('Nmae')
         expect(combinedText).toContain('Aeg')
+      })
+    })
+
+    describe('when the edited JSON has both a type error and an unrelated unknown property', () => {
+      test('shows both errors and does not incorrectly suppress the unknown property error', async () => {
+        const user = userEvent.setup()
+
+        setup({ ummMetadata: { Name: 'Mock Name' } }, { schema: mockSchema })
+
+        // "Age" is a string instead of a number (type error).
+        // "TypoField" is an unknown property (additionalProperties error).
+        // Both live under the same root object.
+        await openEditorAndType(user, '{{"Name": "Mock Name", "Age": "not a number", "TypoField": "value"}')
+
+        expect(await screen.findByText(/Please fix the following errors to continue/i)).toBeInTheDocument()
+
+        // Assert the specific type error is present
+        expect(errorListText()).toMatch(/Age/)
+        expect(errorListText()).toMatch(/must be number/)
+
+        // Assert the unrelated additional property error was NOT suppressed
+        expect(errorListText()).toMatch(/TypoField/)
+        expect(errorListText()).toMatch(/must NOT have additional property 'TypoField'/)
+
+        expect(screen.getByRole('button', { name: 'Continue' })).toBeDisabled()
       })
     })
   })

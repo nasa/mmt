@@ -7,7 +7,6 @@ import React, {
 import PropTypes from 'prop-types'
 import { cloneDeep } from 'lodash-es'
 
-
 import Accordion from 'react-bootstrap/Accordion'
 import { FaCopy } from 'react-icons/fa'
 
@@ -39,10 +38,17 @@ const getValidationErrors = (text, schema) => {
       structuralErrors = structuralErrors.filter((err) => {
         if (err.name === 'additionalProperties') {
           const parentPath = err.property === '.' ? '' : (err.property || '')
+
+          // Construct the exact path of the offending property (e.g., ".DOI.MissingReason")
+          const additionalPropPath = `${parentPath}.${err.params?.additionalProperty}`
+
+          // Check if there is a more specific error (like 'type' or 'enum')
+          // exactly on this property, or deeper inside of it.
+          // If true, we hide this generic "additional property" error to reduce noise.
           const hasSpecificChildError = structuralErrors.some((e) => e.name !== 'additionalProperties'
             && e.name !== 'oneOf'
             && e.name !== 'anyOf'
-            && (e.property || '').startsWith(parentPath === '' ? '.' : `${parentPath}.`))
+            && ((e.property || '') === additionalPropPath || (e.property || '').startsWith(`${additionalPropPath}.`)))
 
           return !hasSpecificChildError
         }
