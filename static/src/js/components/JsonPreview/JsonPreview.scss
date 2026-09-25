@@ -1,6 +1,133 @@
 .json-editor-font {
   .cm-editor {
     font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  
+    // Style the CodeMirror Search/Replace Panel to match Bootstrap
+  .cm-panel.cm-search {
+    background-color: var(--bs-light);
+    border-bottom: 1px solid var(--bs-border-color);
+    padding: 0.5rem;
+    font-family: var(--bs-body-font-family);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    // Style the Text Inputs like Bootstrap
+    input.cm-textfield {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.875rem;
+      border-radius: var(--bs-border-radius-sm, 0.25rem);
+      border: 1px solid var(--bs-border-color);
+      background-color: var(--bs-body-bg);
+      color: var(--bs-body-color);
+      outline: none;
+
+      &:focus {
+        border-color: var(--bs-primary);
+        // Creates the standard 25% opacity blue focus ring using color-mix!
+        box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--bs-primary) 25%, transparent);
+      }
+    }
+
+    // Style the Buttons like Bootstrap
+    button.cm-button {
+      background-color: var(--bs-light);
+      border: 1px solid var(--bs-border-color);
+      padding: 0.25rem 0.5rem;
+      font-size: 0.875rem;
+      border-radius: var(--bs-border-radius-sm, 0.25rem);
+      color: var(--bs-body-color);
+      cursor: pointer;
+      background-image: none; // Removes CodeMirror's default gradient
+      text-transform: capitalize;
+
+      &:hover {
+        background-color: var(--bs-gray-200);
+        border-color: var(--bs-gray-300);
+      }
+    }
+
+    // Style the Close (x) button like Bootstrap .btn-close
+    button[name="close"] {
+      background-color: transparent;
+      border: none;
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--bs-secondary);
+      margin-left: auto;
+
+      &:hover {
+        color: var(--bs-body-color);
+      }
+    }
+
+    // Style the checkboxes
+    label {
+      font-size: 0.875rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-bottom: 0;
+      color: var(--bs-secondary-color, var(--bs-gray-700));
+    }
+  }
+
+  // Style the Autocomplete Dropdown to look like a Bootstrap .dropdown-menu
+.cm-tooltip.cm-tooltip-autocomplete {
+  background-color: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius, 0.375rem);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); // Bootstrap dropdown shadow
+  font-family: var(--bs-body-font-family);
+  overflow: hidden; // Keeps rounded corners clean
+
+  // The list container
+  > ul {
+    font-size: 0.875rem;
+    max-height: 200px; // Keep it from getting too tall
+  }
+
+  // The individual dropdown items
+  > ul > li {
+    padding: 0.25rem 1rem;
+    color: var(--bs-body-color);
+    display: flex;
+    align-items: center;
+
+    // The icon/type indicator (if available)
+    .cm-completionIcon {
+      margin-right: 0.5rem;
+      opacity: 0.6;
+    }
+
+    // The actual text of the suggestion
+    .cm-completionLabel {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    // The detail text (like "object" or "string")
+    .cm-completionDetail {
+      margin-left: auto;
+      color: var(--bs-secondary);
+      font-size: 0.75rem;
+      font-style: normal;
+      padding-left: 1rem;
+    }
+  }
+
+  // The active/hovered dropdown item (Bootstrap .dropdown-item.active)
+  > ul > li[aria-selected="true"] {
+    background-color: var(--bs-primary);
+    color: var(--bs-white);
+
+    // Ensure secondary text stays readable when the background turns blue
+    .cm-completionDetail {
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
+}
+  
   }
 }
 
