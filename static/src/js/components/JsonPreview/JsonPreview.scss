@@ -4,23 +4,23 @@
   
     // Style the CodeMirror Search/Replace Panel to match Bootstrap
   .cm-panel.cm-search {
-    background-color: var(--bs-light);
-    border-bottom: 1px solid var(--bs-border-color);
-    padding: 0.5rem;
-    font-family: var(--bs-body-font-family);
     display: flex;
-    align-items: center;
     flex-wrap: wrap;
+    align-items: center;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--bs-border-color);
+    background-color: var(--bs-light);
+    font-family: var(--bs-body-font-family);
     gap: 0.5rem;
 
     // Style the Text Inputs like Bootstrap
     input.cm-textfield {
       padding: 0.25rem 0.5rem;
-      font-size: 0.875rem;
-      border-radius: var(--bs-border-radius-sm, 0.25rem);
       border: 1px solid var(--bs-border-color);
+      border-radius: var(--bs-border-radius-sm, 0.25rem);
       background-color: var(--bs-body-bg);
       color: var(--bs-body-color);
+      font-size: 0.875rem;
       outline: none;
 
       &:focus {
@@ -32,30 +32,30 @@
 
     // Style the Buttons like Bootstrap
     button.cm-button {
-      background-color: var(--bs-light);
-      border: 1px solid var(--bs-border-color);
       padding: 0.25rem 0.5rem;
-      font-size: 0.875rem;
+      border: 1px solid var(--bs-border-color);
       border-radius: var(--bs-border-radius-sm, 0.25rem);
+      background-color: var(--bs-light);
+      background-image: none; // Removes CodeMirror's default gradient
       color: var(--bs-body-color);
       cursor: pointer;
-      background-image: none; // Removes CodeMirror's default gradient
+      font-size: 0.875rem;
       text-transform: capitalize;
 
       &:hover {
-        background-color: var(--bs-gray-200);
         border-color: var(--bs-gray-300);
+        background-color: var(--bs-gray-200); 
       }
     }
 
     // Style the Close (x) button like Bootstrap .btn-close
     button[name="close"] {
-      background-color: transparent;
       border: none;
+      margin-left: auto;
+      background-color: transparent;
+      color: var(--bs-secondary);
       font-size: 1.25rem;
       font-weight: bold;
-      color: var(--bs-secondary);
-      margin-left: auto;
 
       &:hover {
         color: var(--bs-body-color);
@@ -64,36 +64,36 @@
 
     // Style the checkboxes
     label {
-      font-size: 0.875rem;
       display: inline-flex;
       align-items: center;
-      gap: 0.25rem;
       margin-bottom: 0;
       color: var(--bs-secondary-color, var(--bs-gray-700));
+      font-size: 0.875rem;
+      gap: 0.25rem;
     }
   }
 
   // Style the Autocomplete Dropdown to look like a Bootstrap .dropdown-menu
 .cm-tooltip.cm-tooltip-autocomplete {
-  background-color: var(--bs-body-bg);
+  overflow: hidden; // Keeps rounded corners clean
   border: 1px solid var(--bs-border-color);
   border-radius: var(--bs-border-radius, 0.375rem);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); // Bootstrap dropdown shadow
+  background-color: var(--bs-body-bg);
+  box-shadow: var(--bs-box-shadow);
   font-family: var(--bs-body-font-family);
-  overflow: hidden; // Keeps rounded corners clean
 
   // The list container
   > ul {
+    max-height: 200px;
     font-size: 0.875rem;
-    max-height: 200px; // Keep it from getting too tall
   }
 
   // The individual dropdown items
   > ul > li {
-    padding: 0.25rem 1rem;
-    color: var(--bs-body-color);
     display: flex;
     align-items: center;
+    padding: 0.25rem 1rem;
+    color: var(--bs-body-color);
 
     // The icon/type indicator (if available)
     .cm-completionIcon {
@@ -108,11 +108,11 @@
 
     // The detail text (like "object" or "string")
     .cm-completionDetail {
+      padding-left: 1rem;
       margin-left: auto;
       color: var(--bs-secondary);
       font-size: 0.75rem;
       font-style: normal;
-      padding-left: 1rem;
     }
   }
 
@@ -123,7 +123,7 @@
 
     // Ensure secondary text stays readable when the background turns blue
     .cm-completionDetail {
-      color: rgba(255, 255, 255, 0.8);
+      color: rgb(var(--bs-white-rgb) / 80%);
     }
   }
 }
