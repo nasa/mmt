@@ -40,7 +40,7 @@
     "@uidotdev/usehooks": "^2.4.1",
     "@uiw/react-codemirror": "^4.25.11",
     "@vitejs/plugin-react": "^4.3.4",
-    "@xmldom/xmldom": "^0.8.10",
+    "@xmldom/xmldom": "^0.8.15",
     "ajv": "8.18.0",
     "ajv-formats": "^3.0.1",
     "bootstrap": "^5.3.2",
