@@ -98,7 +98,7 @@ const stageConceptForProduction = async (event) => {
         statusCode: 502,
         headers: defaultResponseHeaders,
         body: JSON.stringify({
-          error: `Staging target rejected the request with status ${response.status}`
+          error: `Staging target ${stagingTargetUrl} rejected the request with status ${response.status}`
         })
       }
     }
