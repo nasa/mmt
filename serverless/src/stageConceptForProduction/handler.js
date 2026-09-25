@@ -92,13 +92,13 @@ const stageConceptForProduction = async (event) => {
     })
 
     if (!response.ok) {
-      console.error(`Staging target responded with status ${response.status} staging a "${conceptType}" concept`)
+      console.error(`Staging target ${stagingTargetUrl} responded with status ${response.status} staging a "${conceptType}" concept`)
 
       return {
         statusCode: 502,
         headers: defaultResponseHeaders,
         body: JSON.stringify({
-          error: `Staging target ${stagingTargetUrl} rejected the request with status ${response.status}`
+          error: `Staging target rejected the request with status ${response.status}`
         })
       }
     }
