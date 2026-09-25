@@ -4,16 +4,19 @@ import React, {
   useMemo,
   useEffect
 } from 'react'
-import Accordion from 'react-bootstrap/Accordion'
-import { cloneDeep } from 'lodash-es'
 import PropTypes from 'prop-types'
-import validator from '@rjsf/validator-ajv8'
+import { cloneDeep } from 'lodash-es'
+
+
+import Accordion from 'react-bootstrap/Accordion'
+import { FaCopy } from 'react-icons/fa'
+
 import CodeMirror from '@uiw/react-codemirror'
+import CodeMirrorMerge from 'react-codemirror-merge'
 import { json, jsonParseLinter } from '@codemirror/lang-json'
 import { linter, lintGutter } from '@codemirror/lint'
 import { jsonSchema } from 'codemirror-json-schema'
-import CodeMirrorMerge from 'react-codemirror-merge'
-import { FaCopy } from 'react-icons/fa'
+import validator from '@rjsf/validator-ajv8'
 
 import useAppContext from '../../hooks/useAppContext'
 import removeEmpty from '../../utils/removeEmpty'
@@ -99,7 +102,7 @@ const JsonPreview = ({ schema }) => {
     if (isEditing) {
       validateTimer = setTimeout(() => {
         setActiveErrors(getValidationErrors(jsonText, schema))
-      }, 300) // 300ms debounce
+      }, 250) // 250ms debounce
     }
 
     return () => {
@@ -264,7 +267,8 @@ const JsonPreview = ({ schema }) => {
               label: 'Continue',
               variant: 'primary',
               onClick: handleContinueClick,
-              disabled: activeErrors.length > 0
+              // Disable if there are validation errors, or if no changes were made
+              disabled: activeErrors.length > 0 || jsonText === originalJson
             }
           ]
         }

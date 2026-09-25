@@ -226,6 +226,36 @@ describe('JsonPreview Component', () => {
     })
   })
 
+  describe('when checking if changes have been made', () => {
+    test('disables the Continue button if no changes have been made to the JSON', async () => {
+      const user = userEvent.setup()
+
+      setup({
+        ummMetadata: {
+          Name: 'Mock Name'
+        }
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
+
+      const textarea = screen.getByRole('textbox', { name: 'Editable JSON metadata' })
+      const continueButton = screen.getByRole('button', { name: 'Continue' })
+
+      expect(continueButton).toBeDisabled()
+
+      await user.type(textarea, '{{"Name": "Updated"}', { skipClick: true })
+      expect(continueButton).toBeEnabled()
+
+      // Revert the change. Button should disable again
+      await user.clear(textarea)
+      
+      const originalFormattedText = '{\n  "Name": "Mock Name"\n}'
+      await user.type(textarea, originalFormattedText, { skipClick: true })
+      
+      expect(continueButton).toBeDisabled()
+    })
+  })
+
   describe('when the user clicks Copy JSON', () => {
     test('copies the current JSON to the clipboard', async () => {
       const user = userEvent.setup()
