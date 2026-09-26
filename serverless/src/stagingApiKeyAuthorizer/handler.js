@@ -12,7 +12,7 @@ const DEBUG_MARKER = '[MMT-4195-STAGE-DEBUG]'
 
 /**
  * Custom API Gateway authorizer for the machine-to-machine `createStagedConcept`
- * route (`PUT /staged/{conceptType}`). It authenticates the caller solely by a shared
+ * route (`POST /staged/{conceptType}`). It authenticates the caller solely by a shared
  * secret sent in the `Staging-Api-Key` header (compared against
  * `process.env.STAGING_SECRET_API_KEY`).
  *

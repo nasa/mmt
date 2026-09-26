@@ -276,7 +276,7 @@ export class MmtFunctions extends Construct {
       role: s3LambdaRole
     })
 
-    // createStagedConcept - PUT /staged/{conceptType}
+    // createStagedConcept - POST /staged/{conceptType}
     new application.NodeJsFunction(new cdk.NestedStack(scope, 'CreateStagedConceptNestedStack'), 'CreateStagedConceptLambda', {
       ...defaultLambdaConfig,
       api: {
@@ -284,7 +284,7 @@ export class MmtFunctions extends Construct {
         apiGatewayResource: resources.stagedConceptTypeResource,
         apiGatewayRestApi,
         authorizer: authorizers.stagingApiKeyAuthorizer,
-        methods: ['PUT'],
+        methods: ['POST'],
         parentPath: 'staged',
         path: '{conceptType}'
       },

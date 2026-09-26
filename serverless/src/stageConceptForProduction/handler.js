@@ -94,15 +94,22 @@ const stageConceptForProduction = async (event) => {
 
   const stagingTargetUrl = `${stagingTargetApiHost}/staged/${conceptType}`
 
-  console.log(`${DEBUG_MARKER} source: about to PUT ${stagingTargetUrl} correlationId=${correlationId}`)
+  // Node's built-in fetch (undici) does not send a User-Agent header on its
+  // own, so left unset it's simply absent -- itself a plausible WAF trigger
+  // (rules that expect a browser-like UA). Set one explicitly so we know for
+  // certain what was sent, rather than guessing at undici's default behavior.
+  const debugUserAgent = `MMT-StageForProduction/1.0 correlationId=${correlationId}`
+
+  console.log(`${DEBUG_MARKER} source: about to POST ${stagingTargetUrl} correlationId=${correlationId} userAgent="${debugUserAgent}"`)
 
   try {
     const response = await fetch(stagingTargetUrl, {
-      method: 'PUT',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Staging-Api-Key': stagingTargetSecretApiKey,
-        'X-MMT-Debug-Correlation-Id': correlationId
+        'X-MMT-Debug-Correlation-Id': correlationId,
+        'User-Agent': debugUserAgent
       },
       body
     })

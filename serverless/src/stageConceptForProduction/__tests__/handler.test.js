@@ -48,7 +48,7 @@ describe('stageConceptForProduction', () => {
     expect(global.fetch).toHaveBeenCalledWith(
       'https://prod.example.com/prod/staged/collections',
       expect.objectContaining({
-        method: 'PUT',
+        method: 'POST',
         headers: expect.objectContaining({ 'Staging-Api-Key': 'prod-staging-key' }),
         body: validEvent.body
       })
