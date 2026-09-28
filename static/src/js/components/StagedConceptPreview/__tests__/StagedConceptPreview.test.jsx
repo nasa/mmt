@@ -447,7 +447,12 @@ describe('StagedConceptPreview', () => {
             {
               request: {
                 query: GET_COLLECTIONS,
-                variables: { params: { shortName: 'Mock Short Name' } }
+                variables: {
+                  params: {
+                    shortName: 'Mock Short Name',
+                    limit: 2000
+                  }
+                }
               },
               result: {
                 data: {
@@ -478,6 +483,8 @@ describe('StagedConceptPreview', () => {
               result: {
                 data: {
                   collection: {
+                    conceptId: 'C1000000-MMT_2',
+                    revisionId: '3',
                     nativeId: 'existing-native-id',
                     providerId: 'MMT_2',
                     ummMetadata: {

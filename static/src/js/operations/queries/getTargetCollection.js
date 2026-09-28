@@ -9,6 +9,8 @@ import { gql } from '@apollo/client'
 export const GET_TARGET_COLLECTION = gql`
   query GetTargetCollection ($params: CollectionInput) {
     collection (params: $params) {
+      conceptId
+      revisionId
       nativeId
       providerId: provider
       ummMetadata

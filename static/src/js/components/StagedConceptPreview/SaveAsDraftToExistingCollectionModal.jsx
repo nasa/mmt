@@ -68,6 +68,7 @@ const SaveAsDraftToExistingCollectionModal = ({
   const [status, setStatus] = useState('searching')
   const [errorMessage, setErrorMessage] = useState(null)
   const [matches, setMatches] = useState([])
+  const [matchCount, setMatchCount] = useState(0)
   const [selectedConceptId, setSelectedConceptId] = useState(null)
   const [targetCollection, setTargetCollection] = useState(null)
 
@@ -137,6 +138,7 @@ const SaveAsDraftToExistingCollectionModal = ({
     setStatus('searching')
     setErrorMessage(null)
     setMatches([])
+    setMatchCount(0)
     setSelectedConceptId(null)
     setTargetCollection(null)
 
@@ -149,13 +151,21 @@ const SaveAsDraftToExistingCollectionModal = ({
 
     searchCollections({
       variables: {
-        params: { shortName }
+        // CMR's ShortName search can return more matches than the GraphQL
+        // API's default page size (20), e.g. the same ShortName reused
+        // across providers or versions, so request CMR's maximum page size
+        // to keep the intended collection from being silently left off the
+        // choices below.
+        params: {
+          shortName,
+          limit: 2000
+        }
       },
       onCompleted: (data) => {
         if (requestId !== requestIdRef.current) return
 
         const { collections } = data
-        const { items } = collections
+        const { count, items } = collections
 
         if (!items || items.length === 0) {
           setStatus('no-match')
@@ -170,6 +180,7 @@ const SaveAsDraftToExistingCollectionModal = ({
         }
 
         setMatches(items)
+        setMatchCount(count)
         setStatus('select-match')
       },
       onError: (searchError) => {
@@ -221,6 +232,13 @@ const SaveAsDraftToExistingCollectionModal = ({
           <p>
             {`More than one published collection was found with ShortName "${shortName}". Choose the collection this draft should update.`}
           </p>
+          {
+            matches.length < matchCount && (
+              <Alert variant="warning">
+                {`Only the first ${matches.length} of ${matchCount} matching collections are shown. If the intended collection isn't listed below, it can't be selected here.`}
+              </Alert>
+            )
+          }
           <ListGroup>
             <For each={matches}>
               {

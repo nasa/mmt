@@ -60,7 +60,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -91,6 +96,8 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
             result: {
               data: {
                 collection: {
+                  conceptId: 'C1000000-MMT_2',
+                  revisionId: '3',
                   nativeId: 'existing-native-id',
                   providerId: 'MMT_2',
                   ummMetadata: {
@@ -120,7 +127,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -151,6 +163,8 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
             result: {
               data: {
                 collection: {
+                  conceptId: 'C1000000-MMT_2',
+                  revisionId: '3',
                   nativeId: 'existing-native-id',
                   providerId: 'MMT_2',
                   ummMetadata: mockMetadata
@@ -178,7 +192,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -203,7 +222,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -249,6 +273,8 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
             result: {
               data: {
                 collection: {
+                  conceptId: 'C1000000-MMT_2',
+                  revisionId: '1',
                   nativeId: 'second-native-id',
                   providerId: 'MMT_2',
                   ummMetadata: {
@@ -264,6 +290,9 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       })
 
       const secondMatch = await screen.findByLabelText(/Second Provider Collection/)
+
+      expect(screen.queryByText(/Only the first/)).not.toBeInTheDocument()
+
       await user.click(secondMatch)
 
       const continueButton = screen.getByRole('button', { name: 'Continue' })
@@ -276,6 +305,63 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
     })
   })
 
+  describe('when more matching collections exist than were returned', () => {
+    test('shows a warning that not all matches are listed', async () => {
+      setup({
+        mocks: [
+          {
+            request: {
+              query: GET_COLLECTIONS,
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
+            },
+            result: {
+              data: {
+                collections: {
+                  count: 3,
+                  items: [
+                    {
+                      conceptId: 'C1000000-MMT_1',
+                      shortName: 'Mock Short Name',
+                      version: '1',
+                      title: 'First Provider Collection',
+                      provider: 'MMT_1',
+                      entryTitle: 'First Provider Collection',
+                      revisionId: '1',
+                      granules: null,
+                      tagDefinitions: null,
+                      tags: null,
+                      revisionDate: '2024-01-01T00:00:00.000Z'
+                    },
+                    {
+                      conceptId: 'C1000000-MMT_2',
+                      shortName: 'Mock Short Name',
+                      version: '1',
+                      title: 'Second Provider Collection',
+                      provider: 'MMT_2',
+                      entryTitle: 'Second Provider Collection',
+                      revisionId: '1',
+                      granules: null,
+                      tagDefinitions: null,
+                      tags: null,
+                      revisionDate: '2024-01-01T00:00:00.000Z'
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      })
+
+      expect(await screen.findByText('Only the first 2 of 3 matching collections are shown. If the intended collection isn\'t listed below, it can\'t be selected here.')).toBeInTheDocument()
+    })
+  })
+
   describe('when searching for a matching collection results in an error', () => {
     test('shows an error message and calls errorLogger', async () => {
       setup({
@@ -283,7 +369,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             error: new Error('An error occurred')
           }
@@ -318,7 +409,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -363,7 +459,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -411,7 +512,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -441,7 +547,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -498,7 +609,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -529,6 +645,8 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
             result: {
               data: {
                 collection: {
+                  conceptId: 'C1000000-MMT_2',
+                  revisionId: '3',
                   nativeId: 'existing-native-id',
                   providerId: 'MMT_2',
                   ummMetadata: {
@@ -558,7 +676,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -589,6 +712,8 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
             result: {
               data: {
                 collection: {
+                  conceptId: 'C1000000-MMT_2',
+                  revisionId: '3',
                   nativeId: 'existing-native-id',
                   providerId: 'MMT_2',
                   ummMetadata: {
@@ -619,7 +744,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -650,7 +780,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -680,7 +815,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -711,6 +851,8 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
             result: {
               data: {
                 collection: {
+                  conceptId: 'C1000000-MMT_2',
+                  revisionId: '3',
                   nativeId: 'existing-native-id',
                   providerId: 'MMT_2',
                   ummMetadata: {
@@ -743,7 +885,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
@@ -792,7 +939,12 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
           {
             request: {
               query: GET_COLLECTIONS,
-              variables: { params: { shortName: 'Mock Short Name' } }
+              variables: {
+                params: {
+                  shortName: 'Mock Short Name',
+                  limit: 2000
+                }
+              }
             },
             result: {
               data: {
