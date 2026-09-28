@@ -102,6 +102,14 @@ const stageConceptForProduction = async (event) => {
 
   console.log(`${DEBUG_MARKER} source: about to POST ${stagingTargetUrl} correlationId=${correlationId} userAgent="${debugUserAgent}"`)
 
+  // Real browser traffic to this same CloudFront-fronted API always carries
+  // Origin/Referer pointing at an MMT frontend; this server-to-server fetch()
+  // sends neither. A rule requiring a valid Origin (CSRF/hotlink-style
+  // protection) would explain a block that doesn't care about method or
+  // User-Agent, both already ruled out. `stagingTargetMmtHost` is already the
+  // right value here -- the target environment's own frontend host.
+  console.log(`${DEBUG_MARKER} source: sending Origin/Referer=${stagingTargetMmtHost} correlationId=${correlationId}`)
+
   try {
     const response = await fetch(stagingTargetUrl, {
       method: 'POST',
@@ -109,7 +117,9 @@ const stageConceptForProduction = async (event) => {
         'Content-Type': 'application/json',
         'Staging-Api-Key': stagingTargetSecretApiKey,
         'X-MMT-Debug-Correlation-Id': correlationId,
-        'User-Agent': debugUserAgent
+        'User-Agent': debugUserAgent,
+        Origin: stagingTargetMmtHost,
+        Referer: stagingTargetMmtHost
       },
       body
     })
