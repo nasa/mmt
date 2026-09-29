@@ -100,7 +100,7 @@ const stageConceptForProduction = async (event) => {
   // certain what was sent, rather than guessing at undici's default behavior.
   const debugUserAgent = `MMT-StageForProduction/1.0 correlationId=${correlationId}`
 
-  console.log(`${DEBUG_MARKER} source: about to POST ${stagingTargetUrl} correlationId=${correlationId} userAgent="${debugUserAgent}"`)
+  console.log(`${DEBUG_MARKER} source: about to PUT ${stagingTargetUrl} correlationId=${correlationId} userAgent="${debugUserAgent}"`)
 
   // Real browser traffic to this same CloudFront-fronted API always carries
   // Origin/Referer pointing at an MMT frontend; this server-to-server fetch()
@@ -112,7 +112,7 @@ const stageConceptForProduction = async (event) => {
 
   try {
     const response = await fetch(stagingTargetUrl, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'Staging-Api-Key': stagingTargetSecretApiKey,
