@@ -78,7 +78,6 @@ const KeywordManagerPage = () => {
   const [selectedVersion, setSelectedVersion] = useState(null)
   const [draftVersion, setDraftVersion] = useState(null)
   const [selectedScheme, setSelectedScheme] = useState(null)
-  const [showWarning, setShowWarning] = useState(false)
   const { kmsHost } = getApplicationConfig()
   const [selectedKeywordId, setSelectedKeywordId] = useState(null)
 
@@ -254,7 +253,6 @@ const KeywordManagerPage = () => {
    */
   const onVersionSelect = useCallback((versionInfo) => {
     closeDeleteModal()
-    setShowWarning(false)
     setSelectedKeywordId(null)
     setSelectedVersion(versionInfo)
     setSelectedScheme(null)
@@ -270,26 +268,6 @@ const KeywordManagerPage = () => {
     setSelectedKeywordData(null)
     setShowKeywordForm(false)
   }, [])
-  // Effect to show warning when published version is selected
-  useEffect(() => {
-    if (selectedVersion && selectedVersion.version_type === 'published') {
-      setShowWarning(true)
-    }
-  }, [selectedVersion])
-
-  /**
-   * Closes the warning modal
-   */
-  const handleCloseWarning = () => setShowWarning(false)
-  // Modal actions for the warning modal
-  const warningModalActions = [
-    {
-      label: 'OK',
-      variant: 'primary',
-      onClick: handleCloseWarning
-    }
-  ]
-
   const renderPublishStatus = () => {
     if (publishError) {
       return <div className="text-danger mt-2">{publishError}</div>
@@ -448,13 +426,6 @@ const KeywordManagerPage = () => {
         </ErrorBoundary>
       </div>
 
-      <CustomModal
-        show={showWarning}
-        toggleModal={() => setShowWarning(false)}
-        header="Warning"
-        message="You are viewing the production keyword version, which is read-only. Select the DRAFT-NEXT RELEASE version to make changes, then publish a new keyword version to update production."
-        actions={warningModalActions}
-      />
       <CustomModal
         show={showPublishModal}
         toggleModal={() => setShowPublishModal(false)}

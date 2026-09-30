@@ -436,63 +436,6 @@ describe('KeywordManagerPage component', () => {
       // Check if the version selector value has been updated
       expect(versionSelector).toHaveValue('3.0')
     })
-
-    test('should show warning modal when a published version is selected', async () => {
-      setup()
-
-      await waitFor(() => {
-        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
-      })
-
-      const versionSelector = screen.getByTestId('version-selector')
-
-      // Simulate selecting a published version
-      fireEvent.change(versionSelector, { target: { value: '3.0' } })
-
-      // Check if the warning modal is shown
-      await waitFor(() => {
-        expect(screen.getByText('Warning')).toBeVisible()
-      })
-
-      expect(screen.getByText('You are viewing the production keyword version, which is read-only. Select the DRAFT-NEXT RELEASE version to make changes, then publish a new keyword version to update production.')).toBeInTheDocument()
-
-      // Close the modal
-      fireEvent.click(screen.getByText('OK'))
-
-      // Check if the modal is closed
-      await waitFor(() => {
-        expect(screen.queryByText('Warning')).not.toBeInTheDocument()
-      })
-
-      // Verify that the selected version is still set
-      expect(versionSelector).toHaveValue('3.0')
-    })
-
-    test('should close warning modal when toggleModal is called', async () => {
-      const { user } = setup()
-
-      // Select a published version to trigger the warning modal
-      await waitFor(() => {
-        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
-      })
-
-      const versionSelector = screen.getByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
-
-      // Check if the warning modal is shown
-      await waitFor(() => {
-        expect(screen.getByTestId('custom-modal')).toBeInTheDocument()
-      })
-
-      // Find and click the close button
-      const closeButton = screen.getByTestId('modal-close')
-      await user.click(closeButton)
-
-      // Check if the modal is closed
-      await waitFor(() => {
-        expect(screen.queryByTestId('custom-modal')).not.toBeInTheDocument()
-      })
-    })
   })
 
   describe('when publishing a new version', () => {
@@ -961,14 +904,12 @@ describe('KeywordManagerPage component', () => {
   test('should switch to the draft from the read-only notice', async () => {
     const { user } = setup()
     await user.selectOptions(await screen.findByTestId('version-selector'), '3.0')
-    await user.click(screen.getByRole('button', { name: 'OK' }))
     await user.selectOptions(await screen.findByTestId('scheme-selector'), 'scheme1')
     await user.click(screen.getByRole('button', { name: 'Switch To Draft' }))
 
     expect(screen.getByTestId('version-selector')).toHaveValue('1.0')
     expect(screen.queryByText(/This keyword version is read-only/)).not.toBeInTheDocument()
     expect(screen.queryByTestId('keyword-form')).not.toBeInTheDocument()
-    expect(screen.queryByText('Warning')).not.toBeInTheDocument()
   })
 
   test('should prevent production deletion and direct users to a draft', async () => {
