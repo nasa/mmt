@@ -9,7 +9,7 @@ import {
   MemoryRouter,
   Routes,
   Route
-} from 'react-router-dom'
+} from 'react-router'
 
 import userEvent from '@testing-library/user-event'
 import { collectionRevisions } from './__mocks__/revisionResults'
@@ -24,6 +24,15 @@ import {
 import errorLogger from '../../../utils/errorLogger'
 
 vi.mock('../../../utils/errorLogger')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
 
 const setup = ({
   additionalMocks = [],

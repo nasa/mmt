@@ -11,7 +11,7 @@ import {
   MemoryRouter,
   Routes,
   Route
-} from 'react-router-dom'
+} from 'react-router'
 import { GraphQLError } from 'graphql'
 
 import { GET_GRANULES } from '@/js/operations/queries/getGranules'

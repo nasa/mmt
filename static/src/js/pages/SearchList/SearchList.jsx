@@ -15,7 +15,7 @@ import {
   Navigate,
   useParams,
   useSearchParams
-} from 'react-router-dom'
+} from 'react-router'
 
 import { useSuspenseQuery } from '@apollo/client'
 

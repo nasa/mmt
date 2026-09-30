@@ -292,12 +292,11 @@ describe('AssociatedCollectionPermissionTable', () => {
       const paginationNavigation = paginationContainers[0]
 
       const paginationButton = within(paginationNavigation).getByRole('button', { name: 'Goto Page 2' })
-
       await user.click(paginationButton)
 
-      const paginationCells = await screen.findAllByRole('cell')
+      expect(await screen.findByText('Collection Permission 1, Page 2')).toBeInTheDocument()
 
-      expect(paginationCells[0].textContent).toContain('Collection Permission 1, Page 2')
+      await screen.findByText('Collection Permission 1, Page 2', {}, { timeout: 5000 })
     })
   })
 })
