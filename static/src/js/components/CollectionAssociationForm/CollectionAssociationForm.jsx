@@ -240,13 +240,6 @@ const CollectionAssociationForm = () => {
       return Object.fromEntries(currentParams)
     })
 
-    setSearchParams((currentParams) => {
-      currentParams.set('searchField', searchFieldKey)
-      currentParams.set('searchFieldValue', searchFieldValue)
-
-      return Object.fromEntries(currentParams)
-    })
-
     getConcept({
       variables: {
         params: {
