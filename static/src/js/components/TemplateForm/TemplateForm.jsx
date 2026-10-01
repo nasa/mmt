@@ -1,11 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, {
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import { useNavigate, useParams } from 'react-router'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
-import { isEmpty, isEqual, kebabCase } from 'lodash-es'
+import {
+  isEmpty,
+  isEqual,
+  kebabCase
+} from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
 
 import useAppContext from '@/js/hooks/useAppContext'
@@ -297,7 +305,7 @@ const TemplateForm = () => {
   }
 
   // Handle form changes
-  const handleChange = (event, id) => {
+  const handleChange = (event, changedFieldId) => {
     const { formData } = event
 
     setDraft({
@@ -305,9 +313,10 @@ const TemplateForm = () => {
       ummMetadata: formData
     })
 
-    // `@rjsf/core` calls this with an `id` when the user edits a field, but without
-    // one when it's just filling in default values on its own (e.g. on page load).
-    if (id !== undefined) {
+    // `@rjsf/core` calls this with a field id when the user edits a field, but
+    // without one when it's just filling in default values on its own (e.g. on
+    // page load).
+    if (changedFieldId !== undefined) {
       hasFormDataChangedRef.current = true
       editGenerationRef.current += 1
     }

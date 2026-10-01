@@ -9,7 +9,11 @@ import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Form from '@rjsf/core'
 import pluralize from 'pluralize'
-import React, { useEffect, useRef, useState } from 'react'
+import React, {
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import Row from 'react-bootstrap/Row'
 import validator from '@rjsf/validator-ajv8'
 import { v4 as uuidv4 } from 'uuid'

@@ -295,7 +295,6 @@ describe('TemplateForm', () => {
               Name: 'Defaulted Name'
             }
           })
-          // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [])
 
         return <mock-Component data-testid="MockForm" />
