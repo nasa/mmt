@@ -5,7 +5,7 @@ import {
   BrowserRouter,
   Routes,
   Route
-} from 'react-router-dom'
+} from 'react-router'
 
 import EllipsisLink from '../EllipsisLink'
 

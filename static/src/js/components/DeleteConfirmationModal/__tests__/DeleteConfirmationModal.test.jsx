@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import {
   describe,
   test,
@@ -51,17 +52,19 @@ describe('DeleteConfirmationModal', () => {
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 
-  test('When Cancel button is clicked, should call onCancel', () => {
+  test('When Cancel button is clicked, should call onCancel', async () => {
+    const user = userEvent.setup()
     render(<DeleteConfirmationModal {...defaultProps} />)
 
-    screen.getByText('Cancel').click()
+    await user.click(screen.getByRole('button', { name: 'Cancel' }))
     expect(defaultProps.onCancel).toHaveBeenCalledTimes(1)
   })
 
-  test('When Delete button is clicked, should call onConfirm', () => {
+  test('When Delete button is clicked, should call onConfirm', async () => {
+    const user = userEvent.setup()
     render(<DeleteConfirmationModal {...defaultProps} />)
 
-    screen.getByText('Delete').click()
+    await user.click(screen.getByRole('button', { name: 'Delete' }))
     expect(defaultProps.onConfirm).toHaveBeenCalledTimes(1)
   })
 })

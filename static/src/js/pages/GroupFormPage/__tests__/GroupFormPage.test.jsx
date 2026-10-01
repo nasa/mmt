@@ -14,6 +14,15 @@ import { GET_GROUP } from '@/js/operations/queries/getGroup'
 import GroupFormPage from '../GroupFormPage'
 
 vi.mock('@/js/components/GroupForm/GroupForm')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
 
 const setup = ({
   mocks,

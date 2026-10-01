@@ -29,6 +29,15 @@ import ManageCitationAssociations from '../ManageCitationAssociations'
 
 vi.mock('@/js/utils/errorLogger')
 vi.mock('@/js/components/ErrorBanner/ErrorBanner')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
 
 const setup = ({
   additionalMocks = [],
