@@ -50,6 +50,7 @@ const setup = ({
       displayName: 'Section 2',
       properties: ['Field2']
     }],
+    hasPendingChanges: true,
     loading: false,
     onCancel: vi.fn(),
     onSave: vi.fn(),
@@ -289,15 +290,29 @@ describe('FormNavigation', () => {
     })
   })
 
-  describe('when clicking the Cancel button', () => {
+  describe('when clicking the Cancel Pending Changes button', () => {
     test('calls onCancel', async () => {
       const { props, user } = setup({})
 
-      const button = screen.getByRole('button', { name: 'Cancel' })
+      const button = screen.getByRole('button', { name: 'Cancel Pending Changes' })
 
       await user.click(button)
 
       expect(props.onCancel).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('when there are no pending changes', () => {
+    test('disables the Cancel Pending Changes button', () => {
+      setup({
+        overrideProps: {
+          hasPendingChanges: false
+        }
+      })
+
+      const button = screen.getByRole('button', { name: 'Cancel Pending Changes' })
+
+      expect(button).toBeDisabled()
     })
   })
 

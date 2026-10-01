@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
-import { isEmpty, kebabCase } from 'lodash-es'
+import { isEmpty, isEqual, kebabCase } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
 
 import useAppContext from '@/js/hooks/useAppContext'
@@ -80,6 +80,13 @@ const TemplateForm = () => {
 
   const [visitedFields, setVisitedFields] = useState([])
   const [focusField, setFocusField] = useState(null)
+
+  // Set to true the first time the user edits a field (see handleChange below).
+  // A ref is used instead of state because handleChange already calls setDraft,
+  // which re-renders the component - we don't need a second render just for this.
+  const hasFormDataChangedRef = useRef(false)
+
+  const hasPendingChanges = hasFormDataChangedRef.current && !isEqual(draft, originalDraft)
   const [error, setErrors] = useState()
   const [saveLoading, setSaveLoading] = useState(false)
   const [loading, setLoading] = useState()
@@ -173,6 +180,11 @@ const TemplateForm = () => {
 
       if (response.id) {
         savedId = response.id
+
+        // The draft was just written to the origin draft, so there are no longer
+        // any pending changes regardless of which save option was used.
+        setOriginalDraft(draft)
+        hasFormDataChangedRef.current = false
       } else {
         addNotification({
           message: 'Error creating template',
@@ -191,6 +203,9 @@ const TemplateForm = () => {
           message: 'Template saved successfully',
           variant: 'success'
         })
+
+        setOriginalDraft(draft)
+        hasFormDataChangedRef.current = false
       } else {
         addNotification({
           message: 'Error saving template',
@@ -259,16 +274,21 @@ const TemplateForm = () => {
   const handleCancel = () => {
     setDraft(originalDraft)
     setVisitedFields([])
+    hasFormDataChangedRef.current = false
   }
 
   // Handle form changes
-  const handleChange = (event) => {
+  const handleChange = (event, id) => {
     const { formData } = event
 
     setDraft({
       ...draft,
       ummMetadata: formData
     })
+
+    // `@rjsf/core` calls this with an `id` when the user edits a field, but without
+    // one when it's just filling in default values on its own (e.g. on page load).
+    if (id !== undefined) hasFormDataChangedRef.current = true
   }
 
   // Handle bluring fields within the form
@@ -342,6 +362,7 @@ const TemplateForm = () => {
               <FormNavigation
                 draft={ummMetadata}
                 formSections={collectionsTemplateConfiguration}
+                hasPendingChanges={hasPendingChanges}
                 loading={saveLoading}
                 onCancel={handleCancel}
                 onSave={handleSave}

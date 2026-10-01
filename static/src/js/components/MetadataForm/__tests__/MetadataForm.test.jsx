@@ -117,7 +117,7 @@ vi.mock('@rjsf/core', () => ({
                   ...formData,
                   ShortName: value
                 }
-              })
+              }, 'root_ShortName')
             }
           }
           onBlur={() => onBlur('mock-short-name')}
@@ -138,7 +138,7 @@ vi.mock('@rjsf/core', () => ({
                   ...formData,
                   EntryTitle: value
                 }
-              })
+              }, 'root_EntryTitle')
             }
           }
           onBlur={() => onBlur('mock-entry-title')}
@@ -160,7 +160,7 @@ vi.mock('@rjsf/core', () => ({
                   ...formData,
                   Name: value
                 }
-              })
+              }, 'root_Name')
             }
           }
           onBlur={() => onBlur('mock-name')}
@@ -534,6 +534,58 @@ describe('MetadataForm', () => {
     })
   })
 
+  describe('when the draft has no pending changes', () => {
+    test('passes hasPendingChanges as false on initial load', async () => {
+      setup({})
+
+      await waitFor(() => {
+        expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+          hasPendingChanges: false
+        }), {})
+      })
+    })
+
+    test('keeps hasPendingChanges false when `@rjsf/core` syncs in formData with no field id (e.g. default-filling on mount)', async () => {
+      Form.mockImplementationOnce(({ onChange, formData }) => {
+        // `@rjsf/core` calls `onChange` with just the form state (no second `id`
+        // argument) when it's syncing in schema defaults, as opposed to a real,
+        // user-driven field edit, which always includes a field id.
+        useEffect(() => {
+          onChange({
+            formData: {
+              ...formData,
+              Name: 'Defaulted Name'
+            }
+          })
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [])
+
+        return <mock-Component data-testid="MockForm" />
+      })
+
+      setup({})
+
+      await waitFor(() => {
+        expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+          hasPendingChanges: false
+        }), {})
+      })
+    })
+  })
+
+  describe('when the draft has pending changes', () => {
+    test('passes hasPendingChanges as true as soon as a field changes, even before it is blurred', async () => {
+      const { user } = setup({})
+
+      const nameField = await screen.findByRole('textbox', { name: 'Name' })
+      await user.type(nameField, 'Test Name')
+
+      expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+        hasPendingChanges: true
+      }), {})
+    })
+  })
+
   describe('when FormNavigation sends onCancel', () => {
     beforeEach(() => {
       FormNavigation.mockImplementation(
@@ -561,7 +613,7 @@ describe('MetadataForm', () => {
 
       vi.clearAllMocks()
 
-      const cancelButton = screen.getByRole('button', { name: 'Cancel' })
+      const cancelButton = screen.getByRole('button', { name: 'Cancel Pending Changes' })
       await user.click(cancelButton)
 
       expect(await screen.findByRole('textbox', {
@@ -681,6 +733,64 @@ describe('MetadataForm', () => {
 
         expect(window.scroll).toHaveBeenCalledTimes(1)
         expect(window.scroll).toHaveBeenCalledWith(0, 0)
+      })
+
+      test('resets hasPendingChanges once the draft is written to the origin draft', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          additionalMocks: [{
+            request: {
+              query: INGEST_DRAFT,
+              variables: {
+                conceptType: 'Tool',
+                metadata: {
+                  LongName: 'Long Name',
+                  MetadataSpecification: {
+                    URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
+                    Name: 'UMM-T',
+                    Version: '1.1'
+                  },
+                  Name: 'Test Name'
+                },
+                nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+                providerId: 'MMT_2',
+                ummVersion: getUmmVersion('Tool')
+              }
+            },
+            result: {
+              data: {
+                ingestDraft: {
+                  conceptId: 'TD1000000-MMT',
+                  revisionId: '3'
+                }
+              }
+            }
+          }]
+        })
+
+        // Make a real, unsaved change so hasPendingChanges is true before saving
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
+        await user.type(nameField, 'Test Name')
+
+        expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+          hasPendingChanges: true
+        }), {})
+
+        const dropdown = await screen.findByRole('button', { name: 'Save Options' })
+        await user.click(dropdown)
+
+        const button = screen.getByRole('button', { name: 'Save' })
+        await user.click(button)
+
+        await waitFor(() => {
+          expect(navigateSpy).toHaveBeenCalledTimes(1)
+        })
+
+        expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+          hasPendingChanges: false
+        }), {})
       })
     })
 

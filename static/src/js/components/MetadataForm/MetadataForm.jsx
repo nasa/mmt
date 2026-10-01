@@ -1,4 +1,4 @@
-import { kebabCase } from 'lodash-es'
+import { isEqual, kebabCase } from 'lodash-es'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import {
   useNavigate,
@@ -9,7 +9,7 @@ import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Form from '@rjsf/core'
 import pluralize from 'pluralize'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Row from 'react-bootstrap/Row'
 import validator from '@rjsf/validator-ajv8'
 import { v4 as uuidv4 } from 'uuid'
@@ -101,6 +101,13 @@ const MetadataForm = () => {
   const [visitedFields, setVisitedFields] = useState([])
   const [focusField, setFocusField] = useState(null)
   const [searchParams] = useSearchParams()
+
+  // Set to true the first time the user edits a field (see handleChange below).
+  // A ref is used instead of state because handleChange already calls setDraft,
+  // which re-renders the component - we don't need a second render just for this.
+  const hasFormDataChangedRef = useRef(false)
+
+  const hasPendingChanges = hasFormDataChangedRef.current && !isEqual(draft, originalDraft)
 
   const revisionIdAtIngest = searchParams.get('revisionId') || null
 
@@ -242,6 +249,10 @@ const MetadataForm = () => {
         // Set savedDraft so the preview page can request the correct version
         setSavedDraft(ingestDraft)
 
+        // The draft was just written to the origin draft, so there are no longer
+        // any pending changes regardless of which save option was used.
+        hasFormDataChangedRef.current = false
+
         // Add a success notification
         addNotification({
           message: 'Draft saved successfully',
@@ -315,16 +326,21 @@ const MetadataForm = () => {
   const handleCancel = () => {
     setDraft(originalDraft)
     setVisitedFields([])
+    hasFormDataChangedRef.current = false
   }
 
   // Handle form changes
-  const handleChange = (event) => {
+  const handleChange = (event, id) => {
     const { formData } = event
 
     setDraft({
       ...draft,
       ummMetadata: formData
     })
+
+    // `@rjsf/core` calls this with an `id` when the user edits a field, but without
+    // one when it's just filling in default values on its own (e.g. on page load).
+    if (id !== undefined) hasFormDataChangedRef.current = true
   }
 
   // Handle bluring fields within the form
@@ -358,6 +374,7 @@ const MetadataForm = () => {
             <FormNavigation
               draft={ummMetadata}
               formSections={formSections}
+              hasPendingChanges={hasPendingChanges}
               loading={ingestDraftLoading}
               onCancel={handleCancel}
               onSave={handleSave}

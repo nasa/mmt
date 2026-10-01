@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   render,
   screen,
@@ -100,7 +100,7 @@ vi.mock('@rjsf/core', () => ({
                 ...formData,
                 Name: value
               }
-            })
+            }, 'root_Name')
           }
         }
         onBlur={() => onBlur('mock-name')}
@@ -272,6 +272,58 @@ describe('TemplateForm', () => {
     })
   })
 
+  describe('when the draft has no pending changes', () => {
+    test('passes hasPendingChanges as false on initial load', async () => {
+      setup({ pageUrl: '/templates/collections/new' })
+
+      await waitFor(() => {
+        expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+          hasPendingChanges: false
+        }), {})
+      })
+    })
+
+    test('keeps hasPendingChanges false when `@rjsf/core` syncs in formData with no field id (e.g. default-filling on mount)', async () => {
+      Form.mockImplementationOnce(({ onChange, formData }) => {
+        // `@rjsf/core` calls `onChange` with just the form state (no second `id`
+        // argument) when it's syncing in schema defaults, as opposed to a real,
+        // user-driven field edit, which always includes a field id.
+        useEffect(() => {
+          onChange({
+            formData: {
+              ...formData,
+              Name: 'Defaulted Name'
+            }
+          })
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [])
+
+        return <mock-Component data-testid="MockForm" />
+      })
+
+      setup({ pageUrl: '/templates/collections/new' })
+
+      await waitFor(() => {
+        expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+          hasPendingChanges: false
+        }), {})
+      })
+    })
+  })
+
+  describe('when the draft has pending changes', () => {
+    test('passes hasPendingChanges as true as soon as a field changes, even before it is blurred', async () => {
+      const { user } = setup({ pageUrl: '/templates/collections/new' })
+
+      const nameField = await screen.findByRole('textbox', { id: 'Name' })
+      await user.type(nameField, 'Test Name')
+
+      expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+        hasPendingChanges: true
+      }), {})
+    })
+  })
+
   describe('when saving and navigating', () => {
     beforeEach(() => {
       FormNavigation.mockImplementation(
@@ -307,6 +359,44 @@ describe('TemplateForm', () => {
 
         expect(window.scroll).toHaveBeenCalledTimes(1)
         expect(window.scroll).toHaveBeenCalledWith(0, 0)
+      })
+
+      test('resets hasPendingChanges once the draft is written to the origin draft', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        getTemplate.mockReturnValue({
+          response: {
+            TemplateName: 'Mock Template',
+            ShortName: 'Template Form Test',
+            Version: '1.0.0'
+          }
+        })
+
+        updateTemplate.mockReturnValue({ ok: true })
+
+        const { user } = setup({ pageUrl: '/templates/collections/1234-abcd-5678-efgh/collection-information' })
+
+        const nameField = await screen.findByRole('textbox', { id: 'Name' })
+        await user.type(nameField, 'A')
+
+        expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+          hasPendingChanges: true
+        }), {})
+
+        const dropdown = await screen.findByRole('button', { name: 'Save Options' })
+        await user.click(dropdown)
+
+        const button = screen.getByRole('button', { name: 'Save' })
+        await user.click(button)
+
+        await waitFor(() => {
+          expect(navigateSpy).toHaveBeenCalledTimes(1)
+        })
+
+        expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+          hasPendingChanges: false
+        }), {})
       })
     })
 
@@ -470,7 +560,7 @@ describe('TemplateForm', () => {
 
         vi.clearAllMocks()
 
-        const cancelButton = await screen.findByRole('button', { name: 'Cancel' })
+        const cancelButton = await screen.findByRole('button', { name: 'Cancel Pending Changes' })
         await user.click(cancelButton)
 
         expect(await screen.findByRole('textbox', {
