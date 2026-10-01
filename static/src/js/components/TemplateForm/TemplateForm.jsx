@@ -86,6 +86,12 @@ const TemplateForm = () => {
   // which re-renders the component - we don't need a second render just for this.
   const hasFormDataChangedRef = useRef(false)
 
+  // Bumped on every real edit. handleSave captures this when a save starts (the
+  // save itself awaits a network call using a stale, closed-over draft) so its
+  // completion handler can tell whether a newer edit arrived while it was
+  // pending, and avoid clearing hasFormDataChangedRef out from under it.
+  const editGenerationRef = useRef(0)
+
   const hasPendingChanges = hasFormDataChangedRef.current && !isEqual(draft, originalDraft)
   const [error, setErrors] = useState()
   const [saveLoading, setSaveLoading] = useState(false)
@@ -174,6 +180,11 @@ const TemplateForm = () => {
   const handleSave = async (type) => {
     setSaveLoading(true)
 
+    // Snapshot the current edit generation. `draft`/`ummMetadata` below are closed
+    // over at this point, but the user can keep editing (bumping the generation)
+    // while the request below is in flight.
+    const submittedGeneration = editGenerationRef.current
+
     let savedId = null
     if (id === 'new') {
       const response = await createTemplate(providerId, mmtJwt, removeEmpty(ummMetadata))
@@ -181,10 +192,11 @@ const TemplateForm = () => {
       if (response.id) {
         savedId = response.id
 
-        // The draft was just written to the origin draft, so there are no longer
-        // any pending changes regardless of which save option was used.
+        // The submitted draft was just written to the origin draft. Only clear the
+        // pending-changes flag if no newer edit arrived while the request was
+        // in flight - otherwise that newer edit is still genuinely unsaved.
         setOriginalDraft(draft)
-        hasFormDataChangedRef.current = false
+        if (editGenerationRef.current === submittedGeneration) hasFormDataChangedRef.current = false
       } else {
         addNotification({
           message: 'Error creating template',
@@ -204,8 +216,11 @@ const TemplateForm = () => {
           variant: 'success'
         })
 
+        // The submitted draft was just written to the origin draft. Only clear the
+        // pending-changes flag if no newer edit arrived while the request was
+        // in flight - otherwise that newer edit is still genuinely unsaved.
         setOriginalDraft(draft)
-        hasFormDataChangedRef.current = false
+        if (editGenerationRef.current === submittedGeneration) hasFormDataChangedRef.current = false
       } else {
         addNotification({
           message: 'Error saving template',
@@ -235,9 +250,13 @@ const TemplateForm = () => {
     if (type === saveTypes.saveAndCreateDraft) {
       const nativeId = `MMT_${uuidv4()}`
 
-      delete ummMetadata.TemplateName
+      // Clone before deleting TemplateName - `ummMetadata` is a live reference into
+      // `draft` (and, after a successful save above, into `originalDraft` too), so
+      // mutating it directly would silently corrupt the saved baseline.
+      const metadataForDraft = { ...ummMetadata }
+      delete metadataForDraft.TemplateName
 
-      ingestMutation('Collection', ummMetadata, nativeId, providerId)
+      ingestMutation('Collection', metadataForDraft, nativeId, providerId)
     }
 
     if (type === saveTypes.saveAndPreview) {
@@ -288,7 +307,10 @@ const TemplateForm = () => {
 
     // `@rjsf/core` calls this with an `id` when the user edits a field, but without
     // one when it's just filling in default values on its own (e.g. on page load).
-    if (id !== undefined) hasFormDataChangedRef.current = true
+    if (id !== undefined) {
+      hasFormDataChangedRef.current = true
+      editGenerationRef.current += 1
+    }
   }
 
   // Handle bluring fields within the form

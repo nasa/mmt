@@ -107,6 +107,12 @@ const MetadataForm = () => {
   // which re-renders the component - we don't need a second render just for this.
   const hasFormDataChangedRef = useRef(false)
 
+  // Bumped on every real edit. handleSave captures this when a save starts (the
+  // mutation's onCompleted callback below closes over a stale draft/ummMetadata)
+  // so it can tell whether a newer edit arrived while the save was pending, and
+  // avoid clearing hasFormDataChangedRef out from under it.
+  const editGenerationRef = useRef(0)
+
   const hasPendingChanges = hasFormDataChangedRef.current && !isEqual(draft, originalDraft)
 
   const revisionIdAtIngest = searchParams.get('revisionId') || null
@@ -219,6 +225,11 @@ const MetadataForm = () => {
   }
 
   const handleSave = (type) => {
+    // Snapshot the current edit generation. `draft`/`ummMetadata` below (and in
+    // `onCompleted`) are closed over at this point, but the user can keep editing
+    // (bumping the generation) while the mutation is in flight.
+    const submittedGeneration = editGenerationRef.current
+
     // Save the draft
     ingestDraftMutation({
       variables: {
@@ -239,19 +250,22 @@ const MetadataForm = () => {
           longName: ummMetadata.LongName || ummMetadata.EntryTitle
         })
 
-        // Update the name and longname with the ummMetadata
-        setDraft({
-          ...draft,
+        // Update the name and longname with the ummMetadata. Uses the functional
+        // update form (rather than the closed-over, possibly-stale `draft`) so a
+        // newer edit made while this mutation was in flight isn't overwritten.
+        setDraft((prevDraft) => ({
+          ...prevDraft,
           name: ummMetadata.Name || ummMetadata.ShortName,
           longName: ummMetadata.LongName || ummMetadata.EntryTitle
-        })
+        }))
 
         // Set savedDraft so the preview page can request the correct version
         setSavedDraft(ingestDraft)
 
-        // The draft was just written to the origin draft, so there are no longer
-        // any pending changes regardless of which save option was used.
-        hasFormDataChangedRef.current = false
+        // The submitted draft was just written to the origin draft. Only clear the
+        // pending-changes flag if no newer edit arrived while the mutation was
+        // in flight - otherwise that newer edit is still genuinely unsaved.
+        if (editGenerationRef.current === submittedGeneration) hasFormDataChangedRef.current = false
 
         // Add a success notification
         addNotification({
@@ -340,7 +354,10 @@ const MetadataForm = () => {
 
     // `@rjsf/core` calls this with an `id` when the user edits a field, but without
     // one when it's just filling in default values on its own (e.g. on page load).
-    if (id !== undefined) hasFormDataChangedRef.current = true
+    if (id !== undefined) {
+      hasFormDataChangedRef.current = true
+      editGenerationRef.current += 1
+    }
   }
 
   // Handle bluring fields within the form
