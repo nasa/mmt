@@ -65,8 +65,8 @@ const KmsConceptVersionSelector = ({
         } : null
         onDraftVersionLoaded(draftVersion)
 
-        // Automatically select the draft version
-        if (draftOption) {
+        // Default to draft only when no version was supplied
+        if (!currentVersion && draftOption) {
           setSelectedVersion(draftOption)
           onVersionSelect(draftVersion)
         }

@@ -881,8 +881,12 @@ describe('when viewing a read-only keyword version', () => {
     )
 
     const root = await screen.findByRole('button', { name: 'Keyword: Root' })
+
+    // Ensure the root concept remains clickable
     fireEvent.click(root)
     expect(onNodeClick).toHaveBeenCalledWith('1')
+
+    // Verify right-click menu actions are disabled for read-only versions
     fireEvent.contextMenu(root)
     expect(screen.queryByText('Edit')).not.toBeInTheDocument()
     expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()
@@ -891,9 +895,10 @@ describe('when viewing a read-only keyword version', () => {
 
   test('should also hide the editing menu for historical versions', async () => {
     getKmsKeywordTree.mockResolvedValue(mockData)
+    const onNodeClick = vi.fn()
     render(
       <KeywordTree
-        onNodeClick={vi.fn()}
+        onNodeClick={onNodeClick}
         selectedVersion={
           {
             version: '1.0',
@@ -905,6 +910,12 @@ describe('when viewing a read-only keyword version', () => {
     )
 
     const root = await screen.findByRole('button', { name: 'Keyword: Root' })
+
+    // Ensure the root concept remains clickable
+    fireEvent.click(root)
+    expect(onNodeClick).toHaveBeenCalledWith('1')
+
+    // Verify right-click menu actions are disabled for read-only versions
     fireEvent.contextMenu(root)
     expect(screen.queryByText('Edit')).not.toBeInTheDocument()
     expect(screen.queryByText('Add Narrower')).not.toBeInTheDocument()

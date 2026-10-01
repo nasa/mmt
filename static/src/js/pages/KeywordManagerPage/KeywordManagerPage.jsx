@@ -99,6 +99,11 @@ const KeywordManagerPage = () => {
   const readOnly = selectedVersion?.version_type === 'published' || selectedVersion?.version_type === 'past_published'
 
   const keywordTreeRef = useRef(null)
+  const keywordRequestControllerRef = useRef(null)
+
+  useEffect(() => () => {
+    keywordRequestControllerRef.current?.abort()
+  }, [])
 
   const handleDelete = (node) => {
     if (readOnly) return
@@ -189,16 +194,22 @@ const KeywordManagerPage = () => {
 
   /**
    * Fetches and sets the data for a selected keyword
-   * @param {string} uuid - The unique identifier of the keyword
-   */
+  * @param {string} uuid - The unique identifier of the keyword
+  */
   const handleShowKeyword = useCallback(async (uuid) => {
+    keywordRequestControllerRef.current?.abort()
+    const controller = new AbortController()
+    keywordRequestControllerRef.current = controller
     setIsLoading(true)
     setShowError(null)
 
     try {
       const response = await fetch(
         `${kmsHost}/concept/${uuid}?version=${getVersionName(selectedVersion)}`,
-        { headers: getKmsHeaders() }
+        {
+          headers: getKmsHeaders(),
+          signal: controller.signal
+        }
       )
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
@@ -206,15 +217,24 @@ const KeywordManagerPage = () => {
 
       const rdfData = await response.text()
       const parsedData = createFormDataFromRdf(rdfData)
+
+      // Verify the fetched data still belongs to the active keyword request.
+      if (controller.signal.aborted) return
+
       setSelectedKeywordData(parsedData)
       setShowKeywordForm(true)
     } catch (error) {
+      if (error.name === 'AbortError' || controller.signal.aborted) return
+
       errorLogger(error, 'KeywordManagerPage: handleShowKeyword')
       setShowError(error.message)
       setSelectedKeywordData(null)
       setShowKeywordForm(false)
     } finally {
-      setIsLoading(false)
+      if (keywordRequestControllerRef.current === controller) {
+        keywordRequestControllerRef.current = null
+        setIsLoading(false)
+      }
     }
   }, [selectedVersion])
 
@@ -249,10 +269,14 @@ const KeywordManagerPage = () => {
 
   /**
    * Handles the selection of a version
-   * @param {object} versionInfo - The selected version information
-   */
+  * @param {object} versionInfo - The selected version information
+  */
   const onVersionSelect = useCallback((versionInfo) => {
+    keywordRequestControllerRef.current?.abort()
+    keywordRequestControllerRef.current = null
     closeDeleteModal()
+    setIsLoading(false)
+    setShowError(null)
     setSelectedKeywordId(null)
     setSelectedVersion(versionInfo)
     setSelectedScheme(null)

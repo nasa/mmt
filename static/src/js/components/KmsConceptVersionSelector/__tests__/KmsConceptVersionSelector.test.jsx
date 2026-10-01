@@ -5,7 +5,7 @@ import {
   waitFor
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
+import React, { useState } from 'react'
 import { vi } from 'vitest'
 
 import getKmsConceptVersions from '@/js/utils/getKmsConceptVersions'
@@ -152,49 +152,54 @@ describe('KmsConceptVersionSelector', () => {
     })
   })
 
-  test('should report the available draft and reflect externally selected versions', async () => {
-    const draft = {
-      version: 'draft',
-      version_type: 'draft'
-    }
-    const production = {
-      version: '1.0',
-      version_type: 'published'
-    }
-    const onDraftVersionLoaded = vi.fn()
-    getKmsConceptVersions.mockResolvedValue({
-      versions: [
-        {
-          version: 'draft',
-          type: 'draft'
-        },
-        {
-          version: '1.0',
-          type: 'published'
-        }
-      ]
+  describe('when a version is supplied', () => {
+    test('should preserve the supplied version and report the available draft', async () => {
+      const user = userEvent.setup()
+      const draft = {
+        version: 'draft',
+        version_type: 'draft'
+      }
+      const production = {
+        version: '1.0',
+        version_type: 'published'
+      }
+      const onDraftVersionLoaded = vi.fn()
+      getKmsConceptVersions.mockResolvedValue({
+        versions: [
+          {
+            version: 'draft',
+            type: 'draft'
+          },
+          {
+            version: '1.0',
+            type: 'published'
+          }
+        ]
+      })
+
+      const ControlledSelector = () => {
+        const [version, setVersion] = useState(production)
+
+        return (
+          <>
+            <KmsConceptVersionSelector
+              onVersionSelect={setVersion}
+              onDraftVersionLoaded={onDraftVersionLoaded}
+              version={version}
+            />
+            <button type="button" onClick={() => setVersion(draft)}>Switch To Draft</button>
+          </>
+        )
+      }
+
+      render(<ControlledSelector />)
+
+      expect(await screen.findByText('1.0 (PRODUCTION)')).toBeInTheDocument()
+      expect(onDraftVersionLoaded).toHaveBeenCalledWith(draft)
+      await user.click(screen.getByRole('button', { name: 'Switch To Draft' }))
+      expect(screen.getByText('draft (DRAFT-NEXT RELEASE)')).toBeInTheDocument()
+      expect(getKmsConceptVersions).toHaveBeenCalledTimes(1)
     })
-
-    const { rerender } = render(
-      <KmsConceptVersionSelector
-        onVersionSelect={mockOnVersionSelect}
-        onDraftVersionLoaded={onDraftVersionLoaded}
-        version={production}
-      />
-    )
-
-    expect(await screen.findByText('1.0 (PRODUCTION)')).toBeInTheDocument()
-    expect(onDraftVersionLoaded).toHaveBeenCalledWith(draft)
-    rerender(
-      <KmsConceptVersionSelector
-        onVersionSelect={mockOnVersionSelect}
-        onDraftVersionLoaded={onDraftVersionLoaded}
-        version={draft}
-      />
-    )
-
-    expect(screen.getByText('draft (DRAFT-NEXT RELEASE)')).toBeInTheDocument()
-    expect(getKmsConceptVersions).toHaveBeenCalledTimes(1)
   })
 
   describe('when fetching versions fails', () => {

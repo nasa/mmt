@@ -912,6 +912,33 @@ describe('KeywordManagerPage component', () => {
     expect(screen.queryByTestId('keyword-form')).not.toBeInTheDocument()
   })
 
+  test('should abort a pending keyword request after switching versions', async () => {
+    const { user } = setup()
+    let requestSignal
+    global.fetch = vi.fn((url, { signal }) => new Promise((resolve, reject) => {
+      requestSignal = signal
+      signal.addEventListener('abort', () => {
+        reject(new DOMException('The request was aborted.', 'AbortError'))
+      })
+    }))
+
+    await user.selectOptions(await screen.findByTestId('version-selector'), '3.0')
+    await user.selectOptions(await screen.findByTestId('scheme-selector'), 'scheme1')
+    await user.click(screen.getByRole('button', { name: /select node/i }))
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('version=published'),
+      expect.objectContaining({ signal: requestSignal })
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Switch To Draft' }))
+
+    expect(requestSignal).toBeInstanceOf(AbortSignal)
+    expect(requestSignal.aborted).toBe(true)
+    expect(screen.getByTestId('version-selector')).toHaveValue('1.0')
+    expect(screen.queryByTestId('mock-keyword-form')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('error-banner')).not.toBeInTheDocument()
+  })
+
   test('should prevent production deletion and direct users to a draft', async () => {
     const { user } = setup()
     await user.selectOptions(await screen.findByTestId('version-selector'), '3.0')
