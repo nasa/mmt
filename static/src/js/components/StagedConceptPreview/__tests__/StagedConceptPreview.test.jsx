@@ -12,6 +12,8 @@ import {
   Routes
 } from 'react-router'
 
+import * as router from 'react-router'
+
 import Providers from '@/js/providers/Providers/Providers'
 
 import useAvailableProviders from '@/js/hooks/useAvailableProviders'
