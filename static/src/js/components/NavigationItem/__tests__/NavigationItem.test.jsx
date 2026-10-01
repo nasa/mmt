@@ -5,7 +5,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 import * as router from 'react-router'
 
 import NavigationItem from '../NavigationItem'
@@ -13,8 +13,8 @@ import NavigationItemError from '../../NavigationItemError/NavigationItemError'
 
 const mockedUsedNavigate = vi.fn()
 
-vi.mock('react-router-dom', async () => ({
-  ...await vi.importActual('react-router-dom'),
+vi.mock('react-router', async () => ({
+  ...await vi.importActual('react-router'),
   useNavigate: () => mockedUsedNavigate
 }))
 

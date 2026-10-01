@@ -9,7 +9,7 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownItem from 'react-bootstrap/DropdownItem'
 import DropdownMenu from 'react-bootstrap/DropdownMenu'
 import DropdownToggle from 'react-bootstrap/DropdownToggle'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 import Button from '@/js/components/Button/Button'
 import CustomMenu from '@/js/components/CustomMenu/CustomMenu'

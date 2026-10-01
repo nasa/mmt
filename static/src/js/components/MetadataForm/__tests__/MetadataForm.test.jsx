@@ -16,7 +16,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 import Form from '@rjsf/core'
 import * as router from 'react-router'
 
@@ -179,8 +179,8 @@ vi.mock('@/js/utils/errorLogger')
 
 const mockedUsedNavigate = vi.fn()
 
-vi.mock('react-router-dom', async () => ({
-  ...await vi.importActual('react-router-dom'),
+vi.mock('react-router', async () => ({
+  ...await vi.importActual('react-router'),
   useNavigate: () => mockedUsedNavigate
 }))
 

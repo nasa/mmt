@@ -10,7 +10,7 @@ import {
   Routes,
   Route,
   useNavigate
-} from 'react-router-dom'
+} from 'react-router'
 
 import AppContext from '@/js/context/AppContext'
 import userEvent from '@testing-library/user-event'
@@ -25,8 +25,8 @@ import { providerResults } from './__mocks__/providerResults'
 
 import SearchPage from '../SearchPage'
 
-vi.mock('react-router-dom', async () => ({
-  ...await vi.importActual('react-router-dom'),
+vi.mock('react-router', async () => ({
+  ...await vi.importActual('react-router'),
   useNavigate: vi.fn()
 }))
 

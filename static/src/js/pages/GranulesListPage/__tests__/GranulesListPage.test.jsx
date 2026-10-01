@@ -3,7 +3,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 import { render, screen } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 
@@ -12,8 +12,8 @@ import granuleResults from './__mocks__/granuleResults'
 
 vi.mock('../../../components/GranulesList/GranulesList')
 
-vi.mock('react-router-dom', async () => ({
-  ...await vi.importActual('react-router-dom'),
+vi.mock('react-router', async () => ({
+  ...await vi.importActual('react-router'),
   useParams: vi.fn().mockImplementation(() => ({ conceptId: 'C1200000104-MMT_2' }))
 }))
 

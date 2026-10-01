@@ -5,7 +5,9 @@ import Providers from '@/js/components/Providers/Providers'
 
 import ProvidersPage from '../ProvidersPage'
 
-vi.mock('@/js/components/Providers/Providers').mockImplementation(() => {})
+vi.mock('@/js/components/Providers/Providers', () => ({
+  default: vi.fn(() => null)
+}))
 
 const setup = () => {
   render(

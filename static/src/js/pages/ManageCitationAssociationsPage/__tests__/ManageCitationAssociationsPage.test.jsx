@@ -3,7 +3,7 @@ import {
   MemoryRouter,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router'
 import { render, screen } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 
@@ -13,8 +13,8 @@ import ManageCitationAssociationsPage from '../ManageCitationAssociationsPage'
 
 vi.mock('../../../components/ManageCitationAssociations/ManageCitationAssociations')
 
-vi.mock('react-router-dom', async () => ({
-  ...await vi.importActual('react-router-dom'),
+vi.mock('react-router', async () => ({
+  ...await vi.importActual('react-router'),
   useParams: vi.fn().mockImplementation(() => ({ conceptId: 'C00000001-TESTPROV' }))
 }))
 
