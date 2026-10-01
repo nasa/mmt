@@ -1,5 +1,5 @@
 import { FaQuestionCircle, FaSignInAlt } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import Navbar from 'react-bootstrap/Navbar'
 import PropTypes from 'prop-types'
 import React from 'react'

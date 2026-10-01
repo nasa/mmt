@@ -31,6 +31,15 @@ vi.mock('../../PreviewProgress/PreviewProgress')
 vi.mock('../../../utils/errorLogger')
 vi.mock('../../../utils/deleteTemplate')
 vi.mock('../../../utils/getUmmVersion')
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
 
 // The actual UMM-C version number is irrelevant to these tests - they only
 // care that whatever version getUmmVersion resolves to is threaded through

@@ -5,8 +5,7 @@ import {
 } from 'react-bootstrap'
 import { camelCase } from 'lodash-es'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
-import { useParams } from 'react-router'
-import { useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router'
 import React, { useCallback, useState } from 'react'
 
 import pluralize from 'pluralize'

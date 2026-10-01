@@ -5,7 +5,7 @@ import {
   FaTrash
 } from 'react-icons/fa'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 import Col from 'react-bootstrap/Col'
 import PropTypes from 'prop-types'
 import React, { useCallback, useState } from 'react'

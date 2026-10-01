@@ -8,7 +8,7 @@ import {
   useNavigate,
   useParams,
   useSearchParams
-} from 'react-router-dom'
+} from 'react-router'
 import {
   capitalize,
   isNil,

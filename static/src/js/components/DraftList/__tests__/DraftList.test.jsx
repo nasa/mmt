@@ -4,7 +4,7 @@ import {
   screen,
   within
 } from '@testing-library/react'
-import { BrowserRouter, useParams } from 'react-router-dom'
+import { BrowserRouter, useParams } from 'react-router'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { GraphQLError } from 'graphql'
@@ -29,8 +29,8 @@ vi.mock('react-bootstrap/Placeholder', () => ({ default: vi.fn() }))
 vi.mock('@/js/hooks/useDraftsQuery')
 vi.mock('@/js/utils/constructDownloadableFile')
 
-vi.mock('react-router-dom', async () => ({
-  ...await vi.importActual('react-router-dom'),
+vi.mock('react-router', async () => ({
+  ...await vi.importActual('react-router'),
   useParams: vi.fn().mockImplementation(() => ({ draftType: 'tools' }))
 }))
 

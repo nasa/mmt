@@ -11,7 +11,7 @@ import {
   waitFor,
   within
 } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 import * as getConfigModule from 'sharedUtils/getConfig'
 import * as getKmsConceptVersionsModule from '@/js/utils/getKmsConceptVersions'
 import userEvent from '@testing-library/user-event'
@@ -170,8 +170,8 @@ vi.mock('@/js/components/KeywordTree/KeywordTree', () => {
   return { KeywordTree: KeywordTreeComponent }
 })
 
-// Partially mock react-router-dom
-vi.mock('react-router-dom', async (importOriginal) => {
+// Partially mock react-router
+vi.mock('react-router', async (importOriginal) => {
   const actual = await importOriginal()
 
   return {

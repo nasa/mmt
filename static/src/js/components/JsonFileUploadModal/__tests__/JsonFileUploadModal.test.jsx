@@ -10,6 +10,16 @@ import { JsonFileUploadModal } from '../JsonFileUploadModal'
 
 vi.mock('@/js/utils/validateJson')
 
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useParams: vi.fn(actual.useParams)
+  }
+})
+
 const mockSchema = {
   type: 'object',
   properties: {
