@@ -1,347 +1,73 @@
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React, { useState } from 'react'
-import { vi } from 'vitest'
-
-import getKmsConceptVersions from '@/js/utils/getKmsConceptVersions'
+import React from 'react'
 
 import KmsConceptVersionSelector from '../KmsConceptVersionSelector'
 
-vi.mock('@/js/utils/getKmsConceptVersions')
+const versions = [
+  {
+    value: 'draft',
+    label: 'draft (DRAFT-NEXT RELEASE)',
+    type: 'draft'
+  },
+  {
+    value: '1.0',
+    label: '1.0 (PRODUCTION)',
+    type: 'published'
+  }
+]
 
 describe('KmsConceptVersionSelector', () => {
-  const mockOnVersionSelect = vi.fn()
-
-  beforeEach(() => {
-    mockOnVersionSelect.mockClear()
-    getKmsConceptVersions.mockClear()
-  })
-
-  beforeAll(() => {
-    vi.spyOn(console, 'error').mockImplementation(() => {})
-  })
-
-  afterAll(() => {
-    vi.restoreAllMocks()
-  })
-
-  describe('when component is rendered', () => {
-    test('should render without crashing', async () => {
-      render(<KmsConceptVersionSelector onVersionSelect={mockOnVersionSelect} />)
-      await waitFor(() => {
-        expect(screen.getByText('Loading versions...')).toBeInTheDocument()
-      })
-    })
-
-    test('should only auto-select draft version once', async () => {
-      const mockVersions = [
-        {
-          version: '1.0',
-          type: 'PUBLISHED'
-        },
-        {
-          version: 'draft',
-          type: 'DRAFT'
-        }
-      ]
-      getKmsConceptVersions.mockResolvedValue({ versions: mockVersions })
-
-      const { rerender } = render(
+  describe('when versions are loading', () => {
+    test('should display the loading state', () => {
+      render(
         <KmsConceptVersionSelector
-          onVersionSelect={mockOnVersionSelect}
+          isLoading
+          onVersionSelect={vi.fn()}
+          versions={[]}
         />
       )
-      // Wait for the initial render and auto-selection
-      await waitFor(() => {
-        expect(mockOnVersionSelect).toHaveBeenCalledWith({
-          version: 'draft',
-          version_type: 'draft'
-        })
-      })
 
-      // Clear the mock to reset call count
-      mockOnVersionSelect.mockClear()
-
-      // Trigger a re-render
-      rerender(<KmsConceptVersionSelector onVersionSelect={mockOnVersionSelect} />)
-
-      // Wait a bit to ensure any asynchronous operations complete
-      await new Promise((resolve) => { setTimeout(resolve, 0) })
-
-      // Check that onVersionSelect is not called again
-      expect(mockOnVersionSelect).not.toHaveBeenCalled()
-
-      // Verify that the draft version is still selected
-      expect(screen.getByText('draft (DRAFT-NEXT RELEASE)')).toBeInTheDocument()
-    })
-  })
-
-  describe('when fetching versions', () => {
-    test('should display loading state', () => {
-      getKmsConceptVersions.mockResolvedValue({ versions: [] })
-      render(<KmsConceptVersionSelector onVersionSelect={mockOnVersionSelect} />)
       expect(screen.getByText('Loading versions...')).toBeInTheDocument()
-    })
-
-    test('should display versions after fetching', async () => {
-      const mockVersions = [
-        {
-          version: '1.0',
-          type: 'PUBLISHED'
-        },
-        {
-          version: 'draft',
-          type: 'DRAFT'
-        }
-      ]
-      getKmsConceptVersions.mockResolvedValue({ versions: mockVersions })
-
-      render(<KmsConceptVersionSelector onVersionSelect={mockOnVersionSelect} />)
-
-      await waitFor(() => {
-        expect(screen.queryByText('Loading versions...')).not.toBeInTheDocument()
-      })
-
-      const selectElement = screen.getByRole('combobox')
-      expect(selectElement).toBeInTheDocument()
-
-      await userEvent.click(selectElement)
-
-      const options = screen.getAllByRole('option')
-      expect(options).toHaveLength(2)
-      expect(options[0]).toHaveTextContent('draft (DRAFT-NEXT RELEASE)')
-      expect(options[1]).toHaveTextContent('1.0 (PRODUCTION)')
-    })
-  })
-
-  describe('when user selects a version', () => {
-    test('should call onVersionSelect with correct parameters', async () => {
-      const mockVersions = [
-        {
-          version: '1.0',
-          type: 'PUBLISHED'
-        },
-        {
-          version: 'draft',
-          type: 'DRAFT'
-        }
-      ]
-      getKmsConceptVersions.mockResolvedValue({ versions: mockVersions })
-
-      render(<KmsConceptVersionSelector onVersionSelect={mockOnVersionSelect} />)
-
-      await waitFor(() => {
-        expect(screen.getByText('Loading versions...')).toBeInTheDocument()
-      })
-
-      const selectElement = screen.getByRole('combobox')
-      await userEvent.click(selectElement)
-
-      const option = await screen.findByText('1.0 (PRODUCTION)')
-      await userEvent.click(option)
-
-      expect(mockOnVersionSelect).toHaveBeenCalledWith({
-        version: '1.0',
-        version_type: 'published'
-      })
     })
   })
 
   describe('when a version is supplied', () => {
-    test('should preserve the supplied version and report the available draft', async () => {
-      const user = userEvent.setup()
-      const draft = {
-        version: 'draft',
-        version_type: 'draft'
-      }
-      const production = {
-        version: '1.0',
-        version_type: 'published'
-      }
-      const onDraftVersionLoaded = vi.fn()
-      getKmsConceptVersions.mockResolvedValue({
-        versions: [
-          {
-            version: 'draft',
-            type: 'draft'
-          },
-          {
-            version: '1.0',
-            type: 'published'
-          }
-        ]
-      })
-
-      const ControlledSelector = () => {
-        const [version, setVersion] = useState(production)
-
-        return (
-          <>
-            <KmsConceptVersionSelector
-              onVersionSelect={setVersion}
-              onDraftVersionLoaded={onDraftVersionLoaded}
-              version={version}
-            />
-            <button type="button" onClick={() => setVersion(draft)}>Switch To Draft</button>
-          </>
-        )
-      }
-
-      render(<ControlledSelector />)
-
-      expect(await screen.findByText('1.0 (PRODUCTION)')).toBeInTheDocument()
-      expect(onDraftVersionLoaded).toHaveBeenCalledWith(draft)
-      await user.click(screen.getByRole('button', { name: 'Switch To Draft' }))
-      expect(screen.getByText('draft (DRAFT-NEXT RELEASE)')).toBeInTheDocument()
-      expect(getKmsConceptVersions).toHaveBeenCalledTimes(1)
-    })
-  })
-
-  describe('when fetching versions fails', () => {
-    test('should handle the error and log it', async () => {
-      console.error = vi.fn()
-      getKmsConceptVersions.mockRejectedValue(new Error('Fetch error'))
-
-      render(<KmsConceptVersionSelector onVersionSelect={mockOnVersionSelect} />)
-
-      await waitFor(() => {
-        expect(console.error).toHaveBeenCalledWith('Error fetching versions:', expect.any(Error))
-      })
-    })
-  })
-
-  describe('when versions are loaded', () => {
-    test('should sort versions correctly', async () => {
-      const mockVersions = [
-        {
-          version: '1.0',
-          type: 'PAST_PUBLISHED'
-        },
-        {
-          version: '2.0',
-          type: 'PUBLISHED'
-        },
-        {
-          version: 'draft',
-          type: 'DRAFT'
-        }
-      ]
-      getKmsConceptVersions.mockResolvedValue({ versions: mockVersions })
-
-      render(<KmsConceptVersionSelector onVersionSelect={mockOnVersionSelect} />)
-
-      await waitFor(() => {
-        expect(screen.queryByText('Loading versions...')).not.toBeInTheDocument()
-      })
-
-      const selectElement = screen.getByRole('combobox')
-      expect(selectElement).toBeInTheDocument()
-
-      await userEvent.click(selectElement)
-
-      const options = screen.getAllByRole('option')
-
-      expect(options).toHaveLength(3)
-      expect(options[0]).toHaveTextContent('draft (DRAFT-NEXT RELEASE)')
-      expect(options[1]).toHaveTextContent('2.0 (PRODUCTION)')
-      expect(options[2]).toHaveTextContent('1.0 (PAST PUBLISHED)')
-
-      await waitFor(() => {
-        expect(mockOnVersionSelect).toHaveBeenCalledWith({
-          version: 'draft',
-          version_type: 'draft'
-        })
-      })
-    })
-
-    test('should automatically select the draft version if available', async () => {
-      const mockVersions = [
-        {
-          version: '1.0',
-          type: 'PUBLISHED'
-        },
-        {
-          version: 'draft',
-          type: 'DRAFT'
-        },
-        {
-          version: '3.0',
-          type: 'PAST-PUBLISHED'
-        }
-      ]
-      getKmsConceptVersions.mockResolvedValue({ versions: mockVersions })
-
-      render(<KmsConceptVersionSelector onVersionSelect={mockOnVersionSelect} />)
-
-      await waitFor(() => {
-        expect(mockOnVersionSelect).toHaveBeenCalledWith({
-          version: 'draft',
-          version_type: 'draft'
-        })
-      })
-
-      expect(screen.getByText('draft (DRAFT-NEXT RELEASE)')).toBeInTheDocument()
-    })
-
-    test('should not auto-select if no draft version is available', async () => {
-      const mockVersions = [
-        {
-          version: '1.0',
-          type: 'PUBLISHED'
-        },
-        {
-          version: '0.9',
-          type: 'PAST_PUBLISHED'
-        }
-      ]
-      getKmsConceptVersions.mockResolvedValue({ versions: mockVersions })
-
-      const onDraftVersionLoaded = vi.fn()
+    test('should display the supplied version', () => {
       render(
         <KmsConceptVersionSelector
-          onVersionSelect={mockOnVersionSelect}
-          onDraftVersionLoaded={onDraftVersionLoaded}
+          onVersionSelect={vi.fn()}
+          version={
+            {
+              version: '1.0',
+              version_type: 'published'
+            }
+          }
+          versions={versions}
         />
       )
 
-      await waitFor(() => expect(onDraftVersionLoaded).toHaveBeenCalledWith(null))
-
-      expect(mockOnVersionSelect).not.toHaveBeenCalled()
+      expect(screen.getByText('1.0 (PRODUCTION)')).toBeInTheDocument()
     })
   })
 
-  describe('when encountering unknown version types', () => {
-    test('should handle them correctly', async () => {
-      const mockVersions = [
-        {
-          version: '1.0',
-          type: 'UNKNOWN_TYPE'
-        }
-      ]
-      getKmsConceptVersions.mockResolvedValue({ versions: mockVersions })
+  describe('when the user selects a version', () => {
+    test('should report the selected version', async () => {
+      const user = userEvent.setup()
+      const onVersionSelect = vi.fn()
+      render(
+        <KmsConceptVersionSelector
+          onVersionSelect={onVersionSelect}
+          versions={versions}
+        />
+      )
 
-      render(<KmsConceptVersionSelector onVersionSelect={mockOnVersionSelect} />)
+      await user.click(screen.getByRole('combobox'))
+      await user.click(screen.getByText('1.0 (PRODUCTION)'))
 
-      await waitFor(() => {
-        expect(screen.getByText('Loading versions...')).toBeInTheDocument()
-      })
-
-      const selectElement = screen.getByRole('combobox')
-      fireEvent.mouseDown(selectElement)
-
-      const option = await screen.findByText('1.0 (UNKNOWN_TYPE)')
-      expect(option).toBeInTheDocument()
-
-      await userEvent.click(option)
-
-      expect(mockOnVersionSelect).toHaveBeenCalledWith({
+      expect(onVersionSelect).toHaveBeenCalledWith({
         version: '1.0',
-        version_type: 'unknown_type'
+        version_type: 'published'
       })
     })
   })

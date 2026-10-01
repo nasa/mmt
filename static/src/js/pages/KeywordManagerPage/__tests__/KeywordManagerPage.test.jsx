@@ -176,6 +176,8 @@ vi.mock('react-router', async (importOriginal) => {
 
   return {
     ...actual,
+    BrowserRouter: 'div',
+    Link: 'a',
     useLocation: () => ({
       pathname: '/keywords'
     }),
@@ -200,54 +202,30 @@ vi.mock('@/js/components/KeywordForm/KeywordForm', () => ({
 
 vi.mock('@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector', () => ({
   __esModule: true,
-  default: ({ onVersionSelect, version: selectedVersion, onDraftVersionLoaded }) => {
-    const versions = [
-      {
-        version: '1.0',
-        type: 'draft'
-      },
-      {
-        version: '2.0',
-        type: 'past_published'
-      },
-      {
-        version: '3.0',
-        type: 'published'
+  default: ({ onVersionSelect, version: selectedVersion, versions }) => (
+    <select
+      data-testid="version-selector"
+      value={selectedVersion?.version || ''}
+      onChange={
+        (e) => {
+          const selected = versions.find((option) => option.value === e.target.value)
+          onVersionSelect({
+            version: selected.value,
+            version_type: selected.type
+          })
+        }
       }
-    ]
-
-    useEffect(() => {
-      onDraftVersionLoaded({
-        version: '1.0',
-        version_type: 'draft'
-      })
-    }, [])
-
-    return (
-      <select
-        data-testid="version-selector"
-        value={selectedVersion?.version || ''}
-        onChange={
-          (e) => {
-            const selected = versions.find((v) => v.version === e.target.value)
-            onVersionSelect({
-              version: selected.version,
-              version_type: selected.type
-            })
-          }
-        }
-      >
-        <option value="">Select a version</option>
-        {
-          versions.map((version) => (
-            <option key={version.version} value={version.version}>
-              {`${version.version} (${version.type.toUpperCase()})`}
-            </option>
-          ))
-        }
-      </select>
-    )
-  }
+    >
+      <option value="">Select a version</option>
+      {
+        versions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))
+      }
+    </select>
+  )
 }))
 
 global.fetch = vi.fn()
@@ -427,8 +405,8 @@ describe('KeywordManagerPage component', () => {
 
       const versionSelector = screen.getByTestId('version-selector')
 
-      // Check initial state
-      expect(versionSelector).toHaveValue('')
+      // Draft is selected by default
+      expect(versionSelector).toHaveValue('1.0')
 
       // Simulate version selection
       await user.selectOptions(versionSelector, '3.0')
@@ -687,8 +665,8 @@ describe('KeywordManagerPage component', () => {
 
       const versionSelector = screen.getByTestId('version-selector')
 
-      // Check initial state
-      expect(versionSelector).toHaveValue('')
+      // Draft is selected by default
+      expect(versionSelector).toHaveValue('1.0')
 
       // Simulate version selection
       await user.selectOptions(versionSelector, '3.0')

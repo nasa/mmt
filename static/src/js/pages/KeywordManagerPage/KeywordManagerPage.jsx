@@ -2,6 +2,7 @@ import React, {
   useState,
   useCallback,
   useEffect,
+  useMemo,
   useRef
 } from 'react'
 import {
@@ -32,6 +33,7 @@ import GenerateKeywordReportModal from '@/js/components/GenerateKeywordReportMod
 import errorLogger from '@/js/utils/errorLogger'
 import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
 import useAuthContext from '@/js/hooks/useAuthContext'
+import useKmsConceptVersions from '@/js/hooks/useKmsConceptVersions'
 
 import './KeywordManagerPage.scss'
 import { deleteKmsConcept } from '@/js/utils/deleteKmsConcept'
@@ -76,7 +78,6 @@ const KeywordManagerPage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [selectedKeywordData, setSelectedKeywordData] = useState(null)
   const [selectedVersion, setSelectedVersion] = useState(null)
-  const [draftVersion, setDraftVersion] = useState(null)
   const [selectedScheme, setSelectedScheme] = useState(null)
   const { kmsHost } = getApplicationConfig()
   const [selectedKeywordId, setSelectedKeywordId] = useState(null)
@@ -92,9 +93,21 @@ const KeywordManagerPage = () => {
   const [showKeywordForm, setShowKeywordForm] = useState(false)
   const [showPublishingModal, setShowPublishingModal] = useState(false)
   const [showGenerateReportModal, setShowGenerateReportModal] = useState(false)
-  const [versionSelectorKey, setVersionSelectorKey] = useState(0)
   const { tokenValue, user } = useAuthContext()
   const { uid } = user || {}
+  const {
+    isLoading: areVersionsLoading,
+    refresh: refreshVersions,
+    versions
+  } = useKmsConceptVersions()
+  const draftVersion = useMemo(() => {
+    const draftOption = versions.find((option) => option.type === 'draft')
+
+    return draftOption ? {
+      version: draftOption.value,
+      version_type: draftOption.type
+    } : null
+  }, [versions])
 
   const readOnly = selectedVersion?.version_type === 'published' || selectedVersion?.version_type === 'past_published'
 
@@ -179,7 +192,7 @@ const KeywordManagerPage = () => {
       setShowPublishingModal(true)
       await publishKmsConceptVersion(newVersionName, tokenValue)
       // Refresh the screen
-      setVersionSelectorKey((prevKey) => prevKey + 1) // Force version selector to reload
+      refreshVersions()
       setSelectedVersion(null)
       setSelectedScheme(null)
       setSelectedKeywordData(null)
@@ -283,6 +296,13 @@ const KeywordManagerPage = () => {
     setSelectedKeywordData(null)
     setShowKeywordForm(false)
   }, [])
+
+  useEffect(() => {
+    if (!selectedVersion && draftVersion) {
+      onVersionSelect(draftVersion)
+    }
+  }, [draftVersion, onVersionSelect, selectedVersion])
+
   /**
    * Handles the selection of a scheme
    * @param {object} schemeInfo - The selected scheme information
@@ -400,10 +420,10 @@ const KeywordManagerPage = () => {
             <Col>
               <div className="rounded p-3">
                 <KmsConceptVersionSelector
+                  isLoading={areVersionsLoading}
                   onVersionSelect={onVersionSelect}
                   version={selectedVersion}
-                  onDraftVersionLoaded={setDraftVersion}
-                  key={versionSelectorKey}
+                  versions={versions}
                 />
               </div>
             </Col>
