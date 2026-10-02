@@ -1,11 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, {
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import { useNavigate, useParams } from 'react-router'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
-import { isEmpty, kebabCase } from 'lodash-es'
+import {
+  isEmpty,
+  isEqual,
+  kebabCase
+} from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
 
 import useAppContext from '@/js/hooks/useAppContext'
@@ -80,6 +88,17 @@ const TemplateForm = () => {
 
   const [visitedFields, setVisitedFields] = useState([])
   const [focusField, setFocusField] = useState(null)
+
+  // True once the user edits a field (set in handleChange). A ref, not state,
+  // since handleChange's setDraft call already triggers a re-render.
+  const hasFormDataChangedRef = useRef(false)
+
+  // Counts edits. handleSave snapshots it so its completion handler (which runs
+  // later, after the save request resolves) can detect a newer edit made in
+  // the meantime and skip clearing hasFormDataChangedRef.
+  const editGenerationRef = useRef(0)
+
+  const hasPendingChanges = hasFormDataChangedRef.current && !isEqual(draft, originalDraft)
   const [error, setErrors] = useState()
   const [saveLoading, setSaveLoading] = useState(false)
   const [loading, setLoading] = useState()
@@ -167,12 +186,19 @@ const TemplateForm = () => {
   const handleSave = async (type) => {
     setSaveLoading(true)
 
+    // Snapshot the edit count - the user may edit again before this resolves.
+    const submittedGeneration = editGenerationRef.current
+
     let savedId = null
     if (id === 'new') {
       const response = await createTemplate(providerId, mmtJwt, removeEmpty(ummMetadata))
 
       if (response.id) {
         savedId = response.id
+
+        // Only clear pending-changes if no newer edit arrived mid-save.
+        setOriginalDraft(draft)
+        if (editGenerationRef.current === submittedGeneration) hasFormDataChangedRef.current = false
       } else {
         addNotification({
           message: 'Error creating template',
@@ -191,6 +217,10 @@ const TemplateForm = () => {
           message: 'Template saved successfully',
           variant: 'success'
         })
+
+        // Only clear pending-changes if no newer edit arrived mid-save.
+        setOriginalDraft(draft)
+        if (editGenerationRef.current === submittedGeneration) hasFormDataChangedRef.current = false
       } else {
         addNotification({
           message: 'Error saving template',
@@ -220,9 +250,13 @@ const TemplateForm = () => {
     if (type === saveTypes.saveAndCreateDraft) {
       const nativeId = `MMT_${uuidv4()}`
 
-      delete ummMetadata.TemplateName
+      // Clone before deleting TemplateName - `ummMetadata` is a live reference into
+      // `draft` (and, after a successful save above, into `originalDraft` too), so
+      // mutating it directly would silently corrupt the saved baseline.
+      const metadataForDraft = { ...ummMetadata }
+      delete metadataForDraft.TemplateName
 
-      ingestMutation('Collection', ummMetadata, nativeId, providerId)
+      ingestMutation('Collection', metadataForDraft, nativeId, providerId)
     }
 
     if (type === saveTypes.saveAndPreview) {
@@ -259,16 +293,23 @@ const TemplateForm = () => {
   const handleCancel = () => {
     setDraft(originalDraft)
     setVisitedFields([])
+    hasFormDataChangedRef.current = false
   }
 
   // Handle form changes
-  const handleChange = (event) => {
+  const handleChange = (event, changedFieldId) => {
     const { formData } = event
 
     setDraft({
       ...draft,
       ummMetadata: formData
     })
+
+    // A field id is set only for real edits, not rjsf's own default-filling (e.g. on load).
+    if (changedFieldId !== undefined) {
+      hasFormDataChangedRef.current = true
+      editGenerationRef.current += 1
+    }
   }
 
   // Handle bluring fields within the form
@@ -342,6 +383,7 @@ const TemplateForm = () => {
               <FormNavigation
                 draft={ummMetadata}
                 formSections={collectionsTemplateConfiguration}
+                hasPendingChanges={hasPendingChanges}
                 loading={saveLoading}
                 onCancel={handleCancel}
                 onSave={handleSave}
