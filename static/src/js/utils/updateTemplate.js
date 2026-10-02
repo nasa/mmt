@@ -14,7 +14,8 @@ const updateTemplate = async (providerId, token, ummMetadata, id) => {
     const response = await fetch(`${apiHost}/providers/${providerId}/templates/${id}`, {
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         ...ummMetadata
