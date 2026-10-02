@@ -400,8 +400,9 @@ const SaveAsDraftToExistingCollectionModal = ({
 SaveAsDraftToExistingCollectionModal.propTypes = {
   show: PropTypes.bool.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  metadata: PropTypes.object,
+  metadata: PropTypes.shape({
+    ShortName: PropTypes.string
+  }),
   conceptType: PropTypes.string,
   onConfirm: PropTypes.func.isRequired
 }
