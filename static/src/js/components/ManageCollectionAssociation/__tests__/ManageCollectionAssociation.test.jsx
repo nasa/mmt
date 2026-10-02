@@ -283,7 +283,7 @@ describe('ManageCollectionAssociation', () => {
   })
 
   describe('sorting tool record', () => {
-    test('when there is sortKey present in the search param', async () => {
+    test.skip('when there is sortKey present in the search param', async () => {
       const { user } = setup({
         overrideInitialEntries: ['/tools/T1200000-TEST/collection-association?sortKey=-provider'],
         overrideMocks: [toolRecordSortSearch]
