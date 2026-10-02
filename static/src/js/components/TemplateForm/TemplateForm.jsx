@@ -89,15 +89,13 @@ const TemplateForm = () => {
   const [visitedFields, setVisitedFields] = useState([])
   const [focusField, setFocusField] = useState(null)
 
-  // Set to true the first time the user edits a field (see handleChange below).
-  // A ref is used instead of state because handleChange already calls setDraft,
-  // which re-renders the component - we don't need a second render just for this.
+  // True once the user edits a field (set in handleChange). A ref, not state,
+  // since handleChange's setDraft call already triggers a re-render.
   const hasFormDataChangedRef = useRef(false)
 
-  // Bumped on every real edit. handleSave captures this when a save starts (the
-  // save itself awaits a network call using a stale, closed-over draft) so its
-  // completion handler can tell whether a newer edit arrived while it was
-  // pending, and avoid clearing hasFormDataChangedRef out from under it.
+  // Counts edits. handleSave snapshots it so its completion handler (which runs
+  // later, after the save request resolves) can detect a newer edit made in
+  // the meantime and skip clearing hasFormDataChangedRef.
   const editGenerationRef = useRef(0)
 
   const hasPendingChanges = hasFormDataChangedRef.current && !isEqual(draft, originalDraft)
@@ -188,9 +186,7 @@ const TemplateForm = () => {
   const handleSave = async (type) => {
     setSaveLoading(true)
 
-    // Snapshot the current edit generation. `draft`/`ummMetadata` below are closed
-    // over at this point, but the user can keep editing (bumping the generation)
-    // while the request below is in flight.
+    // Snapshot the edit count - the user may edit again before this resolves.
     const submittedGeneration = editGenerationRef.current
 
     let savedId = null
@@ -200,9 +196,7 @@ const TemplateForm = () => {
       if (response.id) {
         savedId = response.id
 
-        // The submitted draft was just written to the origin draft. Only clear the
-        // pending-changes flag if no newer edit arrived while the request was
-        // in flight - otherwise that newer edit is still genuinely unsaved.
+        // Only clear pending-changes if no newer edit arrived mid-save.
         setOriginalDraft(draft)
         if (editGenerationRef.current === submittedGeneration) hasFormDataChangedRef.current = false
       } else {
@@ -224,9 +218,7 @@ const TemplateForm = () => {
           variant: 'success'
         })
 
-        // The submitted draft was just written to the origin draft. Only clear the
-        // pending-changes flag if no newer edit arrived while the request was
-        // in flight - otherwise that newer edit is still genuinely unsaved.
+        // Only clear pending-changes if no newer edit arrived mid-save.
         setOriginalDraft(draft)
         if (editGenerationRef.current === submittedGeneration) hasFormDataChangedRef.current = false
       } else {
@@ -313,9 +305,7 @@ const TemplateForm = () => {
       ummMetadata: formData
     })
 
-    // `@rjsf/core` calls this with a field id when the user edits a field, but
-    // without one when it's just filling in default values on its own (e.g. on
-    // page load).
+    // A field id is set only for real edits, not rjsf's own default-filling (e.g. on load).
     if (changedFieldId !== undefined) {
       hasFormDataChangedRef.current = true
       editGenerationRef.current += 1

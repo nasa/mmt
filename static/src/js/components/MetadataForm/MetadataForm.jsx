@@ -106,15 +106,13 @@ const MetadataForm = () => {
   const [focusField, setFocusField] = useState(null)
   const [searchParams] = useSearchParams()
 
-  // Set to true the first time the user edits a field (see handleChange below).
-  // A ref is used instead of state because handleChange already calls setDraft,
-  // which re-renders the component - we don't need a second render just for this.
+  // True once the user edits a field (set in handleChange). A ref, not state,
+  // since handleChange's setDraft call already triggers a re-render.
   const hasFormDataChangedRef = useRef(false)
 
-  // Bumped on every real edit. handleSave captures this when a save starts (the
-  // mutation's onCompleted callback below closes over a stale draft/ummMetadata)
-  // so it can tell whether a newer edit arrived while the save was pending, and
-  // avoid clearing hasFormDataChangedRef out from under it.
+  // Counts edits. handleSave snapshots it so its completion handler (which runs
+  // later, after the mutation resolves) can detect a newer edit made in the
+  // meantime and skip clearing hasFormDataChangedRef.
   const editGenerationRef = useRef(0)
 
   const hasPendingChanges = hasFormDataChangedRef.current && !isEqual(draft, originalDraft)
@@ -229,9 +227,7 @@ const MetadataForm = () => {
   }
 
   const handleSave = (type) => {
-    // Snapshot the current edit generation. `draft`/`ummMetadata` below (and in
-    // `onCompleted`) are closed over at this point, but the user can keep editing
-    // (bumping the generation) while the mutation is in flight.
+    // Snapshot the edit count - the user may edit again before this resolves.
     const submittedGeneration = editGenerationRef.current
 
     // Save the draft
@@ -254,9 +250,8 @@ const MetadataForm = () => {
           longName: ummMetadata.LongName || ummMetadata.EntryTitle
         })
 
-        // Update the name and longname with the ummMetadata. Uses the functional
-        // update form (rather than the closed-over, possibly-stale `draft`) so a
-        // newer edit made while this mutation was in flight isn't overwritten.
+        // Functional update so a newer edit (made while this mutation was in
+        // flight) isn't overwritten by the stale `draft` closed over above.
         setDraft((prevDraft) => ({
           ...prevDraft,
           name: ummMetadata.Name || ummMetadata.ShortName,
@@ -266,9 +261,7 @@ const MetadataForm = () => {
         // Set savedDraft so the preview page can request the correct version
         setSavedDraft(ingestDraft)
 
-        // The submitted draft was just written to the origin draft. Only clear the
-        // pending-changes flag if no newer edit arrived while the mutation was
-        // in flight - otherwise that newer edit is still genuinely unsaved.
+        // Only clear pending-changes if no newer edit arrived mid-save.
         if (editGenerationRef.current === submittedGeneration) hasFormDataChangedRef.current = false
 
         // Add a success notification
@@ -356,8 +349,7 @@ const MetadataForm = () => {
       ummMetadata: formData
     })
 
-    // `@rjsf/core` calls this with an `id` when the user edits a field, but without
-    // one when it's just filling in default values on its own (e.g. on page load).
+    // `id` is set only for real edits, not rjsf's own default-filling (e.g. on load).
     if (id !== undefined) {
       hasFormDataChangedRef.current = true
       editGenerationRef.current += 1
