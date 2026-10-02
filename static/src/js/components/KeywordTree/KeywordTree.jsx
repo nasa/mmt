@@ -76,6 +76,7 @@ const KeywordTreeComponent = forwardRef(({
   selectedVersion,
   selectedScheme
 }, ref) => {
+  const readOnly = selectedVersion?.version_type === 'published' || selectedVersion?.version_type === 'past_published'
   const [treeData, setTreeData] = useState(null)
   const [isTreeLoading, setIsTreeLoading] = useState(false)
   const [treeMessage, setTreeMessage] = useState('Select a version and scheme to load the tree')
@@ -199,12 +200,14 @@ const KeywordTreeComponent = forwardRef(({
   }
 
   const handleAdd = (parentId) => {
+    if (readOnly) return
+
     setAddNarrowerParentId(parentId)
     setShowAddNarrowerPopup(true)
   }
 
   const handleAddNarrowerConfirm = () => {
-    if (newNarrowerTitle.trim()) {
+    if (!readOnly && newNarrowerTitle.trim()) {
       const newUuid = uuidv4()
       const newChild = {
         id: newUuid,
@@ -282,6 +285,9 @@ const KeywordTreeComponent = forwardRef(({
       </div>
 
       <Tree
+        disableDrag={readOnly}
+        disableDrop={readOnly}
+        disableEdit={readOnly}
         ref={treeRef}
         data={treeData}
         openByDefault={false}
@@ -310,7 +316,7 @@ const KeywordTreeComponent = forwardRef(({
         }
       </Tree>
       {
-        contextMenu && showContextMenu && (
+        contextMenu && showContextMenu && !readOnly && (
           <KeywordTreeContextMenu
             {...contextMenu}
             onClose={() => setContextMenu(null)}
@@ -319,7 +325,7 @@ const KeywordTreeComponent = forwardRef(({
         )
       }
       <CustomModal
-        show={showAddNarrowerPopup}
+        show={showAddNarrowerPopup && !readOnly}
         header="Add Narrower"
         message={
           (

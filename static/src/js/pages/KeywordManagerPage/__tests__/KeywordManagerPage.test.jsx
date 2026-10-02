@@ -176,6 +176,8 @@ vi.mock('react-router', async (importOriginal) => {
 
   return {
     ...actual,
+    BrowserRouter: 'div',
+    Link: 'a',
     useLocation: () => ({
       pathname: '/keywords'
     }),
@@ -200,46 +202,30 @@ vi.mock('@/js/components/KeywordForm/KeywordForm', () => ({
 
 vi.mock('@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector', () => ({
   __esModule: true,
-  default: ({ onVersionSelect }) => {
-    const versions = [
-      {
-        version: '1.0',
-        type: 'draft'
-      },
-      {
-        version: '2.0',
-        type: 'past_published'
-      },
-      {
-        version: '3.0',
-        type: 'published'
+  default: ({ onVersionSelect, version: selectedVersion, versions }) => (
+    <select
+      data-testid="version-selector"
+      value={selectedVersion?.version || ''}
+      onChange={
+        (e) => {
+          const selected = versions.find((option) => option.value === e.target.value)
+          onVersionSelect({
+            version: selected.value,
+            version_type: selected.type
+          })
+        }
       }
-    ]
-
-    return (
-      <select
-        data-testid="version-selector"
-        onChange={
-          (e) => {
-            const selected = versions.find((v) => v.version === e.target.value)
-            onVersionSelect({
-              version: selected.version,
-              version_type: selected.type
-            })
-          }
-        }
-      >
-        <option value="">Select a version</option>
-        {
-          versions.map((version) => (
-            <option key={version.version} value={version.version}>
-              {`${version.version} (${version.type.toUpperCase()})`}
-            </option>
-          ))
-        }
-      </select>
-    )
-  }
+    >
+      <option value="">Select a version</option>
+      {
+        versions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))
+      }
+    </select>
+  )
 }))
 
 global.fetch = vi.fn()
@@ -419,71 +405,14 @@ describe('KeywordManagerPage component', () => {
 
       const versionSelector = screen.getByTestId('version-selector')
 
-      // Check initial state
-      expect(versionSelector).toHaveValue('')
+      // Draft is selected by default
+      expect(versionSelector).toHaveValue('1.0')
 
       // Simulate version selection
       await user.selectOptions(versionSelector, '3.0')
 
       // Check if the version selector value has been updated
       expect(versionSelector).toHaveValue('3.0')
-    })
-
-    test('should show warning modal when a published version is selected', async () => {
-      setup()
-
-      await waitFor(() => {
-        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
-      })
-
-      const versionSelector = screen.getByTestId('version-selector')
-
-      // Simulate selecting a published version
-      fireEvent.change(versionSelector, { target: { value: '3.0' } })
-
-      // Check if the warning modal is shown
-      await waitFor(() => {
-        expect(screen.getByText('Warning')).toBeVisible()
-      })
-
-      expect(screen.getByText('You are now viewing the live published keyword version. Changes made to this version will show up on the website right away.')).toBeInTheDocument()
-
-      // Close the modal
-      fireEvent.click(screen.getByText('OK'))
-
-      // Check if the modal is closed
-      await waitFor(() => {
-        expect(screen.queryByText('Warning')).not.toBeInTheDocument()
-      })
-
-      // Verify that the selected version is still set
-      expect(versionSelector).toHaveValue('3.0')
-    })
-
-    test('should close warning modal when toggleModal is called', async () => {
-      const { user } = setup()
-
-      // Select a published version to trigger the warning modal
-      await waitFor(() => {
-        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
-      })
-
-      const versionSelector = screen.getByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
-
-      // Check if the warning modal is shown
-      await waitFor(() => {
-        expect(screen.getByTestId('custom-modal')).toBeInTheDocument()
-      })
-
-      // Find and click the close button
-      const closeButton = screen.getByTestId('modal-close')
-      await user.click(closeButton)
-
-      // Check if the modal is closed
-      await waitFor(() => {
-        expect(screen.queryByTestId('custom-modal')).not.toBeInTheDocument()
-      })
     })
   })
 
@@ -736,8 +665,8 @@ describe('KeywordManagerPage component', () => {
 
       const versionSelector = screen.getByTestId('version-selector')
 
-      // Check initial state
-      expect(versionSelector).toHaveValue('')
+      // Draft is selected by default
+      expect(versionSelector).toHaveValue('1.0')
 
       // Simulate version selection
       await user.selectOptions(versionSelector, '3.0')
@@ -950,13 +879,65 @@ describe('KeywordManagerPage component', () => {
     })
   })
 
+  test('should switch to the draft from the read-only notice', async () => {
+    const { user } = setup()
+    await user.selectOptions(await screen.findByTestId('version-selector'), '3.0')
+    await user.selectOptions(await screen.findByTestId('scheme-selector'), 'scheme1')
+    await user.click(screen.getByRole('button', { name: 'Switch To Draft' }))
+
+    expect(screen.getByTestId('version-selector')).toHaveValue('1.0')
+    expect(screen.queryByText(/This keyword version is read-only/)).not.toBeInTheDocument()
+    expect(screen.queryByTestId('keyword-form')).not.toBeInTheDocument()
+  })
+
+  test('should abort a pending keyword request after switching versions', async () => {
+    const { user } = setup()
+    let requestSignal
+    global.fetch = vi.fn((url, { signal }) => new Promise((resolve, reject) => {
+      requestSignal = signal
+      signal.addEventListener('abort', () => {
+        reject(new DOMException('The request was aborted.', 'AbortError'))
+      })
+    }))
+
+    await user.selectOptions(await screen.findByTestId('version-selector'), '3.0')
+    await user.selectOptions(await screen.findByTestId('scheme-selector'), 'scheme1')
+    await user.click(screen.getByRole('button', { name: /select node/i }))
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('version=published'),
+      expect.objectContaining({ signal: requestSignal })
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Switch To Draft' }))
+
+    expect(requestSignal).toBeInstanceOf(AbortSignal)
+    expect(requestSignal.aborted).toBe(true)
+    expect(screen.getByTestId('version-selector')).toHaveValue('1.0')
+    expect(screen.queryByTestId('mock-keyword-form')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('error-banner')).not.toBeInTheDocument()
+  })
+
+  test('should prevent production deletion and direct users to a draft', async () => {
+    const { user } = setup()
+    await user.selectOptions(await screen.findByTestId('version-selector'), '3.0')
+    await user.selectOptions(await screen.findByTestId('scheme-selector'), 'scheme1')
+    await user.click(screen.getByTestId('delete-node-button'))
+
+    expect(screen.queryByTestId('delete-confirmation-modal')).not.toBeInTheDocument()
+    expect(mockDeleteKmsConcept).not.toHaveBeenCalled()
+    expect(screen.getByText(/This keyword version is read-only/)).toBeInTheDocument()
+
+    await user.selectOptions(screen.getByTestId('version-selector'), '1.0')
+    expect(screen.queryByText(/This keyword version is read-only/)).not.toBeInTheDocument()
+  })
+
   describe('Delete functionality', () => {
     test('should open delete confirmation modal when delete is triggered', async () => {
       const { user } = setup()
 
       // Select version and scheme
       const versionSelector = await screen.findByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
+      await user.selectOptions(versionSelector, '1.0')
 
       const schemeSelector = await screen.findByTestId('scheme-selector')
       await user.selectOptions(schemeSelector, 'scheme1')
@@ -984,7 +965,7 @@ describe('KeywordManagerPage component', () => {
 
       // Select version and scheme
       const versionSelector = await screen.findByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
+      await user.selectOptions(versionSelector, '1.0')
 
       const schemeSelector = await screen.findByTestId('scheme-selector')
       await user.selectOptions(schemeSelector, 'scheme1')
@@ -1009,7 +990,7 @@ describe('KeywordManagerPage component', () => {
 
       // Select version and scheme
       const versionSelector = await screen.findByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
+      await user.selectOptions(versionSelector, '1.0')
 
       const schemeSelector = await screen.findByTestId('scheme-selector')
       await user.selectOptions(schemeSelector, 'scheme1')
@@ -1030,7 +1011,7 @@ describe('KeywordManagerPage component', () => {
       // Check if deleteKmsConcept was called with the correct arguments
       expect(mockDeleteKmsConcept).toHaveBeenCalledWith(expect.objectContaining({
         uuid: 'mock-node-id',
-        version: 'published',
+        version: '1.0',
         token: 'mock-token-value'
       }))
 
@@ -1052,7 +1033,7 @@ describe('KeywordManagerPage component', () => {
 
       // Select version and scheme
       const versionSelector = await screen.findByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
+      await user.selectOptions(versionSelector, '1.0')
 
       const schemeSelector = await screen.findByTestId('scheme-selector')
       await user.selectOptions(schemeSelector, 'scheme1')
@@ -1094,7 +1075,7 @@ describe('KeywordManagerPage component', () => {
 
       // Select version and scheme
       const versionSelector = await screen.findByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
+      await user.selectOptions(versionSelector, '1.0')
 
       const schemeSelector = await screen.findByTestId('scheme-selector')
       await user.selectOptions(schemeSelector, 'scheme1')
@@ -1134,7 +1115,7 @@ describe('KeywordManagerPage component', () => {
 
       // Select version and scheme
       const versionSelector = await screen.findByTestId('version-selector')
-      await user.selectOptions(versionSelector, '3.0')
+      await user.selectOptions(versionSelector, '1.0')
 
       const schemeSelector = await screen.findByTestId('scheme-selector')
       await user.selectOptions(schemeSelector, 'scheme1')
