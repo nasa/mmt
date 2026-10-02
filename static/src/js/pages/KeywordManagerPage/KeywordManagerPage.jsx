@@ -2,6 +2,7 @@ import React, {
   useState,
   useCallback,
   useEffect,
+  useMemo,
   useRef
 } from 'react'
 import {
@@ -22,6 +23,7 @@ import KmsConceptSchemeSelector from '@/js/components/KmsConceptSchemeSelector/K
 import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
 import MetadataPreviewPlaceholder from '@/js/components/MetadataPreviewPlaceholder/MetadataPreviewPlaceholder'
 import { publishKmsConceptVersion } from '@/js/utils/publishKmsConceptVersion'
+import ReadOnlyVersionNotice from '@/js/components/ReadOnlyVersionNotice/ReadOnlyVersionNotice'
 import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 import { KeywordTree } from '@/js/components/KeywordTree/KeywordTree'
@@ -31,6 +33,7 @@ import GenerateKeywordReportModal from '@/js/components/GenerateKeywordReportMod
 import errorLogger from '@/js/utils/errorLogger'
 import createFormDataFromRdf from '@/js/utils/createFormDataFromRdf'
 import useAuthContext from '@/js/hooks/useAuthContext'
+import useKmsConceptVersions from '@/js/hooks/useKmsConceptVersions'
 
 import './KeywordManagerPage.scss'
 import { deleteKmsConcept } from '@/js/utils/deleteKmsConcept'
@@ -76,7 +79,6 @@ const KeywordManagerPage = () => {
   const [selectedKeywordData, setSelectedKeywordData] = useState(null)
   const [selectedVersion, setSelectedVersion] = useState(null)
   const [selectedScheme, setSelectedScheme] = useState(null)
-  const [showWarning, setShowWarning] = useState(false)
   const { kmsHost } = getApplicationConfig()
   const [selectedKeywordId, setSelectedKeywordId] = useState(null)
 
@@ -91,13 +93,34 @@ const KeywordManagerPage = () => {
   const [showKeywordForm, setShowKeywordForm] = useState(false)
   const [showPublishingModal, setShowPublishingModal] = useState(false)
   const [showGenerateReportModal, setShowGenerateReportModal] = useState(false)
-  const [versionSelectorKey, setVersionSelectorKey] = useState(0)
   const { tokenValue, user } = useAuthContext()
   const { uid } = user || {}
+  const {
+    isLoading: areVersionsLoading,
+    refresh: refreshVersions,
+    versions
+  } = useKmsConceptVersions()
+  const draftVersion = useMemo(() => {
+    const draftOption = versions.find((option) => option.type === 'draft')
+
+    return draftOption ? {
+      version: draftOption.value,
+      version_type: draftOption.type
+    } : null
+  }, [versions])
+
+  const readOnly = selectedVersion?.version_type === 'published' || selectedVersion?.version_type === 'past_published'
 
   const keywordTreeRef = useRef(null)
+  const keywordRequestControllerRef = useRef(null)
+
+  useEffect(() => () => {
+    keywordRequestControllerRef.current?.abort()
+  }, [])
 
   const handleDelete = (node) => {
+    if (readOnly) return
+
     setNodeToDelete(node)
     setShowDeleteConfirmation(true)
   }
@@ -109,7 +132,7 @@ const KeywordManagerPage = () => {
   }
 
   const handleDeleteConfirmation = async () => {
-    if (nodeToDelete) {
+    if (!readOnly && nodeToDelete) {
       setIsDeleting(true)
       setDeleteError(null)
       try {
@@ -169,7 +192,7 @@ const KeywordManagerPage = () => {
       setShowPublishingModal(true)
       await publishKmsConceptVersion(newVersionName, tokenValue)
       // Refresh the screen
-      setVersionSelectorKey((prevKey) => prevKey + 1) // Force version selector to reload
+      refreshVersions()
       setSelectedVersion(null)
       setSelectedScheme(null)
       setSelectedKeywordData(null)
@@ -184,16 +207,22 @@ const KeywordManagerPage = () => {
 
   /**
    * Fetches and sets the data for a selected keyword
-   * @param {string} uuid - The unique identifier of the keyword
-   */
+  * @param {string} uuid - The unique identifier of the keyword
+  */
   const handleShowKeyword = useCallback(async (uuid) => {
+    keywordRequestControllerRef.current?.abort()
+    const controller = new AbortController()
+    keywordRequestControllerRef.current = controller
     setIsLoading(true)
     setShowError(null)
 
     try {
       const response = await fetch(
         `${kmsHost}/concept/${uuid}?version=${getVersionName(selectedVersion)}`,
-        { headers: getKmsHeaders() }
+        {
+          headers: getKmsHeaders(),
+          signal: controller.signal
+        }
       )
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
@@ -201,15 +230,24 @@ const KeywordManagerPage = () => {
 
       const rdfData = await response.text()
       const parsedData = createFormDataFromRdf(rdfData)
+
+      // Verify the fetched data still belongs to the active keyword request.
+      if (controller.signal.aborted) return
+
       setSelectedKeywordData(parsedData)
       setShowKeywordForm(true)
     } catch (error) {
+      if (error.name === 'AbortError' || controller.signal.aborted) return
+
       errorLogger(error, 'KeywordManagerPage: handleShowKeyword')
       setShowError(error.message)
       setSelectedKeywordData(null)
       setShowKeywordForm(false)
     } finally {
-      setIsLoading(false)
+      if (keywordRequestControllerRef.current === controller) {
+        keywordRequestControllerRef.current = null
+        setIsLoading(false)
+      }
     }
   }, [selectedVersion])
 
@@ -244,14 +282,27 @@ const KeywordManagerPage = () => {
 
   /**
    * Handles the selection of a version
-   * @param {object} versionInfo - The selected version information
-   */
+  * @param {object} versionInfo - The selected version information
+  */
   const onVersionSelect = useCallback((versionInfo) => {
+    keywordRequestControllerRef.current?.abort()
+    keywordRequestControllerRef.current = null
+    closeDeleteModal()
+    setIsLoading(false)
+    setShowError(null)
+    setSelectedKeywordId(null)
     setSelectedVersion(versionInfo)
     setSelectedScheme(null)
     setSelectedKeywordData(null)
     setShowKeywordForm(false)
   }, [])
+
+  useEffect(() => {
+    if (!selectedVersion && draftVersion) {
+      onVersionSelect(draftVersion)
+    }
+  }, [draftVersion, onVersionSelect, selectedVersion])
+
   /**
    * Handles the selection of a scheme
    * @param {object} schemeInfo - The selected scheme information
@@ -261,26 +312,6 @@ const KeywordManagerPage = () => {
     setSelectedKeywordData(null)
     setShowKeywordForm(false)
   }, [])
-  // Effect to show warning when published version is selected
-  useEffect(() => {
-    if (selectedVersion && selectedVersion.version_type === 'published') {
-      setShowWarning(true)
-    }
-  }, [selectedVersion])
-
-  /**
-   * Closes the warning modal
-   */
-  const handleCloseWarning = () => setShowWarning(false)
-  // Modal actions for the warning modal
-  const warningModalActions = [
-    {
-      label: 'OK',
-      variant: 'primary',
-      onClick: handleCloseWarning
-    }
-  ]
-
   const renderPublishStatus = () => {
     if (publishError) {
       return <div className="text-danger mt-2">{publishError}</div>
@@ -389,8 +420,10 @@ const KeywordManagerPage = () => {
             <Col>
               <div className="rounded p-3">
                 <KmsConceptVersionSelector
+                  isLoading={areVersionsLoading}
                   onVersionSelect={onVersionSelect}
-                  key={versionSelectorKey}
+                  version={selectedVersion}
+                  versions={versions}
                 />
               </div>
             </Col>
@@ -417,6 +450,13 @@ const KeywordManagerPage = () => {
           </div>
         </div>
       </ErrorBoundary>
+      {
+        readOnly && (
+          <ReadOnlyVersionNotice
+            onSwitchToDraft={draftVersion ? () => onVersionSelect(draftVersion) : null}
+          />
+        )
+      }
       <div className="keyword-manager-page__content">
         <ErrorBoundary>
           <div className="keyword-manager-page__tree-container">
@@ -430,13 +470,6 @@ const KeywordManagerPage = () => {
         </ErrorBoundary>
       </div>
 
-      <CustomModal
-        show={showWarning}
-        toggleModal={() => setShowWarning(false)}
-        header="Warning"
-        message="You are now viewing the live published keyword version. Changes made to this version will show up on the website right away."
-        actions={warningModalActions}
-      />
       <CustomModal
         show={showPublishModal}
         toggleModal={() => setShowPublishModal(false)}

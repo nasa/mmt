@@ -28,6 +28,7 @@ const KeywordForm = ({
   token,
   uid
 }) => {
+  const readOnly = version.version_type === 'published' || version.version_type === 'past_published'
   const [formData, setFormData] = useState(initialData)
   const [showModal, setShowModal] = useState(false)
   const [userNote, setUserNote] = useState('')
@@ -57,10 +58,14 @@ const KeywordForm = ({
   }
 
   const handleSubmit = () => {
+    if (readOnly) return
+
     setShowModal(true)
   }
 
   const handleFinalSubmit = async () => {
+    if (readOnly) return
+
     setIsSaving(true)
     setSavingError(null)
     try {
@@ -83,32 +88,39 @@ const KeywordForm = ({
 
   return (
     <div className="keyword-form">
-      <h2>Edit Keyword</h2>
-      <Form
-        fields={fields}
-        templates={templates}
-        widgets={widgets}
-        schema={keywordSchema}
-        uiSchema={editKeywordsUiSchema}
-        formData={formData}
-        onChange={handleChange}
-        formContext={
-          {
-            scheme,
-            version
+      <h2>{readOnly ? 'View Keyword' : 'Edit Keyword'}</h2>
+      <fieldset disabled={readOnly}>
+        <Form
+          disabled={readOnly}
+          fields={fields}
+          templates={templates}
+          widgets={widgets}
+          schema={keywordSchema}
+          uiSchema={editKeywordsUiSchema}
+          formData={formData}
+          onChange={handleChange}
+          formContext={
+            {
+              scheme,
+              version
+            }
           }
-        }
-        onSubmit={handleSubmit}
-        validator={validator}
-      >
-        <div className="d-flex justify-content-end mt-4 keyword-form__save-button">
-          <button type="submit" className="btn btn-primary">
-            Save
-          </button>
-        </div>
-      </Form>
+          onSubmit={handleSubmit}
+          validator={validator}
+        >
+          {
+            !readOnly && (
+              <div className="d-flex justify-content-end mt-4 keyword-form__save-button">
+                <button type="submit" className="btn btn-primary">
+                  Save
+                </button>
+              </div>
+            )
+          }
+        </Form>
+      </fieldset>
       <CustomModal
-        show={showModal}
+        show={showModal && !readOnly}
         toggleModal={() => setShowModal(false)}
         header="User Note"
         message={

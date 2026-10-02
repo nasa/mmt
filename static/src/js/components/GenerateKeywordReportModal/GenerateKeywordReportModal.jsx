@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Form from 'react-bootstrap/Form'
 import { format } from 'date-fns'
@@ -8,6 +8,7 @@ import DatePicker from 'react-datepicker'
 import { kmsGetConceptUpdatesReport } from '@/js/utils/kmsGetConceptUpdatesReport'
 import CustomModal from '@/js/components/CustomModal/CustomModal'
 import KmsConceptVersionSelector from '@/js/components/KmsConceptVersionSelector/KmsConceptVersionSelector'
+import useKmsConceptVersions from '@/js/hooks/useKmsConceptVersions'
 
 const GenerateKeywordReportModal = ({
   show,
@@ -19,6 +20,22 @@ const GenerateKeywordReportModal = ({
   const [userId, setUserId] = useState('')
   const [isLoading, setIsLoading] = useState(false) // State for spinner
   const [status, setStatus] = useState(null)
+  const {
+    isLoading: areVersionsLoading,
+    versions
+  } = useKmsConceptVersions({ enabled: show })
+
+  useEffect(() => {
+    if (!selectedVersion) {
+      const draftOption = versions.find((option) => option.type === 'draft')
+      if (draftOption) {
+        setSelectedVersion({
+          version: draftOption.value,
+          version_type: draftOption.type
+        })
+      }
+    }
+  }, [selectedVersion, versions])
 
   const handleSubmit = async () => {
     setIsLoading(true)
@@ -101,8 +118,10 @@ const GenerateKeywordReportModal = ({
                 Version:
               </label>
               <KmsConceptVersionSelector
+                isLoading={areVersionsLoading}
                 onVersionSelect={onVersionSelect}
-                key="version-selector"
+                version={selectedVersion}
+                versions={versions}
               />
             </div>
             <div className="mt-3">
