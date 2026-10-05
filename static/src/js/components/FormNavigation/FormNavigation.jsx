@@ -92,7 +92,7 @@ const FormNavigation = ({
 
   return (
     <>
-      <div className="mb-4">
+      <div className="form-navigation__actions mb-4">
         <Dropdown as={ButtonGroup}>
           <Button
             className="text-white"
@@ -179,7 +179,7 @@ const FormNavigation = ({
         </Dropdown>
 
         <Button
-          className="link-button ms-2"
+          className="link-button"
           disabled={!hasPendingChanges}
           onClick={onCancel}
           type="button"
