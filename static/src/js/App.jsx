@@ -103,7 +103,7 @@ export const App = () => {
               element: <SearchPage />
             },
             {
-              path: '/collections/staged/:id',
+              path: '/:type/staged/:id',
               element: <StagedConceptPreview />
             },
             {
