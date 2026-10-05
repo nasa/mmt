@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import {
+  fireEvent,
   render,
   screen,
   waitFor,
@@ -31,6 +32,7 @@ import CustomTitleFieldTemplate from '@/js/components/CustomTitleFieldTemplate/C
 import ErrorBanner from '@/js/components/ErrorBanner/ErrorBanner'
 import FormNavigation from '@/js/components/FormNavigation/FormNavigation'
 import GridLayout from '@/js/components/GridLayout/GridLayout'
+import JsonPreview from '@/js/components/JsonPreview/JsonPreview'
 import KeywordPicker from '@/js/components/KeywordPicker/KeywordPicker'
 import OneOfField from '@/js/components/OneOfField/OneOfField'
 import StreetAddressField from '@/js/components/StreetAddressField/StreetAddressField'
@@ -56,8 +58,36 @@ vi.mock('@/js/components/ErrorBanner/ErrorBanner')
 vi.mock('@/js/components/FormNavigation/FormNavigation')
 vi.mock('@/js/components/JsonPreview/JsonPreview', () => ({
   __esModule: true,
-  default: () => <div data-testid="mock-json-preview" />
+  default: vi.fn(() => <div data-testid="mock-json-preview" />)
 }))
+
+// Mock CodeMirror to render a standard textarea, so the real JsonPreview
+// component can be exercised (in the 'when JsonPreview sends onApply' tests
+// below) without pulling in CodeMirror's actual browser-only internals.
+vi.mock('@uiw/react-codemirror', () => ({
+  __esModule: true,
+  default: ({ value, onChange, editable }) => (
+    <textarea
+      aria-label={editable === false ? 'Read-only JSON metadata' : 'Editable JSON metadata'}
+      value={value || ''}
+      onChange={onChange ? (event) => onChange(event.target.value) : undefined}
+      readOnly={editable === false}
+    />
+  )
+}))
+
+vi.mock('react-codemirror-merge', () => {
+  /* eslint-disable react/prop-types, react/display-name */
+  const CodeMirrorMerge = ({ children }) => <div data-testid="diff-viewer">{children}</div>
+  CodeMirrorMerge.Original = () => null
+  CodeMirrorMerge.Modified = () => null
+  /* eslint-enable react/prop-types, react/display-name */
+
+  return {
+    __esModule: true,
+    default: CodeMirrorMerge
+  }
+})
 
 // The actual UMM-C version number is irrelevant to these tests - they only
 // care that whatever version getUmmVersion resolves to is threaded through
@@ -332,6 +362,8 @@ describe('TemplateForm', () => {
       // `@rjsf/core`'s ArrayField calls `onChange` with the array field's own id
       // (not undefined) when an item is added, removed, or reordered - this button
       // simulates that same call shape to confirm it's treated as a real change.
+      // The added item has real content (not `{}`) so the change survives the
+      // empty-property normalization below.
       const arrayFieldImplementation = ({ onChange, formData }) => (
         <mock-Component data-testid="MockForm">
           <button
@@ -339,7 +371,7 @@ describe('TemplateForm', () => {
               () => onChange({
                 formData: {
                   ...formData,
-                  RelatedUrls: [{}]
+                  RelatedUrls: [{ URLValue: 'https://example.com' }]
                 }
               }, 'root_RelatedUrls')
             }
@@ -362,6 +394,97 @@ describe('TemplateForm', () => {
       await user.click(addButton)
 
       expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+        hasPendingChanges: true
+      }), {})
+    })
+
+    test('passes hasPendingChanges as false when an array item is added but left completely empty', async () => {
+      // An item with no content at all (`{}`) is indistinguishable from no item
+      // once empty properties are normalized out, so it shouldn't enable Cancel
+      // Pending Changes - there is nothing to lose by navigating away.
+      const arrayFieldImplementation = ({ onChange, formData }) => (
+        <mock-Component data-testid="MockForm">
+          <button
+            onClick={
+              () => onChange({
+                formData: {
+                  ...formData,
+                  RelatedUrls: [{}]
+                }
+              }, 'root_RelatedUrls')
+            }
+            type="button"
+          >
+            Add RelatedUrls item
+          </button>
+        </mock-Component>
+      )
+
+      Form
+        .mockImplementationOnce(arrayFieldImplementation)
+        .mockImplementationOnce(arrayFieldImplementation)
+
+      const { user } = setup({ pageUrl: '/templates/collections/new' })
+
+      const addButton = await screen.findByRole('button', { name: 'Add RelatedUrls item' })
+      await user.click(addButton)
+
+      expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+        hasPendingChanges: false
+      }), {})
+    })
+  })
+
+  describe('when an edit is reverted back to its original value', () => {
+    test('passes hasPendingChanges as false once a typed-then-deleted field matches the saved draft again', async () => {
+      // `@rjsf/core` leaves an empty-string property behind (e.g. `Name: ''`)
+      // rather than removing the key entirely, which made the raw draft and
+      // originalDraft objects unequal even though the metadata they represent
+      // is the same.
+      const { user } = setup({ pageUrl: '/templates/collections/new' })
+
+      const nameField = await screen.findByRole('textbox', { id: 'Name' })
+      await user.type(nameField, 'T')
+      await user.clear(nameField)
+
+      expect(FormNavigation).toHaveBeenLastCalledWith(expect.objectContaining({
+        hasPendingChanges: false
+      }), {})
+    })
+  })
+
+  describe('when JsonPreview sends onApply', () => {
+    beforeEach(async () => {
+      const { default: RealJsonPreview } = await vi.importActual('@/js/components/JsonPreview/JsonPreview')
+
+      JsonPreview.mockImplementation(RealJsonPreview)
+    })
+
+    // Swapping in the real JsonPreview above persists for the rest of the file
+    // otherwise (mockImplementation isn't undone by the global `clearMocks`),
+    // which would affect unrelated tests' render-count assertions downstream.
+    afterEach(() => {
+      JsonPreview.mockReset()
+    })
+
+    test('passes hasPendingChanges as true once a JSON edit is applied', async () => {
+      const { user } = setup({ pageUrl: '/templates/collections/new' })
+
+      await user.click(await screen.findByRole('button', { name: 'Edit JSON' }))
+
+      const textarea = screen.getByRole('textbox', { name: 'Editable JSON metadata' })
+      const updatedJson = JSON.stringify({ TemplateName: 'My Template' }, null, 2)
+
+      fireEvent.change(textarea, { target: { value: updatedJson } })
+
+      await waitFor(() => {
+        expect(screen.queryByText(/Please fix the following errors to continue/i)).not.toBeInTheDocument()
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Continue' }))
+      await user.click(screen.getByRole('button', { name: 'Apply' }))
+
+      expect(FormNavigation).toHaveBeenLastCalledWith(expect.objectContaining({
         hasPendingChanges: true
       }), {})
     })

@@ -180,7 +180,7 @@ const FormNavigation = ({
 
         <Button
           className="link-button"
-          disabled={!hasPendingChanges}
+          disabled={!hasPendingChanges || loading}
           onClick={onCancel}
           type="button"
           variant="link-secondary"

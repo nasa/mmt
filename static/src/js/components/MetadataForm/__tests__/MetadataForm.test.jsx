@@ -5,6 +5,7 @@ import React, {
 } from 'react'
 import {
   act,
+  fireEvent,
   render,
   screen,
   waitFor,
@@ -176,6 +177,34 @@ vi.mock('@/js/components/ErrorBanner/ErrorBanner')
 vi.mock('@/js/components/JsonPreview/JsonPreview')
 vi.mock('@/js/components/FormNavigation/FormNavigation')
 vi.mock('@/js/utils/errorLogger')
+
+// Mock CodeMirror to render a standard textarea, so the real JsonPreview
+// component can be exercised (in the 'when JsonPreview sends onApply' tests
+// below) without pulling in CodeMirror's actual browser-only internals.
+vi.mock('@uiw/react-codemirror', () => ({
+  __esModule: true,
+  default: ({ value, onChange, editable }) => (
+    <textarea
+      aria-label={editable === false ? 'Read-only JSON metadata' : 'Editable JSON metadata'}
+      value={value || ''}
+      onChange={onChange ? (event) => onChange(event.target.value) : undefined}
+      readOnly={editable === false}
+    />
+  )
+}))
+
+vi.mock('react-codemirror-merge', () => {
+  /* eslint-disable react/prop-types, react/display-name */
+  const CodeMirrorMerge = ({ children }) => <div data-testid="diff-viewer">{children}</div>
+  CodeMirrorMerge.Original = () => null
+  CodeMirrorMerge.Modified = () => null
+  /* eslint-enable react/prop-types, react/display-name */
+
+  return {
+    __esModule: true,
+    default: CodeMirrorMerge
+  }
+})
 
 const mockedUsedNavigate = vi.fn()
 
@@ -594,6 +623,8 @@ describe('MetadataForm', () => {
       // `@rjsf/core`'s ArrayField calls `onChange` with the array field's own id
       // (not undefined) when an item is added, removed, or reordered - this button
       // simulates that same call shape to confirm it's treated as a real change.
+      // The added item has real content (not `{}`) so the change survives the
+      // empty-property normalization below.
       const arrayFieldImplementation = ({ onChange, formData }) => (
         <mock-Component data-testid="MockForm">
           <button
@@ -601,7 +632,7 @@ describe('MetadataForm', () => {
               () => onChange({
                 formData: {
                   ...formData,
-                  RelatedURLs: [{}]
+                  RelatedURLs: [{ URLValue: 'https://example.com' }]
                 }
               }, 'root_RelatedURLs')
             }
@@ -624,6 +655,106 @@ describe('MetadataForm', () => {
       await user.click(addButton)
 
       expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+        hasPendingChanges: true
+      }), {})
+    })
+
+    test('passes hasPendingChanges as false when an array item is added but left completely empty', async () => {
+      // An item with no content at all (`{}`) is indistinguishable from no item
+      // once empty properties are normalized out, so it shouldn't enable Cancel
+      // Pending Changes - there is nothing to lose by navigating away.
+      const arrayFieldImplementation = ({ onChange, formData }) => (
+        <mock-Component data-testid="MockForm">
+          <button
+            onClick={
+              () => onChange({
+                formData: {
+                  ...formData,
+                  RelatedURLs: [{}]
+                }
+              }, 'root_RelatedURLs')
+            }
+            type="button"
+          >
+            Add RelatedURLs item
+          </button>
+        </mock-Component>
+      )
+
+      Form
+        .mockImplementationOnce(arrayFieldImplementation)
+        .mockImplementationOnce(arrayFieldImplementation)
+
+      const { user } = setup({})
+
+      const addButton = await screen.findByRole('button', { name: 'Add RelatedURLs item' })
+      await user.click(addButton)
+
+      expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+        hasPendingChanges: false
+      }), {})
+    })
+  })
+
+  describe('when an edit is reverted back to its original value', () => {
+    test('passes hasPendingChanges as false once a typed-then-deleted field matches the saved draft again', async () => {
+      // `@rjsf/core` leaves an empty-string property behind (e.g. `Name: ''`)
+      // rather than removing the key entirely, which made the raw draft and
+      // originalDraft objects unequal even though the metadata they represent
+      // is the same.
+      const { user } = setup({})
+
+      const nameField = await screen.findByRole('textbox', { name: 'Name' })
+      await user.type(nameField, 'T')
+      await user.clear(nameField)
+
+      expect(FormNavigation).toHaveBeenLastCalledWith(expect.objectContaining({
+        hasPendingChanges: false
+      }), {})
+    })
+  })
+
+  describe('when JsonPreview sends onApply', () => {
+    beforeEach(() => {
+      JsonPreview.mockImplementation(
+        vi.importActual('@/js/components/JsonPreview/JsonPreview').default
+      )
+    })
+
+    // Swapping in the real JsonPreview above persists for the rest of the file
+    // otherwise (mockImplementation isn't undone by the global `clearMocks`),
+    // which would affect unrelated tests' render-count assertions downstream.
+    afterEach(() => {
+      JsonPreview.mockReset()
+    })
+
+    test('passes hasPendingChanges as true once a JSON edit is applied', async () => {
+      const { user } = setup({})
+
+      await screen.findByRole('textbox', { name: 'Name' })
+
+      await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
+
+      const textarea = screen.getByRole('textbox', { name: 'Editable JSON metadata' })
+      const updatedJson = JSON.stringify({
+        LongName: 'Updated Long Name',
+        MetadataSpecification: {
+          URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.2.0',
+          Name: 'UMM-T',
+          Version: '1.2.0'
+        }
+      }, null, 2)
+
+      fireEvent.change(textarea, { target: { value: updatedJson } })
+
+      await waitFor(() => {
+        expect(screen.queryByText(/Please fix the following errors to continue/i)).not.toBeInTheDocument()
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Continue' }))
+      await user.click(screen.getByRole('button', { name: 'Apply' }))
+
+      expect(FormNavigation).toHaveBeenLastCalledWith(expect.objectContaining({
         hasPendingChanges: true
       }), {})
     })

@@ -316,6 +316,24 @@ describe('FormNavigation', () => {
     })
   })
 
+  describe('when a save is in progress', () => {
+    test('disables the Cancel Pending Changes button even though there are pending changes', () => {
+      // Canceling mid-save would restore the pre-edit draft in the editor while
+      // the in-flight request still saves the edited value, leaving the editor
+      // and the saved draft out of sync once the save completes.
+      setup({
+        overrideProps: {
+          hasPendingChanges: true,
+          loading: true
+        }
+      })
+
+      const button = screen.getByRole('button', { name: 'Cancel Pending Changes' })
+
+      expect(button).toBeDisabled()
+    })
+  })
+
   describe('when clicking the Save & Create Draft dropdown item', () => {
     test('calls onSave', async () => {
       const { props, user } = setup({

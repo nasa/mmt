@@ -115,7 +115,12 @@ const MetadataForm = () => {
   // meantime and skip clearing hasFormDataChangedRef.
   const editGenerationRef = useRef(0)
 
-  const hasPendingChanges = hasFormDataChangedRef.current && !isEqual(draft, originalDraft)
+  // Compare normalized (empty-property-stripped) copies, since `@rjsf/core`
+  // can leave behind empty properties (e.g. typing into a field, then
+  // deleting it) that make the raw draft and originalDraft objects unequal
+  // even though the metadata they represent is the same.
+  const hasPendingChanges = hasFormDataChangedRef.current
+    && !isEqual(removeEmpty(draft), removeEmpty(originalDraft))
 
   const revisionIdAtIngest = searchParams.get('revisionId') || null
 
@@ -364,6 +369,13 @@ const MetadataForm = () => {
     ])])
   }
 
+  // Handle JSON edits applied via JsonPreview, which sets the draft directly
+  // instead of going through handleChange
+  const handleJsonApply = () => {
+    hasFormDataChangedRef.current = true
+    editGenerationRef.current += 1
+  }
+
   return (
     <Container className="metadata-form__container mx-0" fluid>
       <Row className="metadata-form__row">
@@ -439,7 +451,7 @@ const MetadataForm = () => {
 
       <Row className="json-view">
         <Col sm={8}>
-          <JsonPreview schema={schema} />
+          <JsonPreview onApply={handleJsonApply} schema={schema} />
         </Col>
       </Row>
     </Container>

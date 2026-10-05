@@ -98,7 +98,12 @@ const TemplateForm = () => {
   // the meantime and skip clearing hasFormDataChangedRef.
   const editGenerationRef = useRef(0)
 
-  const hasPendingChanges = hasFormDataChangedRef.current && !isEqual(draft, originalDraft)
+  // Compare normalized (empty-property-stripped) copies, since `@rjsf/core`
+  // can leave behind empty properties (e.g. typing into a field, then
+  // deleting it) that make the raw draft and originalDraft objects unequal
+  // even though the metadata they represent is the same.
+  const hasPendingChanges = hasFormDataChangedRef.current
+    && !isEqual(removeEmpty(draft), removeEmpty(originalDraft))
   const [error, setErrors] = useState()
   const [saveLoading, setSaveLoading] = useState(false)
   const [loading, setLoading] = useState()
@@ -320,6 +325,13 @@ const TemplateForm = () => {
     ])])
   }
 
+  // Handle JSON edits applied via JsonPreview, which sets the draft directly
+  // instead of going through handleChange
+  const handleJsonApply = () => {
+    hasFormDataChangedRef.current = true
+    editGenerationRef.current += 1
+  }
+
   const name = draft?.ummMetadata?.TemplateName || '<Blank Name>'
   const pageTitle = id === 'new' ? 'New Collection Template' : `Edit ${name}`
 
@@ -424,7 +436,7 @@ const TemplateForm = () => {
         </Row>
         <Row className="json-view">
           <Col sm={8}>
-            <JsonPreview schema={ummCTemplateSchema} />
+            <JsonPreview onApply={handleJsonApply} schema={ummCTemplateSchema} />
           </Col>
         </Row>
       </Container>
