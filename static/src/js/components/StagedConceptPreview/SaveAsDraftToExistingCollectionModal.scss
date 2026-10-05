@@ -1,0 +1,17 @@
+.save-as-draft-to-existing-collection-modal {
+  &__diff {
+    overflow: hidden;
+    border: 0.0625rem solid var(--bs-border-color);
+    border-radius: 0.25rem;
+
+    .cm-mergeView {
+      height: 60vh;
+    }
+
+    .cm-editor {
+      height: 100%;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.8rem;
+    }
+  }
+}

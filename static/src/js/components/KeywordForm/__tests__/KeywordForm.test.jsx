@@ -283,3 +283,36 @@ describe('when the modal is open', () => {
     })
   })
 })
+
+describe('when viewing a read-only keyword version', () => {
+  test('should display the production version without allowing changes', () => {
+    setup({
+      version: {
+        version: '1.0',
+        version_type: 'published'
+      }
+    })
+
+    // Ensure display values are disabled
+    expect(screen.getByRole('heading', { name: 'View Keyword' })).toBeInTheDocument()
+    expect(screen.getByDisplayValue('Test Keyword')).toBeDisabled()
+    expect(screen.getByDisplayValue('This is a test keyword')).toBeDisabled()
+
+    // Ensure all button actions are disabled
+    screen.getAllByRole('button').forEach((button) => expect(button).toBeDisabled())
+    expect(screen.queryByRole('button', { name: 'Save' })).not.toBeInTheDocument()
+    expect(screen.queryByTestId('custom-modal')).not.toBeInTheDocument()
+  })
+
+  test('should also make historical versions read-only', () => {
+    setup({
+      version: {
+        version: '1.0',
+        version_type: 'past_published'
+      }
+    })
+
+    expect(screen.getByDisplayValue('Test Keyword')).toBeDisabled()
+    expect(screen.queryByRole('button', { name: 'Save' })).not.toBeInTheDocument()
+  })
+})
