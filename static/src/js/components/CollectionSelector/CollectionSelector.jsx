@@ -32,7 +32,14 @@ import useAppContext from '@/js/hooks/useAppContext'
 import Button from '@/js/components/Button/Button'
 import For from '@/js/components/For/For'
 
+import ummCSchema from '@/js/schemas/umm/ummCSchema'
+
 import './CollectionSelector.scss'
+
+// Extract CollectionProgressEnum values from the UMM-C schema so collections in any
+// progress state (e.g. PLANNED or other, “non-operational”) are available for permission management, not just
+// the ACTIVE/COMPLETE collections CMR returns by default
+const collectionProgressEnum = ummCSchema.definitions.CollectionProgressEnum.enum
 
 /**
  * @typedef {Object} CollectionSelectorComponentProps
@@ -62,6 +69,7 @@ const CollectionSelector = ({ onChange, formData }) => {
     variables: {
       params: {
         provider: providerId,
+        collectionProgresses: collectionProgressEnum,
         limit: 100
       }
     }
@@ -201,6 +209,7 @@ const CollectionSelector = ({ onChange, formData }) => {
             }
           },
           provider: providerId,
+          collectionProgresses: collectionProgressEnum,
           shortName: `${inputValue}*`,
           limit: 100
         }

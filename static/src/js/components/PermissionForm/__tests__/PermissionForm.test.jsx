@@ -217,6 +217,16 @@ describe('PermissionForm', () => {
                 variables: {
                   params: {
                     provider: 'MMT_2',
+                    collectionProgresses: [
+                      'ACTIVE',
+                      'PLANNED',
+                      'COMPLETE',
+                      'DEPRECATED',
+                      'INREVIEW',
+                      'NOT PROVIDED',
+                      'PREPRINT',
+                      'SUPERSEDED'
+                    ],
                     limit: 100
                   }
                 }
@@ -1082,7 +1092,17 @@ describe('PermissionForm', () => {
                 variables: {
                   params: {
                     limit: 100,
-                    provider: 'MMT_2'
+                    provider: 'MMT_2',
+                    collectionProgresses: [
+                      'ACTIVE',
+                      'PLANNED',
+                      'COMPLETE',
+                      'DEPRECATED',
+                      'INREVIEW',
+                      'NOT PROVIDED',
+                      'PREPRINT',
+                      'SUPERSEDED'
+                    ]
                   }
                 }
               },
