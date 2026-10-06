@@ -13,6 +13,7 @@ import React, {
 } from 'react'
 import {
   Navigate,
+  useNavigate,
   useParams,
   useSearchParams
 } from 'react-router'
@@ -47,9 +48,13 @@ import getTagCount from '../../utils/getTagCount'
  * )
  */
 const SearchList = ({ limit }) => {
+  const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const [showTagModal, setShowTagModal] = useState(false)
   const [tagModalActiveCollection, setTagModalActiveCollection] = useState(null)
+  
+  // State for Bulk Update selections
+  const [selectedCollections, setSelectedCollections] = useState([])
 
   const { type: conceptType } = useParams()
   const keywordParam = searchParams.get('keyword')
@@ -74,7 +79,6 @@ const SearchList = ({ limit }) => {
   }
 
   if (formattedType === conceptTypes.Collections) {
-    // Extract CollectionProgressEnum values from the UMM-C schema
     const collectionProgressEnum = ummCSchema.definitions.CollectionProgressEnum.enum
 
     params = {
@@ -112,6 +116,68 @@ const SearchList = ({ limit }) => {
 
   const { [conceptType]: concept } = data
   const { count, items } = concept
+
+  // Derived state to check for multiple providers
+  const uniqueProviders = new Set(selectedCollections.map(c => c.provider))
+  const hasMultipleProviders = uniqueProviders.size > 1
+
+  // "Select All on Page" Logic
+  const isAllCurrentPageSelected = items?.length > 0 && items.every((item) =>
+    selectedCollections.some((c) => c.conceptId === item.conceptId)
+  )
+
+  const isSomeCurrentPageSelected = items?.length > 0 && items.some((item) =>
+    selectedCollections.some((c) => c.conceptId === item.conceptId)
+  )
+
+  const handleSelectAllPage = useCallback(() => {
+    if (isAllCurrentPageSelected) {
+      // Deselect all on current page
+      setSelectedCollections((prev) =>
+        prev.filter((c) => !items.some((item) => item.conceptId === c.conceptId))
+      )
+    } else {
+      // Select all on current page (saving extra meta just in case)
+      setSelectedCollections((prev) => {
+        const newSelections = [...prev]
+        items.forEach((item) => {
+          if (!newSelections.some((c) => c.conceptId === item.conceptId)) {
+            newSelections.push({ 
+              conceptId: item.conceptId, 
+              provider: item.provider,
+              shortName: item.shortName,
+              version: item.version
+            })
+          }
+        })
+        return newSelections
+      })
+    }
+  }, [isAllCurrentPageSelected, items])
+
+  const buildCheckboxCell = useCallback((cellData, rowData) => {
+    const { conceptId, provider, shortName, version } = rowData
+    const isSelected = selectedCollections.some(c => c.conceptId === conceptId)
+
+    return (
+      <input
+        type="checkbox"
+        className="form-check-input"
+        style={{ cursor: 'pointer' }}
+        checked={isSelected}
+        onChange={() => {
+          setSelectedCollections((prev) => {
+            const exists = prev.find(c => c.conceptId === conceptId)
+            if (exists) {
+              return prev.filter(c => c.conceptId !== conceptId)
+            }
+            return [...prev, { conceptId, provider, shortName, version }]
+          })
+        }}
+        aria-label={`Select collection ${conceptId}`}
+      />
+    )
+  }, [selectedCollections])
 
   const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
     const { conceptId } = rowData
@@ -151,7 +217,6 @@ const SearchList = ({ limit }) => {
   }, [])
 
   const sortFn = useCallback((key, order) => {
-    // Must be captured before going into handleSort which automatically deletes these
     const currentSearchParams = new URLSearchParams(window.location.search)
     const currentProviderParam = currentSearchParams.get('provider')
     const currentPageParam = currentSearchParams.get('page')
@@ -164,11 +229,32 @@ const SearchList = ({ limit }) => {
       key,
       order
     )
-  }, [])
+  }, [setSearchParams])
 
-  const getColumnState = () => {
+  const getColumnState = useCallback(() => {
     if (formattedType === conceptTypes.Collections) {
       return [
+        {
+          align: 'center',
+          className: 'col-auto',
+          dataAccessorFn: buildCheckboxCell,
+          dataKey: 'conceptId',
+          title: (
+            <input
+              type="checkbox"
+              className="form-check-input"
+              style={{ cursor: 'pointer' }}
+              checked={isAllCurrentPageSelected}
+              ref={(input) => {
+                if (input) {
+                  input.indeterminate = !isAllCurrentPageSelected && isSomeCurrentPageSelected
+                }
+              }}
+              onChange={handleSelectAllPage}
+              aria-label="Select all on page"
+            />
+          )
+        },
         {
           className: 'col-auto',
           dataAccessorFn: buildEllipsisLinkCell,
@@ -279,13 +365,23 @@ const SearchList = ({ limit }) => {
         title: 'Last Modified (UTC)'
       }
     ]
-  }
+  }, [
+    formattedType,
+    buildCheckboxCell,
+    buildEllipsisLinkCell,
+    buildEllipsisTextCell,
+    buildTagCell,
+    sortFn,
+    isAllCurrentPageSelected,
+    isSomeCurrentPageSelected,
+    handleSelectAllPage
+  ])
 
   const [columns, setColumns] = useState(getColumnState())
 
   useEffect(() => {
     setColumns(getColumnState())
-  }, [conceptType])
+  }, [getColumnState])
 
   const activeTagModalCollection = items?.find((item) => (
     item.conceptId === tagModalActiveCollection
@@ -325,7 +421,6 @@ const SearchList = ({ limit }) => {
                 pagination,
                 totalPages
               }) => {
-                // Checks to see if any filters are provided so that they display in the pagination message
                 const hasFilter = !!keywordParam || !!sortKeyParam
 
                 const paginationMessage = `${totalPages > 1 ? `${firstResultPosition}-${lastResultPosition} of` : ''} ${count} `
@@ -379,6 +474,40 @@ const SearchList = ({ limit }) => {
           </ControlledPaginatedContent>
         </Col>
       </Row>
+      
+      {/* Bulk Update Sticky Bar Component */}
+      {formattedType === conceptTypes.Collections && selectedCollections.length > 0 && (
+        <div className="fixed-bottom bg-primary text-white px-4 py-3 shadow-lg d-flex justify-content-between align-items-center" style={{ zIndex: 1040 }}>
+          <div className="d-flex align-items-center">
+            <span className="fs-5 fw-bold me-4">
+              {selectedCollections.length} Collection{selectedCollections.length > 1 ? 's' : ''} Selected
+            </span>
+            {hasMultipleProviders && (
+              <span className="text-warning fw-bold bg-dark px-2 py-1 rounded">
+                ⚠️ Selections must belong to a single provider.
+              </span>
+            )}
+          </div>
+          <div className="d-flex align-items-center">
+            <Button
+              variant="outline-light"
+              className="me-3"
+              onClick={() => setSelectedCollections([])}
+            >
+              Clear
+            </Button>
+            <Button
+              variant={hasMultipleProviders ? 'secondary' : 'success'}
+              disabled={hasMultipleProviders}
+              onClick={() => navigate('/collections/bulk-actions/edit', { state: { selectedCollections } })}
+            >
+              Edit
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Existing Tag Modal */}
       <CustomModal
         actions={
           [{

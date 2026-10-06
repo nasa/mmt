@@ -139,6 +139,10 @@ const Layout = ({ className, displayNav }) => {
                                     title: 'Drafts'
                                   },
                                   {
+                                    to: '/collections/bulk-actions',
+                                    title: 'Bulk Actions'
+                                  },
+                                  {
                                     to: '/templates/collections',
                                     title: 'Templates'
                                   },

@@ -50,6 +50,9 @@ import withProviders from '@/js/providers/withProviders/withProviders'
 
 import '../css/index.scss'
 import ErrorUnauthorizedAccess from './components/ErrorUnauthorizedAccess/ErrorUnauthorizedAccess'
+import BulkActionsEditPage from './pages/BulkActionsEditPage'
+import BulkActionsPage from './pages/BulkActionsPage'
+import BulkActionsTaskPage from './pages/BulkActionsTaskPage'
 
 /**
  * Renders the `App` component
@@ -121,6 +124,18 @@ export const App = () => {
             {
               path: '/:type/:conceptId/collection-association',
               element: <ManageCollectionAssociationPage />
+            },
+            {
+              path: '/collections/bulk-actions',
+              element: <BulkActionsPage />
+            },
+            {
+              path: '/collections/bulk-actions/edit',
+              element: <BulkActionsEditPage />
+            },
+            {
+              path: '/collections/bulk-actions/:task-id',
+              element: <BulkActionsTaskPage />
             },
             {
               path: '/collections/:conceptId/granules',
