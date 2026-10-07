@@ -283,6 +283,7 @@ describe('ManageCollectionAssociation', () => {
   })
 
   describe('sorting tool record', () => {
+    // This failing intermittently in CI, should be skipped
     test.skip('when there is sortKey present in the search param', async () => {
       const { user } = setup({
         overrideInitialEntries: ['/tools/T1200000-TEST/collection-association?sortKey=-provider'],

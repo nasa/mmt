@@ -98,7 +98,7 @@ const mockEnumAsOneOfSchema = {
   }
 }
 
-const setup = (draft = undefined, { schema = null } = {}) => {
+const setup = (draft = undefined, { schema = null, onApply = vi.fn() } = {}) => {
   const setDraft = vi.fn()
 
   const { rerender } = render(
@@ -110,7 +110,7 @@ const setup = (draft = undefined, { schema = null } = {}) => {
         }
       }
     >
-      <JsonPreview schema={schema} />
+      <JsonPreview onApply={onApply} schema={schema} />
     </AppContext.Provider>
   )
 
@@ -127,12 +127,13 @@ const setup = (draft = undefined, { schema = null } = {}) => {
           }
         }
       >
-        <JsonPreview schema={schema} />
+        <JsonPreview onApply={onApply} schema={schema} />
       </AppContext.Provider>
     )
   }
 
   return {
+    onApply,
     setDraft,
     rerenderWithDraft
   }
@@ -322,6 +323,22 @@ describe('JsonPreview Component', () => {
       expect(screen.queryByText('Editing JSON')).not.toBeInTheDocument()
       expect(screen.queryByText('Review Changes')).not.toBeInTheDocument()
     })
+
+    test('calls onApply so the parent form can mark the draft as having pending changes', async () => {
+      const user = userEvent.setup()
+
+      const { onApply } = setup({
+        ummMetadata: {
+          Name: 'Mock Name'
+        }
+      })
+
+      await openEditorAndType(user, '{{"Name": "Updated Name"}')
+      await user.click(screen.getByRole('button', { name: 'Continue' }))
+      await user.click(screen.getByRole('button', { name: 'Apply' }))
+
+      expect(onApply).toHaveBeenCalledTimes(1)
+    })
   })
 
   describe('when the user clicks Back to Edit from the review changes modal', () => {
@@ -381,7 +398,7 @@ describe('JsonPreview Component', () => {
     test('discards changes, does not call setDraft, and closes the modal', async () => {
       const user = userEvent.setup()
 
-      const { setDraft } = setup({
+      const { onApply, setDraft } = setup({
         ummMetadata: {
           Name: 'Mock Name'
         }
@@ -392,6 +409,7 @@ describe('JsonPreview Component', () => {
       await user.click(screen.getByRole('button', { name: 'Cancel' }))
 
       expect(setDraft).not.toHaveBeenCalled()
+      expect(onApply).not.toHaveBeenCalled()
       expect(screen.queryByText('Editing JSON')).not.toBeInTheDocument()
 
       // Re-opening edit mode should show the original (unsaved-change-free) JSON again

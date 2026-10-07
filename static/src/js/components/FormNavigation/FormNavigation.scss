@@ -1,4 +1,15 @@
 .form-navigation {
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+
+    .btn {
+      white-space: nowrap;
+    }
+  }
+
   &__sections {
     --bs-list-group-bg: transparent;
   }

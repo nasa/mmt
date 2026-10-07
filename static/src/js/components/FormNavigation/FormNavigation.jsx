@@ -8,6 +8,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Dropdown from 'react-bootstrap/Dropdown'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Spinner from 'react-bootstrap/Spinner'
+import { FaUndo } from 'react-icons/fa'
 
 import saveTypes from '@/js/constants/saveTypes'
 import saveTypesToHumanizedStringMap from '@/js/constants/saveTypesToHumanizedStringMap'
@@ -25,6 +26,7 @@ import './FormNavigation.scss'
  * @typedef {Object} FormNavigation
  * @property {Object} draft A save version of the umm metadata.
  * @property {Object} formSections A list of form sections.
+ * @property {Boolean} hasPendingChanges A boolean value that represents if the draft has unsaved changes.
  * @property {Boolean} loading A boolean value that represent if a page is loading.
  * @property {Function} onCancel A function that cancels unsaved draft.
  * @property {Function} onSave A function that saves the draft.
@@ -41,6 +43,7 @@ import './FormNavigation.scss'
 const FormNavigation = ({
   draft,
   formSections,
+  hasPendingChanges,
   loading,
   onCancel,
   onSave,
@@ -89,7 +92,7 @@ const FormNavigation = ({
 
   return (
     <>
-      <div className="mb-4">
+      <div className="form-navigation__actions mb-4">
         <Dropdown as={ButtonGroup}>
           <Button
             className="text-white"
@@ -176,12 +179,13 @@ const FormNavigation = ({
         </Dropdown>
 
         <Button
-          className="link-button ms-2"
+          disabled={!hasPendingChanges || loading}
           onClick={onCancel}
           type="button"
-          variant="link-secondary"
+          variant="primary"
         >
-          Cancel
+          <FaUndo aria-hidden="true" className="me-2" />
+          Cancel Pending Changes
         </Button>
       </div>
 
@@ -241,6 +245,7 @@ FormNavigation.propTypes = {
   formSections: PropTypes.arrayOf(
     PropTypes.shape({})
   ).isRequired,
+  hasPendingChanges: PropTypes.bool.isRequired,
   loading: PropTypes.bool,
   visitedFields: PropTypes.arrayOf(
     PropTypes.string

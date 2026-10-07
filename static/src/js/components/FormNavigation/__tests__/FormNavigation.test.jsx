@@ -50,6 +50,7 @@ const setup = ({
       displayName: 'Section 2',
       properties: ['Field2']
     }],
+    hasPendingChanges: true,
     loading: false,
     onCancel: vi.fn(),
     onSave: vi.fn(),
@@ -289,15 +290,47 @@ describe('FormNavigation', () => {
     })
   })
 
-  describe('when clicking the Cancel button', () => {
+  describe('when clicking the Cancel Pending Changes button', () => {
     test('calls onCancel', async () => {
       const { props, user } = setup({})
 
-      const button = screen.getByRole('button', { name: 'Cancel' })
+      const button = screen.getByRole('button', { name: 'Cancel Pending Changes' })
 
       await user.click(button)
 
       expect(props.onCancel).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('when there are no pending changes', () => {
+    test('disables the Cancel Pending Changes button', () => {
+      setup({
+        overrideProps: {
+          hasPendingChanges: false
+        }
+      })
+
+      const button = screen.getByRole('button', { name: 'Cancel Pending Changes' })
+
+      expect(button).toBeDisabled()
+    })
+  })
+
+  describe('when a save is in progress', () => {
+    test('disables the Cancel Pending Changes button even though there are pending changes', () => {
+      // Canceling mid-save would restore the pre-edit draft in the editor while
+      // the in-flight request still saves the edited value, leaving the editor
+      // and the saved draft out of sync once the save completes.
+      setup({
+        overrideProps: {
+          hasPendingChanges: true,
+          loading: true
+        }
+      })
+
+      const button = screen.getByRole('button', { name: 'Cancel Pending Changes' })
+
+      expect(button).toBeDisabled()
     })
   })
 

@@ -80,7 +80,7 @@ const getValidationErrors = (text, schema) => {
   }
 }
 
-const JsonPreview = ({ schema }) => {
+const JsonPreview = ({ onApply, schema }) => {
   const {
     draft = {},
     setDraft
@@ -160,6 +160,8 @@ const JsonPreview = ({ schema }) => {
       ...draft,
       ummMetadata: JSON.parse(jsonText)
     })
+
+    onApply()
 
     setShowDiff(false)
     setIsEditing(false) // Closes both modals
@@ -346,10 +348,16 @@ const JsonPreview = ({ schema }) => {
 }
 
 JsonPreview.defaultProps = {
+  onApply: () => {},
   schema: null
 }
 
 JsonPreview.propTypes = {
+  // Called after a JSON edit is applied to the draft, so the parent form
+  // can mark its pending-changes tracking (e.g. for the Cancel Pending
+  // Changes button), since this component sets the draft directly instead
+  // of going through the parent's onChange handler.
+  onApply: PropTypes.func,
   // The full UMM schema (not a section-limited schema) to validate the
   // edited JSON against on save. If omitted, only JSON-syntax validation
   // is performed.
