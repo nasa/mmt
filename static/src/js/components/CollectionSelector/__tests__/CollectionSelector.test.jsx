@@ -40,16 +40,7 @@ const setup = ({
               variables: {
                 params: {
                   provider: 'MMT_2',
-                  collectionProgresses: [
-                    'ACTIVE',
-                    'PLANNED',
-                    'COMPLETE',
-                    'DEPRECATED',
-                    'INREVIEW',
-                    'NOT PROVIDED',
-                    'PREPRINT',
-                    'SUPERSEDED'
-                  ],
+                  includeNonOperational: true,
                   limit: 100
                 }
               }
@@ -252,16 +243,7 @@ describe('CollectionSelector', () => {
               params: {
                 options: { shortName: { pattern: true } },
                 provider: 'MMT_2',
-                collectionProgresses: [
-                  'ACTIVE',
-                  'PLANNED',
-                  'COMPLETE',
-                  'DEPRECATED',
-                  'INREVIEW',
-                  'NOT PROVIDED',
-                  'PREPRINT',
-                  'SUPERSEDED'
-                ],
+                includeNonOperational: true,
                 shortName: 'C*',
                 limit: 100
               }

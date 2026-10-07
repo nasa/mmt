@@ -4,10 +4,6 @@ import { GET_TOOLS } from '@/js/operations/queries/getTools'
 import { GET_VARIABLES } from '@/js/operations/queries/getVariables'
 import { GET_VISUALIZATIONS } from '@/js/operations/queries/getVisualizations'
 import { GraphQLError } from 'graphql'
-import ummCSchema from '@/js/schemas/umm/ummCSchema'
-
-// Extract CollectionProgressEnum values from schema to use in mocks
-const COLLECTION_PROGRESS_ENUMS = ummCSchema.definitions.CollectionProgressEnum.enum
 
 export const singlePageCollectionSearch = {
   request: {
@@ -20,7 +16,7 @@ export const singlePageCollectionSearch = {
         provider: null,
         sortKey: null,
         includeTags: '*',
-        collectionProgresses: COLLECTION_PROGRESS_ENUMS
+        includeNonOperational: true
       }
     }
   },
@@ -103,7 +99,7 @@ export const multiPageCollectionSearchPage1 = {
         provider: null,
         includeTags: '*',
         sortKey: null,
-        collectionProgresses: COLLECTION_PROGRESS_ENUMS
+        includeNonOperational: true
       }
     }
   },
@@ -213,7 +209,7 @@ export const multiPageCollectionSearchPage2 = {
         provider: null,
         sortKey: null,
         includeTags: '*',
-        collectionProgresses: COLLECTION_PROGRESS_ENUMS
+        includeNonOperational: true
       }
     }
   },
@@ -311,7 +307,7 @@ export const multiPageCollectionSearchPage1Asc = {
         provider: null,
         includeTags: '*',
         sortKey: '-shortName',
-        collectionProgresses: COLLECTION_PROGRESS_ENUMS
+        includeNonOperational: true
       }
     }
   },
@@ -421,7 +417,7 @@ export const multiPageCollectionSearchPage1Desc = {
         provider: null,
         includeTags: '*',
         sortKey: 'shortName',
-        collectionProgresses: COLLECTION_PROGRESS_ENUMS
+        includeNonOperational: true
       }
     }
   },
@@ -531,7 +527,7 @@ export const multiPageCollectionSearchPage1TitleAsc = {
         provider: null,
         includeTags: '*',
         sortKey: '-entryTitle',
-        collectionProgresses: COLLECTION_PROGRESS_ENUMS
+        includeNonOperational: true
       }
     }
   },
@@ -641,7 +637,7 @@ export const singlePageCollectionSearchError = {
         provider: null,
         sortKey: null,
         includeTags: '*',
-        collectionProgresses: COLLECTION_PROGRESS_ENUMS
+        includeNonOperational: true
       }
     }
   },
