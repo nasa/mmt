@@ -12,7 +12,8 @@ const createTemplate = async (providerId, token, ummMetadata) => {
   const response = await fetch(`${apiHost}/providers/${providerId}/templates`, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       ...ummMetadata

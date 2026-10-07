@@ -5,6 +5,7 @@ import React, {
 } from 'react'
 import {
   act,
+  fireEvent,
   render,
   screen,
   waitFor,
@@ -117,7 +118,7 @@ vi.mock('@rjsf/core', () => ({
                   ...formData,
                   ShortName: value
                 }
-              })
+              }, 'root_ShortName')
             }
           }
           onBlur={() => onBlur('mock-short-name')}
@@ -138,7 +139,7 @@ vi.mock('@rjsf/core', () => ({
                   ...formData,
                   EntryTitle: value
                 }
-              })
+              }, 'root_EntryTitle')
             }
           }
           onBlur={() => onBlur('mock-entry-title')}
@@ -160,7 +161,7 @@ vi.mock('@rjsf/core', () => ({
                   ...formData,
                   Name: value
                 }
-              })
+              }, 'root_Name')
             }
           }
           onBlur={() => onBlur('mock-name')}
@@ -176,6 +177,34 @@ vi.mock('@/js/components/ErrorBanner/ErrorBanner')
 vi.mock('@/js/components/JsonPreview/JsonPreview')
 vi.mock('@/js/components/FormNavigation/FormNavigation')
 vi.mock('@/js/utils/errorLogger')
+
+// Mock CodeMirror to render a standard textarea, so the real JsonPreview
+// component can be exercised (in the 'when JsonPreview sends onApply' tests
+// below) without pulling in CodeMirror's actual browser-only internals.
+vi.mock('@uiw/react-codemirror', () => ({
+  __esModule: true,
+  default: ({ value, onChange, editable }) => (
+    <textarea
+      aria-label={editable === false ? 'Read-only JSON metadata' : 'Editable JSON metadata'}
+      value={value || ''}
+      onChange={onChange ? (event) => onChange(event.target.value) : undefined}
+      readOnly={editable === false}
+    />
+  )
+}))
+
+vi.mock('react-codemirror-merge', () => {
+  /* eslint-disable react/prop-types, react/display-name */
+  const CodeMirrorMerge = ({ children }) => <div data-testid="diff-viewer">{children}</div>
+  CodeMirrorMerge.Original = () => null
+  CodeMirrorMerge.Modified = () => null
+  /* eslint-enable react/prop-types, react/display-name */
+
+  return {
+    __esModule: true,
+    default: CodeMirrorMerge
+  }
+})
 
 const mockedUsedNavigate = vi.fn()
 
@@ -534,6 +563,203 @@ describe('MetadataForm', () => {
     })
   })
 
+  describe('when the draft has no pending changes', () => {
+    test('passes hasPendingChanges as false on initial load', async () => {
+      setup({})
+
+      await waitFor(() => {
+        expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+          hasPendingChanges: false
+        }), {})
+      })
+    })
+
+    test('keeps hasPendingChanges false when `@rjsf/core` syncs in formData with no field id (e.g. default-filling on mount)', async () => {
+      // `@rjsf/core` calls `onChange` with just the form state (no second `id`
+      // argument) when it's syncing in schema defaults, as opposed to a real,
+      // user-driven field edit, which always includes a field id.
+      const syncsDefaultsImplementation = ({ onChange, formData }) => {
+        useEffect(() => {
+          onChange({
+            formData: {
+              ...formData,
+              Name: 'Defaulted Name'
+            }
+          })
+        }, [])
+
+        return <mock-Component data-testid="MockForm" />
+      }
+
+      // MetadataForm renders Form twice before settling (once while the draft is
+      // still loading, once with the fetched data), so queue the override twice.
+      Form
+        .mockImplementationOnce(syncsDefaultsImplementation)
+        .mockImplementationOnce(syncsDefaultsImplementation)
+
+      setup({})
+
+      await waitFor(() => {
+        expect(FormNavigation).toHaveBeenLastCalledWith(expect.objectContaining({
+          hasPendingChanges: false
+        }), {})
+      })
+    })
+  })
+
+  describe('when the draft has pending changes', () => {
+    test('passes hasPendingChanges as true as soon as a field changes, even before it is blurred', async () => {
+      const { user } = setup({})
+
+      const nameField = await screen.findByRole('textbox', { name: 'Name' })
+      await user.type(nameField, 'Test Name')
+
+      expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+        hasPendingChanges: true
+      }), {})
+    })
+
+    test('passes hasPendingChanges as true when an array field item is added, removed, or reordered', async () => {
+      // `@rjsf/core`'s ArrayField calls `onChange` with the array field's own id
+      // (not undefined) when an item is added, removed, or reordered - this button
+      // simulates that same call shape to confirm it's treated as a real change.
+      // The added item has real content (not `{}`) so the change survives the
+      // empty-property normalization below.
+      const arrayFieldImplementation = ({ onChange, formData }) => (
+        <mock-Component data-testid="MockForm">
+          <button
+            onClick={
+              () => onChange({
+                formData: {
+                  ...formData,
+                  RelatedURLs: [{ URLValue: 'https://example.com' }]
+                }
+              }, 'root_RelatedURLs')
+            }
+            type="button"
+          >
+            Add RelatedURLs item
+          </button>
+        </mock-Component>
+      )
+
+      // MetadataForm renders Form twice before settling (once while the draft is
+      // still loading, once with the fetched data), so queue the override twice.
+      Form
+        .mockImplementationOnce(arrayFieldImplementation)
+        .mockImplementationOnce(arrayFieldImplementation)
+
+      const { user } = setup({})
+
+      const addButton = await screen.findByRole('button', { name: 'Add RelatedURLs item' })
+      await user.click(addButton)
+
+      expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+        hasPendingChanges: true
+      }), {})
+    })
+
+    test('passes hasPendingChanges as false when an array item is added but left completely empty', async () => {
+      // An item with no content at all (`{}`) is indistinguishable from no item
+      // once empty properties are normalized out, so it shouldn't enable Cancel
+      // Pending Changes - there is nothing to lose by navigating away.
+      const arrayFieldImplementation = ({ onChange, formData }) => (
+        <mock-Component data-testid="MockForm">
+          <button
+            onClick={
+              () => onChange({
+                formData: {
+                  ...formData,
+                  RelatedURLs: [{}]
+                }
+              }, 'root_RelatedURLs')
+            }
+            type="button"
+          >
+            Add RelatedURLs item
+          </button>
+        </mock-Component>
+      )
+
+      Form
+        .mockImplementationOnce(arrayFieldImplementation)
+        .mockImplementationOnce(arrayFieldImplementation)
+
+      const { user } = setup({})
+
+      const addButton = await screen.findByRole('button', { name: 'Add RelatedURLs item' })
+      await user.click(addButton)
+
+      expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+        hasPendingChanges: false
+      }), {})
+    })
+  })
+
+  describe('when an edit is reverted back to its original value', () => {
+    test('passes hasPendingChanges as false once a typed-then-deleted field matches the saved draft again', async () => {
+      // `@rjsf/core` leaves an empty-string property behind (e.g. `Name: ''`)
+      // rather than removing the key entirely, which made the raw draft and
+      // originalDraft objects unequal even though the metadata they represent
+      // is the same.
+      const { user } = setup({})
+
+      const nameField = await screen.findByRole('textbox', { name: 'Name' })
+      await user.type(nameField, 'T')
+      await user.clear(nameField)
+
+      expect(FormNavigation).toHaveBeenLastCalledWith(expect.objectContaining({
+        hasPendingChanges: false
+      }), {})
+    })
+  })
+
+  describe('when JsonPreview sends onApply', () => {
+    beforeEach(() => {
+      JsonPreview.mockImplementation(
+        vi.importActual('@/js/components/JsonPreview/JsonPreview').default
+      )
+    })
+
+    // Swapping in the real JsonPreview above persists for the rest of the file
+    // otherwise (mockImplementation isn't undone by the global `clearMocks`),
+    // which would affect unrelated tests' render-count assertions downstream.
+    afterEach(() => {
+      JsonPreview.mockReset()
+    })
+
+    test('passes hasPendingChanges as true once a JSON edit is applied', async () => {
+      const { user } = setup({})
+
+      await screen.findByRole('textbox', { name: 'Name' })
+
+      await user.click(screen.getByRole('button', { name: 'Edit JSON' }))
+
+      const textarea = screen.getByRole('textbox', { name: 'Editable JSON metadata' })
+      const updatedJson = JSON.stringify({
+        LongName: 'Updated Long Name',
+        MetadataSpecification: {
+          URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.2.0',
+          Name: 'UMM-T',
+          Version: '1.2.0'
+        }
+      }, null, 2)
+
+      fireEvent.change(textarea, { target: { value: updatedJson } })
+
+      await waitFor(() => {
+        expect(screen.queryByText(/Please fix the following errors to continue/i)).not.toBeInTheDocument()
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Continue' }))
+      await user.click(screen.getByRole('button', { name: 'Apply' }))
+
+      expect(FormNavigation).toHaveBeenLastCalledWith(expect.objectContaining({
+        hasPendingChanges: true
+      }), {})
+    })
+  })
+
   describe('when FormNavigation sends onCancel', () => {
     beforeEach(() => {
       FormNavigation.mockImplementation(
@@ -554,14 +780,13 @@ describe('MetadataForm', () => {
         value: 'Test Name'
       })).toBeInTheDocument()
 
-      expect(FormNavigation).toHaveBeenCalledTimes(14)
-      expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+      expect(FormNavigation).toHaveBeenLastCalledWith(expect.objectContaining({
         visitedFields: ['mock-name']
       }), {})
 
       vi.clearAllMocks()
 
-      const cancelButton = screen.getByRole('button', { name: 'Cancel' })
+      const cancelButton = screen.getByRole('button', { name: 'Cancel Pending Changes' })
       await user.click(cancelButton)
 
       expect(await screen.findByRole('textbox', {
@@ -569,8 +794,7 @@ describe('MetadataForm', () => {
         value: ''
       })).toBeInTheDocument()
 
-      expect(FormNavigation).toHaveBeenCalledTimes(1)
-      expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+      expect(FormNavigation).toHaveBeenLastCalledWith(expect.objectContaining({
         visitedFields: []
       }), {})
     })
@@ -681,6 +905,132 @@ describe('MetadataForm', () => {
 
         expect(window.scroll).toHaveBeenCalledTimes(1)
         expect(window.scroll).toHaveBeenCalledWith(0, 0)
+      })
+
+      test('resets hasPendingChanges once the draft is written to the origin draft', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          additionalMocks: [{
+            request: {
+              query: INGEST_DRAFT,
+              variables: {
+                conceptType: 'Tool',
+                metadata: {
+                  LongName: 'Long Name',
+                  MetadataSpecification: {
+                    URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
+                    Name: 'UMM-T',
+                    Version: '1.1'
+                  },
+                  Name: 'Test Name'
+                },
+                nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+                providerId: 'MMT_2',
+                ummVersion: getUmmVersion('Tool')
+              }
+            },
+            result: {
+              data: {
+                ingestDraft: {
+                  conceptId: 'TD1000000-MMT',
+                  revisionId: '3'
+                }
+              }
+            }
+          }]
+        })
+
+        // Make a real, unsaved change so hasPendingChanges is true before saving
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
+        await user.type(nameField, 'Test Name')
+
+        expect(FormNavigation).toHaveBeenCalledWith(expect.objectContaining({
+          hasPendingChanges: true
+        }), {})
+
+        const dropdown = await screen.findByRole('button', { name: 'Save Options' })
+        await user.click(dropdown)
+
+        const button = screen.getByRole('button', { name: 'Save' })
+        await user.click(button)
+
+        await waitFor(() => {
+          expect(navigateSpy).toHaveBeenCalledTimes(1)
+        })
+
+        await waitFor(() => {
+          expect(FormNavigation).toHaveBeenLastCalledWith(expect.objectContaining({
+            hasPendingChanges: false
+          }), {})
+        })
+      })
+
+      test('keeps hasPendingChanges true if the user edits again while the save is still in flight', async () => {
+        const navigateSpy = vi.fn()
+        vi.spyOn(router, 'useNavigate').mockImplementation(() => navigateSpy)
+
+        const { user } = setup({
+          additionalMocks: [{
+            request: {
+              query: INGEST_DRAFT,
+              variables: {
+                conceptType: 'Tool',
+                metadata: {
+                  LongName: 'Long Name',
+                  MetadataSpecification: {
+                    URL: 'https://cdn.earthdata.nasa.gov/umm/tool/v1.1',
+                    Name: 'UMM-T',
+                    Version: '1.1'
+                  },
+                  Name: 'Test Name'
+                },
+                nativeId: 'MMT_2331e312-cbbc-4e56-9d6f-fe217464be2c',
+                providerId: 'MMT_2',
+                ummVersion: getUmmVersion('Tool')
+              }
+            },
+            // Keep the mutation pending for a bit, so a second edit can be made
+            // while handleSave's onCompleted is still awaiting this response.
+            delay: 300,
+            result: {
+              data: {
+                ingestDraft: {
+                  conceptId: 'TD1000000-MMT',
+                  revisionId: '3'
+                }
+              }
+            }
+          }]
+        })
+
+        const nameField = await screen.findByRole('textbox', { name: 'Name' })
+        await user.type(nameField, 'Test Name')
+
+        const dropdown = await screen.findByRole('button', { name: 'Save Options' })
+        await user.click(dropdown)
+
+        const button = screen.getByRole('button', { name: 'Save' })
+        await user.click(button)
+
+        // Edit a different field while the save triggered above is still in flight
+        const entryTitleField = await screen.findByRole('textbox', { name: 'EntryTitle' })
+        await user.type(entryTitleField, 'Z')
+
+        expect(FormNavigation).toHaveBeenLastCalledWith(expect.objectContaining({
+          hasPendingChanges: true
+        }), {})
+
+        await waitFor(() => {
+          expect(navigateSpy).toHaveBeenCalledTimes(1)
+        })
+
+        // The second edit arrived after the save request was submitted, so it's
+        // still genuinely unsaved - hasPendingChanges must not have been cleared.
+        expect(FormNavigation).toHaveBeenLastCalledWith(expect.objectContaining({
+          hasPendingChanges: true
+        }), {})
       })
     })
 

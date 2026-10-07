@@ -1,4 +1,4 @@
-import { kebabCase } from 'lodash-es'
+import { isEqual, kebabCase } from 'lodash-es'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import {
   useNavigate,
@@ -9,7 +9,11 @@ import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Form from '@rjsf/core'
 import pluralize from 'pluralize'
-import React, { useEffect, useState } from 'react'
+import React, {
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import Row from 'react-bootstrap/Row'
 import validator from '@rjsf/validator-ajv8'
 import { v4 as uuidv4 } from 'uuid'
@@ -101,6 +105,22 @@ const MetadataForm = () => {
   const [visitedFields, setVisitedFields] = useState([])
   const [focusField, setFocusField] = useState(null)
   const [searchParams] = useSearchParams()
+
+  // True once the user edits a field (set in handleChange). A ref, not state,
+  // since handleChange's setDraft call already triggers a re-render.
+  const hasFormDataChangedRef = useRef(false)
+
+  // Counts edits. handleSave snapshots it so its completion handler (which runs
+  // later, after the mutation resolves) can detect a newer edit made in the
+  // meantime and skip clearing hasFormDataChangedRef.
+  const editGenerationRef = useRef(0)
+
+  // Compare normalized (empty-property-stripped) copies, since `@rjsf/core`
+  // can leave behind empty properties (e.g. typing into a field, then
+  // deleting it) that make the raw draft and originalDraft objects unequal
+  // even though the metadata they represent is the same.
+  const hasPendingChanges = hasFormDataChangedRef.current
+    && !isEqual(removeEmpty(draft), removeEmpty(originalDraft))
 
   const revisionIdAtIngest = searchParams.get('revisionId') || null
 
@@ -212,6 +232,9 @@ const MetadataForm = () => {
   }
 
   const handleSave = (type) => {
+    // Snapshot the edit count - the user may edit again before this resolves.
+    const submittedGeneration = editGenerationRef.current
+
     // Save the draft
     ingestDraftMutation({
       variables: {
@@ -232,15 +255,19 @@ const MetadataForm = () => {
           longName: ummMetadata.LongName || ummMetadata.EntryTitle
         })
 
-        // Update the name and longname with the ummMetadata
-        setDraft({
-          ...draft,
+        // Functional update so a newer edit (made while this mutation was in
+        // flight) isn't overwritten by the stale `draft` closed over above.
+        setDraft((prevDraft) => ({
+          ...prevDraft,
           name: ummMetadata.Name || ummMetadata.ShortName,
           longName: ummMetadata.LongName || ummMetadata.EntryTitle
-        })
+        }))
 
         // Set savedDraft so the preview page can request the correct version
         setSavedDraft(ingestDraft)
+
+        // Only clear pending-changes if no newer edit arrived mid-save.
+        if (editGenerationRef.current === submittedGeneration) hasFormDataChangedRef.current = false
 
         // Add a success notification
         addNotification({
@@ -315,16 +342,23 @@ const MetadataForm = () => {
   const handleCancel = () => {
     setDraft(originalDraft)
     setVisitedFields([])
+    hasFormDataChangedRef.current = false
   }
 
   // Handle form changes
-  const handleChange = (event) => {
+  const handleChange = (event, id) => {
     const { formData } = event
 
     setDraft({
       ...draft,
       ummMetadata: formData
     })
+
+    // `id` is set only for real edits, not rjsf's own default-filling (e.g. on load).
+    if (id !== undefined) {
+      hasFormDataChangedRef.current = true
+      editGenerationRef.current += 1
+    }
   }
 
   // Handle bluring fields within the form
@@ -333,6 +367,13 @@ const MetadataForm = () => {
       ...visitedFields,
       fieldId
     ])])
+  }
+
+  // Handle JSON edits applied via JsonPreview, which sets the draft directly
+  // instead of going through handleChange
+  const handleJsonApply = () => {
+    hasFormDataChangedRef.current = true
+    editGenerationRef.current += 1
   }
 
   return (
@@ -358,6 +399,7 @@ const MetadataForm = () => {
             <FormNavigation
               draft={ummMetadata}
               formSections={formSections}
+              hasPendingChanges={hasPendingChanges}
               loading={ingestDraftLoading}
               onCancel={handleCancel}
               onSave={handleSave}
@@ -409,7 +451,7 @@ const MetadataForm = () => {
 
       <Row className="json-view">
         <Col sm={8}>
-          <JsonPreview schema={schema} />
+          <JsonPreview onApply={handleJsonApply} schema={schema} />
         </Col>
       </Row>
     </Container>
