@@ -179,11 +179,10 @@ const FormNavigation = ({
         </Dropdown>
 
         <Button
-          className="link-button"
           disabled={!hasPendingChanges || loading}
           onClick={onCancel}
           type="button"
-          variant="link-secondary"
+          variant="primary"
         >
           <FaUndo aria-hidden="true" className="me-2" />
           Cancel Pending Changes
