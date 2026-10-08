@@ -62,6 +62,7 @@ const CollectionSelector = ({ onChange, formData }) => {
     variables: {
       params: {
         provider: providerId,
+        includeNonOperational: true,
         limit: 100
       }
     }
@@ -201,6 +202,7 @@ const CollectionSelector = ({ onChange, formData }) => {
             }
           },
           provider: providerId,
+          includeNonOperational: true,
           shortName: `${inputValue}*`,
           limit: 100
         }

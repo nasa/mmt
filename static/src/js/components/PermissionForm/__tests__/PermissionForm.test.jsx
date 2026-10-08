@@ -217,6 +217,7 @@ describe('PermissionForm', () => {
                 variables: {
                   params: {
                     provider: 'MMT_2',
+                    includeNonOperational: true,
                     limit: 100
                   }
                 }
@@ -1082,7 +1083,8 @@ describe('PermissionForm', () => {
                 variables: {
                   params: {
                     limit: 100,
-                    provider: 'MMT_2'
+                    provider: 'MMT_2',
+                    includeNonOperational: true
                   }
                 }
               },

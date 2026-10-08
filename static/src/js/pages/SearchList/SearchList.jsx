@@ -25,7 +25,6 @@ import { DATE_FORMAT } from '../../constants/dateFormat'
 import conceptTypeQueries from '../../constants/conceptTypeQueries'
 import conceptTypes from '../../constants/conceptTypes'
 import typeParamToHumanizedStringMap from '../../constants/typeParamToHumanizedStringMap'
-import ummCSchema from '../../schemas/umm/ummCSchema'
 
 import Button from '../../components/Button/Button'
 import ControlledPaginatedContent from '../../components/ControlledPaginatedContent/ControlledPaginatedContent'
@@ -74,13 +73,10 @@ const SearchList = ({ limit }) => {
   }
 
   if (formattedType === conceptTypes.Collections) {
-    // Extract CollectionProgressEnum values from the UMM-C schema
-    const collectionProgressEnum = ummCSchema.definitions.CollectionProgressEnum.enum
-
     params = {
       ...params,
       includeTags: '*',
-      collectionProgresses: collectionProgressEnum
+      includeNonOperational: true
     }
   }
 

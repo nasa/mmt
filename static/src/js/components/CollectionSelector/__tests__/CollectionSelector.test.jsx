@@ -40,6 +40,7 @@ const setup = ({
               variables: {
                 params: {
                   provider: 'MMT_2',
+                  includeNonOperational: true,
                   limit: 100
                 }
               }
@@ -242,6 +243,7 @@ describe('CollectionSelector', () => {
               params: {
                 options: { shortName: { pattern: true } },
                 provider: 'MMT_2',
+                includeNonOperational: true,
                 shortName: 'C*',
                 limit: 100
               }
