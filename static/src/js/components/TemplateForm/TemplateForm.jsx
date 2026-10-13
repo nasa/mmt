@@ -401,6 +401,7 @@ const TemplateForm = () => {
                 onSave={handleSave}
                 schema={ummCTemplateSchema}
                 setFocusField={setFocusField}
+                uiSchema={collectionsUiSchema}
                 visitedFields={visitedFields}
               />
             </div>

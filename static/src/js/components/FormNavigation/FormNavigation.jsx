@@ -14,6 +14,7 @@ import saveTypes from '@/js/constants/saveTypes'
 import saveTypesToHumanizedStringMap from '@/js/constants/saveTypesToHumanizedStringMap'
 
 import removeEmpty from '@/js/utils/removeEmpty'
+import toKebabCase from '@/js/utils/toKebabCase'
 
 import ChooseProviderModal from '@/js/components/ChooseProviderModal/ChooseProviderModal'
 import For from '@/js/components/For/For'
@@ -49,8 +50,7 @@ const FormNavigation = ({
   onSave,
   schema,
   setFocusField,
-  // TODO MMT-3479
-  // uiSchema,
+  uiSchema = {},
   visitedFields
 }) => {
   // If the concept id or a template id are undefined, assume a new draft or template is being created
@@ -194,17 +194,14 @@ const FormNavigation = ({
           {
             (section, index) => {
               const { displayName } = section
-
-              // TODO MMT-3479
-              // const ui = uiSchema[kebabCase(displayName)]
-              // const required = ui?.['ui:layout_grid']?.['ui:row'][0]['ui:required'] || false
+              const sectionUiSchema = uiSchema[toKebabCase(displayName)]
+              const required = sectionUiSchema?.['ui:layout_grid']?.['ui:row']?.[0]?.['ui:required'] || false
 
               return (
                 <NavigationItem
                   draft={draft}
                   key={`section_${displayName}_${index}`}
-                  // TODO MMT-3479
-                  // required={required}
+                  required={required}
                   section={section}
                   sectionIndex={index}
                   setFocusField={setFocusField}
@@ -237,7 +234,8 @@ const FormNavigation = ({
 }
 
 FormNavigation.defaultProps = {
-  loading: false
+  loading: false,
+  uiSchema: {}
 }
 
 FormNavigation.propTypes = {
@@ -253,7 +251,8 @@ FormNavigation.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   schema: PropTypes.shape({}).isRequired,
-  setFocusField: PropTypes.func.isRequired
+  setFocusField: PropTypes.func.isRequired,
+  uiSchema: PropTypes.shape({})
 }
 
 export default FormNavigation

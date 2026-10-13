@@ -56,6 +56,7 @@ const setup = ({
     onSave: vi.fn(),
     schema: {},
     setFocusField: vi.fn(),
+    uiSchema: {},
     visitedFields: [],
     ...overrideProps
   }
@@ -87,14 +88,37 @@ const setup = ({
 
 describe('FormNavigation', () => {
   test('renders a NavigationItem component for each form section', () => {
-    const { props } = setup({})
+    const { props } = setup({
+      overrideProps: {
+        formSections: [{
+          displayName: 'Required Section',
+          properties: ['RequiredField']
+        }, {
+          displayName: 'Optional Section',
+          properties: ['OptionalField']
+        }],
+        uiSchema: {
+          'required-section': {
+            'ui:layout_grid': {
+              'ui:row': [{ 'ui:required': true }]
+            }
+          },
+          'optional-section': {
+            'ui:layout_grid': {
+              'ui:row': [{ 'ui:required': false }]
+            }
+          }
+        }
+      }
+    })
 
     expect(NavigationItem).toHaveBeenCalledTimes(2)
     expect(NavigationItem).toHaveBeenCalledWith({
       draft: {},
+      required: true,
       section: {
-        displayName: 'Section 1',
-        properties: ['Field1']
+        displayName: 'Required Section',
+        properties: ['Required Field']
       },
       sectionIndex: 0,
       setFocusField: props.setFocusField,
@@ -104,9 +128,10 @@ describe('FormNavigation', () => {
 
     expect(NavigationItem).toHaveBeenCalledWith({
       draft: {},
+      required: false,
       section: {
-        displayName: 'Section 2',
-        properties: ['Field2']
+        displayName: 'Optional Section',
+        properties: ['Optional Field']
       },
       sectionIndex: 1,
       setFocusField: props.setFocusField,

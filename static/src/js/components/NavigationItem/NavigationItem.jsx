@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import ListGroup from 'react-bootstrap/ListGroup'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 import { useNavigate, useParams } from 'react-router'
 import classNames from 'classnames'
 import { cloneDeep } from 'lodash-es'
@@ -38,8 +40,7 @@ import './NavigationItem.scss'
  */
 const NavigationItem = ({
   draft,
-  // TODO MMT-3479
-  // required,
+  required,
   section,
   sectionIndex,
   setFocusField,
@@ -193,12 +194,28 @@ const NavigationItem = ({
             }
           />
           <span>{displayName}</span>
-          {/* // TODO MMT-3479 */}
-          {/* {
+          {
             required && (
-              <i className="eui-icon eui-required-o required-icon text-success ms-1" />
+              <OverlayTrigger
+                overlay={
+                  (
+                    <Tooltip id={`required-${toKebabCase(displayName)}-tooltip`}>
+                      Required
+                    </Tooltip>
+                  )
+                }
+                placement="top"
+                trigger={['hover', 'focus']}
+              >
+                <i
+                  aria-label="Required"
+                  className="eui-icon eui-required-o required-icon text-success ms-1"
+                  role="img"
+                  title="Required"
+                />
+              </OverlayTrigger>
             )
-          } */}
+          }
         </span>
         {
           (isSectionDisplayed && errors.length > 0) && (
@@ -225,11 +242,13 @@ const NavigationItem = ({
 }
 
 NavigationItem.defaultProps = {
+  required: false,
   validationErrors: []
 }
 
 NavigationItem.propTypes = {
   draft: PropTypes.shape({}).isRequired,
+  required: PropTypes.bool,
   section: PropTypes.shape({
     displayName: PropTypes.string,
     properties: PropTypes.arrayOf(
