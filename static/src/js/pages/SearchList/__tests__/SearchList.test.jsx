@@ -13,6 +13,10 @@ import {
 } from 'react-router'
 import userEvent from '@testing-library/user-event'
 
+import CollectionSelectionContextProvider from '@/js/providers/CollectionSelectionContextProvider/CollectionSelectionContextProvider'
+import NotificationsContextProvider from '@/js/providers/NotificationsContextProvider/NotificationsContextProvider'
+import Notifications from '@/js/components/Notifications/Notifications'
+
 import {
   multiPageCollectionSearchPage1,
   multiPageCollectionSearchPage1Asc,
@@ -50,22 +54,27 @@ const setup = (overrideMocks, overrideProps, overrideInitialEntries) => {
       <MockedProvider
         mocks={overrideMocks || mocks}
       >
-        <Routes>
-          <Route
-            path="/:type"
-            element={
-              (
-                <Suspense fallback="Loading...">
-                  <SearchList {...props} />
-                </Suspense>
-              )
-            }
-          />
-          <Route
-            path="/404"
-            element={<div>404 page</div>}
-          />
-        </Routes>
+        <NotificationsContextProvider>
+          <CollectionSelectionContextProvider>
+            <Routes>
+              <Route
+                path="/:type"
+                element={
+                  (
+                    <Suspense fallback="Loading...">
+                      <SearchList {...props} />
+                    </Suspense>
+                  )
+                }
+              />
+              <Route
+                path="/404"
+                element={<div>404 page</div>}
+              />
+            </Routes>
+            <Notifications />
+          </CollectionSelectionContextProvider>
+        </NotificationsContextProvider>
       </MockedProvider>
     </MemoryRouter>
   )
@@ -91,13 +100,17 @@ describe('SearchPage component', () => {
 
         expect(tableRows.length).toEqual(3)
 
-        expect(within(table).getAllByRole('columnheader')[0].textContent).toContain('Short Name')
-        expect(within(table).getAllByRole('columnheader')[1].textContent).toContain('Version')
-        expect(within(table).getAllByRole('columnheader')[2].textContent).toContain('Entry Title')
-        expect(within(table).getAllByRole('columnheader')[3].textContent).toContain('Provider')
-        expect(within(table).getAllByRole('columnheader')[4].textContent).toContain('Granule Count')
-        expect(within(table).getAllByRole('columnheader')[5].textContent).toContain('Tags')
-        expect(within(table).getAllByRole('columnheader')[6].textContent).toContain('Last Modified')
+        expect(
+          within(within(table).getAllByRole('columnheader')[0]).getByRole('checkbox')
+        ).toBeInTheDocument()
+
+        expect(within(table).getAllByRole('columnheader')[1].textContent).toContain('Short Name')
+        expect(within(table).getAllByRole('columnheader')[2].textContent).toContain('Version')
+        expect(within(table).getAllByRole('columnheader')[3].textContent).toContain('Entry Title')
+        expect(within(table).getAllByRole('columnheader')[4].textContent).toContain('Provider')
+        expect(within(table).getAllByRole('columnheader')[5].textContent).toContain('Granule Count')
+        expect(within(table).getAllByRole('columnheader')[6].textContent).toContain('Tags')
+        expect(within(table).getAllByRole('columnheader')[7].textContent).toContain('Last Modified')
       })
     })
 
@@ -114,25 +127,25 @@ describe('SearchPage component', () => {
         const row1 = tableRows[1]
         const row1Cells = within(row1).queryAllByRole('cell')
 
-        expect(row1Cells).toHaveLength(7)
-        expect(row1Cells[0].textContent).toBe('Collection Short Name 1')
-        expect(row1Cells[1].textContent).toBe('1')
-        expect(row1Cells[2].textContent).toBe('Collection Title 1')
-        expect(row1Cells[3].textContent).toBe('TESTPROV')
-        expect(row1Cells[4].textContent).toBe('1000')
-        expect(row1Cells[5].textContent).toBe('1')
-        expect(row1Cells[6].textContent).toBe('Thursday, November 30, 2023 12:00 AM')
+        expect(row1Cells).toHaveLength(8)
+        expect(row1Cells[1].textContent).toBe('Collection Short Name 1')
+        expect(row1Cells[2].textContent).toBe('1')
+        expect(row1Cells[3].textContent).toBe('Collection Title 1')
+        expect(row1Cells[4].textContent).toBe('TESTPROV')
+        expect(row1Cells[5].textContent).toBe('1000')
+        expect(row1Cells[6].textContent).toBe('1')
+        expect(row1Cells[7].textContent).toBe('Thursday, November 30, 2023 12:00 AM')
 
         const row2 = tableRows[2]
         const row2Cells = within(row2).queryAllByRole('cell')
 
-        expect(row2Cells).toHaveLength(7)
-        expect(row2Cells[0].textContent).toBe('Collection Short Name 2')
-        expect(row2Cells[1].textContent).toBe('2')
-        expect(row2Cells[2].textContent).toBe('Collection Title 2')
-        expect(row2Cells[3].textContent).toBe('MMT')
-        expect(row2Cells[4].textContent).toBe('1234')
-        expect(row2Cells[5].textContent).toBe('1')
+        expect(row2Cells).toHaveLength(8)
+        expect(row2Cells[1].textContent).toBe('Collection Short Name 2')
+        expect(row2Cells[2].textContent).toBe('2')
+        expect(row2Cells[3].textContent).toBe('Collection Title 2')
+        expect(row2Cells[4].textContent).toBe('MMT')
+        expect(row2Cells[5].textContent).toBe('1234')
+        expect(row2Cells[6].textContent).toBe('1')
       })
     })
 
@@ -150,7 +163,7 @@ describe('SearchPage component', () => {
 
         const row1Cells = within(tableRows[1]).queryAllByRole('cell')
 
-        const button = within(row1Cells[5]).queryByRole('button', { name: '1' })
+        const button = within(row1Cells[6]).queryByRole('button', { name: '1' })
 
         await user.click(button)
 
@@ -179,7 +192,7 @@ describe('SearchPage component', () => {
 
         const row1Cells = within(tableRows[1]).queryAllByRole('cell')
 
-        const button = within(row1Cells[5]).queryByRole('button', { name: '1' })
+        const button = within(row1Cells[6]).queryByRole('button', { name: '1' })
 
         await user.click(button)
 
@@ -234,7 +247,7 @@ describe('SearchPage component', () => {
         await user.click(paginationButton)
 
         await waitFor(() => {
-          expect(screen.getAllByRole('cell')[0].textContent).toContain('Collection Short Name 4')
+          expect(screen.getAllByRole('cell')[1].textContent).toContain('Collection Short Name 4')
         })
 
         expect(within(paginationNavigation).getByLabelText('Current Page, Page 2')).toBeInTheDocument()
@@ -295,7 +308,7 @@ describe('SearchPage component', () => {
 
       expect(tableRows.length).toEqual(4)
 
-      const shortNameHeader = within(table).getAllByRole('columnheader')[0]
+      const shortNameHeader = within(table).getAllByRole('columnheader')[1]
 
       const descendingButton = within(shortNameHeader).getByRole('button', { name: /Sort Short Name in descending order/ })
 
@@ -303,7 +316,7 @@ describe('SearchPage component', () => {
 
       const dataRow1 = await within(table).findAllByRole('row')
 
-      expect(within(dataRow1[1]).getAllByRole('cell')[0].textContent).toContain('Collection Short Name 1')
+      expect(within(dataRow1[1]).getAllByRole('cell')[1].textContent).toContain('Collection Short Name 1')
 
       await waitFor(() => {
         expect(within(shortNameHeader).getByRole('button', { name: /Sort Short Name in descending order/ })).not.toHaveClass('table__sort-button--inactive')
@@ -329,7 +342,7 @@ describe('SearchPage component', () => {
 
       expect(tableRows.length).toEqual(4)
 
-      const entryTitleHeader = within(table).getAllByRole('columnheader')[2]
+      const entryTitleHeader = within(table).getAllByRole('columnheader')[3]
 
       const descendingButton = within(entryTitleHeader).getByRole('button', { name: /Sort Entry Title in ascending order/ })
 
@@ -337,7 +350,7 @@ describe('SearchPage component', () => {
 
       await waitFor(() => {
         const dataRow1 = within(table).getAllByRole('row')
-        expect(within(dataRow1[1]).getAllByRole('cell')[2].textContent).toContain('Collection Title 3')
+        expect(within(dataRow1[1]).getAllByRole('cell')[3].textContent).toContain('Collection Title 3')
       })
 
       await waitFor(() => {
@@ -543,6 +556,124 @@ describe('SearchPage component', () => {
 
     test('renders the search query', async () => {
       expect(await screen.findByText('1 tool for: Provider “TESTPROV”')).toBeInTheDocument()
+    })
+  })
+
+  describe('when selecting collection checkboxes', () => {
+    test('toggles the checkbox selection state', async () => {
+      const { user } = setup()
+
+      const table = await screen.findByRole('table')
+      const tableRows = within(table).getAllByRole('row')
+      const row1Checkbox = within(tableRows[1]).getByRole('checkbox')
+
+      expect(row1Checkbox).not.toBeChecked()
+
+      await user.click(row1Checkbox)
+
+      expect(row1Checkbox).toBeChecked()
+
+      await user.click(row1Checkbox)
+
+      expect(row1Checkbox).not.toBeChecked()
+    })
+
+    test('refuses the selection and shows an error notification when selecting a collection from a different provider', async () => {
+      const { user } = setup()
+
+      const table = await screen.findByRole('table')
+      const tableRows = within(table).getAllByRole('row')
+
+      // Collection 1 belongs to TESTPROV, Collection 2 belongs to MMT
+      const row1Checkbox = within(tableRows[1]).getByRole('checkbox')
+      const row2Checkbox = within(tableRows[2]).getByRole('checkbox')
+
+      await user.click(row1Checkbox)
+
+      expect(row1Checkbox).toBeChecked()
+
+      await user.click(row2Checkbox)
+
+      expect(row2Checkbox).not.toBeChecked()
+      expect(row1Checkbox).toBeChecked()
+
+      expect(
+        await screen.findByText(/Bulk actions can only include collections from a single provider/)
+      ).toBeInTheDocument()
+    })
+
+    test('allows selecting a collection from a different provider after clearing the selection', async () => {
+      const { user } = setup()
+
+      const table = await screen.findByRole('table')
+      const tableRows = within(table).getAllByRole('row')
+
+      const row1Checkbox = within(tableRows[1]).getByRole('checkbox')
+      const row2Checkbox = within(tableRows[2]).getByRole('checkbox')
+
+      await user.click(row1Checkbox)
+      await user.click(row1Checkbox)
+
+      expect(row1Checkbox).not.toBeChecked()
+
+      await user.click(row2Checkbox)
+
+      expect(row2Checkbox).toBeChecked()
+    })
+  })
+
+  describe('when selecting all collections on the page', () => {
+    test('selects every row sharing the first row\'s provider, skips the rest, and shows a notification', async () => {
+      const { user } = setup()
+
+      const table = await screen.findByRole('table')
+      const headerCheckbox = within(
+        within(table).getAllByRole('columnheader')[0]
+      ).getByRole('checkbox')
+
+      await user.click(headerCheckbox)
+
+      const tableRows = within(table).getAllByRole('row')
+
+      // Collection 1 belongs to TESTPROV, Collection 2 belongs to MMT
+      const row1Checkbox = within(tableRows[1]).getByRole('checkbox')
+      const row2Checkbox = within(tableRows[2]).getByRole('checkbox')
+
+      expect(row1Checkbox).toBeChecked()
+      expect(row2Checkbox).not.toBeChecked()
+
+      expect(
+        await screen.findByText(/Bulk actions can only include collections from a single provider/)
+      ).toBeInTheDocument()
+    })
+
+    describe('when every row on the page shares the same provider', () => {
+      test('selects all of them, and toggling the header checkbox again clears the page selection', async () => {
+        const sameProviderMock = JSON.parse(JSON.stringify(singlePageCollectionSearch))
+        sameProviderMock.result.data.collections.items[1].provider = 'TESTPROV'
+
+        const { user } = setup([sameProviderMock])
+
+        const table = await screen.findByRole('table')
+        const headerCheckbox = within(
+          within(table).getAllByRole('columnheader')[0]
+        ).getByRole('checkbox')
+
+        await user.click(headerCheckbox)
+
+        const tableRows = within(table).getAllByRole('row')
+        const row1Checkbox = within(tableRows[1]).getByRole('checkbox')
+        const row2Checkbox = within(tableRows[2]).getByRole('checkbox')
+
+        expect(row1Checkbox).toBeChecked()
+        expect(row2Checkbox).toBeChecked()
+        expect(headerCheckbox).toBeChecked()
+
+        await user.click(headerCheckbox)
+
+        expect(row1Checkbox).not.toBeChecked()
+        expect(row2Checkbox).not.toBeChecked()
+      })
     })
   })
 

@@ -12,11 +12,13 @@ import usePermissions from '@/js/hooks/usePermissions'
 import AuthContext from '@/js/context/AuthContext'
 import userEvent from '@testing-library/user-event'
 import Layout from '../Layout'
+import CollectionSelectionBar from '../../CollectionSelectionBar/CollectionSelectionBar'
 import PrimaryNavigation from '../../PrimaryNavigation/PrimaryNavigation'
 
 import * as getConfig from '../../../../../../sharedUtils/getConfig'
 
 vi.mock('@/js/hooks/usePermissions')
+vi.mock('../../CollectionSelectionBar/CollectionSelectionBar')
 vi.mock('../../Footer/Footer')
 vi.mock('../../Header/Header')
 vi.mock('../../PrimaryNavigation/PrimaryNavigation')
@@ -132,6 +134,8 @@ describe('Layout component', () => {
       systemGroup: ['read'],
       systemKeywords: ['read']
     })
+
+    expect(CollectionSelectionBar).toHaveBeenCalledTimes(1)
 
     expect(PrimaryNavigation).toHaveBeenCalledTimes(1)
     expect(PrimaryNavigation).toHaveBeenCalledWith({

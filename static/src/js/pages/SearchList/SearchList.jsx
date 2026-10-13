@@ -6,11 +6,7 @@ import Row from 'react-bootstrap/Row'
 import moment from 'moment'
 import pluralize from 'pluralize'
 import PropTypes from 'prop-types'
-import React, {
-  useCallback,
-  useEffect,
-  useState
-} from 'react'
+import React, { useCallback, useState } from 'react'
 import {
   Navigate,
   useParams,
@@ -32,7 +28,11 @@ import CustomModal from '../../components/CustomModal/CustomModal'
 import EllipsisLink from '../../components/EllipsisLink/EllipsisLink'
 import EllipsisText from '../../components/EllipsisText/EllipsisText'
 import For from '../../components/For/For'
+import SelectAllCheckbox from '../../components/SelectAllCheckbox/SelectAllCheckbox'
 import Table from '../../components/Table/Table'
+
+import useCollectionSelectionContext from '../../hooks/useCollectionSelectionContext'
+import useNotificationsContext from '../../hooks/useNotificationsContext'
 
 import getTagCount from '../../utils/getTagCount'
 
@@ -49,6 +49,16 @@ const SearchList = ({ limit }) => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [showTagModal, setShowTagModal] = useState(false)
   const [tagModalActiveCollection, setTagModalActiveCollection] = useState(null)
+
+  const {
+    deselectCollections,
+    selectCollections,
+    selectedCollections,
+    selectedProvider,
+    toggleCollectionSelection
+  } = useCollectionSelectionContext()
+
+  const { addNotification } = useNotificationsContext()
 
   const { type: conceptType } = useParams()
   const keywordParam = searchParams.get('keyword')
@@ -109,6 +119,39 @@ const SearchList = ({ limit }) => {
   const { [conceptType]: concept } = data
   const { count, items } = concept
 
+  const pageConceptIds = items?.map(({ conceptId }) => conceptId) ?? []
+  const selectedOnPageCount = pageConceptIds.filter(
+    (conceptId) => selectedCollections.includes(conceptId)
+  ).length
+  const allOnPageSelected = pageConceptIds.length > 0
+    && selectedOnPageCount === pageConceptIds.length
+  const someOnPageSelected = selectedOnPageCount > 0 && !allOnPageSelected
+
+  const handleSelectAllChange = () => {
+    if (allOnPageSelected) {
+      deselectCollections(pageConceptIds)
+
+      return
+    }
+
+    const lockedProvider = selectedProvider || items[0]?.provider
+    const skippedCount = items.filter(({ provider }) => provider !== lockedProvider).length
+
+    selectCollections(items.map(({ conceptId, provider }) => (
+      {
+        conceptId,
+        provider
+      }
+    )))
+
+    if (skippedCount > 0) {
+      addNotification({
+        message: `Bulk actions can only include collections from a single provider. ${skippedCount} ${pluralize('collection', skippedCount)} from other providers on this page ${skippedCount === 1 ? 'was' : 'were'} not selected.`,
+        variant: 'danger'
+      })
+    }
+  }
+
   const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
     const { conceptId } = rowData
 
@@ -118,6 +161,34 @@ const SearchList = ({ limit }) => {
       </EllipsisLink>
     )
   }, [conceptType])
+
+  const buildCheckboxCell = useCallback((cellData, rowData) => {
+    const { conceptId, provider } = rowData
+    const isSelected = selectedCollections.includes(conceptId)
+
+    const handleChange = () => {
+      if (!isSelected && selectedProvider && selectedProvider !== provider) {
+        addNotification({
+          message: `Bulk actions can only include collections from a single provider. Clear your current selection of ${selectedProvider} collections before selecting a collection from ${provider}.`,
+          variant: 'danger'
+        })
+
+        return
+      }
+
+      toggleCollectionSelection(conceptId, provider)
+    }
+
+    return (
+      <input
+        aria-label={`Select collection ${conceptId}`}
+        checked={isSelected}
+        className="form-check-input"
+        onChange={handleChange}
+        type="checkbox"
+      />
+    )
+  }, [addNotification, selectedCollections, selectedProvider, toggleCollectionSelection])
 
   const buildEllipsisTextCell = useCallback((cellData) => (
     <EllipsisText>
@@ -165,6 +236,20 @@ const SearchList = ({ limit }) => {
   const getColumnState = () => {
     if (formattedType === conceptTypes.Collections) {
       return [
+        {
+          align: 'center',
+          className: 'col-auto',
+          dataAccessorFn: buildCheckboxCell,
+          dataKey: 'conceptId',
+          title: (
+            <SelectAllCheckbox
+              ariaLabel="Select all collections on this page"
+              checked={allOnPageSelected}
+              indeterminate={someOnPageSelected}
+              onChange={handleSelectAllChange}
+            />
+          )
+        },
         {
           className: 'col-auto',
           dataAccessorFn: buildEllipsisLinkCell,
@@ -277,11 +362,7 @@ const SearchList = ({ limit }) => {
     ]
   }
 
-  const [columns, setColumns] = useState(getColumnState())
-
-  useEffect(() => {
-    setColumns(getColumnState())
-  }, [conceptType])
+  const columns = getColumnState()
 
   const activeTagModalCollection = items?.find((item) => (
     item.conceptId === tagModalActiveCollection

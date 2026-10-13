@@ -22,6 +22,7 @@ import usePermissions from '@/js/hooks/usePermissions'
 import { getApplicationConfig, getUmmVersionsConfig } from 'sharedUtils/getConfig'
 
 import Button from '../Button/Button'
+import CollectionSelectionBar from '../CollectionSelectionBar/CollectionSelectionBar'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import PrimaryNavigation from '../PrimaryNavigation/PrimaryNavigation'
 import AboutModal from '../AboutModal/AboutModal'
@@ -327,6 +328,7 @@ const Layout = ({ className, displayNav }) => {
         </ErrorBoundary>
       </div>
       <AboutModal show={showAboutModal} toggleModal={(state) => { setShowAboutModal(state) }} />
+      <CollectionSelectionBar />
     </>
   )
 }
