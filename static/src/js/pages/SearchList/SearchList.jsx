@@ -118,8 +118,9 @@ const SearchList = ({ limit }) => {
 
   const { [conceptType]: concept } = data
   const { count, items } = concept
+  const pageItems = items ?? []
 
-  const selectablePageConceptIds = (items ?? [])
+  const selectablePageConceptIds = pageItems
     .filter(({ provider }) => !selectedProvider || provider === selectedProvider)
     .map(({ conceptId }) => conceptId)
   const selectedOnPageCount = selectablePageConceptIds.filter(
@@ -136,10 +137,10 @@ const SearchList = ({ limit }) => {
       return
     }
 
-    const lockedProvider = selectedProvider || items[0]?.provider
-    const skippedCount = items.filter(({ provider }) => provider !== lockedProvider).length
+    const lockedProvider = selectedProvider || pageItems[0]?.provider
+    const skippedCount = pageItems.filter(({ provider }) => provider !== lockedProvider).length
 
-    selectCollections(items.map(({ conceptId, provider }) => (
+    selectCollections(pageItems.map(({ conceptId, provider }) => (
       {
         conceptId,
         provider
