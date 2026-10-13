@@ -119,17 +119,19 @@ const SearchList = ({ limit }) => {
   const { [conceptType]: concept } = data
   const { count, items } = concept
 
-  const pageConceptIds = items?.map(({ conceptId }) => conceptId) ?? []
-  const selectedOnPageCount = pageConceptIds.filter(
+  const selectablePageConceptIds = (items ?? [])
+    .filter(({ provider }) => !selectedProvider || provider === selectedProvider)
+    .map(({ conceptId }) => conceptId)
+  const selectedOnPageCount = selectablePageConceptIds.filter(
     (conceptId) => selectedCollections.includes(conceptId)
   ).length
-  const allOnPageSelected = pageConceptIds.length > 0
-    && selectedOnPageCount === pageConceptIds.length
+  const allOnPageSelected = selectablePageConceptIds.length > 0
+    && selectedOnPageCount === selectablePageConceptIds.length
   const someOnPageSelected = selectedOnPageCount > 0 && !allOnPageSelected
 
   const handleSelectAllChange = () => {
     if (allOnPageSelected) {
-      deselectCollections(pageConceptIds)
+      deselectCollections(selectablePageConceptIds)
 
       return
     }

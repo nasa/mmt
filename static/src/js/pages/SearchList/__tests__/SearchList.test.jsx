@@ -642,9 +642,20 @@ describe('SearchPage component', () => {
       expect(row1Checkbox).toBeChecked()
       expect(row2Checkbox).not.toBeChecked()
 
+      // Every *selectable* row (TESTPROV) is now checked, even though the page also
+      // contains an unselectable MMT row, so the header checkbox should read as fully
+      // checked rather than indeterminate
+      expect(headerCheckbox).toBeChecked()
+
       expect(
         await screen.findByText(/Bulk actions can only include collections from a single provider/)
       ).toBeInTheDocument()
+
+      // Clicking again should deselect only the selectable (TESTPROV) row
+      await user.click(headerCheckbox)
+
+      expect(row1Checkbox).not.toBeChecked()
+      expect(row2Checkbox).not.toBeChecked()
     })
 
     describe('when every row on the page shares the same provider', () => {
