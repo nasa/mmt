@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import ListGroup from 'react-bootstrap/ListGroup'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Tooltip from 'react-bootstrap/Tooltip'
 import { useNavigate, useParams } from 'react-router'
 import classNames from 'classnames'
 import { cloneDeep } from 'lodash-es'
@@ -196,24 +194,12 @@ const NavigationItem = ({
           <span>{displayName}</span>
           {
             required && (
-              <OverlayTrigger
-                overlay={
-                  (
-                    <Tooltip id={`required-${toKebabCase(displayName)}-tooltip`}>
-                      Required
-                    </Tooltip>
-                  )
-                }
-                placement="top"
-                trigger={['hover', 'focus']}
-              >
-                <i
-                  aria-label="Required"
-                  className="eui-icon eui-required-o required-icon text-success ms-1"
-                  role="img"
-                  title="Required"
-                />
-              </OverlayTrigger>
+              <i
+                aria-label="Required"
+                className="eui-icon eui-required-o required-icon text-success ms-1"
+                role="img"
+                title="Required"
+              />
             )
           }
         </span>

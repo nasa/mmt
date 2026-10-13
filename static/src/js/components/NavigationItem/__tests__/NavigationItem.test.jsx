@@ -79,8 +79,8 @@ describe('NavigationItem', () => {
   })
 
   describe('when the section is required', () => {
-    test('displays an accessible required symbol with a tooltip on hover', async () => {
-      const { user } = setup({
+    test('displays an accessible required symbol', async () => {
+      setup({
         overrideProps: {
           required: true
         }
@@ -89,10 +89,6 @@ describe('NavigationItem', () => {
       const requiredIcon = screen.getByRole('img', { name: 'Required' })
 
       expect(requiredIcon).toHaveClass('eui-required-o')
-
-      await user.hover(requiredIcon)
-
-      expect(await screen.findByRole('tooltip')).toHaveTextContent('Required')
     })
   })
 
