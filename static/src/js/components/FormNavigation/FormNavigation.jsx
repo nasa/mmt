@@ -235,7 +235,7 @@ const FormNavigation = ({
 
 FormNavigation.defaultProps = {
   loading: false,
-  uiSchema: {}
+  uiSchema: undefined
 }
 
 FormNavigation.propTypes = {

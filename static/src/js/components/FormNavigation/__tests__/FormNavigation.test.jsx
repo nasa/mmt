@@ -56,7 +56,6 @@ const setup = ({
     onSave: vi.fn(),
     schema: {},
     setFocusField: vi.fn(),
-    uiSchema: {},
     visitedFields: [],
     ...overrideProps
   }
@@ -138,6 +137,28 @@ describe('FormNavigation', () => {
       validationErrors: [],
       visitedFields: []
     }, {})
+  })
+
+  test('treats sections as optional when no UI schema is provided', () => {
+    const { props } = setup({})
+
+    expect(NavigationItem).toHaveBeenCalledTimes(2)
+    expect(NavigationItem).toHaveBeenCalledWith(expect.objectContaining({
+      required: false,
+      section: {
+        displayName: 'Section 1',
+        properties: ['Field1']
+      },
+      setFocusField: props.setFocusField
+    }), {})
+    expect(NavigationItem).toHaveBeenCalledWith(expect.objectContaining({
+      required: false,
+      section: {
+        displayName: 'Section 2',
+        properties: ['Field2']
+      },
+      setFocusField: props.setFocusField
+    }), {})
   })
 
   describe('when the loading prop is true', () => {
