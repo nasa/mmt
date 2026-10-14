@@ -2,6 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
+  Link,
   MemoryRouter,
   Route,
   Routes
@@ -27,24 +28,26 @@ const MockSelector = () => {
 const setup = () => {
   const user = userEvent.setup()
 
+  // Mirrors production: CollectionSelectionBar is rendered once at the layout level
+  // (Layout.jsx), outside the routed page content, so it stays mounted across navigation.
   render(
     <MemoryRouter initialEntries={['/collections']}>
       <CollectionSelectionContextProvider>
+        <MockSelector />
+        <Link to="/variables">Go to variables</Link>
+        <CollectionSelectionBar />
         <Routes>
           <Route
             path="/collections"
-            element={
-              (
-                <>
-                  <MockSelector />
-                  <CollectionSelectionBar />
-                </>
-              )
-            }
+            element={<div>Collections page</div>}
           />
           <Route
             path="/collections/bulk-actions/configure"
             element={<div>Bulk actions configure page</div>}
+          />
+          <Route
+            path="/variables"
+            element={<div>Variables page</div>}
           />
         </Routes>
       </CollectionSelectionContextProvider>
@@ -96,6 +99,23 @@ describe('CollectionSelectionBar component', () => {
 
           expect(screen.getByText(/1 collection selected from TESTPROV/)).toBeInTheDocument()
           expect(screen.getByRole('button', { name: 'Clear' })).toBeInTheDocument()
+          expect(screen.queryByRole('button', { name: 'Undo' })).not.toBeInTheDocument()
+        })
+      })
+
+      describe('when navigating away', () => {
+        test('dismisses the Undo option instead of leaving it stuck on screen', async () => {
+          const { user } = setup()
+
+          await user.click(screen.getByRole('button', { name: 'Select collection' }))
+          await user.click(screen.getByRole('button', { name: 'Clear' }))
+
+          expect(screen.getByRole('button', { name: 'Undo' })).toBeInTheDocument()
+
+          await user.click(screen.getByRole('link', { name: 'Go to variables' }))
+
+          expect(await screen.findByText('Variables page')).toBeInTheDocument()
+          expect(screen.queryByText('Selection cleared')).not.toBeInTheDocument()
           expect(screen.queryByRole('button', { name: 'Undo' })).not.toBeInTheDocument()
         })
       })

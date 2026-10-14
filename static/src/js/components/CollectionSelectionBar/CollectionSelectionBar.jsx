@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
 import pluralize from 'pluralize'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 
 import Button from '../Button/Button'
 
@@ -16,7 +16,9 @@ import './CollectionSelectionBar.scss'
  * Displays a sticky bar at the bottom of the page when one or more collections are
  * selected. The selection persists across pages and searches via CollectionSelectionContext.
  * Clearing the selection briefly replaces the bar with an "Undo" option in case the user
- * clicked Clear by mistake.
+ * clicked Clear by mistake. The Undo option is dismissed as soon as the user navigates
+ * anywhere, since this component stays mounted across route changes (it's rendered once
+ * in Layout.jsx) and the undo window is only meant to cover an immediate misclick.
  *
  * @component
  * @example <caption>Renders a `CollectionSelectionBar` component</caption>
@@ -25,9 +27,14 @@ import './CollectionSelectionBar.scss'
  * )
  */
 const CollectionSelectionBar = () => {
+  const location = useLocation()
   const navigate = useNavigate()
 
   const [lastClearedCollections, setLastClearedCollections] = useState(null)
+
+  useEffect(() => {
+    setLastClearedCollections(null)
+  }, [location.pathname])
 
   const {
     clearCollectionSelections,
@@ -101,14 +108,7 @@ const CollectionSelectionBar = () => {
             Clear
           </Button>
           <Button
-            onClick={
-              () => {
-                // eslint-disable-next-line no-console
-                console.log('Continue to bulk actions configure', selectedCollections)
-                console.log('Provider', selectedProvider)
-                navigate('/collections/bulk-actions/configure')
-              }
-            }
+            onClick={() => navigate('/collections/bulk-actions/configure')}
             variant="primary"
           >
             Continue
