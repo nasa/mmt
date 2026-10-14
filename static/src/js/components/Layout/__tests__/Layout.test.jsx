@@ -135,8 +135,6 @@ describe('Layout component', () => {
       systemKeywords: ['read']
     })
 
-    expect(CollectionSelectionBar).toHaveBeenCalledTimes(1)
-
     expect(PrimaryNavigation).toHaveBeenCalledTimes(1)
     expect(PrimaryNavigation).toHaveBeenCalledWith({
       items: [
@@ -503,6 +501,30 @@ describe('Layout component', () => {
 
       setup()
       expect(screen.getByText('DEV')).toBeInTheDocument()
+    })
+  })
+
+  describe('when bulk update is disabled', () => {
+    test('does not render the CollectionSelectionBar', () => {
+      vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+        bulkUpdateEnabled: 'false'
+      }))
+
+      setup()
+
+      expect(CollectionSelectionBar).toHaveBeenCalledTimes(0)
+    })
+  })
+
+  describe('when bulk update is enabled', () => {
+    test('renders the CollectionSelectionBar', () => {
+      vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+        bulkUpdateEnabled: 'true'
+      }))
+
+      setup()
+
+      expect(CollectionSelectionBar).toHaveBeenCalledTimes(1)
     })
   })
 })

@@ -18,6 +18,7 @@
     "cookieDomain": ".localhost",
     "tokenValidTime": "900",
     "displayProdWarning": "true",
+    "bulkUpdateEnabled": "false",
     "analytics": {
       "gtmPropertyId": "",
       "localIdentifier": {

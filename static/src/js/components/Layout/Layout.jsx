@@ -50,7 +50,7 @@ const Layout = ({ className, displayNav }) => {
     ummVis
   } = getUmmVersionsConfig()
 
-  const { displayProdWarning, env } = getApplicationConfig()
+  const { bulkUpdateEnabled, displayProdWarning, env } = getApplicationConfig()
   const { user } = useAuthContext()
 
   const { hasSystemGroup, hasSystemKeywords, loading } = usePermissions({
@@ -328,7 +328,7 @@ const Layout = ({ className, displayNav }) => {
         </ErrorBoundary>
       </div>
       <AboutModal show={showAboutModal} toggleModal={(state) => { setShowAboutModal(state) }} />
-      <CollectionSelectionBar />
+      {bulkUpdateEnabled === 'true' && <CollectionSelectionBar />}
     </>
   )
 }

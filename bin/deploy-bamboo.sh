@@ -25,6 +25,7 @@ config="`jq '.application.kmsHost = $newValue' --arg newValue $bamboo_KMS_HOST <
 config="`jq '.application.mmtKeywordManagerClientId = $newValue' --arg newValue "mmt-keyword-manager-$bamboo_STAGE_NAME" <<< $config`"
 config="`jq '.application.cookieDomain = $newValue' --arg newValue $bamboo_COOKIE_DOMAIN <<< $config`"
 config="`jq '.application.displayProdWarning = $newValue' --arg newValue $bamboo_DISPLAY_PROD_WARNING <<< $config`"
+config="`jq '.application.bulkUpdateEnabled = $newValue' --arg newValue $bamboo_BULK_UPDATE_ENABLED <<< $config`"
 config="`jq '.application.tokenValidTime = $newValue' --arg newValue $bamboo_JWT_VALID_TIME <<< $config`"
 config="`jq '.application.analytics.gtmPropertyId = $newValue' --arg newValue $bamboo_GTM_PROPERTY_ID <<< $config`"
 config="`jq '.application.conceptsResultLimit = $newValue' --arg newValue $bamboo_CONCEPTS_RESULT_LIMIT <<< $config`"

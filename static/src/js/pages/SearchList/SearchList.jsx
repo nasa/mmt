@@ -15,6 +15,8 @@ import {
 
 import { useSuspenseQuery } from '@apollo/client'
 
+import { getApplicationConfig } from 'sharedUtils/getConfig'
+
 import handleSort from '@/js/utils/handleSort'
 
 import { DATE_FORMAT } from '../../constants/dateFormat'
@@ -46,6 +48,8 @@ import getTagCount from '../../utils/getTagCount'
  * )
  */
 const SearchList = ({ limit }) => {
+  const { bulkUpdateEnabled } = getApplicationConfig()
+
   const [searchParams, setSearchParams] = useSearchParams()
   const [showTagModal, setShowTagModal] = useState(false)
   const [tagModalActiveCollection, setTagModalActiveCollection] = useState(null)
@@ -239,7 +243,7 @@ const SearchList = ({ limit }) => {
   const getColumnState = () => {
     if (formattedType === conceptTypes.Collections) {
       return [
-        {
+        ...(bulkUpdateEnabled === 'true' ? [{
           align: 'center',
           className: 'col-auto',
           dataAccessorFn: buildCheckboxCell,
@@ -252,7 +256,7 @@ const SearchList = ({ limit }) => {
               onChange={handleSelectAllChange}
             />
           )
-        },
+        }] : []),
         {
           className: 'col-auto',
           dataAccessorFn: buildEllipsisLinkCell,

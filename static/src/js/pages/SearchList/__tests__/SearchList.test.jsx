@@ -13,6 +13,8 @@ import {
 } from 'react-router'
 import userEvent from '@testing-library/user-event'
 
+import * as getConfig from 'sharedUtils/getConfig'
+
 import CollectionSelectionContextProvider from '@/js/providers/CollectionSelectionContextProvider/CollectionSelectionContextProvider'
 import NotificationsContextProvider from '@/js/providers/NotificationsContextProvider/NotificationsContextProvider'
 import Notifications from '@/js/components/Notifications/Notifications'
@@ -33,7 +35,11 @@ import {
 
 import SearchList from '../SearchList'
 
-const setup = (overrideMocks, overrideProps, overrideInitialEntries) => {
+const setup = (overrideMocks, overrideProps, overrideInitialEntries, bulkUpdateEnabled = 'true') => {
+  vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+    bulkUpdateEnabled
+  }))
+
   const mocks = [
     singlePageCollectionSearch
   ]
@@ -685,6 +691,16 @@ describe('SearchPage component', () => {
         expect(row1Checkbox).not.toBeChecked()
         expect(row2Checkbox).not.toBeChecked()
       })
+    })
+  })
+
+  describe('when bulk update is disabled', () => {
+    test('does not render the selection checkbox column', async () => {
+      setup(null, {}, undefined, 'false')
+
+      const table = await screen.findByRole('table')
+
+      expect(within(table).queryAllByRole('checkbox')).toHaveLength(0)
     })
   })
 
