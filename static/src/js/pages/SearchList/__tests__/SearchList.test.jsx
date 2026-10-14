@@ -18,6 +18,7 @@ import * as getConfig from 'sharedUtils/getConfig'
 import CollectionSelectionContextProvider from '@/js/providers/CollectionSelectionContextProvider/CollectionSelectionContextProvider'
 import NotificationsContextProvider from '@/js/providers/NotificationsContextProvider/NotificationsContextProvider'
 import Notifications from '@/js/components/Notifications/Notifications'
+import useCollectionSelectionContext from '@/js/hooks/useCollectionSelectionContext'
 
 import {
   multiPageCollectionSearchPage1,
@@ -672,6 +673,76 @@ describe('SearchPage component', () => {
 
         expect(row1Checkbox).not.toBeChecked()
         expect(row2Checkbox).not.toBeChecked()
+      })
+    })
+
+    describe('when a provider is already selected but no row on the page belongs to it', () => {
+      test('disables the header checkbox instead of silently selecting nothing, with a tooltip explaining why', async () => {
+        const user = userEvent.setup()
+
+        vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+          bulkUpdateEnabled: 'true'
+        }))
+
+        const noMatchingProviderMock = JSON.parse(JSON.stringify(singlePageCollectionSearch))
+        noMatchingProviderMock.result.data.collections.items[0].provider = 'MMT'
+        noMatchingProviderMock.result.data.collections.items[1].provider = 'MMT'
+
+        const SeedSelection = () => {
+          const { toggleCollectionSelection } = useCollectionSelectionContext()
+
+          return (
+            <button
+              type="button"
+              onClick={() => toggleCollectionSelection('C-SEED-TESTPROV', 'TESTPROV')}
+            >
+              Seed TESTPROV selection
+            </button>
+          )
+        }
+
+        render(
+          <MemoryRouter initialEntries={['/collections?keyword=test']}>
+            <MockedProvider mocks={[noMatchingProviderMock]}>
+              <NotificationsContextProvider>
+                <CollectionSelectionContextProvider>
+                  <SeedSelection />
+                  <Routes>
+                    <Route
+                      path="/:type"
+                      element={
+                        (
+                          <Suspense fallback="Loading...">
+                            <SearchList />
+                          </Suspense>
+                        )
+                      }
+                    />
+                  </Routes>
+                  <Notifications />
+                </CollectionSelectionContextProvider>
+              </NotificationsContextProvider>
+            </MockedProvider>
+          </MemoryRouter>
+        )
+
+        await user.click(screen.getByRole('button', { name: 'Seed TESTPROV selection' }))
+
+        const table = await screen.findByRole('table')
+        const headerColumn = within(table).getAllByRole('columnheader')[0]
+        const headerCheckbox = within(headerColumn).getByRole('checkbox')
+
+        expect(headerCheckbox).toBeDisabled()
+        expect(
+          within(headerColumn).getByTitle('No collections on this page belong to TESTPROV.')
+        ).toContainElement(headerCheckbox)
+
+        await user.click(headerCheckbox)
+
+        const tableRows = within(table).getAllByRole('row')
+
+        expect(within(tableRows[1]).getByRole('checkbox')).not.toBeChecked()
+        expect(within(tableRows[2]).getByRole('checkbox')).not.toBeChecked()
       })
     })
   })

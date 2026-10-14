@@ -132,7 +132,22 @@ const SearchList = ({ limit }) => {
   const someOnPageSelected = selectedOnPageCount > 0 && !allOnPageSelected
 
   const pageProviderCount = new Set(pageItems.map(({ provider }) => provider)).size
-  const selectAllDisabled = !selectedProvider && pageProviderCount > 1
+
+  // With nothing selected yet, a page spanning multiple providers is ambiguous. Once a
+  // provider is locked in, the page may still have nothing selectable on it at all (e.g.
+  // every row here belongs to a different provider), which is just as unusable even though
+  // the page itself isn't ambiguous.
+  const selectAllDisabled = selectedProvider
+    ? selectablePageConceptIds.length === 0
+    : pageProviderCount > 1
+
+  let selectAllDisabledReason = null
+
+  if (selectAllDisabled) {
+    selectAllDisabledReason = selectedProvider
+      ? `No collections on this page belong to ${selectedProvider}.`
+      : 'Filter by a provider to select all'
+  }
 
   const handleSelectAllChange = () => {
     if (allOnPageSelected) {
@@ -245,7 +260,7 @@ const SearchList = ({ limit }) => {
               disabled={selectAllDisabled}
               indeterminate={someOnPageSelected}
               onChange={handleSelectAllChange}
-              title={selectAllDisabled ? 'Filter by a provider to select all' : null}
+              title={selectAllDisabledReason}
             />
           )
         }] : []),
