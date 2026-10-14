@@ -89,35 +89,31 @@ describe('FormNavigation', () => {
   test('renders a NavigationItem component for each form section', () => {
     const { props } = setup({
       overrideProps: {
+        draft: {
+          Field2: 'Present'
+        },
         formSections: [{
-          displayName: 'Required Section',
-          properties: ['RequiredField']
+          displayName: 'Section 1',
+          properties: ['Field1', 'Field2']
         }, {
-          displayName: 'Optional Section',
-          properties: ['OptionalField']
+          displayName: 'Section 2',
+          properties: ['Field3']
         }],
-        uiSchema: {
-          'required-section': {
-            'ui:layout_grid': {
-              'ui:row': [{ 'ui:required': true }]
-            }
-          },
-          'optional-section': {
-            'ui:layout_grid': {
-              'ui:row': [{ 'ui:required': false }]
-            }
-          }
+        schema: {
+          required: ['Field2']
         }
       }
     })
 
     expect(NavigationItem).toHaveBeenCalledTimes(2)
     expect(NavigationItem).toHaveBeenCalledWith({
-      draft: {},
+      draft: {
+        Field2: 'Present'
+      },
       required: true,
       section: {
-        displayName: 'Required Section',
-        properties: ['RequiredField']
+        displayName: 'Section 1',
+        properties: ['Field1', 'Field2']
       },
       sectionIndex: 0,
       setFocusField: props.setFocusField,
@@ -126,11 +122,13 @@ describe('FormNavigation', () => {
     }, {})
 
     expect(NavigationItem).toHaveBeenCalledWith({
-      draft: {},
+      draft: {
+        Field2: 'Present'
+      },
       required: false,
       section: {
-        displayName: 'Optional Section',
-        properties: ['OptionalField']
+        displayName: 'Section 2',
+        properties: ['Field3']
       },
       sectionIndex: 1,
       setFocusField: props.setFocusField,
@@ -139,8 +137,14 @@ describe('FormNavigation', () => {
     }, {})
   })
 
-  test('treats sections as optional when no UI schema is provided', () => {
-    const { props } = setup({})
+  test('treats sections as optional when the schema has no required fields', () => {
+    const { props } = setup({
+      overrideProps: {
+        schema: {
+          required: []
+        }
+      }
+    })
 
     expect(NavigationItem).toHaveBeenCalledTimes(2)
     expect(NavigationItem).toHaveBeenCalledWith(expect.objectContaining({
@@ -151,6 +155,7 @@ describe('FormNavigation', () => {
       },
       setFocusField: props.setFocusField
     }), {})
+
     expect(NavigationItem).toHaveBeenCalledWith(expect.objectContaining({
       required: false,
       section: {

@@ -405,7 +405,6 @@ const MetadataForm = () => {
               onSave={handleSave}
               schema={schema}
               setFocusField={setFocusField}
-              uiSchema={uiSchemaType}
               visitedFields={visitedFields}
             />
           </div>

@@ -14,7 +14,6 @@ import saveTypes from '@/js/constants/saveTypes'
 import saveTypesToHumanizedStringMap from '@/js/constants/saveTypesToHumanizedStringMap'
 
 import removeEmpty from '@/js/utils/removeEmpty'
-import toKebabCase from '@/js/utils/toKebabCase'
 
 import ChooseProviderModal from '@/js/components/ChooseProviderModal/ChooseProviderModal'
 import For from '@/js/components/For/For'
@@ -33,7 +32,6 @@ import './FormNavigation.scss'
  * @property {Function} onSave A function that saves the draft.
  * @property {Object} schema UMM Schema.
  * @property {Function} setFocusField A function that sets the focus field.
- * @property {Object} uiSchema A uiSchema for the field being shown.
  * @property {Array} visitedFields An array with a list of visited fields.
  */
 
@@ -50,7 +48,6 @@ const FormNavigation = ({
   onSave,
   schema,
   setFocusField,
-  uiSchema = {},
   visitedFields
 }) => {
   // If the concept id or a template id are undefined, assume a new draft or template is being created
@@ -60,6 +57,7 @@ const FormNavigation = ({
   const { templateType } = useParams()
   const cleanedDraft = cloneDeep(removeEmpty(draft))
   const { errors } = validator.validateFormData(cleanedDraft, schema)
+  const { required: requiredFields = [] } = schema
 
   const isTemplate = !!templateType
 
@@ -194,8 +192,9 @@ const FormNavigation = ({
           {
             (section, index) => {
               const { displayName } = section
-              const sectionUiSchema = uiSchema[toKebabCase(displayName)]
-              const required = sectionUiSchema?.['ui:layout_grid']?.['ui:row']?.[0]?.['ui:required'] || false
+              const required = section.properties.some(
+                (property) => requiredFields.includes(property)
+              )
 
               return (
                 <NavigationItem
@@ -234,8 +233,7 @@ const FormNavigation = ({
 }
 
 FormNavigation.defaultProps = {
-  loading: false,
-  uiSchema: undefined
+  loading: false
 }
 
 FormNavigation.propTypes = {
@@ -250,9 +248,12 @@ FormNavigation.propTypes = {
   ).isRequired,
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
-  schema: PropTypes.shape({}).isRequired,
-  setFocusField: PropTypes.func.isRequired,
-  uiSchema: PropTypes.shape({})
+  schema: PropTypes.shape({
+    required: PropTypes.arrayOf(
+      PropTypes.string
+    )
+  }).isRequired,
+  setFocusField: PropTypes.func.isRequired
 }
 
 export default FormNavigation
