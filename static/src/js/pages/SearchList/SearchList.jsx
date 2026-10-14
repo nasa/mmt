@@ -34,7 +34,6 @@ import SelectAllCheckbox from '../../components/SelectAllCheckbox/SelectAllCheck
 import Table from '../../components/Table/Table'
 
 import useCollectionSelectionContext from '../../hooks/useCollectionSelectionContext'
-import useNotificationsContext from '../../hooks/useNotificationsContext'
 
 import getTagCount from '../../utils/getTagCount'
 
@@ -61,8 +60,6 @@ const SearchList = ({ limit }) => {
     selectedProvider,
     toggleCollectionSelection
   } = useCollectionSelectionContext()
-
-  const { addNotification } = useNotificationsContext()
 
   const { type: conceptType } = useParams()
   const keywordParam = searchParams.get('keyword')
@@ -134,6 +131,9 @@ const SearchList = ({ limit }) => {
     && selectedOnPageCount === selectablePageConceptIds.length
   const someOnPageSelected = selectedOnPageCount > 0 && !allOnPageSelected
 
+  const pageProviderCount = new Set(pageItems.map(({ provider }) => provider)).size
+  const selectAllDisabled = !selectedProvider && pageProviderCount > 1
+
   const handleSelectAllChange = () => {
     if (allOnPageSelected) {
       deselectCollections(selectablePageConceptIds)
@@ -141,22 +141,15 @@ const SearchList = ({ limit }) => {
       return
     }
 
-    const lockedProvider = selectedProvider || pageItems[0]?.provider
-    const skippedCount = pageItems.filter(({ provider }) => provider !== lockedProvider).length
-
+    // `selectCollections` only adds candidates matching the locked provider (or locks to the
+    // first candidate's provider when nothing is selected yet), so passing every page item is
+    // safe even when the page spans multiple providers.
     selectCollections(pageItems.map(({ conceptId, provider }) => (
       {
         conceptId,
         provider
       }
     )))
-
-    if (skippedCount > 0) {
-      addNotification({
-        message: `Bulk actions can only include collections from a single provider. ${skippedCount} ${pluralize('collection', skippedCount)} from other providers on this page ${skippedCount === 1 ? 'was' : 'were'} not selected.`,
-        variant: 'danger'
-      })
-    }
   }
 
   const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
@@ -172,30 +165,27 @@ const SearchList = ({ limit }) => {
   const buildCheckboxCell = useCallback((cellData, rowData) => {
     const { conceptId, provider } = rowData
     const isSelected = selectedCollections.includes(conceptId)
-
-    const handleChange = () => {
-      if (!isSelected && selectedProvider && selectedProvider !== provider) {
-        addNotification({
-          message: `Bulk actions can only include collections from a single provider. Clear your current selection of ${selectedProvider} collections before selecting a collection from ${provider}.`,
-          variant: 'danger'
-        })
-
-        return
-      }
-
-      toggleCollectionSelection(conceptId, provider)
-    }
+    const isDisabled = !!selectedProvider && selectedProvider !== provider
 
     return (
-      <input
-        aria-label={`Select collection ${conceptId}`}
-        checked={isSelected}
-        className="form-check-input"
-        onChange={handleChange}
-        type="checkbox"
-      />
+      <span
+        title={
+          isDisabled
+            ? `Bulk actions can only include collections from a single provider. Clear your current selection of ${selectedProvider} collections before selecting a collection from ${provider}.`
+            : null
+        }
+      >
+        <input
+          aria-label={`Select collection ${conceptId}`}
+          checked={isSelected}
+          className="form-check-input"
+          disabled={isDisabled}
+          onChange={() => toggleCollectionSelection(conceptId, provider)}
+          type="checkbox"
+        />
+      </span>
     )
-  }, [addNotification, selectedCollections, selectedProvider, toggleCollectionSelection])
+  }, [selectedCollections, selectedProvider, toggleCollectionSelection])
 
   const buildEllipsisTextCell = useCallback((cellData) => (
     <EllipsisText>
@@ -245,15 +235,17 @@ const SearchList = ({ limit }) => {
       return [
         ...(bulkUpdateEnabled === 'true' ? [{
           align: 'center',
-          className: 'col-auto',
+          className: 'col-auto table__checkbox-column',
           dataAccessorFn: buildCheckboxCell,
           dataKey: 'conceptId',
           title: (
             <SelectAllCheckbox
               ariaLabel="Select all collections on this page"
               checked={allOnPageSelected}
+              disabled={selectAllDisabled}
               indeterminate={someOnPageSelected}
               onChange={handleSelectAllChange}
+              title={selectAllDisabled ? 'Filter by a provider to select all' : null}
             />
           )
         }] : []),

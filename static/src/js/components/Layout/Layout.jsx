@@ -23,6 +23,7 @@ import { getApplicationConfig, getUmmVersionsConfig } from 'sharedUtils/getConfi
 
 import Button from '../Button/Button'
 import CollectionSelectionBar from '../CollectionSelectionBar/CollectionSelectionBar'
+import CollectionSelectionNavigationGuard from '../CollectionSelectionNavigationGuard/CollectionSelectionNavigationGuard'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import PrimaryNavigation from '../PrimaryNavigation/PrimaryNavigation'
 import AboutModal from '../AboutModal/AboutModal'
@@ -326,9 +327,16 @@ const Layout = ({ className, displayNav }) => {
             <Outlet />
           </main>
         </ErrorBoundary>
+        {
+          bulkUpdateEnabled === 'true' && (
+            <>
+              <CollectionSelectionBar />
+              <CollectionSelectionNavigationGuard />
+            </>
+          )
+        }
       </div>
       <AboutModal show={showAboutModal} toggleModal={(state) => { setShowAboutModal(state) }} />
-      {bulkUpdateEnabled === 'true' && <CollectionSelectionBar />}
     </>
   )
 }

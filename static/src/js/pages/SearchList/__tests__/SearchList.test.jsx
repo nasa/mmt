@@ -584,7 +584,7 @@ describe('SearchPage component', () => {
       expect(row1Checkbox).not.toBeChecked()
     })
 
-    test('refuses the selection and shows an error notification when selecting a collection from a different provider', async () => {
+    test('disables checkboxes from other providers once a collection is selected, with a tooltip explaining why', async () => {
       const { user } = setup()
 
       const table = await screen.findByRole('table')
@@ -594,18 +594,15 @@ describe('SearchPage component', () => {
       const row1Checkbox = within(tableRows[1]).getByRole('checkbox')
       const row2Checkbox = within(tableRows[2]).getByRole('checkbox')
 
+      expect(row2Checkbox).not.toBeDisabled()
+
       await user.click(row1Checkbox)
 
       expect(row1Checkbox).toBeChecked()
-
-      await user.click(row2Checkbox)
-
-      expect(row2Checkbox).not.toBeChecked()
-      expect(row1Checkbox).toBeChecked()
-
+      expect(row2Checkbox).toBeDisabled()
       expect(
-        await screen.findByText(/Bulk actions can only include collections from a single provider/)
-      ).toBeInTheDocument()
+        within(tableRows[2]).getByTitle(/Bulk actions can only include collections from a single provider/)
+      ).toContainElement(row2Checkbox)
     })
 
     test('allows selecting a collection from a different provider after clearing the selection', async () => {
@@ -629,39 +626,24 @@ describe('SearchPage component', () => {
   })
 
   describe('when selecting all collections on the page', () => {
-    test('selects every row sharing the first row\'s provider, skips the rest, and shows a notification', async () => {
+    test('disables the header checkbox when nothing is selected and the page spans multiple providers, with a tooltip explaining why', async () => {
       const { user } = setup()
 
       const table = await screen.findByRole('table')
-      const headerCheckbox = within(
-        within(table).getAllByRole('columnheader')[0]
-      ).getByRole('checkbox')
+      const headerColumn = within(table).getAllByRole('columnheader')[0]
+      const headerCheckbox = within(headerColumn).getByRole('checkbox')
+
+      expect(headerCheckbox).toBeDisabled()
+      expect(
+        within(headerColumn).getByTitle('Filter by a provider to select all')
+      ).toContainElement(headerCheckbox)
 
       await user.click(headerCheckbox)
 
       const tableRows = within(table).getAllByRole('row')
 
-      // Collection 1 belongs to TESTPROV, Collection 2 belongs to MMT
-      const row1Checkbox = within(tableRows[1]).getByRole('checkbox')
-      const row2Checkbox = within(tableRows[2]).getByRole('checkbox')
-
-      expect(row1Checkbox).toBeChecked()
-      expect(row2Checkbox).not.toBeChecked()
-
-      // Every *selectable* row (TESTPROV) is now checked, even though the page also
-      // contains an unselectable MMT row, so the header checkbox should read as fully
-      // checked rather than indeterminate
-      expect(headerCheckbox).toBeChecked()
-
-      expect(
-        await screen.findByText(/Bulk actions can only include collections from a single provider/)
-      ).toBeInTheDocument()
-
-      // Clicking again should deselect only the selectable (TESTPROV) row
-      await user.click(headerCheckbox)
-
-      expect(row1Checkbox).not.toBeChecked()
-      expect(row2Checkbox).not.toBeChecked()
+      expect(within(tableRows[1]).getByRole('checkbox')).not.toBeChecked()
+      expect(within(tableRows[2]).getByRole('checkbox')).not.toBeChecked()
     })
 
     describe('when every row on the page shares the same provider', () => {

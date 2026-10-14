@@ -74,13 +74,30 @@ describe('CollectionSelectionBar component', () => {
     })
 
     describe('when clicking Clear', () => {
-      test('clears the selection and hides the bar', async () => {
+      test('clears the selection and shows an Undo option instead of hiding the bar', async () => {
         const { user } = setup()
 
         await user.click(screen.getByRole('button', { name: 'Select collection' }))
         await user.click(screen.getByRole('button', { name: 'Clear' }))
 
         expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: 'Continue' })).not.toBeInTheDocument()
+        expect(screen.getByText('Selection cleared')).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: 'Undo' })).toBeInTheDocument()
+      })
+
+      describe('when clicking Undo', () => {
+        test('restores the previous selection', async () => {
+          const { user } = setup()
+
+          await user.click(screen.getByRole('button', { name: 'Select collection' }))
+          await user.click(screen.getByRole('button', { name: 'Clear' }))
+          await user.click(screen.getByRole('button', { name: 'Undo' }))
+
+          expect(screen.getByText(/1 collection selected from TESTPROV/)).toBeInTheDocument()
+          expect(screen.getByRole('button', { name: 'Clear' })).toBeInTheDocument()
+          expect(screen.queryByRole('button', { name: 'Undo' })).not.toBeInTheDocument()
+        })
       })
     })
 

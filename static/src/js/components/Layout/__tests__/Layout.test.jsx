@@ -13,12 +13,14 @@ import AuthContext from '@/js/context/AuthContext'
 import userEvent from '@testing-library/user-event'
 import Layout from '../Layout'
 import CollectionSelectionBar from '../../CollectionSelectionBar/CollectionSelectionBar'
+import CollectionSelectionNavigationGuard from '../../CollectionSelectionNavigationGuard/CollectionSelectionNavigationGuard'
 import PrimaryNavigation from '../../PrimaryNavigation/PrimaryNavigation'
 
 import * as getConfig from '../../../../../../sharedUtils/getConfig'
 
 vi.mock('@/js/hooks/usePermissions')
 vi.mock('../../CollectionSelectionBar/CollectionSelectionBar')
+vi.mock('../../CollectionSelectionNavigationGuard/CollectionSelectionNavigationGuard')
 vi.mock('../../Footer/Footer')
 vi.mock('../../Header/Header')
 vi.mock('../../PrimaryNavigation/PrimaryNavigation')
@@ -505,7 +507,7 @@ describe('Layout component', () => {
   })
 
   describe('when bulk update is disabled', () => {
-    test('does not render the CollectionSelectionBar', () => {
+    test('does not render the CollectionSelectionBar or its navigation guard', () => {
       vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
         bulkUpdateEnabled: 'false'
       }))
@@ -513,11 +515,12 @@ describe('Layout component', () => {
       setup()
 
       expect(CollectionSelectionBar).toHaveBeenCalledTimes(0)
+      expect(CollectionSelectionNavigationGuard).toHaveBeenCalledTimes(0)
     })
   })
 
   describe('when bulk update is enabled', () => {
-    test('renders the CollectionSelectionBar', () => {
+    test('renders the CollectionSelectionBar and its navigation guard', () => {
       vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
         bulkUpdateEnabled: 'true'
       }))
@@ -525,6 +528,7 @@ describe('Layout component', () => {
       setup()
 
       expect(CollectionSelectionBar).toHaveBeenCalledTimes(1)
+      expect(CollectionSelectionNavigationGuard).toHaveBeenCalledTimes(1)
     })
   })
 })
