@@ -118,7 +118,7 @@ describe('FormNavigation', () => {
       required: true,
       section: {
         displayName: 'Required Section',
-        properties: ['Required Field']
+        properties: ['RequiredField']
       },
       sectionIndex: 0,
       setFocusField: props.setFocusField,
@@ -131,7 +131,7 @@ describe('FormNavigation', () => {
       required: false,
       section: {
         displayName: 'Optional Section',
-        properties: ['Optional Field']
+        properties: ['OptionalField']
       },
       sectionIndex: 1,
       setFocusField: props.setFocusField,
