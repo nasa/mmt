@@ -101,6 +101,20 @@ describe('CollectionSelectionNavigationGuard component', () => {
       })
     })
 
+    describe('when dismissing the modal via the close button', () => {
+      test('stays on the page and keeps the selection', async () => {
+        const { user } = setup()
+
+        await user.click(screen.getByRole('button', { name: 'Select collection' }))
+        await user.click(screen.getByRole('link', { name: 'Go to variables' }))
+
+        await user.click(await screen.findByRole('button', { name: /Close/i }))
+
+        expect(screen.queryByText('Leave Collections?')).not.toBeInTheDocument()
+        expect(screen.getByRole('button', { name: 'Select collection' })).toBeInTheDocument()
+      })
+    })
+
     describe('when clicking Leave', () => {
       test('proceeds with the navigation and clears the selection', async () => {
         const { user } = setup()
