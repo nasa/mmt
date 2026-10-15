@@ -18,12 +18,20 @@ const MockSelector = () => {
   const { toggleCollectionSelection } = useCollectionSelectionContext()
 
   return (
-    <button
-      type="button"
-      onClick={() => toggleCollectionSelection('C1-TESTPROV', 'TESTPROV')}
-    >
-      Select collection
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={() => toggleCollectionSelection('C1-TESTPROV', 'TESTPROV')}
+      >
+        Select collection
+      </button>
+      <button
+        type="button"
+        onClick={() => toggleCollectionSelection('C2-TESTPROV', 'TESTPROV')}
+      >
+        Select another collection
+      </button>
+    </>
   )
 }
 
@@ -112,6 +120,20 @@ describe('CollectionSelectionBar component', () => {
 
           expect(screen.getByText(/1 collection selected from TESTPROV/)).toBeInTheDocument()
           expect(screen.getByRole('button', { name: 'Clear' })).toBeInTheDocument()
+          expect(screen.queryByRole('button', { name: 'Undo' })).not.toBeInTheDocument()
+        })
+      })
+
+      describe('when a new selection is started before clicking Undo', () => {
+        test('does not restore the previously cleared selection', async () => {
+          const { user } = setup()
+
+          await user.click(screen.getByRole('button', { name: 'Select collection' }))
+          await user.click(screen.getByRole('button', { name: 'Clear' }))
+          await user.click(screen.getByRole('button', { name: 'Select another collection' }))
+          await user.click(screen.getByRole('button', { name: 'Undo' }))
+
+          expect(screen.getByText(/1 collection selected from TESTPROV/)).toBeInTheDocument()
           expect(screen.queryByRole('button', { name: 'Undo' })).not.toBeInTheDocument()
         })
       })

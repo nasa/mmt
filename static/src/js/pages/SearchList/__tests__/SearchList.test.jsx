@@ -36,7 +36,7 @@ import {
 
 import SearchList from '../SearchList'
 
-const setup = (overrideMocks, overrideProps, overrideInitialEntries, bulkUpdateEnabled = 'true') => {
+const setup = (overrideMocks, overrideProps, overrideInitialEntries, bulkUpdateEnabled = true) => {
   vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
     bulkUpdateEnabled
   }))
@@ -681,7 +681,7 @@ describe('SearchPage component', () => {
         const user = userEvent.setup()
 
         vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
-          bulkUpdateEnabled: 'true'
+          bulkUpdateEnabled: true
         }))
 
         const noMatchingProviderMock = JSON.parse(JSON.stringify(singlePageCollectionSearch))
@@ -749,7 +749,7 @@ describe('SearchPage component', () => {
 
   describe('when bulk update is disabled', () => {
     test('does not render the selection checkbox column', async () => {
-      setup(null, {}, undefined, 'false')
+      setup(null, {}, undefined, false)
 
       const table = await screen.findByRole('table')
 

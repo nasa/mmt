@@ -248,7 +248,7 @@ const SearchList = ({ limit }) => {
   const getColumnState = () => {
     if (formattedType === conceptTypes.Collections) {
       return [
-        ...(bulkUpdateEnabled === 'true' ? [{
+        ...(bulkUpdateEnabled ? [{
           align: 'center',
           className: 'col-auto table__checkbox-column',
           dataAccessorFn: buildCheckboxCell,

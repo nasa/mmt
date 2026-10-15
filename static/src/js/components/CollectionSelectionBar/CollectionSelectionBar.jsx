@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
 import pluralize from 'pluralize'
@@ -39,6 +39,11 @@ const CollectionSelectionBar = () => {
 
   const selectedCount = selectedCollections.length
 
+  // Read in the Undo action's onClick instead of closed over, so it reflects whatever
+  // selection exists by the time the user clicks Undo rather than the one at Clear time.
+  const selectedCollectionsRef = useRef(selectedCollections)
+  selectedCollectionsRef.current = selectedCollections
+
   const handleClear = () => {
     const clearedCollections = selectedCollections.map((conceptId) => (
       {
@@ -52,7 +57,13 @@ const CollectionSelectionBar = () => {
     addNotification({
       action: {
         label: 'Undo',
-        onClick: () => selectCollections(clearedCollections)
+        onClick: () => {
+          // Skip restoring if the user has already started a new selection since clearing,
+          // since merging the old selection back in at that point would be surprising.
+          if (selectedCollectionsRef.current.length > 0) return
+
+          selectCollections(clearedCollections)
+        }
       },
       message: 'Selection cleared',
       variant: 'success'

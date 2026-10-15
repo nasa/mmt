@@ -509,7 +509,7 @@ describe('Layout component', () => {
   describe('when bulk update is disabled', () => {
     test('does not render the CollectionSelectionBar or its navigation guard', () => {
       vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
-        bulkUpdateEnabled: 'false'
+        bulkUpdateEnabled: false
       }))
 
       setup()
@@ -522,7 +522,7 @@ describe('Layout component', () => {
   describe('when bulk update is enabled', () => {
     test('renders the CollectionSelectionBar and its navigation guard', () => {
       vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
-        bulkUpdateEnabled: 'true'
+        bulkUpdateEnabled: true
       }))
 
       setup()

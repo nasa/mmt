@@ -328,7 +328,7 @@ const Layout = ({ className, displayNav }) => {
           </main>
         </ErrorBoundary>
         {
-          bulkUpdateEnabled === 'true' && (
+          bulkUpdateEnabled && (
             <>
               <CollectionSelectionBar />
               <CollectionSelectionNavigationGuard />
