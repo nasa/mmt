@@ -13,12 +13,14 @@ const NotificationsContextProvider = ({ children }) => {
    * Adds a new notification to the notifications reducer
    */
   const addNotification = ({
+    action,
     message,
     variant
   }) => {
     dispatch({
       type: notificationsActions.NOTIFICATIONS_ADD,
       payload: {
+        action,
         message,
         variant
       }

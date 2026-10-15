@@ -10,6 +10,8 @@ import {
 
 import CollectionSelectionBar from '../CollectionSelectionBar'
 import CollectionSelectionContextProvider from '../../../providers/CollectionSelectionContextProvider/CollectionSelectionContextProvider'
+import NotificationsContextProvider from '../../../providers/NotificationsContextProvider/NotificationsContextProvider'
+import Notifications from '../../Notifications/Notifications'
 import useCollectionSelectionContext from '../../../hooks/useCollectionSelectionContext'
 
 const MockSelector = () => {
@@ -28,29 +30,32 @@ const MockSelector = () => {
 const setup = () => {
   const user = userEvent.setup()
 
-  // Mirrors production: CollectionSelectionBar is rendered once at the layout level
-  // (Layout.jsx), outside the routed page content, so it stays mounted across navigation.
+  // Mirrors production: CollectionSelectionBar and Notifications are rendered once at the
+  // layout/app level, outside the routed page content, so they stay mounted across navigation.
   render(
     <MemoryRouter initialEntries={['/collections']}>
-      <CollectionSelectionContextProvider>
-        <MockSelector />
-        <Link to="/variables">Go to variables</Link>
-        <CollectionSelectionBar />
-        <Routes>
-          <Route
-            path="/collections"
-            element={<div>Collections page</div>}
-          />
-          <Route
-            path="/collections/bulk-actions/configure"
-            element={<div>Bulk actions configure page</div>}
-          />
-          <Route
-            path="/variables"
-            element={<div>Variables page</div>}
-          />
-        </Routes>
-      </CollectionSelectionContextProvider>
+      <NotificationsContextProvider>
+        <CollectionSelectionContextProvider>
+          <MockSelector />
+          <Link to="/variables">Go to variables</Link>
+          <CollectionSelectionBar />
+          <Notifications />
+          <Routes>
+            <Route
+              path="/collections"
+              element={<div>Collections page</div>}
+            />
+            <Route
+              path="/collections/bulk-actions/configure"
+              element={<div>Bulk actions configure page</div>}
+            />
+            <Route
+              path="/variables"
+              element={<div>Variables page</div>}
+            />
+          </Routes>
+        </CollectionSelectionContextProvider>
+      </NotificationsContextProvider>
     </MemoryRouter>
   )
 
@@ -77,7 +82,7 @@ describe('CollectionSelectionBar component', () => {
     })
 
     describe('when clicking Clear', () => {
-      test('clears the selection and shows an Undo option instead of hiding the bar', async () => {
+      test('clears the selection and hides the bar', async () => {
         const { user } = setup()
 
         await user.click(screen.getByRole('button', { name: 'Select collection' }))
@@ -85,11 +90,19 @@ describe('CollectionSelectionBar component', () => {
 
         expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
         expect(screen.queryByRole('button', { name: 'Continue' })).not.toBeInTheDocument()
+      })
+
+      test('shows a toast with an Undo action', async () => {
+        const { user } = setup()
+
+        await user.click(screen.getByRole('button', { name: 'Select collection' }))
+        await user.click(screen.getByRole('button', { name: 'Clear' }))
+
         expect(screen.getByText('Selection cleared')).toBeInTheDocument()
         expect(screen.getByRole('button', { name: 'Undo' })).toBeInTheDocument()
       })
 
-      describe('when clicking Undo', () => {
+      describe('when clicking Undo on the toast', () => {
         test('restores the previous selection', async () => {
           const { user } = setup()
 
@@ -104,7 +117,7 @@ describe('CollectionSelectionBar component', () => {
       })
 
       describe('when navigating away', () => {
-        test('dismisses the Undo option instead of leaving it stuck on screen', async () => {
+        test('keeps the Undo toast visible', async () => {
           const { user } = setup()
 
           await user.click(screen.getByRole('button', { name: 'Select collection' }))
@@ -115,8 +128,8 @@ describe('CollectionSelectionBar component', () => {
           await user.click(screen.getByRole('link', { name: 'Go to variables' }))
 
           expect(await screen.findByText('Variables page')).toBeInTheDocument()
-          expect(screen.queryByText('Selection cleared')).not.toBeInTheDocument()
-          expect(screen.queryByRole('button', { name: 'Undo' })).not.toBeInTheDocument()
+          expect(screen.getByText('Selection cleared')).toBeInTheDocument()
+          expect(screen.getByRole('button', { name: 'Undo' })).toBeInTheDocument()
         })
       })
     })

@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
 import pluralize from 'pluralize'
-import { useLocation, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 
 import Button from '../Button/Button'
 
 import useCollectionSelectionContext from '../../hooks/useCollectionSelectionContext'
+import useNotificationsContext from '../../hooks/useNotificationsContext'
 
 import './CollectionSelectionBar.scss'
 
@@ -15,10 +16,8 @@ import './CollectionSelectionBar.scss'
  *
  * Displays a sticky bar at the bottom of the page when one or more collections are
  * selected. The selection persists across pages and searches via CollectionSelectionContext.
- * Clearing the selection briefly replaces the bar with an "Undo" option in case the user
- * clicked Clear by mistake. The Undo option is dismissed as soon as the user navigates
- * anywhere, since this component stays mounted across route changes (it's rendered once
- * in Layout.jsx) and the undo window is only meant to cover an immediate misclick.
+ * Clearing the selection shows a toast with an "Undo" action in case the user clicked
+ * Clear by mistake.
  *
  * @component
  * @example <caption>Renders a `CollectionSelectionBar` component</caption>
@@ -27,14 +26,9 @@ import './CollectionSelectionBar.scss'
  * )
  */
 const CollectionSelectionBar = () => {
-  const location = useLocation()
   const navigate = useNavigate()
 
-  const [lastClearedCollections, setLastClearedCollections] = useState(null)
-
-  useEffect(() => {
-    setLastClearedCollections(null)
-  }, [location.pathname])
+  const { addNotification } = useNotificationsContext()
 
   const {
     clearCollectionSelections,
@@ -46,44 +40,26 @@ const CollectionSelectionBar = () => {
   const selectedCount = selectedCollections.length
 
   const handleClear = () => {
-    setLastClearedCollections(
-      selectedCollections.map((conceptId) => (
-        {
-          conceptId,
-          provider: selectedProvider
-        }
-      ))
-    )
+    const clearedCollections = selectedCollections.map((conceptId) => (
+      {
+        conceptId,
+        provider: selectedProvider
+      }
+    ))
 
     clearCollectionSelections()
+
+    addNotification({
+      action: {
+        label: 'Undo',
+        onClick: () => selectCollections(clearedCollections)
+      },
+      message: 'Selection cleared',
+      variant: 'success'
+    })
   }
 
-  const handleUndo = () => {
-    selectCollections(lastClearedCollections)
-    setLastClearedCollections(null)
-  }
-
-  if (selectedCount === 0 && !lastClearedCollections) return null
-
-  if (selectedCount === 0 && lastClearedCollections) {
-    return (
-      <Navbar
-        bg="dark"
-        className="collection-selection-bar flex-shrink-0 w-100"
-        variant="dark"
-      >
-        <Container fluid className="d-flex align-items-center justify-content-between">
-          <span className="text-white fw-bolder">Selection cleared</span>
-          <Button
-            onClick={handleUndo}
-            variant="outline-light"
-          >
-            Undo
-          </Button>
-        </Container>
-      </Navbar>
-    )
-  }
+  if (selectedCount === 0) return null
 
   return (
     <Navbar

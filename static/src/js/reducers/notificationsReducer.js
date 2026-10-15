@@ -11,12 +11,13 @@ export const notificationsReducer = (state, action) => {
 
   switch (type) {
     case notificationsActions.NOTIFICATIONS_ADD: {
-      const { message, variant } = payload
+      const { action: notificationAction, message, variant } = payload
 
       return [
         ...state,
         {
           id: uniqueId('notifications-'),
+          action: notificationAction,
           message,
           variant,
           show: true
