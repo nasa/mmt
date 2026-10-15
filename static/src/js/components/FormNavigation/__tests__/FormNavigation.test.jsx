@@ -87,14 +87,33 @@ const setup = ({
 
 describe('FormNavigation', () => {
   test('renders a NavigationItem component for each form section', () => {
-    const { props } = setup({})
+    const { props } = setup({
+      overrideProps: {
+        draft: {
+          Field2: 'Present'
+        },
+        formSections: [{
+          displayName: 'Section 1',
+          properties: ['Field1', 'Field2']
+        }, {
+          displayName: 'Section 2',
+          properties: ['Field3']
+        }],
+        schema: {
+          required: ['Field2']
+        }
+      }
+    })
 
     expect(NavigationItem).toHaveBeenCalledTimes(2)
     expect(NavigationItem).toHaveBeenCalledWith({
-      draft: {},
+      draft: {
+        Field2: 'Present'
+      },
+      required: true,
       section: {
         displayName: 'Section 1',
-        properties: ['Field1']
+        properties: ['Field1', 'Field2']
       },
       sectionIndex: 0,
       setFocusField: props.setFocusField,
@@ -103,16 +122,48 @@ describe('FormNavigation', () => {
     }, {})
 
     expect(NavigationItem).toHaveBeenCalledWith({
-      draft: {},
+      draft: {
+        Field2: 'Present'
+      },
+      required: false,
       section: {
         displayName: 'Section 2',
-        properties: ['Field2']
+        properties: ['Field3']
       },
       sectionIndex: 1,
       setFocusField: props.setFocusField,
       validationErrors: [],
       visitedFields: []
     }, {})
+  })
+
+  test('treats sections as optional when the schema has no required fields', () => {
+    const { props } = setup({
+      overrideProps: {
+        schema: {
+          required: []
+        }
+      }
+    })
+
+    expect(NavigationItem).toHaveBeenCalledTimes(2)
+    expect(NavigationItem).toHaveBeenCalledWith(expect.objectContaining({
+      required: false,
+      section: {
+        displayName: 'Section 1',
+        properties: ['Field1']
+      },
+      setFocusField: props.setFocusField
+    }), {})
+
+    expect(NavigationItem).toHaveBeenCalledWith(expect.objectContaining({
+      required: false,
+      section: {
+        displayName: 'Section 2',
+        properties: ['Field2']
+      },
+      setFocusField: props.setFocusField
+    }), {})
   })
 
   describe('when the loading prop is true', () => {

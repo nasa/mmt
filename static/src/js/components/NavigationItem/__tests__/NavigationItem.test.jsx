@@ -8,6 +8,7 @@ import {
 } from 'react-router'
 import * as router from 'react-router'
 
+import { expect } from 'vitest'
 import NavigationItem from '../NavigationItem'
 import NavigationItemError from '../../NavigationItemError/NavigationItemError'
 
@@ -74,6 +75,20 @@ describe('NavigationItem', () => {
 
       expect(screen.getByText('Mock Section Name')).toBeInTheDocument()
       expect(screen.getByRole('img', { name: 'Mock Section Name' }).className).toContain('eui-fa-circle-o')
+    })
+  })
+
+  describe('when the section is required', () => {
+    test('displays an accessible required symbol', async () => {
+      setup({
+        overrideProps: {
+          required: true
+        }
+      })
+
+      const requiredIcon = screen.getByRole('img', { name: 'Required' })
+
+      expect(requiredIcon).toHaveClass('eui-required-o')
     })
   })
 

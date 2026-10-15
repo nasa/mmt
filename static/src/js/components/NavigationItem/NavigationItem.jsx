@@ -38,8 +38,7 @@ import './NavigationItem.scss'
  */
 const NavigationItem = ({
   draft,
-  // TODO MMT-3479
-  // required,
+  required,
   section,
   sectionIndex,
   setFocusField,
@@ -193,12 +192,16 @@ const NavigationItem = ({
             }
           />
           <span>{displayName}</span>
-          {/* // TODO MMT-3479 */}
-          {/* {
+          {
             required && (
-              <i className="eui-icon eui-required-o required-icon text-success ms-1" />
+              <i
+                aria-label="Required"
+                className="eui-icon eui-required-o required-icon text-success ms-1"
+                role="img"
+                title="Required"
+              />
             )
-          } */}
+          }
         </span>
         {
           (isSectionDisplayed && errors.length > 0) && (
@@ -225,11 +228,13 @@ const NavigationItem = ({
 }
 
 NavigationItem.defaultProps = {
+  required: false,
   validationErrors: []
 }
 
 NavigationItem.propTypes = {
   draft: PropTypes.shape({}).isRequired,
+  required: PropTypes.bool,
   section: PropTypes.shape({
     displayName: PropTypes.string,
     properties: PropTypes.arrayOf(
