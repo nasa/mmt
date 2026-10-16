@@ -399,14 +399,12 @@ describe('KeywordManagerPage component', () => {
     test('should update selectedVersion', async () => {
       const { user } = setup()
 
+      const versionSelector = await screen.findByTestId('version-selector')
+
+      // Draft is selected by default, once the versions have loaded
       await waitFor(() => {
-        expect(screen.getByTestId('version-selector')).toBeInTheDocument()
+        expect(versionSelector).toHaveValue('1.0')
       })
-
-      const versionSelector = screen.getByTestId('version-selector')
-
-      // Draft is selected by default
-      expect(versionSelector).toHaveValue('1.0')
 
       // Simulate version selection
       await user.selectOptions(versionSelector, '3.0')

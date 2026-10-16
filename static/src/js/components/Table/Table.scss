@@ -51,22 +51,52 @@
     z-index: 0;
   }
 
-  th:first-child,
-  td:first-child {
+  // A darker border than Bootstrap's default makes an enabled checkbox clearly
+  // distinguishable from a disabled one (which is dimmed via opacity).
+  .form-check-input {
+    border-color: var(--bs-gray-700);
+
+    &:disabled {
+      background-color: var(--bs-gray-200);
+    }
+  }
+
+  // The row-selection checkbox column (when present) is always the first column, and is
+  // pinned alongside the row-identifying column (shortName/name) that follows it, so both
+  // stay visible together when the table scrolls horizontally.
+  $checkbox-column-width: 2.75rem;
+
+  th.table__checkbox-column,
+  td.table__checkbox-column {
+    position: sticky;
+    left: 0;
+    width: $checkbox-column-width;
+    min-width: $checkbox-column-width;
+    max-width: $checkbox-column-width;
+  }
+
+  th.table__checkbox-column + th,
+  td.table__checkbox-column + td {
+    position: sticky;
+    left: $checkbox-column-width;
+    max-width: 20rem;
+  }
+
+  th:first-child:not(.table__checkbox-column),
+  td:first-child:not(.table__checkbox-column) {
     position: sticky;
     left: 0;
     max-width: 20rem;
   }
 
-  td:first-child {
-    &::before {
-      position: absolute;
-      z-index: -1;
-      border-right: 1px solid var(--bs-border-color);
-      border-left: 1px solid var(--bs-border-color);
-      content: '';
-      inset: 0;
-      user-select: none;
-    }
+  td.table__checkbox-column + td::before,
+  td:first-child:not(.table__checkbox-column)::before {
+    position: absolute;
+    z-index: -1;
+    border-right: 1px solid var(--bs-border-color);
+    border-left: 1px solid var(--bs-border-color);
+    content: '';
+    inset: 0;
+    user-select: none;
   }
 }

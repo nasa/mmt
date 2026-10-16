@@ -38,6 +38,7 @@ const Notifications = () => {
       <For each={notifications}>
         {
           ({
+            action,
             id,
             message,
             show,
@@ -93,6 +94,23 @@ const Notifications = () => {
                       {message}
                     </div>
                   </div>
+                  {
+                    action && (
+                      <Button
+                        className="ms-2"
+                        onClick={
+                          () => {
+                            action.onClick()
+                            hideNotification(id)
+                          }
+                        }
+                        size="sm"
+                        variant="outline-light-dark"
+                      >
+                        {action.label}
+                      </Button>
+                    )
+                  }
                   <Button
                     className="notifications-list__close-button ms-2"
                     onClick={() => hideNotification(id)}

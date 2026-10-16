@@ -2,15 +2,13 @@ import { capitalize, startCase } from 'lodash-es'
 import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Row from 'react-bootstrap/Row'
+import Tooltip from 'react-bootstrap/Tooltip'
 import moment from 'moment'
 import pluralize from 'pluralize'
 import PropTypes from 'prop-types'
-import React, {
-  useCallback,
-  useEffect,
-  useState
-} from 'react'
+import React, { useCallback, useState } from 'react'
 import {
   Navigate,
   useParams,
@@ -18,6 +16,8 @@ import {
 } from 'react-router'
 
 import { useSuspenseQuery } from '@apollo/client'
+
+import { getApplicationConfig } from 'sharedUtils/getConfig'
 
 import handleSort from '@/js/utils/handleSort'
 
@@ -32,7 +32,10 @@ import CustomModal from '../../components/CustomModal/CustomModal'
 import EllipsisLink from '../../components/EllipsisLink/EllipsisLink'
 import EllipsisText from '../../components/EllipsisText/EllipsisText'
 import For from '../../components/For/For'
+import SelectAllCheckbox from '../../components/SelectAllCheckbox/SelectAllCheckbox'
 import Table from '../../components/Table/Table'
+
+import useCollectionSelectionContext from '../../hooks/useCollectionSelectionContext'
 
 import getTagCount from '../../utils/getTagCount'
 
@@ -46,9 +49,19 @@ import getTagCount from '../../utils/getTagCount'
  * )
  */
 const SearchList = ({ limit }) => {
+  const { bulkUpdateEnabled } = getApplicationConfig()
+
   const [searchParams, setSearchParams] = useSearchParams()
   const [showTagModal, setShowTagModal] = useState(false)
   const [tagModalActiveCollection, setTagModalActiveCollection] = useState(null)
+
+  const {
+    deselectCollections,
+    selectCollections,
+    selectedCollections,
+    selectedProvider,
+    toggleCollectionSelection
+  } = useCollectionSelectionContext()
 
   const { type: conceptType } = useParams()
   const keywordParam = searchParams.get('keyword')
@@ -108,6 +121,53 @@ const SearchList = ({ limit }) => {
 
   const { [conceptType]: concept } = data
   const { count, items } = concept
+  const pageItems = items ?? []
+
+  const selectablePageConceptIds = pageItems
+    .filter(({ provider }) => !selectedProvider || provider === selectedProvider)
+    .map(({ conceptId }) => conceptId)
+  const selectedOnPageCount = selectablePageConceptIds.filter(
+    (conceptId) => selectedCollections.includes(conceptId)
+  ).length
+  const allOnPageSelected = selectablePageConceptIds.length > 0
+    && selectedOnPageCount === selectablePageConceptIds.length
+  const someOnPageSelected = selectedOnPageCount > 0 && !allOnPageSelected
+
+  const pageProviderCount = new Set(pageItems.map(({ provider }) => provider)).size
+
+  // With nothing selected yet, a page spanning multiple providers is ambiguous. Once a
+  // provider is locked in, the page may still have nothing selectable on it at all (e.g.
+  // every row here belongs to a different provider), which is just as unusable even though
+  // the page itself isn't ambiguous.
+  const selectAllDisabled = selectedProvider
+    ? selectablePageConceptIds.length === 0
+    : pageProviderCount > 1
+
+  let selectAllDisabledReason = null
+
+  if (selectAllDisabled) {
+    selectAllDisabledReason = selectedProvider
+      ? `No collections on this page belong to ${selectedProvider}.`
+      : 'Filter by a provider to select all'
+  }
+
+  const handleSelectAllChange = () => {
+    if (allOnPageSelected) {
+      deselectCollections(selectablePageConceptIds)
+
+      return
+    }
+
+    // `selectCollections` only adds candidates matching the locked provider (or locks to the
+    // first candidate's provider when nothing is selected yet), so passing every page item is
+    // safe even when the page spans multiple providers.
+    selectCollections(pageItems.map(({ conceptId, provider }) => (
+      {
+        conceptId,
+        provider
+      }
+    )))
+  }
 
   const buildEllipsisLinkCell = useCallback((cellData, rowData) => {
     const { conceptId } = rowData
@@ -118,6 +178,38 @@ const SearchList = ({ limit }) => {
       </EllipsisLink>
     )
   }, [conceptType])
+
+  const buildCheckboxCell = useCallback((cellData, rowData) => {
+    const { conceptId, provider } = rowData
+    const isSelected = selectedCollections.includes(conceptId)
+    const isDisabled = !!selectedProvider && selectedProvider !== provider
+
+    return (
+      <OverlayTrigger
+        overlay={
+          // eslint-disable-next-line react/no-unstable-nested-components
+          (overlayProps) => (
+            <Tooltip id="collection-checkbox-tooltip" {...overlayProps}>
+              {`Only ${selectedProvider} collections can be selected`}
+            </Tooltip>
+          )
+        }
+        placement="top"
+        trigger={isDisabled ? ['hover', 'focus'] : []}
+      >
+        <span>
+          <input
+            aria-label={`Select collection ${conceptId}`}
+            checked={isSelected}
+            className="form-check-input"
+            disabled={isDisabled}
+            onChange={() => toggleCollectionSelection(conceptId, provider)}
+            type="checkbox"
+          />
+        </span>
+      </OverlayTrigger>
+    )
+  }, [selectedCollections, selectedProvider, toggleCollectionSelection])
 
   const buildEllipsisTextCell = useCallback((cellData) => (
     <EllipsisText>
@@ -165,6 +257,22 @@ const SearchList = ({ limit }) => {
   const getColumnState = () => {
     if (formattedType === conceptTypes.Collections) {
       return [
+        ...(bulkUpdateEnabled ? [{
+          align: 'center',
+          className: 'col-auto table__checkbox-column',
+          dataAccessorFn: buildCheckboxCell,
+          dataKey: 'conceptId',
+          title: (
+            <SelectAllCheckbox
+              ariaLabel="Select all collections on this page"
+              checked={allOnPageSelected}
+              disabled={selectAllDisabled}
+              indeterminate={someOnPageSelected}
+              onChange={handleSelectAllChange}
+              title={selectAllDisabledReason}
+            />
+          )
+        }] : []),
         {
           className: 'col-auto',
           dataAccessorFn: buildEllipsisLinkCell,
@@ -277,11 +385,7 @@ const SearchList = ({ limit }) => {
     ]
   }
 
-  const [columns, setColumns] = useState(getColumnState())
-
-  useEffect(() => {
-    setColumns(getColumnState())
-  }, [conceptType])
+  const columns = getColumnState()
 
   const activeTagModalCollection = items?.find((item) => (
     item.conceptId === tagModalActiveCollection

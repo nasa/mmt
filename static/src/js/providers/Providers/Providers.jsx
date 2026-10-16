@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import AppContextProvider from '../AppContextProvider/AppContextProvider'
+import CollectionSelectionContextProvider from '../CollectionSelectionContextProvider/CollectionSelectionContextProvider'
 import NotificationsContextProvider from '../NotificationsContextProvider/NotificationsContextProvider'
 import AuthContextProvider from '../AuthContextProvider/AuthContextProvider'
 import GraphQLProvider from '../GraphQLProvider/GraphQLProvider'
@@ -27,7 +28,8 @@ const Providers = ({ children }) => {
     <AuthContextProvider key="provider_auth-context-provider" />,
     <AppContextProvider key="provider_app-context-provider" />,
     <GraphQLProvider key="provider_graphql-provider" />,
-    <NotificationsContextProvider key="provider_notifications-context" />
+    <NotificationsContextProvider key="provider_notifications-context" />,
+    <CollectionSelectionContextProvider key="provider_collection-selection-context" />
   ]
 
   // Combine the Providers into a single Provider component

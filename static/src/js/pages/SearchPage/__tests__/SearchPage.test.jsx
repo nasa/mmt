@@ -13,6 +13,8 @@ import {
 } from 'react-router'
 
 import AppContext from '@/js/context/AppContext'
+import CollectionSelectionContextProvider from '@/js/providers/CollectionSelectionContextProvider/CollectionSelectionContextProvider'
+import NotificationsContextProvider from '@/js/providers/NotificationsContextProvider/NotificationsContextProvider'
 import userEvent from '@testing-library/user-event'
 import {
   singlePageCollectionSearch,
@@ -84,18 +86,22 @@ const setup = ({
         <MockedProvider
           mocks={overrideMocks || mocks}
         >
-          <Routes>
-            <Route
-              path="/:type"
-              element={(
-                <SearchPage {...props} />
-              )}
-            />
-            <Route
-              path="/404"
-              element={<div>404 page</div>}
-            />
-          </Routes>
+          <NotificationsContextProvider>
+            <CollectionSelectionContextProvider>
+              <Routes>
+                <Route
+                  path="/:type"
+                  element={(
+                    <SearchPage {...props} />
+                  )}
+                />
+                <Route
+                  path="/404"
+                  element={<div>404 page</div>}
+                />
+              </Routes>
+            </CollectionSelectionContextProvider>
+          </NotificationsContextProvider>
         </MockedProvider>
       </MemoryRouter>
     </AppContext.Provider>

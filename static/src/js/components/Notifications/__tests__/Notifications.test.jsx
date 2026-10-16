@@ -11,11 +11,12 @@ import Providers from '../../../providers/Providers/Providers'
 import useNotificationsContext from '../../../hooks/useNotificationsContext'
 
 // eslint-disable-next-line react/prop-types
-const MockComponent = ({ variantType }) => {
+const MockComponent = ({ action, variantType }) => {
   const { addNotification } = useNotificationsContext()
 
   useEffect(() => {
     addNotification({
+      action,
       message: `Mock ${variantType} notification`,
       variant: `${variantType}`
     })
@@ -25,6 +26,7 @@ const MockComponent = ({ variantType }) => {
 }
 
 const setup = ({
+  action,
   overrideVariantType,
   variantType = 'success'
 } = {}) => {
@@ -33,7 +35,7 @@ const setup = ({
   render(
     <Providers>
       <Notifications />
-      <MockComponent variantType={overrideVariantType || variantType} />
+      <MockComponent action={action} variantType={overrideVariantType || variantType} />
     </Providers>
   )
 
@@ -91,6 +93,45 @@ describe('Notifications', () => {
         })
 
         expect(screen.getByText('Mock danger notification')).toBeInTheDocument()
+      })
+    })
+
+    describe('when the notification has an action', () => {
+      test('renders the action button and calls its onClick when clicked', async () => {
+        const onClick = vi.fn()
+
+        const { user } = setup({
+          action: {
+            label: 'Undo',
+            onClick
+          }
+        })
+
+        await user.click(screen.getByRole('button', { name: 'Undo' }))
+
+        expect(onClick).toHaveBeenCalledTimes(1)
+      })
+
+      test('removes the notification after the action is clicked', async () => {
+        const { user } = setup({
+          action: {
+            label: 'Undo',
+            onClick: vi.fn()
+          }
+        })
+
+        await user.click(screen.getByRole('button', { name: 'Undo' }))
+
+        expect(screen.queryByText('Mock success notification')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when the notification has no action', () => {
+      test('does not render an action button', () => {
+        setup()
+
+        expect(screen.queryByRole('button', { name: 'Undo' })).not.toBeInTheDocument()
+        expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
       })
     })
   })

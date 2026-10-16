@@ -22,6 +22,8 @@ import usePermissions from '@/js/hooks/usePermissions'
 import { getApplicationConfig, getUmmVersionsConfig } from 'sharedUtils/getConfig'
 
 import Button from '../Button/Button'
+import CollectionSelectionBar from '../CollectionSelectionBar/CollectionSelectionBar'
+import CollectionSelectionNavigationGuard from '../CollectionSelectionNavigationGuard/CollectionSelectionNavigationGuard'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import PrimaryNavigation from '../PrimaryNavigation/PrimaryNavigation'
 import AboutModal from '../AboutModal/AboutModal'
@@ -49,7 +51,7 @@ const Layout = ({ className, displayNav }) => {
     ummVis
   } = getUmmVersionsConfig()
 
-  const { displayProdWarning, env } = getApplicationConfig()
+  const { bulkUpdateEnabled, displayProdWarning, env } = getApplicationConfig()
   const { user } = useAuthContext()
 
   const { hasSystemGroup, hasSystemKeywords, loading } = usePermissions({
@@ -325,6 +327,14 @@ const Layout = ({ className, displayNav }) => {
             <Outlet />
           </main>
         </ErrorBoundary>
+        {
+          bulkUpdateEnabled && (
+            <>
+              <CollectionSelectionBar />
+              <CollectionSelectionNavigationGuard />
+            </>
+          )
+        }
       </div>
       <AboutModal show={showAboutModal} toggleModal={(state) => { setShowAboutModal(state) }} />
     </>
