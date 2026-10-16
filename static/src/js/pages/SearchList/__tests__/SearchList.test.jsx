@@ -601,9 +601,10 @@ describe('SearchPage component', () => {
 
       expect(row1Checkbox).toBeChecked()
       expect(row2Checkbox).toBeDisabled()
-      expect(
-        within(tableRows[2]).getByTitle(/Bulk actions can only include collections from a single provider/)
-      ).toContainElement(row2Checkbox)
+
+      await user.hover(row2Checkbox)
+
+      expect(await screen.findByRole('tooltip')).toHaveTextContent('Only TESTPROV collections can be selected')
     })
 
     test('allows selecting a collection from a different provider after clearing the selection', async () => {
@@ -635,9 +636,10 @@ describe('SearchPage component', () => {
       const headerCheckbox = within(headerColumn).getByRole('checkbox')
 
       expect(headerCheckbox).toBeDisabled()
-      expect(
-        within(headerColumn).getByTitle('Filter by a provider to select all')
-      ).toContainElement(headerCheckbox)
+
+      await user.hover(headerCheckbox)
+
+      expect(await screen.findByRole('tooltip')).toHaveTextContent('Filter by a provider to select all')
 
       await user.click(headerCheckbox)
 
@@ -733,9 +735,10 @@ describe('SearchPage component', () => {
         const headerCheckbox = within(headerColumn).getByRole('checkbox')
 
         expect(headerCheckbox).toBeDisabled()
-        expect(
-          within(headerColumn).getByTitle('No collections on this page belong to TESTPROV.')
-        ).toContainElement(headerCheckbox)
+
+        await user.hover(headerCheckbox)
+
+        expect(await screen.findByRole('tooltip')).toHaveTextContent('No collections on this page belong to TESTPROV.')
 
         await user.click(headerCheckbox)
 

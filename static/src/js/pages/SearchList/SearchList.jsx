@@ -2,7 +2,9 @@ import { capitalize, startCase } from 'lodash-es'
 import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Row from 'react-bootstrap/Row'
+import Tooltip from 'react-bootstrap/Tooltip'
 import moment from 'moment'
 import pluralize from 'pluralize'
 import PropTypes from 'prop-types'
@@ -183,22 +185,29 @@ const SearchList = ({ limit }) => {
     const isDisabled = !!selectedProvider && selectedProvider !== provider
 
     return (
-      <span
-        title={
-          isDisabled
-            ? `Bulk actions can only include collections from a single provider. Clear your current selection of ${selectedProvider} collections before selecting a collection from ${provider}.`
-            : null
+      <OverlayTrigger
+        overlay={
+          // eslint-disable-next-line react/no-unstable-nested-components
+          (overlayProps) => (
+            <Tooltip id="collection-checkbox-tooltip" {...overlayProps}>
+              {`Only ${selectedProvider} collections can be selected`}
+            </Tooltip>
+          )
         }
+        placement="top"
+        trigger={isDisabled ? ['hover', 'focus'] : []}
       >
-        <input
-          aria-label={`Select collection ${conceptId}`}
-          checked={isSelected}
-          className="form-check-input"
-          disabled={isDisabled}
-          onChange={() => toggleCollectionSelection(conceptId, provider)}
-          type="checkbox"
-        />
-      </span>
+        <span>
+          <input
+            aria-label={`Select collection ${conceptId}`}
+            checked={isSelected}
+            className="form-check-input"
+            disabled={isDisabled}
+            onChange={() => toggleCollectionSelection(conceptId, provider)}
+            type="checkbox"
+          />
+        </span>
+      </OverlayTrigger>
     )
   }, [selectedCollections, selectedProvider, toggleCollectionSelection])
 

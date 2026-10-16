@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from 'react'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 import PropTypes from 'prop-types'
 
 /**
@@ -44,21 +46,34 @@ const SelectAllCheckbox = ({
   }, [indeterminate])
 
   // Disabled inputs don't reliably fire hover/focus events in every browser, so the tooltip
-  // is set via the native `title` attribute on a wrapper instead of the input. The wrapper is
-  // always rendered (title toggles between the message and null) so enabling/disabling never
-  // swaps the element type at this position, which would otherwise remount the input.
+  // trigger is wired up on a wrapper span instead of the input. The wrapper and OverlayTrigger
+  // are always rendered (only the `trigger` prop toggles) so enabling/disabling never swaps the
+  // element type at this position, which would otherwise remount the input.
   return (
-    <span title={disabled ? title : null}>
-      <input
-        aria-label={ariaLabel}
-        checked={checked}
-        className="form-check-input"
-        disabled={disabled}
-        onChange={onChange}
-        ref={checkboxRef}
-        type="checkbox"
-      />
-    </span>
+    <OverlayTrigger
+      overlay={
+        // eslint-disable-next-line react/no-unstable-nested-components
+        (overlayProps) => (
+          <Tooltip id="select-all-checkbox-tooltip" {...overlayProps}>
+            {title}
+          </Tooltip>
+        )
+      }
+      placement="top"
+      trigger={disabled && title ? ['hover', 'focus'] : []}
+    >
+      <span>
+        <input
+          aria-label={ariaLabel}
+          checked={checked}
+          className="form-check-input"
+          disabled={disabled}
+          onChange={onChange}
+          ref={checkboxRef}
+          type="checkbox"
+        />
+      </span>
+    </OverlayTrigger>
   )
 }
 
