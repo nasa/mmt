@@ -54,8 +54,8 @@ const setup = () => {
               element={<div>Collections page</div>}
             />
             <Route
-              path="/collections/bulk-actions/configure"
-              element={<div>Bulk actions configure page</div>}
+              path="/collections/bulk-actions/edit"
+              element={<div>Bulk actions edit page</div>}
             />
             <Route
               path="/variables"
@@ -157,13 +157,13 @@ describe('CollectionSelectionBar component', () => {
     })
 
     describe('when clicking Continue', () => {
-      test('navigates to the bulk actions configure page', async () => {
+      test('navigates to the bulk actions edit page', async () => {
         const { user } = setup()
 
         await user.click(screen.getByRole('button', { name: 'Select collection' }))
         await user.click(screen.getByRole('button', { name: 'Continue' }))
 
-        expect(screen.getByText('Bulk actions configure page')).toBeInTheDocument()
+        expect(screen.getByText('Bulk actions edit page')).toBeInTheDocument()
       })
     })
   })

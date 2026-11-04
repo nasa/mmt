@@ -97,7 +97,7 @@ const Notifications = () => {
                   {
                     action && (
                       <Button
-                        className="ms-2"
+                        className="ms-2 align-self-start"
                         onClick={
                           () => {
                             action.onClick()
