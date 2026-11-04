@@ -19,7 +19,7 @@ describe('BulkActionsTaskPage component', () => {
     )
 
     expect(screen.getByRole('heading', { name: 'Bulk Action Task: BU-4439' })).toBeInTheDocument()
-    expect(screen.getByText(/Task BU-4439 is processing in the background/)).toBeInTheDocument()
+    expect(screen.getByText(/Task BU-4439 was submitted/)).toBeInTheDocument()
   })
 
   test('links the Bulk Actions breadcrumb back to this concept type\'s landing page', () => {

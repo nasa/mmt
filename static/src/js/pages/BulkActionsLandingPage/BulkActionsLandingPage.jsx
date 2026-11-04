@@ -69,7 +69,7 @@ const BulkActionsLandingPage = () => {
               {' '}
               <Alert.Link href={`/${type}`}>All Collections</Alert.Link>
               {' '}
-              and click Edit in the selection bar.
+              and click Continue in the selection bar.
             </Alert>
           )
       }

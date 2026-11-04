@@ -383,6 +383,13 @@ const BULK_UPDATE_CONFIG = {
   }
 }
 
+// Whether bulk-update has any configuration for this concept type at all -- used to redirect
+// away from the bulk-actions edit page for a :type with no entry here, since rendering it
+// otherwise reaches BulkActionsSelectedConcepts with an undefined query and crashes.
+export const isBulkUpdateSupportedForConceptType = (conceptType) => (
+  Boolean(BULK_UPDATE_CONFIG[conceptType])
+)
+
 export const getBulkUpdateFields = (conceptType) => (
   BULK_UPDATE_CONFIG[conceptType]?.fields || []
 )

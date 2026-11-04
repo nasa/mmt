@@ -58,7 +58,7 @@ const BulkActionsTaskPage = () => {
       header={<BulkActionsTaskPageHeader />}
     >
       <Alert variant="info">
-        {`Task ${taskId} is processing in the background. Detailed status reporting for this task is coming soon.`}
+        {`Task ${taskId} was submitted. Its status is not available yet -- detailed status reporting for this task is coming soon.`}
       </Alert>
     </Page>
   )

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useBlocker, useParams } from 'react-router'
 
@@ -18,7 +18,10 @@ import useCollectionSelectionContext from '@/js/hooks/useCollectionSelectionCont
  * Cancel/Leave style as CollectionSelectionNavigationGuard, which doesn't run here) before
  * navigating away, since leaving discards the in-progress selection and configuration. The
  * "Bulk Actions" nav item itself is an exception -- clicking it while already here is a
- * no-op, not something to warn about.
+ * no-op, not something to warn about. That exception is specifically for that PUSH
+ * navigation though -- a POP (browser Back/Forward) that happens to land on the same path
+ * is a real exit and still shows the warning, since blocker.location alone can't tell the
+ * two apart (the useBlocker predicate's historyAction can, so it's captured in a ref).
  *
  * @component
  * @example <caption>Render a BulkActionsEditNavigationGuard</caption>
@@ -33,14 +36,22 @@ const BulkActionsEditNavigationGuard = ({ skipRef }) => {
   const editPath = `/${type}/bulk-actions/edit`
   const landingPath = `/${type}/bulk-actions`
 
-  const blocker = useBlocker(({ nextLocation }) => {
+  // Blocker.location (what the returned blocker exposes) carries no navigation-type info --
+  // only the predicate's own historyAction argument does, so it's captured here to use below.
+  const lastHistoryActionRef = useRef(null)
+
+  const blocker = useBlocker(({ nextLocation, historyAction }) => {
+    lastHistoryActionRef.current = historyAction
+
     if (skipRef.current) return false
 
     return selectedCollections.length > 0 && nextLocation.pathname !== editPath
   })
 
   const isBlockedByLandingLink = (
-    blocker.state === 'blocked' && blocker.location.pathname === landingPath
+    blocker.state === 'blocked'
+    && blocker.location.pathname === landingPath
+    && lastHistoryActionRef.current !== 'POP'
   )
 
   useEffect(() => {

@@ -67,4 +67,12 @@ describe('BulkActionsFindValueForm component', () => {
 
     expect(onChange).toHaveBeenLastCalledWith({ NumberOfInstruments: 5 })
   })
+
+  test('rejects a fractional value for a number-type field instead of submitting it', async () => {
+    const { onChange, user } = setup()
+
+    await user.type(screen.getByLabelText('NumberOfInstruments'), '2.5')
+
+    expect(onChange).toHaveBeenLastCalledWith({})
+  })
 })

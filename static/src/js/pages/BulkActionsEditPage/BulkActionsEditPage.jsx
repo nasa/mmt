@@ -4,7 +4,11 @@ import React, {
   useState
 } from 'react'
 import { useMutation } from '@apollo/client'
-import { useNavigate, useParams } from 'react-router'
+import {
+  Navigate,
+  useNavigate,
+  useParams
+} from 'react-router'
 import Alert from 'react-bootstrap/Alert'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
@@ -26,6 +30,7 @@ import {
   getBulkUpdateFields,
   getBulkUpdateTypeConfig,
   getBulkUpdateTypes,
+  isBulkUpdateSupportedForConceptType,
   isUpdateTypeAvailableForField
 } from '@/js/constants/bulkUpdateFields'
 
@@ -278,6 +283,13 @@ const BulkActionsEditPage = () => {
     navigate(`/${conceptType}`)
   }
 
+  // Bulk-update has no configuration for this concept type (only 'collections' exists
+  // today) -- rendering below would reach BulkActionsSelectedConcepts with an undefined
+  // query and crash, so redirect instead of letting that happen.
+  if (!isBulkUpdateSupportedForConceptType(conceptType)) {
+    return <Navigate to="/404" replace />
+  }
+
   return (
     <Page
       pageType="secondary"
@@ -412,13 +424,14 @@ const BulkActionsEditPage = () => {
       <div className="d-flex justify-content-end">
         <Button
           className="me-2"
+          disabled={submitting}
           onClick={handleCancel}
           variant="secondary"
         >
           Cancel
         </Button>
         <Button
-          disabled={!canSubmit}
+          disabled={!canSubmit || submitting}
           loading={submitting}
           loadingText="Submitting…"
           onClick={handleSubmit}

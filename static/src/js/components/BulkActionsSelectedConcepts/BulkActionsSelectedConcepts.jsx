@@ -12,6 +12,8 @@ import Button from '@/js/components/Button/Button'
 import ControlledPaginatedContent from '@/js/components/ControlledPaginatedContent/ControlledPaginatedContent'
 import Table from '@/js/components/Table/Table'
 
+import parseError from '@/js/utils/parseError'
+
 const PAGE_SIZE = 5
 
 /**
@@ -72,7 +74,7 @@ const BulkActionsSelectedConcepts = ({
     activePage * PAGE_SIZE
   )
 
-  const { data, loading } = useQuery(query, {
+  const { data, loading, error } = useQuery(query, {
     skip: pageConceptIds.length === 0,
     variables: {
       params: {
@@ -119,6 +121,14 @@ const BulkActionsSelectedConcepts = ({
         <Spinner animation="border" role="status" size="sm" className="me-2" />
         {loadingMessage}
       </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <Alert variant="danger">
+        {`${parseError(error)} Try refreshing the page.`}
+      </Alert>
     )
   }
 

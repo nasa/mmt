@@ -1,7 +1,11 @@
 import React, { useRef } from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createRoutesStub, Link } from 'react-router'
+import {
+  createRoutesStub,
+  Link,
+  useNavigate
+} from 'react-router'
 
 import CollectionSelectionContextProvider from '@/js/providers/CollectionSelectionContextProvider/CollectionSelectionContextProvider'
 import useCollectionSelectionContext from '@/js/hooks/useCollectionSelectionContext'
@@ -22,6 +26,7 @@ const MockSelector = () => {
 
 const EditPage = () => {
   const skipRef = useRef(false)
+  const navigate = useNavigate()
 
   return (
     <>
@@ -33,11 +38,19 @@ const EditPage = () => {
       <Link to="/variables" onClick={() => { skipRef.current = true }}>
         Cancel (pre-approved exit)
       </Link>
+      {/* A delta navigation (like the browser's Back button) is a POP, unlike the Link
+          clicks above, which are all PUSH. */}
+      <button type="button" onClick={() => navigate(-1)}>
+        Browser back
+      </button>
     </>
   )
 }
 
-const setup = () => {
+const setup = ({
+  initialEntries = ['/collections/bulk-actions/edit'],
+  initialIndex
+} = {}) => {
   const user = userEvent.setup()
 
   const Stub = createRoutesStub([
@@ -61,7 +74,7 @@ const setup = () => {
 
   render(
     <CollectionSelectionContextProvider>
-      <Stub initialEntries={['/collections/bulk-actions/edit']} />
+      <Stub initialEntries={initialEntries} initialIndex={initialIndex} />
     </CollectionSelectionContextProvider>
   )
 
@@ -104,6 +117,21 @@ describe('BulkActionsEditNavigationGuard component', () => {
       })
     })
 
+    describe('and the user navigates back (POP) to a history entry at the landing path', () => {
+      test('still blocks it and shows the confirmation modal, unlike the inert sidebar link', async () => {
+        const { user } = setup({
+          initialEntries: ['/collections/bulk-actions', '/collections/bulk-actions/edit'],
+          initialIndex: 1
+        })
+
+        await user.click(screen.getByRole('button', { name: 'Select collection' }))
+        await user.click(screen.getByRole('button', { name: 'Browser back' }))
+
+        expect(await screen.findByText('Leave Bulk Update?')).toBeInTheDocument()
+        expect(screen.queryByText('Bulk actions landing page')).not.toBeInTheDocument()
+      })
+    })
+
     describe('and the user clicks another menu item', () => {
       test('blocks the navigation and shows a confirmation modal', async () => {
         const { user } = setup()
@@ -133,6 +161,21 @@ describe('BulkActionsEditNavigationGuard component', () => {
           await user.click(screen.getByRole('link', { name: 'Go to variables' }))
 
           await user.click(await screen.findByRole('button', { name: 'Cancel' }))
+
+          expect(screen.queryByText('Leave Bulk Update?')).not.toBeInTheDocument()
+          expect(screen.getByRole('button', { name: 'Select collection' })).toBeInTheDocument()
+        })
+      })
+
+      describe('when dismissing the modal (e.g. pressing Escape) instead of clicking Cancel', () => {
+        test('stays on the page', async () => {
+          const { user } = setup()
+
+          await user.click(screen.getByRole('button', { name: 'Select collection' }))
+          await user.click(screen.getByRole('link', { name: 'Go to variables' }))
+
+          await screen.findByText('Leave Bulk Update?')
+          await user.keyboard('{Escape}')
 
           expect(screen.queryByText('Leave Bulk Update?')).not.toBeInTheDocument()
           expect(screen.getByRole('button', { name: 'Select collection' })).toBeInTheDocument()

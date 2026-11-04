@@ -110,6 +110,27 @@ describe('BulkActionsSelectedConcepts component', () => {
     expect(onRemove).toHaveBeenCalledWith('C1-TESTPROV')
   })
 
+  test('shows an error message instead of treating a failed lookup as empty', async () => {
+    const errorMock = {
+      request: {
+        query: GET_COLLECTIONS,
+        variables: {
+          params: {
+            conceptId: ['C1-TESTPROV', 'C2-TESTPROV'],
+            limit: 2
+          }
+        }
+      },
+      error: new Error('An error occurred')
+    }
+
+    setup({ queryMocks: [errorMock] })
+
+    expect(await screen.findByText(/An error occurred/)).toBeInTheDocument()
+    expect(screen.getByText(/Try refreshing the page/)).toBeInTheDocument()
+    expect(screen.queryByText('No selected items found')).not.toBeInTheDocument()
+  })
+
   test('does not paginate when there are 5 or fewer selected concepts', async () => {
     setup()
 

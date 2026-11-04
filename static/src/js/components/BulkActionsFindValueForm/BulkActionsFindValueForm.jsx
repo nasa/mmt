@@ -32,8 +32,19 @@ const BulkActionsFindValueForm = ({ flatFindKeys, value, onChange }) => {
 
     if (nextValue === '') {
       delete next[key]
+    } else if (type === 'number') {
+      const parsedValue = Number(nextValue)
+
+      // NumberOfInstruments (the one number-typed find key today) is an integer in UMM-C --
+      // reject a fractional or otherwise invalid value rather than letting it reach the
+      // submitted findValue, same as an empty input.
+      if (Number.isInteger(parsedValue)) {
+        next[key] = parsedValue
+      } else {
+        delete next[key]
+      }
     } else {
-      next[key] = type === 'number' ? Number(nextValue) : nextValue
+      next[key] = nextValue
     }
 
     onChange(next)

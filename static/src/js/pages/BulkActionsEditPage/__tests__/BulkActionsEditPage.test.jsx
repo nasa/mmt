@@ -13,8 +13,11 @@ import CollectionSelectionContextProvider from '@/js/providers/CollectionSelecti
 import NotificationsContextProvider from '@/js/providers/NotificationsContextProvider/NotificationsContextProvider'
 import Notifications from '@/js/components/Notifications/Notifications'
 import useCollectionSelectionContext from '@/js/hooks/useCollectionSelectionContext'
+import errorLogger from '@/js/utils/errorLogger'
 
 import BulkActionsEditPage from '../BulkActionsEditPage'
+
+vi.mock('@/js/utils/errorLogger')
 
 // Mock CodeMirror to render a standard textarea, so userEvent.type works easily -- matches
 // the pattern used by JsonPreview's tests, which wrap the same underlying editor.
@@ -85,6 +88,31 @@ const createBulkUpdateMock = {
       }
     }
   }
+}
+
+const createBulkUpdateDelayedMock = {
+  ...createBulkUpdateMock,
+  // Keeps the mutation pending long enough to observe the Submit button's disabled state
+  // while a request is already in flight.
+  delay: 50
+}
+
+const createBulkUpdateErrorMock = {
+  request: {
+    query: CREATE_BULK_UPDATE_COLLECTION_TASK,
+    variables: {
+      conceptIds: ['C1-TESTPROV'],
+      providerId: 'TESTPROV',
+      updateField: 'DATA_CENTERS',
+      updateType: 'FIND_AND_REPLACE',
+      findValue: { ShortName: 'NASA/GSFC' },
+      updateValue: {
+        ShortName: 'NASA/GSFC',
+        LongName: 'Goddard'
+      }
+    }
+  },
+  error: new Error('An error occurred')
 }
 
 const createBulkUpdateHomePageUrlMock = {
@@ -211,10 +239,17 @@ const Stub = createRoutesStub([
   {
     path: '/:type/bulk-actions/:taskId',
     Component: () => <div>Bulk actions task page</div>
+  },
+  {
+    path: '/404',
+    Component: () => <div>404 page</div>
   }
 ])
 
-const setup = ({ mocks = [getCollectionsMock] } = {}) => {
+const setup = ({
+  mocks = [getCollectionsMock],
+  initialEntries = ['/collections/bulk-actions/edit']
+} = {}) => {
   const user = userEvent.setup()
 
   render(
@@ -224,7 +259,7 @@ const setup = ({ mocks = [getCollectionsMock] } = {}) => {
           <PreSelectCollection />
           <SelectionCountObserver />
           <Notifications />
-          <Stub initialEntries={['/collections/bulk-actions/edit']} />
+          <Stub initialEntries={initialEntries} />
         </CollectionSelectionContextProvider>
       </NotificationsContextProvider>
     </MockedProvider>
@@ -249,6 +284,15 @@ const fillUpdateValueJson = async (user, value) => {
 }
 
 describe('BulkActionsEditPage component', () => {
+  describe('when the :type has no bulk-update configuration', () => {
+    test('redirects to 404 instead of rendering', async () => {
+      setup({ initialEntries: ['/variables/bulk-actions/edit'] })
+
+      expect(await screen.findByText('404 page')).toBeInTheDocument()
+      expect(screen.queryByText('Configure Bulk Update')).not.toBeInTheDocument()
+    })
+  })
+
   test('shows the selected collection count', async () => {
     const { user } = setup()
 
@@ -382,6 +426,60 @@ describe('BulkActionsEditPage component', () => {
     })
   })
 
+  describe('when a submission is already in flight', () => {
+    test('disables the Submit button so it cannot be clicked again', async () => {
+      const { user } = setup({
+        mocks: [getCollectionsMock, createBulkUpdateDelayedMock]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectFieldAndType(user)
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'NASA/GSFC'
+      )
+
+      await fillUpdateValueJson(user, {
+        ShortName: 'NASA/GSFC',
+        LongName: 'Goddard'
+      })
+
+      const submitButton = screen.getByRole('button', { name: 'Submit Bulk Action' })
+
+      await user.click(submitButton)
+
+      expect(submitButton).toBeDisabled()
+
+      expect(await screen.findByText('Bulk Update Submitted')).toBeInTheDocument()
+    })
+
+    test('disables the Cancel button, since leaving would not actually stop the submission', async () => {
+      const { user } = setup({
+        mocks: [getCollectionsMock, createBulkUpdateDelayedMock]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectFieldAndType(user)
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'NASA/GSFC'
+      )
+
+      await fillUpdateValueJson(user, {
+        ShortName: 'NASA/GSFC',
+        LongName: 'Goddard'
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
+
+      expect(screen.getByRole('button', { name: 'Cancel' })).toBeDisabled()
+
+      expect(await screen.findByText('Bulk Update Submitted')).toBeInTheDocument()
+    })
+  })
+
   describe('when the bulk update is submitted successfully', () => {
     test('shows the submitted modal with the task id', async () => {
       const { user } = setup({
@@ -460,6 +558,38 @@ describe('BulkActionsEditPage component', () => {
       await user.click(screen.getByRole('button', { name: 'Close' }))
 
       expect(await screen.findByText('Bulk actions landing page')).toBeInTheDocument()
+    })
+  })
+
+  describe('when the bulk update submission fails', () => {
+    test('shows an error notification and calls errorLogger', async () => {
+      const { user } = setup({
+        mocks: [getCollectionsMock, createBulkUpdateErrorMock]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectFieldAndType(user)
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'NASA/GSFC'
+      )
+
+      await fillUpdateValueJson(user, {
+        ShortName: 'NASA/GSFC',
+        LongName: 'Goddard'
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
+
+      expect(await screen.findByText('Error submitting bulk update')).toBeInTheDocument()
+      expect(screen.queryByText('Bulk Update Submitted')).not.toBeInTheDocument()
+
+      expect(errorLogger).toHaveBeenCalledTimes(1)
+      expect(errorLogger).toHaveBeenCalledWith(
+        new Error('An error occurred'),
+        'Bulk Actions Edit Page: createBulkUpdateCollectionTask Mutation'
+      )
     })
   })
 
