@@ -40,8 +40,9 @@ const BulkActionsTaskPageHeader = () => {
 /**
  * Renders a BulkActionsTaskPage component.
  *
- * Placeholder status page for a single collection bulk-update task, linked to from the
- * "Bulk Update Submitted" modal's "View Job Status" action.
+ * Intended to show this task's detail (status, progress, results) once implemented;
+ * linked to from the "Bulk Update Submitted" modal's "View Job Status" action. For now it
+ * only confirms the task was submitted.
  *
  * @component
  * @example <caption>Render a BulkActionsTaskPage</caption>
@@ -58,7 +59,7 @@ const BulkActionsTaskPage = () => {
       header={<BulkActionsTaskPageHeader />}
     >
       <Alert variant="info">
-        {`Task ${taskId} was submitted. Its status is not available yet -- detailed status reporting for this task is coming soon.`}
+        {`Task ${taskId} was submitted. Task detail reporting is coming soon.`}
       </Alert>
     </Page>
   )

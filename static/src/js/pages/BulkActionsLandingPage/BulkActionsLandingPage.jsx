@@ -28,11 +28,9 @@ const BulkActionsLandingPageHeader = () => (
 /**
  * Renders a BulkActionsLandingPage component.
  *
- * Landing page for "Bulk Actions" under Collections. Normally reached by selecting
- * collections and clicking Continue in the sticky bar, or after submitting a bulk update --
- * but it's also reachable directly from the sidebar with an existing selection still active,
- * so it offers a way to continue that selection rather than only pointing back to All
- * Collections.
+ * Landing page for "Bulk Actions" under Collections. Intended to list all bulk-actions
+ * (tasks) once that's implemented; for now it only offers a way to continue an active
+ * selection into the edit page, or a prompt to go select collections if there isn't one.
  *
  * @component
  * @example <caption>Render a BulkActionsLandingPage</caption>
