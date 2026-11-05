@@ -28,9 +28,8 @@ import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
 /**
  * @typedef {Object} BulkFindKeyField
  * @property {String} key The UMM-C field name.
- * @property {'text'|'number'} type The kind of value CMR matches this key against -- unlike
- * BulkUpdateValueField, only 'text'/'number' apply here, since findValue only ever matches
- * a single flat scalar per key (not a select/multiselect/nested-array's worth of structure).
+ * @property {'text'|'number'} type The kind of value CMR matches this key against -- only
+ * 'text'/'number', since findValue only ever matches a single flat scalar per key.
  */
 
 // Docs: "DataCenterURL" / "HOME PAGE" is the established content-type/type pair for a data

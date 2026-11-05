@@ -1,10 +1,9 @@
 import validator from '@rjsf/validator-ajv8'
 
 /**
- * Validates updateValue JSON text against its JSON Schema (see buildUpdateValueJsonSchema),
- * using the same CodeMirror + @rjsf/validator-ajv8 combination as JsonPreview. There's no
- * need to filter out `required` noise here, unlike JsonPreview's version -- the schemas
- * built for updateValue never declare `required`.
+ * Validates updateValue JSON text against its JSON Schema (see buildUpdateValueJsonSchema).
+ * The schemas built for updateValue never declare `required`, so there's no need to filter
+ * that kind of noise out of ajv's errors.
  *
  * `oneOf` is different: action types that support multiple entries get a
  * `oneOf: [entry, array-of-entry]` schema, and ajv reports every failing branch plus a

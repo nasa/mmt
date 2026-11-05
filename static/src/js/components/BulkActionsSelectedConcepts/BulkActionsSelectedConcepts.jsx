@@ -31,7 +31,7 @@ const PAGE_SIZE = 5
  *
  * Displays the concepts selected for a bulk update, 5 per page, with a Remove action per
  * row. Removal happens immediately (no confirmation) -- the caller surfaces an Undo action
- * via a notification instead, matching CollectionSelectionBar's pattern.
+ * via a notification instead.
  *
  * Generic across concept types: the caller supplies the query and columns (see
  * getBulkActionsSelectedListAdapter) instead of hardcoding collections. The query's one

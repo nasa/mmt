@@ -14,14 +14,12 @@ import useCollectionSelectionContext from '@/js/hooks/useCollectionSelectionCont
 /**
  * Renders a BulkActionsEditNavigationGuard component.
  *
- * Mounted only on the bulk-actions edit page. While a selection is active, it warns (same
- * Cancel/Leave style as CollectionSelectionNavigationGuard, which doesn't run here) before
- * navigating away, since leaving discards the in-progress selection and configuration. The
- * "Bulk Actions" nav item itself is an exception -- clicking it while already here is a
- * no-op, not something to warn about. That exception is specifically for that PUSH
- * navigation though -- a POP (browser Back/Forward) that happens to land on the same path
- * is a real exit and still shows the warning, since blocker.location alone can't tell the
- * two apart (the useBlocker predicate's historyAction can, so it's captured in a ref).
+ * Warns before navigating away from the bulk-actions edit page while a selection is active,
+ * since leaving discards it along with the in-progress configuration. The "Bulk Actions" nav
+ * item is an exception -- clicking it while already here is a no-op -- but only for that
+ * PUSH; a POP (browser Back/Forward) landing on the same path is a real exit and still
+ * warns, so historyAction is captured in a ref since blocker.location alone can't tell them
+ * apart.
  *
  * @component
  * @example <caption>Render a BulkActionsEditNavigationGuard</caption>

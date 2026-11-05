@@ -30,9 +30,9 @@ const BulkActionsLandingPageHeader = () => (
  *
  * Landing page for "Bulk Actions" under Collections. Normally reached by selecting
  * collections and clicking Continue in the sticky bar, or after submitting a bulk update --
- * but it's also reachable directly from the sidebar with an existing selection still active
- * (the sticky bar stays visible here, unlike on the edit page), so it offers a way to
- * continue that selection rather than only pointing back to All Collections.
+ * but it's also reachable directly from the sidebar with an existing selection still active,
+ * so it offers a way to continue that selection rather than only pointing back to All
+ * Collections.
  *
  * @component
  * @example <caption>Render a BulkActionsLandingPage</caption>

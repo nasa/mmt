@@ -21,8 +21,7 @@ import buildUpdateValueJsonSchema from '@/js/utils/buildUpdateValueJsonSchema'
  *
  * A single JSON editor for `updateValue`, prepopulated with every key the selected
  * updateField accepts (see buildUpdateValueJsonSkeleton), instead of a bespoke per-field
- * form. Reuses JsonPreview's CodeMirror + codemirror-json-schema setup for autocomplete,
- * hover help, and inline syntax linting.
+ * form. Offers schema-driven autocomplete, hover help, and inline syntax linting.
  *
  * @component
  * @example <caption>Render a BulkActionsUpdateValueEditor</caption>
