@@ -300,20 +300,6 @@ const BulkActionsEditPage = () => {
       </p>
 
       <Card className="mb-4">
-        <Card.Header className="fw-bold">Selected Collections</Card.Header>
-        <Card.Body>
-          <BulkActionsSelectedConcepts
-            conceptIds={selectedCollections}
-            onRemove={handleRemove}
-            query={selectedListQuery}
-            columns={selectedListColumns}
-            noSelectionMessage="No collections are selected. Go back to All Collections to select collections to update."
-            loadingMessage="Loading selected collections…"
-          />
-        </Card.Body>
-      </Card>
-
-      <Card className="mb-4">
         <Card.Header className="fw-bold">Update Parameters</Card.Header>
         <Card.Body>
           <Row>
@@ -395,20 +381,16 @@ const BulkActionsEditPage = () => {
           {
             fieldConfig && needsUpdateValue && !isHomePageUrlType && (
               <>
-                <h3 className="h6 fw-bold mt-4">{updateValueSectionLabel}</h3>
-                {
-                  updateValueJsonErrors.length > 0 && (
-                    <Alert variant="danger" className="py-2 small">
-                      <ul className="mb-0 ps-3">
-                        {
-                          updateValueJsonErrors.map((error) => (
-                            <li key={error}>{error}</li>
-                          ))
-                        }
-                      </ul>
-                    </Alert>
-                  )
-                }
+                <div className="d-flex justify-content-between align-items-start flex-wrap gap-2 mt-4 mb-3">
+                  <h3 className="h6 fw-bold mb-0">{updateValueSectionLabel}</h3>
+                  {
+                    updateValueJsonErrors.length > 0 && (
+                      <span className="text-danger small text-end">
+                        {updateValueJsonErrors.join('; ')}
+                      </span>
+                    )
+                  }
+                </div>
                 <BulkActionsUpdateValueEditor
                   fields={fieldConfig.updateValueFields}
                   allowMultiple={!!supportsMultipleUpdateValues}
@@ -418,6 +400,20 @@ const BulkActionsEditPage = () => {
               </>
             )
           }
+        </Card.Body>
+      </Card>
+
+      <Card className="mb-4">
+        <Card.Header className="fw-bold">Selected Collections</Card.Header>
+        <Card.Body>
+          <BulkActionsSelectedConcepts
+            conceptIds={selectedCollections}
+            onRemove={handleRemove}
+            query={selectedListQuery}
+            columns={selectedListColumns}
+            noSelectionMessage="No collections are selected. Go back to All Collections to select collections to update."
+            loadingMessage="Loading selected collections…"
+          />
         </Card.Body>
       </Card>
 

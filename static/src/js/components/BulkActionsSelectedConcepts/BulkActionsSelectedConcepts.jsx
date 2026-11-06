@@ -14,7 +14,7 @@ import Table from '@/js/components/Table/Table'
 
 import parseError from '@/js/utils/parseError'
 
-const PAGE_SIZE = 5
+const PAGE_SIZE = 25
 
 /**
  * @typedef {Object} BulkActionsSelectedConceptsProps
@@ -29,7 +29,7 @@ const PAGE_SIZE = 5
 /**
  * Renders a BulkActionsSelectedConcepts component.
  *
- * Displays the concepts selected for a bulk update, 5 per page, with a Remove action per
+ * Displays the concepts selected for a bulk update, 25 per page, with a Remove action per
  * row. Removal happens immediately (no confirmation) -- the caller surfaces an Undo action
  * via a notification instead.
  *

@@ -131,7 +131,7 @@ describe('BulkActionsSelectedConcepts component', () => {
     expect(screen.queryByText('No selected items found')).not.toBeInTheDocument()
   })
 
-  test('does not paginate when there are 5 or fewer selected concepts', async () => {
+  test('does not paginate when there are 25 or fewer selected concepts', async () => {
     setup()
 
     await screen.findByText('ShortName1')
@@ -139,8 +139,9 @@ describe('BulkActionsSelectedConcepts component', () => {
     expect(screen.queryByRole('navigation', { name: 'Pagination Navigation' })).not.toBeInTheDocument()
   })
 
-  describe('when there are more than 5 selected concepts', () => {
-    const sevenConceptIds = [1, 2, 3, 4, 5, 6, 7].map((index) => `C${index}-TESTPROV`)
+  describe('when there are more than 25 selected concepts', () => {
+    const indices = Array.from({ length: 27 }, (_, index) => index + 1)
+    const conceptIds = indices.map((index) => `C${index}-TESTPROV`)
 
     const paginatedMocks = [
       {
@@ -148,16 +149,16 @@ describe('BulkActionsSelectedConcepts component', () => {
           query: GET_COLLECTIONS,
           variables: {
             params: {
-              conceptId: sevenConceptIds.slice(0, 5),
-              limit: 5
+              conceptId: conceptIds.slice(0, 25),
+              limit: 25
             }
           }
         },
         result: {
           data: {
             collections: {
-              count: 5,
-              items: [1, 2, 3, 4, 5].map(buildCollection)
+              count: 25,
+              items: indices.slice(0, 25).map(buildCollection)
             }
           }
         }
@@ -167,7 +168,7 @@ describe('BulkActionsSelectedConcepts component', () => {
           query: GET_COLLECTIONS,
           variables: {
             params: {
-              conceptId: sevenConceptIds.slice(5),
+              conceptId: conceptIds.slice(25),
               limit: 2
             }
           }
@@ -176,28 +177,28 @@ describe('BulkActionsSelectedConcepts component', () => {
           data: {
             collections: {
               count: 2,
-              items: [6, 7].map(buildCollection)
+              items: indices.slice(25).map(buildCollection)
             }
           }
         }
       }
     ]
 
-    test('shows 5 per page and pages to the rest', async () => {
+    test('shows 25 per page and pages to the rest', async () => {
       const { user } = setup({
-        conceptIds: sevenConceptIds,
+        conceptIds,
         queryMocks: paginatedMocks
       })
 
       expect(await screen.findByText('ShortName1')).toBeInTheDocument()
-      expect(screen.getByText('ShortName5')).toBeInTheDocument()
-      expect(screen.queryByText('ShortName6')).not.toBeInTheDocument()
-      expect(screen.getAllByRole('button', { name: 'Remove' })).toHaveLength(5)
+      expect(screen.getByText('ShortName25')).toBeInTheDocument()
+      expect(screen.queryByText('ShortName26')).not.toBeInTheDocument()
+      expect(screen.getAllByRole('button', { name: 'Remove' })).toHaveLength(25)
 
       await user.click(screen.getByRole('button', { name: 'Goto Next Page' }))
 
-      expect(await screen.findByText('ShortName6')).toBeInTheDocument()
-      expect(screen.getByText('ShortName7')).toBeInTheDocument()
+      expect(await screen.findByText('ShortName26')).toBeInTheDocument()
+      expect(screen.getByText('ShortName27')).toBeInTheDocument()
       expect(screen.queryByText('ShortName1')).not.toBeInTheDocument()
     })
   })
