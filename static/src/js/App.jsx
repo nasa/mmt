@@ -5,6 +5,9 @@ import {
   createBrowserRouter
 } from 'react-router'
 
+import BulkActionsEditPage from '@/js/pages/BulkActionsEditPage/BulkActionsEditPage'
+import BulkActionsLandingPage from '@/js/pages/BulkActionsLandingPage/BulkActionsLandingPage'
+import BulkActionsTaskPage from '@/js/pages/BulkActionsTaskPage/BulkActionsTaskPage'
 import CollectionAssociationFormPage from '@/js/pages/CollectionAssociationFormPage/CollectionAssociationFormPage'
 import DraftListPage from '@/js/pages/DraftListPage/DraftListPage'
 import DraftPage from '@/js/pages/DraftPage/DraftPage'
@@ -121,6 +124,18 @@ export const App = () => {
             {
               path: '/:type/:conceptId/collection-association',
               element: <ManageCollectionAssociationPage />
+            },
+            {
+              path: '/:type/bulk-actions',
+              element: <BulkActionsLandingPage />
+            },
+            {
+              path: '/:type/bulk-actions/edit',
+              element: <BulkActionsEditPage />
+            },
+            {
+              path: '/:type/bulk-actions/:taskId',
+              element: <BulkActionsTaskPage />
             },
             {
               path: '/collections/:conceptId/granules',

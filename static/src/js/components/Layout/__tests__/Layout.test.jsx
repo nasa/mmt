@@ -124,6 +124,10 @@ describe('Layout component', () => {
   })
 
   test('renders the content to the React Router Outlet', async () => {
+    vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+      bulkUpdateEnabled: false
+    }))
+
     setup({
       hasSystemGroup: true,
       hasSystemKeywords: true
@@ -152,6 +156,11 @@ describe('Layout component', () => {
               {
                 to: '/drafts/collections',
                 title: 'Drafts'
+              },
+              {
+                to: '/collections/bulk-actions',
+                title: 'Bulk Actions',
+                visible: false
               },
               {
                 to: '/templates/collections',
@@ -272,10 +281,16 @@ describe('Layout component', () => {
         ]
       ]
     }, {})
+
+    getConfig.getApplicationConfig.mockRestore()
   })
 
   describe('when the user does not have system group or system keywords permissions', () => {
     test('does not render the admin links', async () => {
+      vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+        bulkUpdateEnabled: false
+      }))
+
       setup({
         loggedIn: true,
         hasSystemGroup: false,
@@ -299,6 +314,11 @@ describe('Layout component', () => {
                 {
                   to: '/drafts/collections',
                   title: 'Drafts'
+                },
+                {
+                  to: '/collections/bulk-actions',
+                  title: 'Bulk Actions',
+                  visible: false
                 },
                 {
                   to: '/templates/collections',
@@ -419,6 +439,8 @@ describe('Layout component', () => {
           ]
         ]
       }, {})
+
+      getConfig.getApplicationConfig.mockRestore()
     })
   })
 
@@ -529,6 +551,25 @@ describe('Layout component', () => {
 
       expect(CollectionSelectionBar).toHaveBeenCalledTimes(1)
       expect(CollectionSelectionNavigationGuard).toHaveBeenCalledTimes(1)
+    })
+
+    describe('when on a bulk actions route', () => {
+      afterEach(() => {
+        window.history.pushState({}, '', '/')
+      })
+
+      test('does not render the CollectionSelectionBar or its navigation guard', () => {
+        vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+          bulkUpdateEnabled: true
+        }))
+
+        window.history.pushState({}, '', '/collections/bulk-actions/edit')
+
+        setup()
+
+        expect(CollectionSelectionBar).toHaveBeenCalledTimes(0)
+        expect(CollectionSelectionNavigationGuard).toHaveBeenCalledTimes(0)
+      })
     })
   })
 })
