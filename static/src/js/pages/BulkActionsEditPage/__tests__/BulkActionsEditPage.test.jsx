@@ -291,6 +291,13 @@ describe('BulkActionsEditPage component', () => {
       expect(await screen.findByText('404 page')).toBeInTheDocument()
       expect(screen.queryByText('Configure Bulk Update')).not.toBeInTheDocument()
     })
+
+    test('redirects to 404 for a :type matching an inherited Object.prototype property', async () => {
+      setup({ initialEntries: ['/toString/bulk-actions/edit'] })
+
+      expect(await screen.findByText('404 page')).toBeInTheDocument()
+      expect(screen.queryByText('Configure Bulk Update')).not.toBeInTheDocument()
+    })
   })
 
   test('shows the selected collection count', async () => {
@@ -401,6 +408,39 @@ describe('BulkActionsEditPage component', () => {
       await user.click(screen.getByRole('button', { name: 'Select collection' }))
       await selectFieldAndType(user)
 
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
+    })
+  })
+
+  describe('when a find value is invalid', () => {
+    test('keeps the invalid input visible and disables Submit even though another field is filled', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_REPLACE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'INSTRUMENTS')
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'MODIS'
+      )
+
+      await user.type(
+        screen.getByLabelText(
+          'NumberOfInstruments',
+          { selector: '#bulk-actions-find-value_NumberOfInstruments' }
+        ),
+        '2.5'
+      )
+
+      expect(
+        screen.getByLabelText(
+          'NumberOfInstruments',
+          { selector: '#bulk-actions-find-value_NumberOfInstruments' }
+        )
+      ).toHaveValue(2.5)
+
+      expect(screen.getByText(/NumberOfInstruments must be a whole number/)).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
     })
   })

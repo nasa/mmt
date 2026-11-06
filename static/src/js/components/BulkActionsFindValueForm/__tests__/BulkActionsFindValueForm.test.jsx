@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -19,16 +20,34 @@ const flatFindKeys = [
   }
 ]
 
-const setup = ({ value = {}, onChange = vi.fn() } = {}) => {
-  const user = userEvent.setup()
+// A stateful wrapper, since a controlled input whose value prop never updates can't
+// actually be typed into character-by-character (needed for multi-character values below).
+const Wrapper = ({ initialValue, onChange }) => {
+  const [value, setValue] = useState(initialValue)
 
-  render(
+  return (
     <BulkActionsFindValueForm
       flatFindKeys={flatFindKeys}
       value={value}
-      onChange={onChange}
+      onChange={
+        (nextValue) => {
+          setValue(nextValue)
+          onChange(nextValue)
+        }
+      }
     />
   )
+}
+
+Wrapper.propTypes = {
+  initialValue: PropTypes.shape({}).isRequired,
+  onChange: PropTypes.func.isRequired
+}
+
+const setup = ({ value = {}, onChange = vi.fn() } = {}) => {
+  const user = userEvent.setup()
+
+  render(<Wrapper initialValue={value} onChange={onChange} />)
 
   return {
     onChange,
@@ -60,19 +79,20 @@ describe('BulkActionsFindValueForm component', () => {
     expect(onChange).toHaveBeenCalledWith({})
   })
 
-  test('coerces a number-type field to a real number instead of a string', async () => {
+  test('keeps a number-type field as the raw typed string, uncoerced', async () => {
     const { onChange, user } = setup()
 
     await user.type(screen.getByLabelText('NumberOfInstruments'), '5')
 
-    expect(onChange).toHaveBeenLastCalledWith({ NumberOfInstruments: 5 })
+    expect(onChange).toHaveBeenLastCalledWith({ NumberOfInstruments: '5' })
   })
 
-  test('rejects a fractional value for a number-type field instead of submitting it', async () => {
+  test('keeps an invalid number-type value visible instead of deleting it', async () => {
     const { onChange, user } = setup()
 
     await user.type(screen.getByLabelText('NumberOfInstruments'), '2.5')
 
-    expect(onChange).toHaveBeenLastCalledWith({})
+    expect(onChange).toHaveBeenLastCalledWith({ NumberOfInstruments: '2.5' })
+    expect(screen.getByLabelText('NumberOfInstruments')).toHaveValue(2.5)
   })
 })

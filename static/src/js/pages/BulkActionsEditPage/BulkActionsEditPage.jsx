@@ -200,6 +200,39 @@ const BulkActionsEditPage = () => {
 
   const hasFilledEntry = (entries) => entries.some((entry) => Object.keys(entry).length > 0)
 
+  // FindValue holds raw, uncoerced input strings (see BulkActionsFindValueForm) -- a
+  // 'number' key is only valid as a whole number, so flag anything else (a fraction,
+  // "abc", etc.) rather than silently dropping it from the submitted request.
+  const getFindValueErrors = (rawFindValue, flatFindKeys) => (
+    flatFindKeys
+      .filter(({ key, type }) => type === 'number' && key in rawFindValue)
+      .filter(({ key }) => !Number.isInteger(Number(rawFindValue[key])))
+      .map(({ key }) => `${key} must be a whole number`)
+  )
+
+  const getEffectiveFindValue = (rawFindValue, flatFindKeys) => {
+    const numberKeys = new Set(
+      flatFindKeys.filter(({ type }) => type === 'number').map(({ key }) => key)
+    )
+
+    return Object.fromEntries(
+      Object.entries(rawFindValue).map(([key, rawValue]) => (
+        [key, numberKeys.has(key) ? Number(rawValue) : rawValue]
+      ))
+    )
+  }
+
+  let effectiveFindValue
+  let findValueErrors = []
+
+  if (fieldConfig && needsFindValue) {
+    findValueErrors = getFindValueErrors(findValue, fieldConfig.flatFindKeys)
+
+    if (findValueErrors.length === 0) {
+      effectiveFindValue = getEffectiveFindValue(findValue, fieldConfig.flatFindKeys)
+    }
+  }
+
   let parsedUpdateValue
   let updateValueJsonErrors = []
 
@@ -228,7 +261,7 @@ const BulkActionsEditPage = () => {
     selectedCollections.length > 0
     && !!fieldConfig
     && !!typeConfig
-    && (!needsFindValue || hasFilledEntry([findValue]))
+    && (!needsFindValue || (hasFilledEntry([findValue]) && findValueErrors.length === 0))
     // Leaving the home page URL blank is a valid, intentional "remove it" request.
     && (!needsUpdateValue || isHomePageUrlType || updateValueJsonErrors.length === 0)
   )
@@ -236,7 +269,7 @@ const BulkActionsEditPage = () => {
   const handleSubmit = () => {
     const variables = {
       conceptIds: selectedCollections,
-      findValue: needsFindValue ? findValue : undefined,
+      findValue: needsFindValue ? effectiveFindValue : undefined,
       providerId: selectedProvider,
       updateField,
       updateType,
@@ -351,7 +384,16 @@ const BulkActionsEditPage = () => {
           {
             fieldConfig && needsFindValue && (
               <>
-                <h3 className="h6 fw-bold mt-4">Find</h3>
+                <div className="d-flex justify-content-between align-items-start flex-wrap gap-2 mt-4 mb-3">
+                  <h3 className="h6 fw-bold mb-0">Find</h3>
+                  {
+                    findValueErrors.length > 0 && (
+                      <span className="text-danger small text-end">
+                        {findValueErrors.join('; ')}
+                      </span>
+                    )
+                  }
+                </div>
                 <BulkActionsFindValueForm
                   flatFindKeys={fieldConfig.flatFindKeys}
                   value={findValue}
