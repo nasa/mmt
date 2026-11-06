@@ -403,21 +403,7 @@ const BulkActionsEditPage = () => {
         </Card.Body>
       </Card>
 
-      <Card className="mb-4">
-        <Card.Header className="fw-bold">Selected Collections</Card.Header>
-        <Card.Body>
-          <BulkActionsSelectedConcepts
-            conceptIds={selectedCollections}
-            onRemove={handleRemove}
-            query={selectedListQuery}
-            columns={selectedListColumns}
-            noSelectionMessage="No collections are selected. Go back to All Collections to select collections to update."
-            loadingMessage="Loading selected collections…"
-          />
-        </Card.Body>
-      </Card>
-
-      <div className="d-flex justify-content-end">
+      <div className="d-flex justify-content-end mb-4">
         <Button
           className="me-2"
           disabled={submitting}
@@ -436,6 +422,20 @@ const BulkActionsEditPage = () => {
           Submit Bulk Action
         </Button>
       </div>
+
+      <Card className="mb-4">
+        <Card.Header className="fw-bold">Selected Collections</Card.Header>
+        <Card.Body>
+          <BulkActionsSelectedConcepts
+            conceptIds={selectedCollections}
+            onRemove={handleRemove}
+            query={selectedListQuery}
+            columns={selectedListColumns}
+            noSelectionMessage="No collections are selected. Go back to All Collections to select collections to update."
+            loadingMessage="Loading selected collections…"
+          />
+        </Card.Body>
+      </Card>
 
       <BulkActionsSubmittedModal
         onClose={handleCloseSubmittedModal}
