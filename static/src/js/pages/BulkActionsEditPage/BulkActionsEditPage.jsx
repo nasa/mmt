@@ -31,6 +31,7 @@ import {
   getBulkUpdateFields,
   getBulkUpdateTypeConfig,
   getBulkUpdateTypes,
+  getDestructiveUpdateWarning,
   isBulkUpdateSupportedForConceptType,
   isUpdateTypeAvailableForField
 } from '@/js/constants/bulkUpdateFields'
@@ -194,6 +195,8 @@ const BulkActionsEditPage = () => {
   const { query: selectedListQuery, columns: selectedListColumns } = (
     getBulkActionsSelectedListAdapter(conceptType)
   )
+
+  const destructiveUpdateWarning = getDestructiveUpdateWarning(conceptType, updateField, updateType)
 
   const isHomePageUrlType = updateType === HOME_PAGE_URL_TYPE
 
@@ -389,6 +392,12 @@ const BulkActionsEditPage = () => {
           {
             typeConfig && (
               <Alert variant="secondary" className="mt-2">{typeConfig.helpText}</Alert>
+            )
+          }
+
+          {
+            destructiveUpdateWarning && (
+              <Alert variant="warning" className="mt-2">{destructiveUpdateWarning}</Alert>
             )
           }
 

@@ -92,6 +92,10 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
       {
         key: 'VariableLevel3',
         type: 'text'
+      },
+      {
+        key: 'DetailedVariable',
+        type: 'text'
       }
     ],
     updateValueFields: [
@@ -118,8 +122,26 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
       {
         key: 'VariableLevel3',
         type: 'text'
+      },
+      {
+        key: 'DetailedVariable',
+        type: 'text'
       }
-    ]
+    ],
+    // A user filling in Category/Topic/Term etc. can easily not realize the entries they're
+    // matching also have a DetailedVariable value set, since it's never shown back to them --
+    // FIND_AND_REPLACE, FIND_AND_UPDATE and FIND_AND_REMOVE let it narrow which entries match,
+    // but every one of these types still submits DetailedVariable as an explicit key (it's
+    // part of the prepopulated updateValue skeleton too), so leaving it at that blank default
+    // instead of removing the key clears it on the matched entry, even for FIND_AND_UPDATE's
+    // otherwise-partial merge. CLEAR_ALL_AND_REPLACE has no match step (every entry is replaced
+    // unconditionally), so its warning doesn't reference matching.
+    destructiveUpdateWarnings: {
+      FIND_AND_REPLACE: 'DetailedVariable can be used to find Science Keywords entries here, but replacing a matched entry overwrites all of it, including DetailedVariable, with only what\'s filled in under "Replace With".',
+      FIND_AND_UPDATE: 'DetailedVariable can be used to find Science Keywords entries here, but updating a matched entry overwrites all of it, including DetailedVariable, with only what\'s filled in under "Update With".',
+      CLEAR_ALL_AND_REPLACE: 'Existing Science Keywords entries may have a DetailedVariable value set. Clearing and replacing every entry will remove any DetailedVariable values along with everything else.',
+      FIND_AND_REMOVE: 'DetailedVariable can be used to find Science Keywords entries here, but removing a matched entry deletes all of it, including its DetailedVariable value.'
+    }
   },
   {
     value: 'LOCATION_KEYWORDS',
@@ -403,6 +425,13 @@ export const getBulkUpdateFieldConfig = (conceptType, fieldValue) => (
 
 export const getBulkUpdateTypeConfig = (conceptType, typeValue) => (
   getBulkUpdateTypes(conceptType).find(({ value }) => value === typeValue)
+)
+
+// A field/type combination can silently destroy data that isn't represented anywhere in this
+// page's UI (see SCIENCE_KEYWORDS' destructiveUpdateWarnings above) -- returns the warning to
+// show for the given combination, or undefined when that field has none configured for it.
+export const getDestructiveUpdateWarning = (conceptType, fieldValue, typeValue) => (
+  getBulkUpdateFieldConfig(conceptType, fieldValue)?.destructiveUpdateWarnings?.[typeValue]
 )
 
 // Whether updateType is usable with updateField -- every type is usable with every field

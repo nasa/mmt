@@ -428,6 +428,75 @@ describe('BulkActionsEditPage component', () => {
     })
   })
 
+  describe('Science Keywords destructive update warnings', () => {
+    // DetailedVariable itself now legitimately appears elsewhere on the page too (a Find
+    // label, a key in the updateValue JSON skeleton), so these assertions match each type's
+    // actual warning sentence rather than just the word, to avoid a false positive.
+    test.each([
+      ['FIND_AND_REPLACE', /DetailedVariable can be used to find Science Keywords entries here.*Replace With/],
+      ['FIND_AND_UPDATE', /DetailedVariable can be used to find Science Keywords entries here.*Update With/],
+      ['CLEAR_ALL_AND_REPLACE', /Existing Science Keywords entries may have a DetailedVariable value set/],
+      ['FIND_AND_REMOVE', /DetailedVariable can be used to find Science Keywords entries here/]
+    ])('warns about DetailedVariable for %s', async (type, expectedWarning) => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), type)
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
+
+      expect(screen.getByText(expectedWarning)).toBeInTheDocument()
+    })
+
+    test('does not warn for an action type that only appends new entries, since it never touches existing ones', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'ADD_TO_EXISTING')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
+
+      expect(screen.queryByText(/can be used to find Science Keywords entries here/)).not.toBeInTheDocument()
+      expect(screen.queryByText(/may have a DetailedVariable value set/)).not.toBeInTheDocument()
+    })
+
+    test('does not warn for an unrelated field even with the same action type', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_REPLACE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
+
+      expect(screen.queryByText(/can be used to find Science Keywords entries here/)).not.toBeInTheDocument()
+    })
+
+    test('renders above the Find section', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_REPLACE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
+
+      const warning = screen.getByText(/DetailedVariable can be used to find/)
+      const findHeading = screen.getByRole('heading', { name: 'Find' })
+
+      expect(warning.compareDocumentPosition(findHeading))
+        .toBe(Node.DOCUMENT_POSITION_FOLLOWING)
+    })
+
+    test('renders above the Replace With section even when there is no Find section', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'CLEAR_ALL_AND_REPLACE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
+
+      const warning = screen.getByText(/may have a DetailedVariable value set/)
+      const replaceWithHeading = screen.getByRole('heading', { name: 'Replace With' })
+
+      expect(warning.compareDocumentPosition(replaceWithHeading))
+        .toBe(Node.DOCUMENT_POSITION_FOLLOWING)
+    })
+  })
+
   describe('when a find value is invalid', () => {
     test('keeps the invalid input visible and disables Submit even though another field is filled', async () => {
       const { user } = setup()
