@@ -95,4 +95,53 @@ describe('BulkActionsFindValueForm component', () => {
     expect(onChange).toHaveBeenLastCalledWith({ NumberOfInstruments: '2.5' })
     expect(screen.getByLabelText('NumberOfInstruments')).toHaveValue(2.5)
   })
+
+  describe('when a key is flagged freeText', () => {
+    const freeTextKeys = [
+      {
+        key: 'Category',
+        type: 'text'
+      },
+      {
+        key: 'DetailedVariable',
+        type: 'text',
+        freeText: true
+      }
+    ]
+
+    const setupFreeText = () => {
+      const onChange = vi.fn()
+
+      render(
+        <BulkActionsFindValueForm
+          flatFindKeys={freeTextKeys}
+          value={{}}
+          onChange={onChange}
+        />
+      )
+
+      return { onChange }
+    }
+
+    test('renders it in its own "Additional Free-Text Criteria" subsection below the others', () => {
+      setupFreeText()
+
+      const heading = screen.getByText('Additional Free-Text Criteria')
+      const categoryInput = screen.getByLabelText('Category')
+      const detailedVariableInput = screen.getByLabelText('DetailedVariable')
+
+      expect(heading).toBeInTheDocument()
+      expect(categoryInput.compareDocumentPosition(heading))
+        .toBe(Node.DOCUMENT_POSITION_FOLLOWING)
+
+      expect(heading.compareDocumentPosition(detailedVariableInput))
+        .toBe(Node.DOCUMENT_POSITION_FOLLOWING)
+    })
+
+    test('does not render the subsection heading when no key is flagged freeText', () => {
+      setup()
+
+      expect(screen.queryByText('Additional Free-Text Criteria')).not.toBeInTheDocument()
+    })
+  })
 })

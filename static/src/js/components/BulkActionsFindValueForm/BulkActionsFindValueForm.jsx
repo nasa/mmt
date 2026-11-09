@@ -25,6 +25,11 @@ import Col from 'react-bootstrap/Col'
  * filled -- so an invalid find condition could be dropped from the request without the user
  * noticing. The raw string is kept as-is; the caller validates and coerces it before submit.
  *
+ * Any key flagged `freeText` (e.g. DetailedVariable, DetailedLocation) renders in its own
+ * "Additional Free-Text Criteria" subsection below the controlled keyword levels, since it's
+ * uncontrolled/not KMS-managed -- a distinction worth calling out since it still risks being
+ * silently cleared on submit like the other keys (see getDestructiveUpdateWarning).
+ *
  * @component
  * @example <caption>Render a BulkActionsFindValueForm</caption>
  * return (
@@ -44,29 +49,46 @@ const BulkActionsFindValueForm = ({ flatFindKeys, value, onChange }) => {
     onChange(next)
   }
 
+  const renderField = ({ key, type }) => (
+    <Col md={6} key={key} className="mb-3">
+      <Form.Group controlId={`bulk-actions-find-value_${key}`}>
+        <Form.Label>{key}</Form.Label>
+        <Form.Control
+          type={type === 'number' ? 'number' : 'text'}
+          value={value[key] ?? ''}
+          onChange={(event) => handleChange(key, event.target.value)}
+        />
+      </Form.Group>
+    </Col>
+  )
+
+  const controlledKeys = flatFindKeys.filter(({ freeText }) => !freeText)
+  const freeTextKeys = flatFindKeys.filter(({ freeText }) => freeText)
+
   return (
-    <Row>
+    <>
+      <Row>
+        {controlledKeys.map(renderField)}
+      </Row>
+
       {
-        flatFindKeys.map(({ key, type }) => (
-          <Col md={6} key={key} className="mb-3">
-            <Form.Group controlId={`bulk-actions-find-value_${key}`}>
-              <Form.Label>{key}</Form.Label>
-              <Form.Control
-                type={type === 'number' ? 'number' : 'text'}
-                value={value[key] ?? ''}
-                onChange={(event) => handleChange(key, event.target.value)}
-              />
-            </Form.Group>
-          </Col>
-        ))
+        freeTextKeys.length > 0 && (
+          <>
+            <h4 className="h6 fw-bold mt-3 mb-2">Additional Free-Text Criteria</h4>
+            <Row>
+              {freeTextKeys.map(renderField)}
+            </Row>
+          </>
+        )
       }
-    </Row>
+    </>
   )
 }
 
 const findKeyFieldShape = PropTypes.shape({
   key: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['text', 'number']).isRequired
+  type: PropTypes.oneOf(['text', 'number']).isRequired,
+  freeText: PropTypes.bool
 })
 
 BulkActionsFindValueForm.propTypes = {

@@ -396,12 +396,6 @@ const BulkActionsEditPage = () => {
           }
 
           {
-            destructiveUpdateWarning && (
-              <Alert variant="warning" className="mt-2">{destructiveUpdateWarning}</Alert>
-            )
-          }
-
-          {
             fieldConfig && needsFindValue && (
               <>
                 <div className="d-flex justify-content-between align-items-start flex-wrap gap-2 mt-4 mb-3">
@@ -420,6 +414,17 @@ const BulkActionsEditPage = () => {
                   onChange={setFindValue}
                 />
               </>
+            )
+          }
+
+          {
+            // Rendered after Find (so, when there is one, it lands below its "Additional
+            // Free-Text Criteria" subsection -- the field it's actually about) but before
+            // Replace/Update With, since that section is what submits the value that
+            // overwrites/clears it. CLEAR_ALL_AND_REPLACE has no Find section, so this just
+            // lands directly above Replace With for it.
+            destructiveUpdateWarning && (
+              <Alert variant="warning" className="mt-4">{destructiveUpdateWarning}</Alert>
             )
           }
 

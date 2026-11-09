@@ -30,6 +30,10 @@ import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
  * @property {String} key The UMM-C field name.
  * @property {'text'|'number'} type The kind of value CMR matches this key against -- only
  * 'text'/'number', since findValue only ever matches a single flat scalar per key.
+ * @property {Boolean} [freeText] Marks a key as uncontrolled free text rather than a
+ * KMS-controlled keyword level (e.g. DetailedVariable, DetailedLocation) -- rendered by
+ * BulkActionsFindValueForm in its own "Additional Free-Text Criteria" subsection, set apart
+ * from the controlled keyword levels above it.
  */
 
 // Docs: "DataCenterURL" / "HOME PAGE" is the established content-type/type pair for a data
@@ -95,7 +99,8 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
       },
       {
         key: 'DetailedVariable',
-        type: 'text'
+        type: 'text',
+        freeText: true
       }
     ],
     updateValueFields: [
@@ -137,10 +142,10 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
     // otherwise-partial merge. CLEAR_ALL_AND_REPLACE has no match step (every entry is replaced
     // unconditionally), so its warning doesn't reference matching.
     destructiveUpdateWarnings: {
-      FIND_AND_REPLACE: 'DetailedVariable can be used to find Science Keywords entries here, but replacing a matched entry overwrites all of it, including DetailedVariable, with only what\'s filled in under "Replace With".',
-      FIND_AND_UPDATE: 'DetailedVariable can be used to find Science Keywords entries here, but updating a matched entry overwrites all of it, including DetailedVariable, with only what\'s filled in under "Update With".',
+      FIND_AND_REPLACE: 'DetailedVariable can be used to find Science Keywords entries, but replacing a matched entry overwrites all of it, including DetailedVariable, with only what\'s filled in under "Replace With".',
+      FIND_AND_UPDATE: 'DetailedVariable can be used to find Science Keywords entries, but updating a matched entry overwrites all of it, including DetailedVariable, with only what\'s filled in under "Update With".',
       CLEAR_ALL_AND_REPLACE: 'Existing Science Keywords entries may have a DetailedVariable value set. Clearing and replacing every entry will remove any DetailedVariable values along with everything else.',
-      FIND_AND_REMOVE: 'DetailedVariable can be used to find Science Keywords entries here, but removing a matched entry deletes all of it, including its DetailedVariable value.'
+      FIND_AND_REMOVE: 'DetailedVariable can be used to find Science Keywords entries, but removing a matched entry deletes all of it, including its DetailedVariable value.'
     }
   },
   {
@@ -170,7 +175,8 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
       },
       {
         key: 'DetailedLocation',
-        type: 'text'
+        type: 'text',
+        freeText: true
       }
     ],
     updateValueFields: [
@@ -198,7 +204,15 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
         key: 'DetailedLocation',
         type: 'text'
       }
-    ]
+    ],
+    // Same risk as SCIENCE_KEYWORDS' DetailedVariable above (DetailedLocation is likewise
+    // "uncontrolled... outside the hierarchy" per the UMM-C schema) -- see that comment.
+    destructiveUpdateWarnings: {
+      FIND_AND_REPLACE: 'DetailedLocation can be used to find Location Keywords entries, but replacing a matched entry overwrites all of it, including DetailedLocation, with only what\'s filled in under "Replace With".',
+      FIND_AND_UPDATE: 'DetailedLocation can be used to find Location Keywords entries, but updating a matched entry overwrites all of it, including DetailedLocation, with only what\'s filled in under "Update With".',
+      CLEAR_ALL_AND_REPLACE: 'Existing Location Keywords entries may have a DetailedLocation value set. Clearing and replacing every entry will remove any DetailedLocation values along with everything else.',
+      FIND_AND_REMOVE: 'DetailedLocation can be used to find Location Keywords entries, but removing a matched entry deletes all of it, including its DetailedLocation value.'
+    }
   },
   {
     value: 'DATA_CENTERS',
