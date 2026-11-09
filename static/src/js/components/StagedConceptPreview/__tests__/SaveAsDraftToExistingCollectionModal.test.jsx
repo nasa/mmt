@@ -18,6 +18,20 @@ const mockMetadata = {
   Version: '1'
 }
 
+// Every test searches by this same ShortName, so the request side of the
+// GET_COLLECTIONS mock is identical everywhere it's used -- only the
+// result/error varies per test.
+const searchCollectionsRequest = {
+  query: GET_COLLECTIONS,
+  variables: {
+    params: {
+      shortName: 'Mock Short Name',
+      includeNonOperational: true,
+      limit: 2000
+    }
+  }
+}
+
 const setup = ({
   mocks = [],
   metadata = mockMetadata,
@@ -58,15 +72,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       const { user, onConfirm } = setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
@@ -125,15 +131,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       const { user, onConfirm } = setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
@@ -190,15 +188,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
@@ -220,15 +210,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       const { user, onConfirm } = setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
@@ -310,15 +292,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
@@ -367,15 +341,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             error: new Error('An error occurred')
           }
         ]
@@ -407,15 +373,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
@@ -457,15 +415,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
@@ -510,15 +460,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       const { user } = setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
@@ -545,15 +487,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       const { user } = setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
@@ -607,15 +541,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       const { user, onConfirm } = setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
@@ -674,15 +600,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       const { user } = setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
@@ -742,15 +660,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       const { user } = setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
@@ -778,15 +688,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       const { user } = setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
@@ -813,15 +715,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       const { user } = setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
@@ -883,15 +777,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
       const { user, onConfirm } = setup({
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
@@ -937,15 +823,7 @@ describe('SaveAsDraftToExistingCollectionModal', () => {
         conceptType: 'Service',
         mocks: [
           {
-            request: {
-              query: GET_COLLECTIONS,
-              variables: {
-                params: {
-                  shortName: 'Mock Short Name',
-                  limit: 2000
-                }
-              }
-            },
+            request: searchCollectionsRequest,
             result: {
               data: {
                 collections: {
