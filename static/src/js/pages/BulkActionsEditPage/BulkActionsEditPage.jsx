@@ -4,6 +4,7 @@ import React, {
   useState
 } from 'react'
 import { useMutation } from '@apollo/client'
+import { isEqual } from 'lodash-es'
 import {
   Navigate,
   useNavigate,
@@ -235,6 +236,7 @@ const BulkActionsEditPage = () => {
 
   let parsedUpdateValue
   let updateValueJsonErrors = []
+  let isUpdateValueUnfilled = false
 
   if (fieldConfig && needsUpdateValue && !isHomePageUrlType) {
     const updateValueSchema = buildUpdateValueJsonSchema(
@@ -246,6 +248,10 @@ const BulkActionsEditPage = () => {
 
     if (updateValueJsonErrors.length === 0) {
       parsedUpdateValue = JSON.parse(updateValueJson)
+      isUpdateValueUnfilled = isEqual(
+        parsedUpdateValue,
+        JSON.parse(buildSkeletonJson(fieldConfig, typeConfig))
+      )
     }
   }
 
@@ -262,8 +268,13 @@ const BulkActionsEditPage = () => {
     && !!fieldConfig
     && !!typeConfig
     && (!needsFindValue || (hasFilledEntry([findValue]) && findValueErrors.length === 0))
-    // Leaving the home page URL blank is a valid, intentional "remove it" request.
-    && (!needsUpdateValue || isHomePageUrlType || updateValueJsonErrors.length === 0)
+    // Leaving the home page URL blank is a valid, intentional "remove it" request, so it
+    // skips both the schema and the unfilled-skeleton check below.
+    && (
+      !needsUpdateValue
+      || isHomePageUrlType
+      || (updateValueJsonErrors.length === 0 && !isUpdateValueUnfilled)
+    )
   )
 
   const handleSubmit = () => {

@@ -412,6 +412,22 @@ describe('BulkActionsEditPage component', () => {
     })
   })
 
+  describe('when the updateValue JSON is left as its unfilled skeleton', () => {
+    test('disables Submit even though the action type needs no find value, then enables it once a field is filled in', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'CLEAR_ALL_AND_REPLACE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
+
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
+
+      await fillUpdateValueJson(user, [{ Category: 'EARTH SCIENCE' }])
+
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
+    })
+  })
+
   describe('when a find value is invalid', () => {
     test('keeps the invalid input visible and disables Submit even though another field is filled', async () => {
       const { user } = setup()
