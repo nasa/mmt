@@ -103,6 +103,10 @@ const setup = ({
                 )
               }
             />
+            <Route
+              path="/collections/bulk-actions/edit"
+              element={<>Bulk actions edit content</>}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
@@ -564,6 +568,19 @@ describe('Layout component', () => {
         }))
 
         window.history.pushState({}, '', '/collections/bulk-actions/edit')
+
+        setup()
+
+        expect(CollectionSelectionBar).toHaveBeenCalledTimes(0)
+        expect(CollectionSelectionNavigationGuard).toHaveBeenCalledTimes(0)
+      })
+
+      test('does not render the CollectionSelectionBar or its navigation guard with a trailing slash', () => {
+        vi.spyOn(getConfig, 'getApplicationConfig').mockImplementation(() => ({
+          bulkUpdateEnabled: true
+        }))
+
+        window.history.pushState({}, '', '/collections/bulk-actions/edit/')
 
         setup()
 

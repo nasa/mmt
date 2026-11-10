@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {
   Link,
   Outlet,
-  useLocation
+  useMatch
 } from 'react-router'
 import classNames from 'classnames'
 import Alert from 'react-bootstrap/Alert'
@@ -57,12 +57,13 @@ const Layout = ({ className, displayNav }) => {
 
   const { bulkUpdateEnabled, displayProdWarning, env } = getApplicationConfig()
   const { user } = useAuthContext()
-  const { pathname } = useLocation()
 
   // Hide the sticky selection bar on the edit page itself -- its Continue/Clear duplicate
   // what the page's own Remove/Submit buttons already do. The landing and task pages still
   // need it (e.g. reaching the landing page via the sidebar with an existing selection).
-  const isBulkActionsEditRoute = pathname === '/collections/bulk-actions/edit'
+  // useMatch (rather than comparing pathname directly) matches the route the same way
+  // react-router itself does, so a trailing slash is recognized too.
+  const isBulkActionsEditRoute = Boolean(useMatch('/:type/bulk-actions/edit'))
 
   const { hasSystemGroup, hasSystemKeywords, loading } = usePermissions({
     systemGroup: ['read'],

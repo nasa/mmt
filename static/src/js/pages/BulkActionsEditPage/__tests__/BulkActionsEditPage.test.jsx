@@ -325,6 +325,27 @@ describe('BulkActionsEditPage component', () => {
 
       expect(await screen.findByText('You are configuring an update for 1 collection(s).')).toBeInTheDocument()
     })
+
+    test('does not resurrect the selection if Undo is clicked after leaving the page', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await screen.findByText('ShortName1')
+
+      await user.click(screen.getByRole('button', { name: 'Remove' }))
+
+      expect(screen.getByRole('button', { name: 'Undo' })).toBeInTheDocument()
+      expect(screen.getByTestId('selection-count')).toHaveTextContent('0')
+
+      // The Undo toast (rendered outside the routed page, as in production) outlives the
+      // page itself -- leaving before clicking it exercises exactly that window.
+      await user.click(screen.getByRole('button', { name: 'Cancel' }))
+      await screen.findByText('All Collections page')
+
+      await user.click(screen.getByRole('button', { name: 'Undo' }))
+
+      expect(screen.getByTestId('selection-count')).toHaveTextContent('0')
+    })
   })
 
   describe('when a field and action type are chosen', () => {

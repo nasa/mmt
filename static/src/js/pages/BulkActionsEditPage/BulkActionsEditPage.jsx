@@ -108,10 +108,16 @@ const BulkActionsEditPage = () => {
   // navigate() call apart from a sidebar link to the same place.
   const skipNavigationGuardRef = useRef(false)
 
+  // The Undo toast (global, independent of this page) can outlive this page by several
+  // seconds -- checked by the Undo action below so it doesn't resurrect a selection the
+  // unmount cleanup just cleared, on whatever page the user has since moved to.
+  const isUnmountedRef = useRef(false)
+
   // Once this page is left -- by any path -- the selection has served its purpose. Clearing
   // it here (not just on specific buttons) covers every exit uniformly, and avoids leaving
   // a stale selection for a later, unrelated visit to All Collections.
   useEffect(() => () => {
+    isUnmountedRef.current = true
     clearCollectionSelections()
   }, [clearCollectionSelections])
 
@@ -131,6 +137,8 @@ const BulkActionsEditPage = () => {
       action: {
         label: 'Undo',
         onClick: () => {
+          if (isUnmountedRef.current) return
+
           // Skip if already re-added since removal, to avoid adding it a second time.
           if (selectedCollectionsRef.current.includes(conceptId)) return
 
