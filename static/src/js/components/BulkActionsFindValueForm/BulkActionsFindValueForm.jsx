@@ -27,8 +27,8 @@ import Col from 'react-bootstrap/Col'
  *
  * Any key flagged `freeText` (e.g. DetailedVariable, DetailedLocation) renders in its own
  * "Additional Free-Text Criteria" subsection below the controlled keyword levels, since it's
- * uncontrolled/not KMS-managed -- a distinction worth calling out since it still risks being
- * silently cleared on submit like the other keys (see getDestructiveUpdateWarning).
+ * uncontrolled/not KMS-managed -- though it's still exposed to the same silent-clear risk on
+ * submit as the other keys (see getDestructiveUpdateWarning).
  *
  * @component
  * @example <caption>Render a BulkActionsFindValueForm</caption>

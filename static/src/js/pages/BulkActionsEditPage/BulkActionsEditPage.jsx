@@ -131,8 +131,7 @@ const BulkActionsEditPage = () => {
       action: {
         label: 'Undo',
         onClick: () => {
-          // Skip restoring if the collection has already been re-added since removal,
-          // since re-adding it again at that point would be surprising.
+          // Skip if already re-added since removal, to avoid adding it a second time.
           if (selectedCollectionsRef.current.includes(conceptId)) return
 
           selectCollections([removedCollection])
@@ -143,9 +142,6 @@ const BulkActionsEditPage = () => {
     })
   }
 
-  // Builds the prepopulated updateValue JSON for the given field/type combination, or '{}'
-  // when the combination doesn't need one yet (no field, or a type like FIND_AND_REMOVE
-  // that doesn't use updateValue at all).
   const buildSkeletonJson = (nextFieldConfig, nextTypeConfig) => {
     const { updateValueFields } = nextFieldConfig || {}
     const {
@@ -290,9 +286,6 @@ const BulkActionsEditPage = () => {
       updateValue: getEffectiveUpdateValue()
     }
 
-    // eslint-disable-next-line no-console
-    console.log('createBulkUpdateCollectionTask variables:', variables)
-
     createBulkUpdateCollectionTaskMutation({
       variables,
       onCompleted: (mutationData) => {
@@ -418,11 +411,10 @@ const BulkActionsEditPage = () => {
           }
 
           {
-            // Rendered after Find (so, when there is one, it lands below its "Additional
-            // Free-Text Criteria" subsection -- the field it's actually about) but before
-            // Replace/Update With, since that section is what submits the value that
-            // overwrites/clears it. CLEAR_ALL_AND_REPLACE has no Find section, so this just
-            // lands directly above Replace With for it.
+            // Below Find's "Additional Free-Text Criteria" subsection (the field this warns
+            // about) but above Replace/Update With, whose submitted value is what actually
+            // overwrites/clears it. CLEAR_ALL_AND_REPLACE has no Find section, so this lands
+            // directly above Replace With there instead.
             destructiveUpdateWarning && (
               <Alert variant="warning" className="mt-4">{destructiveUpdateWarning}</Alert>
             )
