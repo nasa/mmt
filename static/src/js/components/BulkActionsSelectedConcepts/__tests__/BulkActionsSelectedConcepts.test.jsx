@@ -131,6 +131,40 @@ describe('BulkActionsSelectedConcepts component', () => {
     expect(screen.queryByText('No selected items found')).not.toBeInTheDocument()
   })
 
+  test('still shows a removable row for a selected concept missing from the query result', async () => {
+    const partialMock = {
+      request: {
+        query: GET_COLLECTIONS,
+        variables: {
+          params: {
+            conceptId: ['C1-TESTPROV', 'C2-TESTPROV'],
+            limit: 2
+          }
+        }
+      },
+      result: {
+        data: {
+          collections: {
+            count: 1,
+            items: [buildCollection(1)]
+          }
+        }
+      }
+    }
+
+    const { onRemove, user } = setup({ queryMocks: [partialMock] })
+
+    expect(await screen.findByText('ShortName1')).toBeInTheDocument()
+    expect(screen.getByText('Not found: C2-TESTPROV')).toBeInTheDocument()
+
+    const removeButtons = screen.getAllByRole('button', { name: 'Remove' })
+    expect(removeButtons).toHaveLength(2)
+
+    await user.click(removeButtons[1])
+
+    expect(onRemove).toHaveBeenCalledWith('C2-TESTPROV')
+  })
+
   test('does not paginate when there are 25 or fewer selected concepts', async () => {
     setup()
 

@@ -85,16 +85,23 @@ const BulkActionsSelectedConcepts = ({
   })
 
   const buildActionsCell = useCallback((cellData, rowData) => {
-    const { conceptId } = rowData
+    const { conceptId, isMissing } = rowData
 
     return (
-      <Button
-        onClick={() => onRemove(conceptId)}
-        size="sm"
-        variant="danger"
-      >
-        Remove
-      </Button>
+      <div className="d-flex align-items-center justify-content-end gap-2">
+        {
+          isMissing && (
+            <span className="text-danger small">{`Not found: ${conceptId}`}</span>
+          )
+        }
+        <Button
+          onClick={() => onRemove(conceptId)}
+          size="sm"
+          variant="danger"
+        >
+          Remove
+        </Button>
+      </div>
     )
   }, [onRemove])
 
@@ -136,6 +143,18 @@ const BulkActionsSelectedConcepts = ({
   const [rootField] = Object.values(data || {})
   const { items = [] } = rootField || {}
 
+  // Built from pageConceptIds (not just `items`) so a selected id the query didn't return --
+  // e.g. a collection that's since become non-operational -- still gets a row, with enough
+  // to be seen and removed, instead of silently vanishing from the list while still part of
+  // the submitted selection.
+  const itemsByConceptId = new Map(items.map((item) => [item.conceptId, item]))
+  const rows = pageConceptIds.map((conceptId) => (
+    itemsByConceptId.get(conceptId) || {
+      conceptId,
+      isMissing: true
+    }
+  ))
+
   return (
     <ControlledPaginatedContent
       activePage={activePage}
@@ -151,7 +170,7 @@ const BulkActionsSelectedConcepts = ({
               columns={tableColumns}
               generateCellKey={({ conceptId }, dataKey) => `column_${dataKey}_${conceptId}`}
               generateRowKey={({ conceptId }) => `row_${conceptId}`}
-              data={items}
+              data={rows}
               limit={PAGE_SIZE}
               noDataMessage="No selected items found"
             />
