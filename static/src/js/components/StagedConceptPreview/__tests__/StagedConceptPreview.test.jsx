@@ -464,6 +464,7 @@ describe('StagedConceptPreview', () => {
                 variables: {
                   params: {
                     shortName: 'Mock Short Name',
+                    includeNonOperational: true,
                     limit: 2000
                   }
                 }

@@ -158,6 +158,7 @@ const SaveAsDraftToExistingCollectionModal = ({
         // choices below.
         params: {
           shortName,
+          includeNonOperational: true,
           limit: 2000
         }
       },
