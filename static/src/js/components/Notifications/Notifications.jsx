@@ -45,7 +45,7 @@ const Notifications = () => {
       }))
     }
   }
-   
+
   return (
     <ToastContainer
       className="notifications-list p-3 position-fixed"
@@ -85,9 +85,9 @@ const Notifications = () => {
               danger: <FaExclamation className={iconClassNames} />
             }
             const shouldAutoHide = !(variant === 'danger')
-            let copyTitle = "Copy this notification"
-            if(copyStatus[id] === 'copied') copyTitle = "Copied notification message"
-            if(copyStatus[id] === 'failed') copyTitle = "Unable to copy notification message. Try again."
+            let copyTitle = 'Copy this notification'
+            if (copyStatus[id] === 'copied') copyTitle = 'Copied notification message'
+            if (copyStatus[id] === 'failed') copyTitle = 'Unable to copy notification message. Try again.'
 
             // Set the default delay duration to be passed to the Toast component and the bootstrap css variable
             const delay = 4000
