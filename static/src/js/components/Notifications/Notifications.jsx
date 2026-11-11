@@ -1,4 +1,8 @@
-import React, { useState } from 'react'
+import React, {
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import classNames from 'classnames'
 import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
@@ -25,24 +29,53 @@ import './Notifications.scss'
  */
 const Notifications = () => {
   const [copyStatus, setCopyStatus] = useState({})
+  const copyTimers = useRef({})
+  const mounted = useRef(false)
   const {
     hideNotification,
     notifications,
     removeNotification
   } = useNotificationsContext()
 
+  // Prevent updates from pending copies and clear reset timers on unmount.
+  useEffect(() => {
+    mounted.current = true
+
+    return () => {
+      mounted.current = false
+      Object.values(copyTimers.current).forEach(clearTimeout)
+      copyTimers.current = {}
+    }
+  }, [])
+
+  // Each notification has its own reset timer. A new result cancels its old timer.
+  // Successful copies reset after two seconds, and pending timers clear on unmount.
   const handleCopy = async (id, message) => {
+    let status
     try {
       await navigator.clipboard.writeText(message)
-      setCopyStatus((previous) => ({
-        ...previous,
-        [id]: 'copied'
-      }))
+      status = 'copied'
     } catch {
-      setCopyStatus((previous) => ({
-        ...previous,
-        [id]: 'failed'
-      }))
+      status = 'failed'
+    }
+
+    if (!mounted.current) return
+
+    clearTimeout(copyTimers.current[id])
+    delete copyTimers.current[id]
+    setCopyStatus((previous) => ({
+      ...previous,
+      [id]: status
+    }))
+
+    if (status === 'copied') {
+      copyTimers.current[id] = setTimeout(() => {
+        delete copyTimers.current[id]
+        setCopyStatus((previous) => ({
+          ...previous,
+          [id]: undefined
+        }))
+      }, 2000)
     }
   }
 
@@ -130,6 +163,11 @@ const Notifications = () => {
                     </span>
                     <div className="notifications-list__message">
                       {message}
+                      {
+                        copyStatus[id] === 'failed' && (
+                          <div>Unable to copy notification message. Try again.</div>
+                        )
+                      }
                     </div>
                   </div>
                   {
