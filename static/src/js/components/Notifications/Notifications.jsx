@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
 import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
@@ -24,17 +24,52 @@ import './Notifications.scss'
  * )
  */
 const Notifications = () => {
+  const [copyStatus, setCopyStatus] = useState({})
   const {
     hideNotification,
     notifications,
     removeNotification
   } = useNotificationsContext()
 
+  const handleCopy = async (id, message) => {
+    try {
+      await navigator.clipboard.writeText(message)
+      setCopyStatus((previous) => ({
+        ...previous,
+        [id]: 'copied'
+      }))
+    } catch {
+      setCopyStatus((previous) => ({
+        ...previous,
+        [id]: 'failed'
+      }))
+    }
+  }
+   
   return (
     <ToastContainer
       className="notifications-list p-3 position-fixed"
       position="bottom-end"
     >
+      {
+        notifications.filter(({ show }) => show).length > 1 && (
+          <div className="d-flex justify-content-end mb-2">
+            <Button
+              className="pe-auto"
+              onClick={
+                () => notifications.forEach(({ id, show }) => {
+                  if (show) hideNotification(id)
+                })
+              }
+              size="sm"
+              title="Dismiss all notifications"
+              variant="dark"
+            >
+              Dismiss All
+            </Button>
+          </div>
+        )
+      }
       <For each={notifications}>
         {
           ({
@@ -50,6 +85,9 @@ const Notifications = () => {
               danger: <FaExclamation className={iconClassNames} />
             }
             const shouldAutoHide = !(variant === 'danger')
+            let copyTitle = "Copy this notification"
+            if(copyStatus[id] === 'copied') copyTitle = "Copied notification message"
+            if(copyStatus[id] === 'failed') copyTitle = "Unable to copy notification message. Try again."
 
             // Set the default delay duration to be passed to the Toast component and the bootstrap css variable
             const delay = 4000
@@ -112,9 +150,19 @@ const Notifications = () => {
                     )
                   }
                   <Button
+                    className="notifications-list__close-button ms-2 px-2"
+                    onClick={() => handleCopy(id, message)}
+                    size="sm"
+                    title={copyTitle}
+                    variant="outline-light-dark"
+                  >
+                    {copyStatus[id] === 'copied' ? 'Copied' : 'Copy'}
+                  </Button>
+                  <Button
                     className="notifications-list__close-button ms-2"
                     onClick={() => hideNotification(id)}
                     size="sm"
+                    title="Dismiss this notification"
                     variant="outline-light-dark"
                   >
                     Close
