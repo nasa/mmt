@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react'
 import {
   act,
+  fireEvent,
   render,
-  screen
+  screen,
+  within
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
+import { expect } from 'vitest'
 import Notifications from '../Notifications'
 import Providers from '../../../providers/Providers/Providers'
 import useNotificationsContext from '../../../hooks/useNotificationsContext'
@@ -27,29 +30,187 @@ const MockComponent = ({ action, variantType }) => {
 
 const setup = ({
   action,
+  additionalVariantType,
   overrideVariantType,
   variantType = 'success'
 } = {}) => {
   const user = userEvent.setup()
 
-  render(
+  const { unmount } = render(
     <Providers>
       <Notifications />
       <MockComponent action={action} variantType={overrideVariantType || variantType} />
+      {additionalVariantType && <MockComponent variantType={additionalVariantType} />}
     </Providers>
   )
 
   return {
+    unmount,
     user
   }
 }
 
 describe('Notifications', () => {
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  test('does not render Dismiss All when there are notifications', () => {
+    render(
+      <Providers>
+        <Notifications />
+      </Providers>
+    )
+
+    expect(screen.queryByRole('button', { name: 'Dismiss All' })).not.toBeInTheDocument()
+  })
+
+  describe('when multiple notifications are present', () => {
+    test('copies only the selected notification message', async () => {
+      const { user } = setup({ additionalVariantType: 'danger' })
+
+      expect(screen.getByText('Mock success notification')).toBeInTheDocument()
+      expect(screen.getByText('Mock danger notification')).toBeInTheDocument()
+
+      await user.click(screen.getAllByRole('button', { name: 'Copy' })[1])
+
+      expect(await navigator.clipboard.readText()).toBe('Mock danger notification')
+    })
+
+    test('resets copy confirmations independently and allows repeated confirmations', async () => {
+      setup({
+        variantType: 'danger',
+        additionalVariantType: 'danger'
+      })
+
+      vi.useFakeTimers()
+
+      fireEvent.click(screen.getAllByRole('button', { name: 'Copy' })[0])
+      await act(async () => { await Promise.resolve() })
+      await act(() => vi.advanceTimersByTimeAsync(1000))
+      fireEvent.click(screen.getByRole('button', { name: 'Copy' }))
+      await act(async () => { await Promise.resolve() })
+      await act(() => vi.advanceTimersByTimeAsync(1000))
+
+      expect(screen.getAllByRole('button', { name: 'Copied' })).toHaveLength(1)
+      fireEvent.click(screen.getByRole('button', { name: 'Copy' }))
+      await act(async () => { await Promise.resolve() })
+      await act(() => vi.advanceTimersByTimeAsync(1000))
+      expect(screen.getAllByRole('button', { name: 'Copied' })).toHaveLength(1)
+      await act(() => vi.advanceTimersByTimeAsync(1000))
+      expect(screen.getAllByRole('button', { name: 'Copy' })).toHaveLength(2)
+    })
+
+    test('dismisses all error notifications', async () => {
+      const { user } = setup({
+        variantType: 'danger',
+        additionalVariantType: 'danger'
+      })
+
+      expect(screen.getAllByText('Mock danger notification')).toHaveLength(2)
+
+      await user.click(screen.getByRole('button', { name: 'Dismiss All' }))
+
+      expect(screen.queryByText('Mock danger notification')).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Dismiss All' })).not.toBeInTheDocument()
+    })
+
+    test('dismisses notifications of all variants without invoking their actions', async () => {
+      const onClick = vi.fn()
+      const { user } = setup({
+        action: {
+          label: 'Undo',
+          onClick
+        },
+        additionalVariantType: 'danger'
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Dismiss All' }))
+
+      expect(screen.queryByText('Mock success notification')).not.toBeInTheDocument()
+      expect(screen.queryByText('Mock danger notification')).not.toBeInTheDocument()
+      expect(onClick).not.toHaveBeenCalled()
+    })
+
+    test('hides Dismiss All when only one visible notification remains', async () => {
+      const { user } = setup({ additionalVariantType: 'danger' })
+
+      await user.click(screen.getAllByRole('button', { name: 'Close' })[0])
+
+      expect(screen.getByText('Mock danger notification')).toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Dismiss All' })).not.toBeInTheDocument()
+    })
+  })
+
   describe('when a notification is present', () => {
     test('renders a toast', () => {
       setup()
 
       expect(screen.getByText('Mock success notification')).toBeInTheDocument()
+    })
+
+    test('copies its message without dismissing it or invoking its action', async () => {
+      const onClick = vi.fn()
+      const { user } = setup({
+        action: {
+          label: 'Undo',
+          onClick
+        }
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Copy' }))
+
+      expect(await navigator.clipboard.readText()).toBe('Mock success notification')
+      expect(screen.getByRole('button', { name: 'Copied' })).toBeInTheDocument()
+      expect(screen.getByText('Mock success notification')).toBeInTheDocument()
+      expect(onClick).not.toHaveBeenCalled()
+    })
+
+    test('copy button handles clipboard failure and allows retrying', async () => {
+      const { user } = setup({ variantType: 'danger' })
+      vi.spyOn(navigator.clipboard, 'writeText').mockRejectedValueOnce(new Error('Permission denied'))
+
+      await user.click(screen.getByRole('button', { name: 'Copy' }))
+
+      expect(screen.getByText('Mock danger notification')).toBeInTheDocument()
+      const copyButton = screen.getByRole('button', { name: 'Copy' })
+
+      expect(copyButton).toHaveAttribute('title', 'Unable to copy notification message. Try again.')
+      expect(within(screen.getByRole('alert')).getByText('Unable to copy notification message. Try again.')).toBeInTheDocument()
+
+      await user.click(copyButton)
+
+      expect(await navigator.clipboard.readText()).toBe('Mock danger notification')
+      expect(screen.getByRole('button', { name: 'Copied' })).toBeInTheDocument()
+      expect(screen.queryByText('Unable to copy notification message. Try again.')).not.toBeInTheDocument()
+    })
+
+    test('a failed copy cancels an earlier confirmation timer', async () => {
+      setup({ variantType: 'danger' })
+      vi.useFakeTimers()
+      vi.spyOn(navigator.clipboard, 'writeText')
+        .mockResolvedValueOnce(undefined)
+        .mockRejectedValueOnce(new Error('Permission denied'))
+
+      fireEvent.click(screen.getByRole('button', { name: 'Copy' }))
+      await act(async () => { await Promise.resolve() })
+      fireEvent.click(screen.getByRole('button', { name: 'Copied' }))
+      await act(async () => { await Promise.resolve() })
+      await act(() => vi.advanceTimersByTimeAsync(2000))
+
+      expect(screen.getByText('Unable to copy notification message. Try again.')).toBeInTheDocument()
+    })
+
+    test('clears pending copy timers on unmount', async () => {
+      const { unmount } = setup({ variantType: 'danger' })
+      vi.useFakeTimers()
+
+      fireEvent.click(screen.getByRole('button', { name: 'Copy' }))
+      await act(async () => { await Promise.resolve() })
+
+      expect(vi.getTimerCount()).toBeGreaterThan(0)
+      unmount()
+      expect(vi.getTimerCount()).toBe(0)
     })
 
     describe('when clicking the close button', () => {
