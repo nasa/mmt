@@ -171,7 +171,7 @@ const Notifications = () => {
                       }
                     </div>
                   </div>
-                  <div className="d-flex ms-3 gap-2 align-items-start">                 
+                  <div className="d-flex ms-3 gap-2 align-items-start">
                     {
                       action && (
                         <Button
@@ -201,7 +201,7 @@ const Notifications = () => {
                       </Button>
 
                       <Button
-                        className="notifications-list__close-button w-100" 
+                        className="notifications-list__close-button w-100"
                         onClick={() => handleCopy(id, message)}
                         size="sm"
                         title={copyTitle}
