@@ -147,6 +147,7 @@ const Notifications = () => {
                 show={show}
               >
                 <Toast.Body className="d-flex">
+                  {/* LEFT SIDE: Icon and Message (Unchanged) */}
                   <div className="d-flex flex-grow-1 overflow-hidden">
                     <span
                       className={
@@ -165,46 +166,51 @@ const Notifications = () => {
                       {message}
                       {
                         copyStatus[id] === 'failed' && (
-                          <div>Unable to copy notification message. Try again.</div>
+                          <div className="text-danger mt-1">Unable to copy notification message. Try again.</div>
                         )
                       }
                     </div>
                   </div>
-                  {
-                    action && (
-                      <Button
-                        className="ms-2"
-                        onClick={
-                          () => {
-                            action.onClick()
-                            hideNotification(id)
+                  <div className="d-flex ms-3 gap-2 align-items-start">                 
+                    {
+                      action && (
+                        <Button
+                          onClick={
+                            () => {
+                              action.onClick()
+                              hideNotification(id)
+                            }
                           }
-                        }
+                          size="sm"
+                          variant="outline-light-dark"
+                        >
+                          {action.label}
+                        </Button>
+                      )
+                    }
+                    {/* Stacked Default Controls (Close and Copy) */}
+                    <div className="d-flex flex-column gap-2">
+                      <Button
+                        className="notifications-list__close-button w-100"
+                        onClick={() => hideNotification(id)}
                         size="sm"
+                        title="Dismiss this notification"
                         variant="outline-light-dark"
                       >
-                        {action.label}
+                        Close
                       </Button>
-                    )
-                  }
-                  <Button
-                    className="notifications-list__close-button ms-2 px-2"
-                    onClick={() => handleCopy(id, message)}
-                    size="sm"
-                    title={copyTitle}
-                    variant="outline-light-dark"
-                  >
-                    {copyStatus[id] === 'copied' ? 'Copied' : 'Copy'}
-                  </Button>
-                  <Button
-                    className="notifications-list__close-button ms-2"
-                    onClick={() => hideNotification(id)}
-                    size="sm"
-                    title="Dismiss this notification"
-                    variant="outline-light-dark"
-                  >
-                    Close
-                  </Button>
+
+                      <Button
+                        className="notifications-list__close-button w-100" 
+                        onClick={() => handleCopy(id, message)}
+                        size="sm"
+                        title={copyTitle}
+                        variant="outline-light-dark"
+                      >
+                        {copyStatus[id] === 'copied' ? 'Copied' : 'Copy'}
+                      </Button>
+                    </div>
+                  </div>
                 </Toast.Body>
 
                 <span

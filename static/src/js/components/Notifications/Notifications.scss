@@ -26,8 +26,9 @@
 
   &__close-button {
     flex-shrink: 0;
-    align-self: flex-start; // Aligns the button to the top
     white-space: nowrap;
+    // Prevent layout shift between "Copy" and "Copied"
+    min-inline-size: 4.5rem;
   }
 
   &__timer {
