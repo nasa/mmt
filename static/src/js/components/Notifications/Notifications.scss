@@ -24,7 +24,7 @@
     word-wrap: break-word; // Allows long words to break and wrap
   }
 
-  &__close-button {
+  &__action-button {
     flex-shrink: 0;
     // Prevent layout shift between "Copy" and "Copied"
     min-inline-size: 4.5rem;

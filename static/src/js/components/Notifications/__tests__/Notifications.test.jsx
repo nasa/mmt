@@ -55,7 +55,7 @@ describe('Notifications', () => {
     vi.useRealTimers()
   })
 
-  test('does not render Dismiss All when there are notifications', () => {
+  test('does not render Dismiss All when there are no notifications', () => {
     render(
       <Providers>
         <Notifications />
@@ -67,14 +67,27 @@ describe('Notifications', () => {
 
   describe('when multiple notifications are present', () => {
     test('copies only the selected notification message', async () => {
-      const { user } = setup({ additionalVariantType: 'danger' })
+      const { user } = setup({
+        variantType: 'danger',
+        additionalVariantType: 'danger'
+      })
 
-      expect(screen.getByText('Mock success notification')).toBeInTheDocument()
-      expect(screen.getByText('Mock danger notification')).toBeInTheDocument()
+      expect(screen.getAllByText('Mock danger notification')).toHaveLength(2)
 
       await user.click(screen.getAllByRole('button', { name: 'Copy' })[1])
 
       expect(await navigator.clipboard.readText()).toBe('Mock danger notification')
+    })
+
+    test('renders the copy button only for danger notifications, not for success', () => {
+      setup({ additionalVariantType: 'danger' })
+
+      expect(screen.getByText('Mock success notification')).toBeInTheDocument()
+      expect(screen.getByText('Mock danger notification')).toBeInTheDocument()
+
+      // Because the success notification doesn't get a copy button,
+      // there should be exactly 1 Copy button.
+      expect(screen.getAllByRole('button', { name: 'Copy' })).toHaveLength(1)
     })
 
     test('resets copy confirmations independently and allows repeated confirmations', async () => {
@@ -152,6 +165,7 @@ describe('Notifications', () => {
     test('copies its message without dismissing it or invoking its action', async () => {
       const onClick = vi.fn()
       const { user } = setup({
+        variantType: 'danger',
         action: {
           label: 'Undo',
           onClick
@@ -160,9 +174,9 @@ describe('Notifications', () => {
 
       await user.click(screen.getByRole('button', { name: 'Copy' }))
 
-      expect(await navigator.clipboard.readText()).toBe('Mock success notification')
+      expect(await navigator.clipboard.readText()).toBe('Mock danger notification')
       expect(screen.getByRole('button', { name: 'Copied' })).toBeInTheDocument()
-      expect(screen.getByText('Mock success notification')).toBeInTheDocument()
+      expect(screen.getByText('Mock danger notification')).toBeInTheDocument()
       expect(onClick).not.toHaveBeenCalled()
     })
 

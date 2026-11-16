@@ -147,7 +147,6 @@ const Notifications = () => {
                 show={show}
               >
                 <Toast.Body className="d-flex">
-                  {/* LEFT SIDE: Icon and Message (Unchanged) */}
                   <div className="d-flex flex-grow-1 overflow-hidden">
                     <span
                       className={
@@ -188,10 +187,9 @@ const Notifications = () => {
                         </Button>
                       )
                     }
-                    {/* Stacked Default Controls (Close and Copy) */}
                     <div className="d-flex flex-column gap-2">
                       <Button
-                        className="notifications-list__close-button w-100"
+                        className="notifications-list__action-button w-100"
                         onClick={() => hideNotification(id)}
                         size="sm"
                         title="Dismiss this notification"
@@ -200,15 +198,19 @@ const Notifications = () => {
                         Close
                       </Button>
 
-                      <Button
-                        className="notifications-list__close-button w-100"
-                        onClick={() => handleCopy(id, message)}
-                        size="sm"
-                        title={copyTitle}
-                        variant="outline-light-dark"
-                      >
-                        {copyStatus[id] === 'copied' ? 'Copied' : 'Copy'}
-                      </Button>
+                      {
+                        variant === 'danger' && (
+                          <Button
+                            className="notifications-list__action-button w-100"
+                            onClick={() => handleCopy(id, message)}
+                            size="sm"
+                            title={copyTitle}
+                            variant="outline-light-dark"
+                          >
+                            {copyStatus[id] === 'copied' ? 'Copied' : 'Copy'}
+                          </Button>
+                        )
+                      }
                     </div>
                   </div>
                 </Toast.Body>
