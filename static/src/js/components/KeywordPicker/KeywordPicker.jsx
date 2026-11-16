@@ -235,7 +235,11 @@ const KeywordPicker = ({
     const updatedList = getChildren(fullSelectedPath)
 
     if (selectableParents) {
+      // Also clears `currentSelected` (not just the visual pick) -- otherwise navigating
+      // away from an unsubmitted pick leaves it stale: nothing shows as checked, but
+      // clicking Add still silently submits that earlier pick.
       setFinalSelectedValue(null)
+      setCurrentSelected([])
     } else {
       const currentSelectedList = []
       selectedKeywords.forEach((keyword) => {
@@ -522,6 +526,10 @@ const KeywordPicker = ({
               className="mt-2"
               onClick={handleSubmit}
               aria-label="add"
+              // Only in selectableParents mode -- a pick is always explicit there (a
+              // checkbox), so nothing picked means currentSelected is empty. The existing
+              // form's own navigate-to-a-level-and-click-Add behavior is unaffected.
+              disabled={selectableParents && currentSelected.length === 0}
             >
               <i className="fa-solid fa-circle-plus fa-sm" />
               {' '}

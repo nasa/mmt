@@ -396,6 +396,25 @@ describe('when a non-leaf level is picked directly, instead of navigating into i
     expect(screen.queryByText('DATA MANAGEMENT/DATA HANDLING', { selector: '.final-option-selected' }))
       .not.toBeInTheDocument()
   })
+
+  test('navigating away from an unsubmitted pick clears it, instead of silently submitting it later', async () => {
+    const { props, user } = setup({})
+
+    await user.click(screen.getByRole('link', { name: 'View EARTH SCIENCE SERVICES' }))
+    await user.click(screen.getByRole('checkbox', { name: 'DATA ANALYSIS AND VISUALIZATION' }))
+
+    // Navigate away without submitting -- nothing should carry over.
+    await user.click(screen.getByRole('link', { name: 'View DATA ANALYSIS AND VISUALIZATION' }))
+
+    expect(screen.queryByRole('checkbox', { checked: true })).not.toBeInTheDocument()
+
+    const addButton = screen.getByRole('button', { name: 'add' })
+    expect(addButton).toBeDisabled()
+
+    await user.click(addButton)
+
+    expect(props.onChange).not.toHaveBeenCalled()
+  })
 })
 
 describe('when the same instance switches to a different keyword scheme', () => {
