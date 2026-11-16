@@ -6,7 +6,12 @@ import React, {
 import classNames from 'classnames'
 import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
-import { FaCheck, FaExclamation } from 'react-icons/fa'
+import {
+  FaCheck,
+  FaCopy,
+  FaExclamation,
+  FaTimes
+} from 'react-icons/fa'
 import Button from '../Button/Button'
 
 import useNotificationsContext from '../../hooks/useNotificationsContext'
@@ -170,7 +175,11 @@ const Notifications = () => {
                       }
                     </div>
                   </div>
-                  <div className="d-flex ms-3 gap-2 align-items-start">
+                  <div
+                    aria-label="Notification actions"
+                    className="d-flex ms-2 gap-1 align-items-start"
+                    role="group"
+                  >
                     {
                       action && (
                         <Button
@@ -187,31 +196,37 @@ const Notifications = () => {
                         </Button>
                       )
                     }
-                    <div className="d-flex flex-column gap-2">
-                      <Button
-                        className="notifications-list__action-button w-100"
-                        onClick={() => hideNotification(id)}
-                        size="sm"
-                        title="Dismiss this notification"
-                        variant="outline-light-dark"
-                      >
-                        Close
-                      </Button>
+                    <Button
+                      className="px-2"
+                      onClick={() => hideNotification(id)}
+                      size="sm"
+                      title="Dismiss this notification"
+                      variant="outline-light-dark"
+                    >
+                      <FaTimes aria-hidden="true" />
+                      <span className="visually-hidden">Close</span>
+                    </Button>
 
-                      {
-                        variant === 'danger' && (
-                          <Button
-                            className="notifications-list__action-button w-100"
-                            onClick={() => handleCopy(id, message)}
-                            size="sm"
-                            title={copyTitle}
-                            variant="outline-light-dark"
-                          >
+                    {
+                      variant === 'danger' && (
+                        <Button
+                          className="px-2"
+                          onClick={() => handleCopy(id, message)}
+                          size="sm"
+                          title={copyTitle}
+                          variant="outline-light-dark"
+                        >
+                          {
+                            copyStatus[id] === 'copied'
+                              ? <FaCheck aria-hidden="true" />
+                              : <FaCopy aria-hidden="true" />
+                          }
+                          <span className="visually-hidden">
                             {copyStatus[id] === 'copied' ? 'Copied' : 'Copy'}
-                          </Button>
-                        )
-                      }
-                    </div>
+                          </span>
+                        </Button>
+                      )
+                    }
                   </div>
                 </Toast.Body>
 

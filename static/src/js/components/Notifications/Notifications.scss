@@ -24,13 +24,6 @@
     word-wrap: break-word; // Allows long words to break and wrap
   }
 
-  &__action-button {
-    flex-shrink: 0;
-    // Prevent layout shift between "Copy" and "Copied"
-    min-inline-size: 4.5rem;
-    white-space: nowrap;
-  }
-
   &__timer {
     --timer-duration: 3000ms;
 
