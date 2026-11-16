@@ -1,6 +1,10 @@
 import React from 'react'
 import { MockedProvider } from '@apollo/client/testing'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createRoutesStub } from 'react-router'
 
@@ -13,11 +17,32 @@ import CollectionSelectionContextProvider from '@/js/providers/CollectionSelecti
 import NotificationsContextProvider from '@/js/providers/NotificationsContextProvider/NotificationsContextProvider'
 import Notifications from '@/js/components/Notifications/Notifications'
 import useCollectionSelectionContext from '@/js/hooks/useCollectionSelectionContext'
+import useControlledKeywords from '@/js/hooks/useControlledKeywords'
+import fetchCmrKeywords from '@/js/utils/fetchCmrKeywords'
 import errorLogger from '@/js/utils/errorLogger'
 
 import BulkActionsEditPage from '../BulkActionsEditPage'
 
 vi.mock('@/js/utils/errorLogger')
+
+// The controlled-value pickers (KeywordPicker, PlatformField, InstrumentField,
+// DataCenterField) each have their own unit tests covering KMS-fetching -- these default
+// mocks just keep that network traffic out of page-level tests. A few tests below override
+// one per-test with real-ish data to prove the picker is wired into the page end to end.
+vi.mock('@/js/hooks/useControlledKeywords', () => ({
+  __esModule: true,
+  default: vi.fn(() => ({
+    keywords: {},
+    isLoading: false
+  }))
+}))
+
+vi.mock('@/js/utils/fetchCmrKeywords', () => ({
+  __esModule: true,
+  // An empty-but-well-formed response -- parseCmrResponse/parseCmrInstrumentsResponse/
+  // getKeywords all expect at least one top-level key holding an array to traverse into.
+  default: vi.fn().mockResolvedValue({ keywordRoot: [] })
+}))
 
 // Mock CodeMirror to render a standard textarea, so userEvent.type works easily -- matches
 // the pattern used by JsonPreview's tests, which wrap the same underlying editor.
@@ -85,6 +110,29 @@ const createBulkUpdateMock = {
     data: {
       createBulkUpdateCollectionTask: {
         taskId: 'BU-4439'
+      }
+    }
+  }
+}
+
+// Matches only if updateValue has LongName/Roles stripped -- MockedProvider only resolves
+// this mutation if that stripping actually happened.
+const createBulkUpdateStrippedMock = {
+  request: {
+    query: CREATE_BULK_UPDATE_COLLECTION_TASK,
+    variables: {
+      conceptIds: ['C1-TESTPROV'],
+      providerId: 'TESTPROV',
+      updateField: 'DATA_CENTERS',
+      updateType: 'FIND_AND_REPLACE',
+      findValue: { ShortName: 'NASA/GSFC' },
+      updateValue: { ShortName: 'NASA/GSFC' }
+    }
+  },
+  result: {
+    data: {
+      createBulkUpdateCollectionTask: {
+        taskId: 'BU-4443'
       }
     }
   }
@@ -359,6 +407,26 @@ describe('BulkActionsEditPage component', () => {
       expect(screen.getByText('Replace With')).toBeInTheDocument()
     })
 
+    test('shows a tooltip next to "What will be sent to CMR" explaining how to keep, blank, or null a field', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectFieldAndType(user)
+
+      const helpIcon = screen.getByRole('img', { name: 'help' })
+      const label = screen.getByText('What will be sent to CMR')
+
+      expect(label.compareDocumentPosition(helpIcon)).toBe(Node.DOCUMENT_POSITION_FOLLOWING)
+
+      await user.hover(helpIcon)
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toHaveTextContent(
+          'Delete a key or leave it blank to keep the existing value. Set it to null to remove it.'
+        )
+      })
+    })
+
     test('prepopulates the updateValue JSON with every field, Characteristics included, for Platforms', async () => {
       const { user } = setup()
 
@@ -369,8 +437,8 @@ describe('BulkActionsEditPage component', () => {
       // FIND_AND_REPLACE supports multiple entries, so the skeleton is array-wrapped.
       expect(screen.getByLabelText('updateValue JSON')).toHaveValue(
         JSON.stringify([{
-          Type: '',
           ShortName: '',
+          Type: '',
           LongName: '',
           Characteristics: []
         }], null, 2)
@@ -402,8 +470,8 @@ describe('BulkActionsEditPage component', () => {
       await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
       await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
 
-      expect(screen.getByText('Update With')).toBeInTheDocument()
-      expect(screen.queryByText('Replace With')).not.toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: 'Update With' })).toBeInTheDocument()
+      expect(screen.queryByRole('heading', { name: 'Replace With' })).not.toBeInTheDocument()
     })
 
     test.each([
@@ -418,7 +486,9 @@ describe('BulkActionsEditPage component', () => {
       await user.selectOptions(screen.getByLabelText('Action Type'), type)
       await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
 
-      expect(screen.getByText(label)).toBeInTheDocument()
+      // A heading lookup, not a plain text lookup -- the entry-list picker's own "Add" button
+      // (rendered for ADD_TO_EXISTING's Data Centers picker) also contains the word "Add".
+      expect(screen.getByRole('heading', { name: label })).toBeInTheDocument()
     })
   })
 
@@ -449,147 +519,284 @@ describe('BulkActionsEditPage component', () => {
     })
   })
 
-  describe('Science Keywords destructive update warnings', () => {
-    // DetailedVariable itself now legitimately appears elsewhere on the page too (a Find
-    // label, a key in the updateValue JSON skeleton), so these assertions match each type's
-    // actual warning sentence rather than just the word, to avoid a false positive.
-    test.each([
-      ['FIND_AND_REPLACE', /DetailedVariable can be used to find Science Keywords entries.*Replace With/],
-      ['FIND_AND_UPDATE', /DetailedVariable can be used to find Science Keywords entries.*Update With/],
-      ['CLEAR_ALL_AND_REPLACE', /Existing Science Keywords entries may have a DetailedVariable value set/],
-      ['FIND_AND_REMOVE', /DetailedVariable can be used to find Science Keywords entries/]
-    ])('warns about DetailedVariable for %s', async (type, expectedWarning) => {
-      const { user } = setup()
+  describe('when some updateValue fields are still at their unfilled skeleton default', () => {
+    test('strips them before submitting, instead of sending them alongside the filled-in fields', async () => {
+      const { user } = setup({
+        mocks: [getCollectionsMock, createBulkUpdateStrippedMock]
+      })
 
       await user.click(screen.getByRole('button', { name: 'Select collection' }))
-      await user.selectOptions(screen.getByLabelText('Action Type'), type)
-      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
-
-      expect(screen.getByText(expectedWarning)).toBeInTheDocument()
-    })
-
-    test('does not warn for an action type that only appends new entries, since it never touches existing ones', async () => {
-      const { user } = setup()
-
-      await user.click(screen.getByRole('button', { name: 'Select collection' }))
-      await user.selectOptions(screen.getByLabelText('Action Type'), 'ADD_TO_EXISTING')
-      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
-
-      expect(screen.queryByText(/can be used to find Science Keywords entries/)).not.toBeInTheDocument()
-      expect(screen.queryByText(/may have a DetailedVariable value set/)).not.toBeInTheDocument()
-    })
-
-    test('does not warn for an unrelated field even with the same action type', async () => {
-      const { user } = setup()
-
-      await user.click(screen.getByRole('button', { name: 'Select collection' }))
-      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_REPLACE')
-      await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
-
-      expect(screen.queryByText(/can be used to find Science Keywords entries/)).not.toBeInTheDocument()
-    })
-
-    test('renders below the Find section (its Additional Free-Text Criteria subsection) but above Replace With', async () => {
-      const { user } = setup()
-
-      await user.click(screen.getByRole('button', { name: 'Select collection' }))
-      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_REPLACE')
-      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
-
-      const warning = screen.getByText(/DetailedVariable can be used to find/)
-      const findHeading = screen.getByRole('heading', { name: 'Find' })
-      const replaceWithHeading = screen.getByRole('heading', { name: 'Replace With' })
-
-      expect(warning.compareDocumentPosition(findHeading))
-        .toBe(Node.DOCUMENT_POSITION_PRECEDING)
-
-      expect(warning.compareDocumentPosition(replaceWithHeading))
-        .toBe(Node.DOCUMENT_POSITION_FOLLOWING)
-    })
-
-    test('renders above the Replace With section even when there is no Find section', async () => {
-      const { user } = setup()
-
-      await user.click(screen.getByRole('button', { name: 'Select collection' }))
-      await user.selectOptions(screen.getByLabelText('Action Type'), 'CLEAR_ALL_AND_REPLACE')
-      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
-
-      const warning = screen.getByText(/may have a DetailedVariable value set/)
-      const replaceWithHeading = screen.getByRole('heading', { name: 'Replace With' })
-
-      expect(warning.compareDocumentPosition(replaceWithHeading))
-        .toBe(Node.DOCUMENT_POSITION_FOLLOWING)
-    })
-  })
-
-  describe('Location Keywords destructive update warnings', () => {
-    test.each([
-      ['FIND_AND_REPLACE', /DetailedLocation can be used to find Location Keywords entries.*Replace With/],
-      ['FIND_AND_UPDATE', /DetailedLocation can be used to find Location Keywords entries.*Update With/],
-      ['CLEAR_ALL_AND_REPLACE', /Existing Location Keywords entries may have a DetailedLocation value set/],
-      ['FIND_AND_REMOVE', /DetailedLocation can be used to find Location Keywords entries/]
-    ])('warns about DetailedLocation for %s', async (type, expectedWarning) => {
-      const { user } = setup()
-
-      await user.click(screen.getByRole('button', { name: 'Select collection' }))
-      await user.selectOptions(screen.getByLabelText('Action Type'), type)
-      await user.selectOptions(screen.getByLabelText('Target Field'), 'LOCATION_KEYWORDS')
-
-      expect(screen.getByText(expectedWarning)).toBeInTheDocument()
-    })
-
-    test('does not warn for an action type that only appends new entries, since it never touches existing ones', async () => {
-      const { user } = setup()
-
-      await user.click(screen.getByRole('button', { name: 'Select collection' }))
-      await user.selectOptions(screen.getByLabelText('Action Type'), 'ADD_TO_EXISTING')
-      await user.selectOptions(screen.getByLabelText('Target Field'), 'LOCATION_KEYWORDS')
-
-      expect(screen.queryByText(/can be used to find Location Keywords entries/)).not.toBeInTheDocument()
-      expect(screen.queryByText(/may have a DetailedLocation value set/)).not.toBeInTheDocument()
-    })
-
-    test('does not warn for an unrelated field even with the same action type', async () => {
-      const { user } = setup()
-
-      await user.click(screen.getByRole('button', { name: 'Select collection' }))
-      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_REPLACE')
-      await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
-
-      expect(screen.queryByText(/can be used to find Location Keywords entries/)).not.toBeInTheDocument()
-    })
-  })
-
-  describe('when a find value is invalid', () => {
-    test('keeps the invalid input visible and disables Submit even though another field is filled', async () => {
-      const { user } = setup()
-
-      await user.click(screen.getByRole('button', { name: 'Select collection' }))
-      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_REPLACE')
-      await user.selectOptions(screen.getByLabelText('Target Field'), 'INSTRUMENTS')
+      await selectFieldAndType(user)
 
       await user.type(
         screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
-        'MODIS'
+        'NASA/GSFC'
+      )
+
+      // LongName/Roles are left at their skeleton default and should be dropped, not sent
+      // alongside ShortName (createBulkUpdateStrippedMock only matches a stripped updateValue).
+      await fillUpdateValueJson(user, {
+        ShortName: 'NASA/GSFC',
+        LongName: '',
+        Roles: []
+      })
+
+      const submitButton = screen.getByRole('button', { name: 'Submit Bulk Action' })
+      expect(submitButton).not.toBeDisabled()
+
+      await user.click(submitButton)
+
+      expect(await screen.findByText('Bulk Update Submitted')).toBeInTheDocument()
+      expect(screen.getByText('BU-4443')).toBeInTheDocument()
+    })
+  })
+
+  describe.each([
+    ['SCIENCE_KEYWORDS', 'DetailedVariable'],
+    ['LOCATION_KEYWORDS', 'DetailedLocation']
+  ])('%s', (field, freeTextKey) => {
+    test.each([
+      'ADD_TO_EXISTING',
+      'CLEAR_ALL_AND_REPLACE',
+      'FIND_AND_REPLACE',
+      'FIND_AND_REMOVE',
+      'FIND_AND_UPDATE'
+    ])('does not render %s or warn about it for %s', async (type) => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), type)
+      await user.selectOptions(screen.getByLabelText('Target Field'), field)
+
+      expect(screen.queryByLabelText(freeTextKey)).not.toBeInTheDocument()
+      expect(screen.queryByText(new RegExp(`"${freeTextKey}"`))).not.toBeInTheDocument()
+      expect(screen.queryByText(new RegExp(`may have a ${freeTextKey} value set`))).not.toBeInTheDocument()
+    })
+  })
+
+  describe('controlled value picker', () => {
+    // Restores the default (empty) mocks from the top of the file -- `clearMocks` alone
+    // doesn't undo a `mockReturnValue`/`mockResolvedValue` override between tests.
+    afterEach(() => {
+      useControlledKeywords.mockReturnValue({
+        keywords: {},
+        isLoading: false
+      })
+
+      fetchCmrKeywords.mockResolvedValue({ keywordRoot: [] })
+    })
+
+    test('shows no removable entry for Data Centers before anything has been picked', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'ADD_TO_EXISTING')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
+
+      // Roles' blank skeleton default is `[]`, which is truthy in JS, unlike ShortName/
+      // LongName's `''` -- queried by role "img" (not "button") since the selected-
+      // collections table above also has an unrelated "Remove" button.
+      expect(screen.queryByRole('img', { name: 'Remove' })).not.toBeInTheDocument()
+    })
+
+    test('picking a Science Keyword writes it into the updateValue JSON', async () => {
+      useControlledKeywords.mockReturnValue({
+        keywords: {
+          category: [
+            {
+              value: 'EARTH SCIENCE',
+              subfields: ['topic'],
+              topic: [
+                {
+                  value: 'ATMOSPHERE',
+                  subfields: ['term'],
+                  term: [
+                    { value: 'CLOUDS' }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        isLoading: false
+      })
+
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_REPLACE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
+
+      await user.click(screen.getByRole('link', { name: 'View EARTH SCIENCE' }))
+      await user.click(screen.getByRole('link', { name: 'View ATMOSPHERE' }))
+      await user.click(screen.getByRole('checkbox', { name: 'CLOUDS' }))
+
+      expect(screen.getByRole('button', { name: 'add' })).toHaveTextContent('Add Keyword')
+
+      await user.click(screen.getByRole('button', { name: 'add' }))
+
+      expect(screen.getByLabelText('updateValue JSON')).toHaveValue(JSON.stringify([
+        {
+          Category: 'EARTH SCIENCE',
+          Topic: 'ATMOSPHERE',
+          Term: 'CLOUDS'
+        }
+      ], null, 2))
+    })
+
+    test('labels the Science Keywords submit button "Select Keyword" for Find and Update, since picking again replaces rather than adds', async () => {
+      useControlledKeywords.mockReturnValue({
+        keywords: {
+          category: [
+            {
+              value: 'EARTH SCIENCE',
+              subfields: ['topic'],
+              topic: [
+                { value: 'ATMOSPHERE' }
+              ]
+            }
+          ]
+        },
+        isLoading: false
+      })
+
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
+
+      expect(screen.getByRole('button', { name: 'add' })).toHaveTextContent('Select Keyword')
+    })
+
+    test('picking a Platform Short Name writes it (and its auto-filled Type/LongName) into the updateValue JSON', async () => {
+      fetchCmrKeywords.mockResolvedValue({
+        basis: [
+          {
+            value: 'Air-based Platforms',
+            subfields: ['category'],
+            category: [
+              {
+                value: 'Jet',
+                subfields: ['short_name'],
+                short_name: [
+                  {
+                    value: 'A340-600',
+                    subfields: ['long_name'],
+                    long_name: [
+                      { value: 'Airbus A340-600' }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      })
+
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'PLATFORMS')
+
+      await user.click(await screen.findByText('Select Short Name'))
+      await user.click(await screen.findByText('A340-600'))
+      await user.click(screen.getByRole('button', { name: 'add' }))
+
+      // The skeleton's Characteristics (no controlled vocabulary, so the picker never
+      // touches it) survives alongside the picked ShortName/Type/LongName.
+      expect(screen.getByLabelText('updateValue JSON')).toHaveValue(JSON.stringify({
+        Characteristics: [],
+        ShortName: 'A340-600',
+        Type: 'Jet',
+        LongName: 'Airbus A340-600'
+      }, null, 2))
+
+      // The entry's label follows the KMS hierarchy's own order (Type > ShortName >
+      // LongName), not the Find/Replace With form fields' order (ShortName, Type, LongName).
+      expect(screen.getByText('Jet > A340-600 > Airbus A340-600')).toBeInTheDocument()
+    })
+
+    test('picking an Instrument Short Name and typing Technique/NumberOfInstruments writes all of them into the updateValue JSON', async () => {
+      fetchCmrKeywords.mockResolvedValue({
+        category: [{
+          value: 'Earth Remote Sensing Instruments',
+          subfields: ['short_name'],
+          short_name: [{
+            value: 'ATM',
+            subfields: ['long_name'],
+            long_name: [{ value: 'Airborne Topographic Mapper' }]
+          }]
+        }]
+      })
+
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'INSTRUMENTS')
+
+      await user.click(await screen.findByText('Select Short Name'))
+      await user.click(await screen.findByText('ATM'))
+
+      await user.type(
+        screen.getByLabelText('Technique', { selector: '#bulk-actions-instrument-technique' }),
+        'Lidar'
       )
 
       await user.type(
         screen.getByLabelText(
-          'NumberOfInstruments',
-          { selector: '#bulk-actions-find-value_NumberOfInstruments' }
+          'Number Of Instruments',
+          { selector: '#bulk-actions-instrument-number-of-instruments' }
         ),
-        '2.5'
+        '2'
       )
 
-      expect(
-        screen.getByLabelText(
-          'NumberOfInstruments',
-          { selector: '#bulk-actions-find-value_NumberOfInstruments' }
-        )
-      ).toHaveValue(2.5)
+      await user.click(screen.getByRole('button', { name: 'add' }))
 
-      expect(screen.getByText(/NumberOfInstruments must be a whole number/)).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
+      expect(screen.getByLabelText('updateValue JSON')).toHaveValue(JSON.stringify({
+        Characteristics: [],
+        ShortName: 'ATM',
+        LongName: 'Airborne Topographic Mapper',
+        Technique: 'Lidar',
+        NumberOfInstruments: 2
+      }, null, 2))
+    })
+
+    test('picking a Data Center Short Name and checking Roles writes both into the updateValue JSON', async () => {
+      fetchCmrKeywords.mockResolvedValue({
+        short_name: [{
+          value: 'ASF',
+          subfields: ['long_name'],
+          long_name: [{ value: 'Alaska Satellite Facility' }]
+        }]
+      })
+
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
+
+      await user.click(await screen.findByText('Select Short Name'))
+      await user.click(await screen.findByText('ASF'))
+
+      // DataCenterField's own Short Name select is also a combobox -- Roles' is the one
+      // rendered after it, so it's always the last of the two.
+      await user.click(screen.getAllByRole('combobox').at(-1))
+      await user.click(screen.getByRole('option', { name: 'ARCHIVER' }))
+
+      await user.click(screen.getAllByRole('combobox').at(-1))
+      await user.click(screen.getByRole('option', { name: 'DISTRIBUTOR' }))
+
+      await user.click(screen.getByRole('button', { name: 'add' }))
+
+      expect(screen.getByLabelText('updateValue JSON')).toHaveValue(JSON.stringify({
+        ShortName: 'ASF',
+        LongName: 'Alaska Satellite Facility',
+        Roles: ['ARCHIVER', 'DISTRIBUTOR']
+      }, null, 2))
     })
   })
 
@@ -944,6 +1151,53 @@ describe('BulkActionsEditPage component', () => {
       await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
 
       expect(await screen.findByText('BU-4442')).toBeInTheDocument()
+    })
+
+    test('disables Submit again after adding then removing the only picked entry', async () => {
+      fetchCmrKeywords.mockResolvedValue({
+        basis: [
+          {
+            value: 'Air-based Platforms',
+            subfields: ['category'],
+            category: [
+              {
+                value: 'Jet',
+                subfields: ['short_name'],
+                short_name: [
+                  {
+                    value: 'A340-600',
+                    subfields: ['long_name'],
+                    long_name: [
+                      { value: 'Airbus A340-600' }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      })
+
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'ADD_TO_EXISTING')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'PLATFORMS')
+
+      await user.click(await screen.findByText('Select Short Name'))
+      await user.click(await screen.findByText('A340-600'))
+      await user.click(screen.getByRole('button', { name: 'add' }))
+
+      const submitButton = screen.getByRole('button', { name: 'Submit Bulk Action' })
+      expect(submitButton).not.toBeDisabled()
+
+      // Removing leaves the JSON as `[]`, not the skeleton's placeholder shape -- both mean
+      // "nothing to submit". Clicked via role "img" since the page also has an unrelated
+      // "Remove" button for the selected-collections table.
+      await user.click(screen.getByRole('img', { name: 'Remove' }))
+
+      expect(screen.getByLabelText('updateValue JSON')).toHaveValue('[]')
+      expect(submitButton).toBeDisabled()
     })
 
     test('prepopulates a single object, not an array, for an action type that does not support multiple entries', async () => {

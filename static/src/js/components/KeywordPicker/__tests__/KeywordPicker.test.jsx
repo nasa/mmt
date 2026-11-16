@@ -154,7 +154,8 @@ const setup = (overrideProps = {}, includeRecommendedKeywords = false) => {
     'ui:picker_title': 'TOOL KEYWORD',
     'ui:scheme_values': ['ToolCategory', 'ToolTopic', 'ToolTerm', 'ToolSpecificTerm'],
     'ui:title': 'Tool Keyword',
-    'ui:includeRecommendedKeywords': includeRecommendedKeywords
+    'ui:includeRecommendedKeywords': includeRecommendedKeywords,
+    'ui:selectable_parents': true
   }
   const props = {
     formData: [],
@@ -167,13 +168,16 @@ const setup = (overrideProps = {}, includeRecommendedKeywords = false) => {
 
   const user = userEvent.setup()
 
-  render(
+  const { rerender } = render(
     <KeywordPicker {...props} />
   )
 
   return {
     props,
-    user
+    user,
+    rerenderWithUiSchema: (nextUiSchema) => rerender(
+      <KeywordPicker {...props} uiSchema={nextUiSchema} />
+    )
   }
 }
 
@@ -189,24 +193,49 @@ describe('KeywordPicker', () => {
     })
   })
 
+  describe('submit button label', () => {
+    test('defaults to "Add Keyword"', () => {
+      setup({})
+
+      expect(screen.getByRole('button', { name: 'add' })).toHaveTextContent('Add Keyword')
+    })
+
+    test('uses ui:add_button_label when provided', () => {
+      setup({
+        uiSchema: {
+          'ui:field': 'keywordPicker',
+          'ui:filter': 'EARTH SCIENCE SERVICES',
+          'ui:keyword_scheme': 'science_keywords',
+          'ui:keyword_scheme_column_names': ['toolkeywords', 'category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3'],
+          'ui:picker_title': 'TOOL KEYWORD',
+          'ui:scheme_values': ['ToolCategory', 'ToolTopic', 'ToolTerm', 'ToolSpecificTerm'],
+          'ui:title': 'Tool Keyword',
+          'ui:add_button_label': 'Select Keyword'
+        }
+      })
+
+      expect(screen.getByRole('button', { name: 'add' })).toHaveTextContent('Select Keyword')
+    })
+  })
+
   describe('when adding a keyword', () => {
     describe('when the selected keyword is not already added', () => {
       test('adds the selected keyword', async () => {
         const { props, user } = setup({})
 
-        // Clicking on the first parent element
-        const earthScienceServiceBtn = screen.getByRole('link', { name: 'EARTH SCIENCE SERVICES' })
-        await user.click(earthScienceServiceBtn)
+        // Navigating into the first parent level (View, not the select option itself)
+        const earthScienceServiceNav = screen.getByRole('link', { name: 'View EARTH SCIENCE SERVICES' })
+        await user.click(earthScienceServiceNav)
 
-        // Clicking on the second parent element
-        const dataAnalysisButton = screen.getByRole('link', { name: 'DATA ANALYSIS AND VISUALIZATION' })
-        await user.click(dataAnalysisButton)
+        // Navigating into the second parent level
+        const dataAnalysisNav = screen.getByRole('link', { name: 'View DATA ANALYSIS AND VISUALIZATION' })
+        await user.click(dataAnalysisNav)
 
-        // Clicking on the child element
-        const calibrationBtn = screen.getByRole('link', { name: 'CALIBRATION/VALIDATION' })
-        await user.click(calibrationBtn)
+        // Selecting the leaf
+        const calibrationCheckbox = screen.getByRole('checkbox', { name: 'CALIBRATION/VALIDATION' })
+        await user.click(calibrationCheckbox)
 
-        expect(screen.getAllByRole('link', { class: 'final-option-selected' }))
+        expect(calibrationCheckbox).toBeChecked()
 
         const addKeyword = screen.getByRole('button')
 
@@ -234,19 +263,19 @@ describe('KeywordPicker', () => {
           }]
         })
         expect(await screen.findByText('EARTH SCIENCE SERVICES > DATA ANALYSIS AND VISUALIZATION > CALIBRATION/VALIDATION')).toBeInTheDocument()
-        // Clicking on the first parent element
-        const earthScienceServiceBtn = screen.getByRole('link', { name: 'EARTH SCIENCE SERVICES' })
-        await user.click(earthScienceServiceBtn)
+        // Navigating into the first parent level
+        const earthScienceServiceNav = screen.getByRole('link', { name: 'View EARTH SCIENCE SERVICES' })
+        await user.click(earthScienceServiceNav)
 
-        // Clicking on the second parent element
-        const dataAnalysisButton = screen.getByRole('link', { name: 'DATA ANALYSIS AND VISUALIZATION' })
-        await user.click(dataAnalysisButton)
+        // Navigating into the second parent level
+        const dataAnalysisNav = screen.getByRole('link', { name: 'View DATA ANALYSIS AND VISUALIZATION' })
+        await user.click(dataAnalysisNav)
 
-        // Clicking on the child element
-        const calibrationBtn = screen.getByRole('link', { name: 'CALIBRATION/VALIDATION' })
-        await user.click(calibrationBtn)
+        // Selecting the leaf
+        const calibrationCheckbox = screen.getByRole('checkbox', { name: 'CALIBRATION/VALIDATION' })
+        await user.click(calibrationCheckbox)
 
-        expect(screen.getAllByRole('link', { class: 'final-option-selected' }))
+        expect(calibrationCheckbox).toBeChecked()
 
         const addKeyword = screen.getAllByRole('button')[1]
         await user.click(addKeyword)
@@ -285,9 +314,9 @@ describe('KeywordPicker', () => {
 describe('when selecting previous', () => {
   test('moves up the picker one level up', async () => {
     const { user } = setup()
-    // Clicking on the first parent element
-    const earthScienceServiceBtn = screen.getByRole('link', { name: 'EARTH SCIENCE SERVICES' })
-    await user.click(earthScienceServiceBtn)
+    // Navigating into the first parent level
+    const earthScienceServiceNav = screen.getByRole('link', { name: 'View EARTH SCIENCE SERVICES' })
+    await user.click(earthScienceServiceNav)
 
     expect(screen.getByText('DATA ANALYSIS AND VISUALIZATION')).toBeInTheDocument()
 
@@ -301,17 +330,20 @@ describe('when selecting previous', () => {
   })
 })
 
-describe('when selecting a keyword that is not a child element', () => {
-  test('should first', async () => {
+describe('when a non-leaf level is picked directly, instead of navigating into it', () => {
+  test('a parent is selectable the exact same way a leaf is -- picking it directly submits it as the final value', async () => {
     const { props, user } = setup({})
 
-    // Clicking on the first parent element
-    const earthScienceServiceBtn = screen.getByRole('link', { name: 'EARTH SCIENCE SERVICES' })
-    await user.click(earthScienceServiceBtn)
+    // Navigating into the first parent level (View, not the select option)
+    const earthScienceServiceNav = screen.getByRole('link', { name: 'View EARTH SCIENCE SERVICES' })
+    await user.click(earthScienceServiceNav)
 
-    // Clicking on the second parent element
-    const dataAnalysisButton = screen.getByRole('link', { name: 'DATA ANALYSIS AND VISUALIZATION' })
-    await user.click(dataAnalysisButton)
+    // Selecting the second level directly -- its checkbox, the same control a leaf gets --
+    // rather than navigating into it via "View ...".
+    const dataAnalysisCheckbox = screen.getByRole('checkbox', { name: 'DATA ANALYSIS AND VISUALIZATION' })
+    await user.click(dataAnalysisCheckbox)
+
+    expect(dataAnalysisCheckbox).toBeChecked()
 
     const addKeyword = screen.getByRole('button')
 
@@ -326,6 +358,116 @@ describe('when selecting a keyword that is not a child element', () => {
         ToolSpecificTerm: undefined
       }
     ])
+  })
+
+  test('selecting a parent does not navigate into it -- the current list stays the same', async () => {
+    const { user } = setup()
+
+    await user.click(screen.getByRole('link', { name: 'View EARTH SCIENCE SERVICES' }))
+    await user.click(screen.getByRole('checkbox', { name: 'DATA ANALYSIS AND VISUALIZATION' }))
+
+    // Still looking at Topics (DATA ANALYSIS AND VISUALIZATION's siblings), not its Terms.
+    expect(screen.getByText('DATA MANAGEMENT/DATA HANDLING')).toBeInTheDocument()
+    expect(screen.queryByText('CALIBRATION/VALIDATION')).not.toBeInTheDocument()
+  })
+
+  test('checking an already-checked checkbox unchecks it, clearing the pick', async () => {
+    const { user } = setup()
+
+    const checkbox = screen.getByRole('checkbox', { name: 'EARTH SCIENCE SERVICES' })
+
+    await user.click(checkbox)
+    expect(checkbox).toBeChecked()
+
+    await user.click(checkbox)
+    expect(checkbox).not.toBeChecked()
+  })
+
+  test('navigating into a parent does not select anything in the level it reveals', async () => {
+    const { user } = setup()
+
+    await user.click(screen.getByRole('link', { name: 'View EARTH SCIENCE SERVICES' }))
+
+    // Now looking at Topics (DATA ANALYSIS AND VISUALIZATION, DATA MANAGEMENT/DATA HANDLING)
+    // -- navigating alone should not have marked either as selected.
+    expect(screen.queryByText('DATA ANALYSIS AND VISUALIZATION', { selector: '.final-option-selected' }))
+      .not.toBeInTheDocument()
+
+    expect(screen.queryByText('DATA MANAGEMENT/DATA HANDLING', { selector: '.final-option-selected' }))
+      .not.toBeInTheDocument()
+  })
+})
+
+describe('when the same instance switches to a different keyword scheme', () => {
+  test('clears the stale breadcrumb and list from the previous scheme immediately, instead of leaving it on screen', async () => {
+    const { user, rerenderWithUiSchema } = setup()
+
+    // Navigate in, so there's a breadcrumb and a deeper list to go stale.
+    await user.click(screen.getByRole('link', { name: 'View EARTH SCIENCE SERVICES' }))
+    expect(screen.getByText('DATA ANALYSIS AND VISUALIZATION')).toBeInTheDocument()
+
+    rerenderWithUiSchema({
+      'ui:field': 'keywordPicker',
+      'ui:keyword_scheme': 'location_keywords',
+      'ui:keyword_scheme_column_names': ['locationkeywords', 'category', 'type', 'subregion_1', 'subregion_2', 'subregion_3'],
+      'ui:picker_title': 'LOCATION KEYWORD',
+      'ui:scheme_values': ['Category', 'Type', 'Subregion1', 'Subregion2', 'Subregion3'],
+      'ui:title': 'Location Keyword'
+    })
+
+    // Nothing from the previous (Science Keywords) scheme's breadcrumb or list lingers.
+    expect(screen.queryByText('EARTH SCIENCE SERVICES')).not.toBeInTheDocument()
+    expect(screen.queryByText('DATA ANALYSIS AND VISUALIZATION')).not.toBeInTheDocument()
+  })
+})
+
+// Without `ui:selectable_parents` (the real collection form's own uiSchema, e.g.
+// descriptiveKeywords.js), the picker must render and behave exactly as it did before a
+// parent level became directly selectable -- no checkbox, a parent only navigable, and no
+// toggle-to-clear on an already-selected leaf.
+describe('when ui:selectable_parents is not set', () => {
+  const realFormUiSchema = {
+    'ui:field': 'keywordPicker',
+    'ui:filter': 'EARTH SCIENCE SERVICES',
+    'ui:keyword_scheme': 'science_keywords',
+    'ui:keyword_scheme_column_names': ['toolkeywords', 'category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3'],
+    'ui:picker_title': 'TOOL KEYWORD',
+    'ui:scheme_values': ['ToolCategory', 'ToolTopic', 'ToolTerm', 'ToolSpecificTerm'],
+    'ui:title': 'Tool Keyword'
+  }
+
+  test('renders a parent as a plain navigable link, with no checkbox anywhere', async () => {
+    const { user } = setup({ uiSchema: realFormUiSchema })
+
+    expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('link', { name: 'EARTH SCIENCE SERVICES' }))
+
+    expect(screen.getByText('DATA ANALYSIS AND VISUALIZATION')).toBeInTheDocument()
+    expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
+  })
+
+  test('clicking an already-selected leaf again keeps it selected, instead of clearing it', async () => {
+    const { props, user } = setup({ uiSchema: realFormUiSchema })
+
+    await user.click(screen.getByRole('link', { name: 'EARTH SCIENCE SERVICES' }))
+    await user.click(screen.getByRole('link', { name: 'DATA ANALYSIS AND VISUALIZATION' }))
+
+    const calibration = screen.getByRole('link', { name: 'CALIBRATION/VALIDATION' })
+    await user.click(calibration)
+    await user.click(calibration)
+
+    expect(screen.getByText('CALIBRATION/VALIDATION', { selector: '.final-option-selected' }))
+      .toBeInTheDocument()
+
+    await user.click(screen.getByRole('button'))
+
+    expect(props.onChange).toHaveBeenCalledWith([{
+      ToolCategory: 'EARTH SCIENCE SERVICES',
+      ToolTopic: 'DATA ANALYSIS AND VISUALIZATION',
+      ToolTerm: 'CALIBRATION/VALIDATION',
+      ToolSpecificTerm: undefined
+    }])
   })
 })
 

@@ -13,6 +13,48 @@
     border-style: hidden;
     margin: 0;
   }
+
+  // Wraps a parent's select option and its separate navigate control so they sit side by
+  // side (see KeywordPicker.jsx's displayItems). Overrides the generic span styling (block
+  // display, padding, :after arrow); .keyword-picker__navigate keeps that arrow, and
+  // .final-option(-selected) is a <label> now so it was never matched by it anyway.
+  .eui-nested-item-picker .eui-item-list-pane span.keyword-picker__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+
+    &::after {
+      content: none;
+    }
+  }
+
+  // A <label> wrapping a real checkbox -- replicates the vendor
+  // eui/_nested-item-picker.scss's span.final-option(-selected) styling, since that file's
+  // rules are keyed off the span tag and don't match a <label>.
+  .eui-nested-item-picker .eui-item-list-pane label.final-option {
+    display: flex;
+    align-items: center;
+    padding: 0.5em;
+    color: #323232;
+    cursor: pointer;
+    gap: 0.5em;
+  }
+
+  .eui-nested-item-picker .eui-item-list-pane label.final-option:hover {
+    background-color: rgb(181 206 222 / 40%);
+  }
+
+  .eui-nested-item-picker .eui-item-list-pane label.final-option-selected,
+  .eui-nested-item-picker .eui-item-list-pane label.final-option-selected:hover {
+    display: flex;
+    align-items: center;
+    padding: 0.5em;
+    background-color: rgb(32 206 111 / 10%);
+    color: var(--bs-green);
+    cursor: pointer;
+    gap: 0.5em;
+  }
 }
 
 .rbt-aux .rbt-close {

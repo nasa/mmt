@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import '../CustomWidgetWrapper/CustomWidgetWrapper.scss'
 
 /**
  * @typedef {Object} BulkActionsFindValueFormProps
- * @property {import('../../constants/bulkUpdateFields').BulkFindKeyField[]} flatFindKeys The flat UMM-C keys CMR matches `findValue` against for the selected field, and each one's type (used to pick the input's native type, e.g. `number`).
- * @property {Object} value The current findValue object being built, keyed by each field's key -- always the raw input string, uncoerced and unvalidated (the caller is responsible for both, since this component only tracks what's on screen).
+ * @property {import('../../constants/bulkUpdateFields').BulkFindKeyField[]} flatFindKeys The flat UMM-C keys CMR matches `findValue` against for the selected field.
+ * @property {Object} value The current findValue object being built, keyed by each field's key.
  * @property {Function} onChange A callback called with the next findValue object whenever a field changes.
  */
 
@@ -15,20 +16,9 @@ import Col from 'react-bootstrap/Col'
  * Renders a BulkActionsFindValueForm component.
  *
  * CMR's bulk-update `findValue` only matches against a field's flat (non-nested)
- * properties, so this renders a plain key/value form instead of the full rjsf schema
- * form used for `updateValue`. Only keys the user fills in are matched against -- CMR
- * requires every filled-in key to equal the field it's matching against.
- *
- * Deliberately does not coerce or validate a 'number' key's value here: doing so previously
- * meant an invalid value (e.g. a fraction) was silently deleted, clearing the input the user
- * was still looking at and letting Submit stay enabled as long as some other field was
- * filled -- so an invalid find condition could be dropped from the request without the user
- * noticing. The raw string is kept as-is; the caller validates and coerces it before submit.
- *
- * Any key flagged `freeText` (e.g. DetailedVariable, DetailedLocation) renders in its own
- * "Additional Free-Text Criteria" subsection below the controlled keyword levels, since it's
- * uncontrolled/not KMS-managed -- though it's still exposed to the same silent-clear risk on
- * submit as the other keys (see getDestructiveUpdateWarning).
+ * properties, so this renders a plain key/value form. Only keys the user fills in are
+ * matched against -- CMR requires every filled-in key to equal the field it's matching
+ * against.
  *
  * @component
  * @example <caption>Render a BulkActionsFindValueForm</caption>
@@ -49,46 +39,32 @@ const BulkActionsFindValueForm = ({ flatFindKeys, value, onChange }) => {
     onChange(next)
   }
 
-  const renderField = ({ key, type }) => (
-    <Col md={6} key={key} className="mb-3">
-      <Form.Group controlId={`bulk-actions-find-value_${key}`}>
-        <Form.Label>{key}</Form.Label>
-        <Form.Control
-          type={type === 'number' ? 'number' : 'text'}
-          value={value[key] ?? ''}
-          onChange={(event) => handleChange(key, event.target.value)}
-        />
-      </Form.Group>
-    </Col>
+  // Each field gets its own Row so fields always stack in the order given, while Col
+  // (md={6}) keeps each input from stretching the full page width.
+  const renderField = ({ key }) => (
+    <Row key={key}>
+      <Col md={6} className="mb-3">
+        <Form.Group controlId={`bulk-actions-find-value_${key}`}>
+          <Form.Label className="custom-widget-wrapper__label text-gray-700">{key}</Form.Label>
+          <Form.Control
+            type="text"
+            value={value[key] ?? ''}
+            onChange={(event) => handleChange(key, event.target.value)}
+          />
+        </Form.Group>
+      </Col>
+    </Row>
   )
-
-  const controlledKeys = flatFindKeys.filter(({ freeText }) => !freeText)
-  const freeTextKeys = flatFindKeys.filter(({ freeText }) => freeText)
 
   return (
     <>
-      <Row>
-        {controlledKeys.map(renderField)}
-      </Row>
-
-      {
-        freeTextKeys.length > 0 && (
-          <>
-            <h4 className="h6 fw-bold mt-3 mb-2">Additional Free-Text Criteria</h4>
-            <Row>
-              {freeTextKeys.map(renderField)}
-            </Row>
-          </>
-        )
-      }
+      {flatFindKeys.map(renderField)}
     </>
   )
 }
 
 const findKeyFieldShape = PropTypes.shape({
-  key: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['text', 'number']).isRequired,
-  freeText: PropTypes.bool
+  key: PropTypes.string.isRequired
 })
 
 BulkActionsFindValueForm.propTypes = {

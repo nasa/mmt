@@ -140,6 +140,11 @@ const CustomMultiSelectWidget = ({
         placeholder={placeholder || `Select ${title}`}
         menuIsOpen={showMenu}
         onFocus={handleFocus}
+        // `menuIsOpen` is externally controlled, so react-select calls `onMenuOpen` (instead
+        // of managing its own state) when a click/keypress tries to reopen the menu --
+        // without this, that's a no-op once the input is already focused (e.g. picking a
+        // second value), and the field looks like it only supports one pick.
+        onMenuOpen={handleFocus}
         value={existingValues}
       />
     </CustomWidgetWrapper>

@@ -1,3 +1,9 @@
+// Every field schema also accepts `null` alongside its real type -- that's how a user
+// explicitly removes a field's value (see stripUnfilledUpdateValueFields.js), as distinct
+// from leaving it at its unfilled skeleton default, which gets dropped instead of submitted.
+// Without this, the schema rejects `null` outright with "Expected array but received null".
+const nullable = (type) => [type, 'null']
+
 // Builds a JSON Schema fragment for one BulkUpdateValueField-shaped field def (see
 // constants/bulkUpdateFields.js), so the updateValue JSON editor can offer schema-driven
 // autocomplete/hover help and flag structural errors, without hand-building a form per field.
@@ -5,19 +11,19 @@ const fieldToSchema = ({
   type, options, fields: nestedFields
 }) => {
   if (type === 'number') {
-    return { type: 'integer' }
+    return { type: nullable('integer') }
   }
 
   if (type === 'select') {
     return {
-      type: 'string',
-      enum: options
+      type: nullable('string'),
+      enum: [...options, null]
     }
   }
 
   if (type === 'multiselect') {
     return {
-      type: 'array',
+      type: nullable('array'),
       items: {
         type: 'string',
         enum: options
@@ -27,7 +33,7 @@ const fieldToSchema = ({
 
   if (type === 'nested-array') {
     return {
-      type: 'array',
+      type: nullable('array'),
       items: {
         type: 'object',
         properties: Object.fromEntries(
@@ -38,7 +44,7 @@ const fieldToSchema = ({
     }
   }
 
-  return { type: 'string' }
+  return { type: nullable('string') }
 }
 
 /**

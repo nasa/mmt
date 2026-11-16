@@ -1,0 +1,350 @@
+import React, { useMemo } from 'react'
+import PropTypes from 'prop-types'
+import Alert from 'react-bootstrap/Alert'
+import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
+import Row from 'react-bootstrap/Row'
+
+import descriptiveKeywordsUiSchema from '@/js/schemas/uiSchemas/collections/descriptiveKeywords'
+import spatialInformationUiSchema from '@/js/schemas/uiSchemas/collections/spatialInformation'
+import acquisitionInformationUiSchema from '@/js/schemas/uiSchemas/collections/acquisitionInformation'
+import KeywordPicker from '../KeywordPicker/KeywordPicker'
+import BulkActionsControlledEntryList from '../BulkActionsControlledEntryList/BulkActionsControlledEntryList'
+import CustomMultiSelectWidget from '../CustomMultiSelectWidget/CustomMultiSelectWidget'
+import PlatformField from '../PlatformField/PlatformField'
+import InstrumentField from '../InstrumentField/InstrumentField'
+import DataCenterField from '../DataCenterField/DataCenterField'
+
+// CustomMultiSelectWidget needs an rjsf `registry` for two things: `schemaUtils.retrieveSchema`
+// resolves a $ref inside `schema.items`, used only as a fallback when `schema.enum` isn't
+// set directly -- since we always set it directly (Roles' options), returning the schema
+// unchanged is fine. `formContext.focusField`/`setFocusField` is rjsf's form-wide "which
+// field should scroll into view and focus" state; with no multi-field form here to
+// coordinate, `focusField: null` just means this widget never auto-focuses itself.
+const PASSTHROUGH_REGISTRY = {
+  schemaUtils: { retrieveSchema: (schema) => schema },
+  formContext: {
+    focusField: null,
+    setFocusField: () => {}
+  }
+}
+
+// The real collection-form's uiSchema for each keyword field, reused as-is -- KeywordPicker
+// expects this exact shape.
+const KEYWORD_UI_SCHEMAS = {
+  SCIENCE_KEYWORDS: descriptiveKeywordsUiSchema.ScienceKeywords,
+  LOCATION_KEYWORDS: spatialInformationUiSchema.LocationKeywords
+}
+
+// Config per Platforms/Instruments/Data Centers field: how to render its single-entry
+// picker, how to label one entry, and which keys the picker owns (`pickedKeys`). Anything
+// else on the field (e.g. Platforms'/Instruments' nested-array Characteristics) stays
+// JSON-only. `renderField` receives `{ formData, onChange, updateValueFields }` -- only Data
+// Centers uses the third argument, to read Roles' enum options.
+const ENTRY_FIELDS = {
+  PLATFORMS: {
+    renderField: ({ formData, onChange }) => (
+      <PlatformField
+        formData={formData}
+        onChange={onChange}
+        uiSchema={{ 'ui:controlled': acquisitionInformationUiSchema.Platforms.items['ui:controlled'] }}
+      />
+    ),
+    // Ordered like the KMS hierarchy (Type above ShortName), not like `pickedKeys` -- that
+    // order is for the Find/Replace With form fields, deliberately ShortName, Type, LongName.
+    entryLabel: ({ ShortName, Type, LongName }) => (
+      [Type, ShortName, LongName].filter(Boolean).join(' > ')
+    ),
+    pickedKeys: ['ShortName', 'Type', 'LongName']
+  },
+  INSTRUMENTS: {
+    renderField: ({ formData, onChange }) => (
+      <>
+        <InstrumentField
+          formData={formData}
+          onChange={
+            (picked) => onChange({
+              ...formData,
+              ...picked
+            })
+          }
+          uiSchema={
+            {
+              'ui:controlled': acquisitionInformationUiSchema.Platforms.items.Instruments.items['ui:controlled']
+            }
+          }
+        />
+        <Row>
+          <Col md={6} className="mb-3">
+            <Form.Group controlId="bulk-actions-instrument-technique">
+              <Form.Label className="custom-widget-wrapper__label text-gray-700">Technique</Form.Label>
+              <Form.Control
+                type="text"
+                value={formData.Technique ?? ''}
+                onChange={
+                  ({ target }) => onChange({
+                    ...formData,
+                    Technique: target.value
+                  })
+                }
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={6} className="mb-3">
+            <Form.Group controlId="bulk-actions-instrument-number-of-instruments">
+              <Form.Label className="custom-widget-wrapper__label text-gray-700">Number Of Instruments</Form.Label>
+              <Form.Control
+                type="number"
+                value={formData.NumberOfInstruments ?? ''}
+                onChange={
+                  ({ target }) => onChange({
+                    ...formData,
+                    NumberOfInstruments: target.value === '' ? '' : Number(target.value)
+                  })
+                }
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+      </>
+    ),
+    entryLabel: ({ ShortName, LongName }) => (
+      [ShortName, LongName].filter(Boolean).join(' > ')
+    ),
+    pickedKeys: ['ShortName', 'LongName', 'Technique', 'NumberOfInstruments']
+  },
+  DATA_CENTERS: {
+    renderField: ({ formData, onChange, updateValueFields }) => {
+      const { options: rolesOptions = [] } = (
+        updateValueFields.find(({ key }) => key === 'Roles') ?? {}
+      )
+
+      return (
+        <>
+          <DataCenterField
+            formData={formData}
+            onChange={
+              (picked) => onChange({
+                ...formData,
+                ...picked
+              })
+            }
+          />
+          <CustomMultiSelectWidget
+            id="bulk-actions-data-center-roles"
+            label="Roles"
+            onBlur={() => {}}
+            onChange={
+              (nextRoles) => onChange({
+                ...formData,
+                Roles: nextRoles
+              })
+            }
+            registry={PASSTHROUGH_REGISTRY}
+            required={false}
+            schema={
+              {
+                enum: rolesOptions,
+                items: {}
+              }
+            }
+            value={formData.Roles ?? []}
+          />
+        </>
+      )
+    },
+    entryLabel: ({ ShortName, LongName }) => (
+      [ShortName, LongName].filter(Boolean).join(' > ')
+    ),
+    pickedKeys: ['ShortName', 'LongName', 'Roles']
+  }
+}
+
+/**
+ * @typedef {Object} BulkActionsControlledValuePickerProps
+ * @property {import('../../constants/bulkUpdateFields').BulkUpdateValueField} fieldConfig The selected updateField's full config.
+ * @property {Boolean} allowMultiple Whether updateValue may be an array of entries for the selected updateType.
+ * @property {String} value The current updateValue JSON text.
+ * @property {Function} onChange Called with the next updateValue JSON text whenever a pick is made.
+ */
+
+/**
+ * Renders a BulkActionsControlledValuePicker component.
+ *
+ * Renders a controlled-value picker for the selected bulk-update field, writing each pick
+ * into the given `value` JSON text. Renders nothing for a field with no picker configured.
+ *
+ * @component
+ */
+const BulkActionsControlledValuePicker = ({
+  fieldConfig,
+  allowMultiple,
+  value,
+  onChange
+}) => {
+  const { value: updateField, updateValueFields } = fieldConfig
+
+  // Keys a keyword picker owns: every updateValueField except a nested-array one, which has
+  // no controlled vocabulary and stays JSON-only. Platforms/Instruments/Data Centers use
+  // their own `pickedKeys` in ENTRY_FIELDS instead.
+  const entryKeys = useMemo(
+    () => updateValueFields
+      .filter(({ type }) => type !== 'nested-array')
+      .map(({ key }) => key),
+    [updateValueFields]
+  )
+
+  let parsed
+
+  try {
+    parsed = JSON.parse(value)
+  } catch {
+    return (
+      <Alert variant="secondary" className="mb-3">
+        Fix the JSON below to use the picker.
+      </Alert>
+    )
+  }
+
+  const currentObject = (parsed && typeof parsed === 'object' && !Array.isArray(parsed))
+    ? parsed
+    : {}
+
+  const currentArray = Array.isArray(parsed) ? parsed : []
+
+  // Clears only `ownKeys` on the current value before applying a new pick, so anything else
+  // already there (e.g. Platforms'/Instruments' Characteristics) is left alone. Writes the
+  // picked keys back in `ownKeys` order, not whatever order the picker's onChange produced.
+  const mergeOntoCurrent = (current, picked, ownKeys) => {
+    const next = { ...current }
+    ownKeys.forEach((key) => { delete next[key] })
+
+    const orderedPicked = {}
+    ownKeys.forEach((key) => {
+      if (picked[key] !== undefined) orderedPicked[key] = picked[key]
+    })
+
+    return {
+      ...next,
+      ...orderedPicked
+    }
+  }
+
+  // A pick is blank when none of the keys it owns (`ownKeys`) are set. A key counts as unset
+  // if it's falsy ('' or 0) or an empty array -- plain falsiness isn't enough, since an empty
+  // array (e.g. Data Centers' Roles) is still truthy. Used to drop the skeleton's blank entry
+  // from a multi-value list, and to tell whether a single-value field has a pick yet.
+  const isBlankValue = (fieldValue) => (
+    !fieldValue || (Array.isArray(fieldValue) && fieldValue.length === 0)
+  )
+
+  const isBlankPick = (entry, ownKeys) => (
+    ownKeys.every((key) => isBlankValue(entry?.[key]))
+  )
+
+  // Builds the entries the shared list UI renders, and what its onChange does with them --
+  // the only difference between multi- and single-value action types. Multi-value writes
+  // the whole list back; single-value keeps only the latest pick, so picking again replaces
+  // it instead of adding to the list.
+  const buildPickerProps = (ownKeys) => {
+    if (allowMultiple) {
+      return {
+        entries: currentArray.filter((entry) => !isBlankPick(entry, ownKeys)),
+        onChange: (nextEntries) => onChange(JSON.stringify(nextEntries, null, 2))
+      }
+    }
+
+    return {
+      entries: isBlankPick(currentObject, ownKeys) ? [] : [currentObject],
+      onChange: (nextEntries) => {
+        const picked = nextEntries.at(-1) ?? {}
+
+        onChange(JSON.stringify(mergeOntoCurrent(currentObject, picked, ownKeys), null, 2))
+      }
+    }
+  }
+
+  const keywordUiSchema = KEYWORD_UI_SCHEMAS[updateField]
+
+  if (keywordUiSchema) {
+    const uiSchema = {
+      ...keywordUiSchema,
+      'ui:scheme_values': entryKeys,
+      'ui:includeRecommendedKeywords': false,
+      // A single-value action type replaces rather than adds to the list, so "Add Keyword"
+      // would be misleading.
+      'ui:add_button_label': allowMultiple ? 'Add Keyword' : 'Select Keyword',
+      // The Target Field select above already names the scheme (e.g. "Science Keywords"),
+      // so KeywordPicker's own title/description would just repeat it.
+      'ui:title': '',
+      // Only here, not in the real collection form -- a parent keyword level is directly
+      // selectable the same way a leaf is, instead of only navigable into.
+      'ui:selectable_parents': true
+    }
+
+    const { entries, onChange: handlePick } = buildPickerProps(entryKeys)
+
+    return (
+      <Row>
+        <Col md={6}>
+          <KeywordPicker
+            formData={entries}
+            onChange={handlePick}
+            required={false}
+            schema={{ description: '' }}
+            uiSchema={uiSchema}
+          />
+        </Col>
+      </Row>
+    )
+  }
+
+  const entryField = ENTRY_FIELDS[updateField]
+
+  if (entryField) {
+    const { renderField, entryLabel, pickedKeys } = entryField
+    const { entries, onChange: handlePick } = buildPickerProps(pickedKeys)
+
+    return (
+      <Row>
+        <Col md={6}>
+          <BulkActionsControlledEntryList
+            entries={entries}
+            onChange={handlePick}
+            allowMultiple={allowMultiple}
+            entryKeys={pickedKeys}
+            renderPicker={
+              (props) => renderField({
+                ...props,
+                updateValueFields
+              })
+            }
+            entryLabel={entryLabel}
+            // A single-value action type replaces rather than adds to the list, so "Add"
+            // would be misleading.
+            addButtonLabel={allowMultiple ? 'Add' : 'Select'}
+          />
+        </Col>
+      </Row>
+    )
+  }
+
+  return null
+}
+
+BulkActionsControlledValuePicker.propTypes = {
+  fieldConfig: PropTypes.shape({
+    value: PropTypes.string.isRequired,
+    updateValueFields: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired
+    })).isRequired
+  }).isRequired,
+  allowMultiple: PropTypes.bool.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
+}
+
+export default BulkActionsControlledValuePicker

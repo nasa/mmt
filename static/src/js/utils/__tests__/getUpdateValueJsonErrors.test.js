@@ -37,6 +37,32 @@ describe('getUpdateValueJsonErrors', () => {
     expect(getUpdateValueJsonErrors(text, schema)).toEqual([])
   })
 
+  test('accepts null for any field -- that is how a user explicitly removes its value', () => {
+    const schema = buildUpdateValueJsonSchema(fields, false)
+    const text = JSON.stringify({
+      ShortName: null,
+      NumberOfInstruments: null,
+      Roles: null
+    })
+
+    expect(getUpdateValueJsonErrors(text, schema)).toEqual([])
+  })
+
+  test('accepts null for an array-typed field (multiselect/nested-array)', () => {
+    const arrayFields = [{
+      key: 'Characteristics',
+      type: 'nested-array',
+      fields: [{
+        key: 'Name',
+        type: 'text'
+      }]
+    }]
+    const schema = buildUpdateValueJsonSchema(arrayFields, false)
+    const text = JSON.stringify({ Characteristics: null })
+
+    expect(getUpdateValueJsonErrors(text, schema)).toEqual([])
+  })
+
   test('flags a type mismatch, e.g. a string where a number is expected', () => {
     const schema = buildUpdateValueJsonSchema(fields, false)
     const text = JSON.stringify({ NumberOfInstruments: 'five' })
@@ -80,7 +106,7 @@ describe('getUpdateValueJsonErrors', () => {
       const text = JSON.stringify({ NumberOfInstruments: 'five' })
 
       expect(getUpdateValueJsonErrors(text, schema)).toEqual([
-        '.NumberOfInstruments must be integer'
+        '.NumberOfInstruments must be integer,null'
       ])
     })
 

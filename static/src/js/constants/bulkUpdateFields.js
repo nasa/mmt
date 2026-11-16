@@ -30,10 +30,6 @@ import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
  * @property {String} key The UMM-C field name.
  * @property {'text'|'number'} type The kind of value CMR matches this key against -- only
  * 'text'/'number', since findValue only ever matches a single flat scalar per key.
- * @property {Boolean} [freeText] Marks a key as uncontrolled free text rather than a
- * KMS-controlled keyword level (e.g. DetailedVariable, DetailedLocation) -- rendered by
- * BulkActionsFindValueForm in its own "Additional Free-Text Criteria" subsection, set apart
- * from the controlled keyword levels above it.
  */
 
 // Docs: "DataCenterURL" / "HOME PAGE" is the established content-type/type pair for a data
@@ -96,11 +92,6 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
       {
         key: 'VariableLevel3',
         type: 'text'
-      },
-      {
-        key: 'DetailedVariable',
-        type: 'text',
-        freeText: true
       }
     ],
     updateValueFields: [
@@ -127,26 +118,11 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
       {
         key: 'VariableLevel3',
         type: 'text'
-      },
-      {
-        key: 'DetailedVariable',
-        type: 'text'
       }
-    ],
-    // A user filling in Category/Topic/Term etc. can easily not realize the entries they're
-    // matching also have a DetailedVariable value set, since it's never shown back to them --
-    // FIND_AND_REPLACE, FIND_AND_UPDATE and FIND_AND_REMOVE let it narrow which entries match,
-    // but every one of these types still submits DetailedVariable as an explicit key (it's
-    // part of the prepopulated updateValue skeleton too), so leaving it at that blank default
-    // instead of removing the key clears it on the matched entry, even for FIND_AND_UPDATE's
-    // otherwise-partial merge. CLEAR_ALL_AND_REPLACE has no match step (every entry is replaced
-    // unconditionally), so its warning doesn't reference matching.
-    destructiveUpdateWarnings: {
-      FIND_AND_REPLACE: 'DetailedVariable can be used to find Science Keywords entries, but replacing a matched entry overwrites all of it, including DetailedVariable, with only what\'s filled in under "Replace With".',
-      FIND_AND_UPDATE: 'DetailedVariable can be used to find Science Keywords entries, but updating a matched entry overwrites all of it, including DetailedVariable, with only what\'s filled in under "Update With".',
-      CLEAR_ALL_AND_REPLACE: 'Existing Science Keywords entries may have a DetailedVariable value set. Clearing and replacing every entry will remove any DetailedVariable values along with everything else.',
-      FIND_AND_REMOVE: 'DetailedVariable can be used to find Science Keywords entries, but removing a matched entry deletes all of it, including its DetailedVariable value.'
-    }
+    ]
+    // DetailedVariable is free text (not a KMS-controlled keyword level like the others
+    // above), so it's deliberately left out of both flatFindKeys and updateValueFields --
+    // nowhere in this UI lets a user find or set it.
   },
   {
     value: 'LOCATION_KEYWORDS',
@@ -172,11 +148,6 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
       {
         key: 'Subregion3',
         type: 'text'
-      },
-      {
-        key: 'DetailedLocation',
-        type: 'text',
-        freeText: true
       }
     ],
     updateValueFields: [
@@ -199,20 +170,11 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
       {
         key: 'Subregion3',
         type: 'text'
-      },
-      {
-        key: 'DetailedLocation',
-        type: 'text'
       }
-    ],
-    // Same risk as SCIENCE_KEYWORDS' DetailedVariable above (DetailedLocation is likewise
-    // "uncontrolled... outside the hierarchy" per the UMM-C schema) -- see that comment.
-    destructiveUpdateWarnings: {
-      FIND_AND_REPLACE: 'DetailedLocation can be used to find Location Keywords entries, but replacing a matched entry overwrites all of it, including DetailedLocation, with only what\'s filled in under "Replace With".',
-      FIND_AND_UPDATE: 'DetailedLocation can be used to find Location Keywords entries, but updating a matched entry overwrites all of it, including DetailedLocation, with only what\'s filled in under "Update With".',
-      CLEAR_ALL_AND_REPLACE: 'Existing Location Keywords entries may have a DetailedLocation value set. Clearing and replacing every entry will remove any DetailedLocation values along with everything else.',
-      FIND_AND_REMOVE: 'DetailedLocation can be used to find Location Keywords entries, but removing a matched entry deletes all of it, including its DetailedLocation value.'
-    }
+    ]
+    // Same as SCIENCE_KEYWORDS' DetailedVariable above -- DetailedLocation is likewise
+    // "uncontrolled... outside the hierarchy" per the UMM-C schema, and left out of both
+    // flatFindKeys and updateValueFields for the same reason.
   },
   {
     value: 'DATA_CENTERS',
@@ -250,11 +212,11 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
     ummPropertyKey: 'Platforms',
     flatFindKeys: [
       {
-        key: 'Type',
+        key: 'ShortName',
         type: 'text'
       },
       {
-        key: 'ShortName',
+        key: 'Type',
         type: 'text'
       },
       {
@@ -264,11 +226,11 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
     ],
     updateValueFields: [
       {
-        key: 'Type',
+        key: 'ShortName',
         type: 'text'
       },
       {
-        key: 'ShortName',
+        key: 'Type',
         type: 'text'
       },
       {
@@ -296,14 +258,6 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
       {
         key: 'LongName',
         type: 'text'
-      },
-      {
-        key: 'Technique',
-        type: 'text'
-      },
-      {
-        key: 'NumberOfInstruments',
-        type: 'number'
       }
     ],
     updateValueFields: [
@@ -439,13 +393,6 @@ export const getBulkUpdateFieldConfig = (conceptType, fieldValue) => (
 
 export const getBulkUpdateTypeConfig = (conceptType, typeValue) => (
   getBulkUpdateTypes(conceptType).find(({ value }) => value === typeValue)
-)
-
-// A field/type combination can silently destroy data that isn't represented anywhere in this
-// page's UI (see SCIENCE_KEYWORDS' destructiveUpdateWarnings above) -- returns the warning to
-// show for the given combination, or undefined when that field has none configured for it.
-export const getDestructiveUpdateWarning = (conceptType, fieldValue, typeValue) => (
-  getBulkUpdateFieldConfig(conceptType, fieldValue)?.destructiveUpdateWarnings?.[typeValue]
 )
 
 // Whether updateType is usable with updateField -- every type is usable with every field

@@ -16,8 +16,8 @@ describe('buildUpdateValueJsonSchema', () => {
     expect(buildUpdateValueJsonSchema(fields, false)).toEqual({
       type: 'object',
       properties: {
-        ShortName: { type: 'string' },
-        LongName: { type: 'string' }
+        ShortName: { type: ['string', 'null'] },
+        LongName: { type: ['string', 'null'] }
       },
       additionalProperties: false
     })
@@ -34,7 +34,7 @@ describe('buildUpdateValueJsonSchema', () => {
     expect(buildUpdateValueJsonSchema(fields, false)).toEqual({
       type: 'object',
       properties: {
-        NumberOfInstruments: { type: 'integer' }
+        NumberOfInstruments: { type: ['integer', 'null'] }
       },
       additionalProperties: false
     })
@@ -53,8 +53,8 @@ describe('buildUpdateValueJsonSchema', () => {
       type: 'object',
       properties: {
         DataType: {
-          type: 'string',
-          enum: ['STRING', 'INT']
+          type: ['string', 'null'],
+          enum: ['STRING', 'INT', null]
         }
       },
       additionalProperties: false
@@ -74,7 +74,7 @@ describe('buildUpdateValueJsonSchema', () => {
       type: 'object',
       properties: {
         Roles: {
-          type: 'array',
+          type: ['array', 'null'],
           items: {
             type: 'string',
             enum: ['ARCHIVER', 'DISTRIBUTOR']
@@ -108,14 +108,14 @@ describe('buildUpdateValueJsonSchema', () => {
       type: 'object',
       properties: {
         Characteristics: {
-          type: 'array',
+          type: ['array', 'null'],
           items: {
             type: 'object',
             properties: {
-              Name: { type: 'string' },
+              Name: { type: ['string', 'null'] },
               DataType: {
-                type: 'string',
-                enum: ['STRING', 'INT']
+                type: ['string', 'null'],
+                enum: ['STRING', 'INT', null]
               }
             },
             additionalProperties: false
@@ -135,7 +135,7 @@ describe('buildUpdateValueJsonSchema', () => {
     const entrySchema = {
       type: 'object',
       properties: {
-        ShortName: { type: 'string' }
+        ShortName: { type: ['string', 'null'] }
       },
       additionalProperties: false
     }

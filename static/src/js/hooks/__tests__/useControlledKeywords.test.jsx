@@ -37,7 +37,7 @@ const TestComponent = ({
 }
 
 const setup = (keywordType, schemaKeywords, controlledKeywordsMap) => {
-  render(
+  const { rerender } = render(
     <Providers>
       <TestComponent
         keywordType={keywordType}
@@ -46,6 +46,18 @@ const setup = (keywordType, schemaKeywords, controlledKeywordsMap) => {
       />
     </Providers>
   )
+
+  return {
+    rerenderWithKeywordType: (nextKeywordType) => rerender(
+      <Providers>
+        <TestComponent
+          keywordType={nextKeywordType}
+          schemaKeywords={schemaKeywords}
+          controlledKeywordsMap={controlledKeywordsMap}
+        />
+      </Providers>
+    )
+  }
 }
 
 const mockKeywords = {
@@ -142,6 +154,28 @@ describe('useDraftsQuery', () => {
           }]
         }]
       }))).toBeInTheDocument()
+    })
+  })
+
+  describe('when the same component instance switches keywordType', () => {
+    test('refetches and returns the new type\'s keywords, instead of staying on the previous type', async () => {
+      const scienceKeywords = { category: [{ value: 'EARTH SCIENCE' }] }
+      const locationKeywords = { category: [{ value: 'CONTINENT' }] }
+
+      fetchCmrKeywords.mockImplementation((keywordType) => (
+        keywordType === 'science_keywords'
+          ? Promise.resolve(scienceKeywords)
+          : Promise.resolve(locationKeywords)
+      ))
+
+      const { rerenderWithKeywordType } = setup('science_keywords')
+
+      expect(await screen.findByText(JSON.stringify(scienceKeywords))).toBeInTheDocument()
+
+      rerenderWithKeywordType('location_keywords')
+
+      expect(await screen.findByText(JSON.stringify(locationKeywords))).toBeInTheDocument()
+      expect(screen.queryByText(JSON.stringify(scienceKeywords))).not.toBeInTheDocument()
     })
   })
 })

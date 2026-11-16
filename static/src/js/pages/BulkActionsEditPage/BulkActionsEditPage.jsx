@@ -4,7 +4,6 @@ import React, {
   useState
 } from 'react'
 import { useMutation } from '@apollo/client'
-import { isEqual } from 'lodash-es'
 import {
   Navigate,
   useNavigate,
@@ -14,9 +13,13 @@ import Alert from 'react-bootstrap/Alert'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Row from 'react-bootstrap/Row'
+import Tooltip from 'react-bootstrap/Tooltip'
+import { FaInfoCircle } from 'react-icons/fa'
 
 import Button from '@/js/components/Button/Button'
+import BulkActionsControlledValuePicker from '@/js/components/BulkActionsControlledValuePicker/BulkActionsControlledValuePicker'
 import BulkActionsEditNavigationGuard from '@/js/components/BulkActionsEditNavigationGuard/BulkActionsEditNavigationGuard'
 import BulkActionsFindValueForm from '@/js/components/BulkActionsFindValueForm/BulkActionsFindValueForm'
 import BulkActionsSelectedConcepts from '@/js/components/BulkActionsSelectedConcepts/BulkActionsSelectedConcepts'
@@ -31,7 +34,6 @@ import {
   getBulkUpdateFields,
   getBulkUpdateTypeConfig,
   getBulkUpdateTypes,
-  getDestructiveUpdateWarning,
   isBulkUpdateSupportedForConceptType,
   isUpdateTypeAvailableForField
 } from '@/js/constants/bulkUpdateFields'
@@ -48,6 +50,7 @@ import buildUpdateValueJsonSchema from '@/js/utils/buildUpdateValueJsonSchema'
 import buildUpdateValueJsonSkeleton from '@/js/utils/buildUpdateValueJsonSkeleton'
 import errorLogger from '@/js/utils/errorLogger'
 import getUpdateValueJsonErrors from '@/js/utils/getUpdateValueJsonErrors'
+import stripUnfilledUpdateValueFields from '@/js/utils/stripUnfilledUpdateValueFields'
 
 const HOME_PAGE_URL_TYPE = 'FIND_AND_UPDATE_HOME_PAGE_URL'
 
@@ -200,46 +203,11 @@ const BulkActionsEditPage = () => {
     getBulkActionsSelectedListAdapter(conceptType)
   )
 
-  const destructiveUpdateWarning = getDestructiveUpdateWarning(conceptType, updateField, updateType)
-
   const isHomePageUrlType = updateType === HOME_PAGE_URL_TYPE
 
   const updateValueSectionLabel = UPDATE_VALUE_SECTION_LABELS[updateType] || 'Update'
 
   const hasFilledEntry = (entries) => entries.some((entry) => Object.keys(entry).length > 0)
-
-  // FindValue holds raw, uncoerced input strings (see BulkActionsFindValueForm) -- a
-  // 'number' key is only valid as a whole number, so flag anything else (a fraction,
-  // "abc", etc.) rather than silently dropping it from the submitted request.
-  const getFindValueErrors = (rawFindValue, flatFindKeys) => (
-    flatFindKeys
-      .filter(({ key, type }) => type === 'number' && key in rawFindValue)
-      .filter(({ key }) => !Number.isInteger(Number(rawFindValue[key])))
-      .map(({ key }) => `${key} must be a whole number`)
-  )
-
-  const getEffectiveFindValue = (rawFindValue, flatFindKeys) => {
-    const numberKeys = new Set(
-      flatFindKeys.filter(({ type }) => type === 'number').map(({ key }) => key)
-    )
-
-    return Object.fromEntries(
-      Object.entries(rawFindValue).map(([key, rawValue]) => (
-        [key, numberKeys.has(key) ? Number(rawValue) : rawValue]
-      ))
-    )
-  }
-
-  let effectiveFindValue
-  let findValueErrors = []
-
-  if (fieldConfig && needsFindValue) {
-    findValueErrors = getFindValueErrors(findValue, fieldConfig.flatFindKeys)
-
-    if (findValueErrors.length === 0) {
-      effectiveFindValue = getEffectiveFindValue(findValue, fieldConfig.flatFindKeys)
-    }
-  }
 
   let parsedUpdateValue
   let updateValueJsonErrors = []
@@ -255,10 +223,16 @@ const BulkActionsEditPage = () => {
 
     if (updateValueJsonErrors.length === 0) {
       parsedUpdateValue = JSON.parse(updateValueJson)
-      isUpdateValueUnfilled = isEqual(
-        parsedUpdateValue,
-        JSON.parse(buildSkeletonJson(fieldConfig, typeConfig))
-      )
+
+      // Comparing against the pristine skeleton (as this used to) misses e.g. adding then
+      // removing a controlled-picker entry from a multi-value list -- that leaves the JSON
+      // as `[]`, not the skeleton's `[{blank placeholder}]`. Stripping it the same way the
+      // submission itself does and checking whether anything real survives covers both shapes.
+      const effectiveUpdateValue = stripUnfilledUpdateValueFields(parsedUpdateValue)
+
+      isUpdateValueUnfilled = Array.isArray(effectiveUpdateValue)
+        ? effectiveUpdateValue.length === 0
+        : Object.keys(effectiveUpdateValue).length === 0
     }
   }
 
@@ -267,14 +241,18 @@ const BulkActionsEditPage = () => {
 
     if (isHomePageUrlType) return buildDataCenterHomePageUrlUpdateValue(homePageUrl)
 
-    return parsedUpdateValue
+    // Strip untouched skeleton placeholders ('', 0, []) before submitting -- the editor
+    // prepopulates every field with one so the user can see what's available, but CMR should
+    // only ever get the fields actually filled in (an explicit `null` still goes through, as
+    // the user's way of saying "remove this field").
+    return stripUnfilledUpdateValueFields(parsedUpdateValue)
   }
 
   const canSubmit = (
     selectedCollections.length > 0
     && !!fieldConfig
     && !!typeConfig
-    && (!needsFindValue || (hasFilledEntry([findValue]) && findValueErrors.length === 0))
+    && (!needsFindValue || hasFilledEntry([findValue]))
     // Leaving the home page URL blank is a valid, intentional "remove it" request, so it
     // skips both the schema and the unfilled-skeleton check below.
     && (
@@ -287,12 +265,15 @@ const BulkActionsEditPage = () => {
   const handleSubmit = () => {
     const variables = {
       conceptIds: selectedCollections,
-      findValue: needsFindValue ? effectiveFindValue : undefined,
+      findValue: needsFindValue ? findValue : undefined,
       providerId: selectedProvider,
       updateField,
       updateType,
       updateValue: getEffectiveUpdateValue()
     }
+
+    // eslint-disable-next-line no-console
+    console.log('Bulk Actions Edit Page: submitting to CMR', variables)
 
     createBulkUpdateCollectionTaskMutation({
       variables,
@@ -352,38 +333,42 @@ const BulkActionsEditPage = () => {
         <Card.Body>
           <Row>
             <Col md={4}>
-              <Form.Group className="mb-3" controlId="bulk-actions-update-type">
-                <Form.Label className="fw-bold">Action Type</Form.Label>
+              <Form.Group className="mb-3" controlId="bulk-actions-update-field">
+                <Form.Label className="fw-bold">Target Field</Form.Label>
                 <Form.Select
-                  value={updateType}
-                  onChange={(event) => handleTypeChange(event.target.value)}
+                  // Matches the placeholder-grey used elsewhere while nothing's picked yet;
+                  // the real options below get "text-body" so they don't inherit it.
+                  className={!updateField ? 'text-muted' : undefined}
+                  value={updateField}
+                  onChange={(event) => handleFieldChange(event.target.value)}
                 >
-                  <option value="">Select an action type</option>
+                  <option value="" disabled>Select a target field</option>
                   {
-                    getBulkUpdateTypes(conceptType)
-                      .filter(({ value }) => (
-                        isUpdateTypeAvailableForField(conceptType, value, updateField)
-                      ))
-                      .map(({ value, label }) => (
-                        <option key={value} value={value}>{label}</option>
-                      ))
+                    getBulkUpdateFields(conceptType).map(({ value, label }) => (
+                      <option key={value} value={value} className="text-body">{label}</option>
+                    ))
                   }
                 </Form.Select>
               </Form.Group>
             </Col>
 
             <Col md={4}>
-              <Form.Group className="mb-3" controlId="bulk-actions-update-field">
-                <Form.Label className="fw-bold">Target Field</Form.Label>
+              <Form.Group className="mb-3" controlId="bulk-actions-update-type">
+                <Form.Label className="fw-bold">Action Type</Form.Label>
                 <Form.Select
-                  value={updateField}
-                  onChange={(event) => handleFieldChange(event.target.value)}
+                  className={!updateType ? 'text-muted' : undefined}
+                  value={updateType}
+                  onChange={(event) => handleTypeChange(event.target.value)}
                 >
-                  <option value="">Select a target field</option>
+                  <option value="" disabled>Select an action type</option>
                   {
-                    getBulkUpdateFields(conceptType).map(({ value, label }) => (
-                      <option key={value} value={value}>{label}</option>
-                    ))
+                    getBulkUpdateTypes(conceptType)
+                      .filter(({ value }) => (
+                        isUpdateTypeAvailableForField(conceptType, value, updateField)
+                      ))
+                      .map(({ value, label }) => (
+                        <option key={value} value={value} className="text-body">{label}</option>
+                      ))
                   }
                 </Form.Select>
               </Form.Group>
@@ -399,16 +384,7 @@ const BulkActionsEditPage = () => {
           {
             fieldConfig && needsFindValue && (
               <>
-                <div className="d-flex justify-content-between align-items-start flex-wrap gap-2 mt-4 mb-3">
-                  <h3 className="h6 fw-bold mb-0">Find</h3>
-                  {
-                    findValueErrors.length > 0 && (
-                      <span className="text-danger small text-end">
-                        {findValueErrors.join('; ')}
-                      </span>
-                    )
-                  }
-                </div>
+                <h3 className="h6 fw-bold mt-4 mb-3">Find</h3>
                 <BulkActionsFindValueForm
                   flatFindKeys={fieldConfig.flatFindKeys}
                   value={findValue}
@@ -419,21 +395,11 @@ const BulkActionsEditPage = () => {
           }
 
           {
-            // Below Find's "Additional Free-Text Criteria" subsection (the field this warns
-            // about) but above Replace/Update With, whose submitted value is what actually
-            // overwrites/clears it. CLEAR_ALL_AND_REPLACE has no Find section, so this lands
-            // directly above Replace With there instead.
-            destructiveUpdateWarning && (
-              <Alert variant="warning" className="mt-4">{destructiveUpdateWarning}</Alert>
-            )
-          }
-
-          {
             fieldConfig && needsUpdateValue && isHomePageUrlType && (
               <>
                 <h3 className="h6 fw-bold mt-4">Update</h3>
                 <Form.Group className="mb-3" controlId="bulk-actions-home-page-url">
-                  <Form.Label>Home Page URL</Form.Label>
+                  <Form.Label className="fw-bold">Home Page URL</Form.Label>
                   <Form.Control
                     type="text"
                     value={homePageUrl}
@@ -450,6 +416,34 @@ const BulkActionsEditPage = () => {
               <>
                 <div className="d-flex justify-content-between align-items-start flex-wrap gap-2 mt-4 mb-3">
                   <h3 className="h6 fw-bold mb-0">{updateValueSectionLabel}</h3>
+                </div>
+                <BulkActionsControlledValuePicker
+                  fieldConfig={fieldConfig}
+                  allowMultiple={!!supportsMultipleUpdateValues}
+                  value={updateValueJson}
+                  onChange={setUpdateValueJson}
+                />
+                <div className="d-flex justify-content-between align-items-start flex-wrap gap-2 mt-3 mb-2">
+                  <div className="d-flex align-items-center gap-2">
+                    <span className="small fw-semibold text-secondary">
+                      What will be sent to CMR
+                    </span>
+                    <OverlayTrigger
+                      overlay={
+                        (
+                          <Tooltip id="update-value-json-help">
+                            Delete a key or leave it blank to keep the existing value. Set it to
+                            null to remove it.
+                          </Tooltip>
+                        )
+                      }
+                      placement="top"
+                    >
+                      <span role="img" aria-label="help">
+                        <FaInfoCircle className="text-secondary" />
+                      </span>
+                    </OverlayTrigger>
+                  </div>
                   {
                     updateValueJsonErrors.length > 0 && (
                       <span className="text-danger small text-end">

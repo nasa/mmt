@@ -6,6 +6,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
 import parseCmrInstrumentsResponse from '../../utils/parseCmrInstrumentsResponse'
 import './InstrumentField.scss'
+import '../CustomWidgetWrapper/CustomWidgetWrapper.scss'
 
 /** This is custom field found with Collections >> acquisitionInformation
  *
@@ -210,7 +211,7 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
   return (
     <div className="instrument-field mb-4">
       {/* Short Name field */}
-      Short Name
+      <span className="custom-widget-wrapper__label text-gray-700">Short Name</span>
       <i className="eui-icon eui-required-o text-success required-icon ms-2" />
       <div className="mt-1">
         <Select
@@ -230,7 +231,7 @@ const InstrumentField = ({ onChange, uiSchema, formData }) => {
 
       {/* Long Name field */}
       <div className="mt-2">
-        Long Name
+        <span className="custom-widget-wrapper__label text-gray-700">Long Name</span>
         <input
           className="instrument-field-text-field"
           name="longName"
