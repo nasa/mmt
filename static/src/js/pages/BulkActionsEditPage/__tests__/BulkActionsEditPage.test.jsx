@@ -455,7 +455,7 @@ describe('BulkActionsEditPage component', () => {
 
       await waitFor(() => {
         expect(screen.getByRole('tooltip')).toHaveTextContent(
-          "Delete a key or leave it blank to keep the existing value. Set it to null to remove it -- except a key marked required, which must always have a real value and can't be set to null."
+          'Delete a key or leave it blank to keep the existing value. Set it to null to remove it -- except a key marked required, which can never be set to null.'
         )
       })
     })

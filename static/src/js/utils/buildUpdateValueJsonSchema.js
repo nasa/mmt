@@ -3,7 +3,7 @@
 // from leaving it at its unfilled skeleton default, which gets dropped instead of submitted.
 // Without this, the schema rejects `null` outright with "Expected array but received null".
 // A field that's actually required in this context has that `null` stripped back out again
-// below, since a required field can't be removed -- it has to have a real value.
+// below, since a required field can't be removed -- it has to have a non-blank value.
 const nullable = (type) => [type, 'null']
 
 // Builds a JSON Schema fragment for one BulkUpdateValueField-shaped field def (see
@@ -68,8 +68,8 @@ const buildUpdateValueJsonSchema = (fields, allowMultiple) => {
     .filter(({ ummRequired }) => ummRequired)
     .map(({ key }) => key)
 
-  // A field marked `ummRequired` (e.g. Data Centers' Roles) must be present with at least one
-  // real value whenever this action type submits a whole new/replaced entry (allowMultiple --
+  // A field marked `ummRequired` (e.g. Data Centers' Roles) must be present with a non-blank
+  // value whenever this action type submits a whole new/replaced entry (allowMultiple --
   // ADD_TO_EXISTING/CLEAR_ALL_AND_REPLACE/FIND_AND_REPLACE): CMR's UMM-C schema requires that
   // field on the entry, so a blank one would fail CMR's own validation after submit instead
   // of being caught here first. Not enforced for FIND_AND_UPDATE's partial merge, where
@@ -84,8 +84,8 @@ const buildUpdateValueJsonSchema = (fields, allowMultiple) => {
     // `required` only checks that the key is present -- an explicit `null` still satisfies
     // it (and still matches this field's nullable `type`), so without this a null value would
     // silently bypass required-ness entirely, the same way it would otherwise bypass the
-    // `minItems` below. A genuinely required field has to have a real value, not null -- and
-    // this holds even under FIND_AND_UPDATE: null means "actively remove it" (unlike leaving
+    // `minItems` below. A genuinely required field can never be null -- and this holds even
+    // under FIND_AND_UPDATE: null means "actively remove it" (unlike leaving
     // it blank/untouched), which would leave the entry without a field CMR requires it to have.
     const { type } = propertySchema
     const nonNullType = Array.isArray(type) ? type.filter((t) => t !== 'null') : type
@@ -97,11 +97,11 @@ const buildUpdateValueJsonSchema = (fields, allowMultiple) => {
       ...propertySchema,
       type: resolvedType,
       ...(propertySchema.enum && { enum: propertySchema.enum.filter((value) => value !== null) }),
-      // Beyond rejecting null, presence and a real (non-blank) value are only enforced when
-      // this action type actually submits a whole new/replaced entry (requiredKeys above) --
+      // Beyond rejecting null, presence and a non-blank value are only enforced when this
+      // action type actually submits a whole new/replaced entry (requiredKeys above) --
       // FIND_AND_UPDATE still allows a blank/untouched value, just not an explicit null.
       ...(isEnforced && propertySchema.items && { minItems: 1 }),
-      // A required string field (text or select) still needs a real value -- `required`
+      // A required string field (text or select) still needs a non-blank value -- `required`
       // only checks the key is present, and `type: 'string'` matches an empty string too, so
       // without this an untouched '' skeleton default would silently pass as "filled in".
       ...(isEnforced && resolvedType === 'string' && { minLength: 1 })

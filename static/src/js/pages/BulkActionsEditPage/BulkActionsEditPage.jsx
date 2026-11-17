@@ -66,17 +66,17 @@ const UPDATE_VALUE_SECTION_LABELS = {
 
 // ADD_TO_EXISTING adds a brand new entry -- there's no existing value for a blank/null key to
 // "remove", and a key the schema marks required (see buildUpdateValueJsonSchema) must still
-// have a real value, not null. CLEAR_ALL_AND_REPLACE/FIND_AND_REPLACE overwrite the whole
+// be non-blank and can never be null. CLEAR_ALL_AND_REPLACE/FIND_AND_REPLACE overwrite the whole
 // matched entry (see typeConfig.helpText above) under the same required-field rule, so a key
 // left blank/deleted there is left out of the replacement, not kept from the existing entry.
 // FIND_AND_UPDATE's partial merge really does keep/remove a field on the existing entry --
 // except a required one, which (like the other action types) can never be set to null, even
 // though it's still fine to leave blank/untouched there.
 const UPDATE_VALUE_JSON_HELP_TEXT = {
-  ADD_TO_EXISTING: "Delete a key or leave it blank to leave it out of the new entry. A key marked required must still have a real value -- it can't be left blank or set to null.",
-  CLEAR_ALL_AND_REPLACE: "This replaces the whole entry, so a key left blank or deleted is left out of it, not kept from the entry it's replacing. A key marked required must still have a real value.",
-  FIND_AND_REPLACE: "This replaces the whole entry, so a key left blank or deleted is left out of it, not kept from the entry it's replacing. A key marked required must still have a real value.",
-  FIND_AND_UPDATE: 'Delete a key or leave it blank to keep the existing value. Set it to null to remove it -- except a key marked required, which must always have a real value and can\'t be set to null.'
+  ADD_TO_EXISTING: "Delete a key or leave it blank to leave it out of the new entry. A key marked required can't be left blank or set to null.",
+  CLEAR_ALL_AND_REPLACE: "This replaces the whole entry, so a key left blank or deleted is left out of it, not kept from the entry it's replacing. A key marked required can't be left blank or set to null.",
+  FIND_AND_REPLACE: "This replaces the whole entry, so a key left blank or deleted is left out of it, not kept from the entry it's replacing. A key marked required can't be left blank or set to null.",
+  FIND_AND_UPDATE: 'Delete a key or leave it blank to keep the existing value. Set it to null to remove it -- except a key marked required, which can never be set to null.'
 }
 
 /**
