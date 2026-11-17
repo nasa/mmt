@@ -64,6 +64,20 @@ const UPDATE_VALUE_SECTION_LABELS = {
   FIND_AND_UPDATE: 'Update With'
 }
 
+// ADD_TO_EXISTING adds a brand new entry -- there's no existing value for a blank/null key to
+// "remove", and a key the schema marks required (see buildUpdateValueJsonSchema) must still
+// have a real value, not null. CLEAR_ALL_AND_REPLACE/FIND_AND_REPLACE overwrite the whole
+// matched entry (see typeConfig.helpText above) under the same required-field rule, so a key
+// left blank/deleted there is left out of the replacement, not kept from the existing entry.
+// Only FIND_AND_UPDATE's partial merge really keeps/removes a field on the existing entry --
+// nothing there is required, since the entry already has a valid value.
+const UPDATE_VALUE_JSON_HELP_TEXT = {
+  ADD_TO_EXISTING: "Delete a key or leave it blank to leave it out of the new entry. A key marked required must still have a real value -- it can't be left blank or set to null.",
+  CLEAR_ALL_AND_REPLACE: "This replaces the whole entry, so a key left blank or deleted is left out of it, not kept from the entry it's replacing. A key marked required must still have a real value.",
+  FIND_AND_REPLACE: "This replaces the whole entry, so a key left blank or deleted is left out of it, not kept from the entry it's replacing. A key marked required must still have a real value.",
+  FIND_AND_UPDATE: 'Delete a key or leave it blank to keep the existing value. Set it to null to remove it.'
+}
+
 /**
  * Renders a BulkActionsEditPage component.
  *
@@ -418,6 +432,13 @@ const BulkActionsEditPage = () => {
                   <h3 className="h6 fw-bold mb-0">{updateValueSectionLabel}</h3>
                 </div>
                 <BulkActionsControlledValuePicker
+                  // Platforms/Instruments/Data Centers all render the same underlying
+                  // BulkActionsControlledEntryList, and ADD_TO_EXISTING/FIND_AND_UPDATE on the
+                  // same field only differ by allowMultiple -- without this key, switching
+                  // between any of those reuses that instance and leaks its in-progress,
+                  // not-yet-added pick (BulkActionsControlledEntryList's own pendingEntry)
+                  // into the new field/type instead of starting fresh.
+                  key={`${updateField}-${updateType}`}
                   fieldConfig={fieldConfig}
                   allowMultiple={!!supportsMultipleUpdateValues}
                   value={updateValueJson}
@@ -432,16 +453,19 @@ const BulkActionsEditPage = () => {
                       overlay={
                         (
                           <Tooltip id="update-value-json-help">
-                            Delete a key or leave it blank to keep the existing value. Set it to
-                            null to remove it.
+                            {UPDATE_VALUE_JSON_HELP_TEXT[updateType]}
                           </Tooltip>
                         )
                       }
                       placement="top"
                     >
-                      <span role="img" aria-label="help">
+                      <button
+                        type="button"
+                        aria-label="help"
+                        className="bg-transparent border-0 p-0 d-inline-flex focus-ring"
+                      >
                         <FaInfoCircle className="text-secondary" />
-                      </span>
+                      </button>
                     </OverlayTrigger>
                   </div>
                   {
@@ -505,7 +529,7 @@ const BulkActionsEditPage = () => {
         taskId={taskId}
       />
 
-      <BulkActionsEditNavigationGuard skipRef={skipNavigationGuardRef} />
+      <BulkActionsEditNavigationGuard skipRef={skipNavigationGuardRef} submitting={submitting} />
     </Page>
   )
 }

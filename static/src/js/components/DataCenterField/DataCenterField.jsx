@@ -26,17 +26,24 @@ const DataCenterField = ({ onChange, formData }) => {
       setLoading(true)
 
       const response = await fetchCmrKeywords('providers')
-      const names = getKeywords(response, 'short_name', {}, ['short_name']).sort()
 
-      setProvidersResponse(response)
-      setShortNames(names)
+      // FetchCmrKeywords already logs and swallows its own fetch failure, resolving to null
+      // rather than rejecting -- getKeywords would otherwise throw destructuring that null,
+      // leaving `loading` stuck true forever with no Short Name options ever populated.
+      if (response) {
+        const names = getKeywords(response, 'short_name', {}, ['short_name']).sort()
+
+        setProvidersResponse(response)
+        setShortNames(names)
+      }
+
       setLoading(false)
     }
 
     fetchData()
   }, [])
 
-  const onHandleMouseDown = (value) => {
+  const selectShortName = (value) => {
     setShowMenu(false)
     setShouldFocus(false)
 
@@ -52,6 +59,14 @@ const DataCenterField = ({ onChange, formData }) => {
       LongName: matchedLongName
     })
   }
+
+  const onHandleMouseDown = (value) => selectShortName(value)
+
+  // React-select's own keyboard selection (arrow keys + Enter) and its native clear "x" both
+  // call the Select's onChange directly -- a separate path from the custom Option's
+  // onMouseDown below, which only ever fires on a pointer click. Without this, either one
+  // silently selects nothing.
+  const onHandleChange = (option) => selectShortName(option?.value ?? '')
 
   const onHandleFocus = () => {
     setShowMenu(true)
@@ -129,6 +144,7 @@ const DataCenterField = ({ onChange, formData }) => {
           isLoading={loading}
           components={{ Option }}
           value={existingValue.value ? existingValue : null}
+          onChange={onHandleChange}
           onFocus={onHandleFocus}
           onBlur={onHandleBlur}
           menuIsOpen={showMenu}

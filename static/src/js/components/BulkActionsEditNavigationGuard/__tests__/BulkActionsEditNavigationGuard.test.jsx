@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import PropTypes from 'prop-types'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
@@ -24,14 +25,14 @@ const MockSelector = () => {
   )
 }
 
-const EditPage = () => {
+const EditPage = ({ submitting = false }) => {
   const skipRef = useRef(false)
   const navigate = useNavigate()
 
   return (
     <>
       <MockSelector />
-      <BulkActionsEditNavigationGuard skipRef={skipRef} />
+      <BulkActionsEditNavigationGuard skipRef={skipRef} submitting={submitting} />
       <Link to="/variables">Go to variables</Link>
       <Link to="/collections">Go to all collections</Link>
       <Link to="/collections/bulk-actions">Bulk Actions</Link>
@@ -47,16 +48,25 @@ const EditPage = () => {
   )
 }
 
+EditPage.propTypes = {
+  submitting: PropTypes.bool
+}
+
+EditPage.defaultProps = {
+  submitting: false
+}
+
 const setup = ({
   initialEntries = ['/collections/bulk-actions/edit'],
-  initialIndex
+  initialIndex,
+  submitting = false
 } = {}) => {
   const user = userEvent.setup()
 
   const Stub = createRoutesStub([
     {
       path: '/:type/bulk-actions/edit',
-      Component: EditPage
+      Component: () => <EditPage submitting={submitting} />
     },
     {
       path: '/:type/bulk-actions',
@@ -193,6 +203,24 @@ describe('BulkActionsEditNavigationGuard component', () => {
 
           expect(await screen.findByText('Variables page')).toBeInTheDocument()
         })
+      })
+    })
+
+    describe('and a submission is in flight', () => {
+      test('blocks navigation without offering Leave', async () => {
+        const { user } = setup({ submitting: true })
+
+        await user.click(screen.getByRole('button', { name: 'Select collection' }))
+        await user.click(screen.getByRole('link', { name: 'Go to variables' }))
+
+        expect(await screen.findByText('Submission in Progress')).toBeInTheDocument()
+        expect(screen.queryByText('Variables page')).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: 'Leave' })).not.toBeInTheDocument()
+
+        await user.click(screen.getByRole('button', { name: 'OK' }))
+
+        expect(screen.queryByText('Submission in Progress')).not.toBeInTheDocument()
+        expect(screen.getByRole('button', { name: 'Select collection' })).toBeInTheDocument()
       })
     })
   })

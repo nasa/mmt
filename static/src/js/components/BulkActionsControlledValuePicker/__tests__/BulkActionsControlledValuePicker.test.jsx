@@ -360,6 +360,66 @@ describe('BulkActionsControlledValuePicker', () => {
 
         expect(onChange).toHaveBeenCalledWith(JSON.stringify([pickedEntry], null, 2))
       })
+
+      test('appends the pick onto a hand-typed flat object instead of discarding it', async () => {
+        // The schema allows a flat object here too (CMR's updateValue "could be an array",
+        // not "must"), so a user who hand-edits the JSON into object shape still has that
+        // entry preserved when they use the picker's Add button afterward.
+        const existingEntry = { ShortName: 'EXISTING' }
+
+        const { onChange, user } = setup({
+          fieldConfig,
+          allowMultiple: true,
+          value: JSON.stringify(existingEntry)
+        })
+
+        expect(screen.getByText(`entries=${JSON.stringify([existingEntry])}`)).toBeInTheDocument()
+
+        await user.click(screen.getByRole('button', { name: pickButtonName }))
+        await user.click(screen.getByRole('button', { name: 'add entry' }))
+
+        expect(onChange).toHaveBeenCalledWith(JSON.stringify([existingEntry, pickedEntry], null, 2))
+      })
+
+      test('keeps an entry whose own key is an explicit null, not a skeleton blank', async () => {
+        // Null is the user's explicit "remove this field" (see
+        // stripUnfilledUpdateValueFields), distinct from the skeleton's untouched '' default --
+        // it must survive the blank-entry filter the same way.
+        const nulledEntry = { [pickedKeys.split(',')[0]]: null }
+
+        const { onChange, user } = setup({
+          fieldConfig,
+          allowMultiple: true,
+          value: JSON.stringify([nulledEntry])
+        })
+
+        expect(screen.getByText(`entries=${JSON.stringify([nulledEntry])}`)).toBeInTheDocument()
+
+        await user.click(screen.getByRole('button', { name: pickButtonName }))
+        await user.click(screen.getByRole('button', { name: 'add entry' }))
+
+        expect(onChange).toHaveBeenCalledWith(JSON.stringify([nulledEntry, pickedEntry], null, 2))
+      })
+
+      test('keeps an entry with blank own keys that still carries a populated JSON-only field', async () => {
+        // Characteristics isn't in any row's pickedKeys, so it's always the "unrelated"
+        // field here -- a hand-typed entry that's blank on this picker's own keys but still
+        // carries real JSON-only data must not be silently dropped from the list.
+        const existingEntry = { Characteristics: [{ Name: 'foo' }] }
+
+        const { onChange, user } = setup({
+          fieldConfig,
+          allowMultiple: true,
+          value: JSON.stringify([existingEntry])
+        })
+
+        expect(screen.getByText(`entries=${JSON.stringify([existingEntry])}`)).toBeInTheDocument()
+
+        await user.click(screen.getByRole('button', { name: pickButtonName }))
+        await user.click(screen.getByRole('button', { name: 'add entry' }))
+
+        expect(onChange).toHaveBeenCalledWith(JSON.stringify([existingEntry, pickedEntry], null, 2))
+      })
     })
 
     describe('when the action type only accepts a single entry', () => {

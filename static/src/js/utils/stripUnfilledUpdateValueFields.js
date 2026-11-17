@@ -29,8 +29,11 @@ const stripUnfilledUpdateValueFields = (updateValue) => {
 
   return Object.fromEntries(
     Object.entries(updateValue)
-      .filter(([, fieldValue]) => !isUnfilledPlaceholder(fieldValue))
+      // Clean each value first -- a nested array (e.g. Characteristics) only becomes blank
+      // ('[]') once its own blank entries are stripped out, so filtering on the raw value
+      // would miss that and leave a stray `key: []` behind instead of dropping the key.
       .map(([key, fieldValue]) => [key, stripUnfilledUpdateValueFields(fieldValue)])
+      .filter(([, fieldValue]) => !isUnfilledPlaceholder(fieldValue))
   )
 }
 

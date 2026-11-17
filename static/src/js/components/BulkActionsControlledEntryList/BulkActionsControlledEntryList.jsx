@@ -34,12 +34,20 @@ const BulkActionsControlledEntryList = ({
 }) => {
   const [pendingEntry, setPendingEntry] = useState({})
 
+  const committedEntry = entries[0] ?? {}
+
+  // Keyed on the committed entry's own content, not `entries`' identity -- the caller
+  // rebuilds that array (and the object inside it) from scratch on every render (e.g.
+  // re-parsing the updateValue JSON), so depending on its reference would re-sync on any
+  // unrelated re-render and wipe out whatever the user has picked but not yet added.
+  const committedEntryKey = JSON.stringify(committedEntry)
+
   // Single-value mode has one entry built across multiple Adds, so keep `pendingEntry` in
   // sync with it rather than resetting blank each time. Multi-value mode's pendingEntry is
   // the next, separate entry being built, so it stays independent.
   useEffect(() => {
-    if (!allowMultiple) setPendingEntry(entries[0] ?? {})
-  }, [entries, allowMultiple])
+    if (!allowMultiple) setPendingEntry(committedEntry)
+  }, [committedEntryKey, allowMultiple])
 
   // Keep only the fields this entry type cares about (entryKeys) -- drop anything else.
   const pickedFields = entryKeys.reduce((acc, key) => {

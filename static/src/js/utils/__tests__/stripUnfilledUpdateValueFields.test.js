@@ -101,6 +101,22 @@ describe('stripUnfilledUpdateValueFields', () => {
     })
   })
 
+  test('drops a nested array key once every one of its entries strips down to nothing', () => {
+    // Characteristics' own blank skeleton placeholder -- never hand-filled -- strips down to
+    // an empty array; the key itself must then be dropped too, not left behind as `[]`.
+    expect(stripUnfilledUpdateValueFields({
+      ShortName: 'A340-600',
+      Characteristics: [
+        {
+          Name: '',
+          Description: '',
+          Value: '',
+          Unit: ''
+        }
+      ]
+    })).toEqual({ ShortName: 'A340-600' })
+  })
+
   test('leaves non-object updateValue (e.g. a string) untouched', () => {
     expect(stripUnfilledUpdateValueFields('NASA/GSFC')).toBe('NASA/GSFC')
   })

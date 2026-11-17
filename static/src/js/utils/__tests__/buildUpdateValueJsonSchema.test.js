@@ -1,4 +1,5 @@
 import buildUpdateValueJsonSchema from '../buildUpdateValueJsonSchema'
+import getUpdateValueJsonErrors from '../getUpdateValueJsonErrors'
 
 describe('buildUpdateValueJsonSchema', () => {
   test('builds an object schema for text fields', () => {
@@ -123,6 +124,123 @@ describe('buildUpdateValueJsonSchema', () => {
         }
       },
       additionalProperties: false
+    })
+  })
+
+  describe('a requiredWhenReplacing field (e.g. Data Centers\' Roles)', () => {
+    const fields = [
+      {
+        key: 'ShortName',
+        type: 'text'
+      },
+      {
+        key: 'Roles',
+        type: 'multiselect',
+        options: ['ARCHIVER', 'DISTRIBUTOR'],
+        requiredWhenReplacing: true
+      }
+    ]
+
+    test('is required, with at least one item, when allowMultiple is true', () => {
+      expect(buildUpdateValueJsonSchema(fields, true)).toEqual({
+        oneOf: [
+          {
+            type: 'object',
+            properties: {
+              ShortName: { type: ['string', 'null'] },
+              Roles: {
+                type: 'array',
+                items: {
+                  type: 'string',
+                  enum: ['ARCHIVER', 'DISTRIBUTOR']
+                },
+                minItems: 1
+              }
+            },
+            additionalProperties: false,
+            required: ['Roles']
+          },
+          {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                ShortName: { type: ['string', 'null'] },
+                Roles: {
+                  type: 'array',
+                  items: {
+                    type: 'string',
+                    enum: ['ARCHIVER', 'DISTRIBUTOR']
+                  },
+                  minItems: 1
+                }
+              },
+              additionalProperties: false,
+              required: ['Roles']
+            }
+          }
+        ]
+      })
+    })
+
+    // Required also strips `null` from the field's own `type` (and `enum`, for a `select`
+    // field) -- without that, an explicit null on a required field satisfies `required` (the
+    // key is present) and still matches the nullable type, silently bypassing it.
+    test('rejects an explicit null for the required field, unlike a non-required one', () => {
+      const value = JSON.stringify({
+        ShortName: null,
+        Roles: null
+      })
+      const schema = buildUpdateValueJsonSchema(fields, true)
+
+      const errors = getUpdateValueJsonErrors(value, schema)
+
+      expect(errors.some((error) => error.includes('Roles'))).toBe(true)
+    })
+
+    test('accepts an explicit null for a non-required field', () => {
+      const value = JSON.stringify({
+        ShortName: null,
+        Roles: ['ARCHIVER']
+      })
+      const schema = buildUpdateValueJsonSchema(fields, true)
+
+      expect(getUpdateValueJsonErrors(value, schema)).toEqual([])
+    })
+
+    test('also strips null from a required select field\'s enum', () => {
+      const selectFields = [
+        {
+          key: 'DataType',
+          type: 'select',
+          options: ['STRING', 'INT'],
+          requiredWhenReplacing: true
+        }
+      ]
+
+      const { oneOf: [entrySchema] } = buildUpdateValueJsonSchema(selectFields, true)
+
+      expect(entrySchema.properties.DataType).toEqual({
+        type: 'string',
+        enum: ['STRING', 'INT']
+      })
+    })
+
+    test('is not required when allowMultiple is false (a partial-merge action type)', () => {
+      expect(buildUpdateValueJsonSchema(fields, false)).toEqual({
+        type: 'object',
+        properties: {
+          ShortName: { type: ['string', 'null'] },
+          Roles: {
+            type: ['array', 'null'],
+            items: {
+              type: 'string',
+              enum: ['ARCHIVER', 'DISTRIBUTOR']
+            }
+          }
+        },
+        additionalProperties: false
+      })
     })
   })
 

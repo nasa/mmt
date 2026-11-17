@@ -164,6 +164,49 @@ describe('BulkActionsControlledEntryList', () => {
 
       expect(screen.getByText('pending: ASF')).toBeInTheDocument()
     })
+
+    test('preserves an unsubmitted pick across an unrelated re-render', async () => {
+      const user = userEvent.setup()
+
+      // The real caller (BulkActionsControlledValuePicker) re-parses its JSON value on every
+      // render, so `entries` arrives as a fresh array/object literal -- same content, new
+      // identity -- on any unrelated re-render, not just a real commit. `[...entries]` here
+      // reproduces that so this test can catch a regression back to syncing on identity.
+      const UnrelatedRerenderWrapper = () => {
+        const [entries] = useState([])
+        const [, forceRerender] = useState(0)
+
+        return (
+          <>
+            <button type="button" onClick={() => forceRerender((count) => count + 1)}>
+              Unrelated rerender
+            </button>
+            <BulkActionsControlledEntryList
+              entries={[...entries]}
+              onChange={() => {}}
+              allowMultiple={false}
+              entryKeys={['ShortName', 'LongName', 'Roles']}
+              renderPicker={
+                ({ formData, onChange: setPending }) => (
+                  <StubPicker formData={formData} onChange={setPending} />
+                )
+              }
+              entryLabel={(entry) => `${entry.ShortName} > ${entry.LongName}`}
+              addButtonLabel="Select"
+            />
+          </>
+        )
+      }
+
+      render(<UnrelatedRerenderWrapper />)
+
+      await user.click(screen.getByRole('button', { name: 'Pick ASF' }))
+      expect(screen.getByText('pending: ASF')).toBeInTheDocument()
+
+      await user.click(screen.getByRole('button', { name: 'Unrelated rerender' }))
+
+      expect(screen.getByText('pending: ASF')).toBeInTheDocument()
+    })
   })
 
   test('renders each existing entry, removable', () => {

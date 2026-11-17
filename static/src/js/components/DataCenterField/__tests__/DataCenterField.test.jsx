@@ -109,6 +109,54 @@ describe('DataCenterField', () => {
     })
   })
 
+  describe('when a user picks a Short Name with the keyboard instead of a pointer', () => {
+    test('calls onChange the same as a pointer pick', async () => {
+      const { user, props } = setup()
+
+      await waitFor(() => {
+        expect(screen.getByText('Select Short Name')).toBeInTheDocument()
+      })
+
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      // The custom Option's onMouseDown (used for a pointer pick) never fires for a keyboard
+      // selection -- react-select handles arrow keys/Enter itself, independently of Option's
+      // own rendering, and calls the Select's onChange directly. Index 0 is the blank "Clear
+      // Short Name" entry, so two ArrowDowns reach the first real option (ASF).
+      await user.keyboard('{ArrowDown}{ArrowDown}{Enter}')
+
+      expect(props.onChange).toHaveBeenCalledWith({
+        ShortName: 'ASF',
+        LongName: 'Alaska Satellite Facility'
+      })
+    })
+  })
+
+  describe('when fetchCmrKeywords resolves to null (its own swallowed fetch failure)', () => {
+    test('finishes loading instead of hanging, with no options to pick', async () => {
+      const onChange = vi.fn()
+      fetchCmrKeywords.mockResolvedValue(null)
+
+      const { container } = render(<DataCenterField formData={{}} onChange={onChange} />)
+
+      // GetKeywords would otherwise throw destructuring a null response, leaving `loading`
+      // stuck true forever -- react-select's own isLoading spinner, which has no accessible
+      // role/text of its own to query for -- instead of settling to false once the
+      // (already-swallowed) fetch failure comes back.
+      await waitFor(() => {
+        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+        expect(container.querySelector('[class*="loadingIndicator"]')).not.toBeInTheDocument()
+      })
+
+      const user = userEvent.setup()
+      await user.click(screen.getByRole('combobox'))
+
+      expect(await screen.findByText('Clear Short Name')).toBeInTheDocument()
+      expect(screen.queryByText('ASF')).not.toBeInTheDocument()
+    })
+  })
+
   describe('when a user selects the clear option', () => {
     test('calls onChange with empty values', async () => {
       const { user, props } = setup({

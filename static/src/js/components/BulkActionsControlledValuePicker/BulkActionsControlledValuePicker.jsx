@@ -212,7 +212,17 @@ const BulkActionsControlledValuePicker = ({
     ? parsed
     : {}
 
-  const currentArray = Array.isArray(parsed) ? parsed : []
+  // The schema allows a hand-typed flat object even when allowMultiple is true (CMR's
+  // updateValue "could be an array of objects" -- not "must"), so a populated currentObject
+  // is treated as that one entry rather than discarded in favor of an empty list.
+  const isCurrentObjectPopulated = Object.keys(currentObject).length > 0
+
+  let currentArray = []
+  if (Array.isArray(parsed)) {
+    currentArray = parsed
+  } else if (isCurrentObjectPopulated) {
+    currentArray = [currentObject]
+  }
 
   // Clears only `ownKeys` on the current value before applying a new pick, so anything else
   // already there (e.g. Platforms'/Instruments' Characteristics) is left alone. Writes the
@@ -244,6 +254,23 @@ const BulkActionsControlledValuePicker = ({
     ownKeys.every((key) => isBlankValue(entry?.[key]))
   )
 
+  // A field's unfilled skeleton default -- '', 0, or an empty array. Deliberately not plain
+  // falsiness: `null` is the user's explicit "remove this field" (see
+  // stripUnfilledUpdateValueFields), distinct from "never touched", so it must not match here.
+  const isUnfilledPlaceholder = (fieldValue) => (
+    fieldValue === '' || fieldValue === 0 || (Array.isArray(fieldValue) && fieldValue.length === 0)
+  )
+
+  // A genuine placeholder entry -- the skeleton's untouched blank slot -- has nothing but
+  // unfilled defaults across EVERY key, not just this field's own ownKeys. Scoping to
+  // ownKeys (like isBlankPick above) would drop an entry whose own key is an explicit null,
+  // or that still carries a populated JSON-only field (e.g. hand-typed Characteristics) the
+  // picker doesn't own. Once dropped here, it's gone for good the next time the list's
+  // onChange writes the array back.
+  const isPlaceholderEntry = (entry) => (
+    !entry || Object.values(entry).every(isUnfilledPlaceholder)
+  )
+
   // Builds the entries the shared list UI renders, and what its onChange does with them --
   // the only difference between multi- and single-value action types. Multi-value writes
   // the whole list back; single-value keeps only the latest pick, so picking again replaces
@@ -251,7 +278,7 @@ const BulkActionsControlledValuePicker = ({
   const buildPickerProps = (ownKeys) => {
     if (allowMultiple) {
       return {
-        entries: currentArray.filter((entry) => !isBlankPick(entry, ownKeys)),
+        entries: currentArray.filter((entry) => !isPlaceholderEntry(entry)),
         onChange: (nextEntries) => onChange(JSON.stringify(nextEntries, null, 2))
       }
     }

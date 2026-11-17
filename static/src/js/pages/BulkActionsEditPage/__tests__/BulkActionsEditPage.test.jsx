@@ -102,7 +102,8 @@ const createBulkUpdateMock = {
       findValue: { ShortName: 'NASA/GSFC' },
       updateValue: {
         ShortName: 'NASA/GSFC',
-        LongName: 'Goddard'
+        LongName: 'Goddard',
+        Roles: ['ARCHIVER']
       }
     }
   },
@@ -115,8 +116,9 @@ const createBulkUpdateMock = {
   }
 }
 
-// Matches only if updateValue has LongName/Roles stripped -- MockedProvider only resolves
-// this mutation if that stripping actually happened.
+// Matches only if updateValue has LongName stripped -- MockedProvider only resolves this
+// mutation if that stripping actually happened. Roles is filled in (not left at its []
+// skeleton default), since FIND_AND_REPLACE requires it on the replaced entry.
 const createBulkUpdateStrippedMock = {
   request: {
     query: CREATE_BULK_UPDATE_COLLECTION_TASK,
@@ -126,7 +128,10 @@ const createBulkUpdateStrippedMock = {
       updateField: 'DATA_CENTERS',
       updateType: 'FIND_AND_REPLACE',
       findValue: { ShortName: 'NASA/GSFC' },
-      updateValue: { ShortName: 'NASA/GSFC' }
+      updateValue: {
+        ShortName: 'NASA/GSFC',
+        Roles: ['ARCHIVER']
+      }
     }
   },
   result: {
@@ -156,7 +161,8 @@ const createBulkUpdateErrorMock = {
       findValue: { ShortName: 'NASA/GSFC' },
       updateValue: {
         ShortName: 'NASA/GSFC',
-        LongName: 'Goddard'
+        LongName: 'Goddard',
+        Roles: ['ARCHIVER']
       }
     }
   },
@@ -229,8 +235,14 @@ const createBulkUpdateMultipleEntriesMock = {
       updateType: 'ADD_TO_EXISTING',
       findValue: undefined,
       updateValue: [
-        { ShortName: 'NASA/JPL' },
-        { ShortName: 'NASA/MSFC' }
+        {
+          ShortName: 'NASA/JPL',
+          Roles: ['ARCHIVER']
+        },
+        {
+          ShortName: 'NASA/MSFC',
+          Roles: ['ARCHIVER']
+        }
       ]
     }
   },
@@ -407,13 +419,16 @@ describe('BulkActionsEditPage component', () => {
       expect(screen.getByText('Replace With')).toBeInTheDocument()
     })
 
-    test('shows a tooltip next to "What will be sent to CMR" explaining how to keep, blank, or null a field', async () => {
+    test('shows a tooltip next to "What will be sent to CMR" warning that FIND_AND_REPLACE drops an omitted field instead of keeping it', async () => {
       const { user } = setup()
 
       await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      // SelectFieldAndType chooses FIND_AND_REPLACE, which overwrites the whole matched
+      // entry -- unlike FIND_AND_UPDATE's partial merge, a blank/deleted key here is left
+      // out of the replacement, not kept from the entry being replaced.
       await selectFieldAndType(user)
 
-      const helpIcon = screen.getByRole('img', { name: 'help' })
+      const helpIcon = screen.getByRole('button', { name: 'help' })
       const label = screen.getByText('What will be sent to CMR')
 
       expect(label.compareDocumentPosition(helpIcon)).toBe(Node.DOCUMENT_POSITION_FOLLOWING)
@@ -422,8 +437,44 @@ describe('BulkActionsEditPage component', () => {
 
       await waitFor(() => {
         expect(screen.getByRole('tooltip')).toHaveTextContent(
+          "This replaces the whole entry, so a key left blank or deleted is left out of it, not kept from the entry it's replacing."
+        )
+      })
+    })
+
+    test('shows a tooltip next to "What will be sent to CMR" explaining how to keep, blank, or null a field for FIND_AND_UPDATE\'s partial merge', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
+
+      const helpIcon = screen.getByRole('button', { name: 'help' })
+
+      await user.hover(helpIcon)
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toHaveTextContent(
           'Delete a key or leave it blank to keep the existing value. Set it to null to remove it.'
         )
+      })
+    })
+
+    test('reveals the tooltip on keyboard focus, not just a pointer hover', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectFieldAndType(user)
+
+      // A real, focusable button (not the plain, non-focusable span this used to be) is
+      // required for a keyboard-only user to ever reach this tooltip at all.
+      const helpIcon = screen.getByRole('button', { name: 'help' })
+      helpIcon.focus()
+
+      expect(helpIcon).toHaveFocus()
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toBeInTheDocument()
       })
     })
 
@@ -533,12 +584,13 @@ describe('BulkActionsEditPage component', () => {
         'NASA/GSFC'
       )
 
-      // LongName/Roles are left at their skeleton default and should be dropped, not sent
-      // alongside ShortName (createBulkUpdateStrippedMock only matches a stripped updateValue).
+      // LongName is left at its skeleton default and should be dropped, not sent alongside
+      // ShortName/Roles (createBulkUpdateStrippedMock only matches a stripped updateValue).
+      // Roles is filled in, since FIND_AND_REPLACE requires it on the replaced entry.
       await fillUpdateValueJson(user, {
         ShortName: 'NASA/GSFC',
         LongName: '',
-        Roles: []
+        Roles: ['ARCHIVER']
       })
 
       const submitButton = screen.getByRole('button', { name: 'Submit Bulk Action' })
@@ -764,6 +816,60 @@ describe('BulkActionsEditPage component', () => {
       }, null, 2))
     })
 
+    test('switching Target Field discards an in-progress, not-yet-added pick instead of leaking it into the new field\'s picker', async () => {
+      fetchCmrKeywords.mockImplementation((scheme) => {
+        if (scheme === 'platforms') {
+          return Promise.resolve({
+            basis: [{
+              value: 'Air-based Platforms',
+              subfields: ['category'],
+              category: [{
+                value: 'Jet',
+                subfields: ['short_name'],
+                short_name: [{
+                  value: 'A340-600',
+                  subfields: ['long_name'],
+                  long_name: [{ value: 'Airbus A340-600' }]
+                }]
+              }]
+            }]
+          })
+        }
+
+        return Promise.resolve({
+          category: [{
+            value: 'Earth Remote Sensing Instruments',
+            subfields: ['short_name'],
+            short_name: [{
+              value: 'ATM',
+              subfields: ['long_name'],
+              long_name: [{ value: 'Airborne Topographic Mapper' }]
+            }]
+          }]
+        })
+      })
+
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'ADD_TO_EXISTING')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'PLATFORMS')
+
+      // Pick a Platform Short Name but never click "add" -- it's only ever held in
+      // BulkActionsControlledEntryList's own pendingEntry state, not yet in updateValue JSON.
+      await user.click(await screen.findByText('Select Short Name'))
+      await user.click(await screen.findByText('A340-600'))
+      expect(screen.getByText('A340-600')).toBeInTheDocument()
+
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'INSTRUMENTS')
+
+      // Without a fresh picker instance, the stale Platforms pick (ShortName: 'A340-600')
+      // would still be sitting in the shared pendingEntry and show up as the Instruments
+      // picker's already-selected Short Name, even though the user never touched it.
+      expect(await screen.findByText('Select Short Name')).toBeInTheDocument()
+      expect(screen.queryByText('A340-600')).not.toBeInTheDocument()
+    })
+
     test('picking a Data Center Short Name and checking Roles writes both into the updateValue JSON', async () => {
       fetchCmrKeywords.mockResolvedValue({
         short_name: [{
@@ -821,6 +927,167 @@ describe('BulkActionsEditPage component', () => {
     })
   })
 
+  describe('when a Data Center entry is missing Roles', () => {
+    test('disables Submit for an action type that replaces the whole entry', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      // FIND_AND_REPLACE submits a whole replaced Data Center entry -- CMR's UMM-C schema
+      // requires Roles on it, so leaving it at its unfilled skeleton default must block
+      // Submit instead of letting CMR's own validation reject it after the fact.
+      await selectFieldAndType(user)
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'NASA/GSFC'
+      )
+
+      await fillUpdateValueJson(user, {
+        ShortName: 'NASA/GSFC',
+        LongName: 'Goddard Space Flight Center',
+        Roles: []
+      })
+
+      expect(screen.getByText(/Roles must NOT have fewer than 1 items/)).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
+    })
+
+    test('does not block Submit for a partial-merge action type', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'NASA/GSFC'
+      )
+
+      await fillUpdateValueJson(user, { LongName: 'Goddard Space Flight Center' })
+
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
+    })
+  })
+
+  describe('when a Data Center entry has ShortName explicitly set to null', () => {
+    test('disables Submit for an action type that replaces the whole entry', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectFieldAndType(user)
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'NASA/GSFC'
+      )
+
+      // ShortName is the other UMM-C required field on a Data Center (alongside Roles) --
+      // an explicit null still has to be rejected, not just an empty string/skeleton default,
+      // since `required` alone doesn't catch a present-but-null key.
+      await fillUpdateValueJson(user, {
+        ShortName: null,
+        LongName: 'Goddard Space Flight Center',
+        Roles: ['ARCHIVER']
+      })
+
+      expect(screen.getByText(/ShortName must be string/)).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
+    })
+
+    test('does not block Submit for a partial-merge action type', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'NASA/GSFC'
+      )
+
+      await fillUpdateValueJson(user, { ShortName: null })
+
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
+    })
+  })
+
+  describe('when a Platform entry is missing ShortName or has it explicitly set to null', () => {
+    test('disables Submit for an action type that replaces the whole entry', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'ADD_TO_EXISTING')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'PLATFORMS')
+
+      // ShortName is PlatformType's own UMM-C required field -- a new entry missing it (or
+      // with it explicitly nulled) would fail CMR's validation on submit.
+      await fillUpdateValueJson(user, {
+        ShortName: null,
+        Type: 'Jet',
+        LongName: 'Airbus A340-600'
+      })
+
+      expect(screen.getByText(/ShortName must be string/)).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
+    })
+
+    test('does not block Submit for a partial-merge action type', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'PLATFORMS')
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'A340-600'
+      )
+
+      await fillUpdateValueJson(user, { ShortName: null })
+
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
+    })
+  })
+
+  describe('when an Instrument entry is missing ShortName or has it explicitly set to null', () => {
+    test('disables Submit for an action type that replaces the whole entry', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'ADD_TO_EXISTING')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'INSTRUMENTS')
+
+      // ShortName is InstrumentType's own UMM-C required field -- a new entry missing it (or
+      // with it explicitly nulled) would fail CMR's validation on submit.
+      await fillUpdateValueJson(user, {
+        ShortName: null,
+        LongName: 'Airborne Topographic Mapper'
+      })
+
+      expect(screen.getByText(/ShortName must be string/)).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
+    })
+
+    test('does not block Submit for a partial-merge action type', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'INSTRUMENTS')
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'ATM'
+      )
+
+      await fillUpdateValueJson(user, { ShortName: null })
+
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
+    })
+  })
+
   describe('when a submission is already in flight', () => {
     test('disables the Submit button so it cannot be clicked again', async () => {
       const { user } = setup({
@@ -837,7 +1104,8 @@ describe('BulkActionsEditPage component', () => {
 
       await fillUpdateValueJson(user, {
         ShortName: 'NASA/GSFC',
-        LongName: 'Goddard'
+        LongName: 'Goddard',
+        Roles: ['ARCHIVER']
       })
 
       const submitButton = screen.getByRole('button', { name: 'Submit Bulk Action' })
@@ -864,7 +1132,8 @@ describe('BulkActionsEditPage component', () => {
 
       await fillUpdateValueJson(user, {
         ShortName: 'NASA/GSFC',
-        LongName: 'Goddard'
+        LongName: 'Goddard',
+        Roles: ['ARCHIVER']
       })
 
       await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
@@ -891,7 +1160,8 @@ describe('BulkActionsEditPage component', () => {
 
       await fillUpdateValueJson(user, {
         ShortName: 'NASA/GSFC',
-        LongName: 'Goddard'
+        LongName: 'Goddard',
+        Roles: ['ARCHIVER']
       })
 
       const submitButton = screen.getByRole('button', { name: 'Submit Bulk Action' })
@@ -918,7 +1188,8 @@ describe('BulkActionsEditPage component', () => {
 
       await fillUpdateValueJson(user, {
         ShortName: 'NASA/GSFC',
-        LongName: 'Goddard'
+        LongName: 'Goddard',
+        Roles: ['ARCHIVER']
       })
 
       await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
@@ -944,7 +1215,8 @@ describe('BulkActionsEditPage component', () => {
 
       await fillUpdateValueJson(user, {
         ShortName: 'NASA/GSFC',
-        LongName: 'Goddard'
+        LongName: 'Goddard',
+        Roles: ['ARCHIVER']
       })
 
       await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
@@ -972,7 +1244,8 @@ describe('BulkActionsEditPage component', () => {
 
       await fillUpdateValueJson(user, {
         ShortName: 'NASA/GSFC',
-        LongName: 'Goddard'
+        LongName: 'Goddard',
+        Roles: ['ARCHIVER']
       })
 
       await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
@@ -1027,7 +1300,8 @@ describe('BulkActionsEditPage component', () => {
 
       await fillUpdateValueJson(user, {
         ShortName: 'NASA/GSFC',
-        LongName: 'Goddard'
+        LongName: 'Goddard',
+        Roles: ['ARCHIVER']
       })
 
       await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
@@ -1144,8 +1418,14 @@ describe('BulkActionsEditPage component', () => {
       )
 
       await fillUpdateValueJson(user, [
-        { ShortName: 'NASA/JPL' },
-        { ShortName: 'NASA/MSFC' }
+        {
+          ShortName: 'NASA/JPL',
+          Roles: ['ARCHIVER']
+        },
+        {
+          ShortName: 'NASA/MSFC',
+          Roles: ['ARCHIVER']
+        }
       ])
 
       await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))

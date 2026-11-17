@@ -9,8 +9,12 @@ import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
  * PLATFORMS are confirmed against a live response; the rest are schema-derived but untested).
  *
  * `updateValueFields` mirrors the flat shape CMR's examples use for `updateValue`, plus one
- * confirmed nested case -- Platforms'/Instruments' `Characteristics`. Data Centers' deeper
- * ContactInformation nesting isn't exposed.
+ * confirmed nested case -- Platforms'/Instruments' `Characteristics`. Platforms' own nested
+ * `Instruments`, and Data Centers' `ContactGroups`/`ContactPersons`/`ContactInformation`,
+ * aren't exposed either -- CLEAR_ALL_AND_REPLACE/FIND_AND_REPLACE on either field will
+ * replace the whole matched entry per CMR's docs, so using either there drops whichever of
+ * these an existing entry had. Accepted as a known gap rather than disabling those action
+ * types for these fields.
  *
  * Keyed by concept type (the same string as the `:type` route param) under BULK_UPDATE_CONFIG,
  * so a second concept type -- once CMR offers bulk-update for it, likely via its own mutation
@@ -23,6 +27,7 @@ import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
  * @property {'text'|'number'|'select'|'multiselect'|'nested-array'} type The kind of value this field holds.
  * @property {String[]} [options] The selectable values, present when type is 'select' or 'multiselect'.
  * @property {BulkUpdateValueField[]} [fields] The sub-fields of one entry, present when type is 'nested-array'.
+ * @property {Boolean} [requiredWhenReplacing] Whether CMR's UMM-C schema requires this field whenever the action type submits a whole new/replaced entry (see buildUpdateValueJsonSchema) -- not enforced for a partial-merge action type (FIND_AND_UPDATE), since the existing entry already has a valid value.
  */
 
 /**
@@ -193,7 +198,11 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
     updateValueFields: [
       {
         key: 'ShortName',
-        type: 'text'
+        type: 'text',
+        // DataCenterType's own UMM-C required fields are `['Roles', 'ShortName']` -- a
+        // replaced/new Data Center entry missing ShortName would fail CMR's validation on
+        // submit.
+        requiredWhenReplacing: true
       },
       {
         key: 'LongName',
@@ -202,7 +211,10 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
       {
         key: 'Roles',
         type: 'multiselect',
-        options: ['ARCHIVER', 'DISTRIBUTOR', 'PROCESSOR', 'ORIGINATOR']
+        options: ['ARCHIVER', 'DISTRIBUTOR', 'PROCESSOR', 'ORIGINATOR'],
+        // DataCenterType's own UMM-C required fields are `['Roles', 'ShortName']` -- a
+        // replaced/new Data Center entry missing Roles would fail CMR's validation on submit.
+        requiredWhenReplacing: true
       }
     ]
   },
@@ -227,7 +239,10 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
     updateValueFields: [
       {
         key: 'ShortName',
-        type: 'text'
+        type: 'text',
+        // PlatformType's own UMM-C required fields are `['ShortName']` -- a replaced/new
+        // Platform entry missing ShortName would fail CMR's validation on submit.
+        requiredWhenReplacing: true
       },
       {
         key: 'Type',
@@ -263,7 +278,10 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
     updateValueFields: [
       {
         key: 'ShortName',
-        type: 'text'
+        type: 'text',
+        // InstrumentType's own UMM-C required fields are `['ShortName']` -- a replaced/new
+        // Instrument entry missing ShortName would fail CMR's validation on submit.
+        requiredWhenReplacing: true
       },
       {
         key: 'LongName',
