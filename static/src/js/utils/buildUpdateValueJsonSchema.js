@@ -55,8 +55,8 @@ const fieldToSchema = ({
  *
  * Per CMR's docs, `updateValue` "could be an array of objects" for those types -- "could",
  * not "must". So `allowMultiple` widens the schema to accept either a single entry or an
- * array, rather than requiring the array form. `allowMultiple` also decides whether any
- * `requiredWhenReplacing` field is actually required (see `fields`).
+ * array, rather than requiring the array form. `allowMultiple` also decides how strictly any
+ * `ummRequired` field is enforced (see `fields`).
  *
  * @param {import('../constants/bulkUpdateFields').BulkUpdateValueField[]} fields
  * @param {Boolean} allowMultiple
@@ -64,36 +64,47 @@ const fieldToSchema = ({
 const buildUpdateValueJsonSchema = (fields, allowMultiple) => {
   const properties = Object.fromEntries(fields.map((field) => [field.key, fieldToSchema(field)]))
 
-  // A field marked `requiredWhenReplacing` (e.g. Data Centers' Roles) must be present with at
-  // least one real value whenever this action type submits a whole new/replaced entry
-  // (allowMultiple -- ADD_TO_EXISTING/CLEAR_ALL_AND_REPLACE/FIND_AND_REPLACE): CMR's UMM-C
-  // schema requires that field on the entry, so a blank one would fail CMR's own validation
-  // after submit instead of being caught here first. Not enforced for FIND_AND_UPDATE's
-  // partial merge, where the existing entry already has a valid value.
-  const requiredKeys = allowMultiple
-    ? fields.filter(({ requiredWhenReplacing }) => requiredWhenReplacing).map(({ key }) => key)
-    : []
+  const ummRequiredKeys = fields
+    .filter(({ ummRequired }) => ummRequired)
+    .map(({ key }) => key)
 
-  requiredKeys.forEach((key) => {
+  // A field marked `ummRequired` (e.g. Data Centers' Roles) must be present with at least one
+  // real value whenever this action type submits a whole new/replaced entry (allowMultiple --
+  // ADD_TO_EXISTING/CLEAR_ALL_AND_REPLACE/FIND_AND_REPLACE): CMR's UMM-C schema requires that
+  // field on the entry, so a blank one would fail CMR's own validation after submit instead
+  // of being caught here first. Not enforced for FIND_AND_UPDATE's partial merge, where
+  // leaving it at its unfilled skeleton default just means "don't touch it"
+  // (stripUnfilledUpdateValueFields drops it before submit) -- the existing entry already
+  // has a valid value for it.
+  const requiredKeys = allowMultiple ? ummRequiredKeys : []
+
+  ummRequiredKeys.forEach((key) => {
     const propertySchema = properties[key]
 
     // `required` only checks that the key is present -- an explicit `null` still satisfies
     // it (and still matches this field's nullable `type`), so without this a null value would
     // silently bypass required-ness entirely, the same way it would otherwise bypass the
-    // `minItems` below. A genuinely required field has to have a real value, not null.
+    // `minItems` below. A genuinely required field has to have a real value, not null -- and
+    // this holds even under FIND_AND_UPDATE: null means "actively remove it" (unlike leaving
+    // it blank/untouched), which would leave the entry without a field CMR requires it to have.
     const { type } = propertySchema
     const nonNullType = Array.isArray(type) ? type.filter((t) => t !== 'null') : type
     const resolvedType = nonNullType.length === 1 ? nonNullType[0] : nonNullType
+
+    const isEnforced = requiredKeys.includes(key)
 
     properties[key] = {
       ...propertySchema,
       type: resolvedType,
       ...(propertySchema.enum && { enum: propertySchema.enum.filter((value) => value !== null) }),
-      ...(propertySchema.items && { minItems: 1 }),
+      // Beyond rejecting null, presence and a real (non-blank) value are only enforced when
+      // this action type actually submits a whole new/replaced entry (requiredKeys above) --
+      // FIND_AND_UPDATE still allows a blank/untouched value, just not an explicit null.
+      ...(isEnforced && propertySchema.items && { minItems: 1 }),
       // A required string field (text or select) still needs a real value -- `required`
       // only checks the key is present, and `type: 'string'` matches an empty string too, so
       // without this an untouched '' skeleton default would silently pass as "filled in".
-      ...(resolvedType === 'string' && { minLength: 1 })
+      ...(isEnforced && resolvedType === 'string' && { minLength: 1 })
     }
   })
 

@@ -455,7 +455,7 @@ describe('BulkActionsEditPage component', () => {
 
       await waitFor(() => {
         expect(screen.getByRole('tooltip')).toHaveTextContent(
-          'Delete a key or leave it blank to keep the existing value. Set it to null to remove it.'
+          "Delete a key or leave it blank to keep the existing value. Set it to null to remove it -- except a key marked required, which must always have a real value and can't be set to null."
         )
       })
     })
@@ -1060,7 +1060,7 @@ describe('BulkActionsEditPage component', () => {
       expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
     })
 
-    test('does not block Submit for a partial-merge action type', async () => {
+    test('does not block Submit when Roles is left blank/untouched instead of nulled', async () => {
       const { user } = setup()
 
       await user.click(screen.getByRole('button', { name: 'Select collection' }))
@@ -1075,6 +1075,23 @@ describe('BulkActionsEditPage component', () => {
       await fillUpdateValueJson(user, { LongName: 'Goddard Space Flight Center' })
 
       expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
+    })
+
+    test('blocks Submit under a partial-merge action type too, since null is never valid for a required field', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'NASA/GSFC'
+      )
+
+      await fillUpdateValueJson(user, { Roles: null })
+
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
     })
   })
 
@@ -1103,7 +1120,7 @@ describe('BulkActionsEditPage component', () => {
       expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
     })
 
-    test('does not block Submit for a partial-merge action type', async () => {
+    test('blocks Submit under a partial-merge action type too, since null is never valid for a required field', async () => {
       const { user } = setup()
 
       await user.click(screen.getByRole('button', { name: 'Select collection' }))
@@ -1116,6 +1133,23 @@ describe('BulkActionsEditPage component', () => {
       )
 
       await fillUpdateValueJson(user, { ShortName: null })
+
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
+    })
+
+    test('does not block Submit when ShortName is left blank/untouched instead of nulled', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'NASA/GSFC'
+      )
+
+      await fillUpdateValueJson(user, { LongName: 'Goddard Space Flight Center' })
 
       expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
     })
@@ -1141,7 +1175,7 @@ describe('BulkActionsEditPage component', () => {
       expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
     })
 
-    test('does not block Submit for a partial-merge action type', async () => {
+    test('blocks Submit under a partial-merge action type too, since null is never valid for a required field', async () => {
       const { user } = setup()
 
       await user.click(screen.getByRole('button', { name: 'Select collection' }))
@@ -1154,6 +1188,23 @@ describe('BulkActionsEditPage component', () => {
       )
 
       await fillUpdateValueJson(user, { ShortName: null })
+
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
+    })
+
+    test('does not block Submit when ShortName is left blank/untouched instead of nulled', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'PLATFORMS')
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'A340-600'
+      )
+
+      await fillUpdateValueJson(user, { LongName: 'Airbus A340-600' })
 
       expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
     })
@@ -1178,7 +1229,7 @@ describe('BulkActionsEditPage component', () => {
       expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
     })
 
-    test('does not block Submit for a partial-merge action type', async () => {
+    test('blocks Submit under a partial-merge action type too, since null is never valid for a required field', async () => {
       const { user } = setup()
 
       await user.click(screen.getByRole('button', { name: 'Select collection' }))
@@ -1191,6 +1242,23 @@ describe('BulkActionsEditPage component', () => {
       )
 
       await fillUpdateValueJson(user, { ShortName: null })
+
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
+    })
+
+    test('does not block Submit when ShortName is left blank/untouched instead of nulled', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'INSTRUMENTS')
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'ATM'
+      )
+
+      await fillUpdateValueJson(user, { LongName: 'Airborne Topographic Mapper' })
 
       expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
     })

@@ -127,7 +127,7 @@ describe('buildUpdateValueJsonSchema', () => {
     })
   })
 
-  describe('a requiredWhenReplacing field (e.g. Data Centers\' Roles)', () => {
+  describe('an ummRequired field (e.g. Data Centers\' Roles)', () => {
     const fields = [
       {
         key: 'ShortName',
@@ -137,7 +137,7 @@ describe('buildUpdateValueJsonSchema', () => {
         key: 'Roles',
         type: 'multiselect',
         options: ['ARCHIVER', 'DISTRIBUTOR'],
-        requiredWhenReplacing: true
+        ummRequired: true
       }
     ]
 
@@ -208,6 +208,29 @@ describe('buildUpdateValueJsonSchema', () => {
       expect(getUpdateValueJsonErrors(value, schema)).toEqual([])
     })
 
+    test('under a partial-merge action type (allowMultiple false), still rejects an explicit null for the required field but accepts it blank/untouched', () => {
+      const schema = buildUpdateValueJsonSchema(fields, false)
+
+      // Null means "actively remove it" -- CMR would reject a matched entry left without a
+      // field it requires, same as it would for a replacing action type.
+      const nulledValue = JSON.stringify({
+        ShortName: 'ASF',
+        Roles: null
+      })
+      expect(getUpdateValueJsonErrors(nulledValue, schema)).not.toEqual([])
+
+      // Blank/missing means "don't touch it" -- the existing entry already has a valid
+      // value, and stripUnfilledUpdateValueFields drops it before submission anyway.
+      const blankValue = JSON.stringify({
+        ShortName: 'ASF',
+        Roles: []
+      })
+      expect(getUpdateValueJsonErrors(blankValue, schema)).toEqual([])
+
+      const untouchedValue = JSON.stringify({ ShortName: 'ASF' })
+      expect(getUpdateValueJsonErrors(untouchedValue, schema)).toEqual([])
+    })
+
     test('rejects a blank string for a required text field, unlike a non-required one', () => {
       // `required` only checks the key is present, and `type: 'string'` matches '' too, so
       // without minLength:1 an untouched ShortName skeleton default ('') would silently pass.
@@ -215,7 +238,7 @@ describe('buildUpdateValueJsonSchema', () => {
         {
           key: 'ShortName',
           type: 'text',
-          requiredWhenReplacing: true
+          ummRequired: true
         },
         {
           key: 'LongName',
@@ -244,7 +267,7 @@ describe('buildUpdateValueJsonSchema', () => {
           key: 'DataType',
           type: 'select',
           options: ['STRING', 'INT'],
-          requiredWhenReplacing: true
+          ummRequired: true
         }
       ]
 
@@ -257,13 +280,17 @@ describe('buildUpdateValueJsonSchema', () => {
       })
     })
 
-    test('is not required when allowMultiple is false (a partial-merge action type)', () => {
+    test('is not required when allowMultiple is false (a partial-merge action type), but still rejects null', () => {
       expect(buildUpdateValueJsonSchema(fields, false)).toEqual({
         type: 'object',
         properties: {
           ShortName: { type: ['string', 'null'] },
+          // Not required (no `required` array, no minItems) -- a blank/untouched Roles is
+          // fine under FIND_AND_UPDATE. Still non-nullable, though: an explicit null would
+          // leave the matched entry without a field CMR requires it to have, same as for a
+          // replacing action type.
           Roles: {
-            type: ['array', 'null'],
+            type: 'array',
             items: {
               type: 'string',
               enum: ['ARCHIVER', 'DISTRIBUTOR']

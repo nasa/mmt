@@ -27,7 +27,7 @@ import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
  * @property {'text'|'number'|'select'|'multiselect'|'nested-array'} type The kind of value this field holds.
  * @property {String[]} [options] The selectable values, present when type is 'select' or 'multiselect'.
  * @property {BulkUpdateValueField[]} [fields] The sub-fields of one entry, present when type is 'nested-array'.
- * @property {Boolean} [requiredWhenReplacing] Whether CMR's UMM-C schema requires this field whenever the action type submits a whole new/replaced entry (see buildUpdateValueJsonSchema) -- not enforced for a partial-merge action type (FIND_AND_UPDATE), since the existing entry already has a valid value.
+ * @property {Boolean} [ummRequired] Whether CMR's UMM-C schema requires this field on the entry (see buildUpdateValueJsonSchema). An action type that submits a whole new/replaced entry must provide a real, non-blank value for it; a partial-merge action type (FIND_AND_UPDATE) may still leave it blank/untouched, but never set it to null -- either way would leave an entry without a field CMR requires it to have.
  */
 
 /**
@@ -199,10 +199,10 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
       {
         key: 'ShortName',
         type: 'text',
-        // DataCenterType's own UMM-C required fields are `['Roles', 'ShortName']` -- a
-        // replaced/new Data Center entry missing ShortName would fail CMR's validation on
-        // submit.
-        requiredWhenReplacing: true
+        // DataCenterType's own UMM-C required fields are `['Roles', 'ShortName']` -- CMR
+        // would reject a Data Center entry that's missing ShortName (when this action type
+        // submits a whole new/replaced entry) or that has it explicitly set to null (always).
+        ummRequired: true
       },
       {
         key: 'LongName',
@@ -212,9 +212,10 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
         key: 'Roles',
         type: 'multiselect',
         options: ['ARCHIVER', 'DISTRIBUTOR', 'PROCESSOR', 'ORIGINATOR'],
-        // DataCenterType's own UMM-C required fields are `['Roles', 'ShortName']` -- a
-        // replaced/new Data Center entry missing Roles would fail CMR's validation on submit.
-        requiredWhenReplacing: true
+        // DataCenterType's own UMM-C required fields are `['Roles', 'ShortName']` -- CMR
+        // would reject a Data Center entry that's missing Roles (when this action type
+        // submits a whole new/replaced entry) or that has it explicitly set to null (always).
+        ummRequired: true
       }
     ]
   },
@@ -240,9 +241,10 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
       {
         key: 'ShortName',
         type: 'text',
-        // PlatformType's own UMM-C required fields are `['ShortName']` -- a replaced/new
-        // Platform entry missing ShortName would fail CMR's validation on submit.
-        requiredWhenReplacing: true
+        // PlatformType's own UMM-C required fields are `['ShortName']` -- CMR would reject a
+        // Platform entry that's missing ShortName (when this action type submits a whole
+        // new/replaced entry) or that has it explicitly set to null (always).
+        ummRequired: true
       },
       {
         key: 'Type',
@@ -279,9 +281,10 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
       {
         key: 'ShortName',
         type: 'text',
-        // InstrumentType's own UMM-C required fields are `['ShortName']` -- a replaced/new
-        // Instrument entry missing ShortName would fail CMR's validation on submit.
-        requiredWhenReplacing: true
+        // InstrumentType's own UMM-C required fields are `['ShortName']` -- CMR would reject
+        // an Instrument entry that's missing ShortName (when this action type submits a
+        // whole new/replaced entry) or that has it explicitly set to null (always).
+        ummRequired: true
       },
       {
         key: 'LongName',
