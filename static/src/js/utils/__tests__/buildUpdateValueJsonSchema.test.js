@@ -208,6 +208,36 @@ describe('buildUpdateValueJsonSchema', () => {
       expect(getUpdateValueJsonErrors(value, schema)).toEqual([])
     })
 
+    test('rejects a blank string for a required text field, unlike a non-required one', () => {
+      // `required` only checks the key is present, and `type: 'string'` matches '' too, so
+      // without minLength:1 an untouched ShortName skeleton default ('') would silently pass.
+      const textFields = [
+        {
+          key: 'ShortName',
+          type: 'text',
+          requiredWhenReplacing: true
+        },
+        {
+          key: 'LongName',
+          type: 'text'
+        }
+      ]
+
+      const schema = buildUpdateValueJsonSchema(textFields, true)
+
+      const requiredBlank = JSON.stringify({
+        ShortName: '',
+        LongName: 'Foo'
+      })
+      expect(getUpdateValueJsonErrors(requiredBlank, schema)).not.toEqual([])
+
+      const nonRequiredBlank = JSON.stringify({
+        ShortName: 'ASF',
+        LongName: ''
+      })
+      expect(getUpdateValueJsonErrors(nonRequiredBlank, schema)).toEqual([])
+    })
+
     test('also strips null from a required select field\'s enum', () => {
       const selectFields = [
         {
@@ -222,7 +252,8 @@ describe('buildUpdateValueJsonSchema', () => {
 
       expect(entrySchema.properties.DataType).toEqual({
         type: 'string',
-        enum: ['STRING', 'INT']
+        enum: ['STRING', 'INT'],
+        minLength: 1
       })
     })
 

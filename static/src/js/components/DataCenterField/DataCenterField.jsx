@@ -62,11 +62,32 @@ const DataCenterField = ({ onChange, formData }) => {
 
   const onHandleMouseDown = (value) => selectShortName(value)
 
+  const onHandleClear = () => {
+    setShowMenu(false)
+    setShouldFocus(false)
+
+    onChange({
+      ShortName: '',
+      LongName: ''
+    })
+  }
+
   // React-select's own keyboard selection (arrow keys + Enter) and its native clear "x" both
   // call the Select's onChange directly -- a separate path from the custom Option's
   // onMouseDown below, which only ever fires on a pointer click. Without this, either one
-  // silently selects nothing.
-  const onHandleChange = (option) => selectShortName(option?.value ?? '')
+  // silently selects nothing. An absent/empty value (the blank option, or the native clear
+  // "x") goes through onHandleClear instead of selectShortName's provider lookup -- that
+  // lookup would otherwise crash if the provider fetch had failed (providersResponse still
+  // null), for no benefit anyway, since no real provider has an empty short_name to match.
+  const onHandleChange = (option) => {
+    if (!option?.value) {
+      onHandleClear()
+
+      return
+    }
+
+    selectShortName(option.value)
+  }
 
   const onHandleFocus = () => {
     setShowMenu(true)
@@ -76,16 +97,6 @@ const DataCenterField = ({ onChange, formData }) => {
   const onHandleBlur = () => {
     setShowMenu(false)
     setShouldFocus(false)
-  }
-
-  const onHandleClear = () => {
-    setShowMenu(false)
-    setShouldFocus(false)
-
-    onChange({
-      ShortName: '',
-      LongName: ''
-    })
   }
 
   const displaySelectOption = (value) => (

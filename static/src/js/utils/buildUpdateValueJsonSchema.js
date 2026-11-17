@@ -83,12 +83,17 @@ const buildUpdateValueJsonSchema = (fields, allowMultiple) => {
     // `minItems` below. A genuinely required field has to have a real value, not null.
     const { type } = propertySchema
     const nonNullType = Array.isArray(type) ? type.filter((t) => t !== 'null') : type
+    const resolvedType = nonNullType.length === 1 ? nonNullType[0] : nonNullType
 
     properties[key] = {
       ...propertySchema,
-      type: nonNullType.length === 1 ? nonNullType[0] : nonNullType,
+      type: resolvedType,
       ...(propertySchema.enum && { enum: propertySchema.enum.filter((value) => value !== null) }),
-      ...(propertySchema.items && { minItems: 1 })
+      ...(propertySchema.items && { minItems: 1 }),
+      // A required string field (text or select) still needs a real value -- `required`
+      // only checks the key is present, and `type: 'string'` matches an empty string too, so
+      // without this an untouched '' skeleton default would silently pass as "filled in".
+      ...(resolvedType === 'string' && { minLength: 1 })
     }
   })
 

@@ -155,6 +155,27 @@ describe('DataCenterField', () => {
       expect(await screen.findByText('Clear Short Name')).toBeInTheDocument()
       expect(screen.queryByText('ASF')).not.toBeInTheDocument()
     })
+
+    test('selecting the blank option via the keyboard calls onChange instead of crashing', async () => {
+      const onChange = vi.fn()
+      fetchCmrKeywords.mockResolvedValue(null)
+
+      render(<DataCenterField formData={{}} onChange={onChange} />)
+
+      const user = userEvent.setup()
+      const select = screen.getByRole('combobox')
+      await user.click(select)
+
+      // With providersResponse still null (the fetch never succeeded), selectShortName's own
+      // getKeywords lookup would throw destructuring it -- onHandleChange has to route this
+      // blank selection through onHandleClear instead, which never touches providersResponse.
+      await user.keyboard('{ArrowDown}{Enter}')
+
+      expect(onChange).toHaveBeenCalledWith({
+        ShortName: '',
+        LongName: ''
+      })
+    })
   })
 
   describe('when a user selects the clear option', () => {
