@@ -308,7 +308,13 @@ const BulkActionsControlledValuePicker = ({
       'ui:title': '',
       // Only here, not in the real collection form -- a parent keyword level is directly
       // selectable the same way a leaf is, instead of only navigable into.
-      'ui:selectable_parents': true
+      'ui:selectable_parents': true,
+      // In single-value mode, `entries` below is only ever the one entry being replaced, not
+      // an accumulating list -- KeywordPicker's own "already added" check would otherwise
+      // reject replacing that entry with one of its own ancestors or descendants (e.g.
+      // replacing a selected CLOUDS with its parent ATMOSPHERE), since their paths overlap.
+      // Append mode keeps the check, since there a real duplicate is still possible.
+      'ui:skip_duplicate_check': !allowMultiple
     }
 
     const { entries, onChange: handlePick } = buildPickerProps(entryKeys)

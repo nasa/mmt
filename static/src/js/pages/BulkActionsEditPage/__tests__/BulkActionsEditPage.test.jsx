@@ -696,6 +696,60 @@ describe('BulkActionsEditPage component', () => {
       ], null, 2))
     })
 
+    test('adding a Science Keyword that is the parent of an already-added one adds it as a second, separate entry', async () => {
+      useControlledKeywords.mockReturnValue({
+        keywords: {
+          category: [
+            {
+              value: 'EARTH SCIENCE',
+              subfields: ['topic'],
+              topic: [
+                {
+                  value: 'ATMOSPHERE',
+                  subfields: ['term'],
+                  term: [
+                    { value: 'CLOUDS' }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        isLoading: false
+      })
+
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'ADD_TO_EXISTING')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
+
+      await user.click(screen.getByRole('link', { name: 'View EARTH SCIENCE' }))
+      await user.click(screen.getByRole('link', { name: 'View ATMOSPHERE' }))
+      await user.click(screen.getByRole('checkbox', { name: 'CLOUDS' }))
+      await user.click(screen.getByRole('button', { name: 'add' }))
+
+      // ATMOSPHERE is CLOUDS' own parent -- its path is a prefix of the already-added
+      // CLOUDS entry's path, which used to be mistaken for the same keyword and rejected.
+      // They're two distinct keywords, so adding ATMOSPHERE here must not be a no-op.
+      await user.click(screen.getByRole('link', { name: 'EARTH SCIENCE' }))
+      await user.click(screen.getByRole('link', { name: 'View EARTH SCIENCE' }))
+      await user.click(screen.getByRole('checkbox', { name: 'ATMOSPHERE' }))
+      await user.click(screen.getByRole('button', { name: 'add' }))
+
+      expect(screen.getByLabelText('updateValue JSON')).toHaveValue(JSON.stringify([
+        {
+          Category: 'EARTH SCIENCE',
+          Topic: 'ATMOSPHERE',
+          Term: 'CLOUDS'
+        },
+        {
+          Category: 'EARTH SCIENCE',
+          Topic: 'ATMOSPHERE'
+        }
+      ], null, 2))
+    })
+
     test('labels the Science Keywords submit button "Select Keyword" for Find and Update, since picking again replaces rather than adds', async () => {
       useControlledKeywords.mockReturnValue({
         keywords: {
@@ -719,6 +773,60 @@ describe('BulkActionsEditPage component', () => {
       await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
 
       expect(screen.getByRole('button', { name: 'add' })).toHaveTextContent('Select Keyword')
+    })
+
+    test('replacing a picked Science Keyword with its own parent actually replaces it', async () => {
+      useControlledKeywords.mockReturnValue({
+        keywords: {
+          category: [
+            {
+              value: 'EARTH SCIENCE',
+              subfields: ['topic'],
+              topic: [
+                {
+                  value: 'ATMOSPHERE',
+                  subfields: ['term'],
+                  term: [
+                    { value: 'CLOUDS' }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        isLoading: false
+      })
+
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
+
+      await user.click(screen.getByRole('link', { name: 'View EARTH SCIENCE' }))
+      await user.click(screen.getByRole('link', { name: 'View ATMOSPHERE' }))
+      await user.click(screen.getByRole('checkbox', { name: 'CLOUDS' }))
+      await user.click(screen.getByRole('button', { name: 'add' }))
+
+      expect(screen.getByLabelText('updateValue JSON')).toHaveValue(JSON.stringify({
+        Category: 'EARTH SCIENCE',
+        Topic: 'ATMOSPHERE',
+        Term: 'CLOUDS'
+      }, null, 2))
+
+      // ATMOSPHERE is CLOUDS' own parent -- its path ("EARTH SCIENCE>ATMOSPHERE") is a
+      // substring of the already-picked CLOUDS entry's path, which is exactly what
+      // KeywordPicker's own "already added" check would otherwise reject in this
+      // single-value "replace" mode, leaving the stale CLOUDS pick in place.
+      await user.click(screen.getByRole('link', { name: 'EARTH SCIENCE' }))
+      await user.click(screen.getByRole('link', { name: 'View EARTH SCIENCE' }))
+      await user.click(screen.getByRole('checkbox', { name: 'ATMOSPHERE' }))
+      await user.click(screen.getByRole('button', { name: 'add' }))
+
+      expect(screen.getByLabelText('updateValue JSON')).toHaveValue(JSON.stringify({
+        Category: 'EARTH SCIENCE',
+        Topic: 'ATMOSPHERE'
+      }, null, 2))
     })
 
     test('picking a Platform Short Name writes it (and its auto-filled Type/LongName) into the updateValue JSON', async () => {

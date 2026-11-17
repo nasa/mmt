@@ -26,7 +26,11 @@ import LoadingBanner from '../LoadingBanner/LoadingBanner'
  * @property {Object} uiSchema A uiSchema for the field being shown. `ui:add_button_label`
  * overrides the submit button's text (default 'Add Keyword'). `ui:selectable_parents`
  * (default false) makes a non-leaf item selectable the same way a leaf is (a checkbox,
- * toggling the pick), instead of only navigable into its children.
+ * toggling the pick), instead of only navigable into its children. `ui:skip_duplicate_check`
+ * (default false) disables rejecting a pick that's already represented in `formData` --
+ * for a single-value "replace" usage (not this component's usual append-to-a-list one),
+ * where `formData` holds only the one entry being replaced, that same "already added" check
+ * would otherwise block replacing it with one of its own ancestors or descendants.
  * @property {Boolean} required Is the field required.
  */
 
@@ -47,6 +51,7 @@ const KeywordPicker = ({
   const schemeValues = uiSchema['ui:scheme_values']
   const addButtonLabel = uiSchema['ui:add_button_label'] || 'Add Keyword'
   const selectableParents = uiSchema['ui:selectable_parents'] || false
+  const skipDuplicateCheck = uiSchema['ui:skip_duplicate_check'] || false
   const [keywordList, setKeywordList] = useState([])
   const [currentList, setCurrentList] = useState([])
   const [selectedKeywords, setSelectedKeywords] = useState([])
@@ -190,17 +195,16 @@ const KeywordPicker = ({
     setCurrentSelected(finalList.splice(1))
   }
 
-  // Iterates over formData and checks if the keywords has already been added.
-  const isKeywordAdded = (keyword) => {
-    let found = false
-    formData.forEach((item) => {
-      if (Object.values(item).join('>').includes(keyword.join('>'))) {
-        found = true
-      }
-    })
-
-    return found
-  }
+  // Iterates over formData and checks if this exact keyword has already been added. Compares
+  // by schemeValues position (not a joined-string `.includes()`, as this used to), since an
+  // ancestor and a descendant (e.g. ATMOSPHERE and ATMOSPHERE > CLOUDS) are two different,
+  // both legitimately addable keywords, not duplicates of each other just because one path
+  // is a prefix of the other.
+  const isKeywordAdded = (keyword) => (
+    !skipDuplicateCheck && formData.some((item) => (
+      schemeValues.every((schemeKey, index) => item[schemeKey] === keyword[index])
+    ))
+  )
 
   // This is a helper function that will add the selected keywords in the desired format
   // Example: "ToolCategory": "EARTH SCIENCE SERVICES",
@@ -559,7 +563,8 @@ KeywordPicker.propTypes = {
     'ui:keyword_scheme_column_names': PropTypes.arrayOf(PropTypes.string),
     'ui:includeRecommendedKeywords': PropTypes.bool,
     'ui:add_button_label': PropTypes.string,
-    'ui:selectable_parents': PropTypes.bool
+    'ui:selectable_parents': PropTypes.bool,
+    'ui:skip_duplicate_check': PropTypes.bool
   }).isRequired,
   schema: PropTypes.shape({
     description: PropTypes.string.isRequired

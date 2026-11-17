@@ -290,6 +290,94 @@ describe('KeywordPicker', () => {
         ])
       })
     })
+
+    describe('when the selected keyword is an ancestor of an already-added one', () => {
+      test('adds it as its own distinct entry, instead of rejecting it as a duplicate', async () => {
+        const { props, user } = setup({
+          formData: [{
+            ToolCategory: 'EARTH SCIENCE SERVICES',
+            ToolTopic: 'DATA ANALYSIS AND VISUALIZATION',
+            ToolTerm: 'CALIBRATION/VALIDATION'
+          }]
+        })
+
+        const earthScienceServiceNav = screen.getByRole('link', { name: 'View EARTH SCIENCE SERVICES' })
+        await user.click(earthScienceServiceNav)
+
+        // DATA ANALYSIS AND VISUALIZATION is CALIBRATION/VALIDATION's own parent -- its path
+        // is a prefix of the already-added entry's path, which a joined-string `.includes()`
+        // check would mistake for the same keyword. It's a different, separately meaningful
+        // keyword, so it must still be addable alongside the existing one.
+        const dataAnalysisCheckbox = screen.getByRole('checkbox', { name: 'DATA ANALYSIS AND VISUALIZATION' })
+        await user.click(dataAnalysisCheckbox)
+
+        const addKeyword = screen.getAllByRole('button')[1]
+        await user.click(addKeyword)
+
+        expect(props.onChange).toHaveBeenCalledWith([
+          {
+            ToolCategory: 'EARTH SCIENCE SERVICES',
+            ToolTopic: 'DATA ANALYSIS AND VISUALIZATION',
+            ToolTerm: 'CALIBRATION/VALIDATION'
+          },
+          {
+            ToolCategory: 'EARTH SCIENCE SERVICES',
+            ToolTopic: 'DATA ANALYSIS AND VISUALIZATION',
+            ToolTerm: undefined,
+            ToolSpecificTerm: undefined
+          }
+        ])
+      })
+    })
+
+    describe('when ui:skip_duplicate_check is set (bulk actions\' single-value "replace" usage)', () => {
+      test('adds a pick that would otherwise be rejected as already added', async () => {
+        const { props, user } = setup({
+          formData: [{
+            ToolCategory: 'EARTH SCIENCE SERVICES',
+            ToolTopic: 'DATA ANALYSIS AND VISUALIZATION',
+            ToolTerm: 'CALIBRATION/VALIDATION'
+          }],
+          uiSchema: {
+            'ui:field': 'keywordPicker',
+            'ui:filter': 'EARTH SCIENCE SERVICES',
+            'ui:keyword_scheme': 'science_keywords',
+            'ui:keyword_scheme_column_names': ['toolkeywords', 'category', 'topic', 'term', 'variable_level_1', 'variable_level_2', 'variable_level_3'],
+            'ui:picker_title': 'TOOL KEYWORD',
+            'ui:scheme_values': ['ToolCategory', 'ToolTopic', 'ToolTerm', 'ToolSpecificTerm'],
+            'ui:title': 'Tool Keyword',
+            'ui:selectable_parents': true,
+            'ui:skip_duplicate_check': true
+          }
+        })
+
+        const earthScienceServiceNav = screen.getByRole('link', { name: 'View EARTH SCIENCE SERVICES' })
+        await user.click(earthScienceServiceNav)
+
+        const dataAnalysisNav = screen.getByRole('link', { name: 'View DATA ANALYSIS AND VISUALIZATION' })
+        await user.click(dataAnalysisNav)
+
+        const calibrationCheckbox = screen.getByRole('checkbox', { name: 'CALIBRATION/VALIDATION' })
+        await user.click(calibrationCheckbox)
+
+        const addKeyword = screen.getAllByRole('button')[1]
+        await user.click(addKeyword)
+
+        expect(props.onChange).toHaveBeenCalledWith([
+          {
+            ToolCategory: 'EARTH SCIENCE SERVICES',
+            ToolTopic: 'DATA ANALYSIS AND VISUALIZATION',
+            ToolTerm: 'CALIBRATION/VALIDATION'
+          },
+          {
+            ToolCategory: 'EARTH SCIENCE SERVICES',
+            ToolTopic: 'DATA ANALYSIS AND VISUALIZATION',
+            ToolTerm: 'CALIBRATION/VALIDATION',
+            ToolSpecificTerm: undefined
+          }
+        ])
+      })
+    })
   })
 
   describe('when uiSchema does not have ui:filter option', () => {
