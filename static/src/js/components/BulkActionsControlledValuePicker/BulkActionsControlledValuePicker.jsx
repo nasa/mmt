@@ -117,9 +117,7 @@ const ENTRY_FIELDS = {
   },
   DATA_CENTERS: {
     renderField: ({ formData, onChange, updateValueFields }) => {
-      const { options: rolesOptions = [] } = (
-        updateValueFields.find(({ key }) => key === 'Roles') ?? {}
-      )
+      const { options: rolesOptions } = updateValueFields.find(({ key }) => key === 'Roles')
 
       return (
         <>
