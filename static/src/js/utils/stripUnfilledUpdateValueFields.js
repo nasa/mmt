@@ -1,5 +1,8 @@
 // '', 0 and [] are the blank/unfilled default values for a text, number, and array field.
-const isUnfilledPlaceholder = (fieldValue) => (
+// Exported so BulkActionsControlledValuePicker's own placeholder-entry detection (deciding
+// which picker entries to hide) agrees with what gets stripped here at submit -- otherwise
+// the two definitions of "unfilled" could drift apart with nothing to catch it.
+export const isUnfilledPlaceholder = (fieldValue) => (
   fieldValue === ''
   || fieldValue === 0
   || (Array.isArray(fieldValue) && fieldValue.length === 0)

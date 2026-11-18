@@ -2,14 +2,13 @@ import validator from '@rjsf/validator-ajv8'
 
 /**
  * Validates updateValue JSON text against its JSON Schema (see buildUpdateValueJsonSchema).
- * The schemas built for updateValue never declare `required`, so there's no need to filter
- * that kind of noise out of ajv's errors.
  *
- * `oneOf` is different: action types that support multiple entries get a
- * `oneOf: [entry, array-of-entry]` schema, and ajv reports every failing branch plus a
- * generic "must match exactly one schema in oneOf" summary for one real mistake. Only the
- * branch matching what was actually submitted (object vs array) is kept; the summary is
- * always dropped.
+ * `oneOf` needs special handling: action types that support multiple entries get a
+ * `oneOf: [entry, array-of-entry]` schema, and ajv reports every failing branch -- including
+ * a `required` violation from a `ummRequired` field (e.g. Data Centers' Roles) on the branch
+ * that actually matches what was submitted -- plus a generic "must match exactly one schema
+ * in oneOf" summary for one real mistake. Only the branch matching what was actually
+ * submitted (object vs array) is kept; the summary is always dropped.
  *
  * @param {String} text The updateValue JSON text to validate.
  * @param {Object} schema The JSON Schema built by buildUpdateValueJsonSchema.

@@ -49,7 +49,8 @@ const Wrapper = ({
   initialEntries,
   onChange,
   allowMultiple,
-  addButtonLabel
+  addButtonLabel,
+  requiredKeys
 }) => {
   const [entries, setEntries] = useState(initialEntries)
 
@@ -64,6 +65,7 @@ const Wrapper = ({
       }
       allowMultiple={allowMultiple}
       entryKeys={['ShortName', 'LongName', 'Roles']}
+      requiredKeys={requiredKeys}
       renderPicker={
         ({ formData, onChange: setPending }) => (
           <StubPicker formData={formData} onChange={setPending} />
@@ -79,15 +81,22 @@ Wrapper.propTypes = {
   initialEntries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onChange: PropTypes.func.isRequired,
   allowMultiple: PropTypes.bool,
-  addButtonLabel: PropTypes.string
+  addButtonLabel: PropTypes.string,
+  requiredKeys: PropTypes.arrayOf(PropTypes.string)
 }
 
 Wrapper.defaultProps = {
   allowMultiple: true,
-  addButtonLabel: undefined
+  addButtonLabel: undefined,
+  requiredKeys: []
 }
 
-const setup = (initialEntries = [], addButtonLabel = undefined, allowMultiple = true) => {
+const setup = (
+  initialEntries = [],
+  addButtonLabel = undefined,
+  allowMultiple = true,
+  requiredKeys = []
+) => {
   const onChange = vi.fn()
   const user = userEvent.setup()
 
@@ -97,6 +106,7 @@ const setup = (initialEntries = [], addButtonLabel = undefined, allowMultiple = 
       onChange={onChange}
       addButtonLabel={addButtonLabel}
       allowMultiple={allowMultiple}
+      requiredKeys={requiredKeys}
     />
   )
 
@@ -137,6 +147,58 @@ describe('BulkActionsControlledEntryList', () => {
     }])
 
     expect(screen.getByText((text) => text.startsWith('pending:') && text.trim() === 'pending:')).toBeInTheDocument()
+  })
+
+  describe('when a pending pick matches an existing entry on every required key', () => {
+    test('keeps Add disabled instead of adding a duplicate', async () => {
+      const { user } = setup([{
+        ShortName: 'ASF',
+        LongName: 'Alaska Satellite Facility'
+      }], undefined, true, ['ShortName'])
+
+      await user.click(screen.getByRole('button', { name: 'Pick ASF' }))
+
+      expect(screen.getByRole('button', { name: 'add' })).toBeDisabled()
+    })
+
+    test('does not block a pick whose required key differs from every existing entry', async () => {
+      const { user } = setup([{
+        ShortName: 'LARC',
+        LongName: 'Langley Research Center'
+      }], undefined, true, ['ShortName'])
+
+      await user.click(screen.getByRole('button', { name: 'Pick ASF' }))
+
+      expect(screen.getByRole('button', { name: 'add' })).not.toBeDisabled()
+    })
+
+    test('does not apply in single-value (replace) mode, where every commit replaces the one entry', async () => {
+      const { user } = setup([{
+        ShortName: 'ASF',
+        LongName: 'Alaska Satellite Facility'
+      }], 'Select', false, ['ShortName'])
+
+      await user.click(screen.getByRole('button', { name: 'Pick ASF' }))
+
+      expect(screen.getByRole('button', { name: 'add' })).not.toBeDisabled()
+    })
+  })
+
+  describe('when a required key is picked but another required key is still blank', () => {
+    // Roles alone shouldn't be enough to enable Add when ShortName is also required --
+    // committing it would add an entry that looks blank in the list (no ShortName/LongName
+    // to show) and would only fail Submit's own validation later.
+    test('keeps Add disabled until every required key has a value', async () => {
+      const { user } = setup([], undefined, true, ['ShortName', 'Roles'])
+
+      await user.click(screen.getByRole('button', { name: 'Pick Roles' }))
+
+      expect(screen.getByRole('button', { name: 'add' })).toBeDisabled()
+
+      await user.click(screen.getByRole('button', { name: 'Pick ASF' }))
+
+      expect(screen.getByRole('button', { name: 'add' })).not.toBeDisabled()
+    })
   })
 
   describe('in single-value (replace) mode', () => {

@@ -6,7 +6,7 @@ import {
   waitFor
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createRoutesStub } from 'react-router'
+import { createRoutesStub, Link } from 'react-router'
 
 import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
 import {
@@ -281,12 +281,23 @@ const SelectionCountObserver = () => {
   )
 }
 
+// Cancel no longer navigates away (it only clears the field/action-type selection) -- a few
+// tests still need some way to actually leave the edit page, the same way a sidebar link
+// would in production. Rendered alongside the page itself (not as a sibling of the router),
+// since Link needs to be inside the Router's own tree to work.
+const EditPageWithLeaveLink = () => (
+  <>
+    <BulkActionsEditPage />
+    <Link to="/collections">Leave edit page</Link>
+  </>
+)
+
 // A data router stub, rather than a plain MemoryRouter, since BulkActionsEditPage renders
 // BulkActionsEditNavigationGuard, which uses useBlocker -- only supported by data routers.
 const Stub = createRoutesStub([
   {
     path: '/:type/bulk-actions/edit',
-    Component: BulkActionsEditPage
+    Component: EditPageWithLeaveLink
   },
   {
     path: '/:type',
@@ -398,8 +409,10 @@ describe('BulkActionsEditPage component', () => {
       expect(screen.getByTestId('selection-count')).toHaveTextContent('0')
 
       // The Undo toast (rendered outside the routed page, as in production) outlives the
-      // page itself -- leaving before clicking it exercises exactly that window.
-      await user.click(screen.getByRole('button', { name: 'Cancel' }))
+      // page itself -- leaving before clicking it exercises exactly that window. Cancel no
+      // longer leaves the page, so this uses a plain link instead (standing in for a
+      // sidebar link, like in production) to actually trigger the unmount.
+      await user.click(screen.getByRole('link', { name: 'Leave edit page' }))
       await screen.findByText('All Collections page')
 
       await user.click(screen.getByRole('button', { name: 'Undo' }))
@@ -1012,6 +1025,115 @@ describe('BulkActionsEditPage component', () => {
         Roles: ['ARCHIVER', 'DISTRIBUTOR']
       }, null, 2))
     })
+
+    test('picking only Roles, without a Short Name, keeps Add disabled instead of adding a blank-looking entry', async () => {
+      fetchCmrKeywords.mockResolvedValue({
+        short_name: [{
+          value: 'ASF',
+          subfields: ['long_name'],
+          long_name: [{ value: 'Alaska Satellite Facility' }]
+        }]
+      })
+
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'ADD_TO_EXISTING')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
+
+      // DataCenterField's own Short Name select is also a combobox -- Roles' is the one
+      // rendered after it, so it's always the last of the two.
+      await user.click(screen.getAllByRole('combobox').at(-1))
+      await user.click(screen.getByRole('option', { name: 'ARCHIVER' }))
+
+      // ShortName is required too (alongside Roles) -- picking only Roles must not be enough
+      // to add an entry, since it would show up in the list with no ShortName/LongName to
+      // display and would only fail Submit's own validation later.
+      expect(screen.getByRole('button', { name: 'add' })).toBeDisabled()
+
+      await user.click(await screen.findByText('Select Short Name'))
+      await user.click(await screen.findByText('ASF'))
+
+      expect(screen.getByRole('button', { name: 'add' })).not.toBeDisabled()
+
+      await user.click(screen.getByRole('button', { name: 'add' }))
+
+      expect(screen.getByLabelText('updateValue JSON')).toHaveValue(JSON.stringify([
+        {
+          ShortName: 'ASF',
+          LongName: 'Alaska Satellite Facility',
+          Roles: ['ARCHIVER']
+        }
+      ], null, 2))
+    })
+
+    test('picking the same Short Name and Roles as an already-added entry keeps Add disabled', async () => {
+      fetchCmrKeywords.mockResolvedValue({
+        short_name: [{
+          value: 'ASF',
+          subfields: ['long_name'],
+          long_name: [{ value: 'Alaska Satellite Facility' }]
+        }]
+      })
+
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'ADD_TO_EXISTING')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
+
+      await user.click(await screen.findByText('Select Short Name'))
+      await user.click(await screen.findByText('ASF'))
+      await user.click(screen.getAllByRole('combobox').at(-1))
+      await user.click(screen.getByRole('option', { name: 'ARCHIVER' }))
+      await user.click(screen.getByRole('button', { name: 'add' }))
+
+      // ASF has already been added -- picking it again (with the same Roles) is a duplicate
+      // of an existing entry, not a second distinct one.
+      await user.click(await screen.findByText('Select Short Name'))
+      await user.click(await screen.findByText('ASF'))
+      await user.click(screen.getAllByRole('combobox').at(-1))
+      await user.click(screen.getByRole('option', { name: 'ARCHIVER' }))
+
+      expect(screen.getByRole('button', { name: 'add' })).toBeDisabled()
+    })
+
+    test('for a single-value action type, picking only Roles keeps Select disabled too, not just Add', async () => {
+      fetchCmrKeywords.mockResolvedValue({
+        short_name: [{
+          value: 'ASF',
+          subfields: ['long_name'],
+          long_name: [{ value: 'Alaska Satellite Facility' }]
+        }]
+      })
+
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
+
+      await user.click(screen.getAllByRole('combobox').at(-1))
+      await user.click(screen.getByRole('option', { name: 'ARCHIVER' }))
+
+      // The shared gating in BulkActionsControlledEntryList applies the same way regardless
+      // of allowMultiple -- picking only Roles, with no prior committed entry to carry a
+      // ShortName over from, must not be enough to commit here either.
+      expect(screen.getByRole('button', { name: 'add' })).toBeDisabled()
+
+      await user.click(await screen.findByText('Select Short Name'))
+      await user.click(await screen.findByText('ASF'))
+
+      expect(screen.getByRole('button', { name: 'add' })).not.toBeDisabled()
+
+      await user.click(screen.getByRole('button', { name: 'add' }))
+
+      expect(screen.getByLabelText('updateValue JSON')).toHaveValue(JSON.stringify({
+        ShortName: 'ASF',
+        LongName: 'Alaska Satellite Facility',
+        Roles: ['ARCHIVER']
+      }, null, 2))
+    })
   })
 
   describe('when the updateValue JSON is invalid', () => {
@@ -1437,26 +1559,55 @@ describe('BulkActionsEditPage component', () => {
     })
   })
 
-  describe('when Cancel is clicked', () => {
-    test('navigates back to All Collections', async () => {
+  describe('Cancel and Submit Bulk Action visibility', () => {
+    test('are hidden until both Target Field and Action Type are chosen', async () => {
       const { user } = setup()
 
       await user.click(screen.getByRole('button', { name: 'Select collection' }))
+
+      expect(screen.queryByRole('button', { name: 'Cancel' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Submit Bulk Action' })).not.toBeInTheDocument()
+
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'DATA_CENTERS')
+
+      // Target Field alone isn't enough -- Action Type is still blank.
+      expect(screen.queryByRole('button', { name: 'Cancel' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Submit Bulk Action' })).not.toBeInTheDocument()
+
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+
+      expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeInTheDocument()
+    })
+  })
+
+  describe('when Cancel is clicked', () => {
+    test('clears Target Field and Action Type instead of leaving the page', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectFieldAndType(user)
+
       await user.click(screen.getByRole('button', { name: 'Cancel' }))
 
-      expect(await screen.findByText('All Collections page')).toBeInTheDocument()
+      expect(screen.getByLabelText('Target Field')).toHaveValue('')
+      expect(screen.getByLabelText('Action Type')).toHaveValue('')
+
+      // Cleared back to blank, so Cancel/Submit are hidden again too.
+      expect(screen.queryByRole('button', { name: 'Cancel' })).not.toBeInTheDocument()
+      expect(screen.queryByText('All Collections page')).not.toBeInTheDocument()
     })
 
-    test('clears the collection selection', async () => {
+    test('does not clear the collection selection', async () => {
       const { user } = setup()
 
       await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectFieldAndType(user)
       expect(screen.getByTestId('selection-count')).toHaveTextContent('1')
 
       await user.click(screen.getByRole('button', { name: 'Cancel' }))
-      await screen.findByText('All Collections page')
 
-      expect(screen.getByTestId('selection-count')).toHaveTextContent('0')
+      expect(screen.getByTestId('selection-count')).toHaveTextContent('1')
     })
   })
 

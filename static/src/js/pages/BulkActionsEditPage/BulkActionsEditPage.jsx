@@ -287,9 +287,6 @@ const BulkActionsEditPage = () => {
       updateValue: getEffectiveUpdateValue()
     }
 
-    // eslint-disable-next-line no-console
-    console.log('Bulk Actions Edit Page: submitting to CMR', variables)
-
     createBulkUpdateCollectionTaskMutation({
       variables,
       onCompleted: (mutationData) => {
@@ -322,9 +319,13 @@ const BulkActionsEditPage = () => {
     navigate(`/${conceptType}/bulk-actions/${taskId}`)
   }
 
+  // Clears the in-progress field/action-type configuration instead of leaving the page --
+  // the user's collection selection is untouched, so they can pick a different field/action
+  // for the same selection rather than starting over from All Collections.
   const handleCancel = () => {
-    skipNavigationGuardRef.current = true
-    navigate(`/${conceptType}`)
+    setUpdateField('')
+    setUpdateType('')
+    resetValues()
   }
 
   // Bulk-update has no configuration for this concept type (only 'collections' exists
@@ -489,25 +490,29 @@ const BulkActionsEditPage = () => {
         </Card.Body>
       </Card>
 
-      <div className="d-flex justify-content-end mb-4">
-        <Button
-          className="me-2"
-          disabled={submitting}
-          onClick={handleCancel}
-          variant="secondary"
-        >
-          Cancel
-        </Button>
-        <Button
-          disabled={!canSubmit || submitting}
-          loading={submitting}
-          loadingText="Submitting…"
-          onClick={handleSubmit}
-          variant="primary"
-        >
-          Submit Bulk Action
-        </Button>
-      </div>
+      {
+        updateField && updateType && (
+          <div className="d-flex justify-content-end mb-4">
+            <Button
+              className="me-2"
+              disabled={submitting}
+              onClick={handleCancel}
+              variant="secondary"
+            >
+              Cancel
+            </Button>
+            <Button
+              disabled={!canSubmit || submitting}
+              loading={submitting}
+              loadingText="Submitting…"
+              onClick={handleSubmit}
+              variant="primary"
+            >
+              Submit Bulk Action
+            </Button>
+          </div>
+        )
+      }
 
       <Card className="mb-4">
         <Card.Header className="fw-bold">Selected Collections</Card.Header>

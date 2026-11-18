@@ -14,6 +14,7 @@ import CustomMultiSelectWidget from '../CustomMultiSelectWidget/CustomMultiSelec
 import PlatformField from '../PlatformField/PlatformField'
 import InstrumentField from '../InstrumentField/InstrumentField'
 import DataCenterField from '../DataCenterField/DataCenterField'
+import { isUnfilledPlaceholder } from '../../utils/stripUnfilledUpdateValueFields'
 
 // CustomMultiSelectWidget needs an rjsf `registry` for two things: `schemaUtils.retrieveSchema`
 // resolves a $ref inside `schema.items`, used only as a fallback when `schema.enum` isn't
@@ -254,13 +255,6 @@ const BulkActionsControlledValuePicker = ({
     ownKeys.every((key) => isBlankValue(entry?.[key]))
   )
 
-  // A field's unfilled skeleton default -- '', 0, or an empty array. Deliberately not plain
-  // falsiness: `null` is the user's explicit "remove this field" (see
-  // stripUnfilledUpdateValueFields), distinct from "never touched", so it must not match here.
-  const isUnfilledPlaceholder = (fieldValue) => (
-    fieldValue === '' || fieldValue === 0 || (Array.isArray(fieldValue) && fieldValue.length === 0)
-  )
-
   // A genuine placeholder entry -- the skeleton's untouched blank slot -- has nothing but
   // unfilled defaults across EVERY key, not just this field's own ownKeys. Scoping to
   // ownKeys (like isBlankPick above) would drop an entry whose own key is an explicit null,
@@ -340,6 +334,13 @@ const BulkActionsControlledValuePicker = ({
     const { renderField, entryLabel, pickedKeys } = entryField
     const { entries, onChange: handlePick } = buildPickerProps(pickedKeys)
 
+    // A picked key is required only if CMR's UMM-C schema requires it (e.g. Data Centers'
+    // ShortName/Roles) -- without gating Add/Select on this, a user could commit an entry
+    // missing one, which renders in the list as a blank-looking entry until Submit catches it.
+    const requiredKeys = pickedKeys.filter((key) => (
+      updateValueFields.find((field) => field.key === key)?.ummRequired
+    ))
+
     return (
       <Row>
         <Col md={6}>
@@ -348,6 +349,7 @@ const BulkActionsControlledValuePicker = ({
             onChange={handlePick}
             allowMultiple={allowMultiple}
             entryKeys={pickedKeys}
+            requiredKeys={requiredKeys}
             renderPicker={
               (props) => renderField({
                 ...props,

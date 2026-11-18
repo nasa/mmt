@@ -124,5 +124,30 @@ describe('getUpdateValueJsonErrors', () => {
 
       expect(getUpdateValueJsonErrors('42', schema)).toEqual(['must be object'])
     })
+
+    test('reports only the required-field error for a missing ummRequired field, not the oneOf/array noise', () => {
+      // Ajv reports this `required` violation on the matching oneOf branch (object, since
+      // the submitted value is one), plus an unrelated `type` mismatch on the other branch
+      // (array) and a generic oneOf summary -- only the first should survive filtering.
+      const requiredFields = [
+        {
+          key: 'ShortName',
+          type: 'text',
+          ummRequired: true
+        },
+        {
+          key: 'Roles',
+          type: 'multiselect',
+          options: ['ARCHIVER'],
+          ummRequired: true
+        }
+      ]
+      const schema = buildUpdateValueJsonSchema(requiredFields, true)
+      const text = JSON.stringify({ ShortName: 'ASF' })
+
+      expect(getUpdateValueJsonErrors(text, schema)).toEqual([
+        "Roles must have required property 'Roles'"
+      ])
+    })
   })
 })
