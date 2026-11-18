@@ -1,8 +1,17 @@
-import React from 'react'
+import React, {
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import classNames from 'classnames'
 import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
-import { FaCheck, FaExclamation } from 'react-icons/fa'
+import {
+  FaCheck,
+  FaCopy,
+  FaExclamation,
+  FaTimes
+} from 'react-icons/fa'
 import Button from '../Button/Button'
 
 import useNotificationsContext from '../../hooks/useNotificationsContext'
@@ -24,17 +33,81 @@ import './Notifications.scss'
  * )
  */
 const Notifications = () => {
+  const [copyStatus, setCopyStatus] = useState({})
+  const copyTimers = useRef({})
+  const mounted = useRef(false)
   const {
     hideNotification,
     notifications,
     removeNotification
   } = useNotificationsContext()
 
+  // Prevent updates from pending copies and clear reset timers on unmount.
+  useEffect(() => {
+    mounted.current = true
+
+    return () => {
+      mounted.current = false
+      Object.values(copyTimers.current).forEach(clearTimeout)
+      copyTimers.current = {}
+    }
+  }, [])
+
+  // Each notification has its own reset timer. A new result cancels its old timer.
+  // Successful copies reset after two seconds, and pending timers clear on unmount.
+  const handleCopy = async (id, message) => {
+    let status
+    try {
+      await navigator.clipboard.writeText(message)
+      status = 'copied'
+    } catch {
+      status = 'failed'
+    }
+
+    if (!mounted.current) return
+
+    clearTimeout(copyTimers.current[id])
+    delete copyTimers.current[id]
+    setCopyStatus((previous) => ({
+      ...previous,
+      [id]: status
+    }))
+
+    if (status === 'copied') {
+      copyTimers.current[id] = setTimeout(() => {
+        delete copyTimers.current[id]
+        setCopyStatus((previous) => ({
+          ...previous,
+          [id]: undefined
+        }))
+      }, 2000)
+    }
+  }
+
   return (
     <ToastContainer
       className="notifications-list p-3 position-fixed"
       position="bottom-end"
     >
+      {
+        notifications.filter(({ show }) => show).length > 1 && (
+          <div className="d-flex justify-content-end mb-2">
+            <Button
+              className="pe-auto"
+              onClick={
+                () => notifications.forEach(({ id, show }) => {
+                  if (show) hideNotification(id)
+                })
+              }
+              size="sm"
+              title="Dismiss all notifications"
+              variant="dark"
+            >
+              Dismiss All
+            </Button>
+          </div>
+        )
+      }
       <For each={notifications}>
         {
           ({
@@ -50,6 +123,9 @@ const Notifications = () => {
               danger: <FaExclamation className={iconClassNames} />
             }
             const shouldAutoHide = !(variant === 'danger')
+            let copyTitle = 'Copy this notification'
+            if (copyStatus[id] === 'copied') copyTitle = 'Copied notification message'
+            if (copyStatus[id] === 'failed') copyTitle = 'Unable to copy notification message. Try again.'
 
             // Set the default delay duration to be passed to the Toast component and the bootstrap css variable
             const delay = 4000
@@ -92,33 +168,66 @@ const Notifications = () => {
                     </span>
                     <div className="notifications-list__message">
                       {message}
+                      {
+                        copyStatus[id] === 'failed' && (
+                          <div className="text-danger mt-1">Unable to copy notification message. Try again.</div>
+                        )
+                      }
                     </div>
                   </div>
-                  {
-                    action && (
-                      <Button
-                        className="ms-2 align-self-start"
-                        onClick={
-                          () => {
-                            action.onClick()
-                            hideNotification(id)
-                          }
-                        }
-                        size="sm"
-                        variant="outline-light-dark"
-                      >
-                        {action.label}
-                      </Button>
-                    )
-                  }
-                  <Button
-                    className="notifications-list__close-button ms-2"
-                    onClick={() => hideNotification(id)}
-                    size="sm"
-                    variant="outline-light-dark"
+                  <div
+                    aria-label="Notification actions"
+                    className="d-flex ms-2 gap-1 align-items-start"
+                    role="group"
                   >
-                    Close
-                  </Button>
+                    {
+                      action && (
+                        <Button
+                          onClick={
+                            () => {
+                              action.onClick()
+                              hideNotification(id)
+                            }
+                          }
+                          size="sm"
+                          variant="outline-light-dark"
+                        >
+                          {action.label}
+                        </Button>
+                      )
+                    }
+                    <Button
+                      className="px-2"
+                      onClick={() => hideNotification(id)}
+                      size="sm"
+                      title="Dismiss this notification"
+                      variant="outline-light-dark"
+                    >
+                      <FaTimes aria-hidden="true" />
+                      <span className="visually-hidden">Close</span>
+                    </Button>
+
+                    {
+                      variant === 'danger' && (
+                        <Button
+                          className="px-2"
+                          onClick={() => handleCopy(id, message)}
+                          size="sm"
+                          title={copyTitle}
+                          variant="outline-light-dark"
+                        >
+                          {
+                            copyStatus[id] === 'copied'
+                              ? <FaCheck aria-hidden="true" />
+                              : <FaCopy aria-hidden="true" />
+                          }
+                          <span className="visually-hidden">
+                            {copyStatus[id] === 'copied' ? 'Copied' : 'Copy'}
+                          </span>
+                        </Button>
+                      )
+                    }
+                  </div>
                 </Toast.Body>
 
                 <span
