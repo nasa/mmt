@@ -37,6 +37,21 @@ const KEYWORD_UI_SCHEMAS = {
   LOCATION_KEYWORDS: spatialInformationUiSchema.LocationKeywords
 }
 
+// Falls back to describing whatever field IS set when an entry's "primary" label (built from
+// ShortName/Type/LongName) would otherwise be blank -- reachable once a partial FIND_AND_UPDATE
+// merge commits an entry that only touches a different field (e.g. Data Centers' Roles with no
+// ShortName), which would otherwise render as an empty label next to the Remove button.
+const describeAnySetField = (entry) => (
+  Object.entries(entry)
+    .filter(([, fieldValue]) => (
+      fieldValue && !(Array.isArray(fieldValue) && fieldValue.length === 0)
+    ))
+    .map(([key, fieldValue]) => (
+      `${key}: ${Array.isArray(fieldValue) ? fieldValue.join(', ') : fieldValue}`
+    ))
+    .join(', ')
+)
+
 // Config per Platforms/Instruments/Data Centers field: how to render its single-entry
 // picker, how to label one entry, and which keys the picker owns (`pickedKeys`). Anything
 // else on the field (e.g. Platforms'/Instruments' nested-array Characteristics) stays
@@ -53,9 +68,11 @@ const ENTRY_FIELDS = {
     ),
     // Ordered like the KMS hierarchy (Type above ShortName), not like `pickedKeys` -- that
     // order is for the Find/Replace With form fields, deliberately ShortName, Type, LongName.
-    entryLabel: ({ ShortName, Type, LongName }) => (
-      [Type, ShortName, LongName].filter(Boolean).join(' > ')
-    ),
+    entryLabel: (entry) => {
+      const { ShortName, Type, LongName } = entry
+
+      return [Type, ShortName, LongName].filter(Boolean).join(' > ') || describeAnySetField(entry)
+    },
     pickedKeys: ['ShortName', 'Type', 'LongName']
   },
   INSTRUMENTS: {
@@ -111,9 +128,11 @@ const ENTRY_FIELDS = {
         </Row>
       </>
     ),
-    entryLabel: ({ ShortName, LongName }) => (
-      [ShortName, LongName].filter(Boolean).join(' > ')
-    ),
+    entryLabel: (entry) => {
+      const { ShortName, LongName } = entry
+
+      return [ShortName, LongName].filter(Boolean).join(' > ') || describeAnySetField(entry)
+    },
     pickedKeys: ['ShortName', 'LongName', 'Technique', 'NumberOfInstruments']
   },
   DATA_CENTERS: {
@@ -156,9 +175,11 @@ const ENTRY_FIELDS = {
         </>
       )
     },
-    entryLabel: ({ ShortName, LongName }) => (
-      [ShortName, LongName].filter(Boolean).join(' > ')
-    ),
+    entryLabel: (entry) => {
+      const { ShortName, LongName } = entry
+
+      return [ShortName, LongName].filter(Boolean).join(' > ') || describeAnySetField(entry)
+    },
     pickedKeys: ['ShortName', 'LongName', 'Roles']
   }
 }
@@ -335,11 +356,16 @@ const BulkActionsControlledValuePicker = ({
     const { entries, onChange: handlePick } = buildPickerProps(pickedKeys)
 
     // A picked key is required only if CMR's UMM-C schema requires it (e.g. Data Centers'
-    // ShortName/Roles) -- without gating Add/Select on this, a user could commit an entry
-    // missing one, which renders in the list as a blank-looking entry until Submit catches it.
-    const requiredKeys = pickedKeys.filter((key) => (
-      updateValueFields.find((field) => field.key === key)?.ummRequired
-    ))
+    // ShortName/Roles) on a whole new/replaced entry (allowMultiple) -- without gating
+    // Add on this, a user could commit an entry missing one, which renders in the list as a
+    // blank-looking entry until Submit catches it. Mirrors buildUpdateValueJsonSchema's own
+    // gating: FIND_AND_UPDATE's partial merge doesn't require any field to be re-specified,
+    // so Select must allow committing e.g. just Roles with no ShortName there.
+    const requiredKeys = allowMultiple
+      ? pickedKeys.filter((key) => (
+        updateValueFields.find((field) => field.key === key)?.ummRequired
+      ))
+      : []
 
     return (
       <Row>

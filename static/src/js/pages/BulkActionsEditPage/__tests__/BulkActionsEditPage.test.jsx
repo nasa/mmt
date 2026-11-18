@@ -1098,7 +1098,7 @@ describe('BulkActionsEditPage component', () => {
       expect(screen.getByRole('button', { name: 'add' })).toBeDisabled()
     })
 
-    test('for a single-value action type, picking only Roles keeps Select disabled too, not just Add', async () => {
+    test('for a single-value action type, picking only Roles is enough to commit -- a partial merge does not need ShortName re-specified', async () => {
       fetchCmrKeywords.mockResolvedValue({
         short_name: [{
           value: 'ASF',
@@ -1116,23 +1116,29 @@ describe('BulkActionsEditPage component', () => {
       await user.click(screen.getAllByRole('combobox').at(-1))
       await user.click(screen.getByRole('option', { name: 'ARCHIVER' }))
 
-      // The shared gating in BulkActionsControlledEntryList applies the same way regardless
-      // of allowMultiple -- picking only Roles, with no prior committed entry to carry a
-      // ShortName over from, must not be enough to commit here either.
-      expect(screen.getByRole('button', { name: 'add' })).toBeDisabled()
-
-      await user.click(await screen.findByText('Select Short Name'))
-      await user.click(await screen.findByText('ASF'))
-
+      // FIND_AND_UPDATE only merges the fields actually specified onto the matched entry --
+      // ShortName is required for a whole new/replaced entry (allowMultiple), not here, so
+      // Select must not block committing a Roles-only pick the way Add does for those types.
       expect(screen.getByRole('button', { name: 'add' })).not.toBeDisabled()
 
       await user.click(screen.getByRole('button', { name: 'add' }))
 
       expect(screen.getByLabelText('updateValue JSON')).toHaveValue(JSON.stringify({
-        ShortName: 'ASF',
-        LongName: 'Alaska Satellite Facility',
         Roles: ['ARCHIVER']
       }, null, 2))
+
+      // The committed entry has no ShortName/LongName to show -- its label must fall back to
+      // naming the Roles it does have, rather than rendering blank next to the Remove button.
+      expect(screen.getByText('Roles: ARCHIVER')).toBeInTheDocument()
+
+      // Confirms the picker's own gating now actually agrees with Submit's validation --
+      // this was the bug: the schema already allowed this, but the picker blocked it anyway.
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'ASF'
+      )
+
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
     })
   })
 
