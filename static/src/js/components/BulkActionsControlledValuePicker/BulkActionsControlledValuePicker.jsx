@@ -117,7 +117,9 @@ const ENTRY_FIELDS = {
   },
   DATA_CENTERS: {
     renderField: ({ formData, onChange, updateValueFields }) => {
-      const { options: rolesOptions } = updateValueFields.find(({ key }) => key === 'Roles')
+      const { options: rolesOptions, ummRequired: rolesRequired } = (
+        updateValueFields.find(({ key }) => key === 'Roles')
+      )
 
       return (
         <>
@@ -141,7 +143,7 @@ const ENTRY_FIELDS = {
               })
             }
             registry={PASSTHROUGH_REGISTRY}
-            required={false}
+            required={!!rolesRequired}
             schema={
               {
                 enum: rolesOptions,

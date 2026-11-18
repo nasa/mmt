@@ -189,7 +189,8 @@ const dataCentersFieldConfig = {
     {
       key: 'Roles',
       type: 'multiselect',
-      options: ['ARCHIVER']
+      options: ['ARCHIVER'],
+      ummRequired: true
     }
   ]
 }
@@ -468,6 +469,22 @@ describe('BulkActionsControlledValuePicker', () => {
           ...orderedPick
         }, null, 2))
       })
+    })
+  })
+
+  describe('Data Centers', () => {
+    test('shows a required indicator on Roles, since it\'s marked ummRequired', () => {
+      setup({
+        fieldConfig: dataCentersFieldConfig,
+        allowMultiple: true,
+        value: '[]'
+      })
+
+      // DataCenterField (mocked above, so its own required icon for ShortName -- unit-tested
+      // separately -- doesn't render here) has nothing to do with this: Roles' indicator
+      // comes from passing its field def's `ummRequired` through as CustomMultiSelectWidget's
+      // `required` prop, not a hardcoded `required={false}`.
+      expect(screen.getByRole('img', { name: 'Required' })).toBeInTheDocument()
     })
   })
 
