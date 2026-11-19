@@ -577,7 +577,13 @@ describe('BulkActionsEditPage component', () => {
 
       expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
 
-      await fillUpdateValueJson(user, [{ Category: 'EARTH SCIENCE' }])
+      // CLEAR_ALL_AND_REPLACE submits a whole new entry, so Category alone isn't enough --
+      // ScienceKeywordType requires Category, Topic and Term together.
+      await fillUpdateValueJson(user, [{
+        Category: 'EARTH SCIENCE',
+        Topic: 'ATMOSPHERE',
+        Term: 'CLOUDS'
+      }])
 
       expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
     })
@@ -1387,6 +1393,60 @@ describe('BulkActionsEditPage component', () => {
       )
 
       await fillUpdateValueJson(user, { LongName: 'Airborne Topographic Mapper' })
+
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
+    })
+  })
+
+  describe('when a Science Keyword entry is missing Topic/Term or has a required field explicitly set to null', () => {
+    test('disables Submit for an action type that replaces the whole entry', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'CLEAR_ALL_AND_REPLACE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
+
+      // Category, Topic and Term are all required by ScienceKeywordType -- a new entry
+      // missing Topic/Term would fail CMR's validation on submit.
+      await fillUpdateValueJson(user, [{ Category: 'EARTH SCIENCE' }])
+
+      expect(screen.getByText(/Topic must have required property 'Topic'/)).toBeInTheDocument()
+      expect(screen.getByText(/Term must have required property 'Term'/)).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
+    })
+
+    test('blocks Submit under a partial-merge action type too, since null is never valid for a required field', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
+
+      await user.type(
+        screen.getByLabelText('Category', { selector: '#bulk-actions-find-value_Category' }),
+        'EARTH SCIENCE'
+      )
+
+      await fillUpdateValueJson(user, { Topic: null })
+
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).toBeDisabled()
+    })
+
+    test('does not block Submit under a partial-merge action type when Topic/Term are left blank/untouched instead of nulled', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
+
+      await user.type(
+        screen.getByLabelText('Category', { selector: '#bulk-actions-find-value_Category' }),
+        'EARTH SCIENCE'
+      )
+
+      // FIND_AND_UPDATE only merges the fields actually specified onto the matched entry --
+      // Category/Term aren't required to be re-specified alongside Topic.
+      await fillUpdateValueJson(user, { Topic: 'ATMOSPHERE' })
 
       expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
     })

@@ -102,15 +102,24 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
     updateValueFields: [
       {
         key: 'Category',
-        type: 'text'
+        type: 'text',
+        // ScienceKeywordType's own UMM-C required fields are `['Category', 'Topic', 'Term']`
+        // -- CMR would reject a Science Keyword entry that's missing Category (when this
+        // action type submits a whole new/replaced entry) or that has it explicitly set to
+        // null (always).
+        ummRequired: true
       },
       {
         key: 'Topic',
-        type: 'text'
+        type: 'text',
+        // Same as Category above -- see ScienceKeywordType's required fields.
+        ummRequired: true
       },
       {
         key: 'Term',
-        type: 'text'
+        type: 'text',
+        // Same as Category above -- see ScienceKeywordType's required fields.
+        ummRequired: true
       },
       {
         key: 'VariableLevel1',
@@ -158,7 +167,11 @@ const COLLECTION_BULK_UPDATE_FIELDS = [
     updateValueFields: [
       {
         key: 'Category',
-        type: 'text'
+        type: 'text',
+        // LocationKeywordType's own UMM-C required fields are `['Category']` -- CMR would
+        // reject a Location Keyword entry that's missing Category (when this action type
+        // submits a whole new/replaced entry) or that has it explicitly set to null (always).
+        ummRequired: true
       },
       {
         key: 'Type',
