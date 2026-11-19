@@ -13,7 +13,15 @@ const fieldToSchema = ({
   type, options, fields: nestedFields
 }) => {
   if (type === 'number') {
-    return { type: nullable('integer') }
+    // Unlike '' or [], 0 is itself a value a user might legitimately submit (e.g.
+    // NumberOfInstruments: 0), so it can't double as the "untouched skeleton default"
+    // sentinel the way they do -- '' fills that role here instead (see
+    // buildUpdateValueJsonSkeleton). `maxLength` only constrains string instances per JSON
+    // Schema, so this still leaves integer/null values unconstrained.
+    return {
+      type: [...nullable('integer'), 'string'],
+      maxLength: 0
+    }
   }
 
   if (type === 'select') {

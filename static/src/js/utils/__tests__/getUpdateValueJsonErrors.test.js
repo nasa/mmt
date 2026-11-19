@@ -106,7 +106,7 @@ describe('getUpdateValueJsonErrors', () => {
       const text = JSON.stringify({ NumberOfInstruments: 'five' })
 
       expect(getUpdateValueJsonErrors(text, schema)).toEqual([
-        '.NumberOfInstruments must be integer,null'
+        '.NumberOfInstruments must NOT have more than 0 characters'
       ])
     })
 

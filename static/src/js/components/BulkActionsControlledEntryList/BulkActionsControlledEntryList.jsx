@@ -51,18 +51,22 @@ const BulkActionsControlledEntryList = ({
     if (!allowMultiple) setPendingEntry(committedEntry)
   }, [committedEntryKey, allowMultiple])
 
+  // A key counts as unset if it's undefined/null, '', or an empty array -- plain truthiness
+  // isn't enough, since an empty array (e.g. Data Centers' untouched Roles) is still truthy,
+  // and 0 (e.g. Instruments' NumberOfInstruments) is falsy despite being a real, pickable value.
+  const isBlankValue = (fieldValue) => (
+    fieldValue === undefined
+    || fieldValue === null
+    || fieldValue === ''
+    || (Array.isArray(fieldValue) && fieldValue.length === 0)
+  )
+
   // Keep only the fields this entry type cares about (entryKeys) -- drop anything else.
   const pickedFields = entryKeys.reduce((acc, key) => {
-    if (pendingEntry[key]) acc[key] = pendingEntry[key]
+    if (!isBlankValue(pendingEntry[key])) acc[key] = pendingEntry[key]
 
     return acc
   }, {})
-
-  // A key counts as unset if it's falsy ('' or 0) or an empty array -- plain truthiness
-  // isn't enough, since an empty array (e.g. Data Centers' untouched Roles) is still truthy.
-  const isBlankValue = (fieldValue) => (
-    !fieldValue || (Array.isArray(fieldValue) && fieldValue.length === 0)
-  )
 
   // Array-valued fields (e.g. Data Centers' Roles) need a content comparison, not reference
   // equality -- and order shouldn't matter, since a multiselect's value is really a set.

@@ -143,6 +143,33 @@ const createBulkUpdateStrippedMock = {
   }
 }
 
+// Matches only if updateValue keeps NumberOfInstruments: 0 -- MockedProvider only resolves
+// this mutation if 0 survived stripping instead of being dropped as if it were the untouched
+// skeleton default.
+const createBulkUpdateInstrumentZeroMock = {
+  request: {
+    query: CREATE_BULK_UPDATE_COLLECTION_TASK,
+    variables: {
+      conceptIds: ['C1-TESTPROV'],
+      providerId: 'TESTPROV',
+      updateField: 'INSTRUMENTS',
+      updateType: 'FIND_AND_UPDATE',
+      findValue: { ShortName: 'ATM' },
+      updateValue: {
+        Technique: 'Updated',
+        NumberOfInstruments: 0
+      }
+    }
+  },
+  result: {
+    data: {
+      createBulkUpdateCollectionTask: {
+        taskId: 'BU-4444'
+      }
+    }
+  }
+}
+
 const createBulkUpdateDelayedMock = {
   ...createBulkUpdateMock,
   // Keeps the mutation pending long enough to observe the Submit button's disabled state
@@ -509,19 +536,22 @@ describe('BulkActionsEditPage component', () => {
       )
     })
 
-    test('prepopulates NumberOfInstruments as an unquoted number for Instruments', async () => {
+    test('prepopulates NumberOfInstruments as an empty string, like the other untouched fields', async () => {
       const { user } = setup()
 
       await user.click(screen.getByRole('button', { name: 'Select collection' }))
       await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_REPLACE')
       await user.selectOptions(screen.getByLabelText('Target Field'), 'INSTRUMENTS')
 
+      // Unlike the other fields' '' / [] defaults, 0 is itself a value a user might
+      // legitimately submit for NumberOfInstruments, so it can't double as the "untouched"
+      // sentinel -- '' fills that role here too, same as ShortName/LongName/Technique.
       expect(screen.getByLabelText('updateValue JSON')).toHaveValue(
         JSON.stringify([{
           ShortName: '',
           LongName: '',
           Technique: '',
-          NumberOfInstruments: 0,
+          NumberOfInstruments: '',
           Characteristics: []
         }], null, 2)
       )
@@ -619,6 +649,55 @@ describe('BulkActionsEditPage component', () => {
 
       expect(await screen.findByText('Bulk Update Submitted')).toBeInTheDocument()
       expect(screen.getByText('BU-4443')).toBeInTheDocument()
+    })
+  })
+
+  describe('when a number field is explicitly set to 0', () => {
+    test('submits it alongside the other filled-in fields, instead of silently dropping it', async () => {
+      const { user } = setup({
+        mocks: [getCollectionsMock, createBulkUpdateInstrumentZeroMock]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'INSTRUMENTS')
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'ATM'
+      )
+
+      // 0 is a real, legitimate value for NumberOfInstruments -- it must survive both
+      // schema validation and the unfilled-skeleton strip, not be treated as untouched.
+      await fillUpdateValueJson(user, {
+        Technique: 'Updated',
+        NumberOfInstruments: 0
+      })
+
+      const submitButton = screen.getByRole('button', { name: 'Submit Bulk Action' })
+      expect(submitButton).not.toBeDisabled()
+
+      await user.click(submitButton)
+
+      expect(await screen.findByText('Bulk Update Submitted')).toBeInTheDocument()
+      expect(screen.getByText('BU-4444')).toBeInTheDocument()
+    })
+
+    test('does not disable Submit for a zero-only update', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'INSTRUMENTS')
+
+      await user.type(
+        screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }),
+        'ATM'
+      )
+
+      await fillUpdateValueJson(user, { NumberOfInstruments: 0 })
+
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
     })
   })
 
@@ -1133,9 +1212,10 @@ describe('BulkActionsEditPage component', () => {
         Roles: ['ARCHIVER']
       }, null, 2))
 
-      // The committed entry has no ShortName/LongName to show -- its label must fall back to
-      // naming the Roles it does have, rather than rendering blank next to the Remove button.
-      expect(screen.getByText('Roles: ARCHIVER')).toBeInTheDocument()
+      // The committed pick has no ShortName/LongName to identify it by -- it renders no chip
+      // at all (rather than one with a confusing label), even though the pick itself is
+      // valid and already reflected in the updateValue JSON above.
+      expect(screen.queryByRole('img', { name: 'Remove' })).not.toBeInTheDocument()
 
       // Confirms the picker's own gating now actually agrees with Submit's validation --
       // this was the bug: the schema already allowed this, but the picker blocked it anyway.
@@ -1145,6 +1225,26 @@ describe('BulkActionsEditPage component', () => {
       )
 
       expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
+    })
+
+    test('for a single-value action type, picking only Technique/NumberOfInstruments renders no chip either, for the same reason', async () => {
+      const { user } = setup()
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_UPDATE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'INSTRUMENTS')
+
+      await user.type(screen.getByLabelText('Technique'), 'Updated')
+      await user.type(screen.getByLabelText('Number Of Instruments'), '3')
+      await user.click(screen.getByRole('button', { name: 'add' }))
+
+      expect(screen.getByLabelText('updateValue JSON')).toHaveValue(JSON.stringify({
+        Characteristics: [],
+        Technique: 'Updated',
+        NumberOfInstruments: 3
+      }, null, 2))
+
+      expect(screen.queryByRole('img', { name: 'Remove' })).not.toBeInTheDocument()
     })
   })
 

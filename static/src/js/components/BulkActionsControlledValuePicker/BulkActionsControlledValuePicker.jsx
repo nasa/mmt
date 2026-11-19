@@ -73,7 +73,12 @@ const ENTRY_FIELDS = {
 
       return [Type, ShortName, LongName].filter(Boolean).join(' > ') || describeAnySetField(entry)
     },
-    pickedKeys: ['ShortName', 'Type', 'LongName']
+    pickedKeys: ['ShortName', 'Type', 'LongName'],
+    // What identifies a Platform for single-value mode's "is there a pick yet" check --
+    // Type alone (e.g. just "Jet") doesn't name a specific platform the way ShortName/
+    // LongName do, so it's deliberately excluded here even though it's part of the display
+    // label above.
+    identityKeys: ['ShortName', 'LongName']
   },
   INSTRUMENTS: {
     renderField: ({ formData, onChange }) => (
@@ -133,7 +138,12 @@ const ENTRY_FIELDS = {
 
       return [ShortName, LongName].filter(Boolean).join(' > ') || describeAnySetField(entry)
     },
-    pickedKeys: ['ShortName', 'LongName', 'Technique', 'NumberOfInstruments']
+    pickedKeys: ['ShortName', 'LongName', 'Technique', 'NumberOfInstruments'],
+    // What identifies an Instrument for single-value mode's "is there a pick yet" check --
+    // a Technique/NumberOfInstruments-only pick (a valid partial FIND_AND_UPDATE merge) has
+    // nothing to identify it by, so it renders no chip rather than one labeled by whatever
+    // else happens to be set.
+    identityKeys: ['ShortName', 'LongName']
   },
   DATA_CENTERS: {
     renderField: ({ formData, onChange, updateValueFields }) => {
@@ -180,7 +190,11 @@ const ENTRY_FIELDS = {
 
       return [ShortName, LongName].filter(Boolean).join(' > ') || describeAnySetField(entry)
     },
-    pickedKeys: ['ShortName', 'LongName', 'Roles']
+    pickedKeys: ['ShortName', 'LongName', 'Roles'],
+    // What identifies a Data Center for single-value mode's "is there a pick yet" check --
+    // a Roles-only pick (a valid partial FIND_AND_UPDATE merge) has nothing to identify it
+    // by, so it renders no chip rather than one labeled "Roles: ...".
+    identityKeys: ['ShortName', 'LongName']
   }
 }
 
@@ -265,11 +279,16 @@ const BulkActionsControlledValuePicker = ({
   }
 
   // A pick is blank when none of the keys it owns (`ownKeys`) are set. A key counts as unset
-  // if it's falsy ('' or 0) or an empty array -- plain falsiness isn't enough, since an empty
-  // array (e.g. Data Centers' Roles) is still truthy. Used to drop the skeleton's blank entry
-  // from a multi-value list, and to tell whether a single-value field has a pick yet.
+  // if it's undefined/null, '', or an empty array -- plain falsiness isn't enough, since an
+  // empty array (e.g. Data Centers' Roles) is still truthy, and 0 (e.g. Instruments'
+  // NumberOfInstruments) is falsy despite being a real, pickable value. Used to drop the
+  // skeleton's blank entry from a multi-value list, and to tell whether a single-value field
+  // has a pick yet.
   const isBlankValue = (fieldValue) => (
-    !fieldValue || (Array.isArray(fieldValue) && fieldValue.length === 0)
+    fieldValue === undefined
+    || fieldValue === null
+    || fieldValue === ''
+    || (Array.isArray(fieldValue) && fieldValue.length === 0)
   )
 
   const isBlankPick = (entry, ownKeys) => (
@@ -289,8 +308,13 @@ const BulkActionsControlledValuePicker = ({
   // Builds the entries the shared list UI renders, and what its onChange does with them --
   // the only difference between multi- and single-value action types. Multi-value writes
   // the whole list back; single-value keeps only the latest pick, so picking again replaces
-  // it instead of adding to the list.
-  const buildPickerProps = (ownKeys) => {
+  // it instead of adding to the list. `identityKeys` (default ownKeys) is what decides
+  // whether a single-value pick is blank -- a partial FIND_AND_UPDATE pick that only touches
+  // a non-identifying field (e.g. Instruments' Technique, Data Centers' Roles) is still a
+  // valid, submittable pick, but with no ShortName/LongName to show, it has nothing to
+  // meaningfully render as a removable chip -- so it renders no chip at all rather than a
+  // confusing one labeled by whatever else happens to be set.
+  const buildPickerProps = (ownKeys, identityKeys = ownKeys) => {
     if (allowMultiple) {
       return {
         entries: currentArray.filter((entry) => !isPlaceholderEntry(entry)),
@@ -299,7 +323,7 @@ const BulkActionsControlledValuePicker = ({
     }
 
     return {
-      entries: isBlankPick(currentObject, ownKeys) ? [] : [currentObject],
+      entries: isBlankPick(currentObject, identityKeys) ? [] : [currentObject],
       onChange: (nextEntries) => {
         const picked = nextEntries.at(-1) ?? {}
 
@@ -352,8 +376,10 @@ const BulkActionsControlledValuePicker = ({
   const entryField = ENTRY_FIELDS[updateField]
 
   if (entryField) {
-    const { renderField, entryLabel, pickedKeys } = entryField
-    const { entries, onChange: handlePick } = buildPickerProps(pickedKeys)
+    const {
+      renderField, entryLabel, pickedKeys, identityKeys
+    } = entryField
+    const { entries, onChange: handlePick } = buildPickerProps(pickedKeys, identityKeys)
 
     // A picked key is required only if CMR's UMM-C schema requires it (e.g. Data Centers'
     // ShortName/Roles) on a whole new/replaced entry (allowMultiple) -- without gating

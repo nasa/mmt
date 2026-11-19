@@ -1,8 +1,10 @@
 // A placeholder value per field type, so the prepopulated JSON shows every key the selected
-// updateField accepts without guessing at real content on the user's behalf.
+// updateField accepts without guessing at real content on the user's behalf. A number field
+// defaults to '' rather than 0 -- unlike '' or [], 0 is itself a value a user might legitimately
+// submit (e.g. NumberOfInstruments: 0), so it can't double as the "untouched" sentinel (see
+// buildUpdateValueJsonSchema/stripUnfilledUpdateValueFields, which agree on this).
 const fieldToSkeletonValue = ({ type }) => {
   if (type === 'multiselect' || type === 'nested-array') return []
-  if (type === 'number') return 0
 
   return ''
 }

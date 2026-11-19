@@ -1,10 +1,12 @@
-// '', 0 and [] are the blank/unfilled default values for a text, number, and array field.
-// Exported so BulkActionsControlledValuePicker's own placeholder-entry detection (deciding
-// which picker entries to hide) agrees with what gets stripped here at submit -- otherwise
-// the two definitions of "unfilled" could drift apart with nothing to catch it.
+// '' and [] are the blank/unfilled default values for a text/number field and an array field
+// respectively -- a number field defaults to '' too (see buildUpdateValueJsonSkeleton), not 0,
+// since 0 is itself a value a user might legitimately submit (e.g. NumberOfInstruments: 0) and
+// so can't double as the "untouched" sentinel. Exported so BulkActionsControlledValuePicker's
+// own placeholder-entry detection (deciding which picker entries to hide) agrees with what
+// gets stripped here at submit -- otherwise the two definitions of "unfilled" could drift
+// apart with nothing to catch it.
 export const isUnfilledPlaceholder = (fieldValue) => (
   fieldValue === ''
-  || fieldValue === 0
   || (Array.isArray(fieldValue) && fieldValue.length === 0)
 )
 

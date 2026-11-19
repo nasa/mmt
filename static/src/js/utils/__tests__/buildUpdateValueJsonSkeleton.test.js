@@ -46,7 +46,7 @@ describe('buildUpdateValueJsonSkeleton', () => {
     )
   })
 
-  test('defaults a number field to 0, not a quoted string', () => {
+  test('defaults a number field to an empty string, not 0 -- 0 is itself a value a user might submit', () => {
     const fields = [
       {
         key: 'NumberOfInstruments',
@@ -55,7 +55,7 @@ describe('buildUpdateValueJsonSkeleton', () => {
     ]
 
     expect(buildUpdateValueJsonSkeleton(fields, false)).toEqual(
-      JSON.stringify({ NumberOfInstruments: 0 }, null, 2)
+      JSON.stringify({ NumberOfInstruments: '' }, null, 2)
     )
   })
 

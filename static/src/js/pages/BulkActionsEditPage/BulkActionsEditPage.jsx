@@ -256,10 +256,11 @@ const BulkActionsEditPage = () => {
 
     if (isHomePageUrlType) return buildDataCenterHomePageUrlUpdateValue(homePageUrl)
 
-    // Strip untouched skeleton placeholders ('', 0, []) before submitting -- the editor
+    // Strip untouched skeleton placeholders ('' or []) before submitting -- the editor
     // prepopulates every field with one so the user can see what's available, but CMR should
     // only ever get the fields actually filled in (an explicit `null` still goes through, as
-    // the user's way of saying "remove this field").
+    // the user's way of saying "remove this field"; a number field explicitly set to 0 also
+    // goes through, since 0 is itself a real value, not that field's unfilled placeholder).
     return stripUnfilledUpdateValueFields(parsedUpdateValue)
   }
 

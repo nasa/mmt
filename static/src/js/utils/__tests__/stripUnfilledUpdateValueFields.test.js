@@ -8,11 +8,14 @@ describe('stripUnfilledUpdateValueFields', () => {
     })).toEqual({ ShortName: 'ASF' })
   })
 
-  test('drops a key whose value is 0', () => {
+  test('keeps a key whose value is 0, since that is a real value a user might submit, not the unfilled skeleton default', () => {
     expect(stripUnfilledUpdateValueFields({
       ShortName: 'ATM',
       NumberOfInstruments: 0
-    })).toEqual({ ShortName: 'ATM' })
+    })).toEqual({
+      ShortName: 'ATM',
+      NumberOfInstruments: 0
+    })
   })
 
   test('drops a key whose value is an empty array', () => {

@@ -24,7 +24,7 @@ describe('buildUpdateValueJsonSchema', () => {
     })
   })
 
-  test('builds an integer schema for a number field', () => {
+  test('builds an integer schema for a number field, also accepting an empty string (the untouched skeleton default)', () => {
     const fields = [
       {
         key: 'NumberOfInstruments',
@@ -35,7 +35,10 @@ describe('buildUpdateValueJsonSchema', () => {
     expect(buildUpdateValueJsonSchema(fields, false)).toEqual({
       type: 'object',
       properties: {
-        NumberOfInstruments: { type: ['integer', 'null'] }
+        NumberOfInstruments: {
+          type: ['integer', 'null', 'string'],
+          maxLength: 0
+        }
       },
       additionalProperties: false
     })
