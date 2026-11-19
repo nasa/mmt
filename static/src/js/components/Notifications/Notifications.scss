@@ -24,12 +24,6 @@
     word-wrap: break-word; // Allows long words to break and wrap
   }
 
-  &__close-button {
-    flex-shrink: 0;
-    align-self: flex-start; // Aligns the button to the top
-    white-space: nowrap;
-  }
-
   &__timer {
     --timer-duration: 3000ms;
 
