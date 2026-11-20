@@ -1,0 +1,10 @@
+.bulk-actions-controlled-entry-list__entries {
+  padding-left: 1rem;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

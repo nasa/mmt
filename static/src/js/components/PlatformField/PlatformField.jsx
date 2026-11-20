@@ -4,6 +4,7 @@ import Select from 'react-select'
 import fetchCmrKeywords from '../../utils/fetchCmrKeywords'
 import parseCmrResponse from '../../utils/parseCmrResponse'
 import './PlatformField.scss'
+import '../CustomWidgetWrapper/CustomWidgetWrapper.scss'
 
 /** This is custom field found with Collections >> acquisitionInformation
  *
@@ -175,7 +176,7 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
   return (
     <div className="platform-field mb-4">
       {/* Short Name field */}
-      Short Name
+      <span className="custom-widget-wrapper__label text-gray-700">Short Name</span>
       <i className="eui-icon eui-required-o text-success required-icon ms-2" />
       <div className="mt-1">
         <Select
@@ -195,7 +196,7 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
 
       {/* Type field */}
       <div className="mt-2">
-        Type
+        <span className="custom-widget-wrapper__label text-gray-700">Type</span>
         <input
           className="platForm-field-text-field"
           name="type"
@@ -207,7 +208,7 @@ const PlatformField = ({ onChange, uiSchema, formData }) => {
 
       {/* Long Name field */}
       <div className="mt-2">
-        Long Name
+        <span className="custom-widget-wrapper__label text-gray-700">Long Name</span>
         <input
           className="platForm-field-text-field"
           name="longName"

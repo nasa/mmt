@@ -1,0 +1,139 @@
+// Every field schema accepts `null` alongside its real type by default -- that's how a user
+// explicitly removes a field's value (see stripUnfilledUpdateValueFields.js), as distinct
+// from leaving it at its unfilled skeleton default, which gets dropped instead of submitted.
+// Without this, the schema rejects `null` outright with "Expected array but received null".
+// A field that's actually required in this context has that `null` stripped back out again
+// below, since a required field can't be removed -- it has to have a non-blank value.
+const nullable = (type) => [type, 'null']
+
+// Builds a JSON Schema fragment for one BulkUpdateValueField-shaped field def (see
+// constants/bulkUpdateFields.js), so the updateValue JSON editor can offer schema-driven
+// autocomplete/hover help and flag structural errors, without hand-building a form per field.
+const fieldToSchema = ({
+  type, options, fields: nestedFields
+}) => {
+  if (type === 'number') {
+    // Unlike '' or [], 0 is itself a value a user might legitimately submit (e.g.
+    // NumberOfInstruments: 0), so it can't double as the "untouched skeleton default"
+    // sentinel the way they do -- '' fills that role here instead (see
+    // buildUpdateValueJsonSkeleton). `maxLength` only constrains string instances per JSON
+    // Schema, so this still leaves integer/null values unconstrained.
+    return {
+      type: [...nullable('integer'), 'string'],
+      maxLength: 0
+    }
+  }
+
+  if (type === 'select') {
+    return {
+      type: nullable('string'),
+      enum: [...options, null]
+    }
+  }
+
+  if (type === 'multiselect') {
+    return {
+      type: nullable('array'),
+      items: {
+        type: 'string',
+        enum: options
+      }
+    }
+  }
+
+  if (type === 'nested-array') {
+    return {
+      type: nullable('array'),
+      items: {
+        type: 'object',
+        properties: Object.fromEntries(
+          nestedFields.map((field) => [field.key, fieldToSchema(field)])
+        ),
+        additionalProperties: false
+      }
+    }
+  }
+
+  return { type: nullable('string') }
+}
+
+/**
+ * Builds the JSON Schema for the updateValue JSON editor, given the flat field defs for the
+ * selected updateField and whether the selected updateType supports an array of entries.
+ *
+ * Per CMR's docs, `updateValue` "could be an array of objects" for those types -- "could",
+ * not "must". So `allowMultiple` widens the schema to accept either a single entry or an
+ * array, rather than requiring the array form. `allowMultiple` also decides how strictly any
+ * `ummRequired` field is enforced (see `fields`).
+ *
+ * @param {import('../constants/bulkUpdateFields').BulkUpdateValueField[]} fields
+ * @param {Boolean} allowMultiple
+ */
+const buildUpdateValueJsonSchema = (fields, allowMultiple) => {
+  const properties = Object.fromEntries(fields.map((field) => [field.key, fieldToSchema(field)]))
+
+  const ummRequiredKeys = fields
+    .filter(({ ummRequired }) => ummRequired)
+    .map(({ key }) => key)
+
+  // A field marked `ummRequired` (e.g. Data Centers' Roles) must be present with a non-blank
+  // value whenever this action type submits a whole new/replaced entry (allowMultiple --
+  // ADD_TO_EXISTING/CLEAR_ALL_AND_REPLACE/FIND_AND_REPLACE): CMR's UMM-C schema requires that
+  // field on the entry, so a blank one would fail CMR's own validation after submit instead
+  // of being caught here first. Not enforced for FIND_AND_UPDATE's partial merge, where
+  // leaving it at its unfilled skeleton default just means "don't touch it"
+  // (stripUnfilledUpdateValueFields drops it before submit) -- the existing entry already
+  // has a valid value for it.
+  const requiredKeys = allowMultiple ? ummRequiredKeys : []
+
+  ummRequiredKeys.forEach((key) => {
+    const propertySchema = properties[key]
+
+    // `required` only checks that the key is present -- an explicit `null` still satisfies
+    // it (and still matches this field's nullable `type`), so without this a null value would
+    // silently bypass required-ness entirely, the same way it would otherwise bypass the
+    // `minItems` below. A genuinely required field can never be null -- and this holds even
+    // under FIND_AND_UPDATE: null means "actively remove it" (unlike leaving
+    // it blank/untouched), which would leave the entry without a field CMR requires it to have.
+    const { type } = propertySchema
+    const nonNullType = Array.isArray(type) ? type.filter((t) => t !== 'null') : type
+    const resolvedType = nonNullType.length === 1 ? nonNullType[0] : nonNullType
+
+    const isEnforced = requiredKeys.includes(key)
+
+    properties[key] = {
+      ...propertySchema,
+      type: resolvedType,
+      ...(propertySchema.enum && { enum: propertySchema.enum.filter((value) => value !== null) }),
+      // Beyond rejecting null, presence and a non-blank value are only enforced when this
+      // action type actually submits a whole new/replaced entry (requiredKeys above) --
+      // FIND_AND_UPDATE still allows a blank/untouched value, just not an explicit null.
+      ...(isEnforced && propertySchema.items && { minItems: 1 }),
+      // A required string field (text or select) still needs a non-blank value -- `required`
+      // only checks the key is present, and `type: 'string'` matches an empty string too, so
+      // without this an untouched '' skeleton default would silently pass as "filled in".
+      ...(isEnforced && resolvedType === 'string' && { minLength: 1 })
+    }
+  })
+
+  const entrySchema = {
+    type: 'object',
+    properties,
+    additionalProperties: false,
+    ...(requiredKeys.length > 0 && { required: requiredKeys })
+  }
+
+  if (!allowMultiple) return entrySchema
+
+  return {
+    oneOf: [
+      entrySchema,
+      {
+        type: 'array',
+        items: entrySchema
+      }
+    ]
+  }
+}
+
+export default buildUpdateValueJsonSchema

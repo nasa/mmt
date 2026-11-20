@@ -95,7 +95,7 @@ const CollectionSelectionBar = () => {
             Clear
           </Button>
           <Button
-            onClick={() => navigate('/collections/bulk-actions/configure')}
+            onClick={() => navigate('/collections/bulk-actions/edit')}
             variant="primary"
           >
             Continue

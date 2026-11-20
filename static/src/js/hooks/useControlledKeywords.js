@@ -37,6 +37,11 @@ const useControlledKeywords = (keywordType, schemaKeywords, controlledKeywordsMa
       return
     }
 
+    // Not yet cached for this keywordType -- clear out whatever a previous keywordType left
+    // behind, so a scheme switch (e.g. KeywordPicker going Science -> Location Keywords)
+    // never shows stale data mislabeled as the new scheme's while this fetch is in flight.
+    setRetrievedKeywords(undefined)
+
     // Fetch keywords from CMR based on the keywordType provided
     if (keywordType) {
       // Set loading to true to block out any other requests
@@ -56,7 +61,9 @@ const useControlledKeywords = (keywordType, schemaKeywords, controlledKeywordsMa
 
       cmrEnum()
     }
-  }, [keywords])
+    // `keywordType` is a dependency too, not just `keywords` -- otherwise switching it while
+    // the AppContext cache object happens not to change would never re-run this effect.
+  }, [keywords, keywordType])
 
   return {
     keywords: retrievedKeywords,

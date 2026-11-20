@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Outlet } from 'react-router'
+import {
+  Link,
+  Outlet,
+  useMatch
+} from 'react-router'
 import classNames from 'classnames'
 import Alert from 'react-bootstrap/Alert'
 import Badge from 'react-bootstrap/Badge'
@@ -53,6 +57,13 @@ const Layout = ({ className, displayNav }) => {
 
   const { bulkUpdateEnabled, displayProdWarning, env } = getApplicationConfig()
   const { user } = useAuthContext()
+
+  // Hide the sticky selection bar on the edit page itself -- its Continue/Clear duplicate
+  // what the page's own Remove/Submit buttons already do. The landing and task pages still
+  // need it (e.g. reaching the landing page via the sidebar with an existing selection).
+  // useMatch (rather than comparing pathname directly) matches the route the same way
+  // react-router itself does, so a trailing slash is recognized too.
+  const isBulkActionsEditRoute = Boolean(useMatch('/:type/bulk-actions/edit'))
 
   const { hasSystemGroup, hasSystemKeywords, loading } = usePermissions({
     systemGroup: ['read'],
@@ -139,6 +150,11 @@ const Layout = ({ className, displayNav }) => {
                                   {
                                     to: '/drafts/collections',
                                     title: 'Drafts'
+                                  },
+                                  {
+                                    to: '/collections/bulk-actions',
+                                    title: 'Bulk Actions',
+                                    visible: bulkUpdateEnabled
                                   },
                                   {
                                     to: '/templates/collections',
@@ -328,7 +344,7 @@ const Layout = ({ className, displayNav }) => {
           </main>
         </ErrorBoundary>
         {
-          bulkUpdateEnabled && (
+          bulkUpdateEnabled && !isBulkActionsEditRoute && (
             <>
               <CollectionSelectionBar />
               <CollectionSelectionNavigationGuard />

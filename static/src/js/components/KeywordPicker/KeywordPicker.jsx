@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { cloneDeep, isEmpty } from 'lodash-es'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import Button from 'react-bootstrap/Button'
-import parseCmrResponse from '../../utils/parseCmrResponse'
+import buildKeywordPaths from '../../utils/buildKeywordPaths'
 import useControlledKeywords from '../../hooks/useControlledKeywords'
 import useAccessibleEvent from '../../hooks/useAccessibleEvent'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
@@ -23,7 +23,14 @@ import LoadingBanner from '../LoadingBanner/LoadingBanner'
  * @property {Object} formData An Object with the saved metadata
  * @property {Function} onChange A callback function triggered when the user adds a keyword.
  * @property {Object} schema A UMM Schema for the widget being previewed.
- * @property {Object} uiSchema A uiSchema for the field being shown.
+ * @property {Object} uiSchema A uiSchema for the field being shown. `ui:add_button_label`
+ * overrides the submit button's text (default 'Add Keyword'). `ui:selectable_parents`
+ * (default false) makes a non-leaf item selectable the same way a leaf is (a checkbox,
+ * toggling the pick), instead of only navigable into its children. `ui:skip_duplicate_check`
+ * (default false) disables rejecting a pick that's already represented in `formData` --
+ * for a single-value "replace" usage (not this component's usual append-to-a-list one),
+ * where `formData` holds only the one entry being replaced, that same "already added" check
+ * would otherwise block replacing it with one of its own ancestors or descendants.
  * @property {Boolean} required Is the field required.
  */
 
@@ -42,6 +49,9 @@ const KeywordPicker = ({
   const title = uiSchema['ui:title']
   const includeRecommendedKeywords = uiSchema['ui:includeRecommendedKeywords'] || false
   const schemeValues = uiSchema['ui:scheme_values']
+  const addButtonLabel = uiSchema['ui:add_button_label'] || 'Add Keyword'
+  const selectableParents = uiSchema['ui:selectable_parents'] || false
+  const skipDuplicateCheck = uiSchema['ui:skip_duplicate_check'] || false
   const [keywordList, setKeywordList] = useState([])
   const [currentList, setCurrentList] = useState([])
   const [selectedKeywords, setSelectedKeywords] = useState([])
@@ -71,28 +81,26 @@ const KeywordPicker = ({
     keywords
   } = useControlledKeywords(keywordScheme)
 
+  // The same instance is reused when the caller switches scheme (e.g. bulk actions' Target
+  // Field going Science -> Location Keywords) -- React won't remount it just because
+  // `uiSchema` changed, so without this the previous scheme's breadcrumb/list stays stale
+  // until the new scheme's keywords finish loading.
+  useEffect(() => {
+    setKeywordList([])
+    setCurrentList([])
+    setSelectedKeywords([])
+    setFullPath([])
+    setFinalSelectedValue(null)
+    setCurrentSelected([])
+    setMarginTop(0)
+    setMarginLeft(0)
+  }, [keywordScheme])
+
   // If keywords are available this is create the keyword object and set it to keywordList.
   useEffect(() => {
     if (!isEmpty(keywords)) {
       setLoading(true)
-      const keywordObject = {}
-      const initialValue = uiSchema['ui:picker_title']
-      const keywordSchemeColumnNames = uiSchema['ui:keyword_scheme_column_names']
-      const initialKeyword = keywordSchemeColumnNames.at(0)
-
-      // Create formatted keywordObject with the initialValue and keywords from CMR.
-      keywordObject[initialKeyword] = [{
-        value: initialValue,
-        subfields: [keywordSchemeColumnNames.at(1)],
-        ...keywords
-      }]
-
-      let paths = parseCmrResponse(keywordObject, keywordSchemeColumnNames)
-      if (uiSchema['ui:filter']) {
-        paths = paths.filter((path) => (path[1] === uiSchema['ui:filter']))
-      }
-
-      setKeywordList(paths)
+      setKeywordList(buildKeywordPaths(keywords, uiSchema))
       setLoading(false)
     }
   }, [keywords])
@@ -166,7 +174,17 @@ const KeywordPicker = ({
 
   const isLeaf = (fullSelectedPath) => getChildren(fullSelectedPath).length === 0
 
+  // Toggles `item` as the current pick -- when `selectableParents` is on, checking its
+  // checkbox again (it's already the pick) clears it, instead of only ever being
+  // replaceable by picking something else.
   const handleSelectChildren = (item) => {
+    if (selectableParents && item === finalSelectedValue) {
+      setFinalSelectedValue(null)
+      setCurrentSelected([])
+
+      return
+    }
+
     const finalList = []
     selectedKeywords.forEach((keyword) => {
       finalList.push(keyword)
@@ -177,17 +195,16 @@ const KeywordPicker = ({
     setCurrentSelected(finalList.splice(1))
   }
 
-  // Iterates over formData and checks if the keywords has already been added.
-  const isKeywordAdded = (keyword) => {
-    let found = false
-    formData.forEach((item) => {
-      if (Object.values(item).join('>').includes(keyword.join('>'))) {
-        found = true
-      }
-    })
-
-    return found
-  }
+  // Iterates over formData and checks if this exact keyword has already been added. Compares
+  // by schemeValues position (not a joined-string `.includes()`, as this used to), since an
+  // ancestor and a descendant (e.g. ATMOSPHERE and ATMOSPHERE > CLOUDS) are two different,
+  // both legitimately addable keywords, not duplicates of each other just because one path
+  // is a prefix of the other.
+  const isKeywordAdded = (keyword) => (
+    !skipDuplicateCheck && formData.some((item) => (
+      schemeValues.every((schemeKey, index) => item[schemeKey] === keyword[index])
+    ))
+  )
 
   // This is a helper function that will add the selected keywords in the desired format
   // Example: "ToolCategory": "EARTH SCIENCE SERVICES",
@@ -211,23 +228,35 @@ const KeywordPicker = ({
     return map
   }
 
-  // When a parent element is selected, this function updates the current list by showing then next level of children.
+  // Navigates into a parent element's children. When `selectableParents` is on, this is
+  // purely navigation -- picking a parent as the current value (leaf or not) goes through
+  // handleSelectChildren instead, the same as a leaf (see displayItems), so navigating here
+  // only clears any previous pick. Otherwise (existing behavior), navigating itself updates
+  // `currentSelected` to the path just navigated into, since that's the only way a non-leaf
+  // level could ever be added.
   const handleSelectParent = (item) => {
     const fullSelectedPath = getFullSelectedPath(item)
-    let updatedList = []
-    const currentSelectedList = []
+    const updatedList = getChildren(fullSelectedPath)
 
-    updatedList = getChildren(fullSelectedPath)
+    if (selectableParents) {
+      // Also clears `currentSelected` (not just the visual pick) -- otherwise navigating
+      // away from an unsubmitted pick leaves it stale: nothing shows as checked, but
+      // clicking Add still silently submits that earlier pick.
+      setFinalSelectedValue(null)
+      setCurrentSelected([])
+    } else {
+      const currentSelectedList = []
+      selectedKeywords.forEach((keyword) => {
+        currentSelectedList.push(keyword)
+      })
 
-    selectedKeywords.forEach((keyword) => {
-      currentSelectedList.push(keyword)
-    })
+      currentSelectedList.push(item)
+      setCurrentSelected(currentSelectedList.splice(1))
+    }
 
-    currentSelectedList.push(item)
     selectedKeywords.push(item)
 
     setCurrentList(updatedList)
-    setCurrentSelected(currentSelectedList.splice(1))
     setMarginTop(-49 * (selectedKeywords.length - 1))
     setMarginLeft(49 * (selectedKeywords.length - 1))
   }
@@ -283,6 +312,7 @@ const KeywordPicker = ({
   const displayItems = (item) => {
     const fullSelectedPath = getFullSelectedPath(item)
     const isLeafNode = isLeaf(fullSelectedPath)
+    const isSelected = item === finalSelectedValue
 
     const parentAccessibleEventProps = useAccessibleEvent(() => {
       handleSelectParent(item)
@@ -292,45 +322,79 @@ const KeywordPicker = ({
       handleSelectChildren(item)
     })
 
-    if (isLeafNode) {
-      if (item === finalSelectedValue) {
+    if (!selectableParents) {
+      if (isLeafNode) {
+        if (isSelected) {
+          return (
+            // Renders a child element that is selected
+            <span
+              aria-label={item}
+              className="final-option-selected"
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...childrenAccessibleEventProps}
+            >
+              {' '}
+              {item}
+            </span>
+          )
+        }
+
         return (
-          // Renders a child element that is selected
+          // Renders a child element that is not selected
           <span
             aria-label={item}
-            className="final-option-selected"
+            className="final-option"
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...childrenAccessibleEventProps}
           >
-            {' '}
             {item}
           </span>
         )
       }
 
       return (
-        // Renders a child element that is not selected
+        // Renders a parent element
         <span
+          className="item.parent"
           aria-label={item}
-          className="final-option"
           // eslint-disable-next-line react/jsx-props-no-spreading
-          {...childrenAccessibleEventProps}
-
+          {...parentAccessibleEventProps}
         >
           {item}
         </span>
       )
     }
 
-    return (
-      // Renders a parent element
-      <span
-        className="item.parent"
-        aria-label={item}
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...parentAccessibleEventProps}
-      >
+    // Checkbox for picking this item -- identical for a leaf and a parent, so a parent is
+    // just as directly selectable instead of only reachable by navigating. Checking it again
+    // clears the pick (see handleSelectChildren).
+    const selectOption = (
+      <label className={isSelected ? 'final-option-selected' : 'final-option'}>
+        <input
+          type="checkbox"
+          checked={isSelected}
+          onChange={() => handleSelectChildren(item)}
+        />
         {item}
+      </label>
+    )
+
+    if (isLeafNode) {
+      return selectOption
+    }
+
+    return (
+      // A parent gets the same select option a leaf does, plus a separate control for
+      // navigating into its children -- its arrow comes from the :after styling a plain span
+      // already gets in eui/_nested-item-picker.scss, no new icon needed.
+      <span className="keyword-picker__item">
+        {selectOption}
+        <span
+          aria-label={`View ${item}`}
+          className="keyword-picker__navigate"
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...parentAccessibleEventProps}
+        />
       </span>
     )
   }
@@ -355,26 +419,34 @@ const KeywordPicker = ({
 
   return (
     <div className="keyword-picker">
-      <div className="mb-3 h4">
-        <span>
-          {title}
-          {
-            required ? (
-              <i
-                aria-label="Required"
-                className="eui-icon eui-required-o text-success ps-2"
-                role="img"
-              />
-            ) : ''
-          }
-        </span>
-      </div>
+      {
+        title && (
+          <div className="mb-3 h4">
+            <span>
+              {title}
+              {
+                required ? (
+                  <i
+                    aria-label="Required"
+                    className="eui-icon eui-required-o text-success ps-2"
+                    role="img"
+                  />
+                ) : ''
+              }
+            </span>
+          </div>
+        )
+      }
 
-      <div className="mb-4">
-        <span className="description-box">
-          {description}
-        </span>
-      </div>
+      {
+        description && (
+          <div className="mb-4">
+            <span className="description-box">
+              {description}
+            </span>
+          </div>
+        )
+      }
 
       {
         loading && currentList && (
@@ -458,10 +530,14 @@ const KeywordPicker = ({
               className="mt-2"
               onClick={handleSubmit}
               aria-label="add"
+              // Only in selectableParents mode -- a pick is always explicit there (a
+              // checkbox), so nothing picked means currentSelected is empty. The existing
+              // form's own navigate-to-a-level-and-click-Add behavior is unaffected.
+              disabled={selectableParents && currentSelected.length === 0}
             >
               <i className="fa-solid fa-circle-plus fa-sm" />
               {' '}
-              Add Keyword
+              {addButtonLabel}
             </Button>
           </>
         )
@@ -485,7 +561,10 @@ KeywordPicker.propTypes = {
     'ui:filter': PropTypes.string,
     'ui:scheme_values': PropTypes.arrayOf(PropTypes.string),
     'ui:keyword_scheme_column_names': PropTypes.arrayOf(PropTypes.string),
-    'ui:includeRecommendedKeywords': PropTypes.bool
+    'ui:includeRecommendedKeywords': PropTypes.bool,
+    'ui:add_button_label': PropTypes.string,
+    'ui:selectable_parents': PropTypes.bool,
+    'ui:skip_duplicate_check': PropTypes.bool
   }).isRequired,
   schema: PropTypes.shape({
     description: PropTypes.string.isRequired
