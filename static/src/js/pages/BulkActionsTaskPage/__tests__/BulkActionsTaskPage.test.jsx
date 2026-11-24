@@ -213,6 +213,21 @@ describe('BulkActionsTaskPage component', () => {
       expect(await screen.findByText('80% Complete')).toBeInTheDocument()
       expect(screen.getByText('5 Items')).toBeInTheDocument()
     })
+
+    test('renders the task-level statusMessage when present', async () => {
+      setup({
+        mocks: [buildTaskMock({ statusMessage: 'Processing collections…' })]
+      })
+
+      expect(await screen.findByText('Processing collections…')).toBeInTheDocument()
+    })
+
+    test('does not render a statusMessage paragraph when there is none', async () => {
+      setup({ mocks: [buildTaskMock({ statusMessage: null })] })
+
+      await screen.findByText('100% Complete')
+      expect(screen.queryByText('Processing collections…')).not.toBeInTheDocument()
+    })
   })
 
   describe('when there are no FAILED collections', () => {
