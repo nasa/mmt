@@ -70,7 +70,7 @@ describe('BulkActionsTaskCollectionDetails component', () => {
     expect(screen.getByText('No collections were part of this task.')).toBeInTheDocument()
   })
 
-  test('renders a row per collection, enriched with shortName/version', async () => {
+  test('renders a row per collection, with shortName/version looked up', async () => {
     const collectionStatuses = [
       buildCollectionStatus(1, { status: 'UPDATED' }),
       buildCollectionStatus(2, {

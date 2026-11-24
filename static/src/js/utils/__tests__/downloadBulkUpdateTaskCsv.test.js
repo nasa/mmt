@@ -123,7 +123,7 @@ describe('downloadBulkUpdateTaskCsv', () => {
     )
   })
 
-  test('chunks the GET_COLLECTIONS_SHORT_NAME_VERSION enrichment lookup for a large conceptId list', async () => {
+  test('chunks the GET_COLLECTIONS_SHORT_NAME_VERSION lookup for a large conceptId list', async () => {
     const apolloClient = buildApolloClient()
 
     const collectionStatuses = Array.from({ length: 151 }, (_, index) => ({
