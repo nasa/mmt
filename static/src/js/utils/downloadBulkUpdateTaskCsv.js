@@ -10,13 +10,22 @@ const CHUNK_SIZE = 150
 
 const CSV_HEADER = ['Concept ID', 'Short Name', 'Version', 'Status', 'Details']
 
-// Wraps a field in quotes (doubling any embedded quotes) only when it contains a comma,
-// quote, or newline -- per the standard CSV escaping rule, any of those would otherwise
-// corrupt the column structure or line breaks when the file is opened.
-const escapeCsvField = (value) => {
-  const text = value == null ? '' : String(value)
+// A leading =, +, -, @, tab, or carriage return is read as a formula by Excel/Sheets --
+// prefixing it with ' keeps the cell as plain text when the file is opened, which matters
+// here since shortName/statusMessage can carry values CMR didn't generate itself.
+const FORMULA_TRIGGER_PREFIX = /^[=+\-@\t\r]/
 
-  if (/[",\n]/.test(text)) {
+// Wraps a field in quotes (doubling any embedded quotes) only when it contains a comma,
+// quote, or line break (\n or \r) -- per the standard CSV escaping rule, any of those
+// would otherwise corrupt the column structure or line breaks when the file is opened.
+const escapeCsvField = (value) => {
+  let text = value == null ? '' : String(value)
+
+  if (FORMULA_TRIGGER_PREFIX.test(text)) {
+    text = `'${text}`
+  }
+
+  if (/[",\r\n]/.test(text)) {
     return `"${text.replace(/"/g, '""')}"`
   }
 

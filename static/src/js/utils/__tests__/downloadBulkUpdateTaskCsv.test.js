@@ -123,6 +123,70 @@ describe('downloadBulkUpdateTaskCsv', () => {
     )
   })
 
+  test('quotes a field containing only a carriage return', async () => {
+    const apolloClient = buildApolloClient([buildCollectionItem('C1-MMT_2', 'ShortName1', '1')])
+
+    const task = {
+      taskId: 'BU-1009',
+      collectionStatuses: [
+        {
+          conceptId: 'C1-MMT_2',
+          status: 'FAILED',
+          statusMessage: 'bad\rvalue'
+        }
+      ]
+    }
+
+    await downloadBulkUpdateTaskCsv({
+      apolloClient,
+      task
+    })
+
+    const [csv] = constructDownloadableFile.mock.calls[0]
+
+    expect(csv).toBe(
+      'Concept ID,Short Name,Version,Status,Details\n'
+      + 'C1-MMT_2,ShortName1,1,FAILED,"bad\rvalue"'
+    )
+  })
+
+  test.each([
+    ['=1+1', "'=1+1"],
+    ['+1', "'+1"],
+    ['-1', "'-1"],
+    ['@SUM(A1)', "'@SUM(A1)"],
+    ['\tvalue', "'\tvalue"],
+    ['\rvalue', '"\'\rvalue"']
+  ])(
+    "prefixes a field starting with a formula-triggering character with ' (%s)",
+    async (statusMessage, expectedField) => {
+      const apolloClient = buildApolloClient([buildCollectionItem('C1-MMT_2', 'ShortName1', '1')])
+
+      const task = {
+        taskId: 'BU-1010',
+        collectionStatuses: [
+          {
+            conceptId: 'C1-MMT_2',
+            status: 'FAILED',
+            statusMessage
+          }
+        ]
+      }
+
+      await downloadBulkUpdateTaskCsv({
+        apolloClient,
+        task
+      })
+
+      const [csv] = constructDownloadableFile.mock.calls[0]
+
+      expect(csv).toBe(
+        'Concept ID,Short Name,Version,Status,Details\n'
+        + `C1-MMT_2,ShortName1,1,FAILED,${expectedField}`
+      )
+    }
+  )
+
   test('chunks the GET_COLLECTIONS_SHORT_NAME_VERSION lookup for a large conceptId list', async () => {
     const apolloClient = buildApolloClient()
 

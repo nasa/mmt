@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link, useParams } from 'react-router'
+import {
+  Link,
+  useParams,
+  useSearchParams
+} from 'react-router'
 import {
   useApolloClient,
   useLazyQuery,
@@ -146,13 +150,32 @@ BulkActionsJobHistoryCsvButton.propTypes = {
  */
 const BulkActionsJobHistory = () => {
   const { type: conceptType } = useParams()
+  const [searchParams] = useSearchParams()
   const { providerId, setProviderId } = useAppContext()
   const { providerIds } = useAvailableProviders()
 
   const [activePage, setActivePage] = useState(1)
 
+  // "Back to All Jobs" (BulkActionsTaskPage) appends ?providerId= to return to the same
+  // provider context a task was viewed under. Sync it into the app-wide provider context
+  // once on arrival -- the dropdown and the query below both read providerId from there,
+  // not from the URL, so this is the one point where the URL can override it.
+  useEffect(() => {
+    const urlProviderId = searchParams.get('providerId')
+
+    if (urlProviderId && urlProviderId !== providerId) {
+      setProviderId(urlProviderId)
+    }
+    // Deliberately empty deps -- this is a one-time sync from the URL on arrival, not a
+    // reaction to providerId changing afterward (e.g. via the dropdown below).
+  }, [])
+
   const { data, loading, error } = useQuery(GET_BULK_UPDATE_COLLECTION_TASKS, {
     skip: !providerId,
+    // Job statuses change over time (PENDING -> COMPLETE) -- without this, switching back
+    // to a provider already viewed this session would show that stale cached list instead
+    // of the server's current one.
+    fetchPolicy: 'network-only',
     variables: {
       params: { providerId }
     }

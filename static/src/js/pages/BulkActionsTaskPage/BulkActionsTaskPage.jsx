@@ -19,12 +19,14 @@ import Page from '@/js/components/Page/Page'
 import PageHeader from '@/js/components/PageHeader/PageHeader'
 
 import useAppContext from '@/js/hooks/useAppContext'
+import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 
 import {
   GET_BULK_UPDATE_COLLECTION_TASK
 } from '@/js/operations/queries/getBulkUpdateCollectionTask'
 
 import downloadBulkUpdateTaskCsv from '@/js/utils/downloadBulkUpdateTaskCsv'
+import errorLogger from '@/js/utils/errorLogger'
 import parseError from '@/js/utils/parseError'
 
 // Per-collection statuses that count as "done" for percent complete -- a collection
@@ -79,6 +81,7 @@ BulkActionsTaskPageHeader.propTypes = {
 const BulkActionsTaskPage = () => {
   const navigate = useNavigate()
   const apolloClient = useApolloClient()
+  const { addNotification } = useNotificationsContext()
   const [downloadingCsv, setDownloadingCsv] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
   const { taskId, type: conceptType } = useParams()
@@ -151,6 +154,13 @@ const BulkActionsTaskPage = () => {
         apolloClient,
         task
       })
+    } catch (downloadError) {
+      addNotification({
+        message: 'Error downloading CSV report',
+        variant: 'danger'
+      })
+
+      errorLogger(downloadError, 'Bulk Actions Task Page: downloadBulkUpdateTaskCsv')
     } finally {
       setDownloadingCsv(false)
     }
@@ -211,7 +221,10 @@ const BulkActionsTaskPage = () => {
             .reduce((sum, terminalStatus) => sum + (countByStatus[terminalStatus] || 0), 0)
           const percentComplete = total === 0 ? 0 : Math.round((completedCount / total) * 100)
 
-          const hasFailures = failed > 0
+          // Deliberately just FAILED, not the combined `failed` tile total above --
+          // handleRetryFailed only re-selects FAILED collections, so a task with only
+          // SKIPPED ones shouldn't show a retry button that would retry nothing.
+          const hasFailedCollections = (countByStatus.FAILED || 0) > 0
 
           return (
             <>
@@ -219,7 +232,7 @@ const BulkActionsTaskPage = () => {
                 <p className="text-secondary mb-0">Monitor the progress of your bulk update.</p>
                 <div className="d-flex gap-2">
                   {
-                    hasFailures && (
+                    hasFailedCollections && (
                       <Button onClick={handleRetryFailed} variant="warning">
                         New Bulk Update from Failed
                       </Button>

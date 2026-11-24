@@ -10,18 +10,22 @@ import {
 } from 'react-router'
 
 import AppContext from '@/js/context/AppContext'
+import NotificationsContextProvider from '@/js/providers/NotificationsContextProvider/NotificationsContextProvider'
 
 import {
   GET_BULK_UPDATE_COLLECTION_TASK
 } from '@/js/operations/queries/getBulkUpdateCollectionTask'
 
 import BulkActionsTaskCollectionDetails from '@/js/components/BulkActionsTaskCollectionDetails/BulkActionsTaskCollectionDetails'
+import Notifications from '@/js/components/Notifications/Notifications'
 import downloadBulkUpdateTaskCsv from '@/js/utils/downloadBulkUpdateTaskCsv'
+import errorLogger from '@/js/utils/errorLogger'
 
 import BulkActionsTaskPage from '../BulkActionsTaskPage'
 
 vi.mock('@/js/components/BulkActionsTaskCollectionDetails/BulkActionsTaskCollectionDetails')
 vi.mock('@/js/utils/downloadBulkUpdateTaskCsv')
+vi.mock('@/js/utils/errorLogger')
 
 BulkActionsTaskCollectionDetails.mockReturnValue(<div>Collection details stub</div>)
 
@@ -93,13 +97,16 @@ const setup = ({
   render(
     <AppContext.Provider value={{ providerId: appContextProviderId }}>
       <MockedProvider mocks={mocks}>
-        <MemoryRouter initialEntries={[initialEntry]}>
-          <Routes>
-            <Route path="/:type/bulk-actions/:taskId" element={<BulkActionsTaskPage />} />
-            <Route path="/:type/bulk-actions/edit" element={<EditPageStub />} />
-            <Route path="/:type/bulk-actions" element={<div>Bulk actions landing page</div>} />
-          </Routes>
-        </MemoryRouter>
+        <NotificationsContextProvider>
+          <Notifications />
+          <MemoryRouter initialEntries={[initialEntry]}>
+            <Routes>
+              <Route path="/:type/bulk-actions/:taskId" element={<BulkActionsTaskPage />} />
+              <Route path="/:type/bulk-actions/edit" element={<EditPageStub />} />
+              <Route path="/:type/bulk-actions" element={<div>Bulk actions landing page</div>} />
+            </Routes>
+          </MemoryRouter>
+        </NotificationsContextProvider>
       </MockedProvider>
     </AppContext.Provider>
   )
@@ -215,6 +222,33 @@ describe('BulkActionsTaskPage component', () => {
       await screen.findByText('100% Complete')
       expect(screen.queryByRole('button', { name: 'New Bulk Update from Failed' })).not.toBeInTheDocument()
     })
+
+    test('does not render the button when only SKIPPED collections push the Failed tile above zero', async () => {
+      setup({
+        mocks: [
+          buildTaskMock({
+            collectionStatuses: [
+              {
+                conceptId: 'C1-MMT_2',
+                status: 'UPDATED',
+                statusMessage: null
+              },
+              {
+                conceptId: 'C2-MMT_2',
+                status: 'SKIPPED',
+                statusMessage: 'Already up to date'
+              }
+            ]
+          })
+        ]
+      })
+
+      await screen.findByText('100% Complete')
+      // SKIPPED is folded into the Failed tile for display, but handleRetryFailed only
+      // ever re-selects FAILED collections -- with none here, retrying would be a no-op.
+      expect(screen.getByText('1', { selector: '.text-danger.h4' })).toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'New Bulk Update from Failed' })).not.toBeInTheDocument()
+    })
   })
 
   describe('when there is at least one FAILED collection', () => {
@@ -267,6 +301,24 @@ describe('BulkActionsTaskPage component', () => {
 
       expect(task.taskId).toBe('BU-1005')
       expect(task.collectionStatuses).toHaveLength(2)
+    })
+
+    test('shows a notification and re-enables the button when the download fails', async () => {
+      downloadBulkUpdateTaskCsv.mockRejectedValueOnce(new Error('Download failed'))
+
+      const { user } = setup()
+
+      await screen.findByText('100% Complete')
+
+      await user.click(screen.getByRole('button', { name: 'Download CSV' }))
+
+      expect(await screen.findByText('Error downloading CSV report')).toBeInTheDocument()
+      expect(errorLogger).toHaveBeenCalledWith(
+        expect.any(Error),
+        'Bulk Actions Task Page: downloadBulkUpdateTaskCsv'
+      )
+
+      expect(screen.getByRole('button', { name: 'Download CSV' })).toBeEnabled()
     })
   })
 

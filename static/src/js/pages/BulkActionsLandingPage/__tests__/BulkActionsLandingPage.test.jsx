@@ -157,6 +157,38 @@ describe('BulkActionsLandingPage component', () => {
     })
   })
 
+  describe('when arriving with ?providerId= in the URL (e.g. Back to All Jobs)', () => {
+    test('syncs the app-wide provider context when it differs', () => {
+      const { setProviderId } = setup({
+        mocks: [buildTasksMock('MMT_2', [])],
+        providerId: 'MMT_2',
+        initialEntry: '/collections/bulk-actions?providerId=MMT_1'
+      })
+
+      expect(setProviderId).toHaveBeenCalledWith('MMT_1')
+    })
+
+    test('does not call setProviderId when the URL already matches', () => {
+      const { setProviderId } = setup({
+        mocks: [buildTasksMock('MMT_2', [])],
+        providerId: 'MMT_2',
+        initialEntry: '/collections/bulk-actions?providerId=MMT_2'
+      })
+
+      expect(setProviderId).not.toHaveBeenCalled()
+    })
+
+    test('does not call setProviderId when the URL has no providerId', () => {
+      const { setProviderId } = setup({
+        mocks: [buildTasksMock('MMT_2', [])],
+        providerId: 'MMT_2',
+        initialEntry: '/collections/bulk-actions'
+      })
+
+      expect(setProviderId).not.toHaveBeenCalled()
+    })
+  })
+
   describe('Job History', () => {
     test('shows a loading spinner, then the provider-scoped header once loaded', async () => {
       setup({ mocks: [buildTasksMock('MMT_2', [])] })
