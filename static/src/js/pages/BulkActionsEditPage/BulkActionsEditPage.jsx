@@ -6,6 +6,7 @@ import React, {
 import { useMutation } from '@apollo/client'
 import {
   Navigate,
+  useLocation,
   useNavigate,
   useParams
 } from 'react-router'
@@ -96,6 +97,7 @@ const UPDATE_VALUE_JSON_HELP_TEXT = {
  */
 const BulkActionsEditPage = () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const { type: conceptType } = useParams()
 
   const { addNotification } = useNotificationsContext()
@@ -138,6 +140,68 @@ const BulkActionsEditPage = () => {
     isUnmountedRef.current = true
     clearCollectionSelections()
   }, [clearCollectionSelections])
+
+  // Captured once on mount -- location.state isn't carried forward by this page's own
+  // navigate() calls, so re-reading it on a later render would just see undefined.
+  const retryRef = useRef(location.state?.retry ?? null)
+
+  // "New Bulk Update from Failed" (BulkActionsTaskPage) lands here with the failed
+  // collections and the original request's field/type/find/update values pre-filled, so
+  // the user can fix whatever caused the failure instead of starting over.
+  useEffect(() => {
+    const retry = retryRef.current
+
+    if (!retry) return
+
+    const {
+      conceptIds,
+      providerId,
+      updateField: retryField,
+      updateType: retryType,
+      findValue: retryFindValue,
+      updateValue: retryUpdateValue
+    } = retry
+
+    clearCollectionSelections()
+    selectCollections(conceptIds.map((conceptId) => (
+      {
+        conceptId,
+        provider: providerId
+      }
+    )))
+
+    const retryFieldConfig = getBulkUpdateFieldConfig(conceptType, retryField)
+    const retryTypeConfig = getBulkUpdateTypeConfig(conceptType, retryType)
+
+    // The field or type from the failed task may no longer exist (CMR's enum or this
+    // page's own registry can change) -- tell the user rather than silently leaving
+    // Target Field/Action Type blank with no explanation.
+    if (!retryFieldConfig || !retryTypeConfig) {
+      addNotification({
+        message: "This job's update field or action type is no longer available -- choose a new one.",
+        variant: 'danger'
+      })
+
+      return
+    }
+
+    setUpdateField(retryField)
+    setUpdateType(retryType)
+
+    setFindValue(
+      Object.fromEntries(
+        Object.entries(retryFindValue || {}).map(([key, value]) => [key, String(value)])
+      )
+    )
+
+    if (retryType === HOME_PAGE_URL_TYPE) {
+      setHomePageUrl(retryUpdateValue?.ContactInformation?.RelatedUrls?.[0]?.URL || '')
+    } else {
+      setUpdateValueJson(JSON.stringify(retryUpdateValue ?? {}, null, 2))
+    }
+    // Deliberately empty deps -- this is a one-time pre-fill from the captured ref, not a
+    // reaction to any of these values changing afterward.
+  }, [])
 
   const [createBulkUpdateCollectionTaskMutation, { loading: submitting }] = useMutation(
     CREATE_BULK_UPDATE_COLLECTION_TASK

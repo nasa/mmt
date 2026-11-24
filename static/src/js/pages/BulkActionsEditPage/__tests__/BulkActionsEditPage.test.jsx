@@ -1989,4 +1989,135 @@ describe('BulkActionsEditPage component', () => {
       )
     })
   })
+
+  describe('when arriving with a retry payload from "New Bulk Update from Failed"', () => {
+    const retryCollectionMock = {
+      request: {
+        query: GET_COLLECTIONS,
+        variables: {
+          params: {
+            conceptId: ['C9-TESTPROV'],
+            limit: 1
+          }
+        }
+      },
+      result: {
+        data: {
+          collections: {
+            count: 1,
+            items: [
+              {
+                conceptId: 'C9-TESTPROV',
+                shortName: 'ShortName9',
+                version: '1',
+                title: 'Title9',
+                provider: 'TESTPROV',
+                entryTitle: 'EntryTitle9',
+                revisionId: '1',
+                granules: { count: 0 },
+                tagDefinitions: { items: [] },
+                tags: null,
+                revisionDate: '2024-01-01T00:00:00.000Z'
+              }
+            ]
+          }
+        }
+      }
+    }
+
+    // ConceptIds/providerId are fixed to match retryCollectionMock above -- only the
+    // field/type/find/update values vary per test.
+    const buildRetryInitialEntry = (retryOverrides) => ({
+      pathname: '/collections/bulk-actions/edit',
+      state: {
+        retry: {
+          conceptIds: ['C9-TESTPROV'],
+          providerId: 'TESTPROV',
+          ...retryOverrides
+        }
+      }
+    })
+
+    test('pre-fills the selected collection, field, action type, find value, and update value', async () => {
+      setup({
+        mocks: [retryCollectionMock],
+        initialEntries: [
+          buildRetryInitialEntry({
+            updateField: 'DATA_CENTERS',
+            updateType: 'FIND_AND_REPLACE',
+            findValue: { ShortName: 'NASA/GSFC' },
+            updateValue: {
+              ShortName: 'NASA/GSFC',
+              LongName: 'Goddard'
+            }
+          })
+        ]
+      })
+
+      expect(screen.getByTestId('selection-count')).toHaveTextContent('1')
+      expect(await screen.findByText('ShortName9')).toBeInTheDocument()
+
+      expect(screen.getByLabelText('Target Field')).toHaveValue('DATA_CENTERS')
+      expect(screen.getByLabelText('Action Type')).toHaveValue('FIND_AND_REPLACE')
+
+      expect(screen.getByLabelText('ShortName', { selector: '#bulk-actions-find-value_ShortName' }))
+        .toHaveValue('NASA/GSFC')
+
+      expect(screen.getByLabelText('updateValue JSON')).toHaveValue(
+        JSON.stringify({
+          ShortName: 'NASA/GSFC',
+          LongName: 'Goddard'
+        }, null, 2)
+      )
+    })
+
+    test('pre-fills the Home Page URL field for FIND_AND_UPDATE_HOME_PAGE_URL', async () => {
+      setup({
+        mocks: [retryCollectionMock],
+        initialEntries: [
+          buildRetryInitialEntry({
+            updateField: 'DATA_CENTERS',
+            updateType: 'FIND_AND_UPDATE_HOME_PAGE_URL',
+            findValue: { ShortName: 'NASA/GSFC' },
+            updateValue: {
+              ContactInformation: {
+                RelatedUrls: [
+                  {
+                    URLContentType: 'DataCenterURL',
+                    Type: 'HOME PAGE',
+                    URL: 'https://example.gov'
+                  }
+                ]
+              }
+            }
+          })
+        ]
+      })
+
+      expect(await screen.findByLabelText('Home Page URL')).toHaveValue('https://example.gov')
+    })
+
+    test('selects the collections but leaves Target Field/Action Type blank with a notification when the retried field or type no longer resolves', async () => {
+      setup({
+        mocks: [retryCollectionMock],
+        initialEntries: [
+          buildRetryInitialEntry({
+            updateField: 'NO_LONGER_SUPPORTED_FIELD',
+            updateType: 'NO_LONGER_SUPPORTED_TYPE',
+            findValue: {},
+            updateValue: {}
+          })
+        ]
+      })
+
+      expect(screen.getByTestId('selection-count')).toHaveTextContent('1')
+
+      expect(
+        await screen.findByText("This job's update field or action type is no longer available -- choose a new one.")
+      ).toBeInTheDocument()
+
+      expect(screen.getByLabelText('Target Field')).toHaveValue('')
+      expect(screen.getByLabelText('Action Type')).toHaveValue('')
+    })
+  })
 })
