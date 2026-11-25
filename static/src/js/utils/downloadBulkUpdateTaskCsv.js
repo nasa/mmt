@@ -4,9 +4,11 @@ import {
 
 import constructDownloadableFile from '@/js/utils/constructDownloadableFile'
 
-// Keeps each shortName/version lookup bounded -- a bulk-update task's conceptIds list has
-// no documented upper bound, so one unbounded request isn't a safe assumption.
-const CHUNK_SIZE = 150
+// GET_COLLECTIONS_SHORT_NAME_VERSION's `limit` becomes CMR's own `page_size` parameter
+// (see cmr-graphql's handlePagingParams), which CMR's search API docs cap at 2000 -- a
+// chunk larger than that would have CMR silently return fewer items than conceptIds
+// requested, dropping some shortName/version lookups instead of erroring.
+const CHUNK_SIZE = 2000
 
 const CSV_HEADER = ['Concept ID', 'Short Name', 'Version', 'Status', 'Details']
 

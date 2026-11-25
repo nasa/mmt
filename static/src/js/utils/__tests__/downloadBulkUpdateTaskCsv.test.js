@@ -187,10 +187,12 @@ describe('downloadBulkUpdateTaskCsv', () => {
     }
   )
 
-  test('chunks the GET_COLLECTIONS_SHORT_NAME_VERSION lookup for a large conceptId list', async () => {
+  test('chunks the GET_COLLECTIONS_SHORT_NAME_VERSION lookup for a conceptId list larger than CMR\'s page_size max', async () => {
     const apolloClient = buildApolloClient()
 
-    const collectionStatuses = Array.from({ length: 151 }, (_, index) => ({
+    // One more than CHUNK_SIZE (CMR's documented page_size max of 2000) -- the smallest
+    // list that forces a second chunk.
+    const collectionStatuses = Array.from({ length: 2001 }, (_, index) => ({
       conceptId: `C${index}-MMT_2`,
       status: 'UPDATED',
       statusMessage: null
@@ -208,7 +210,7 @@ describe('downloadBulkUpdateTaskCsv', () => {
 
     const [[firstCall], [secondCall]] = apolloClient.query.mock.calls
 
-    expect(firstCall.variables.params.conceptId).toHaveLength(150)
+    expect(firstCall.variables.params.conceptId).toHaveLength(2000)
     expect(secondCall.variables.params.conceptId).toHaveLength(1)
   })
 })
