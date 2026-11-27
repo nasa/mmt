@@ -2364,6 +2364,52 @@ describe('BulkActionsEditPage component', () => {
       )).toBeInTheDocument()
     })
 
+    test('Copy list copies a tab-separated line per lost value, including the conceptId', async () => {
+      const { user } = setup({
+        mocks: [getCollectionsMock, getCollectionsDetailedKeywordsScienceLossMock]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectScienceClearAll(user)
+
+      await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
+
+      const dialog = await screen.findByRole('dialog')
+
+      // Accessible name combines the icon's aria-label with the visible text ("Copy" +
+      // "Copy list"), same as the swapped-in state after copying ("Checkmark" + "Copied").
+      await user.click(within(dialog).getByRole('button', { name: 'Copy Copy list' }))
+
+      expect(await navigator.clipboard.readText()).toBe(
+        [
+          'Concept ID\tShort Name\tVersion\tKeyword Path',
+          'C1-TESTPROV\tShortName1\t1\tEARTH SCIENCE > ATMOSPHERE > CLOUDS > DetailedVariable: Cloud Base Height'
+        ].join('\n')
+      )
+
+      expect(within(dialog).getByRole('button', { name: 'Checkmark Copied' })).toBeInTheDocument()
+    })
+
+    test('Copy list shows a failure message when the clipboard write rejects', async () => {
+      vi.spyOn(navigator.clipboard, 'writeText').mockRejectedValueOnce(new Error('Permission denied'))
+
+      const { user } = setup({
+        mocks: [getCollectionsMock, getCollectionsDetailedKeywordsScienceLossMock]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectScienceClearAll(user)
+
+      await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
+
+      const dialog = await screen.findByRole('dialog')
+
+      await user.click(within(dialog).getByRole('button', { name: 'Copy Copy list' }))
+
+      expect(await within(dialog).findByText('Unable to copy the list. Try again.')).toBeInTheDocument()
+      expect(within(dialog).getByRole('button', { name: 'Copy Copy list' })).toBeInTheDocument()
+    })
+
     test('words the count sentence differently for Find and Remove', async () => {
       const { user } = setup({
         mocks: [
