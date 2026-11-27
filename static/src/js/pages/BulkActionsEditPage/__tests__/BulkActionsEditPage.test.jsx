@@ -3,12 +3,16 @@ import { MockedProvider } from '@apollo/client/testing'
 import {
   render,
   screen,
-  waitFor
+  waitFor,
+  within
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createRoutesStub, Link } from 'react-router'
 
 import { GET_COLLECTIONS } from '@/js/operations/queries/getCollections'
+import {
+  GET_COLLECTIONS_DETAILED_KEYWORDS
+} from '@/js/operations/queries/getCollectionsDetailedKeywords'
 import {
   CREATE_BULK_UPDATE_COLLECTION_TASK
 } from '@/js/operations/mutations/createBulkUpdateCollectionTask'
@@ -282,6 +286,301 @@ const createBulkUpdateMultipleEntriesMock = {
   }
 }
 
+// Covers the detailed-keyword pre-submit check (MMT-4225) -- fetches scienceKeywords/
+// locationKeywords for whichever collections are selected, ahead of the actual bulk-update
+// mutation, so the page can warn if an existing DetailedVariable/DetailedLocation value
+// would be lost. Only one collection is selected for most of these.
+const getCollectionsDetailedKeywordsNoLossMock = {
+  request: {
+    query: GET_COLLECTIONS_DETAILED_KEYWORDS,
+    variables: {
+      params: {
+        conceptId: ['C1-TESTPROV'],
+        limit: 1
+      }
+    }
+  },
+  result: {
+    data: {
+      collections: {
+        items: [
+          {
+            conceptId: 'C1-TESTPROV',
+            shortName: 'ShortName1',
+            version: '1',
+            scienceKeywords: [
+              {
+                category: 'EARTH SCIENCE',
+                topic: 'ATMOSPHERE',
+                term: 'CLOUDS'
+              }
+            ],
+            locationKeywords: []
+          }
+        ]
+      }
+    }
+  }
+}
+
+const getCollectionsDetailedKeywordsScienceLossMock = {
+  request: {
+    query: GET_COLLECTIONS_DETAILED_KEYWORDS,
+    variables: {
+      params: {
+        conceptId: ['C1-TESTPROV'],
+        limit: 1
+      }
+    }
+  },
+  result: {
+    data: {
+      collections: {
+        items: [
+          {
+            conceptId: 'C1-TESTPROV',
+            shortName: 'ShortName1',
+            version: '1',
+            scienceKeywords: [
+              {
+                category: 'EARTH SCIENCE',
+                topic: 'ATMOSPHERE',
+                term: 'CLOUDS',
+                detailedVariable: 'Cloud Base Height'
+              }
+            ],
+            locationKeywords: []
+          }
+        ]
+      }
+    }
+  }
+}
+
+const getCollectionsDetailedKeywordsScienceLossDelayedMock = {
+  ...getCollectionsDetailedKeywordsScienceLossMock,
+  // Keeps the check pending long enough to observe the Submit button's "Checking
+  // collections…" state while the request is in flight.
+  delay: 50
+}
+
+const getCollectionsDetailedKeywordsLocationLossMock = {
+  request: {
+    query: GET_COLLECTIONS_DETAILED_KEYWORDS,
+    variables: {
+      params: {
+        conceptId: ['C1-TESTPROV'],
+        limit: 1
+      }
+    }
+  },
+  result: {
+    data: {
+      collections: {
+        items: [
+          {
+            conceptId: 'C1-TESTPROV',
+            shortName: 'ShortName1',
+            version: '1',
+            scienceKeywords: [],
+            locationKeywords: [
+              {
+                category: 'CONTINENT',
+                type: 'AFRICA',
+                detailedLocation: 'Sahara Desert'
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
+
+const getCollectionsDetailedKeywordsErrorMock = {
+  request: {
+    query: GET_COLLECTIONS_DETAILED_KEYWORDS,
+    variables: {
+      params: {
+        conceptId: ['C1-TESTPROV'],
+        limit: 1
+      }
+    }
+  },
+  error: new Error('An error occurred')
+}
+
+// For the "Remove N collections and submit" scenario -- two collections selected, only
+// one (C1) has a value that would be lost.
+const getCollectionsTwoMock = {
+  request: {
+    query: GET_COLLECTIONS,
+    variables: {
+      params: {
+        conceptId: ['C1-TESTPROV', 'C2-TESTPROV'],
+        limit: 2
+      }
+    }
+  },
+  result: {
+    data: {
+      collections: {
+        count: 2,
+        items: [
+          {
+            conceptId: 'C1-TESTPROV',
+            shortName: 'ShortName1',
+            version: '1',
+            title: 'Title1',
+            provider: 'TESTPROV',
+            entryTitle: 'EntryTitle1',
+            revisionId: '1',
+            granules: { count: 0 },
+            tagDefinitions: { items: [] },
+            tags: null,
+            revisionDate: '2024-01-01T00:00:00.000Z'
+          },
+          {
+            conceptId: 'C2-TESTPROV',
+            shortName: 'ShortName2',
+            version: '2',
+            title: 'Title2',
+            provider: 'TESTPROV',
+            entryTitle: 'EntryTitle2',
+            revisionId: '1',
+            granules: { count: 0 },
+            tagDefinitions: { items: [] },
+            tags: null,
+            revisionDate: '2024-01-01T00:00:00.000Z'
+          }
+        ]
+      }
+    }
+  }
+}
+
+const getCollectionsDetailedKeywordsTwoMock = {
+  request: {
+    query: GET_COLLECTIONS_DETAILED_KEYWORDS,
+    variables: {
+      params: {
+        conceptId: ['C1-TESTPROV', 'C2-TESTPROV'],
+        limit: 2
+      }
+    }
+  },
+  result: {
+    data: {
+      collections: {
+        items: [
+          {
+            conceptId: 'C1-TESTPROV',
+            shortName: 'ShortName1',
+            version: '1',
+            scienceKeywords: [
+              {
+                category: 'EARTH SCIENCE',
+                topic: 'ATMOSPHERE',
+                term: 'CLOUDS',
+                detailedVariable: 'Cloud Base Height'
+              }
+            ],
+            locationKeywords: []
+          },
+          {
+            conceptId: 'C2-TESTPROV',
+            shortName: 'ShortName2',
+            version: '2',
+            scienceKeywords: [
+              {
+                category: 'EARTH SCIENCE',
+                topic: 'ATMOSPHERE',
+                term: 'CLOUDS'
+              }
+            ],
+            locationKeywords: []
+          }
+        ]
+      }
+    }
+  }
+}
+
+const createBulkUpdateScienceClearAllMock = {
+  request: {
+    query: CREATE_BULK_UPDATE_COLLECTION_TASK,
+    variables: {
+      conceptIds: ['C1-TESTPROV'],
+      providerId: 'TESTPROV',
+      updateField: 'SCIENCE_KEYWORDS',
+      updateType: 'CLEAR_ALL_AND_REPLACE',
+      findValue: undefined,
+      updateValue: [
+        {
+          Category: 'EARTH SCIENCE',
+          Topic: 'ATMOSPHERE',
+          Term: 'CLOUDS'
+        }
+      ]
+    }
+  },
+  result: {
+    data: {
+      createBulkUpdateCollectionTask: {
+        taskId: 'BU-4450'
+      }
+    }
+  }
+}
+
+const createBulkUpdateScienceClearAllRemoveFilteredMock = {
+  request: {
+    query: CREATE_BULK_UPDATE_COLLECTION_TASK,
+    variables: {
+      conceptIds: ['C2-TESTPROV'],
+      providerId: 'TESTPROV',
+      updateField: 'SCIENCE_KEYWORDS',
+      updateType: 'CLEAR_ALL_AND_REPLACE',
+      findValue: undefined,
+      updateValue: [
+        {
+          Category: 'EARTH SCIENCE',
+          Topic: 'ATMOSPHERE',
+          Term: 'CLOUDS'
+        }
+      ]
+    }
+  },
+  result: {
+    data: {
+      createBulkUpdateCollectionTask: {
+        taskId: 'BU-4451'
+      }
+    }
+  }
+}
+
+const createBulkUpdateLocationFindAndRemoveMock = {
+  request: {
+    query: CREATE_BULK_UPDATE_COLLECTION_TASK,
+    variables: {
+      conceptIds: ['C1-TESTPROV'],
+      providerId: 'TESTPROV',
+      updateField: 'LOCATION_KEYWORDS',
+      updateType: 'FIND_AND_REMOVE',
+      findValue: { Category: 'CONTINENT' },
+      updateValue: undefined
+    }
+  },
+  result: {
+    data: {
+      createBulkUpdateCollectionTask: {
+        taskId: 'BU-4452'
+      }
+    }
+  }
+}
+
 // Pre-selects a single collection by rendering a button that calls the real context's
 // toggleCollectionSelection, mirroring the pattern used by CollectionSelectionBar's tests.
 const PreSelectCollection = () => {
@@ -293,6 +592,22 @@ const PreSelectCollection = () => {
       onClick={() => toggleCollectionSelection('C1-TESTPROV', 'TESTPROV')}
     >
       Select collection
+    </button>
+  )
+}
+
+// A second selectable collection, for tests that need more than one selected collection
+// (e.g. the detailed-keyword pre-submit check's "Remove N collections and submit" action,
+// which only excludes the affected ones rather than the whole selection).
+const PreSelectSecondCollection = () => {
+  const { toggleCollectionSelection } = useCollectionSelectionContext()
+
+  return (
+    <button
+      type="button"
+      onClick={() => toggleCollectionSelection('C2-TESTPROV', 'TESTPROV')}
+    >
+      Select second collection
     </button>
   )
 }
@@ -355,6 +670,7 @@ const setup = ({
       <NotificationsContextProvider>
         <CollectionSelectionContextProvider>
           <PreSelectCollection />
+          <PreSelectSecondCollection />
           <SelectionCountObserver />
           <Notifications />
           <Stub initialEntries={initialEntries} />
@@ -1987,6 +2303,266 @@ describe('BulkActionsEditPage component', () => {
           Roles: []
         }, null, 2)
       )
+    })
+  })
+
+  describe('the DetailedVariable/DetailedLocation pre-submit check', () => {
+    const selectScienceClearAll = async (user) => {
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'CLEAR_ALL_AND_REPLACE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
+      await fillUpdateValueJson(user, [
+        {
+          Category: 'EARTH SCIENCE',
+          Topic: 'ATMOSPHERE',
+          Term: 'CLOUDS'
+        }
+      ])
+    }
+
+    test('submits immediately, without showing the review modal, when no value would be lost', async () => {
+      const { user } = setup({
+        mocks: [
+          getCollectionsMock,
+          getCollectionsDetailedKeywordsNoLossMock,
+          createBulkUpdateScienceClearAllMock
+        ]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectScienceClearAll(user)
+
+      await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
+
+      expect(await screen.findByText('Bulk Update Submitted')).toBeInTheDocument()
+      expect(screen.queryByText('Review Before Submitting')).not.toBeInTheDocument()
+    })
+
+    test('shows "Checking collections…" while the check is in flight, then the review modal listing the affected collection', async () => {
+      const { user } = setup({
+        mocks: [getCollectionsMock, getCollectionsDetailedKeywordsScienceLossDelayedMock]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectScienceClearAll(user)
+
+      const submitButton = screen.getByRole('button', { name: 'Submit Bulk Action' })
+
+      await user.click(submitButton)
+
+      expect(screen.getByRole('button', { name: 'Checking collections…' })).toBeDisabled()
+
+      const dialog = await screen.findByRole('dialog')
+
+      expect(within(dialog).getByText('Review Before Submitting')).toBeInTheDocument()
+      expect(within(dialog).getByText(
+        '1 of 1 selected collections have DetailedVariable values that this update will permanently remove.'
+      )).toBeInTheDocument()
+
+      expect(within(dialog).getByText('ShortName1')).toBeInTheDocument()
+      expect(within(dialog).getByText(
+        'EARTH SCIENCE > ATMOSPHERE > CLOUDS > DetailedVariable: Cloud Base Height'
+      )).toBeInTheDocument()
+    })
+
+    test('words the count sentence differently for Find and Remove', async () => {
+      const { user } = setup({
+        mocks: [
+          getCollectionsMock,
+          getCollectionsDetailedKeywordsLocationLossMock,
+          createBulkUpdateLocationFindAndRemoveMock
+        ]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'FIND_AND_REMOVE')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'LOCATION_KEYWORDS')
+
+      await user.type(
+        screen.getByLabelText('Category', { selector: '#bulk-actions-find-value_Category' }),
+        'CONTINENT'
+      )
+
+      await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
+
+      const dialog = await screen.findByRole('dialog')
+
+      expect(within(dialog).getByText(
+        '1 of 1 selected collections have DetailedLocation values on a keyword this update will remove, which will delete them too.'
+      )).toBeInTheDocument()
+
+      await user.click(within(dialog).getByRole('button', { name: 'Submit Anyway' }))
+
+      expect(await screen.findByText('Bulk Update Submitted')).toBeInTheDocument()
+      expect(screen.getByText('BU-4452')).toBeInTheDocument()
+    })
+
+    test('Submit Anyway submits the bulk update unchanged, keeping the collection selected', async () => {
+      const { user } = setup({
+        mocks: [
+          getCollectionsMock,
+          getCollectionsDetailedKeywordsScienceLossMock,
+          createBulkUpdateScienceClearAllMock
+        ]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectScienceClearAll(user)
+
+      await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
+
+      const dialog = await screen.findByRole('dialog')
+
+      await user.click(within(dialog).getByRole('button', { name: 'Submit Anyway' }))
+
+      expect(await screen.findByText('Bulk Update Submitted')).toBeInTheDocument()
+      expect(screen.getByText('BU-4450')).toBeInTheDocument()
+      expect(screen.getByTestId('selection-count')).toHaveTextContent('1')
+    })
+
+    test('disables "Remove and submit" when every selected collection is affected, since CMR rejects an empty conceptIds list', async () => {
+      const { user } = setup({
+        mocks: [getCollectionsMock, getCollectionsDetailedKeywordsScienceLossMock]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectScienceClearAll(user)
+
+      await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
+
+      const dialog = await screen.findByRole('dialog')
+
+      expect(within(dialog).getByRole('button', { name: 'Remove 1 collection and submit' })).toBeDisabled()
+      expect(within(dialog).getByText(
+        'Every selected collection is affected, so removing them all would leave none to submit.'
+      )).toBeInTheDocument()
+    })
+
+    test('Back closes the review modal without submitting', async () => {
+      const { user } = setup({
+        mocks: [getCollectionsMock, getCollectionsDetailedKeywordsScienceLossMock]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectScienceClearAll(user)
+
+      await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
+
+      const dialog = await screen.findByRole('dialog')
+
+      await user.click(within(dialog).getByRole('button', { name: 'Back' }))
+
+      expect(screen.queryByText('Review Before Submitting')).not.toBeInTheDocument()
+      expect(screen.queryByText('Bulk Update Submitted')).not.toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Submit Bulk Action' })).not.toBeDisabled()
+    })
+
+    test('Remove N collection(s) and submit excludes the affected collection, deselects it, and submits the rest', async () => {
+      const { user } = setup({
+        mocks: [
+          getCollectionsTwoMock,
+          getCollectionsDetailedKeywordsTwoMock,
+          createBulkUpdateScienceClearAllRemoveFilteredMock
+        ]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.click(screen.getByRole('button', { name: 'Select second collection' }))
+      await selectScienceClearAll(user)
+
+      await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
+
+      const dialog = await screen.findByRole('dialog')
+
+      expect(within(dialog).getByText(
+        '1 of 2 selected collections have DetailedVariable values that this update will permanently remove.'
+      )).toBeInTheDocument()
+
+      await user.click(within(dialog).getByRole('button', { name: 'Remove 1 collection and submit' }))
+
+      expect(await screen.findByText('Bulk Update Submitted')).toBeInTheDocument()
+      expect(screen.getByText('BU-4451')).toBeInTheDocument()
+      expect(screen.getByTestId('selection-count')).toHaveTextContent('1')
+    })
+
+    test('shows an error modal offering only Back when the check itself fails', async () => {
+      const { user } = setup({
+        mocks: [getCollectionsMock, getCollectionsDetailedKeywordsErrorMock]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectScienceClearAll(user)
+
+      await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
+
+      const dialog = await screen.findByRole('dialog')
+
+      expect(within(dialog).getByText(
+        "We couldn't check the selected collections for DetailedVariable values."
+      )).toBeInTheDocument()
+
+      expect(within(dialog).getByRole('button', { name: 'Back' })).toBeInTheDocument()
+      expect(within(dialog).queryByRole('button', { name: 'Submit Anyway' })).not.toBeInTheDocument()
+
+      expect(errorLogger).toHaveBeenCalledWith(
+        expect.any(Error),
+        'Bulk Actions Edit Page: detailed keyword pre-submit check'
+      )
+
+      await user.click(within(dialog).getByRole('button', { name: 'Back' }))
+
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    })
+
+    test('does not run the check for ADD_TO_EXISTING, since nothing is ever removed', async () => {
+      const createBulkUpdateScienceAddMock = {
+        request: {
+          query: CREATE_BULK_UPDATE_COLLECTION_TASK,
+          variables: {
+            conceptIds: ['C1-TESTPROV'],
+            providerId: 'TESTPROV',
+            updateField: 'SCIENCE_KEYWORDS',
+            updateType: 'ADD_TO_EXISTING',
+            findValue: undefined,
+            updateValue: [
+              {
+                Category: 'EARTH SCIENCE',
+                Topic: 'ATMOSPHERE',
+                Term: 'CLOUDS'
+              }
+            ]
+          }
+        },
+        result: {
+          data: {
+            createBulkUpdateCollectionTask: {
+              taskId: 'BU-4453'
+            }
+          }
+        }
+      }
+
+      const { user } = setup({
+        // Deliberately no GET_COLLECTIONS_DETAILED_KEYWORDS mock -- if the check ran
+        // anyway, the missing mock would surface as the check-failed error modal here
+        // instead of submitting.
+        mocks: [getCollectionsMock, createBulkUpdateScienceAddMock]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await user.selectOptions(screen.getByLabelText('Action Type'), 'ADD_TO_EXISTING')
+      await user.selectOptions(screen.getByLabelText('Target Field'), 'SCIENCE_KEYWORDS')
+      await fillUpdateValueJson(user, [
+        {
+          Category: 'EARTH SCIENCE',
+          Topic: 'ATMOSPHERE',
+          Term: 'CLOUDS'
+        }
+      ])
+
+      await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
+
+      expect(await screen.findByText('Bulk Update Submitted')).toBeInTheDocument()
+      expect(screen.queryByText('Review Before Submitting')).not.toBeInTheDocument()
     })
   })
 })
