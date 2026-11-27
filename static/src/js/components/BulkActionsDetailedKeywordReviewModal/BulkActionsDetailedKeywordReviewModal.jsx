@@ -184,7 +184,7 @@ const BulkActionsDetailedKeywordReviewModal = ({
   return (
     <CustomModal
       show={show}
-      size="lg"
+      size="xl"
       header="Review Before Submitting"
       message={
         (
