@@ -3,7 +3,7 @@ import React, {
   useRef,
   useState
 } from 'react'
-import { useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import {
   Navigate,
   useNavigate,
@@ -20,6 +20,7 @@ import { FaInfoCircle } from 'react-icons/fa'
 
 import Button from '@/js/components/Button/Button'
 import BulkActionsControlledValuePicker from '@/js/components/BulkActionsControlledValuePicker/BulkActionsControlledValuePicker'
+import BulkActionsDetailedKeywordReviewModal from '@/js/components/BulkActionsDetailedKeywordReviewModal/BulkActionsDetailedKeywordReviewModal'
 import BulkActionsEditNavigationGuard from '@/js/components/BulkActionsEditNavigationGuard/BulkActionsEditNavigationGuard'
 import BulkActionsFindValueForm from '@/js/components/BulkActionsFindValueForm/BulkActionsFindValueForm'
 import BulkActionsSelectedConcepts from '@/js/components/BulkActionsSelectedConcepts/BulkActionsSelectedConcepts'
@@ -44,15 +45,26 @@ import useNotificationsContext from '@/js/hooks/useNotificationsContext'
 import {
   CREATE_BULK_UPDATE_COLLECTION_TASK
 } from '@/js/operations/mutations/createBulkUpdateCollectionTask'
+import {
+  GET_COLLECTIONS_DETAILED_KEYWORDS
+} from '@/js/operations/queries/getCollectionsDetailedKeywords'
 
 import buildDataCenterHomePageUrlUpdateValue from '@/js/utils/buildDataCenterHomePageUrlUpdateValue'
 import buildUpdateValueJsonSchema from '@/js/utils/buildUpdateValueJsonSchema'
 import buildUpdateValueJsonSkeleton from '@/js/utils/buildUpdateValueJsonSkeleton'
 import errorLogger from '@/js/utils/errorLogger'
+import findDetailedKeywordLosses, {
+  getDetailedKeywordFieldConfig,
+  isDetailedKeywordCheckNeeded
+} from '@/js/utils/findDetailedKeywordLosses'
 import getUpdateValueJsonErrors from '@/js/utils/getUpdateValueJsonErrors'
 import stripUnfilledUpdateValueFields from '@/js/utils/stripUnfilledUpdateValueFields'
 
 const HOME_PAGE_URL_TYPE = 'FIND_AND_UPDATE_HOME_PAGE_URL'
+
+// 2000 because that's CMR's own page_size limit -- this query's `limit` maps directly to
+// it, and cmr-graphql silently truncates rather than erroring above it.
+const CONCEPT_ID_CHUNK_SIZE = 2000
 
 // Labeled per the actual effect of each update type, not just whether it needs a find value:
 // ADD_TO_EXISTING adds; CLEAR_ALL_AND_REPLACE and FIND_AND_REPLACE replace the whole entry;
@@ -116,6 +128,11 @@ const BulkActionsEditPage = () => {
   const [taskId, setTaskId] = useState(null)
   const [showSubmittedModal, setShowSubmittedModal] = useState(false)
 
+  const [checking, setChecking] = useState(false)
+  const [checkFailed, setCheckFailed] = useState(false)
+  const [keywordLosses, setKeywordLosses] = useState(null)
+  const [showReviewModal, setShowReviewModal] = useState(false)
+
   // Read in the Undo action's onClick instead of closed over, so it reflects whatever
   // selection exists by the time the user clicks Undo rather than the one at remove time.
   const selectedCollectionsRef = useRef(selectedCollections)
@@ -131,6 +148,14 @@ const BulkActionsEditPage = () => {
   // unmount cleanup just cleared, on whatever page the user has since moved to.
   const isUnmountedRef = useRef(false)
 
+  // The detailed-keyword check's own mutation variables, captured once at the moment the
+  // check starts -- nothing on this page is disabled while the (async, sometimes
+  // multi-second) check is in flight, so Find/Update value/collection selection could all
+  // change before the review modal's actions fire. Submit Anyway/Remove and submit must
+  // still submit what was actually checked, not whatever's current by the time they're
+  // clicked.
+  const checkedSubmissionRef = useRef(null)
+
   // Once this page is left -- by any path -- the selection has served its purpose. Clearing
   // it here (not just on specific buttons) covers every exit uniformly, and avoids leaving
   // a stale selection for a later, unrelated visit to All Collections.
@@ -142,6 +167,10 @@ const BulkActionsEditPage = () => {
   const [createBulkUpdateCollectionTaskMutation, { loading: submitting }] = useMutation(
     CREATE_BULK_UPDATE_COLLECTION_TASK
   )
+
+  const [getCollectionsDetailedKeywords] = useLazyQuery(GET_COLLECTIONS_DETAILED_KEYWORDS, {
+    fetchPolicy: 'network-only'
+  })
 
   const handleRemove = (conceptId) => {
     const removedCollection = {
@@ -278,16 +307,20 @@ const BulkActionsEditPage = () => {
     )
   )
 
-  const handleSubmit = () => {
-    const variables = {
-      conceptIds: selectedCollections,
-      findValue: needsFindValue ? findValue : undefined,
-      providerId: selectedProvider,
-      updateField,
-      updateType,
-      updateValue: getEffectiveUpdateValue()
-    }
+  // Builds the mutation's variables from the page's current state -- only safe to call
+  // synchronously, since the detailed-keyword check that may run between a click and the
+  // actual submit is async, and nothing here is disabled while it's in flight (see
+  // checkedSubmissionRef below).
+  const buildSubmissionVariables = (conceptIds) => ({
+    conceptIds,
+    findValue: needsFindValue ? findValue : undefined,
+    providerId: selectedProvider,
+    updateField,
+    updateType,
+    updateValue: getEffectiveUpdateValue()
+  })
 
+  const handleSubmit = (variables) => {
     createBulkUpdateCollectionTaskMutation({
       variables,
       onCompleted: (mutationData) => {
@@ -305,6 +338,106 @@ const BulkActionsEditPage = () => {
 
         errorLogger(error, 'Bulk Actions Edit Page: createBulkUpdateCollectionTask Mutation')
       }
+    })
+  }
+
+  // Fetches every selected collection's current scienceKeywords/locationKeywords, in chunks
+  // (see CONCEPT_ID_CHUNK_SIZE above), concatenating each chunk's items into one list.
+  const fetchCollectionsForKeywordCheck = async (conceptIds) => {
+    const items = []
+
+    for (let offset = 0; offset < conceptIds.length; offset += CONCEPT_ID_CHUNK_SIZE) {
+      const chunk = conceptIds.slice(offset, offset + CONCEPT_ID_CHUNK_SIZE)
+
+      // eslint-disable-next-line no-await-in-loop
+      const { data, error } = await getCollectionsDetailedKeywords({
+        variables: {
+          params: {
+            conceptId: chunk,
+            limit: chunk.length
+          }
+        }
+      })
+
+      // Apollo's lazy-query execute function always resolves, even on a GraphQL/network
+      // error -- it never rejects -- so the error has to be checked for and thrown
+      // explicitly to be caught by handleSubmitClick below.
+      if (error) throw error
+
+      items.push(...(data?.collections?.items || []))
+    }
+
+    return items
+  }
+
+  // Runs the pre-submit check for an existing DetailedVariable/DetailedLocation value this
+  // bulk update would erase -- CMR's bulk-update endpoint has no way to find or set either
+  // one, so the only way a user could otherwise learn about the loss is after the fact.
+  // Submits immediately if the check isn't needed for this field/action type, or finds
+  // nothing to warn about; otherwise shows BulkActionsDetailedKeywordReviewModal instead.
+  const handleSubmitClick = async () => {
+    // Captured now, synchronously, before any of this page's inputs could change out from
+    // under the check that's about to run (or the review modal's actions, further below).
+    const submissionVariables = buildSubmissionVariables(selectedCollections)
+
+    if (!isDetailedKeywordCheckNeeded(updateField, updateType)) {
+      handleSubmit(submissionVariables)
+
+      return
+    }
+
+    setChecking(true)
+    setCheckFailed(false)
+
+    try {
+      const collections = await fetchCollectionsForKeywordCheck(selectedCollections)
+
+      const losses = findDetailedKeywordLosses(collections, {
+        conceptType,
+        updateField,
+        updateType,
+        findValue
+      })
+
+      if (losses.length === 0) {
+        handleSubmit(submissionVariables)
+
+        return
+      }
+
+      checkedSubmissionRef.current = submissionVariables
+      setKeywordLosses(losses)
+      setShowReviewModal(true)
+    } catch (error) {
+      setCheckFailed(true)
+      errorLogger(error, 'Bulk Actions Edit Page: detailed keyword pre-submit check')
+    } finally {
+      setChecking(false)
+    }
+  }
+
+  const handleReviewModalBack = () => {
+    setShowReviewModal(false)
+    setCheckFailed(false)
+  }
+
+  const handleReviewModalSubmitAnyway = () => {
+    setShowReviewModal(false)
+    handleSubmit(checkedSubmissionRef.current)
+  }
+
+  const handleReviewModalRemoveAndSubmit = () => {
+    const affectedConceptIds = keywordLosses.map(({ conceptId }) => conceptId)
+    const { conceptIds: checkedConceptIds } = checkedSubmissionRef.current
+    const remainingConceptIds = checkedConceptIds.filter(
+      (conceptId) => !affectedConceptIds.includes(conceptId)
+    )
+
+    setShowReviewModal(false)
+    deselectCollections(affectedConceptIds)
+    handleSubmit({
+      ...checkedSubmissionRef.current,
+      conceptIds: remainingConceptIds
     })
   }
 
@@ -496,17 +629,17 @@ const BulkActionsEditPage = () => {
           <div className="d-flex justify-content-end mb-4">
             <Button
               className="me-2"
-              disabled={submitting}
+              disabled={submitting || checking}
               onClick={handleCancel}
               variant="secondary"
             >
               Cancel
             </Button>
             <Button
-              disabled={!canSubmit || submitting}
-              loading={submitting}
-              loadingText="Submitting…"
-              onClick={handleSubmit}
+              disabled={!canSubmit || submitting || checking}
+              loading={submitting || checking}
+              loadingText={checking ? 'Checking collections…' : 'Submitting…'}
+              onClick={handleSubmitClick}
               variant="primary"
             >
               Submit Bulk Action
@@ -536,7 +669,22 @@ const BulkActionsEditPage = () => {
         taskId={taskId}
       />
 
-      <BulkActionsEditNavigationGuard skipRef={skipNavigationGuardRef} submitting={submitting} />
+      <BulkActionsDetailedKeywordReviewModal
+        show={showReviewModal || checkFailed}
+        status={checkFailed ? 'error' : 'results'}
+        detailedKey={getDetailedKeywordFieldConfig(updateField)?.detailedKey}
+        updateType={updateType}
+        totalSelectedCount={selectedCollections.length}
+        losses={keywordLosses || []}
+        onBack={handleReviewModalBack}
+        onSubmitAnyway={handleReviewModalSubmitAnyway}
+        onRemoveAndSubmit={handleReviewModalRemoveAndSubmit}
+      />
+
+      <BulkActionsEditNavigationGuard
+        skipRef={skipNavigationGuardRef}
+        submitting={submitting || checking}
+      />
     </Page>
   )
 }
