@@ -2391,11 +2391,11 @@ describe('BulkActionsEditPage component', () => {
     })
 
     test('Copy list shows a failure message when the clipboard write rejects', async () => {
-      vi.spyOn(navigator.clipboard, 'writeText').mockRejectedValueOnce(new Error('Permission denied'))
-
       const { user } = setup({
         mocks: [getCollectionsMock, getCollectionsDetailedKeywordsScienceLossMock]
       })
+
+      vi.spyOn(navigator.clipboard, 'writeText').mockRejectedValueOnce(new Error('Permission denied'))
 
       await user.click(screen.getByRole('button', { name: 'Select collection' }))
       await selectScienceClearAll(user)
@@ -2463,6 +2463,44 @@ describe('BulkActionsEditPage component', () => {
       expect(await screen.findByText('Bulk Update Submitted')).toBeInTheDocument()
       expect(screen.getByText('BU-4450')).toBeInTheDocument()
       expect(screen.getByTestId('selection-count')).toHaveTextContent('1')
+    })
+
+    test('submits what was actually checked, not a later edit made while the check was still running', async () => {
+      const { user } = setup({
+        mocks: [
+          getCollectionsMock,
+          getCollectionsDetailedKeywordsScienceLossDelayedMock,
+          createBulkUpdateScienceClearAllMock
+        ]
+      })
+
+      await user.click(screen.getByRole('button', { name: 'Select collection' }))
+      await selectScienceClearAll(user)
+
+      await user.click(screen.getByRole('button', { name: 'Submit Bulk Action' }))
+
+      expect(screen.getByRole('button', { name: 'Checking collections…' })).toBeDisabled()
+
+      // Nothing disables the Update value editor while the check is in flight -- edit it
+      // now, before the review modal appears, to prove the eventual submission still uses
+      // what was actually checked rather than this later edit.
+      await fillUpdateValueJson(user, [
+        {
+          Category: 'EARTH SCIENCE',
+          Topic: 'OCEANS',
+          Term: 'SALINITY'
+        }
+      ])
+
+      const dialog = await screen.findByRole('dialog')
+
+      await user.click(within(dialog).getByRole('button', { name: 'Submit Anyway' }))
+
+      // CreateBulkUpdateScienceClearAllMock only matches the original (checked) updateValue
+      // -- if the edit above leaked into the submission instead, no mock would match and
+      // this would never resolve.
+      expect(await screen.findByText('Bulk Update Submitted')).toBeInTheDocument()
+      expect(screen.getByText('BU-4450')).toBeInTheDocument()
     })
 
     test('disables "Remove and submit" when every selected collection is affected, since CMR rejects an empty conceptIds list', async () => {

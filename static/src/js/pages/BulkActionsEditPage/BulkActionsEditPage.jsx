@@ -148,6 +148,14 @@ const BulkActionsEditPage = () => {
   // unmount cleanup just cleared, on whatever page the user has since moved to.
   const isUnmountedRef = useRef(false)
 
+  // The detailed-keyword check's own mutation variables, captured once at the moment the
+  // check starts -- nothing on this page is disabled while the (async, sometimes
+  // multi-second) check is in flight, so Find/Update value/collection selection could all
+  // change before the review modal's actions fire. Submit Anyway/Remove and submit must
+  // still submit what was actually checked, not whatever's current by the time they're
+  // clicked.
+  const checkedSubmissionRef = useRef(null)
+
   // Once this page is left -- by any path -- the selection has served its purpose. Clearing
   // it here (not just on specific buttons) covers every exit uniformly, and avoids leaving
   // a stale selection for a later, unrelated visit to All Collections.
@@ -299,28 +307,20 @@ const BulkActionsEditPage = () => {
     )
   )
 
-  const handleSubmit = (conceptIds) => {
-    // CMR's bulk-update endpoint rejects a request with zero concept ids -- the review
-    // modal already disables "Remove and submit" when it would empty out the selection,
-    // but this guards the mutation itself against ever being called that way.
-    if (conceptIds.length === 0) {
-      addNotification({
-        message: 'No collections to submit -- every selected collection was excluded',
-        variant: 'danger'
-      })
+  // Builds the mutation's variables from the page's current state -- only safe to call
+  // synchronously, since the detailed-keyword check that may run between a click and the
+  // actual submit is async, and nothing here is disabled while it's in flight (see
+  // checkedSubmissionRef below).
+  const buildSubmissionVariables = (conceptIds) => ({
+    conceptIds,
+    findValue: needsFindValue ? findValue : undefined,
+    providerId: selectedProvider,
+    updateField,
+    updateType,
+    updateValue: getEffectiveUpdateValue()
+  })
 
-      return
-    }
-
-    const variables = {
-      conceptIds,
-      findValue: needsFindValue ? findValue : undefined,
-      providerId: selectedProvider,
-      updateField,
-      updateType,
-      updateValue: getEffectiveUpdateValue()
-    }
-
+  const handleSubmit = (variables) => {
     createBulkUpdateCollectionTaskMutation({
       variables,
       onCompleted: (mutationData) => {
@@ -376,8 +376,12 @@ const BulkActionsEditPage = () => {
   // Submits immediately if the check isn't needed for this field/action type, or finds
   // nothing to warn about; otherwise shows BulkActionsDetailedKeywordReviewModal instead.
   const handleSubmitClick = async () => {
+    // Captured now, synchronously, before any of this page's inputs could change out from
+    // under the check that's about to run (or the review modal's actions, further below).
+    const submissionVariables = buildSubmissionVariables(selectedCollections)
+
     if (!isDetailedKeywordCheckNeeded(updateField, updateType)) {
-      handleSubmit(selectedCollections)
+      handleSubmit(submissionVariables)
 
       return
     }
@@ -396,11 +400,12 @@ const BulkActionsEditPage = () => {
       })
 
       if (losses.length === 0) {
-        handleSubmit(selectedCollections)
+        handleSubmit(submissionVariables)
 
         return
       }
 
+      checkedSubmissionRef.current = submissionVariables
       setKeywordLosses(losses)
       setShowReviewModal(true)
     } catch (error) {
@@ -418,18 +423,22 @@ const BulkActionsEditPage = () => {
 
   const handleReviewModalSubmitAnyway = () => {
     setShowReviewModal(false)
-    handleSubmit(selectedCollections)
+    handleSubmit(checkedSubmissionRef.current)
   }
 
   const handleReviewModalRemoveAndSubmit = () => {
     const affectedConceptIds = keywordLosses.map(({ conceptId }) => conceptId)
-    const remainingConceptIds = selectedCollections.filter(
+    const { conceptIds: checkedConceptIds } = checkedSubmissionRef.current
+    const remainingConceptIds = checkedConceptIds.filter(
       (conceptId) => !affectedConceptIds.includes(conceptId)
     )
 
     setShowReviewModal(false)
     deselectCollections(affectedConceptIds)
-    handleSubmit(remainingConceptIds)
+    handleSubmit({
+      ...checkedSubmissionRef.current,
+      conceptIds: remainingConceptIds
+    })
   }
 
   const handleCloseSubmittedModal = () => {
